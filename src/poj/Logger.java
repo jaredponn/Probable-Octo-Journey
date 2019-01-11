@@ -22,7 +22,7 @@ class LOG_LEVEL_CAST
 	}
 }
 
-class Logger
+public class Logger
 {
 	public static LOG_LEVEL m_logging_level = LOG_LEVEL.VERBOSE;
 
