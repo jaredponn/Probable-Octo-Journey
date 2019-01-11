@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-class Component<T>
+public class Component<T>
 {
 
 	public ArrayList<Integer> m_sparse_vector;
