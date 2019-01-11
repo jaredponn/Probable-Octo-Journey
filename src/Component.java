@@ -22,12 +22,14 @@ class Component<T>
 	public void add_element_at_sparse_vector(final int index, final T val)
 	{
 		if (index >= m_sparse_vector.size()) {
-			System.out.println(
-				"MAJOR ERROR IN PACKEDVECTOR. Too many entities in this engine! increase buffer size.");
+			Logger.logMessage(
+				"MAJOR ERROR IN PACKEDVECTOR. Too many entities in this engine! increase buffer size.",
+				LOG_LEVEL.MAJOR_CRITICAL);
 			return;
 		} else if (m_sparse_vector.get(index) == -1) {
-			System.out.println(
-				"MAJOR ERROR IN PACKEDVECTOR. You are adding an entity at this index, but an entity already exist at this index.");
+			Logger.logMessage(
+				"MAJOR ERROR IN PACKEDVECTOR. You are adding an entity at this index, but an entity already exist at this index.",
+				LOG_LEVEL.MAJOR_CRITICAL);
 			return;
 		}
 		m_sparse_vector.set(index, m_next_free_index);
@@ -40,8 +42,9 @@ class Component<T>
 	public void delete_element_at_sparse_vector(final int index)
 	{
 		if (m_sparse_vector.get(index) == -1) {
-			System.out.println(
-				"MINOR error in packedvector. You are deleting an entity that had already been deleted. The program should continue to work normally.");
+			Logger.logMessage(
+				"MINOR error in packedvector. You are deleting an entity that had already been deleted. The program should continue to work normally.",
+				LOG_LEVEL.MINOR_CRITICAL);
 			return;
 		}
 		int toBeDeletedIndexInPackedIndicies =
@@ -71,11 +74,13 @@ class Component<T>
 	{
 		if (index >= m_sparse_vector.size()) {
 
-			System.out.println(
-				"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of sparse vector with get_data_from_sparse_vector function");
+			Logger.logMessage(
+				"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of sparse vector with get_data_from_sparse_vector function",
+				LOG_LEVEL.MAJOR_CRITICAL);
 		} else if (m_sparse_vector.get(index) == -1) {
-			System.out.println(
-				"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with get_data_from_sparse_vector function");
+			Logger.logMessage(
+				"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with get_data_from_sparse_vector function",
+				LOG_LEVEL.MAJOR_CRITICAL);
 		}
 		return m_packed_data.get(m_sparse_vector.get(index));
 	}
@@ -85,8 +90,9 @@ class Component<T>
 
 		if (index >= m_packed_indices.size()) {
 
-			System.out.println(
-				"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of packed indices vector with get_global_index_from_packed_index function");
+			Logger.logMessage(
+				"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of packed indices vector with get_global_index_from_packed_index function",
+				LOG_LEVEL.MAJOR_CRITICAL);
 		}
 		return m_packed_indices.get(index);
 	}
