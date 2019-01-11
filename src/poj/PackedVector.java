@@ -28,7 +28,7 @@ public class PackedVector<T>
 				"MAJOR ERROR IN PACKEDVECTOR. Too many entities in this engine! increase buffer size.",
 				LOG_LEVEL.MAJOR_CRITICAL);
 			return;
-		} else if (m_sparse_vector.get(index) == -1) {
+		} else if (m_sparse_vector.get(index) != -1) {
 			Logger.logMessage(
 				"MAJOR ERROR IN PACKEDVECTOR. You are adding an entity at this index, but an entity already exist at this index.",
 				LOG_LEVEL.MAJOR_CRITICAL);
