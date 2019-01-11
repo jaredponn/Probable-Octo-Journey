@@ -5,8 +5,6 @@ import poj.Logger;
 import poj.Component;
 
 import java.util.HashMap;
-import java.util.Stack;
-
 
 public class ComponentList
 {
@@ -44,6 +42,11 @@ public class ComponentList
 
 	public PackedVector<?> getComponent(Class<?> c)
 	{
+		if (!m_component_list.containsKey(c)) {
+			Logger.logMessage(
+				"MAJOR ERROR in ComponentList - Accessing a component that does not exist",
+				LOG_LEVEL.MAJOR_CRITICAL);
+		}
 		return m_component_list.get(c);
 	}
 }
