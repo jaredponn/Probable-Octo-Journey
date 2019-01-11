@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-public class Component<T>
+public class PackedVector<T>
 {
 
 	public ArrayList<Integer> m_sparse_vector;
@@ -12,7 +12,7 @@ public class Component<T>
 	public ArrayList<T> m_packed_data;
 	public int m_next_free_index;
 
-	public Component(int capacity)
+	public PackedVector(int capacity)
 	{
 		m_sparse_vector = new ArrayList<Integer>(
 			Collections.nCopies(capacity, -1));
