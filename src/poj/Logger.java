@@ -1,4 +1,4 @@
-
+package poj;
 
 enum LOG_LEVEL {
 	VERBOSE,	// verbose error logging (1)
@@ -39,3 +39,4 @@ class Logger
 		}
 	}
 }
+

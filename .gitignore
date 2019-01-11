@@ -2,3 +2,6 @@ bin/
 bin/*
 ./bin/
 ./bin/*
+/.metadata/
+eclimd.log
+./eclimd.log

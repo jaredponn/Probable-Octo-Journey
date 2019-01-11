@@ -1,10 +1,12 @@
+package poj;
 
-class TestMain
+public class Main
 {
+
 	public static final void main(String[] args)
 	{
-		System.out.println("aa");
-
 		Component a;
+
+		System.out.println("yo dawg");
 	}
 }
