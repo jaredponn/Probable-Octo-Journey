@@ -1,7 +1,6 @@
 
 
 enum LOG_LEVEL {
-	ALL,		// logs everything (0)
 	VERBOSE,	// verbose error logging (1)
 	MINOR_CRITICAL, // minor critical errors (2)
 	MAJOR_CRITICAL, // major erros that crash the program (3)
@@ -25,7 +24,7 @@ class LOG_LEVEL_CAST
 
 class Logger
 {
-	public static LOG_LEVEL m_logging_level = LOG_LEVEL.ALL;
+	public static LOG_LEVEL m_logging_level = LOG_LEVEL.VERBOSE;
 
 	public static final void logMessage(String str, LOG_LEVEL lvl)
 	{
