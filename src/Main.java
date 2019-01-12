@@ -1,7 +1,9 @@
 import Components.Render;
 import Components.Physics;
+
 import poj.ComponentList;
 import poj.PackedVector;
+import poj.HList.*;
 
 import java.util.ArrayList;
 
@@ -30,7 +32,7 @@ public class Main
 			//	test.getComponent(Physics.class)
 			//		.add_element_at_sparse_vector(0,
 			//					      new
-			//Render(1, 2));
+			// Render(1, 2));
 		}
 
 		{
@@ -43,5 +45,11 @@ public class Main
 			System.out.println(
 				tmp.get_data_from_sparse_vector(1).getClass());
 		}
+
+		HCons<Integer, HCons<String, HNil>> c = HList.hcons(
+			new Integer(3), HList.hcons("asdf", HList.hnil()));
+		System.out.println(c.head());
+		System.out.println(c.tail().head());
+		System.out.println(c.tail().tail());
 	}
 }

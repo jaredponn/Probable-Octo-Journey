@@ -1,5 +1,6 @@
 package poj;
 
-public class EntitySet
+
+public class EntitySet<T>
 {
 }
