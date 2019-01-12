@@ -1,6 +1,7 @@
 package poj;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 
@@ -54,9 +55,8 @@ public class PackedVector<T>
 		int lastElementInPackedIndicies =
 			m_packed_indices.get(m_packed_data.size() - 1);
 
-		Collections.swap(
-			m_sparse_vector, index,
-			m_sparse_vector.get(lastElementInPackedIndicies));
+		Collections.swap(m_sparse_vector, index,
+				 lastElementInPackedIndicies);
 		Collections.swap(m_packed_indices,
 				 toBeDeletedIndexInPackedIndicies,
 				 m_packed_indices.size() - 1);
@@ -66,7 +66,6 @@ public class PackedVector<T>
 
 		m_packed_data.remove(m_packed_data.size() - 1);
 		m_packed_indices.remove(m_packed_indices.size() - 1);
-
 
 		m_sparse_vector.set(index, -1);
 		--m_next_free_index;
@@ -117,7 +116,6 @@ public class PackedVector<T>
 	public final int get_packed_data_size()
 	{
 		if (m_packed_data.size() != m_packed_indices.size()) {
-
 			System.out.println(
 				"MAJOR ERROR IN PACKEDVECTOR. Packed indices and packed data are not the same size!");
 		}
