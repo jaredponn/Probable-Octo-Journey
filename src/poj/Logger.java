@@ -35,7 +35,8 @@ public class Logger
 		}
 
 		if (lvl == LOG_LEVEL.MAJOR_CRITICAL) {
-			System.exit(0);
+			return;
+			// System.exit(0);
 		}
 	}
 }
