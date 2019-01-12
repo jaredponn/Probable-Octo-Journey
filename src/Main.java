@@ -17,13 +17,31 @@ public class Main
 		Render b = new Render(1, 2);
 		ComponentList test = new ComponentList();
 
-		test.registerComponent(a.getClass());
-		test.registerComponent(b.getClass());
+		test.registerComponent(Physics.class);
+		test.registerComponent(Render.class);
 
-		PackedVector tmp = test.getComponent(a.getClass());
-		tmp.add_element_at_sparse_vector(1, new Physics(1));
+		{
 
-		System.out.println(
-			tmp.get_data_from_sparse_vector(1).getClass());
+			test.getComponent(Physics.class)
+				.add_element_at_sparse_vector(0,
+							      new Physics(1));
+
+			// notice this is an error!
+			//	test.getComponent(Physics.class)
+			//		.add_element_at_sparse_vector(0,
+			//					      new
+			//Render(1, 2));
+		}
+
+		{
+
+			PackedVector<Render> tmp =
+				(PackedVector<Render>)test.getComponent(
+					b.getClass());
+			tmp.add_element_at_sparse_vector(1, new Render(1, 3));
+
+			System.out.println(
+				tmp.get_data_from_sparse_vector(1).getClass());
+		}
 	}
 }

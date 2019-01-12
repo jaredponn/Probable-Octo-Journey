@@ -1,6 +1,8 @@
 package Components;
 
-public class Physics
+import poj.Component;
+
+public class Physics extends Component
 {
 	int a;
 
