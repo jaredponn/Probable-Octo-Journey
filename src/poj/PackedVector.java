@@ -1,17 +1,16 @@
 package poj;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 
 public class PackedVector<T>
 {
 
-	public ArrayList<Integer> m_sparse_vector;
-	public ArrayList<Integer> m_packed_indices;
-	public ArrayList<T> m_packed_data;
-	public int m_next_free_index;
+	private ArrayList<Integer> m_sparse_vector;
+	private ArrayList<Integer> m_packed_indices;
+	private ArrayList<T> m_packed_data;
+	private int m_next_free_index;
 
 	public PackedVector(int capacity)
 	{
