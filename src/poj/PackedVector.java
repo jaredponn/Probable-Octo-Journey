@@ -1,5 +1,4 @@
 package poj;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
