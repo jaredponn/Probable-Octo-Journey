@@ -125,7 +125,7 @@ public class Vector3f
 						     final Vector3f b)
 	{
 		// if column of matrix A is not 2 (2d vector)
-		if (a.cols != 2 || a.rows != 2) {
+		if (a.cols != 3 || a.rows != 3) {
 			Logger.logMessage(
 				"MAJOR ERROR in matrixVectorProduct! dimentions of the matrix and the vector does not match!",
 				LOG_LEVEL.MAJOR_CRITICAL);
