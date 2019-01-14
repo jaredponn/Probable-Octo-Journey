@@ -14,6 +14,7 @@ public class Vector2f
 		this.x = x;
 		this.y = y;
 
+		// TODO the matrix must be float, which is not generic ;(
 		ArrayList<Float> tempRotationMatrix = new ArrayList<Float>();
 		ArrayList<Float> tempReflectionMatrix = new ArrayList<Float>();
 		for (int i = 0; i < 4; ++i) {
@@ -25,6 +26,7 @@ public class Vector2f
 	}
 	public Vector2f()
 	{
+		// TODO the matrix must be float, which is not generic ;(
 		ArrayList<Float> tempRotationMatrix = new ArrayList<Float>();
 		ArrayList<Float> tempReflectionMatrix = new ArrayList<Float>();
 		for (int i = 0; i < 4; ++i) {
