@@ -31,8 +31,15 @@ public class Logger
 		}
 
 		if (lvl == LogLevels.MAJOR_CRITICAL) {
+			// System.exit(1);
 			return;
-			// System.exit(0);
+		}
+	}
+
+	public static final void lassert(boolean b, String str)
+	{
+		if (b) {
+			logMessage(str, LogLevels.MAJOR_CRITICAL);
 		}
 	}
 }
