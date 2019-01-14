@@ -1,10 +1,7 @@
 package EntitySets;
 
-import poj.EntitySet;
+import poj.EntitySetMemberComponents;
 
-public class PlayerSet extends EntitySet
+public class PlayerSet
 {
-	public PlayerSet()
-	{
-	}
 }
