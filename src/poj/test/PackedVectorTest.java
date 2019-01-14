@@ -2,7 +2,7 @@ package poj.test;
 import poj.PackedVector;
 import org.junit.Test;
 import static org.junit.Assert.*;
-public class UnitTest
+public class PackedVectorTest
 {
 	@Test public void trivialTest()
 	{
