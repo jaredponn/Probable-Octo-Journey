@@ -10,10 +10,11 @@ public abstract class HList<T extends HList<T>>
 		return new HCons<U, Us>(n, ns);
 	}
 
+
 	public static final HNil hnil()
 	{
 		return new HNil();
 	}
 
-	abstract public void accept(HVisitor v);
+	abstract public Class<?> accept(HVisitor v);
 }

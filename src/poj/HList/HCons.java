@@ -19,8 +19,8 @@ public class HCons<U, Us extends HList<Us>> extends HList<HCons<U, Us>>
 		return tail;
 	}
 
-	public void accept(HVisitor v)
+	public Class<?> accept(HVisitor v)
 	{
-		v.hvisit(this);
+		return v.hvisit(this).getClass();
 	}
 }

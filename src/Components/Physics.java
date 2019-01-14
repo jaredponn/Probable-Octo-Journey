@@ -10,4 +10,11 @@ public class Physics extends Component
 	{
 		this.a = a;
 	}
+
+	public void print()
+	{
+		System.out.println("Physics Component");
+		System.out.println(a);
+		System.out.println("END Physics Component");
+	}
 }

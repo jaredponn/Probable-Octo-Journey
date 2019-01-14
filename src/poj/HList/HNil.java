@@ -7,9 +7,9 @@ public class HNil extends HList<HNil>
 	{
 	}
 
-	public void accept(HVisitor v)
+	public Class<?> accept(HVisitor v)
 	{
-		v.hvisit(this);
+		return v.hvisit(this).getClass();
 	}
 }
 

@@ -7,9 +7,9 @@ import poj.HList.*;
 import poj.EntitySet;
 // https://sourcemaking.com/design_patterns/visitor/java/1
 
+
 public class Main
 {
-
 	public static final void main(String[] args)
 	{
 
@@ -18,12 +18,17 @@ public class Main
 			new Integer(3), HList.hcons("asdf", HList.hnil()));
 
 
-		HList<?> a = HList.hnil();
+		HTypeVisitor down = new HTypeVisitor();
+		HList<HNil> a = HList.hnil();
 		// System.out.println(c.head());
 		// System.out.println(c.tail().head());
 		// System.out.println(c.tail().tail());
 
-		HTypeVisitor down = new HTypeVisitor();
+		EntitySet f = new EntitySet(new Render(3, 3));
+		f.addComponentToSet(new Physics(3));
+		f.addComponentToSet(new Physics(9));
+		f.printSet();
+
 
 		c.accept(down);
 	}

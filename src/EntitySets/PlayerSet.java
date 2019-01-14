@@ -4,4 +4,7 @@ import poj.EntitySet;
 
 public class PlayerSet extends EntitySet
 {
+	public PlayerSet()
+	{
+	}
 }
