@@ -7,10 +7,10 @@ public class Matrix<T>
 {
 
 	private ArrayList<T> m_matrix;
-	private int rows;
-	private int cols;
+	public int rows;
+	public int cols;
 
-	public Matrix(ArrayList<T> array, int rowSize, int colSize)
+	public Matrix(final ArrayList<T> array, int rowSize, int colSize)
 	{
 		if (array.size() <= 0 || rowSize <= 0 || colSize <= 0) {
 			Logger.logMessage(
@@ -27,7 +27,7 @@ public class Matrix<T>
 		this.cols = colSize;
 	}
 
-	public Matrix(ArrayList<T> array, int rowSize)
+	public Matrix(final ArrayList<T> array, int rowSize)
 	{
 		if (array.size() <= 0 || rowSize <= 0) {
 			Logger.logMessage(
@@ -43,9 +43,15 @@ public class Matrix<T>
 		this.rows = rowSize;
 		this.cols = array.size() / rowSize;
 	}
+	// TODO construct array with row and col size, but WHAT ABOUT THE
+	// TYPE?????
+	/*
+	public Matrix( int rowSize, int colSize){
 
+	}
+	*/
 	// 0 based indexing!!
-	public int getIndexFromMatrixCord(MatrixCord matrixCord)
+	public int getIndexFromMatrixCord(final MatrixCord matrixCord)
 	{
 		if (matrixCord.row < 0 || matrixCord.col < 0
 		    || (matrixCord.row * cols + matrixCord.col)
@@ -70,7 +76,7 @@ public class Matrix<T>
 		return matrixCord;
 	}
 
-	public void setWithMatrixCord(MatrixCord matrixCord, T value)
+	public void setWithMatrixCord(final MatrixCord matrixCord, T value)
 	{
 
 		if (matrixCord.row < 0 || matrixCord.col < 0
@@ -93,7 +99,7 @@ public class Matrix<T>
 		m_matrix.set(index, value);
 	}
 
-	public T getDataWithMatrixCord(MatrixCord matrixCord)
+	public T getDataWithMatrixCord(final MatrixCord matrixCord)
 	{
 		if (matrixCord.row < 0 || matrixCord.col < 0
 		    || (matrixCord.row * cols + matrixCord.col)
