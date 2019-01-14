@@ -1,4 +1,4 @@
-package poj;
+package poj.linear;
 
 import poj.Logger;
 import poj.LogLevels;

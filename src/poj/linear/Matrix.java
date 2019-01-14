@@ -1,7 +1,7 @@
-package poj;
+package poj.linear;
+
 import poj.Logger;
 import poj.LogLevels;
-import poj.MatrixCord;
 import java.util.ArrayList;
 
 public class Matrix<T>

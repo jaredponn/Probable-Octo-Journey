@@ -1,4 +1,4 @@
-package poj;
+package poj.linear;
 
 import java.lang.Math;
 public class Vector2f
@@ -60,6 +60,6 @@ public class Vector2f
 // add, minus, scalarProduct, MatrixVectorMultiplication??, dot product,
 // Crossproduct??
 // normalize
-// TODO vector transformation 2d
-// TODO matrix multiplication
-// TODO transformation matrix
+//  vector transformation 2d
+//  matrix multiplication
+//  transformation matrix
