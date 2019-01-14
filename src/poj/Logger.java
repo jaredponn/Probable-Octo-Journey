@@ -1,18 +1,14 @@
 package poj;
 
-enum LOG_LEVEL {
-	VERBOSE,	// verbose logging (1)
-	MINOR_CRITICAL, // minor critical errors (2)
-	MAJOR_CRITICAL, // major erros that crash the program (3)
-}
+import poj.LogLevels;
 
 class LOG_LEVEL_CAST
 {
-	public static int castToInt(LOG_LEVEL lvl)
+	public static int castToInt(LogLevels lvl)
 	{
 		int n = 0;
 
-		for (LOG_LEVEL i : LOG_LEVEL.values()) {
+		for (LogLevels i : LogLevels.values()) {
 			if (lvl == i)
 				break;
 			++n;
@@ -24,9 +20,9 @@ class LOG_LEVEL_CAST
 
 public class Logger
 {
-	public static LOG_LEVEL m_logging_level = LOG_LEVEL.VERBOSE;
+	public static LogLevels m_logging_level = LogLevels.VERBOSE;
 
-	public static final void logMessage(String str, LOG_LEVEL lvl)
+	public static final void logMessage(String str, LogLevels lvl)
 	{
 
 		if (LOG_LEVEL_CAST.castToInt(lvl)
@@ -34,7 +30,7 @@ public class Logger
 			System.out.println(str);
 		}
 
-		if (lvl == LOG_LEVEL.MAJOR_CRITICAL) {
+		if (lvl == LogLevels.MAJOR_CRITICAL) {
 			return;
 			// System.exit(0);
 		}

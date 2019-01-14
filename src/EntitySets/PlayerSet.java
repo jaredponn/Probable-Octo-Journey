@@ -1,5 +1,7 @@
 package EntitySets;
 
-public class PlayerSet
+import poj.EntitySet;
+
+public class PlayerSet extends EntitySet
 {
 }

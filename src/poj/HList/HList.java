@@ -2,7 +2,7 @@ package poj.HList;
 
 import poj.HList.HCons;
 
-public class HList<T extends HList<T>>
+public abstract class HList<T extends HList<T>>
 {
 	public static final <U, Us extends HList<Us>> HCons<U, Us> hcons(U n,
 									 Us ns)
@@ -14,4 +14,6 @@ public class HList<T extends HList<T>>
 	{
 		return new HNil();
 	}
+
+	abstract public void accept(HVisitor v);
 }

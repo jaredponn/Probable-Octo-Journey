@@ -26,12 +26,12 @@ public class PackedVector<T>
 		if (index >= m_sparse_vector.size()) {
 			Logger.logMessage(
 				"MAJOR ERROR IN PACKEDVECTOR. Too many entities in this engine! increase buffer size.",
-				LOG_LEVEL.MAJOR_CRITICAL);
+				LogLevels.MAJOR_CRITICAL);
 			return;
 		} else if (m_sparse_vector.get(index) != -1) {
 			Logger.logMessage(
 				"MAJOR ERROR IN PACKEDVECTOR. You are adding an entity at this index, but an entity already exist at this index.",
-				LOG_LEVEL.MAJOR_CRITICAL);
+				LogLevels.MAJOR_CRITICAL);
 			return;
 		}
 		m_sparse_vector.set(index, m_next_free_index);
@@ -46,7 +46,7 @@ public class PackedVector<T>
 		if (m_sparse_vector.get(index) == -1) {
 			Logger.logMessage(
 				"MINOR error in packedvector. You are deleting an entity that had already been deleted. The program should continue to work normally.",
-				LOG_LEVEL.MINOR_CRITICAL);
+				LogLevels.MINOR_CRITICAL);
 			return;
 		}
 		int toBeDeletedIndexInPackedIndicies =
@@ -76,11 +76,11 @@ public class PackedVector<T>
 
 			Logger.logMessage(
 				"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of sparse vector with get_data_from_sparse_vector function",
-				LOG_LEVEL.MAJOR_CRITICAL);
+				LogLevels.MAJOR_CRITICAL);
 		} else if (m_sparse_vector.get(index) == -1) {
 			Logger.logMessage(
 				"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with get_data_from_sparse_vector function",
-				LOG_LEVEL.MAJOR_CRITICAL);
+				LogLevels.MAJOR_CRITICAL);
 		}
 		return m_packed_data.get(m_sparse_vector.get(index));
 	}
@@ -92,7 +92,7 @@ public class PackedVector<T>
 
 			Logger.logMessage(
 				"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of packed indices vector with get_global_index_from_packed_index function",
-				LOG_LEVEL.MAJOR_CRITICAL);
+				LogLevels.MAJOR_CRITICAL);
 		}
 		return m_packed_indices.get(index);
 	}
@@ -115,8 +115,9 @@ public class PackedVector<T>
 	public final int get_packed_data_size()
 	{
 		if (m_packed_data.size() != m_packed_indices.size()) {
-			System.out.println(
-				"MAJOR ERROR IN PACKEDVECTOR. Packed indices and packed data are not the same size!");
+			Logger.logMessage(
+				"MAJOR ERROR IN PACKEDVECTOR. Packed indices and packed data are not the same size!",
+				LogLevels.MAJOR_CRITICAL);
 		}
 		return m_packed_data.size();
 	}

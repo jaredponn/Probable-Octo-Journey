@@ -23,7 +23,7 @@ public class ComponentList
 		if (n < 0) {
 			Logger.logMessage(
 				"MAJOR ERROR in ComponentList - please input a positive integer in the constructor ;",
-				LOG_LEVEL.MAJOR_CRITICAL);
+				LogLevels.MAJOR_CRITICAL);
 		}
 		m_component_list = new HashMap<>();
 		MAX_ENTITIES = n;
@@ -34,7 +34,7 @@ public class ComponentList
 		if (m_component_list.containsKey(c)) {
 			Logger.logMessage(
 				"MAJOR ERROR in ComponentList - do not create 2 components of the same type.",
-				LOG_LEVEL.MAJOR_CRITICAL);
+				LogLevels.MAJOR_CRITICAL);
 		}
 
 		m_component_list.put(c, new PackedVector<T>(MAX_ENTITIES));
@@ -45,7 +45,7 @@ public class ComponentList
 		if (!m_component_list.containsKey(c)) {
 			Logger.logMessage(
 				"MAJOR ERROR in ComponentList - Accessing a component that does not exist",
-				LOG_LEVEL.MAJOR_CRITICAL);
+				LogLevels.MAJOR_CRITICAL);
 		}
 		// TODO surpress this warning somehow
 		PackedVector<T> tmp = (PackedVector<T>)m_component_list.get(c);
