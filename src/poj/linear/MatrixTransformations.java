@@ -10,7 +10,9 @@ public class MatrixTransformations
 	public final static Matrix<Float>
 	matrixMultiplication(Matrix<Float> matrixA, Matrix<Float> matrixB)
 	{
-		if (matrixA.cols != matrixB.rows) {
+		if (matrixA.cols != matrixB.rows || matrixA.rows == 0
+		    || matrixA.cols == 0 || matrixB.rows == 0
+		    || matrixB.cols == 0) {
 			Logger.lassert(
 				true,
 				"MAJOR ERROR in matrixMultiplicationWithSquaredMatrices! A's col number does not match with B's row number");
@@ -36,6 +38,39 @@ public class MatrixTransformations
 			}
 		}
 		return matrixC;
+	}
+
+	public final static boolean
+	matrixEquality(Matrix<Float> A, Matrix<Float> B, float EPSILON)
+	{
+		if (A.m_matrix.size() != B.m_matrix.size()) {
+			Logger.lassert(
+				true,
+				"MAJOR ERROR in matrixEquality!! the two matrix size are not the same");
+		}
+		for (int i = 0; i < A.m_matrix.size(); ++i) {
+			if (AlmostEqualRelative(A.getDataWithIndex(i),
+						B.getDataWithIndex(i),
+						EPSILON)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	// TODO 	MAKE UNIT TEST FOR THISSSSSSSSS
+	public final static boolean AlmostEqualRelative(float A, float B,
+							float EPSILON)
+	{
+		float diff = Math.abs(A - B);
+		A = Math.abs(A);
+		B = Math.abs(B);
+		float largest = (B > A) ? B : A;
+		if ((diff <= largest * EPSILON)
+		    && (diff >= largest * -EPSILON)) {
+			return true;
+		}
+		return false;
 	}
 
 	public final static Matrix<Float>
