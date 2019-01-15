@@ -4,7 +4,7 @@ import Components.Physics;
 import poj.ComponentList;
 import poj.PackedVector;
 import poj.HList.*;
-import poj.EntitySet;
+import poj.EntitySetMemberComponents;
 // https://sourcemaking.com/design_patterns/visitor/java/1
 
 
@@ -24,7 +24,7 @@ public class Main
 		// System.out.println(c.tail().head());
 		// System.out.println(c.tail().tail());
 
-		EntitySet f = new EntitySet(new Render(3, 3));
+		EntitySetMemberComponents f = new EntitySetMemberComponents(new Render(3, 3));
 		f.addComponentToSet(new Physics(3));
 		f.addComponentToSet(new Physics(9));
 		f.printSet();
