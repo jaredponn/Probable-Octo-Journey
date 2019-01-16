@@ -1,6 +1,6 @@
 package poj.EntitySet;
 
-import poj.Component;
+import poj.Component.Component;
 
 public class EntitySetType implements Component
 {

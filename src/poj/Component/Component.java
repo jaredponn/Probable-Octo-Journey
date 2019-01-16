@@ -1,7 +1,4 @@
-package poj;
-
-import poj.Logger;
-import poj.LogLevels;
+package poj.Component;
 
 public interface Component {
 	public void print();

@@ -1,6 +1,6 @@
 package poj.EntitySet;
 import poj.HList.*;
-import poj.Component;
+import poj.Component.Component;
 
 public class EntitySetMemberComponents
 {

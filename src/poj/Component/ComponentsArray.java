@@ -1,24 +1,18 @@
-package poj;
+package poj.Component;
 
 import poj.PackedVector;
 import poj.Logger;
-import poj.Component;
+import poj.Component.Component;
 
 import java.util.HashMap;
 
-public class ComponentList
+public class ComponentsArray
 {
 	private HashMap<Class<? extends Component>,
 			PackedVector<? extends Component>> m_component_list;
+	private int MAX_ENTITIES;
 
-	private static int MAX_ENTITIES = 500;
-
-	public ComponentList()
-	{
-		m_component_list = new HashMap<>();
-	}
-
-	public ComponentList(int n)
+	public ComponentsArray(int n)
 	{
 		Logger.lassert(
 			n < 0,
@@ -37,7 +31,8 @@ public class ComponentList
 		m_component_list.put(c, new PackedVector<T>(MAX_ENTITIES));
 	}
 
-	public <T extends Component> PackedVector<T> getComponent(Class<T> c)
+	protected <T extends Component> PackedVector<T>
+	getComponentPackedVector(Class<T> c)
 	{
 
 		Logger.lassert(

@@ -85,6 +85,22 @@ public class PackedVector<T>
 		return m_packed_data.get(m_sparse_vector.get(index));
 	}
 
+	public final T set_data_at_sparse_vector(final int index, T val)
+	{
+		if (index >= m_sparse_vector.size()) {
+
+			Logger.logMessage(
+				"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of sparse vector with set_data_at_sparse_vector function",
+				LogLevels.MAJOR_CRITICAL);
+		} else if (m_sparse_vector.get(index) == -1) {
+			Logger.logMessage(
+				"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with set_data_at_sparse_vector function",
+				LogLevels.MAJOR_CRITICAL);
+		}
+		return m_packed_data.set(m_sparse_vector.get(index), val);
+	}
+
+
 	public final int get_global_index_from_packed_index(final int index)
 	{
 
