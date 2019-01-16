@@ -1,10 +1,10 @@
 import Components.Render;
 import Components.Physics;
 
-import poj.ComponentList;
+import poj.Component.*;
 import poj.PackedVector;
 import poj.HList.*;
-import poj.EntitySetMemberComponents;
+import poj.EntitySet.*;
 // https://sourcemaking.com/design_patterns/visitor/java/1
 
 

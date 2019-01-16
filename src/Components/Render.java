@@ -1,6 +1,6 @@
 package Components;
 
-import poj.Component;
+import poj.Component.Component;
 
 public class Render implements Component
 {

@@ -1,18 +1,18 @@
 package poj;
 
 import poj.EntitySet.*;
-import poj.ComponentsArray;
+import poj.Component.*;
 import java.util.Stack;
 
 public class Engine
 {
-	private ComponentsArray componentList;
+	private Components components;
 	private Stack<Integer> freeIndices;
 
 	public Engine()
 	{
 		int MAX_ENTITIES = 100000;
-		componentList = new ComponentsArray(MAX_ENTITIES);
+		components = new Components(MAX_ENTITIES);
 		freeIndices = new Stack();
 
 		for (int i = 0; i < MAX_ENTITIES; ++i) {
@@ -20,13 +20,17 @@ public class Engine
 		}
 	}
 
-	public <T extends Component> void registerComponent(T c)
+	public <T extends Component> void registerComponent(Class<T> c)
 	{
-		componentList.registerComponent(c.getClass());
+		components.registerComponent(c);
 	}
 
-	public void registerComponent(Class<? extends Component> c)
+	public <T extends EntitySet> void registerSet(Class<T> s)
 	{
-		componentList.registerComponent(c);
+		components.registerComponent(s);
+	}
+
+	public void runEngine()
+	{
 	}
 }
