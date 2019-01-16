@@ -1,5 +1,4 @@
-package poj;
-
+package poj.EntitySet;
 import poj.HList.*;
 import poj.Component;
 

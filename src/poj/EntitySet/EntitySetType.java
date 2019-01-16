@@ -1,4 +1,6 @@
-package poj;
+package poj.EntitySet;
+
+import poj.Component;
 
 public class EntitySetType implements Component
 {
