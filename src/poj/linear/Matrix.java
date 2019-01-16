@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class Matrix<T>
 {
-
 	public ArrayList<T> m_matrix;
 	public int rows;
 	public int cols;
