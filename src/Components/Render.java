@@ -2,7 +2,7 @@ package Components;
 
 import poj.Component;
 
-public class Render extends Component
+public class Render implements Component
 {
 	private int m_a;
 	private int m_b;

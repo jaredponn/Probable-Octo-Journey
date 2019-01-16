@@ -24,7 +24,8 @@ public class Main
 		// System.out.println(c.tail().head());
 		// System.out.println(c.tail().tail());
 
-		EntitySetMemberComponents f = new EntitySetMemberComponents(new Render(3, 3));
+		EntitySetMemberComponents f =
+			new EntitySetMemberComponents(new Render(3, 3));
 		f.addComponentToSet(new Physics(3));
 		f.addComponentToSet(new Physics(9));
 		f.printSet();

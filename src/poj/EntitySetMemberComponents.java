@@ -5,8 +5,6 @@ import poj.Component;
 
 public class EntitySetMemberComponents
 {
-
-	// TODO add some perhaps add some timesafety for the component
 	private HCons<? extends Component, ?> entitySet;
 
 	public <U extends Component> EntitySetMemberComponents(U c)

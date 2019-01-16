@@ -2,7 +2,7 @@ package Components;
 
 import poj.Component;
 
-public class Physics extends Component
+public class Physics implements Component
 {
 	int a;
 
