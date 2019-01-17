@@ -26,6 +26,17 @@ public class Vector2f
 		return new Vector2f((a.x - b.x), (a.y - b.y));
 	}
 
+	public final static void add(final Vector2f a)
+	{
+		this.x += a.x;
+		this.y += a.y;
+	}
+
+	public final static void subtract(final Vector2f a, )
+	{
+		this.x -= a.x;
+		this.y -= a.y;
+	}
 	public final static Vector2f scalarProduct(final Vector2f a,
 						   final float scalar)
 	{
