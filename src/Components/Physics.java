@@ -4,7 +4,7 @@ import poj.Component.Component;
 
 public class Physics implements Component
 {
-	int a;
+	public int a;
 
 	public Physics(int a)
 	{

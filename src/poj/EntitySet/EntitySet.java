@@ -15,7 +15,8 @@ public class EntitySet implements Component
 	public EntitySet()
 	{
 		entityRunTimeTypeRep = new EntitySetType(this.getClass());
-		entityMemberVariables.addComponentToSet(entityRunTimeTypeRep);
+		entityMemberVariables =
+			new EntitySetMemberComponents(entityRunTimeTypeRep);
 	}
 
 	public <U extends Component> void addComponent(U a)
@@ -23,9 +24,9 @@ public class EntitySet implements Component
 		entityMemberVariables.addComponentToSet(a);
 	}
 
-	final public EntitySetType getEnttiySetType()
+	final public Class<?> getEntitySetType()
 	{
-		return entityRunTimeTypeRep;
+		return entityRunTimeTypeRep.entityRunTimeTypeRep;
 	}
 
 	final public EntitySetMemberComponents getComponents()

@@ -32,9 +32,8 @@ public class ComponentsArray
 	}
 
 	protected <T extends Component> PackedVector<T>
-	getComponentPackedVector(Class<T> c)
+	getComponentPackedVector(Class<?> c)
 	{
-
 		Logger.lassert(
 			!m_component_list.containsKey(c),
 			"MAJOR ERROR in ComponentList - Accessing a component that does not exist");

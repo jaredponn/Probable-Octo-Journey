@@ -1,11 +1,10 @@
 import Components.Render;
 import Components.Physics;
 
-import poj.Component.*;
-import poj.PackedVector;
-import poj.HList.*;
-import poj.EntitySet.*;
-// https://sourcemaking.com/design_patterns/visitor/java/1
+import poj.EngineState;
+import Components.*;
+import Systems.*;
+import EntitySets.*;
 
 
 public class Main
@@ -13,24 +12,77 @@ public class Main
 	public static final void main(String[] args)
 	{
 
-		// HCons<Integer, HCons<String, HNil>> c = HList.hcons(
-		HList<HCons<Integer, HCons<String, HNil>>> c = HList.hcons(
-			new Integer(3), HList.hcons("asdf", HList.hnil()));
+		EngineState test = new EngineState();
 
+		test.registerComponent(Physics.class);
+		test.registerComponent(Render.class);
 
-		HTypeVisitor down = new HTypeVisitor();
-		HList<HNil> a = HList.hnil();
-		// System.out.println(c.head());
-		// System.out.println(c.tail().head());
-		// System.out.println(c.tail().tail());
+		test.registerSet(A.class);
+		test.registerSet(B.class);
 
-		EntitySetMemberComponents f =
-			new EntitySetMemberComponents(new Render(3, 3));
-		f.addComponentToSet(new Physics(3));
-		f.addComponentToSet(new Physics(9));
-		f.printSet();
+		test.spawnEntitySet(new A());
+		test.spawnEntitySet(new A());
+		test.spawnEntitySet(new A());
+		test.spawnEntitySet(new B());
 
+		for (int i = test.components.getInitialSetIndex(A.class);
+		     test.components.isValidEntity(i);
+		     i = test.components.getNextSetIndex(A.class, i)) {
+			Systems.printPhysics(test.components.getComponentAt(
+				Physics.class, i));
+		}
 
-		c.accept(down);
+		System.out.println();
+
+		for (int i = test.components.getInitialSetIndex(A.class);
+		     test.components.isValidEntity(i);
+		     i = test.components.getNextSetIndex(A.class, i)) {
+			Systems.incrementPhysics(test.components.getComponentAt(
+				Physics.class, i));
+		}
+		System.out.println();
+
+		for (int i = test.components.getInitialSetIndex(A.class);
+		     test.components.isValidEntity(i);
+		     i = test.components.getNextSetIndex(A.class, i)) {
+			Systems.printPhysics(test.components.getComponentAt(
+				Physics.class, i));
+		}
+
+		System.out.println();
+
+		for (int i = test.components.getInitialSetIndex(B.class);
+		     test.components.isValidEntity(i);
+		     i = test.components.getNextSetIndex(B.class, i)) {
+			Systems.printPhysics(test.components.getComponentAt(
+				Physics.class, i));
+		}
+
+		System.out.println();
+
+		for (int i = test.components.getInitialSetIndex(B.class);
+		     test.components.isValidEntity(i);
+		     i = test.components.getNextSetIndex(B.class, i)) {
+			Systems.incrementPhysics(test.components.getComponentAt(
+				Physics.class, i));
+		}
+
+		for (int i = test.components.getInitialSetIndex(B.class);
+		     test.components.isValidEntity(i);
+		     i = test.components.getNextSetIndex(B.class, i)) {
+			Systems.printPhysics(test.components.getComponentAt(
+				Physics.class, i));
+		}
+
+		System.out.println();
+
+		for (int i = test.components.getInitialSetIndex(B.class);
+		     test.components.isValidEntity(i);
+		     i = test.components.getNextSetIndex(B.class, i)) {
+			Systems.printRender(test.components.getComponentAt(
+				Render.class, i));
+		}
+
+		System.out.println();
 	}
 }
