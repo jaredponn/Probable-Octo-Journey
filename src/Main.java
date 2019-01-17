@@ -11,7 +11,6 @@ public class Main
 {
 	public static final void main(String[] args)
 	{
-
 		EngineState test = new EngineState();
 
 		test.registerComponent(Physics.class);

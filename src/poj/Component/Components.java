@@ -43,7 +43,7 @@ public class Components extends ComponentsArray
 
 
 	public <T extends Component> ArrayList<T>
-	getRawComponentArrayListData(Class<T> c)
+	getRawComponentArrayListPackedData(Class<T> c)
 	{
 		return (ArrayList<T>)super.getComponentPackedVector(c)
 			.get_packed_data();
