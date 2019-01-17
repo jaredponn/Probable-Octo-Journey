@@ -44,12 +44,13 @@ public class EngineState
 		freeIndices.push(e);
 	}
 
-	public <T extends EntitySet> void spawnEntitySet(T set)
+	public <T extends EntitySet> int spawnEntitySet(T set)
 	{
 		Logger.lassert(set == null,
 			       "ERROR passing null arguemnt to spawnEntitySet");
 		final int tmp = getFreeIndex();
 
 		set.getComponents().addSetToComponents(components, tmp);
+		return tmp;
 	}
 }
