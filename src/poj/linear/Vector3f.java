@@ -32,6 +32,20 @@ public class Vector3f
 		return new Vector3f((a.x - b.x), (a.y - b.y), (a.z - b.z));
 	}
 
+	public final static void add(final Vector3f a)
+	{
+		this.x += a.x;
+		this.y += a.y;
+		this.z += a.z;
+	}
+
+	public final static void subtract(final Vector3f a)
+	{
+
+		this.x -= a.x;
+		this.y -= a.y;
+		this.z -= a.z;
+	}
 	public final static Vector3f scalarProduct(final Vector3f a,
 						   final float scalar)
 	{
@@ -108,5 +122,25 @@ public class Vector3f
 		       + a.getDataWithIndex(8) * b.z;
 		;
 		return new Vector3f(xnew, ynew, znew);
+	}
+
+
+	public final static void matrixVector3fProduct(final Matrix<Float> a)
+	{
+
+		float xnew, ynew, znew;
+		// loop through each row of the matrix
+		xnew = a.getDataWithIndex(0) * this.x
+		       + a.getDataWithIndex(1) * this.y
+		       + a.getDataWithIndex(2) * this.z;
+		ynew = a.getDataWithIndex(3) * this.x
+		       + a.getDataWithIndex(4) * this.y
+		       + a.getDataWithIndex(5) * this.z;
+		znew = a.getDataWithIndex(6) * this.x
+		       + a.getDataWithIndex(7) * this.y
+		       + a.getDataWithIndex(8) * this.z;
+		this.x = xnew;
+		this.y = ynew;
+		this.z = znew;
 	}
 }
