@@ -1,7 +1,6 @@
 package poj;
 import java.util.ArrayList;
 import java.util.Collections;
-import poj.LogLevels;
 
 
 public class PackedVector<T>
@@ -23,17 +22,12 @@ public class PackedVector<T>
 
 	public void add_element_at_sparse_vector(final int index, final T val)
 	{
-		if (index >= m_sparse_vector.size()) {
-			Logger.logMessage(
-				"MAJOR ERROR IN PACKEDVECTOR. Too many entities in this engine! increase buffer size.",
-				LogLevels.MAJOR_CRITICAL);
-			return;
-		} else if (m_sparse_vector.get(index) != -1) {
-			Logger.logMessage(
-				"MAJOR ERROR IN PACKEDVECTOR. You are adding an entity at this index, but an entity already exist at this index.",
-				LogLevels.MAJOR_CRITICAL);
-			return;
-		}
+		Logger.lassert(
+			(index >= m_sparse_vector.size()),
+			"MAJOR ERROR IN PACKEDVECTOR. Too many entities in this engine! increase buffer size.");
+		Logger.lassert(
+			(m_sparse_vector.get(index) != -1),
+			"MAJOR ERROR IN PACKEDVECTOR. You are adding an entity at this index, but an entity already exist at this index.");
 		m_sparse_vector.set(index, m_next_free_index);
 		m_packed_indices.add(index);
 		m_packed_data.add(val);
@@ -43,12 +37,9 @@ public class PackedVector<T>
 
 	public void delete_element_at_sparse_vector(final int index)
 	{
-		if (m_sparse_vector.get(index) == -1) {
-			Logger.logMessage(
-				"MINOR error in packedvector. You are deleting an entity that had already been deleted. The program should continue to work normally.",
-				LogLevels.MINOR_CRITICAL);
-			return;
-		}
+		Logger.lassert(
+			(m_sparse_vector.get(index) == -1),
+			"MINOR error in packedvector. You are deleting an entity that had already been deleted. The program should continue to work normally.");
 		int toBeDeletedIndexInPackedIndicies =
 			m_sparse_vector.get(index);
 		int lastElementInPackedIndicies =
@@ -72,31 +63,23 @@ public class PackedVector<T>
 
 	public final T get_data_from_sparse_vector(final int index)
 	{
-		if (index >= m_sparse_vector.size()) {
-
-			Logger.logMessage(
-				"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of sparse vector with get_data_from_sparse_vector function",
-				LogLevels.MAJOR_CRITICAL);
-		} else if (m_sparse_vector.get(index) == -1) {
-			Logger.logMessage(
-				"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with get_data_from_sparse_vector function",
-				LogLevels.MAJOR_CRITICAL);
-		}
+		Logger.lassert(
+			(index >= m_sparse_vector.size()),
+			"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of sparse vector with get_data_from_sparse_vector function");
+		Logger.lassert(
+			(m_sparse_vector.get(index) == -1),
+			"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with get_data_from_sparse_vector function");
 		return m_packed_data.get(m_sparse_vector.get(index));
 	}
 
 	public final T set_data_at_sparse_vector(final int index, T val)
 	{
-		if (index >= m_sparse_vector.size()) {
-
-			Logger.logMessage(
-				"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of sparse vector with set_data_at_sparse_vector function",
-				LogLevels.MAJOR_CRITICAL);
-		} else if (m_sparse_vector.get(index) == -1) {
-			Logger.logMessage(
-				"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with set_data_at_sparse_vector function",
-				LogLevels.MAJOR_CRITICAL);
-		}
+		Logger.lassert(
+			(index >= m_sparse_vector.size()),
+			"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of sparse vector with set_data_at_sparse_vector function");
+		Logger.lassert(
+			(m_sparse_vector.get(index) == -1),
+			"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with set_data_at_sparse_vector function");
 		return m_packed_data.set(m_sparse_vector.get(index), val);
 	}
 
@@ -104,12 +87,9 @@ public class PackedVector<T>
 	public final int get_global_index_from_packed_index(final int index)
 	{
 
-		if (index >= m_packed_indices.size()) {
-
-			Logger.logMessage(
-				"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of packed indices vector with get_global_index_from_packed_index function",
-				LogLevels.MAJOR_CRITICAL);
-		}
+		Logger.lassert(
+			(index >= m_packed_indices.size()),
+			"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of packed indices vector with get_global_index_from_packed_index function");
 		return m_packed_indices.get(index);
 	}
 
@@ -130,11 +110,9 @@ public class PackedVector<T>
 
 	public final int get_packed_data_size()
 	{
-		if (m_packed_data.size() != m_packed_indices.size()) {
-			Logger.logMessage(
-				"MAJOR ERROR IN PACKEDVECTOR. Packed indices and packed data are not the same size!",
-				LogLevels.MAJOR_CRITICAL);
-		}
+		Logger.lassert(
+			(m_packed_data.size() != m_packed_indices.size()),
+			"MAJOR ERROR IN PACKEDVECTOR. Packed indices and packed data are not the same size!");
 		return m_packed_data.size();
 	}
 }

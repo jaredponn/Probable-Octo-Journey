@@ -26,35 +26,43 @@ public class Vector2f
 		return new Vector2f((a.x - b.x), (a.y - b.y));
 	}
 
-	public final static void add(final Vector2f a)
+	public final void add(final Vector2f a)
 	{
 		this.x += a.x;
 		this.y += a.y;
 	}
 
-	public final static void subtract(final Vector2f a, )
+	public final void subtract(final Vector2f a)
 	{
 		this.x -= a.x;
 		this.y -= a.y;
 	}
-	public final static Vector2f scalarProduct(final Vector2f a,
-						   final float scalar)
+	public final void multiplyWithMatrix(final Matrix<Float> A)
+	{
+		Vector3f tempVector3 = new Vector3f(this.x, this.y, 1);
+		tempVector3.matrixVector3fProduct(A);
+		this.x = tempVector3.x;
+		this.y = tempVector3.y;
+	}
+
+	public final Vector2f scalarProduct(final Vector2f a,
+					    final float scalar)
 	{
 		return new Vector2f((a.x * scalar), (a.y * scalar));
 	}
 
-	public final static float dotProduct(final Vector2f a, final Vector2f b)
+	public final float dotProduct(final Vector2f a, final Vector2f b)
 	{
 		return a.x * b.x + a.y * b.y;
 	}
 
-	public final static float scalarValueOfVector(final Vector2f a)
+	public final float scalarValueOfVector(final Vector2f a)
 	{
 		return (float)Math.sqrt(a.x * a.x + a.y * a.y);
 	}
 
-	public final static float angleBetweenTwoVector2(final Vector2f a,
-							 final Vector2f b)
+	public final float angleBetweenTwoVector2(final Vector2f a,
+						  final Vector2f b)
 	{
 		// angle is NOT ABSOLUTE VALUE!! if negative angle then
 		// pi/2< theta < pi
@@ -63,7 +71,7 @@ public class Vector2f
 			/ (scalarValueOfVector(a) * scalarValueOfVector(b)));
 	}
 
-	public final static Vector2f normalOfVector2f(final Vector2f a)
+	public final Vector2f normalOfVector2f(final Vector2f a)
 	{
 		return new Vector2f(a.y, -a.x);
 	}
