@@ -16,18 +16,18 @@ public class EntitySetMemberComponents
 		entitySet = HList.hcons(c, entitySet);
 	}
 
-	public void printSet()
+	public <T extends Component> void printSet()
 	{
 		HTypeVisitor h = new HTypeVisitor();
 
-		HCons<? extends Component, ?> foc = entitySet;
+		HCons<?, ?> foc = entitySet;
 
 		while (foc.tail().accept(h) != HNil.class) {
-			foc.head().print();
+			((T)(foc.head())).print();
 
-			foc = (HCons<? extends Component, ?>)foc.tail();
+			foc = (HCons<?, ?>)foc.tail();
 		}
-		foc.head().print();
+		((T)(foc.head())).print();
 	}
 
 	public <T extends Component> void addSetToComponents(Components cs,

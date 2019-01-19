@@ -2,86 +2,35 @@ import Components.Render;
 import Components.Physics;
 
 import poj.EngineState;
+import poj.Render.*;
 import Components.*;
 import Systems.*;
 import EntitySets.*;
 
+import java.util.Random;
+
+import javax.swing.JFrame;
+import java.awt.*;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 public class Main
 {
+
+	// https://www.gamedev.net/articles/programming/general-and-gameplay-programming/java-games-active-rendering-r2418/
+	// https://docs.oracle.com/javase/7/docs/api/java/awt/image/BufferStrategy.html
+	//
 	public static final void main(String[] args)
 	{
-		EngineState test = new EngineState();
 
-		test.registerComponent(Physics.class);
-		test.registerComponent(Render.class);
+		GameWindow gwindow = new GameWindow("Game");
+		GameCanvas gcanvas = new GameCanvas(600, 800);
 
-		test.registerSet(A.class);
-		test.registerSet(B.class);
+		gwindow.defaultAddGameCanvasAndSetBufferStrat(gcanvas);
 
-		test.spawnEntitySet(new A());
-		test.spawnEntitySet(new A());
-		test.spawnEntitySet(new A());
-		test.spawnEntitySet(new B());
+		Renderer renderer = new Renderer(gcanvas);
 
-		for (int i = test.components.getInitialSetIndex(A.class);
-		     test.components.isValidEntity(i);
-		     i = test.components.getNextSetIndex(A.class, i)) {
-			Systems.printPhysics(test.components.getComponentAt(
-				Physics.class, i));
-		}
 
-		System.out.println();
-
-		for (int i = test.components.getInitialSetIndex(A.class);
-		     test.components.isValidEntity(i);
-		     i = test.components.getNextSetIndex(A.class, i)) {
-			Systems.incrementPhysics(test.components.getComponentAt(
-				Physics.class, i));
-		}
-		System.out.println();
-
-		for (int i = test.components.getInitialSetIndex(A.class);
-		     test.components.isValidEntity(i);
-		     i = test.components.getNextSetIndex(A.class, i)) {
-			Systems.printPhysics(test.components.getComponentAt(
-				Physics.class, i));
-		}
-
-		System.out.println();
-
-		for (int i = test.components.getInitialSetIndex(B.class);
-		     test.components.isValidEntity(i);
-		     i = test.components.getNextSetIndex(B.class, i)) {
-			Systems.printPhysics(test.components.getComponentAt(
-				Physics.class, i));
-		}
-
-		System.out.println();
-
-		for (int i = test.components.getInitialSetIndex(B.class);
-		     test.components.isValidEntity(i);
-		     i = test.components.getNextSetIndex(B.class, i)) {
-			Systems.incrementPhysics(test.components.getComponentAt(
-				Physics.class, i));
-		}
-
-		for (int i = test.components.getInitialSetIndex(B.class);
-		     test.components.isValidEntity(i);
-		     i = test.components.getNextSetIndex(B.class, i)) {
-			Systems.printPhysics(test.components.getComponentAt(
-				Physics.class, i));
-		}
-
-		System.out.println();
-
-		for (int i = test.components.getInitialSetIndex(B.class);
-		     test.components.isValidEntity(i);
-		     i = test.components.getNextSetIndex(B.class, i)) {
-			Systems.printRender(test.components.getComponentAt(
-				Render.class, i));
-		}
-
-		System.out.println();
+		renderer.render();
 	}
 }
