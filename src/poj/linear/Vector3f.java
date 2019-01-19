@@ -1,7 +1,6 @@
 package poj.linear;
 
 import poj.Logger;
-import poj.LogLevels;
 import java.lang.Math;
 public class Vector3f
 {
@@ -20,6 +19,21 @@ public class Vector3f
 	{
 	}
 
+
+	public final void add(final Vector3f a)
+	{
+		this.x += a.x;
+		this.y += a.y;
+		this.z += a.z;
+	}
+
+	public final void subtract(final Vector3f a)
+	{
+
+		this.x -= a.x;
+		this.y -= a.y;
+		this.z -= a.z;
+	}
 
 	public final void matrixVector3fProduct(final Matrix<Float> a)
 	{
@@ -40,31 +54,6 @@ public class Vector3f
 		this.z = znew;
 	}
 
-	public final Vector3f add(final Vector3f a, final Vector3f b)
-	{
-		return new Vector3f((a.x + b.x), (a.y + b.y), (a.z + b.z));
-	}
-
-	public final Vector3f subtract(final Vector3f a, final Vector3f b)
-	{
-
-		return new Vector3f((a.x - b.x), (a.y - b.y), (a.z - b.z));
-	}
-
-	public final void add(final Vector3f a)
-	{
-		this.x += a.x;
-		this.y += a.y;
-		this.z += a.z;
-	}
-
-	public final void subtract(final Vector3f a)
-	{
-
-		this.x -= a.x;
-		this.y -= a.y;
-		this.z -= a.z;
-	}
 	public final Vector3f scalarProduct(final Vector3f a,
 					    final float scalar)
 	{
@@ -95,11 +84,9 @@ public class Vector3f
 	public final Vector3f normalOfVector3f(final Vector3f a)
 	{
 
-		if (a == new Vector3f(0, 0, 0)) {
-			Logger.logMessage(
-				"MAJOR ERROR in normalOfVector3f!!  the input vectors are 0!!",
-				LogLevels.MAJOR_CRITICAL);
-		}
+		Logger.lassert(
+			(a == new Vector3f(0, 0, 0)),
+			"MAJOR ERROR in normalOfVector3f!!  the input vectors are 0!!");
 		Vector3f tempVec = new Vector3f(1, 0, 0);
 		if (a == tempVec) {
 			return crossProduct(a, tempVec);
@@ -110,11 +97,10 @@ public class Vector3f
 
 	public final Vector3f crossProduct(final Vector3f a, final Vector3f b)
 	{
-		if (a == new Vector3f(0, 0, 0) || b == new Vector3f(0, 0, 0)) {
-			Logger.logMessage(
-				"MAJOR ERROR in crossProduct!! one of the vectors are 0!!",
-				LogLevels.MAJOR_CRITICAL);
-		}
+		Logger.lassert(
+			(a == new Vector3f(0, 0, 0)
+			 || b == new Vector3f(0, 0, 0)),
+			"MAJOR ERROR in crossProduct!! one of the vectors are 0!!");
 		return new Vector3f(a.y * b.z - a.z * b.y,
 				    a.z * b.x - a.x * b.z,
 				    a.x * b.y - a.y * b.x);

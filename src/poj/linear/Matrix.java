@@ -1,14 +1,14 @@
 package poj.linear;
 
 import poj.Logger;
-import poj.LogLevels;
 import java.util.ArrayList;
 
 public class Matrix<T>
 {
-	protected ArrayList<T> m_matrix;
-	protected int rows;
-	protected int cols;
+	// change to protected after done
+	public ArrayList<T> m_matrix;
+	public int rows;
+	public int cols;
 
 	public Matrix()
 	{

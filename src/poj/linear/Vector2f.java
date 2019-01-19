@@ -15,17 +15,6 @@ public class Vector2f
 	{
 	}
 
-	public final static Vector2f add(final Vector2f a, final Vector2f b)
-	{
-		return new Vector2f((a.x + b.x), (a.y + b.y));
-	}
-
-	public final static Vector2f subtract(final Vector2f a,
-					      final Vector2f b)
-	{
-		return new Vector2f((a.x - b.x), (a.y - b.y));
-	}
-
 	public final void add(final Vector2f a)
 	{
 		this.x += a.x;
