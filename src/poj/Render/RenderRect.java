@@ -3,7 +3,7 @@ package poj.Render;
 import java.awt.Color;
 import poj.linear.*;
 
-public class RenderRect
+public class RenderRect implements RenderObject
 {
 	// top left corner position
 	private int x;
@@ -55,27 +55,32 @@ public class RenderRect
 	}
 
 
-	public Color getColor()
+	public void setColor(Color c)
 	{
-		return color;
+		this.color = c;
 	}
 
-	public int getX()
+	final public Color getColor()
+	{
+		return this.color;
+	}
+
+	final public int getX()
 	{
 		return x;
 	}
 
-	public int getY()
+	final public int getY()
 	{
 		return y;
 	}
 
-	public int getWidth()
+	final public int getWidth()
 	{
 		return width;
 	}
 
-	public int getHeight()
+	final public int getHeight()
 	{
 		return height;
 	}

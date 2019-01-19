@@ -27,4 +27,11 @@ public class GameWindow extends JFrame
 		this.setVisible(true);
 		gc.createBufferStrategy(2);
 	}
+
+
+	public void disposeWindow()
+	{
+		this.setVisible(false);
+		this.dispose();
+	}
 }

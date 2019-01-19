@@ -4,7 +4,16 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
-import java.util.Stack;
+import java.util.Queue;
+import java.util.LinkedList;
+
+import poj.Logger;
+import poj.LogLevels;
+
+// Most of the code here was driven by the following articles:
+// https://docs.oracle.com/javase/7/docs/api/java/awt/image/BufferStrategy.html
+// https://docs.oracle.com/javase/tutorial/extra/fullscreen/bufferstrategy.html
+// https://www.gamedev.net/articles/programming/general-and-gameplay-programming/java-games-active-rendering-r2418/
 
 public class Renderer
 {
@@ -16,15 +25,22 @@ public class Renderer
 	private BufferedImage bufferedImage;
 
 	// data buffers
-	private Stack<RenderRect> rectBuffer;
+	private Queue<RenderObject> renderBuffer;
+
+	// bg color related vars
+	private Color backgroundColor;
+	private int width;
+	private int height;
 
 	public Renderer(GameCanvas gc)
 	{
-		graphicsContext = new GraphicsContext();
-		bufferStrat = gc.getBufferStrategy();
+		this.graphicsContext = new GraphicsContext();
+		this.bufferStrat = gc.getBufferStrategy();
 		setBufferedImageFromCanvas(gc);
+		this.width = gc.getWidth();
+		this.height = gc.getHeight();
 
-		rectBuffer = new Stack<RenderRect>();
+		this.renderBuffer = new LinkedList<RenderObject>();
 	}
 
 	public void setBufferedImageFromCanvas(GameCanvas gc)
@@ -32,49 +48,76 @@ public class Renderer
 		bufferedImage =
 			graphicsContext.graphicsConfig.createCompatibleImage(
 				gc.getWidth(), gc.getHeight());
+		width = gc.getWidth();
+		height = gc.getHeight();
 	}
 
-	public void pushRenderRect(RenderRect r)
+	public void pushRenderObject(RenderObject r)
 	{
-		rectBuffer.push(r);
+		renderBuffer.add(r);
+	}
+
+	public void setClearColor(Color c)
+	{
+		backgroundColor = c;
 	}
 
 	public void render()
 	{
-		// Objects needed for rendering...
-		Graphics graphics = null;
+		Graphics g = null;
 		Graphics2D g2d = null;
-		Color background = Color.BLACK;
 
-		while (true) {
-			// prepare rendering for next frame
-			g2d = bufferedImage.createGraphics();
-			g2d.setColor(background);
-			g2d.fillRect(0, 0, 639, 479);
+		// clear the color
+		g2d = bufferedImage.createGraphics();
+		g2d.setColor(this.backgroundColor);
+		g2d.fillRect(0, 0, this.width, this.height);
 
-			// render a single frame
+		do {
 			do {
-				do {
-					// render to grahpics
-					g2d.setColor(Color.RED);
-					g2d.drawString("yo", 2, 3);
-					g2d.drawRect(100, 100, 300, 300);
 
+				// render everything in the buffer
+				while (!this.renderBuffer.isEmpty()) {
+					final RenderObject t =
+						renderBuffer.remove();
 
-					graphics =
-						bufferStrat.getDrawGraphics();
-					graphics.drawImage(bufferedImage, 0, 0,
-							   null);
+					if (t.getRenderObjectType()
+					    == RenderRect.class) {
+						renderRect((RenderRect)t, g2d);
 
+					} else if (t.getRenderObjectType()
+						   == RenderString.class) {
+						renderStr((RenderString)t, g2d);
+					} else {
+						Logger.logMessage(
+							"Error in renderer -- unknown render object type",
+							LogLevels
+								.MINOR_CRITICAL);
+					}
+				}
 
-					// dispose trhe graphics
-					graphics.dispose();
-					g2d.dispose();
-				} while (bufferStrat.contentsRestored());
+				g = bufferStrat.getDrawGraphics();
+				g.drawImage(bufferedImage, 0, 0, null);
 
-				bufferStrat.show();
+				g.dispose();
+				g2d.dispose();
 
-			} while (bufferStrat.contentsLost());
-		}
+			} while (bufferStrat.contentsRestored());
+
+			bufferStrat.show();
+
+		} while (bufferStrat.contentsLost());
+	}
+
+	private void renderRect(RenderRect n, Graphics2D g2d)
+	{
+		g2d.setColor(n.getColor());
+		g2d.drawRect(n.getX(), n.getY(), n.getWidth(), n.getHeight());
+	}
+
+	private void renderStr(RenderString n, Graphics2D g2d)
+	{
+		g2d.setColor(n.getColor());
+		g2d.setFont(n.getFont());
+		g2d.drawString(n.getStr(), n.getX(), n.getY());
 	}
 }
