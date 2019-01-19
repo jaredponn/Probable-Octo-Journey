@@ -3,6 +3,7 @@ import Components.Physics;
 
 import poj.EngineState;
 import poj.Render.*;
+import poj.Time.*;
 import Components.*;
 import Systems.*;
 import EntitySets.*;
@@ -17,9 +18,6 @@ import java.awt.image.BufferedImage;
 public class Main
 {
 
-	// https://www.gamedev.net/articles/programming/general-and-gameplay-programming/java-games-active-rendering-r2418/
-	// https://docs.oracle.com/javase/7/docs/api/java/awt/image/BufferStrategy.html
-	//
 	public static final void main(String[] args)
 	{
 		// init
@@ -29,8 +27,13 @@ public class Main
 		Renderer renderer = new Renderer(gcanvas);
 		renderer.setClearColor(Color.black);
 
+		long ti = 0;
+		long tf = 0;
+		long dt = 0;
+
 		// render
 		while (true) {
+			ti = Timer.getTimeInNanoSeconds();
 
 			renderer.pushRenderObject(
 				new RenderRect(100, 100, 100, 100, Color.BLUE));
@@ -43,6 +46,13 @@ public class Main
 
 
 			renderer.render();
+
+			tf = Timer.getTimeInNanoSeconds();
+
+			dt = tf - ti;
+
+			Timer.dynamicSleepToFrameRate(
+				64, Timer.convertNanoSecondsToMilliseconds(dt));
 		}
 
 		// clearing

@@ -24,7 +24,7 @@ public class Renderer
 	// off screen drawing surface
 	private BufferedImage bufferedImage;
 
-	// data buffers
+	// data buffer
 	private Queue<RenderObject> renderBuffer;
 
 	// bg color related vars
@@ -74,8 +74,6 @@ public class Renderer
 
 		do {
 			do {
-
-				// render everything in the buffer
 				while (!this.renderBuffer.isEmpty()) {
 					final RenderObject t =
 						renderBuffer.remove();
