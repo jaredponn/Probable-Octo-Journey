@@ -31,10 +31,6 @@ public class Timer
 		final long fpms = fps;
 
 		try {
-			System.out.println(fpms);
-			System.out.println(dtms);
-			System.out.println(Math.max(fpms - dtms, 0l));
-			System.out.println("--");
 			Thread.sleep(Math.max(fpms - dtms, 0l));
 		} catch (InterruptedException e) {
 		}
