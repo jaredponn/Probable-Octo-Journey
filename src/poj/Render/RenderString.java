@@ -2,11 +2,9 @@ package poj.Render;
 
 import java.awt.*;
 
-public class RenderString implements RenderObject
+public class RenderString extends RenderObject
 {
 	private String str;
-	private int x;
-	private int y;
 	private Color color;
 	private Font font;
 
@@ -37,12 +35,6 @@ public class RenderString implements RenderObject
 		this.str = s;
 	}
 
-	public void setPosition(int x, int y)
-	{
-		this.x = x;
-		this.y = y;
-	}
-
 	public void setColor(Color c)
 	{
 		this.color = c;
@@ -56,16 +48,6 @@ public class RenderString implements RenderObject
 	public String getStr()
 	{
 		return this.str;
-	}
-
-	final public int getX()
-	{
-		return this.x;
-	}
-
-	final public int getY()
-	{
-		return this.y;
 	}
 
 	final public Font getFont()

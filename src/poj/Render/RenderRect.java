@@ -3,14 +3,15 @@ package poj.Render;
 import java.awt.Color;
 import poj.linear.*;
 
-public class RenderRect implements RenderObject
+
+// DEPRECATED
+
+public class RenderRect extends RenderObject
 {
-	// top left corner position
-	private int x;
-	private int y;
 	// dimensions
 	private int width;
 	private int height;
+
 
 	private Color color;
 
@@ -63,16 +64,6 @@ public class RenderRect implements RenderObject
 	final public Color getColor()
 	{
 		return this.color;
-	}
-
-	final public int getX()
-	{
-		return x;
-	}
-
-	final public int getY()
-	{
-		return y;
 	}
 
 	final public int getWidth()

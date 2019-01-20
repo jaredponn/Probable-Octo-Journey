@@ -8,12 +8,8 @@ import Components.*;
 import Systems.*;
 import EntitySets.*;
 
-import java.util.Random;
-
-import javax.swing.JFrame;
 import java.awt.*;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
+import Resources.GameResources;
 
 public class Main
 {
@@ -43,6 +39,17 @@ public class Main
 				new RenderRect(00, 0, 30, 40, Color.RED));
 			renderer.pushRenderObject(
 				new RenderString("aaa", 300, 300, Color.GREEN));
+
+			renderer.pushRenderObject(new ImageRender(
+				300, 300, GameResources.testImage));
+
+			renderer.pushRenderObject(new ImageRender(
+				300, 300, GameResources.testImage,
+				new ImageWindow(0, 0, 60, 30)));
+
+			renderer.pushRenderObject(new ImageRender(
+				100, 100, GameResources.testImage,
+				new ImageWindow(120, 60, 60, 30)));
 
 
 			renderer.render();

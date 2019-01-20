@@ -3,6 +3,7 @@ package poj.Render;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.awt.geom.AffineTransform;
 
 import java.util.Queue;
 import java.util.LinkedList;
@@ -77,14 +78,20 @@ public class Renderer
 				while (!this.renderBuffer.isEmpty()) {
 					final RenderObject t =
 						renderBuffer.remove();
-
+					// deprecated
 					if (t.getRenderObjectType()
 					    == RenderRect.class) {
 						renderRect((RenderRect)t, g2d);
+					}
 
+					else if (t.getRenderObjectType()
+						 == ImageRender.class) {
+						renderImageRender(
+							(ImageRender)t, g2d);
 					} else if (t.getRenderObjectType()
 						   == RenderString.class) {
 						renderStr((RenderString)t, g2d);
+
 					} else {
 						Logger.logMessage(
 							"Error in renderer -- unknown render object type",
@@ -106,6 +113,19 @@ public class Renderer
 		} while (bufferStrat.contentsLost());
 	}
 
+	private void renderImageRender(ImageRender n, Graphics2D g2d)
+	{
+		g2d.drawImage(
+			n.getImage().getSubimage(
+				n.getImageWindow().getX(),
+				n.getImageWindow().getY(),
+				n.getImageWindow().getWidth(),
+				n.getImageWindow().getHeight()),
+			new AffineTransform(1f, 0f, 0f, 1f, n.getX(), n.getY()),
+			null);
+	}
+
+	// deprecated
 	private void renderRect(RenderRect n, Graphics2D g2d)
 	{
 		g2d.setColor(n.getColor());
