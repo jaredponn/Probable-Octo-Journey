@@ -2,13 +2,13 @@ package poj.Render;
 
 import java.awt.*;
 
-public class RenderString extends RenderObject
+public class StringRenderObject extends RenderObject
 {
 	private String str;
 	private Color color;
 	private Font font;
 
-	public RenderString(String s, int x, int y, Color c)
+	public StringRenderObject(String s, int x, int y, Color c)
 	{
 		setStr(s);
 		setPosition(x, y);
@@ -17,7 +17,7 @@ public class RenderString extends RenderObject
 		setFont(new Font("TimesRoman", Font.PLAIN, 10));
 	}
 
-	public RenderString(String s, int x, int y, Color c, Font f)
+	public StringRenderObject(String s, int x, int y, Color c, Font f)
 	{
 		setStr(s);
 		setPosition(x, y);

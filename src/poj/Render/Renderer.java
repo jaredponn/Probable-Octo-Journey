@@ -82,15 +82,17 @@ public class Renderer
 					if (t.getRenderObjectType()
 					    == RenderRect.class) {
 						renderRect((RenderRect)t, g2d);
-					}
-
-					else if (t.getRenderObjectType()
-						 == ImageRender.class) {
-						renderImageRender(
-							(ImageRender)t, g2d);
 					} else if (t.getRenderObjectType()
-						   == RenderString.class) {
-						renderStr((RenderString)t, g2d);
+						   == ImageRenderObject.class) {
+						renderImageRenderObject(
+							(ImageRenderObject)t,
+							g2d);
+					} else if (t.getRenderObjectType()
+						   == StringRenderObject
+							      .class) {
+						renderStringRenderObject(
+							(StringRenderObject)t,
+							g2d);
 
 					} else {
 						Logger.logMessage(
@@ -113,8 +115,10 @@ public class Renderer
 		} while (bufferStrat.contentsLost());
 	}
 
-	private void renderImageRender(ImageRender n, Graphics2D g2d)
+	private void renderImageRenderObject(ImageRenderObject n,
+					     Graphics2D g2d)
 	{
+
 		g2d.drawImage(
 			n.getImage().getSubimage(
 				n.getImageWindow().getX(),
@@ -132,10 +136,82 @@ public class Renderer
 		g2d.drawRect(n.getX(), n.getY(), n.getWidth(), n.getHeight());
 	}
 
-	private void renderStr(RenderString n, Graphics2D g2d)
+	private void renderStringRenderObject(StringRenderObject n,
+					      Graphics2D g2d)
 	{
 		g2d.setColor(n.getColor());
 		g2d.setFont(n.getFont());
 		g2d.drawString(n.getStr(), n.getX(), n.getY());
+	}
+
+	// --------------------------------- DEBUG RENDERER
+	// remove this copy paste garbage soon
+	public void debugRender()
+	{
+		Graphics g = null;
+		Graphics2D g2d = null;
+
+		// clear the color
+		g2d = bufferedImage.createGraphics();
+		g2d.setColor(this.backgroundColor);
+		g2d.fillRect(0, 0, this.width, this.height);
+
+		do {
+			do {
+				while (!this.renderBuffer.isEmpty()) {
+					final RenderObject t =
+						renderBuffer.remove();
+					// deprecated
+					if (t.getRenderObjectType()
+					    == RenderRect.class) {
+						renderRect((RenderRect)t, g2d);
+					} else if (t.getRenderObjectType()
+						   == ImageRenderObject.class) {
+						renderDebugImageRenderObject(
+							(ImageRenderObject)t,
+							g2d);
+					} else if (t.getRenderObjectType()
+						   == StringRenderObject
+							      .class) {
+						renderStringRenderObject(
+							(StringRenderObject)t,
+							g2d);
+
+					} else {
+						Logger.logMessage(
+							"Error in renderer -- unknown render object type",
+							LogLevels
+								.MINOR_CRITICAL);
+					}
+				}
+
+				g = bufferStrat.getDrawGraphics();
+				g.drawImage(bufferedImage, 0, 0, null);
+
+				g.dispose();
+				g2d.dispose();
+
+			} while (bufferStrat.contentsRestored());
+
+			bufferStrat.show();
+
+		} while (bufferStrat.contentsLost());
+	}
+
+	private void renderDebugImageRenderObject(ImageRenderObject n,
+						  Graphics2D g2d)
+	{
+
+		g2d.setColor(n.getDebugBorderColor());
+		g2d.drawRect(n.getX(), n.getY(), n.getImageWindow().getWidth(),
+			     n.getImageWindow().getHeight());
+		g2d.drawImage(
+			n.getImage().getSubimage(
+				n.getImageWindow().getX(),
+				n.getImageWindow().getY(),
+				n.getImageWindow().getWidth(),
+				n.getImageWindow().getHeight()),
+			new AffineTransform(1f, 0f, 0f, 1f, n.getX(), n.getY()),
+			null);
 	}
 }

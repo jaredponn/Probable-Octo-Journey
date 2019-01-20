@@ -37,17 +37,17 @@ public class Main
 				new RenderRect(00, 0, 100, 100, Color.GREEN));
 			renderer.pushRenderObject(
 				new RenderRect(00, 0, 30, 40, Color.RED));
-			renderer.pushRenderObject(
-				new RenderString("aaa", 300, 300, Color.GREEN));
+			renderer.pushRenderObject(new StringRenderObject(
+				"aaa", 300, 300, Color.GREEN));
 
-			renderer.pushRenderObject(new ImageRender(
+			renderer.pushRenderObject(new ImageRenderObject(
 				300, 300, GameResources.testImage));
 
-			renderer.pushRenderObject(new ImageRender(
+			renderer.pushRenderObject(new ImageRenderObject(
 				300, 300, GameResources.testImage,
 				new ImageWindow(0, 0, 60, 30)));
 
-			renderer.pushRenderObject(new ImageRender(
+			renderer.pushRenderObject(new ImageRenderObject(
 				100, 100, GameResources.testImage,
 				new ImageWindow(120, 60, 60, 30)));
 
