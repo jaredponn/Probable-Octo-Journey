@@ -11,6 +11,12 @@ public class Timer
 		return System.nanoTime();
 	}
 
+
+	static public long getTimeInMilliSeconds()
+	{
+		return convertNanoSecondsToMilliseconds(System.nanoTime());
+	}
+
 	static public long convertNanoSecondsToMilliseconds(long n)
 	{
 		return n / 1000000;
