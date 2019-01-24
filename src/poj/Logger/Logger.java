@@ -1,6 +1,4 @@
-package poj;
-
-import poj.LogLevels;
+package poj.Logger;
 
 class LOG_LEVEL_CAST
 {

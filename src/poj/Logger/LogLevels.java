@@ -1,4 +1,4 @@
-package poj;
+package poj.Logger;
 
 public enum LogLevels {
 	VERBOSE,	// verbose logging (1)

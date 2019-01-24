@@ -8,8 +8,10 @@ import java.awt.geom.AffineTransform;
 import java.util.Queue;
 import java.util.LinkedList;
 
-import poj.Logger;
-import poj.LogLevels;
+import poj.GameWindow.GameCanvas;
+import poj.GameWindow.GraphicsContext;
+import poj.Logger.LogLevels;
+import poj.Logger.Logger;
 
 // Most of the code here was driven by the following articles:
 // https://docs.oracle.com/javase/7/docs/api/java/awt/image/BufferStrategy.html

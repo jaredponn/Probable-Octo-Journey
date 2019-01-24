@@ -1,7 +1,7 @@
 package poj.Render;
 
-import poj.Logger;
-import poj.LogLevels;
+import poj.Logger.LogLevels;
+import poj.Logger.Logger;
 
 import java.awt.image.*;
 import java.io.*;

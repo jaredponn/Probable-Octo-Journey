@@ -1,6 +1,7 @@
 package poj;
 
 import poj.EntitySet.*;
+import poj.Logger.Logger;
 import poj.Component.*;
 import java.util.Stack;
 

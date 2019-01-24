@@ -1,7 +1,8 @@
 package poj.linear;
 
-import poj.Logger;
 import java.util.ArrayList;
+
+import poj.Logger.Logger;
 
 public class Matrix<T>
 {

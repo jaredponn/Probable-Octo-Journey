@@ -1,7 +1,8 @@
 package poj.linear;
 
-import poj.Logger;
 import java.lang.Math;
+
+import poj.Logger.Logger;
 public class Vector3f
 {
 

@@ -1,6 +1,7 @@
-package poj.Render;
+package poj.GameWindow;
 
-import poj.Logger;
+import poj.GameWindow.*;
+import poj.Logger.Logger;
 
 import javax.swing.JFrame;
 import java.awt.*;

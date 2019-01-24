@@ -1,8 +1,8 @@
 package poj.Component;
 
 import poj.PackedVector;
-import poj.Logger;
 import poj.Component.Component;
+import poj.Logger.Logger;
 
 import java.util.HashMap;
 

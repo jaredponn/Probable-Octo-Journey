@@ -1,16 +1,23 @@
-package poj.Render;
+package poj.GameWindow;
+
 import java.awt.*;
+
 
 public class GameCanvas extends Canvas
 {
+
+	static final long serialVersionUID = 0;
 	private int width;
 	private int height;
 
-	public GameCanvas(int w, int h)
+
+	public GameCanvas(int w, int h, InputPoller pol)
 	{
 		super();
 		this.setIgnoreRepaint(true);
 		this.setSize(w, h);
+		this.addKeyListener(pol);
+		this.setFocusable(true);
 
 		width = w;
 		height = h;

@@ -2,6 +2,7 @@ import Components.Render;
 import Components.Physics;
 
 import poj.EngineState;
+import poj.GameWindow.*;
 import poj.Render.*;
 import poj.Time.*;
 import poj.Animation;
@@ -10,6 +11,7 @@ import Systems.*;
 import EntitySets.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import Resources.GameResources;
 
 public class Main
@@ -19,8 +21,11 @@ public class Main
 	{
 		// init
 		GameWindow gwindow = new GameWindow("Game");
-		GameCanvas gcanvas = new GameCanvas(600, 800);
+		InputPoller inputpol = new InputPoller();
+		GameCanvas gcanvas = new GameCanvas(600, 800, inputpol);
+
 		gwindow.defaultAddGameCanvasAndSetBufferStrat(gcanvas);
+
 		Renderer renderer = new Renderer(gcanvas);
 		renderer.setClearColor(Color.black);
 
@@ -28,10 +33,13 @@ public class Main
 		long tf = 0;
 		long dt = 0;
 
-
 		// render
 		while (true) {
 			ti = Timer.getTimeInMilliSeconds();
+
+			if (inputpol.isKeyDown(KeyEvent.VK_H)) {
+				System.out.println("yo");
+			}
 
 
 			renderer.pushRenderObject(

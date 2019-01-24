@@ -1,4 +1,4 @@
-package poj.Render;
+package poj.GameWindow;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;

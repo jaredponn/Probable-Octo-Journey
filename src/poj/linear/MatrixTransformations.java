@@ -1,9 +1,10 @@
 package poj.linear;
 
-import poj.Logger;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.util.Collections;
+
+import poj.Logger.Logger;
 public class MatrixTransformations extends Matrix<Float>
 {
 	public MatrixTransformations(int size)
