@@ -39,6 +39,7 @@ public class Main
 
 			if (inputpol.isKeyDown(KeyEvent.VK_H)) {
 				System.out.println("yo");
+				break;
 			}
 
 
@@ -79,6 +80,6 @@ public class Main
 		}
 
 		// clearing
-		// gwindow.disposeWindow();
+		gwindow.disposeWindow();
 	}
 }
