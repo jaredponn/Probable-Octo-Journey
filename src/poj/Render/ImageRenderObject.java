@@ -10,6 +10,8 @@ public class ImageRenderObject extends RenderObject
 
 	private ImageWindow imageWindow;
 
+	// x, y -- top left corner position
+	// img -> image
 	public ImageRenderObject(int x, int y, BufferedImage img)
 	{
 		setX(x);
