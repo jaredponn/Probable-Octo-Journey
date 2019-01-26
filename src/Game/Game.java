@@ -1,5 +1,4 @@
-import Components.Render;
-import Components.Physics;
+package Game;
 
 import poj.EngineState;
 import poj.GameWindow.*;
@@ -9,45 +8,61 @@ import poj.Animation;
 import Components.*;
 import Systems.*;
 import EntitySets.*;
-import TileMap.MapRender;
-import java.io.FileNotFoundException;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import Resources.GameResources;
-import Game.Game;
 
-public class Main
+public class Game
 {
 
-	public static final void main(String[] args)
-		throws FileNotFoundException
+	// window / graphics
+	private GameWindow gwindow;
+	private InputPoller inputpol;
+	private GameCanvas gcanvas;
+	private Renderer renderer;
+
+	// pure game stuff
+	private EngineState engineState;
+	private long ti;
+	private long tf;
+	private long dt;
+
+	public Game()
+	{
+		this.gwindow = null;
+		this.inputpol = null;
+		this.gcanvas = null;
+		this.renderer = null;
+		this.engineState = null;
+
+		this.ti = 0;
+		this.tf = 0;
+		this.dt = 0;
+	}
+
+	public void initGame()
+	{
+		this.gwindow = new GameWindow("Something just like this");
+		this.inputpol = new InputPoller();
+		this.gcanvas = new GameCanvas(600, 800, inputpol);
+
+		this.gwindow.defaultAddGameCanvasAndSetBufferStrat(gcanvas);
+
+		this.renderer = new Renderer(gcanvas);
+		this.renderer.setClearColor(Color.black);
+
+		this.engineState = new EngineState();
+	}
+
+	public void processInput()
+	{
+	}
+
+	public void runGameLoop()
 	{
 
-		MapRender map = new MapRender();
-		map.addMapLayer("resources/map1_ground.csv");
-		map.addMapLayer("resources/map1_not_ground.csv");
-		// map.printMapLayer();
-		System.out.println(":10,".substring(1, 3));
-		map.addTileSet("resources/tiles1.json");
-
-		// init
-		GameWindow gwindow = new GameWindow("Game");
-		InputPoller inputpol = new InputPoller();
-		GameCanvas gcanvas = new GameCanvas(600, 800, inputpol);
-
-		gwindow.defaultAddGameCanvasAndSetBufferStrat(gcanvas);
-
-		Renderer renderer = new Renderer(gcanvas);
-		renderer.setClearColor(Color.black);
-
-		long ti = 0;
-		long tf = 0;
-		long dt = 0;
-
-		// render
 		while (true) {
-
 			ti = Timer.getTimeInMilliSeconds();
 
 			if (inputpol.isKeyDown(KeyEvent.VK_H)) {
@@ -112,9 +127,9 @@ public class Main
 
 			renderer.render();
 
-			tf = Timer.getTimeInMilliSeconds();
+			this.tf = Timer.getTimeInMilliSeconds();
 
-			dt = tf - ti;
+			this.dt = this.tf - this.ti;
 
 			// updating the animation
 			GameResources.testImageAnimation.updateAnimationWindow(
@@ -123,12 +138,11 @@ public class Main
 			Timer.dynamicSleepToFrameRate(
 				64, Timer.convertNanoSecondsToMilliseconds(dt));
 		}
+	}
 
-		// clearing
-		gwindow.disposeWindow();
-		Game g = new Game();
-		g.initGame();
-		g.runGameLoop();
-		g.disposeWindow();
+
+	public void disposeWindow()
+	{
+		this.gwindow.disposeWindow();
 	}
 }

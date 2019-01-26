@@ -33,6 +33,18 @@ public class Animation
 		this.ymax = ymax;
 	}
 
+	public void updateAnimationWindow(long xms)
+	{
+		addToAccTime(xms);
+
+		if (this.accTimems >= this.frameDurationms)
+			slideImageWindow();
+	}
+
+	final public ImageWindow getImageWindow()
+	{
+		return this.focusedWindow;
+	}
 
 	private void addToAccTime(long xms)
 	{
@@ -52,18 +64,5 @@ public class Animation
 			this.focusedWindow.setX(focusedWindow.getX() + xstride);
 			this.focusedWindow.setY(focusedWindow.getY() + ystride);
 		}
-	}
-
-	public void updateAnimationWindow(long xms)
-	{
-		addToAccTime(xms);
-
-		if (this.accTimems >= this.frameDurationms)
-			slideImageWindow();
-	}
-
-	final public ImageWindow getImageWindow()
-	{
-		return this.focusedWindow;
 	}
 }

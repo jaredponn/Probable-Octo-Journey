@@ -8,7 +8,7 @@ import java.util.Stack;
 public class EngineState
 {
 	private Stack<Integer> freeIndices;
-	public Components components;
+	private Components components;
 
 	private static int MAX_ENTITIES = 1000000;
 
@@ -43,6 +43,11 @@ public class EngineState
 	public void markIndexAsFree(int e)
 	{
 		freeIndices.push(e);
+	}
+
+	public Components getComponents()
+	{
+		return this.components;
 	}
 
 	public <T extends EntitySet> int spawnEntitySet(T set)
