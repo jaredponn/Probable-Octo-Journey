@@ -7,6 +7,8 @@ public class ImageWindow
 	private int width;
 	private int height;
 
+	// x, y - top left corner position
+	// w, h width and height of the window
 	public ImageWindow(int x, int y, int w, int h)
 	{
 		this.x = x;
