@@ -3,6 +3,7 @@ package poj.Render;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
 import java.awt.geom.AffineTransform;
 
 import java.util.Queue;
@@ -121,12 +122,29 @@ public class Renderer
 					     Graphics2D g2d)
 	{
 
-		g2d.drawImage(
-			n.getImage().getSubimage(
-				n.getImageWindow().getX(),
-				n.getImageWindow().getY(),
+		// doesn't copy
+		BufferedImage subimage = n.getImage().getSubimage(
+			n.getImageWindow().getX(), n.getImageWindow().getY(),
+			n.getImageWindow().getWidth(),
+			n.getImageWindow().getHeight());
+
+		// dest
+		BufferedImage copyimage = new BufferedImage(
+			n.getImage().getColorModel(),
+			n.getImage().getRaster().createCompatibleWritableRaster(
 				n.getImageWindow().getWidth(),
 				n.getImageWindow().getHeight()),
+			n.getImage().isAlphaPremultiplied(), null);
+
+		// copy
+		subimage.copyData(copyimage.getRaster());
+
+		// transformations
+		n.getRescaleOp().filter(copyimage, copyimage);
+
+		// drawing
+		g2d.drawImage(
+			copyimage,
 			new AffineTransform(1f, 0f, 0f, 1f, n.getX(), n.getY()),
 			null);
 	}
@@ -146,7 +164,8 @@ public class Renderer
 		g2d.drawString(n.getStr(), n.getX(), n.getY());
 	}
 
-	// --------------------------------- DEBUG RENDERER
+	// --------------------------------- DEBUG RENDERER -- draws borders
+	// around everything
 	// remove this copy paste garbage soon
 	public void debugRender()
 	{

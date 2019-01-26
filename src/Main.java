@@ -57,6 +57,7 @@ public class Main
 			System.out.println("mouse wheel");
 			System.out.println(inputpol.getMouseWheelNotches());
 
+			// pushingdifferent render objects to the screen
 			renderer.pushRenderObject(
 				new RenderRect(100, 100, 100, 100, Color.BLUE));
 			renderer.pushRenderObject(
@@ -66,18 +67,34 @@ public class Main
 			renderer.pushRenderObject(new StringRenderObject(
 				"aaa", 300, 300, Color.GREEN));
 
-			/*
+			// simple exmaple of pushing the entire image to the
+			// screen
 			renderer.pushRenderObject(new ImageRenderObject(
-				300, 300, GameResources.testImage));*/
+				500, 500, GameResources.testImage));
 
+			// pushing an image to the a portion of the image to the
+			// screen
+			renderer.pushRenderObject(new ImageRenderObject(
+				100, 100, GameResources.testImage,
+				new ImageWindow(120, 60, 60, 30)));
+
+			// pushing an image to the screen with an animation
 			renderer.pushRenderObject(new ImageRenderObject(
 				300, 300, GameResources.testImage,
 				GameResources.testImageAnimation
 					.getImageWindow()));
 
+			// pushing another image to the screen
+			renderer.pushRenderObject(
+				new ImageRenderObject(
+					100, 100, GameResources.testImage,
+					new ImageWindow(120, 60, 60, 30))
+					.setImageShade(0.3f));
+
+			// another exampl eof pushing something simple to the
+			// screen
 			renderer.pushRenderObject(new ImageRenderObject(
-				100, 100, GameResources.testImage,
-				new ImageWindow(120, 60, 60, 30)));
+				0, 500, GameResources.testImage));
 
 
 			renderer.render();
@@ -86,6 +103,7 @@ public class Main
 
 			dt = tf - ti;
 
+			// updating the animation
 			GameResources.testImageAnimation.updateAnimationWindow(
 				(long)dt);
 
