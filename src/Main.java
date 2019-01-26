@@ -42,6 +42,16 @@ public class Main
 				break;
 			}
 
+			if (inputpol.isLeftMouseButtonDown()) {
+				System.out.println("left is down");
+			}
+			if (inputpol.isRightMouseButtonDown()) {
+				System.out.println("right is down");
+			}
+
+			System.out.println(inputpol.getMouseX());
+			System.out.println(inputpol.getMouseY());
+
 
 			renderer.pushRenderObject(
 				new RenderRect(100, 100, 100, 100, Color.BLUE));

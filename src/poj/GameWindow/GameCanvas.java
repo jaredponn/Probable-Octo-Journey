@@ -17,6 +17,8 @@ public class GameCanvas extends Canvas
 		this.setIgnoreRepaint(true);
 		this.setSize(w, h);
 		this.addKeyListener(pol);
+		this.addMouseMotionListener(pol);
+		this.addMouseListener(pol);
 		this.setFocusable(true);
 
 		width = w;
