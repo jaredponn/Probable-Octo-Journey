@@ -49,9 +49,13 @@ public class Main
 				System.out.println("right is down");
 			}
 
+			System.out.println("X, y position of mouse");
 			System.out.println(inputpol.getMouseX());
 			System.out.println(inputpol.getMouseY());
+			System.out.println("----");
 
+			System.out.println("mouse wheel");
+			System.out.println(inputpol.getMouseWheelNotches());
 
 			renderer.pushRenderObject(
 				new RenderRect(100, 100, 100, 100, Color.BLUE));
