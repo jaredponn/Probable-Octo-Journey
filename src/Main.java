@@ -9,6 +9,8 @@ import poj.Animation;
 import Components.*;
 import Systems.*;
 import EntitySets.*;
+import TileMap.MapRender;
+import java.io.FileNotFoundException;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -18,7 +20,16 @@ public class Main
 {
 
 	public static final void main(String[] args)
+		throws FileNotFoundException
 	{
+
+		MapRender map = new MapRender();
+		map.addMapLayer("resources/map1_ground.csv");
+		map.addMapLayer("resources/map1_not_ground.csv");
+		// map.printMapLayer();
+		System.out.println(":10,".substring(1, 3));
+		map.addTileSet("resources/tiles1.json");
+
 		// init
 		GameWindow gwindow = new GameWindow("Game");
 		InputPoller inputpol = new InputPoller();
@@ -35,6 +46,7 @@ public class Main
 
 		// render
 		while (true) {
+
 			ti = Timer.getTimeInMilliSeconds();
 
 			if (inputpol.isKeyDown(KeyEvent.VK_H)) {
