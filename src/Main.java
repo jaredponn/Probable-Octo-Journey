@@ -84,9 +84,6 @@ public class Main
 			renderer.pushRenderObject(new ImageRenderObject(
 				500, 500, GameResources.testImage));
 
-			System.out.println("yy "
-					   + GameResources.testTile.getType());
-
 			renderer.pushRenderObject(new ImageRenderObject(
 				500, 500, GameResources.testTile));
 
