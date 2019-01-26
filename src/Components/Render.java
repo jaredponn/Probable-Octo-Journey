@@ -1,23 +1,34 @@
 package Components;
 
 import poj.Component.Component;
+import poj.Render.*;
+import poj.linear.Vector2f;
 
 public class Render implements Component
 {
-	private int m_a;
-	private int m_b;
+	private ImageRenderObject graphic;
+	private Vector2f position_translation;
 
-	public Render(int a, int b)
+	public Render(ImageRenderObject a)
 	{
-		m_a = a;
-		m_b = b;
+		this.graphic = a;
+		this.position_translation = new Vector2f(0, 0);
+	}
+
+	public ImageRenderObject getGraphic()
+	{
+		return this.graphic;
+	}
+
+	public void setImageWindow(ImageWindow iw)
+	{
+		this.graphic.setImageWindow(iw);
 	}
 
 	public void print()
 	{
 		System.out.println("Render Component");
-		System.out.println(m_a);
-		System.out.println(m_b);
+		System.out.println();
 		System.out.println("END Render Component");
 	}
 }

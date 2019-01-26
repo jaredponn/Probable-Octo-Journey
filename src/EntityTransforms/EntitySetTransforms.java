@@ -1,8 +1,8 @@
-package Systems;
+package EntityTransforms;
 
 import Components.*;
 
-public class Systems
+public class EntitySetTransforms
 {
 
 	public static void printPhysics(Physics p)
