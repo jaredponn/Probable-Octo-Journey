@@ -42,9 +42,6 @@ public class MapRender extends Matrix<Integer>
 			if (tempList.length > 1) {
 				switch (tempList[1]) {
 				case "columns":
-					System.out.println(
-						"the length of this bs is "
-						+ tempList[2].length());
 					colsOfTileSet = Integer.parseInt(
 						tempList[2].substring(
 							1, tempList[2].length()

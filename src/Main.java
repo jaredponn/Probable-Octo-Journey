@@ -70,6 +70,13 @@ public class Main
 			System.out.println("mouse wheel");
 			System.out.println(inputpol.getMouseWheelNotches());
 
+			renderer.pushRenderObject(new ImageRenderObject(
+				500, 500, GameResources.testImage));
+			renderer.pushRenderObject(new ImageRenderObject(
+				500, 500, GameResources.testTile));
+			// new ImageWindow(0, 0, 10, 10)));
+
+
 			// pushingdifferent render objects to the screen
 			renderer.pushRenderObject(
 				new RenderRect(100, 100, 100, 100, Color.BLUE));
@@ -108,7 +115,6 @@ public class Main
 			// screen
 			renderer.pushRenderObject(new ImageRenderObject(
 				0, 500, GameResources.testImage));
-
 
 			renderer.render();
 
