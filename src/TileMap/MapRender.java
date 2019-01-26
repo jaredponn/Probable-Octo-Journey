@@ -39,12 +39,6 @@ public class MapRender extends Matrix<Integer>
 		while (mapReader.hasNextLine()) {
 			String line = mapReader.nextLine();
 			String tempList[] = line.split("\"");
-			/*
-			for (int i = 0; i < tempList.length; ++i) {
-				System.out.println("line number " + i + "-->"
-						   + tempList[i]);
-			}
-			*/
 			if (tempList.length > 1) {
 				switch (tempList[1]) {
 				case "columns":
@@ -84,10 +78,6 @@ public class MapRender extends Matrix<Integer>
 				}
 			}
 		}
-		System.out.println("rowsOfTileSet =" + rowsOfTileSet
-				   + ", colsOfTileSet" + colsOfTileSet
-				   + ", tileHeight" + tileHeight + ", tileWidth"
-				   + tileWidth);
 		mapReader.close();
 	}
 
