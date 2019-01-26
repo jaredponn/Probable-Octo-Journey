@@ -3,6 +3,7 @@ package poj.Render;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.awt.image.IndexColorModel;
 import java.awt.image.RescaleOp;
 import java.awt.geom.AffineTransform;
 
@@ -135,6 +136,7 @@ public class Renderer
 				n.getImageWindow().getWidth(),
 				n.getImageWindow().getHeight()),
 			n.getImage().isAlphaPremultiplied(), null);
+
 
 		// copy
 		subimage.copyData(copyimage.getRaster());

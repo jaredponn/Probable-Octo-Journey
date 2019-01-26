@@ -7,7 +7,6 @@ import poj.Render.*;
 import poj.Time.*;
 import poj.Animation;
 import Components.*;
-import Systems.*;
 import EntitySets.*;
 import TileMap.MapRender;
 import java.io.FileNotFoundException;
@@ -91,6 +90,9 @@ public class Main
 			// screen
 			renderer.pushRenderObject(new ImageRenderObject(
 				500, 500, GameResources.testImage));
+
+			renderer.pushRenderObject(new ImageRenderObject(
+				500, 500, GameResources.testTile));
 
 			// pushing an image to the a portion of the image to the
 			// screen
