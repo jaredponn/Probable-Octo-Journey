@@ -9,8 +9,6 @@ public class GameResources
 {
 	public static BufferedImage testImage =
 		ImageLoader.load("resources/playerspritesheet.png");
-	public static BufferedImage testTile =
-		ImageLoader.load("resources/iso-64x64-building.png");
 
 	public static BufferedImage testTile =
 		ImageLoader.load("resources/iso-64x64-building.png");

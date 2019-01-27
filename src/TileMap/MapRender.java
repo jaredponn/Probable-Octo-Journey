@@ -77,8 +77,18 @@ public class MapRender extends Matrix<Integer>
 		}
 		mapReader.close();
 	}
+	public int getTileFromMap(int layerNumber, int index)
+	{
+		return mapLayers.get(layerNumber).getDataWithIndex(index);
+	}
 
-	public void printMapLayer()
+	public int getTileFromMap(int layerNumber, MatrixCord cord)
+	{
+		return mapLayers.get(layerNumber).getDataWithMatrixCord(cord);
+	}
+
+
+	public void printMapLayers()
 	{
 		for (int i = 0; i < mapLayers.size(); ++i) {
 			for (int j = 0; j < mapLayers.get(i).rows; ++j) {
