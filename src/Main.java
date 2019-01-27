@@ -25,6 +25,8 @@ public class Main
 	{
 
 		MapRender map = new MapRender();
+		map.addMapConfig("resources/map1Config.json");
+
 		// map.addMapLayer("resources/testMap.csv");
 		map.addMapLayer("resources/map1_ground.csv");
 		map.addMapLayer("resources/map1_not_ground.csv");
