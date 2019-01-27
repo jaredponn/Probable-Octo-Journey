@@ -5,6 +5,7 @@ import poj.EngineState;
 import poj.GameWindow.*;
 import poj.Render.*;
 import poj.Time.*;
+import poj.linear.*;
 import poj.Animation;
 import Components.*;
 import EntitySets.*;
@@ -24,16 +25,17 @@ public class Main
 	{
 
 		MapRender map = new MapRender();
+		// map.addMapLayer("resources/testMap.csv");
 		map.addMapLayer("resources/map1_ground.csv");
 		map.addMapLayer("resources/map1_not_ground.csv");
-		// map.printMapLayer();
-		System.out.println(":10,".substring(1, 3));
+		map.addMapLayer("resources/map1_roof.csv");
+		// map.printMapLayers();
 		map.addTileSet("resources/tiles1.json");
 
 		// init
 		GameWindow gwindow = new GameWindow("Game");
 		InputPoller inputpol = new InputPoller();
-		GameCanvas gcanvas = new GameCanvas(600, 800, inputpol);
+		GameCanvas gcanvas = new GameCanvas(1000, 1000, inputpol);
 
 		gwindow.defaultAddGameCanvasAndSetBufferStrat(gcanvas);
 
@@ -71,8 +73,7 @@ public class Main
 
 			renderer.pushRenderObject(new ImageRenderObject(
 				500, 500, GameResources.testImage));
-			renderer.pushRenderObject(new ImageRenderObject(
-				500, 500, GameResources.testTile));
+
 			// new ImageWindow(0, 0, 10, 10)));
 
 
@@ -91,8 +92,6 @@ public class Main
 			renderer.pushRenderObject(new ImageRenderObject(
 				500, 500, GameResources.testImage));
 
-			renderer.pushRenderObject(new ImageRenderObject(
-				500, 500, GameResources.testTile));
 
 			// pushing an image to the a portion of the image to the
 			// screen
@@ -117,6 +116,114 @@ public class Main
 			// screen
 			renderer.pushRenderObject(new ImageRenderObject(
 				0, 500, GameResources.testImage));
+
+			// rendering tile maps loop
+			for (int i = 0; i < map.mapLayers.size(); ++i) {
+				int curLayerRows = map.mapLayers.get(i).rows,
+				    curLayerCols = map.mapLayers.get(i).cols,
+				    // curTilesetRows = map.rowsOfTileSet,
+					curTilesetCols = map.colsOfTileSet,
+				    curTilesetHeight = map.tileHeight,
+				    curTilesetWidth = map.tileWidth;
+				for (int j = 0;
+				     j < (curLayerRows) * (curLayerCols); ++j) {
+					int valueOfTile =
+						map.getTileFromMap(i, j);
+					int xShiftValue = 0,
+					    yShiftValue =
+						    -curTilesetHeight * 3 / 4;
+					// TODO please don't delete the debug
+					// message until the render for tile map
+					// is set in stone!!!
+
+					/*
+					System.out.println("J = " + j);
+					System.out.println("valueOfTile = "
+							   + valueOfTile);
+					System.out.println("curTilesetHeight = "
+							   + curTilesetHeight);
+					System.out.println("curTilesetWidth = "
+							   + curTilesetWidth);
+					System.out.println("j / curLayerCols ="
+							   + j / curLayerCols
+								     * 64);
+					System.out.println("j % curLayerCols ="
+							   + j % curLayerCols
+								     * 64);
+					System.out.println(
+						"valueOfTile / curTilesetCols ="
+						+ valueOfTile / curTilesetCols);
+					System.out.println(
+						"valueOfTile % curTilesetCols ="
+						+ valueOfTile % curTilesetCols);
+					System.out.println(
+						"(j - curLayerCols) = "
+						+ (j - curLayerCols));
+					System.out.println(
+						"(j - curLayerCols)/curLayerRows
+					="
+						+ (j - curLayerCols)
+							  / curLayerCols);
+					System.out.println(
+						"(j
+					-curLayerRows)/curLayerCols%2 = "
+						+ ((j - curLayerCols)
+						   / curLayerCols)
+							  % 2);
+					System.out.println("curLayerRows ="
+							   + curLayerRows);
+					System.out.println("xShiftValue= "
+							   + xShiftValue);
+					System.out.println("this bsv.."
+							   + ((j - curLayerRows)
+							      / curLayerCols));
+					System.out.println(
+						"((j - curLayerRows) /
+					curLayerCols )% 2 = "
+						+ ((j - curLayerRows)
+						   / curLayerCols)
+							  % 2);
+					System.out.println("J/curLayerCols= "
+							   + j / curLayerCols);
+					System.out.println(
+						"yshift bs ="
+						+ (yShiftValue
+						   * (j / curLayerCols)));
+					*/
+					if (((j - curLayerCols) / curLayerCols)
+							    % 2
+						    == 0
+					    && j >= curLayerCols) {
+						xShiftValue =
+							curTilesetWidth / 2;
+					}
+					if (j < curLayerCols) {
+						yShiftValue = 0;
+					}
+					if (valueOfTile != -1) {
+						renderer.pushRenderObject(new ImageRenderObject(
+							j % curLayerCols
+									* curTilesetWidth
+								+ xShiftValue,
+							(j / curLayerCols
+							 * curTilesetHeight)
+								+ yShiftValue
+									  * (j
+									     / curLayerCols),
+
+							GameResources.testTile,
+							new ImageWindow(
+								valueOfTile
+									% curTilesetCols
+									* curTilesetWidth,
+								valueOfTile
+									/ curTilesetCols
+									* curTilesetHeight,
+								curTilesetWidth,
+								curTilesetHeight)));
+					}
+				}
+			}
 
 			renderer.render();
 
