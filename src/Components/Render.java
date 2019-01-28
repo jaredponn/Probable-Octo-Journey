@@ -19,6 +19,8 @@ public class Render implements Component
 	{
 		return this.graphic;
 	}
+	// render layer
+	// load things in, give render component
 
 	public void setImageWindow(ImageWindow iw)
 	{

@@ -13,6 +13,11 @@ import poj.Render.Renderer;
 import poj.linear.Matrix;
 import poj.linear.MatrixCord;
 
+/*
+ * packed data is matrix.. for map
+ * change container
+ */
+
 public class MapRender extends Matrix<Integer>
 {
 	private ArrayList<Matrix<Integer>> mapLayers =

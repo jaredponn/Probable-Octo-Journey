@@ -9,6 +9,7 @@ import poj.linear.*;
 import poj.Animation;
 import Components.*;
 import EntitySets.*;
+import poj.EngineState;
 import TileMap.MapRender;
 import java.io.FileNotFoundException;
 
@@ -25,14 +26,18 @@ public class Main
 	{
 
 		MapRender map = new MapRender();
-		map.addMapConfig("resources/map1Config.json");
+		map.addMapConfig(GameResources.mapConfig);
 
 		// map.addMapLayer("resources/testMap.csv");
-		map.addMapLayer("resources/map1_ground.csv");
-		map.addMapLayer("resources/map1_not_ground.csv");
-		map.addMapLayer("resources/map1_roof.csv");
+		map.addMapLayer(GameResources.mapLayer0);
+		map.addMapLayer(GameResources.mapLayer1);
+		map.addMapLayer(GameResources.mapLayer2);
 		// map.printMapLayers();
-		map.addTileSet("resources/tiles1.json");
+		map.addTileSet(GameResources.tileSet);
+		// TODO add ECS for map!!!!
+		EngineState mapECS = new EngineState();
+		mapECS.registerComponent(Render.class);
+
 
 		// init
 		GameWindow gwindow = new GameWindow("Game");
