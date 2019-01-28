@@ -17,12 +17,57 @@ public class MapRender extends Matrix<Integer>
 {
 	private ArrayList<Matrix<Integer>> mapLayers =
 		new ArrayList<Matrix<Integer>>();
-	private int rowsOfTileSet, colsOfTileSet, tileHeight, tileWidth;
+	private int rowsOfTileSet, colsOfTileSet, tileHeight, tileWidth,
+		mapTileWidth, mapTileHeight;
 
-	public void addMapLayer(String maplayerLocation)
+	public void addMapConfig(String mapConfigLocation)
 		throws FileNotFoundException
 	{
-		Scanner mapReader = new Scanner(new File(maplayerLocation));
+		Scanner configReader = new Scanner(new File(mapConfigLocation));
+		String tempString[];
+		tempString = configReader.nextLine().split("\"");
+		/*
+		mapHeight = Integer.parseInt(
+			tempString[2].substring(1, tempString[2].length() - 1));
+			*/
+		while (configReader.hasNextLine()) {
+			tempString = configReader.nextLine().split("\"");
+			if (tempString.length > 1) {
+				if (tempString[1].equals("tileheight")) {
+					mapTileHeight = Integer.parseInt(
+						tempString[2].substring(
+							1,
+							tempString[2].length()
+								- 1));
+				}
+				if (tempString[1].equals("tilewidth")) {
+					mapTileWidth = Integer.parseInt(
+						tempString[2].substring(
+							1,
+							tempString[2].length()
+								- 1));
+				}
+				/*
+			if (tempString[1].equals("width")) {
+				mapWidth = Integer.parseInt(
+					tempString[2].substring(
+						1,
+						tempString[2].length()
+							- 1));
+				System.out.println("mapWidth ="
+						   + mapWidth);
+				break;
+			}
+			*/
+			}
+		}
+		configReader.close();
+	}
+	// TODO add parser for reading the MAP WIDTH AND HEIGHT!!
+	public void addMapLayer(String mapLayerLocation)
+		throws FileNotFoundException
+	{
+		Scanner mapReader = new Scanner(new File(mapLayerLocation));
 		Matrix<Integer> tempLayer;
 		ArrayList<Integer> tempIntList = new ArrayList<Integer>();
 		int numRows = 0;
@@ -34,6 +79,7 @@ public class MapRender extends Matrix<Integer>
 				tempIntList.add(Integer.parseInt(tempList[i]));
 			}
 		}
+
 		tempLayer = new Matrix<Integer>(tempIntList, numRows);
 		mapLayers.add(tempLayer);
 		mapReader.close();
@@ -97,7 +143,7 @@ public class MapRender extends Matrix<Integer>
 			     ++j) {
 				int valueOfTile = getTileFromMap(i, j);
 				int xShiftValue = 0,
-				    yShiftValue = -curTilesetHeight * 3 / 4;
+				    yShiftValue = -mapTileHeight * 3 / 2;
 				// TODO please don't delete the debug
 				// message until the render for tile map
 				// is set in stone!!!
@@ -158,7 +204,7 @@ public class MapRender extends Matrix<Integer>
 				*/
 				if (((j - curLayerCols) / curLayerCols) % 2 == 0
 				    && j >= curLayerCols) {
-					xShiftValue = curTilesetWidth / 2;
+					xShiftValue = mapTileWidth / 2;
 				}
 				if (j < curLayerCols) {
 					yShiftValue = 0;
