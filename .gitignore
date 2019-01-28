@@ -7,8 +7,6 @@ eclimd.log
 ./eclimd.log
 junit-4.13.jar
 ./junit-4.13.jar
-./.classpath
-.classpath
 ./.settings/*
 .settings/*
 
