@@ -25,6 +25,11 @@ public class Render implements Component
 		this.graphic.setImageWindow(iw);
 	}
 
+	public ImageWindow getImageWindow()
+	{
+		return this.graphic.getImageWindow();
+	}
+
 	public void print()
 	{
 		System.out.println("Render Component");
