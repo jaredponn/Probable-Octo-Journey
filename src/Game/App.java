@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import Resources.GameResources;
 
-public class Game
+public class App
 {
 
 	// window / graphics
@@ -23,7 +23,7 @@ public class Game
 	// is running
 	boolean isRunning;
 
-	public Game()
+	public App()
 	{
 		this.gwindow = new GameWindow("Something just like this");
 		this.inputpol = new InputPoller();
@@ -36,10 +36,22 @@ public class Game
 		this.isRunning = true;
 	}
 
-	public void runGameLoop()
+	public void runAppLoop()
 	{
+
+		PlayGame playGame = new PlayGame();
+
+		playGame.registerComponents();
+		playGame.registerEntitySets();
+
+		playGame.spawnWorld();
+
 		while (isRunning) {
+
+			playGame.runGameLoop();
 		}
+
+		playGame.clearWorld();
 	}
 
 	public void disposeWindow()

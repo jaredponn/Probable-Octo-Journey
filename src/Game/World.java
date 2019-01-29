@@ -45,6 +45,6 @@ public abstract class World
 	public abstract void spawnWorld();
 	public abstract void clearWorld();
 
-	public abstract void update();
-	public abstract void render();
+	public abstract void runGameLoop();
+	protected abstract void render();
 }

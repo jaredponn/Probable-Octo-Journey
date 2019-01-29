@@ -16,7 +16,7 @@ import java.io.FileNotFoundException;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import Resources.GameResources;
-import Game.Game;
+import Game.App;
 
 public class Main
 {
@@ -39,8 +39,8 @@ public class Main
 		mapECS.registerComponent(Render.class);
 
 
-		Game g = new Game();
-		g.runGameLoop();
+		App g = new App();
+		g.runAppLoop();
 		g.disposeWindow();
 	}
 }
