@@ -28,7 +28,7 @@ public class Components extends ComponentsArray
 	}
 
 
-	/* component getters / setters */
+	/* component getters / setters for the sparse vector*/
 	public <T extends Component> T getComponentAt(Class<T> c, int i)
 	{
 		return (T)getComponentPackedVector(c)
@@ -42,6 +42,7 @@ public class Components extends ComponentsArray
 	}
 
 
+        // getting the packed data
 	public <T extends Component> ArrayList<T>
 	getRawComponentArrayListPackedData(Class<T> c)
 	{

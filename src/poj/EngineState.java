@@ -10,11 +10,22 @@ public class EngineState
 	private Stack<Integer> freeIndices;
 	private Components components;
 
-	private static int MAX_ENTITIES = 1000000;
+	private int MAX_ENTITIES = 1000000;
 
 	/* engine init */
 	public EngineState()
 	{
+		components = new Components(MAX_ENTITIES);
+		freeIndices = new Stack<Integer>();
+
+		for (int i = 0; i < MAX_ENTITIES; ++i) {
+			freeIndices.push(i);
+		}
+	}
+
+	public EngineState(int max_entities)
+	{
+                this.MAX_ENTITIES = max_entities
 		components = new Components(MAX_ENTITIES);
 		freeIndices = new Stack<Integer>();
 
