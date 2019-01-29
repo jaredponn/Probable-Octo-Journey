@@ -13,6 +13,8 @@ public class Vector2f
 	}
 	public Vector2f()
 	{
+		this.x = Float.MAX_VALUE;
+		this.y = Float.MAX_VALUE;
 	}
 
 	public final void add(final Vector2f a)
@@ -63,6 +65,26 @@ public class Vector2f
 	public final Vector2f normalOfVector2f(final Vector2f a)
 	{
 		return new Vector2f(a.y, -a.x);
+	}
+
+	public final float getX()
+	{
+		return this.x;
+	}
+
+	public final float getY()
+	{
+		return this.y;
+	}
+
+	public void setX(float n)
+	{
+		this.x = n;
+	}
+
+	public void getY(float n)
+	{
+		this.y = n;
 	}
 }
 // add, minus, scalarProduct, MatrixVectorMultiplication??, dot product,

@@ -1,6 +1,6 @@
 package poj.test;
-import poj.Matrix;
-import poj.MatrixCord;
+import poj.linear.Matrix;
+import poj.linear.MatrixCord;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.ArrayList;

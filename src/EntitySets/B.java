@@ -9,6 +9,5 @@ public class B extends EntitySet
 	{
 		super();
 		addComponent(new Physics(10));
-		addComponent(new Render(10, 3));
 	}
 }
