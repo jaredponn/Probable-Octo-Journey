@@ -8,7 +8,6 @@ public class Render implements Component
 {
 	private ImageRenderObject graphic;
 	private Vector2f position_translation;
-	private int render_layer;
 
 	// constructor assumes the width and the height of the image is the same
 	// as model shown. Will not work for animations which need their own
@@ -25,6 +24,11 @@ public class Render implements Component
 	}
 	// render layer
 	// load things in, give render component
+
+	public void render(Renderer renderer)
+	{
+		renderer.pushRenderObject(graphic);
+	}
 
 	public void setImageWindow(ImageWindow iw)
 	{

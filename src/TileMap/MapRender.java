@@ -25,6 +25,8 @@ public class MapRender extends Matrix<Integer>
 	private int rowsOfTileSet, colsOfTileSet, tileHeight, tileWidth,
 		mapTileWidth, mapTileHeight;
 
+	private ArrayList<Integer> mapLayer = new ArrayList<Integer>();
+
 	public void addMapConfig(String mapConfigLocation)
 		throws FileNotFoundException
 	{
@@ -68,13 +70,13 @@ public class MapRender extends Matrix<Integer>
 		}
 		configReader.close();
 	}
-	// TODO add parser for reading the MAP WIDTH AND HEIGHT!!
+
 	public void addMapLayer(String mapLayerLocation)
 		throws FileNotFoundException
 	{
 		Scanner mapReader = new Scanner(new File(mapLayerLocation));
 		Matrix<Integer> tempLayer;
-		ArrayList<Integer> tempIntList = new ArrayList<Integer>();
+		// ArrayList<Integer> tempIntList = new ArrayList<Integer>();
 		int numRows = 0;
 		while (mapReader.hasNextLine()) {
 			++numRows;
@@ -269,3 +271,7 @@ public class MapRender extends Matrix<Integer>
 		}
 	}
 }
+
+/*
+ *
+ */
