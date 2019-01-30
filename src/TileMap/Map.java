@@ -21,7 +21,7 @@ public class Map
 	public ArrayList<ImageWindow> tilesRenderPart =
 		new ArrayList<ImageWindow>();
 	public int rowsOfTileSet, colsOfTileSet, tileHeight, tileWidth,
-		tileCount, mapWidth, mapHeight;
+		tileCount, mapWidth = 0, mapHeight = 0;
 
 	public Map(int numLayers)
 	{
@@ -48,20 +48,23 @@ public class Map
 			*/
 		while (configReader.hasNextLine()) {
 			tempString = configReader.nextLine().split("\"");
-			if (tempString.length > 1) {
-				if (tempString[1].equals("tileheight")) {
+			if (tempString.length > 1
+			    && (mapHeight == 0 || mapWidth == 0)) {
+				if (tempString[1].equals("height")) {
 					mapHeight = Integer.parseInt(
 						tempString[2].substring(
 							1,
 							tempString[2].length()
 								- 1));
 				}
-				if (tempString[1].equals("tilewidth")) {
+				if (tempString[1].equals("width")) {
 					mapWidth = Integer.parseInt(
 						tempString[2].substring(
 							1,
 							tempString[2].length()
 								- 1));
+					System.out.println("mapWidth = "
+							   + mapWidth);
 				}
 				/*
 			if (tempString[1].equals("width")) {
@@ -128,6 +131,10 @@ public class Map
 	public void addMapLayer(String mapLayerLocation)
 		throws FileNotFoundException
 	{
+		System.out.println("mapWidth = " + mapWidth);
+		System.out.println("mapHeight = " + mapHeight);
+		System.out.println("mapHeight * mapWidth= "
+				   + mapHeight * mapWidth);
 		mapLayers.add(new EngineState(mapWidth * mapHeight));
 		// get the last added engine state
 		mapLayers.get(mapLayers.size() - 1)
@@ -138,6 +145,7 @@ public class Map
 		Scanner mapReader = new Scanner(new File(mapLayerLocation));
 		int numRows = 0;
 		while (mapReader.hasNextLine()) {
+			int xShiftValue = 0, yShiftValue = -tileHeight * 3 / 2;
 			++numRows;
 			String line = mapReader.nextLine();
 			String tempList[] = line.split(",");
@@ -153,14 +161,27 @@ public class Map
 						new TileCord(numRows - 1,
 							     i % mapWidth),
 						nextFreeIndex);
+				if ((numRows) % 2 == 0 && (numRows) > 1) {
+					xShiftValue = tileWidth / 2;
+				}
+				System.out.println("yShiftValue = "
+						   + yShiftValue);
+				if (numRows == 1) {
+					yShiftValue = 0;
+				}
+
 				if (Integer.parseInt(tempList[i]) != -1) {
 					mapLayers.get(mapLayers.size() - 1)
 						.getComponents()
 						.addComponentAt(
 							Render.class,
 							new Render(new ImageRenderObject(
-								numRows - 1,
-								i % mapWidth,
+								(i
+								 % tileWidth) * tileWidth
+									+ xShiftValue,
+								(numRows
+								 - 1) * tileHeight
+									/ 4,
 								GameResources
 									.testTile,
 								tilesRenderPart.get(Integer.parseInt(
@@ -191,7 +212,7 @@ public class Map
 			    curTilesetHeight = tileHeight,
 			    curTilesetWidth = tileWidth;
 			// int valueOfTile = getTileFromMap(i, j);
-			int xShiftValue = 0, yShiftValue = -mapHeight * 3 / 2;
+			int xShiftValue = 0;
 			// TODO please don't delete the debug
 			// message until the render for tile map
 			// is set in stone!!!
@@ -254,9 +275,6 @@ public class Map
 			    && j >= curLayerCols) {
 				xShiftValue = mapWidth / 2;
 			}
-			if (j < curLayerCols) {
-				yShiftValue = 0;
-			}
 			tilesRenderPart.add(new ImageWindow(
 				j % curTilesetCols * curTilesetWidth,
 				j / curTilesetCols * curTilesetHeight,
@@ -274,18 +292,26 @@ public class Map
 			mapTileCordData.get(i).print();
 		}
 	}
-	public void printRenderLayer(int layerNumber, Renderer renderer)
+	public void printRenderLayer(Renderer renderer)
 	{
-		ArrayList<Render> mapRenderLayer =
-			mapLayers.get(layerNumber)
-				.getComponents()
-				.getRawComponentArrayListPackedData(
-					Render.class);
-		renderer.pushRenderObject(mapRenderLayer.get(0).getGraphic());
-		/*
-		for (int i = 0; i < mapRenderLayer.size(); ++i) {
-			mapRenderLayer.get(i).render(renderer);
+		ArrayList<Render> mapRenderLayer;
+		for (int layerNumber = 0; layerNumber < mapLayers.size();
+		     ++layerNumber) {
+			mapRenderLayer =
+				mapLayers.get(layerNumber)
+					.getComponents()
+					.getRawComponentArrayListPackedData(
+						Render.class);
+			// renderer.pushRenderObject(mapRenderLayer.get(0).getGraphic());
+			// renderer.pushRenderObject(mapRenderLayer.get(1).getGraphic());
+			// TODO add null pointer excpetion!!
+			System.out.println("mapRenderLayer size = "
+					   + mapRenderLayer.size());
+			for (int i = 0; i < mapRenderLayer.size(); ++i) {
+				if (mapRenderLayer.get(i) != null) {
+					mapRenderLayer.get(i).render(renderer);
+				}
+			}
 		}
-		*/
 	}
 }

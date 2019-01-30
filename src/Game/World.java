@@ -58,7 +58,7 @@ public abstract class World
 	public abstract void registerEntitySets();
 
 	// higher game logic functions
-	public abstract void spawnWorld();
+	public abstract void spawnWorld() throws FileNotFoundException;
 	public abstract void clearWorld();
 
 	public abstract void runGameLoop() throws FileNotFoundException;

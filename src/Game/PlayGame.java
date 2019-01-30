@@ -8,7 +8,7 @@ import poj.Time.Timer;
 
 public class PlayGame extends World
 {
-
+	private Map map = new Map(3);
 	public void registerComponents()
 	{
 		// remember to register compoennts
@@ -19,9 +19,15 @@ public class PlayGame extends World
 	}
 
 	// higher game logic functions
-	public void spawnWorld()
+	public void spawnWorld() throws FileNotFoundException
+
 	{
 
+		map.addMapConfig(GameResources.mapConfig);
+		map.addTileSet(GameResources.tileSet);
+		map.addMapLayer(GameResources.mapLayer0);
+		map.addMapLayer(GameResources.mapLayer1);
+		map.addMapLayer(GameResources.mapLayer2);
 		// World is spawned here
 	}
 	public void clearWorld()
@@ -36,14 +42,9 @@ public class PlayGame extends World
 			super.setInitialTime();
 
 			// SYSTEMS Go here
-			Map map = new Map(3);
-			map.addMapConfig(GameResources.mapConfig);
-			map.addTileSet(GameResources.tileSet);
-			map.addMapLayer(GameResources.mapLayer0);
-			map.printMapLayer(0);
-			map.printRenderLayer(0, this.renderer);
+			// map.printMapLayer(0);
 
-			// this.render();
+			this.render();
 
 			super.setFinalTime();
 			Timer.dynamicSleepToFrameRate(64, super.getDeltaTime());
@@ -57,6 +58,8 @@ public class PlayGame extends World
 
 	protected void render()
 	{
+		map.printRenderLayer(this.renderer);
+		// map.printRenderLayer(1, this.renderer);
 		// RENDERING HAPPENS HERE
 		this.renderer.render();
 	}
