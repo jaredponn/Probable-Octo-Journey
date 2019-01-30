@@ -16,7 +16,7 @@ public class App
 
 	// window / graphics
 	private GameWindow gwindow;
-	private InputPoller inputpol;
+	private InputPoller inputPoller;
 	private GameCanvas gcanvas;
 	private Renderer renderer;
 
@@ -26,8 +26,15 @@ public class App
 	public App()
 	{
 		this.gwindow = new GameWindow("Something just like this");
-		this.inputpol = new InputPoller();
-		this.gcanvas = new GameCanvas(800, 800, inputpol);
+		this.inputPoller = new InputPoller();
+
+		// makes it full screen
+		GraphicsDevice gd =
+			GraphicsEnvironment.getLocalGraphicsEnvironment()
+				.getDefaultScreenDevice();
+		this.gcanvas = new GameCanvas(gd.getDisplayMode().getWidth(),
+					      gd.getDisplayMode().getHeight(),
+					      inputPoller);
 
 		this.gwindow.defaultAddGameCanvasAndSetBufferStrat(gcanvas);
 
@@ -41,6 +48,8 @@ public class App
 
 		PlayGame playGame = new PlayGame();
 
+		playGame.loadRenderer(this.renderer);
+		playGame.loadInputPoller(this.inputPoller);
 		playGame.registerComponents();
 		playGame.registerEntitySets();
 

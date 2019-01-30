@@ -2,6 +2,8 @@ package Game;
 
 import poj.EngineState;
 import poj.Time.*;
+import poj.Render.Renderer;
+import poj.GameWindow.InputPoller;
 
 public abstract class World
 {
@@ -13,6 +15,9 @@ public abstract class World
 	protected long tf;
 	protected long dt;
 
+	// unpure references to objects
+	protected Renderer renderer;
+	protected InputPoller inputPoller;
 
 	public World()
 	{
@@ -20,6 +25,16 @@ public abstract class World
 		ti = 0;
 		tf = 0;
 		dt = 0;
+	}
+
+	public void loadRenderer(Renderer r)
+	{
+		this.renderer = r;
+	}
+
+	public void loadInputPoller(InputPoller i)
+	{
+		this.inputPoller = i;
 	}
 
 	protected void setInitialTime()
@@ -46,5 +61,6 @@ public abstract class World
 	public abstract void clearWorld();
 
 	public abstract void runGameLoop();
+	protected abstract void processInputs();
 	protected abstract void render();
 }

@@ -39,8 +39,14 @@ public class PlayGame extends World
 		}
 	}
 
+
+	protected void processInputs()
+	{
+	}
+
 	protected void render()
 	{
 		// RENDERING HAPPENS HERE
+		this.renderer.render();
 	}
 }
