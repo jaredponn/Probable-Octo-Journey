@@ -25,7 +25,7 @@ public class EngineState
 
 	public EngineState(int max_entities)
 	{
-                this.MAX_ENTITIES = max_entities
+		this.MAX_ENTITIES = max_entities;
 		components = new Components(MAX_ENTITIES);
 		freeIndices = new Stack<Integer>();
 
