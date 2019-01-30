@@ -12,12 +12,14 @@ import Resources.GameResources;
 import poj.EngineState;
 import poj.Render.ImageRenderObject;
 import poj.Render.ImageWindow;
+import poj.Render.Renderer;
 
 public class Map
 {
 	public ArrayList<EngineState> mapLayers;
-	public ArrayList<ImageRenderObject> tilesRenderPart =
-		new ArrayList<ImageRenderObject>();
+	// store the image window of each tiles
+	public ArrayList<ImageWindow> tilesRenderPart =
+		new ArrayList<ImageWindow>();
 	public int rowsOfTileSet, colsOfTileSet, tileHeight, tileWidth,
 		tileCount, mapWidth, mapHeight;
 
@@ -156,9 +158,13 @@ public class Map
 						.getComponents()
 						.addComponentAt(
 							Render.class,
-							new Render(
+							new Render(new ImageRenderObject(
+								numRows - 1,
+								i % mapWidth,
+								GameResources
+									.testTile,
 								tilesRenderPart.get(Integer.parseInt(
-									tempList[i]))),
+									tempList[i])))),
 							nextFreeIndex);
 
 				} else {
@@ -251,17 +257,10 @@ public class Map
 			if (j < curLayerCols) {
 				yShiftValue = 0;
 			}
-			tilesRenderPart.add(new ImageRenderObject(
-				j % curLayerCols * curTilesetWidth
-					+ xShiftValue,
-				(j / curLayerCols * curTilesetHeight)
-					+ yShiftValue * (j / curLayerCols),
-
-				GameResources.testTile,
-				new ImageWindow(
-					j % curTilesetCols * curTilesetWidth,
-					j / curTilesetCols * curTilesetHeight,
-					curTilesetWidth, curTilesetHeight)));
+			tilesRenderPart.add(new ImageWindow(
+				j % curTilesetCols * curTilesetWidth,
+				j / curTilesetCols * curTilesetHeight,
+				curTilesetWidth, curTilesetHeight));
 		}
 	}
 	public void printMapLayer(int layerNumber)
@@ -275,10 +274,18 @@ public class Map
 			mapTileCordData.get(i).print();
 		}
 	}
-	public void printRenderLayer(int layerNumber)
+	public void printRenderLayer(int layerNumber, Renderer renderer)
 	{
-		for (int i = 0; i < mapTileCordData.size(); ++i) {
-			mapTileCordData.get(i).print();
+		ArrayList<Render> mapRenderLayer =
+			mapLayers.get(layerNumber)
+				.getComponents()
+				.getRawComponentArrayListPackedData(
+					Render.class);
+		renderer.pushRenderObject(mapRenderLayer.get(0).getGraphic());
+		/*
+		for (int i = 0; i < mapRenderLayer.size(); ++i) {
+			mapRenderLayer.get(i).render(renderer);
 		}
+		*/
 	}
 }

@@ -10,7 +10,7 @@ import poj.Animation;
 import Components.*;
 import EntitySets.*;
 import poj.EngineState;
-import TileMap.MapRender;
+import TileMap.Map;
 import java.io.FileNotFoundException;
 
 import java.awt.*;
@@ -25,9 +25,8 @@ public class Main
 		throws FileNotFoundException
 	{
 
-		MapRender map = new MapRender();
+		/*
 		map.addMapConfig(GameResources.mapConfig);
-
 		// map.addMapLayer("resources/testMap.csv");
 		map.addMapLayer(GameResources.mapLayer0);
 		map.addMapLayer(GameResources.mapLayer1);
@@ -37,7 +36,7 @@ public class Main
 		// TODO add ECS for map!!!!
 		EngineState mapECS = new EngineState();
 		mapECS.registerComponent(Render.class);
-
+		*/
 
 		App g = new App();
 		g.runAppLoop();

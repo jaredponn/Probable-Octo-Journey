@@ -10,6 +10,7 @@ import EntitySets.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import Resources.GameResources;
+import java.io.FileNotFoundException;
 
 public class App
 {
@@ -43,7 +44,7 @@ public class App
 		this.isRunning = true;
 	}
 
-	public void runAppLoop()
+	public void runAppLoop() throws FileNotFoundException
 	{
 
 		PlayGame playGame = new PlayGame();
