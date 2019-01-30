@@ -21,12 +21,33 @@ public class Vector3f
 	}
 
 
-	public final void add(final Vector3f a)
+	public final Vector3f add(final Vector3f a)
 	{
 		this.x += a.x;
 		this.y += a.y;
 		this.z += a.z;
+
+		return this;
 	}
+
+	public final Vector3f elemMul(final Vector3f a)
+	{
+		this.x *= a.x;
+		this.y *= a.y;
+		this.z *= a.z;
+
+		return this;
+	}
+
+	public final Vector3f elemMul(final float a)
+	{
+		this.x *= a;
+		this.y *= a;
+		this.z *= a;
+
+		return this;
+	}
+
 
 	public final void subtract(final Vector3f a)
 	{
@@ -105,5 +126,25 @@ public class Vector3f
 		return new Vector3f(a.y * b.z - a.z * b.y,
 				    a.z * b.x - a.x * b.z,
 				    a.x * b.y - a.y * b.x);
+	}
+
+	public final float getX()
+	{
+		return this.x;
+	}
+
+	public final float getY()
+	{
+		return this.y;
+	}
+
+	public final float getZ()
+	{
+		return this.z;
+	}
+
+	static public final Vector3f deepCopyVector3f(Vector3f n)
+	{
+		return new Vector3f(n.getX(), n.getY(), n.getZ());
 	}
 }
