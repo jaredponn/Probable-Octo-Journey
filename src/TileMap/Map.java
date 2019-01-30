@@ -37,104 +37,104 @@ public class Map
 	// THEN addMapLayers
 
 	public void addMapConfig(String mapConfigLocation)
-		throws FileNotFoundException
 	{
-		Scanner configReader = new Scanner(new File(mapConfigLocation));
-		String tempString[];
-		tempString = configReader.nextLine().split("\"");
-		/*
-		mapHeight = Integer.parseInt(
-			tempString[2].substring(1, tempString[2].length() - 1));
-			*/
-		while (configReader.hasNextLine()) {
+		try {
+			Scanner configReader =
+				new Scanner(new File(mapConfigLocation));
+			String tempString[];
 			tempString = configReader.nextLine().split("\"");
-			if (tempString.length > 1
-			    && (mapHeight == 0 || mapWidth == 0)) {
-				if (tempString[1].equals("height")) {
-					mapHeight = Integer.parseInt(
-						tempString[2].substring(
-							1,
-							tempString[2].length()
-								- 1));
+			/*
+			mapHeight = Integer.parseInt(
+				tempString[2].substring(1,
+			tempString[2].length() - 1));
+				*/
+			while (configReader.hasNextLine()) {
+				tempString =
+					configReader.nextLine().split("\"");
+				if (tempString.length > 1
+				    && (mapHeight == 0 || mapWidth == 0)) {
+					if (tempString[1].equals("height")) {
+						mapHeight = Integer.parseInt(
+							tempString[2].substring(
+								1,
+								tempString[2].length()
+									- 1));
+					}
+					if (tempString[1].equals("width")) {
+						mapWidth = Integer.parseInt(
+							tempString[2].substring(
+								1,
+								tempString[2].length()
+									- 1));
+					}
 				}
-				if (tempString[1].equals("width")) {
-					mapWidth = Integer.parseInt(
-						tempString[2].substring(
-							1,
-							tempString[2].length()
-								- 1));
-					System.out.println("mapWidth = "
-							   + mapWidth);
-				}
-				/*
-			if (tempString[1].equals("width")) {
-				mapWidth = Integer.parseInt(
-					tempString[2].substring(
-						1,
-						tempString[2].length()
-							- 1));
-				System.out.println("mapWidth ="
-						   + mapWidth);
-				break;
 			}
-			*/
-			}
+			configReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(
+				"In PlayGame.spawnWorld ,file not found exception!"
+				+ e.getMessage());
 		}
-		configReader.close();
 	}
 
 
-	public void addTileSet(String tileLocation) throws FileNotFoundException
+	public void addTileSet(String tileLocation)
 	{
-		Scanner mapReader = new Scanner(new File(tileLocation));
-		while (mapReader.hasNextLine()) {
-			String line = mapReader.nextLine();
-			String tempList[] = line.split("\"");
-			if (tempList.length > 1) {
-				switch (tempList[1]) {
-				case "columns":
-					colsOfTileSet = Integer.parseInt(
-						tempList[2].substring(
-							1, tempList[2].length()
-								   - 1));
-					break;
-				// case "imageheight":
-				// break;
-				// case "imagewidth":
-				// break;
-				case "tilecount":
-					tileCount = Integer.parseInt(
-						tempList[2].substring(
-							1, tempList[2].length()
-								   - 1));
-					rowsOfTileSet =
-						tileCount / colsOfTileSet;
-					break;
-				case "tileheight":
-					tileHeight = Integer.parseInt(
-						tempList[2].substring(
-							1, tempList[2].length()
-								   - 1));
-					break;
-				case "tilewidth":
-					tileWidth = Integer.parseInt(
-						tempList[2].substring(
-							1, tempList[2].length()
-								   - 1));
-					break;
+		try {
+			Scanner mapReader = new Scanner(new File(tileLocation));
+			while (mapReader.hasNextLine()) {
+				String line = mapReader.nextLine();
+				String tempList[] = line.split("\"");
+				if (tempList.length > 1) {
+					switch (tempList[1]) {
+					case "columns":
+						colsOfTileSet = Integer.parseInt(
+							tempList[2].substring(
+								1,
+								tempList[2].length()
+									- 1));
+						break;
+					// case "imageheight":
+					// break;
+					// case "imagewidth":
+					// break;
+					case "tilecount":
+						tileCount = Integer.parseInt(
+							tempList[2].substring(
+								1,
+								tempList[2].length()
+									- 1));
+						rowsOfTileSet = tileCount
+								/ colsOfTileSet;
+						break;
+					case "tileheight":
+						tileHeight = Integer.parseInt(
+							tempList[2].substring(
+								1,
+								tempList[2].length()
+									- 1));
+						break;
+					case "tilewidth":
+						tileWidth = Integer.parseInt(
+							tempList[2].substring(
+								1,
+								tempList[2].length()
+									- 1));
+						break;
+					}
 				}
 			}
+			mapReader.close();
+			createTileRenderObjects();
+		} catch (FileNotFoundException e) {
+			System.out.println(
+				"In PlayGame.spawnWorld ,file not found exception!"
+				+ e.getMessage());
 		}
-		mapReader.close();
-		createTileRenderObjects();
 	}
 	public void addMapLayer(String mapLayerLocation)
 		throws FileNotFoundException
 	{
-		System.out.println("mapWidth = " + mapWidth);
-		System.out.println("mapHeight = " + mapHeight);
-		System.out.println("mapHeight * mapWidth= "
-				   + mapHeight * mapWidth);
 		mapLayers.add(new EngineState(mapWidth * mapHeight));
 		// get the last added engine state
 		mapLayers.get(mapLayers.size() - 1)
@@ -145,7 +145,7 @@ public class Map
 		Scanner mapReader = new Scanner(new File(mapLayerLocation));
 		int numRows = 0;
 		while (mapReader.hasNextLine()) {
-			int xShiftValue = 0, yShiftValue = -tileHeight * 3 / 2;
+			int xShiftValue = 0;
 			++numRows;
 			String line = mapReader.nextLine();
 			String tempList[] = line.split(",");
@@ -163,11 +163,6 @@ public class Map
 						nextFreeIndex);
 				if ((numRows) % 2 == 0 && (numRows) > 1) {
 					xShiftValue = tileWidth / 2;
-				}
-				System.out.println("yShiftValue = "
-						   + yShiftValue);
-				if (numRows == 1) {
-					yShiftValue = 0;
 				}
 
 				if (Integer.parseInt(tempList[i]) != -1) {
@@ -206,75 +201,9 @@ public class Map
 	{
 		// rendering tile maps loop
 		for (int j = 0; j < tileCount; ++j) {
-			int curLayerCols = mapWidth,
-			    // curTilesetRows = map.rowsOfTileSet,
-				curTilesetCols = colsOfTileSet,
+			int curTilesetCols = colsOfTileSet,
 			    curTilesetHeight = tileHeight,
 			    curTilesetWidth = tileWidth;
-			// int valueOfTile = getTileFromMap(i, j);
-			int xShiftValue = 0;
-			// TODO please don't delete the debug
-			// message until the render for tile map
-			// is set in stone!!!
-
-			/*
-			System.out.println("J = " + j);
-			System.out.println("valueOfTile = "
-					   + valueOfTile);
-			System.out.println("curTilesetHeight = "
-					   + curTilesetHeight);
-			System.out.println("curTilesetWidth = "
-					   + curTilesetWidth);
-			System.out.println("j / curLayerCols ="
-					   + j / curLayerCols
-						     * 64);
-			System.out.println("j % curLayerCols ="
-					   + j % curLayerCols
-						     * 64);
-			System.out.println(
-				"valueOfTile / curTilesetCols ="
-				+ valueOfTile / curTilesetCols);
-			System.out.println(
-				"valueOfTile % curTilesetCols ="
-				+ valueOfTile % curTilesetCols);
-			System.out.println(
-				"(j - curLayerCols) = "
-				+ (j - curLayerCols));
-			System.out.println(
-				"(j - curLayerCols)/curLayerRows
-			="
-				+ (j - curLayerCols)
-					  / curLayerCols);
-			System.out.println(
-				"(j
-			-curLayerRows)/curLayerCols%2 = "
-				+ ((j - curLayerCols)
-				   / curLayerCols)
-					  % 2);
-			System.out.println("curLayerRows ="
-					   + curLayerRows);
-			System.out.println("xShiftValue= "
-					   + xShiftValue);
-			System.out.println("this bsv.."
-					   + ((j - curLayerRows)
-					      / curLayerCols));
-			System.out.println(
-				"((j - curLayerRows) /
-			curLayerCols )% 2 = "
-				+ ((j - curLayerRows)
-				   / curLayerCols)
-					  % 2);
-			System.out.println("J/curLayerCols= "
-					   + j / curLayerCols);
-			System.out.println(
-				"yshift bs ="
-				+ (yShiftValue
-				   * (j / curLayerCols)));
-			*/
-			if (((j - curLayerCols) / curLayerCols) % 2 == 0
-			    && j >= curLayerCols) {
-				xShiftValue = mapWidth / 2;
-			}
 			tilesRenderPart.add(new ImageWindow(
 				j % curTilesetCols * curTilesetWidth,
 				j / curTilesetCols * curTilesetHeight,
@@ -292,7 +221,7 @@ public class Map
 			mapTileCordData.get(i).print();
 		}
 	}
-	public void printRenderLayer(Renderer renderer)
+	public void renderTileMap(Renderer renderer)
 	{
 		ArrayList<Render> mapRenderLayer;
 		for (int layerNumber = 0; layerNumber < mapLayers.size();
@@ -302,11 +231,6 @@ public class Map
 					.getComponents()
 					.getRawComponentArrayListPackedData(
 						Render.class);
-			// renderer.pushRenderObject(mapRenderLayer.get(0).getGraphic());
-			// renderer.pushRenderObject(mapRenderLayer.get(1).getGraphic());
-			// TODO add null pointer excpetion!!
-			System.out.println("mapRenderLayer size = "
-					   + mapRenderLayer.size());
 			for (int i = 0; i < mapRenderLayer.size(); ++i) {
 				if (mapRenderLayer.get(i) != null) {
 					mapRenderLayer.get(i).render(renderer);

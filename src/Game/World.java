@@ -4,7 +4,6 @@ import poj.EngineState;
 import poj.Time.*;
 import poj.Render.Renderer;
 import poj.GameWindow.InputPoller;
-import java.io.FileNotFoundException;
 
 public abstract class World
 {
@@ -58,10 +57,10 @@ public abstract class World
 	public abstract void registerEntitySets();
 
 	// higher game logic functions
-	public abstract void spawnWorld() throws FileNotFoundException;
+	public abstract void spawnWorld();
 	public abstract void clearWorld();
 
-	public abstract void runGameLoop() throws FileNotFoundException;
+	public abstract void runGameLoop();
 	protected abstract void processInputs();
 	protected abstract void render();
 }
