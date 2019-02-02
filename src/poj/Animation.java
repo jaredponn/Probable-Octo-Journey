@@ -33,6 +33,20 @@ public class Animation
 		this.ymax = ymax;
 	}
 
+
+	public Animation(int width, int height, long fdms, int xstride,
+			 int ystride, int xmin, int ymin, int xmax, int ymax)
+	{
+		this.focusedWindow = new ImageWindow(xmin, ymin, width, height);
+		this.frameDurationms = fdms;
+		this.xstride = xstride;
+		this.ystride = ystride;
+		this.xmin = xmin;
+		this.ymin = ymin;
+		this.xmax = xmax;
+		this.ymax = ymax;
+	}
+
 	public void updateAnimationWindow(long xms)
 	{
 		addToAccTime(xms);
