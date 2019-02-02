@@ -1,11 +1,10 @@
-package Game;
-
 import poj.EngineState;
 import poj.GameWindow.*;
 import poj.Render.*;
 import poj.Time.*;
 import Components.*;
 import EntitySets.*;
+import Game.PlayGame;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -30,12 +29,17 @@ public class App
 		this.inputPoller = new InputPoller();
 
 		// makes it full screen
+		/*
 		GraphicsDevice gd =
 			GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getDefaultScreenDevice();
 		this.gcanvas = new GameCanvas(gd.getDisplayMode().getWidth(),
 					      gd.getDisplayMode().getHeight(),
-					      inputPoller);
+					      inputPoller);*/
+
+		// windowed
+		this.gcanvas = new GameCanvas(1024, 768, inputPoller);
+
 
 		this.gwindow.defaultAddGameCanvasAndSetBufferStrat(gcanvas);
 

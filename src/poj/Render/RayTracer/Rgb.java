@@ -1,6 +1,7 @@
 package poj.Render.RayTracer;
 
 import poj.Logger.*;
+import poj.linear.*;
 
 public class Rgb
 {
@@ -14,9 +15,17 @@ public class Rgb
 	public Rgb(int r, int g, int b)
 	{
 		this.rgb = new int[3];
-		this.rgb[0] = r;
-		this.rgb[1] = g;
-		this.rgb[2] = b;
+		setR(r);
+		setG(g);
+		setB(b);
+	}
+
+	public Rgb(Vector3f v)
+	{
+		this.rgb = new int[3];
+		setR((int)(((float)Rgb.MAX_VALUE + 0.99) * v.getX()));
+		setG((int)(((float)Rgb.MAX_VALUE) + 0.99 * v.getY()));
+		setB((int)(((float)Rgb.MAX_VALUE) + 0.99 * v.getZ()));
 	}
 
 	public int getR()
@@ -72,7 +81,7 @@ public class Rgb
 
 	public String toString()
 	{
-		return rgb[0] + " " + rgb[1] + " " + rgb[2] + "\n";
+		return rgb[0] + " " + rgb[1] + " " + rgb[2];
 	}
 
 	private void setRgbVal(int rgb, int n)

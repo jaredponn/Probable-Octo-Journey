@@ -21,7 +21,7 @@ public class Vector3f
 	}
 
 
-	public final Vector3f add(final Vector3f a)
+	public Vector3f add(final Vector3f a)
 	{
 		this.x += a.x;
 		this.y += a.y;
@@ -30,7 +30,24 @@ public class Vector3f
 		return this;
 	}
 
-	public final Vector3f elemMul(final Vector3f a)
+
+	public Vector3f add(float n)
+	{
+		this.x += n;
+		this.y += n;
+		this.z += n;
+
+		return this;
+	}
+
+	final public Vector3f pureAdd(final Vector3f a)
+	{
+		return new Vector3f(this.x + a.getX(), this.y + a.getY(),
+				    this.z + a.getZ());
+	}
+
+
+	public Vector3f elemMul(final Vector3f a)
 	{
 		this.x *= a.x;
 		this.y *= a.y;
@@ -39,13 +56,18 @@ public class Vector3f
 		return this;
 	}
 
-	public final Vector3f elemMul(final float a)
+	public Vector3f elemMul(final float a)
 	{
 		this.x *= a;
 		this.y *= a;
 		this.z *= a;
 
 		return this;
+	}
+
+	public Vector3f pureElemMul(final float a)
+	{
+		return new Vector3f(this.x * a, this.y * a, this.z * a);
 	}
 
 
@@ -88,9 +110,21 @@ public class Vector3f
 		return a.x * b.x + a.y * b.y + a.z * b.z;
 	}
 
-	public final float scalarValueOfVector(final Vector3f a)
+	static public final float scalarValueOfVector(final Vector3f a)
 	{
 		return (float)Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
+	}
+
+	static public final float abs(final Vector3f a)
+	{
+		return scalarValueOfVector(a);
+	}
+
+	static public Vector3f getUnitVectorByCopy(Vector3f a)
+	{
+		float abs = Vector3f.abs(a);
+		return new Vector3f(a.getX() / abs, a.getY() / abs,
+				    a.getZ() / abs);
 	}
 
 	public final float angleBetweenTwoVector3(final Vector3f a,

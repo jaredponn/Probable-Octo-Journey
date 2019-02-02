@@ -2,6 +2,7 @@ package Game;
 
 import Resources.GameResources;
 import TileMap.Map;
+import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 
 import poj.Time.Timer;
@@ -54,6 +55,9 @@ public class PlayGame extends World
 
 	protected void processInputs()
 	{
+		if (this.inputPoller.isKeyDown(KeyEvent.VK_W)) {
+			System.out.println("w key is down");
+		}
 	}
 
 	protected void render()
