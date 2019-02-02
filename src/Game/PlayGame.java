@@ -3,7 +3,6 @@ package Game;
 import Resources.GameResources;
 import TileMap.Map;
 import java.awt.event.KeyEvent;
-import java.io.FileNotFoundException;
 
 import poj.Time.Timer;
 
@@ -20,23 +19,22 @@ public class PlayGame extends World
 	}
 
 	// higher game logic functions
-	public void spawnWorld() throws FileNotFoundException
+	public void spawnWorld()
 
 	{
-
+		// World is spawned here
 		map.addMapConfig(GameResources.mapConfig);
 		map.addTileSet(GameResources.tileSet);
 		map.addMapLayer(GameResources.mapLayer0);
 		map.addMapLayer(GameResources.mapLayer1);
 		map.addMapLayer(GameResources.mapLayer2);
-		// World is spawned here
 	}
 	public void clearWorld()
 	{
 	}
 
 
-	public void runGameLoop() throws FileNotFoundException
+	public void runGameLoop()
 	{
 
 		while (true) {
@@ -44,9 +42,7 @@ public class PlayGame extends World
 
 			// SYSTEMS Go here
 			// map.printMapLayer(0);
-
 			this.render();
-
 			super.setFinalTime();
 			Timer.dynamicSleepToFrameRate(64, super.getDeltaTime());
 		}
@@ -62,7 +58,7 @@ public class PlayGame extends World
 
 	protected void render()
 	{
-		map.printRenderLayer(this.renderer);
+		map.renderTileMap(this.renderer);
 		// map.printRenderLayer(1, this.renderer);
 		// RENDERING HAPPENS HERE
 		this.renderer.render();

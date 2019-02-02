@@ -8,8 +8,6 @@ import Game.PlayGame;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import Resources.GameResources;
-import java.io.FileNotFoundException;
 
 public class App
 {
@@ -48,7 +46,7 @@ public class App
 		this.isRunning = true;
 	}
 
-	public void runAppLoop() throws FileNotFoundException
+	public void runAppLoop()
 	{
 
 		PlayGame playGame = new PlayGame();
@@ -57,7 +55,6 @@ public class App
 		playGame.loadInputPoller(this.inputPoller);
 		playGame.registerComponents();
 		playGame.registerEntitySets();
-
 		playGame.spawnWorld();
 
 		while (isRunning) {
