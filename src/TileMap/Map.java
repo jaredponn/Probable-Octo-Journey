@@ -8,6 +8,7 @@ import java.util.Scanner;
 import Components.Render;
 import Components.TileCord;
 import Resources.GameResources;
+import poj.Logger.Logger;
 
 import poj.EngineState;
 import poj.Render.ImageRenderObject;
@@ -71,9 +72,10 @@ public class Map
 			}
 			configReader.close();
 		} catch (FileNotFoundException e) {
-			System.out.println(
-				"In PlayGame.spawnWorld ,file not found exception!"
-				+ e.getMessage());
+			Logger.lassert(
+				true,
+				"In TileMap addTileSet ,file not found exception!"
+					+ e.getMessage());
 		}
 	}
 
@@ -128,72 +130,89 @@ public class Map
 			createTileRenderObjects();
 		} catch (FileNotFoundException e) {
 			System.out.println(
-				"In PlayGame.spawnWorld ,file not found exception!"
+				"In TileMap addTileSet ,file not found exception!"
 				+ e.getMessage());
 		}
 	}
 	public void addMapLayer(String mapLayerLocation)
-		throws FileNotFoundException
 	{
-		mapLayers.add(new EngineState(mapWidth * mapHeight));
-		// get the last added engine state
-		mapLayers.get(mapLayers.size() - 1)
-			.registerComponent(TileCord.class);
-		mapLayers.get(mapLayers.size() - 1)
-			.registerComponent(Render.class);
+		try {
+			mapLayers.add(new EngineState(mapWidth * mapHeight));
+			// get the last added engine state
+			mapLayers.get(mapLayers.size() - 1)
+				.registerComponent(TileCord.class);
+			mapLayers.get(mapLayers.size() - 1)
+				.registerComponent(Render.class);
 
-		Scanner mapReader = new Scanner(new File(mapLayerLocation));
-		int numRows = 0;
-		while (mapReader.hasNextLine()) {
-			int xShiftValue = 0;
-			++numRows;
-			String line = mapReader.nextLine();
-			String tempList[] = line.split(",");
-			for (int i = 0; i < tempList.length; ++i) {
-				int nextFreeIndex =
-					mapLayers.get(mapLayers.size() - 1)
-						.getFreeIndex();
-				// add the tile cord to the engine
-				mapLayers.get(mapLayers.size() - 1)
-					.getComponents()
-					.addComponentAt(
-						TileCord.class,
-						new TileCord(numRows - 1,
-							     i % mapWidth),
-						nextFreeIndex);
-				if ((numRows) % 2 == 0 && (numRows) > 1) {
-					xShiftValue = tileWidth / 2;
-				}
-
-				if (Integer.parseInt(tempList[i]) != -1) {
+			Scanner mapReader =
+				new Scanner(new File(mapLayerLocation));
+			int numRows = 0;
+			while (mapReader.hasNextLine()) {
+				int xShiftValue = 0;
+				++numRows;
+				String line = mapReader.nextLine();
+				String tempList[] = line.split(",");
+				for (int i = 0; i < tempList.length; ++i) {
+					int nextFreeIndex =
+						mapLayers
+							.get(mapLayers.size()
+							     - 1)
+							.getFreeIndex();
+					// add the tile cord to the engine
 					mapLayers.get(mapLayers.size() - 1)
 						.getComponents()
 						.addComponentAt(
-							Render.class,
-							new Render(new ImageRenderObject(
-								(i
-								 % tileWidth) * tileWidth
-									+ xShiftValue,
-								(numRows
-								 - 1) * tileHeight
-									/ 4,
-								GameResources
-									.testTile,
-								tilesRenderPart.get(Integer.parseInt(
-									tempList[i])))),
+							TileCord.class,
+							new TileCord(
+								numRows - 1,
+								i % mapWidth),
 							nextFreeIndex);
+					if ((numRows) % 2 == 0
+					    && (numRows) > 1) {
+						xShiftValue = tileWidth / 2;
+					}
 
-				} else {
-					// add NULL
-					mapLayers.get(mapLayers.size() - 1)
-						.getComponents()
-						.addComponentAt(Render.class,
+					if (Integer.parseInt(tempList[i])
+					    != -1) {
+						mapLayers
+							.get(mapLayers.size()
+							     - 1)
+							.getComponents()
+							.addComponentAt(
+								Render.class,
+								new Render(new ImageRenderObject(
+									(i
+									 % tileWidth) * tileWidth
+										+ xShiftValue,
+									(numRows
+									 - 1) * tileHeight
+										/ 4,
+									GameResources
+										.testTile,
+									tilesRenderPart
+										.get(Integer.parseInt(
+											tempList[i])))),
+								nextFreeIndex);
+
+					} else {
+						// add NULL
+						mapLayers
+							.get(mapLayers.size()
+							     - 1)
+							.getComponents()
+							.addComponentAt(
+								Render.class,
 								null,
 								nextFreeIndex);
+					}
 				}
 			}
+			mapReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(
+				"In TileMap addMapLayer ,file not found exception!"
+				+ e.getMessage());
 		}
-		mapReader.close();
 	}
 
 

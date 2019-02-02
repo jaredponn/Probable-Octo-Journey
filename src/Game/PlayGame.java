@@ -2,7 +2,6 @@ package Game;
 
 import Resources.GameResources;
 import TileMap.Map;
-import java.io.FileNotFoundException;
 
 import poj.Time.Timer;
 
@@ -23,17 +22,11 @@ public class PlayGame extends World
 
 	{
 		// World is spawned here
-		try {
-			map.addMapConfig(GameResources.mapConfig);
-			map.addTileSet(GameResources.tileSet);
-			map.addMapLayer(GameResources.mapLayer0);
-			map.addMapLayer(GameResources.mapLayer1);
-			map.addMapLayer(GameResources.mapLayer2);
-		} catch (FileNotFoundException e) {
-			System.out.println(
-				"In PlayGame.spawnWorld ,file not found exception!"
-				+ e.getMessage());
-		}
+		map.addMapConfig(GameResources.mapConfig);
+		map.addTileSet(GameResources.tileSet);
+		map.addMapLayer(GameResources.mapLayer0);
+		map.addMapLayer(GameResources.mapLayer1);
+		map.addMapLayer(GameResources.mapLayer2);
 	}
 	public void clearWorld()
 	{
