@@ -18,6 +18,6 @@ public class ExampleEntitySet extends EntitySet // ensure it extends this
 
 		// Adding different components is totally okay though: Add as
 		// many as you need:
-		addComponent(new Velocity(3));
+		addComponent(new Speed(3));
 	}
 }
