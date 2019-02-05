@@ -9,4 +9,6 @@ junit-4.13.jar
 ./junit-4.13.jar
 ./.settings/*
 .settings/*
+./src/UML_test.ucls
+src/UML_test.ucls
 
