@@ -1,7 +1,7 @@
 package EntityTransforms;
 
 import Components.*;
-import poj.linear.Rectanglef;
+import poj.linear.*;
 
 public class EntitySetTransforms
 {
@@ -17,5 +17,11 @@ public class EntitySetTransforms
 			}
 		}
 		return false;
+	}
+
+	public static Vector2f getVelocity(Direction d, Speed v)
+	{
+		return new Vector2f();
+		// TODO
 	}
 }
