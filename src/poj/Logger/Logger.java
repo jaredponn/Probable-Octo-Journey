@@ -35,6 +35,11 @@ public class Logger
 		}
 	}
 
+	public static final void logMessage(LogLevels lvl, String str)
+	{
+		Logger.logMessage(str, lvl);
+	}
+
 	public static final void lassert(boolean b, String str)
 	{
 		if (b) {
