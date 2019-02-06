@@ -42,7 +42,7 @@ public class Components extends ComponentsArray
 	}
 
 
-	// getting the packed data
+        // getting the packed data
 	public <T extends Component> ArrayList<T>
 	getRawComponentArrayListPackedData(Class<T> c)
 	{
@@ -85,7 +85,7 @@ public class Components extends ComponentsArray
 			return ptmp.get(nextpkdfocus);
 	}
 
-	static final public boolean isValidEntity(int focus)
+	final public boolean isValidEntity(int focus)
 	{
 		return focus != INVALID_ENTITY_INDEX;
 	}

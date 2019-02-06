@@ -9,12 +9,4 @@ junit-4.13.jar
 ./junit-4.13.jar
 ./.settings/*
 .settings/*
-./src/UML_test.ucls
-src/UML_test.ucls
-
-./.classpath
-.classpath
-
-./hamcrest-core-1.3.jar
-hamcrest-core-1.3.jar
 

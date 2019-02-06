@@ -8,8 +8,7 @@ import java.awt.image.RescaleOp;
 public class ImageRenderObject extends RenderObject
 {
 	private BufferedImage img;
-	public final static Color DEFAULT_DEBUG_BORDER_COLOR = Color.RED;
-	private Color debugBorderColor;
+	private Color debugBorderColor = Color.RED;
 
 	private ImageWindow imageWindow;
 
@@ -20,9 +19,11 @@ public class ImageRenderObject extends RenderObject
 	public ImageRenderObject(final int x, final int y,
 				 final BufferedImage img)
 	{
-		this(x, y, img,
-		     ImageWindow.createFullSizeImageWindowOfImage(img),
-		     DEFAULT_DEBUG_BORDER_COLOR);
+		setX(x);
+		setY(y);
+		setImage(img);
+		setImageWindow(
+			new ImageWindow(0, 0, img.getWidth(), img.getHeight()));
 
 		setDefaultRGBAScaleFactors();
 	}
@@ -31,9 +32,12 @@ public class ImageRenderObject extends RenderObject
 				 final BufferedImage img,
 				 final Color dbgbordercolor)
 	{
-		this(x, y, img,
-		     ImageWindow.createFullSizeImageWindowOfImage(img),
-		     dbgbordercolor);
+		setX(x);
+		setY(y);
+		setImage(img);
+		setImageWindow(
+			new ImageWindow(0, 0, img.getWidth(), img.getHeight()));
+		debugBorderColor = dbgbordercolor;
 
 		setDefaultRGBAScaleFactors();
 	}
@@ -42,9 +46,11 @@ public class ImageRenderObject extends RenderObject
 				 final BufferedImage img,
 				 final ImageWindow imgw)
 	{
+		setX(x);
+		setY(y);
+		setImage(img);
+		setImageWindow(imgw);
 
-		this(x, y, img, imgw,
-		     ImageRenderObject.DEFAULT_DEBUG_BORDER_COLOR);
 		setDefaultRGBAScaleFactors();
 	}
 

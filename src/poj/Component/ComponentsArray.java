@@ -36,8 +36,7 @@ public class ComponentsArray
 	{
 		Logger.lassert(
 			!m_component_list.containsKey(c),
-			"MAJOR ERROR in ComponentList - Accessing a component that does not exist. Trying to get component of type (if it is an enum it just won't work): "
-				+ c.toString());
+			"MAJOR ERROR in ComponentList - Accessing a component that does not exist");
 
 		// TODO surpress this warning somehow
 		PackedVector<T> tmp = (PackedVector<T>)m_component_list.get(c);

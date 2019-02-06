@@ -1,10 +1,27 @@
 package EntityTransforms;
 
 import Components.*;
-import poj.linear.*;
+import poj.linear.Rectanglef;
 
 public class EntitySetTransforms
 {
+
+	public static void printPhysics(Physics p)
+	{
+		System.out.println("physics print: " + p.a);
+	}
+
+	public static void incrementPhysics(Physics p)
+	{
+		p.a += 1;
+	}
+
+	public static void printRender(Render r)
+	{
+		System.out.println("redner print " + r);
+	}
+
+
 	public static boolean areCollisionBodiesColliding(CollisionBody a,
 							  CollisionBody b)
 	{
@@ -17,11 +34,5 @@ public class EntitySetTransforms
 			}
 		}
 		return false;
-	}
-
-	public static Vector2f getVelocity(Direction d, Speed v)
-	{
-		return new Vector2f();
-		// TODO
 	}
 }
