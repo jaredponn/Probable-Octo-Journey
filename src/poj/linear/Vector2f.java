@@ -6,28 +6,45 @@ public class Vector2f
 	public float x;
 	public float y;
 
-	public Vector2f(float x, float y)
-	{
-		this.x = x;
-		this.y = y;
-	}
 	public Vector2f()
 	{
 		this.x = Float.MAX_VALUE;
 		this.y = Float.MAX_VALUE;
 	}
 
-	public final void add(final Vector2f a)
+	public Vector2f(float x, float y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+
+	public Vector2f(Vector2f n)
+	{
+		this(n.x, n.y);
+	}
+
+	public void add(final Vector2f a)
 	{
 		this.x += a.x;
 		this.y += a.y;
 	}
 
-	public final void subtract(final Vector2f a)
+	public void subtract(final Vector2f a)
 	{
 		this.x -= a.x;
 		this.y -= a.y;
 	}
+
+	public Vector2f pureNormalize()
+	{
+		final float mag = scalarValueOfVector(this);
+		Vector2f v = new Vector2f(this);
+		v.setX(v.getX() / mag);
+		v.setY(v.getY() / mag);
+		return v;
+	}
+
+
 	public final void multiplyWithMatrix(final Matrix<Float> A)
 	{
 		Vector3f tempVector3 = new Vector3f(this.x, this.y, 1);
@@ -50,6 +67,11 @@ public class Vector2f
 	public final float scalarValueOfVector(final Vector2f a)
 	{
 		return (float)Math.sqrt(a.x * a.x + a.y * a.y);
+	}
+
+	public final float abs(final Vector2f a)
+	{
+		return scalarValueOfVector(a);
 	}
 
 	public final float angleBetweenTwoVector2(final Vector2f a,
@@ -82,7 +104,8 @@ public class Vector2f
 		this.x = n;
 	}
 
-	public void getY(float n)
+
+	public void setY(float n)
 	{
 		this.y = n;
 	}

@@ -1,5 +1,7 @@
 package poj.Render;
 
+import java.awt.image.*;
+
 public class ImageWindow
 {
 	private int x;
@@ -57,5 +59,12 @@ public class ImageWindow
 	public int getHeight()
 	{
 		return this.height;
+	}
+
+	public static ImageWindow
+	createFullSizeImageWindowOfImage(BufferedImage img)
+	{
+
+		return new ImageWindow(0, 0, img.getWidth(), img.getHeight());
 	}
 }
