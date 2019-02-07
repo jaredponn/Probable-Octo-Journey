@@ -15,6 +15,11 @@ import poj.Render.ImageRenderObject;
 import poj.Render.ImageWindow;
 import poj.Render.Renderer;
 
+/*
+ * add function for adding a player at a cordinate
+ * add function that convert world cordinate to tile cord
+ */
+
 public class Map
 {
 	public ArrayList<EngineState> mapLayers;
@@ -184,9 +189,12 @@ public class Map
 									(i
 									 % tileWidth) * tileWidth
 										+ xShiftValue,
+									//(numRows
+									//- 1) *
+									// tileHeight,
 									(numRows
 									 - 1) * tileHeight
-										/ 4,
+										/ 8,
 									GameResources
 										.testTile,
 									tilesRenderPart

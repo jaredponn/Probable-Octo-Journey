@@ -50,8 +50,9 @@ public class PlayGame extends World
 		this.map.addMapConfig(GameResources.mapConfig);
 		this.map.addTileSet(GameResources.tileSet);
 		this.map.addMapLayer(GameResources.mapLayer0);
-		this.map.addMapLayer(GameResources.mapLayer1);
-		this.map.addMapLayer(GameResources.mapLayer2);
+		// this.map.addMapLayer(GameResources.mapLayer1);
+		// this.map.addMapLayer(GameResources.mapLayer1);
+		// this.map.addMapLayer(GameResources.mapLayer2);
 	}
 	public void clearWorld()
 	{
