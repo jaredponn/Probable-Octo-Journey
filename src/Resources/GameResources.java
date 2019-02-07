@@ -13,7 +13,7 @@ public class GameResources
 	*/
 
 	public static BufferedImage testImage =
-		ImageLoader.load("resources/oldtest/playerspritesheet.png");
+		ImageLoader.load("resources/playerspritesheet.png");
 
 	/*
 	public static BufferedImage testTile =
