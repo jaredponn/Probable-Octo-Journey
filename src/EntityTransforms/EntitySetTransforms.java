@@ -2,6 +2,7 @@ package EntityTransforms;
 
 import Components.*;
 import poj.linear.*;
+import poj.Render.Renderer;
 
 public class EntitySetTransforms
 {
@@ -17,6 +18,17 @@ public class EntitySetTransforms
 			}
 		}
 		return false;
+	}
+
+	public static void pushRenderComponentToRenderer(Render r, Renderer ren)
+	{
+		ren.pushRenderObject(r.getGraphic());
+	}
+
+	public static void updateHasAnimationComponent(HasAnimation a,
+						       long dtms)
+	{
+		a.updateAnimation(dtms);
 	}
 
 	public static Vector2f getVelocity(Direction d, Speed v)

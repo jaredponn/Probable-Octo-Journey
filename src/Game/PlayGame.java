@@ -5,6 +5,7 @@ import Components.*;
 import poj.Component.Components;
 import EntitySets.PlayerSet;
 import TileMap.Map;
+import EntityTransforms.*;
 
 import java.awt.event.KeyEvent;
 
@@ -71,8 +72,17 @@ public class PlayGame extends World
 			// updatePositionFromVelocity() .....
 			// updateCameraPosition() .....
 
+			for (HasAnimation a :
+			     super.engineState.getComponents()
+				     .getRawComponentArrayListPackedData(
+					     HasAnimation.class)) {
+				EntitySetTransforms.updateHasAnimationComponent(
+					a, this.dt);
+			}
+
 			this.render();
 			super.setFinalTime();
+
 			Timer.dynamicSleepToFrameRate(64, super.getDeltaTime());
 		}
 	}
@@ -82,8 +92,8 @@ public class PlayGame extends World
 	{
 
 		// player manipulation
-		for (int i = engineState.getComponents().getInitialSetIndex(
-			     PlayerSet.class);
+		for (int i = super.engineState.getComponents()
+				     .getInitialSetIndex(PlayerSet.class);
 		     Components.isValidEntity(i);
 		     i = engineState.getComponents().getNextSetIndex(
 			     PlayerSet.class, i)) {
@@ -108,7 +118,14 @@ public class PlayGame extends World
 	{
 		map.renderTileMap(super.renderer);
 		// map.printRenderLayer(1, super.renderer);
-		// RENDERING HAPPENS HERE
+
+		for (Render r : super.engineState.getComponents()
+					.getRawComponentArrayListPackedData(
+						Render.class)) {
+			EntitySetTransforms.pushRenderComponentToRenderer(
+				r, super.renderer);
+		}
+
 		super.renderer.render();
 	}
 }

@@ -4,6 +4,7 @@ import poj.Component.*;
 import poj.linear.Rectanglef;
 import java.util.ArrayList;
 
+// http://www.jeffreythompson.org/collision-detection/line-circle.php
 public class CollisionBody implements Component
 {
 
