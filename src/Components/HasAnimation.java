@@ -8,9 +8,11 @@ public class HasAnimation implements Component
 {
 	Animation animation;
 
-	public HasAnimation(Animation n)
+	public HasAnimation(ImageWindow w, long fdms, int xstride, int ystride,
+			    int xmin, int ymin, int xmax, int ymax)
 	{
-		this.animation = n;
+		this.animation = new Animation(w, fdms, xstride, ystride, xmin,
+					       ymin, xmax, ymax);
 	}
 
 	public ImageWindow getImageWindow()

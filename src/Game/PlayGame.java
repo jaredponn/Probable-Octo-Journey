@@ -5,6 +5,7 @@ import Components.*;
 import poj.Component.Components;
 import EntitySets.*;
 import TileMap.Map;
+import EntityTransforms.*;
 
 import java.awt.event.KeyEvent;
 
@@ -32,6 +33,10 @@ public class PlayGame extends World
 		super.engineState.registerComponent(Speed.class);
 		super.engineState.registerComponent(WorldAttributes.class);
 		super.engineState.registerComponent(Direction.class);
+	private Map map = new Map(3);
+	public void registerComponents()
+	{
+		// remember to register compoennts
 	}
 	public void registerEntitySets()
 	{
@@ -45,15 +50,13 @@ public class PlayGame extends World
 	public void spawnWorld()
 
 	{
-		// Player
-		super.engineState.spawnEntitySet(new PlayerSet());
-
 		// World is spawned here
 		this.map.addMapConfig(GameResources.mapConfig);
 		this.map.addTileSet(GameResources.tileSet);
 		this.map.addMapLayer(GameResources.mapLayer0);
-		this.map.addMapLayer(GameResources.mapLayer1);
-		this.map.addMapLayer(GameResources.mapLayer2);
+		// this.map.addMapLayer(GameResources.mapLayer1);
+		// this.map.addMapLayer(GameResources.mapLayer1);
+		// this.map.addMapLayer(GameResources.mapLayer2);
 	}
 	public void clearWorld()
 	{
@@ -65,15 +68,24 @@ public class PlayGame extends World
 
 		while (true) {
 			super.setInitialTime();
-			this.processInputs();
 
 			// SYSTEMS Go here
+
 			// enemyMovements / updates / path findings
 			// updatePositionFromVelocity() .....
 			// updateCameraPosition() .....
 
+			for (HasAnimation a :
+			     super.engineState.getComponents()
+				     .getRawComponentArrayListPackedData(
+					     HasAnimation.class)) {
+				EntitySetTransforms.updateHasAnimationComponent(
+					a, this.dt);
+			}
+
 			this.render();
 			super.setFinalTime();
+
 			Timer.dynamicSleepToFrameRate(64, super.getDeltaTime());
 		}
 	}
@@ -82,9 +94,10 @@ public class PlayGame extends World
 	protected void processInputs()
 	{
 
+
 		// player manipulation
-		for (int i = engineState.getComponents().getInitialSetIndex(
-			     PlayerSet.class);
+		for (int i = super.engineState.getComponents()
+				     .getInitialSetIndex(PlayerSet.class);
 		     Components.isValidEntity(i);
 		     i = engineState.getComponents().getNextSetIndex(
 			     PlayerSet.class, i)) {
@@ -108,7 +121,14 @@ public class PlayGame extends World
 	{
 		map.renderTileMap(super.renderer);
 		// map.printRenderLayer(1, super.renderer);
-		// RENDERING HAPPENS HERE
+
+		for (Render r : super.engineState.getComponents()
+					.getRawComponentArrayListPackedData(
+						Render.class)) {
+			EntitySetTransforms.pushRenderComponentToRenderer(
+				r, super.renderer);
+		}
+
 		super.renderer.render();
 	}
 }

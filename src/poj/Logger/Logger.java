@@ -28,16 +28,10 @@ public class Logger
 			System.out.println(str);
 		}
 
-		if (LOG_LEVEL_CAST.castToInt(lvl)
-		    == LOG_LEVEL_CAST.castToInt(LogLevels.MAJOR_CRITICAL)) {
-			System.exit(0);
+		if (lvl == LogLevels.MAJOR_CRITICAL) {
+			// System.exit(1);
 			return;
 		}
-	}
-
-	public static final void logMessage(LogLevels lvl, String str)
-	{
-		Logger.logMessage(str, lvl);
 	}
 
 	public static final void lassert(boolean b, String str)
