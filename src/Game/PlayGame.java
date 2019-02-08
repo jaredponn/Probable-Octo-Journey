@@ -3,7 +3,7 @@ package Game;
 import Resources.GameResources;
 import Components.*;
 import poj.Component.Components;
-import EntitySets.PlayerSet;
+import EntitySets.*;
 import TileMap.Map;
 
 import java.awt.event.KeyEvent;
@@ -18,13 +18,13 @@ public class PlayGame extends World
 	{
 		super();
 
-		// other resource intilaizaiton here
+		// other resource initialization here
 		this.map = new Map(3);
 	}
 
 	public void registerComponents()
 	{
-		// remember to register compoennts
+		// remember to register components
 		super.engineState.registerComponent(CollisionBody.class);
 		super.engineState.registerComponent(HasAnimation.class);
 		super.engineState.registerComponent(Render.class);
@@ -37,6 +37,8 @@ public class PlayGame extends World
 	{
 		// remember to register entity sets
 		super.engineState.registerSet(PlayerSet.class);
+		super.engineState.registerSet(MobSet.class);
+		super.engineState.registerSet(ConstructSet.class);
 	}
 
 	// higher game logic functions
@@ -99,7 +101,6 @@ public class PlayGame extends World
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
 				System.out.println("w key is down");
 			}
-			System.out.println(super.inputPoller.getMouseY());
 		}
 	}
 
