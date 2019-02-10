@@ -61,6 +61,11 @@ public class EngineState
 		return this.components;
 	}
 
+	public Components cpts()
+	{
+		return getComponents();
+	}
+
 	public <T extends EntitySet> int spawnEntitySet(T set)
 	{
 		Logger.lassert(set == null,

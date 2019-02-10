@@ -2,7 +2,10 @@ package Game;
 
 import Resources.GameResources;
 import Components.*;
+
+import poj.EngineState;
 import poj.Component.Components;
+
 import EntitySets.PlayerSet;
 import TileMap.Map;
 import EntityTransforms.*;
@@ -72,12 +75,45 @@ public class PlayGame extends World
 			// updatePositionFromVelocity() .....
 			// updateCameraPosition() .....
 
+			// updating the animation windows
 			for (HasAnimation a :
 			     super.engineState.getComponents()
 				     .getRawComponentArrayListPackedData(
 					     HasAnimation.class)) {
 				EntitySetTransforms.updateHasAnimationComponent(
 					a, this.dt);
+			}
+
+			// updating the reder components to the aniamations
+			for (int i = super.engineState.getComponents()
+					     .getInitialComponentIndex(
+						     HasAnimation.class);
+			     Components.isValidEntity(i);
+			     i = super.engineState.getComponents()
+					 .getNextComponentIndex(
+						 HasAnimation.class, i)) {
+				EntitySetTransforms
+					.updateRenderComponentWindowFromHasAnimation(
+						super.engineState
+							.getComponents()
+							.getComponentAt(
+								Render.class,
+								i),
+						super.engineState
+							.getComponents()
+							.getComponentAt(
+								HasAnimation
+									.class,
+								i));
+			}
+
+			for (int i = super.engineState.getComponents()
+					     .getInitialComponentIndex(
+						     WorldAttributes.class);
+			     Components.isValidEntity(i);
+			     i = super.engineState.getComponents()
+					 .getNextComponentIndex(
+						 WorldAttributes.class, i)) {
 			}
 
 			this.render();
@@ -102,13 +138,13 @@ public class PlayGame extends World
 				System.out.println("w key is down");
 			}
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
-				System.out.println("w key is down");
+				System.out.println("d key is down");
 			}
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_S)) {
-				System.out.println("w key is down");
+				System.out.println("s key is down");
 			}
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-				System.out.println("w key is down");
+				System.out.println("a key is down");
 			}
 			System.out.println(super.inputPoller.getMouseY());
 		}

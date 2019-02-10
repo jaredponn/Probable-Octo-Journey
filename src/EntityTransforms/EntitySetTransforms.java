@@ -20,9 +20,22 @@ public class EntitySetTransforms
 		return false;
 	}
 
+	public static void updatePositions(WorldAttributes p, Render r)
+	{
+		Vector2f topleftcoord = p.getTopLeftCoordFromOrigin();
+		r.setTopLeftCornerPosition(Math.round(topleftcoord.getX()),
+					   Math.round(topleftcoord.getY()));
+	}
+
 	public static void pushRenderComponentToRenderer(Render r, Renderer ren)
 	{
 		ren.pushRenderObject(r.getGraphic());
+	}
+
+	public static void
+	updateRenderComponentWindowFromHasAnimation(Render r, HasAnimation a)
+	{
+		r.setImageWindow(a.getImageWindow());
 	}
 
 	public static void updateHasAnimationComponent(HasAnimation a,

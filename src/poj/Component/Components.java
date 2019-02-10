@@ -69,7 +69,7 @@ public class Components extends ComponentsArray
 	}
 
 	// gets the next entity of a set
-	final public <T extends EntitySet> int getNextSetIndex(Class<T> setType,
+	final public <T extends Component> int getNextSetIndex(Class<T> setType,
 							       int focus)
 	{
 		ArrayList<Integer> stmp =
@@ -83,6 +83,21 @@ public class Components extends ComponentsArray
 			return INVALID_ENTITY_INDEX;
 		else
 			return ptmp.get(nextpkdfocus);
+	}
+
+	//  gets the initial entity for a component
+	public final <T extends Component> int
+	getInitialComponentIndex(Class<T> setType)
+	{
+		return this.getInitialSetIndex(setType);
+	}
+
+
+	//  gets the next entity for a component
+	final public <T extends Component> int
+	getNextComponentIndex(Class<T> setType, int focus)
+	{
+		return this.getNextSetIndex(setType, focus);
 	}
 
 	static final public boolean isValidEntity(int focus)
