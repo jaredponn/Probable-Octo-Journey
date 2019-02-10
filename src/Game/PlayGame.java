@@ -6,7 +6,7 @@ import Components.*;
 import poj.EngineState;
 import poj.Component.Components;
 
-import EntitySets.PlayerSet;
+import EntitySets.*;
 import TileMap.Map;
 import EntityTransforms.*;
 
@@ -41,6 +41,8 @@ public class PlayGame extends World
 	{
 		// remember to register entity sets
 		super.engineState.registerSet(PlayerSet.class);
+		super.engineState.registerSet(MobSet.class);
+		super.engineState.registerSet(ConstructSet.class);
 	}
 
 	// higher game logic functions
