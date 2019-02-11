@@ -22,13 +22,13 @@ public class PlayGame extends World
 	{
 		super();
 
-		// other resource intilaizaiton here
+		// other resource initialization here
 		this.map = new Map(3);
 	}
 
 	public void registerComponents()
 	{
-		// remember to register compoennts
+		// remember to register components
 		super.engineState.registerComponent(CollisionBody.class);
 		super.engineState.registerComponent(HasAnimation.class);
 		super.engineState.registerComponent(Render.class);
