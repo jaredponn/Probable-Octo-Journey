@@ -15,7 +15,7 @@ public class InputPoller implements KeyListener, MouseListener,
 				    MouseMotionListener, MouseWheelListener
 {
 
-	// for somem reason KeyEvent.KEY_LAST isn't really the last key.
+	// for some reason KeyEvent.KEY_LAST isn't really the last key.
 	private static int MAX_KEY = 65535;
 
 	private boolean[] key_input_buffer;
@@ -64,11 +64,11 @@ public class InputPoller implements KeyListener, MouseListener,
 		return this.right_mouse_is_down;
 	}
 
-	// returns numver of notches the ouse wheel was rotated. down (towards
-	// th user) is positive, and away (up) is negative
+	// returns number of notches the mouse wheel was rotated. down (towards
+	// the user) is positive, and away (up) is negative
 	// WARNING -> Java's mouse api is not amazing and this will always be
 	// the last value of the mouse scroll. To get around this, ensure you
-	// call "setMouseWheelNotches(0)" at the end of every rame
+	// call "setMouseWheelNotches(0)" at the end of every frame
 	public int getMouseWheelNotches()
 	{
 		return this.mouse_wheel_notches;

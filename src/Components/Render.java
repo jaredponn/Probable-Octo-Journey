@@ -40,6 +40,11 @@ public class Render implements Component
 		return this.graphic.getImageWindow();
 	}
 
+	public void setTopLeftCornerPosition(int x, int y)
+	{
+		this.graphic.setTopLeftCornerPosition(x, y);
+	}
+
 	public void print()
 	{
 		System.out.println("Render Component");

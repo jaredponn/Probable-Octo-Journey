@@ -138,4 +138,9 @@ public class ImageRenderObject extends RenderObject
 		setRGBAScaleFactors(1.f, 1.f, 1.f, 1.f);
 		return this;
 	}
+
+	public void setTopLeftCornerPosition(int x, int y)
+	{
+		super.setPosition(x, y);
+	}
 }

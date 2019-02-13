@@ -1,5 +1,7 @@
 package poj.Time;
 
+import poj.Logger.*;
+
 public class Timer
 {
 	private Timer()
@@ -37,7 +39,13 @@ public class Timer
 		final long fpms = fps;
 
 		try {
-			Thread.sleep(Math.max(fpms - dtms, 0l));
+			final long sleepDuration = Math.max(fpms - dtms, 0l);
+			/*
+			Logger.logMessage(
+				LogLevels.VERBOSE,
+				"Sleep duration (greater than 0 is good): "
+					+ sleepDuration);*/
+			Thread.sleep(sleepDuration);
 		} catch (InterruptedException e) {
 		}
 	}
