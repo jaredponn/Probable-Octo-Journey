@@ -3,11 +3,12 @@ package Components;
 import poj.Component.Component;
 public class TileCord implements Component
 {
-	public int row, col;
+	public int row, col, modValue;
 	public TileCord(int row, int col)
 	{
 		this.row = row;
 		this.col = col;
+		// this.modValue = modValue;
 	}
 	public void print()
 	{

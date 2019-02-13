@@ -80,6 +80,14 @@ public class PlayGame extends World
 					a, this.dt);
 			}
 
+			System.out.println("x ="
+					   + super.inputPoller.getMouseX());
+			System.out.println("y ="
+					   + super.inputPoller.getMouseY());
+			this.map.getTileCordFromWorldCord(
+				super.inputPoller.getMouseX(),
+				super.inputPoller.getMouseY());
+
 			this.render();
 			super.setFinalTime();
 
@@ -110,7 +118,10 @@ public class PlayGame extends World
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
 				System.out.println("w key is down");
 			}
-			System.out.println(super.inputPoller.getMouseY());
+			System.out.println("x ="
+					   + super.inputPoller.getMouseX());
+			System.out.println("y ="
+					   + super.inputPoller.getMouseY());
 		}
 	}
 

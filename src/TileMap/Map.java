@@ -16,8 +16,8 @@ import poj.Render.ImageWindow;
 import poj.Render.Renderer;
 
 /*
- * add function for adding a player at a cordinate
- * add function that convert world cordinate to tile cord
+ * getTileCordFromWorldCord
+ * isValidTileCord
  */
 
 public class Map
@@ -38,9 +38,23 @@ public class Map
 		mapLayers = new ArrayList<EngineState>();
 	}
 
-	// addMapconfig
-	// addTileSet
-	// THEN addMapLayers
+	public TileCord getTileCordFromWorldCord(int x, int y)
+	{
+		y = y - tileHeight + 32;
+		// TODO did not include the out of bound screen exception yet
+		// TODO make the parser to parese in the correct map tile width
+		// and height configuration..
+		//
+		// maybe reverse transform the way to store the rtile cords..
+		System.out.println("x cordinate in the function" + x);
+		System.out.println("y cordinate in the function" + y);
+		if (x < 0 || y < 0) {
+			return new TileCord(-1, -1);
+		}
+		System.out.println("X tile cord =" + x / tileWidth);
+		System.out.println("Y tile cord =" + y / 32);
+		return new TileCord(x % mapHeight, y / mapHeight);
+	}
 
 	public void addMapConfig(String mapConfigLocation)
 	{
@@ -173,7 +187,8 @@ public class Map
 								i % mapWidth),
 							nextFreeIndex);
 					if ((numRows) % 2 == 0
-					    && (numRows) > 1) {
+					    && (numRows) > 1) { // not in the
+								// first row
 						xShiftValue = tileWidth / 2;
 					}
 
@@ -193,7 +208,9 @@ public class Map
 									//- 1) *
 									// tileHeight,
 									(numRows
-									 - 1) * tileHeight
+									 - 1)
+										* tileHeight
+										/// 4,
 										/ 8,
 									GameResources
 										.testTile,
