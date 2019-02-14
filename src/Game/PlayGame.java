@@ -195,6 +195,10 @@ public class PlayGame extends World
 							i)
 					.add(-10, 0);
 			}
+			System.out.println("x ="
+					   + super.inputPoller.getMouseX());
+			System.out.println("y ="
+					   + super.inputPoller.getMouseY());
 		}
 	}
 

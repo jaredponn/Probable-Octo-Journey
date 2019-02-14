@@ -42,8 +42,10 @@ public class App
 		this.gwindow.defaultAddGameCanvasAndSetBufferStrat(gcanvas);
 
 		this.renderer = new Renderer(gcanvas);
+
 		// this.renderer.setClearColor(Color.black);
 		this.renderer.setClearColor(Color.darkGray);
+
 		this.isRunning = true;
 	}
 
