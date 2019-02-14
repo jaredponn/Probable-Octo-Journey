@@ -37,7 +37,6 @@ public class WorldAttributes implements Component
 
 
 	// basic getters
-
 	public float getWidth()
 	{
 		return this.width;
@@ -83,6 +82,11 @@ public class WorldAttributes implements Component
 	public void setHeight(float h)
 	{
 		this.height = h;
+	}
+
+	public void add(float x, float y)
+	{
+		this.coord.add(x, y);
 	}
 
 	// print
