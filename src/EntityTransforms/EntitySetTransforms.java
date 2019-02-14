@@ -1,6 +1,7 @@
 package EntityTransforms;
 
 import Components.*;
+import Game.Camera;
 import poj.linear.*;
 import poj.Render.Renderer;
 
@@ -20,9 +21,11 @@ public class EntitySetTransforms
 		return false;
 	}
 
-	public static void updatePositions(WorldAttributes p, Render r)
+	public static void updateRenderScreenCoordinatesFromWorldCoordinates(
+		WorldAttributes p, Render r, final Camera c)
 	{
 		Vector2f topleftcoord = p.getTopLeftCoordFromOrigin();
+		topleftcoord.matrixMultiply(c);
 		r.setTopLeftCornerPosition(Math.round(topleftcoord.getX()),
 					   Math.round(topleftcoord.getY()));
 	}
@@ -44,9 +47,9 @@ public class EntitySetTransforms
 		a.updateAnimation(dtms);
 	}
 
+
 	public static Vector2f getVelocity(Direction d, Speed v)
 	{
 		return new Vector2f();
-		// TODO
 	}
 }
