@@ -119,8 +119,8 @@ public class Renderer
 		} while (bufferStrat.contentsLost());
 	}
 
-	private void renderImageRenderObject(ImageRenderObject n,
-					     Graphics2D g2d)
+	private void renderImageRenderObjectWithDim(ImageRenderObject n,
+						    Graphics2D g2d)
 	{
 
 		// doesn't copy
@@ -147,6 +147,23 @@ public class Renderer
 		// drawing
 		g2d.drawImage(
 			copyimage,
+			new AffineTransform(1f, 0f, 0f, 1f, n.getX(), n.getY()),
+			null);
+	}
+
+	private void renderImageRenderObject(ImageRenderObject n,
+					     Graphics2D g2d)
+	{
+
+		// doesn't copy
+		BufferedImage subimage = n.getImage().getSubimage(
+			n.getImageWindow().getX(), n.getImageWindow().getY(),
+			n.getImageWindow().getWidth(),
+			n.getImageWindow().getHeight());
+
+		// drawing
+		g2d.drawImage(
+			subimage,
 			new AffineTransform(1f, 0f, 0f, 1f, n.getX(), n.getY()),
 			null);
 	}
