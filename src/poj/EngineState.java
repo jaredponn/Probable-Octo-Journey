@@ -5,43 +5,41 @@ import poj.Logger.Logger;
 import poj.Component.*;
 import java.util.Stack;
 
-public class EngineState
+public class EngineState extends Components
 {
 	private Stack<Integer> freeIndices;
-	private Components components;
 
-	private int MAX_ENTITIES = 1000000;
+	private static final int DEFAULT_MAX_ENTITIES = 1000000;
 
 	/* engine init */
 	public EngineState()
 	{
-		components = new Components(MAX_ENTITIES);
+		super(DEFAULT_MAX_ENTITIES);
 		freeIndices = new Stack<Integer>();
 
-		for (int i = 0; i < MAX_ENTITIES; ++i) {
+		for (int i = 0; i < DEFAULT_MAX_ENTITIES; ++i) {
 			freeIndices.push(i);
 		}
 	}
 
 	public EngineState(int max_entities)
 	{
-		this.MAX_ENTITIES = max_entities;
-		components = new Components(MAX_ENTITIES);
+		super(max_entities);
 		freeIndices = new Stack<Integer>();
 
-		for (int i = 0; i < MAX_ENTITIES; ++i) {
+		for (int i = 0; i < max_entities; ++i) {
 			freeIndices.push(i);
 		}
 	}
 
 	public <T extends Component> void registerComponent(Class<T> c)
 	{
-		components.registerComponent(c);
+		super.registerComponent(c);
 	}
 
 	public <T extends EntitySet> void registerSet(Class<T> s)
 	{
-		components.registerComponent(s);
+		super.registerComponent(s);
 	}
 
 	/* entity creation / deletion*/
@@ -58,7 +56,7 @@ public class EngineState
 
 	public Components getComponents()
 	{
-		return this.components;
+		return this;
 	}
 
 	public Components cpts()
@@ -72,7 +70,7 @@ public class EngineState
 			       "ERROR passing null arguemnt to spawnEntitySet");
 		final int tmp = getFreeIndex();
 
-		set.getComponents().addSetToComponents(components, tmp);
+		set.getComponents().addSetToComponents(this, tmp);
 		return tmp;
 	}
 }
