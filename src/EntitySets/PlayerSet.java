@@ -18,7 +18,7 @@ public class PlayerSet extends EntitySet
 		addComponent(new Render(new ImageRenderObject(
 			0, 0, GameResources.playerSpriteSheet)));
 
-		addComponent(new WorldAttributes(new Vector2f(100.f, 100.f),
+		addComponent(new WorldAttributes(new Vector2f(0.f, 0.f),
 						 GameConfig.PLAYER_WIDTH,
 						 GameConfig.PLAYER_HEIGHT));
 		addComponent(
