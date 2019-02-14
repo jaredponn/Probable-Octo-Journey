@@ -5,8 +5,8 @@ public class GameConfig
 
 	// player config
 	public static final float PLAYER_VELOCITY = 100.f;
-	public static final int PLAYER_HEIGHT = 64;
-	public static final int PLAYER_WIDTH = 48;
+	public static final float PLAYER_HEIGHT = 64f;
+	public static final float PLAYER_WIDTH = 48f;
 
 	// mob config
 	public static final float MOB_VELOCITY = 0.9f * PLAYER_VELOCITY;

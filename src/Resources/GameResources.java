@@ -50,43 +50,52 @@ public class GameResources
 	public static BufferedImage playerSpriteSheet =
 		ImageLoader.load("resources/playerspritesheet.png");
 
-	public static Animation playerNMoveAnimation =
-		new Animation(GameConfig.PLAYER_WIDTH, GameConfig.PLAYER_HEIGHT,
-			      animationDurationms, 0, GameConfig.PLAYER_HEIGHT,
-			      0, 0, 0, GameConfig.PLAYER_HEIGHT * 4);
+	public static Animation playerNMoveAnimation = new Animation(
+		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
+		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT, 0, 0, 0,
+		(int)GameConfig.PLAYER_HEIGHT * 4);
 	public static Animation playerEMoveAnimation = new Animation(
-		GameConfig.PLAYER_WIDTH, GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, GameConfig.PLAYER_HEIGHT,
-		GameConfig.PLAYER_WIDTH, 0, GameConfig.PLAYER_WIDTH,
-		GameConfig.PLAYER_HEIGHT * 4);
+		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
+		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT,
+		(int)GameConfig.PLAYER_WIDTH, 0, (int)GameConfig.PLAYER_WIDTH,
+		(int)GameConfig.PLAYER_HEIGHT * 4);
 	public static Animation playerSMoveAnimation = new Animation(
-		GameConfig.PLAYER_WIDTH, GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, GameConfig.PLAYER_HEIGHT,
-		GameConfig.PLAYER_WIDTH * 2, 0, GameConfig.PLAYER_WIDTH * 2,
-		GameConfig.PLAYER_HEIGHT * 4);
+		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
+		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT,
+		(int)GameConfig.PLAYER_WIDTH * 2, 0,
+		(int)GameConfig.PLAYER_WIDTH * 2,
+		(int)GameConfig.PLAYER_HEIGHT * 4);
 	public static Animation playerWMoveAnimation = new Animation(
-		GameConfig.PLAYER_WIDTH, GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, GameConfig.PLAYER_HEIGHT,
-		GameConfig.PLAYER_WIDTH * 3, 0, GameConfig.PLAYER_WIDTH * 3,
-		GameConfig.PLAYER_HEIGHT * 4);
+		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
+		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT,
+		(int)GameConfig.PLAYER_WIDTH * 3, 0,
+		(int)GameConfig.PLAYER_WIDTH * 3,
+		(int)GameConfig.PLAYER_HEIGHT * 4);
 
 	public static Animation playerNIdleAnimation = new Animation(
-		GameConfig.PLAYER_WIDTH, GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, GameConfig.PLAYER_HEIGHT, 0,
-		GameConfig.PLAYER_HEIGHT * 4, 0, GameConfig.PLAYER_HEIGHT * 7);
+		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
+		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT, 0,
+		(int)GameConfig.PLAYER_HEIGHT * 4, 0,
+		(int)GameConfig.PLAYER_HEIGHT * 7);
 	public static Animation playerEIdleAnimation = new Animation(
-		GameConfig.PLAYER_WIDTH, GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, GameConfig.PLAYER_HEIGHT,
-		GameConfig.PLAYER_WIDTH * 1, GameConfig.PLAYER_HEIGHT * 4,
-		GameConfig.PLAYER_WIDTH * 1, GameConfig.PLAYER_HEIGHT * 7);
+		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
+		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT,
+		(int)GameConfig.PLAYER_WIDTH * 1,
+		(int)GameConfig.PLAYER_HEIGHT * 4,
+		(int)GameConfig.PLAYER_WIDTH * 1,
+		(int)GameConfig.PLAYER_HEIGHT * 7);
 	public static Animation playerSIdleAnimation = new Animation(
-		GameConfig.PLAYER_WIDTH, GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, GameConfig.PLAYER_HEIGHT,
-		GameConfig.PLAYER_WIDTH * 2, GameConfig.PLAYER_HEIGHT * 4,
-		GameConfig.PLAYER_WIDTH * 2, GameConfig.PLAYER_HEIGHT * 7);
+		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
+		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT,
+		(int)GameConfig.PLAYER_WIDTH * 2,
+		(int)GameConfig.PLAYER_HEIGHT * 4,
+		(int)GameConfig.PLAYER_WIDTH * 2,
+		(int)GameConfig.PLAYER_HEIGHT * 7);
 	public static Animation playerWIdleAnimation = new Animation(
-		GameConfig.PLAYER_WIDTH, GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, GameConfig.PLAYER_HEIGHT,
-		GameConfig.PLAYER_WIDTH * 3, GameConfig.PLAYER_HEIGHT * 4,
-		GameConfig.PLAYER_WIDTH * 3, GameConfig.PLAYER_HEIGHT * 7);
+		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
+		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT,
+		(int)GameConfig.PLAYER_WIDTH * 3,
+		(int)GameConfig.PLAYER_HEIGHT * 4,
+		(int)GameConfig.PLAYER_WIDTH * 3,
+		(int)GameConfig.PLAYER_HEIGHT * 7);
 }
