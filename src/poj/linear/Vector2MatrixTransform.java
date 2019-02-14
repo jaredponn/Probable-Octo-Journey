@@ -33,6 +33,13 @@ public class Vector2MatrixTransform extends MatrixTransformations
 		this.m_matrix.set(4, (float)Math.cos(theta));
 	}
 
+	/** rotation with respect to X axis:*/
+	public void setShearForVector2XaxisCC(float xshear, float yshear)
+	{
+		this.m_matrix.set(1, xshear);
+		this.m_matrix.set(3, yshear);
+	}
+
 	// composes the current vector with a rotation.
 	public void composeWithRotationForVector2XaxisCC(float theta)
 	{
@@ -58,6 +65,7 @@ public class Vector2MatrixTransform extends MatrixTransformations
 
 		return adj;
 	}
+
 
 	// also bad someone please refactor this
 	private Vector2MatrixTransform pureGetMatrixOfAdjugate()

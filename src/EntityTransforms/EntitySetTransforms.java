@@ -26,6 +26,7 @@ public class EntitySetTransforms
 	{
 		Vector2f topleftcoord = p.getTopLeftCoordFromOrigin();
 		topleftcoord.matrixMultiply(c);
+		topleftcoord.log();
 		r.setTopLeftCornerPosition(Math.round(topleftcoord.getX()),
 					   Math.round(topleftcoord.getY()));
 	}

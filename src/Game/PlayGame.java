@@ -26,20 +26,32 @@ public class PlayGame extends World
 	// can you please look into storing this state there? And also, the map
 	// tile width and heighgs are wrong
 	private static final float TILE_ROTATION = ((float)Math.PI / 4.f);
-	private static final float TILE_WIDTH = 1f;
-	private static final float TILE_HEIGHT = 1f;
+	private static final float TILE_WIDTH = 64f;
+	private static final float TILE_HEIGHT = 32f;
+
+	private static final float playerspeed = 1f;
 
 	public PlayGame()
 	{
 		super();
 
-		// other resource initialization here
+
+		// World loading
 		this.map = new Map(3);
+		this.map.addMapConfig(GameResources.mapConfig);
+		this.map.addTileSet(GameResources.tileSet);
+		this.map.addMapLayer(GameResources.mapLayer0);
+		// this.map.addMapLayer(GameResources.mapLayer1);
+		// this.map.addMapLayer(GameResources.mapLayer1);
+		// this.map.addMapLayer(GameResources.mapLayer2);
+
 		this.cam = new Camera();
+
 		this.cam.setScalingForVector2(TILE_WIDTH, -TILE_HEIGHT);
 		this.cam.composeWithRotationForVector2XaxisCC(
 			PlayGame.TILE_ROTATION);
 		this.setCameraPosition(0f, 0f);
+
 
 		this.invCam = new Camera();
 		this.updateInverseCamera();
@@ -70,14 +82,6 @@ public class PlayGame extends World
 	{
 		// Player
 		super.engineState.spawnEntitySet(new PlayerSet());
-
-		// World is spawned here
-		this.map.addMapConfig(GameResources.mapConfig);
-		this.map.addTileSet(GameResources.tileSet);
-		this.map.addMapLayer(GameResources.mapLayer0);
-		// this.map.addMapLayer(GameResources.mapLayer1);
-		// this.map.addMapLayer(GameResources.mapLayer1);
-		// this.map.addMapLayer(GameResources.mapLayer2);
 	}
 	public void clearWorld()
 	{
@@ -171,7 +175,7 @@ public class PlayGame extends World
 				super.engineState
 					.getComponentAt(WorldAttributes.class,
 							i)
-					.add(0, 10);
+					.add(0, playerspeed);
 			}
 
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
@@ -179,22 +183,26 @@ public class PlayGame extends World
 				super.engineState
 					.getComponentAt(WorldAttributes.class,
 							i)
-					.add(10, 0);
+					.add(playerspeed, 0);
 			}
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_S)) {
 				System.out.println("s key is down");
 				super.engineState
 					.getComponentAt(WorldAttributes.class,
 							i)
-					.add(0, -10);
+					.add(0, -playerspeed);
 			}
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
 				System.out.println("a key is down");
 				super.engineState
 					.getComponentAt(WorldAttributes.class,
 							i)
-					.add(-10, 0);
+					.add(-playerspeed, 0);
 			}
+
+			super.engineState
+				.getComponentAt(WorldAttributes.class, i)
+				.print();
 			System.out.println("x ="
 					   + super.inputPoller.getMouseX());
 			System.out.println("y ="
