@@ -5,18 +5,29 @@ import Components.*;
 
 import poj.EngineState;
 import poj.Component.Components;
+import poj.Time.Timer;
+
+import Game.Camera;
 
 import EntitySets.*;
 import TileMap.Map;
 import EntityTransforms.*;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
-
-import poj.Time.Timer;
 
 public class PlayGame extends World
 {
 	private Map map;
+	private Camera cam;    // camera
+	private Camera invCam; // inverse camera
+
+	// TODO -- this should be moved somewhere in the map class. @Haiyang,
+	// can you please look into storing this state there? And also, the map
+	// tile width and heighgs are wrong
+	private static final float TILE_ROTATION = ((float)Math.PI / 4.f);
+	private static final float TILE_WIDTH = 1f;
+	private static final float TILE_HEIGHT = 1f;
 
 	public PlayGame()
 	{
@@ -24,6 +35,14 @@ public class PlayGame extends World
 
 		// other resource initialization here
 		this.map = new Map(3);
+		this.cam = new Camera();
+		this.cam.setScalingForVector2(TILE_WIDTH, -TILE_HEIGHT);
+		this.cam.composeWithRotationForVector2XaxisCC(
+			PlayGame.TILE_ROTATION);
+		this.setCameraPosition(0f, 0f);
+
+		this.invCam = new Camera();
+		this.updateInverseCamera();
 	}
 
 	public void registerComponents()
@@ -67,7 +86,6 @@ public class PlayGame extends World
 
 	public void runGameLoop()
 	{
-
 		while (true) {
 			super.setInitialTime();
 			this.processInputs();
@@ -79,49 +97,61 @@ public class PlayGame extends World
 
 			// updating the animation windows
 			for (HasAnimation a :
-			     super.engineState.getComponents()
+			     super.engineState
 				     .getRawComponentArrayListPackedData(
 					     HasAnimation.class)) {
 				EntitySetTransforms.updateHasAnimationComponent(
 					a, this.dt);
 			}
 
-			// updating the reder components to the aniamations
-			for (int i = super.engineState.getComponents()
-					     .getInitialComponentIndex(
-						     HasAnimation.class);
+			// updating the cropping the render componets' sprite
+			// sheets
+			for (int i = super.engineState.getInitialComponentIndex(
+				     HasAnimation.class);
 			     Components.isValidEntity(i);
-			     i = super.engineState.getComponents()
-					 .getNextComponentIndex(
-						 HasAnimation.class, i)) {
+			     i = super.engineState.getNextComponentIndex(
+				     HasAnimation.class, i)) {
 				EntitySetTransforms
 					.updateRenderComponentWindowFromHasAnimation(
 						super.engineState
-							.getComponents()
 							.getComponentAt(
 								Render.class,
 								i),
 						super.engineState
-							.getComponents()
 							.getComponentAt(
 								HasAnimation
 									.class,
 								i));
 			}
 
-			for (int i = super.engineState.getComponents()
-					     .getInitialComponentIndex(
-						     WorldAttributes.class);
+			// updating the positions to screen coordinates
+			for (int i = super.engineState.getInitialComponentIndex(
+				     WorldAttributes.class);
 			     Components.isValidEntity(i);
-			     i = super.engineState.getComponents()
-					 .getNextComponentIndex(
-						 WorldAttributes.class, i)) {
+			     i = super.engineState.getNextComponentIndex(
+				     WorldAttributes.class, i)) {
+
+				EntitySetTransforms
+					.updateRenderScreenCoordinatesFromWorldCoordinates(
+						super.engineState
+							.getComponentAt(
+								WorldAttributes
+									.class,
+								i),
+						super.engineState
+							.getComponentAt(
+								Render.class,
+								i),
+						this.cam);
 			}
 
 			this.render();
-			super.setFinalTime();
+			this.updateInverseCamera();
 
-			Timer.dynamicSleepToFrameRate(64, super.getDeltaTime());
+			super.setFinalTime();
+			super.calculateDeltaTime();
+
+			Timer.dynamicSleepToFrameRate(124, super.dt);
 		}
 	}
 
@@ -138,24 +168,39 @@ public class PlayGame extends World
 
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_W)) {
 				System.out.println("w key is down");
+				super.engineState
+					.getComponentAt(WorldAttributes.class,
+							i)
+					.add(0, 10);
 			}
+
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
 				System.out.println("d key is down");
+				super.engineState
+					.getComponentAt(WorldAttributes.class,
+							i)
+					.add(10, 0);
 			}
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_S)) {
 				System.out.println("s key is down");
+				super.engineState
+					.getComponentAt(WorldAttributes.class,
+							i)
+					.add(0, -10);
 			}
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
 				System.out.println("a key is down");
+				super.engineState
+					.getComponentAt(WorldAttributes.class,
+							i)
+					.add(-10, 0);
 			}
-			System.out.println(super.inputPoller.getMouseY());
 		}
 	}
 
 	protected void render()
 	{
 		map.renderTileMap(super.renderer);
-		// map.printRenderLayer(1, super.renderer);
 
 		for (Render r : super.engineState.getComponents()
 					.getRawComponentArrayListPackedData(
@@ -165,5 +210,19 @@ public class PlayGame extends World
 		}
 
 		super.renderer.render();
+	}
+
+
+	private void updateInverseCamera()
+	{
+		if (this.cam.isInvertible()) {
+			this.invCam =
+				new Camera((this.cam.unsafePureInverse()));
+		}
+	}
+
+	private void setCameraPosition(float x, float y)
+	{
+		cam.setTranslationForVector2(x, y);
 	}
 }

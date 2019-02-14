@@ -47,9 +47,9 @@ public abstract class World
 		this.tf = Timer.getTimeInMilliSeconds();
 	}
 
-	protected long getDeltaTime()
+	protected void calculateDeltaTime()
 	{
-		return tf - ti;
+		dt = tf - ti;
 	}
 
 	// init function
