@@ -3,8 +3,9 @@ package poj.linear;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.util.Collections;
+import poj.Logger.*;
 
-import poj.Logger.Logger;
+
 public class MatrixTransformations extends Matrix<Float>
 {
 	public MatrixTransformations(int size)
@@ -21,30 +22,9 @@ public class MatrixTransformations extends Matrix<Float>
 				}
 			}
 		}
-		setArray(tmp, size);
+		setArray(tmp, size, size);
 	}
 
-	public void setTranslationForVector2(float xt, float yt)
-	{
-		this.m_matrix.set(2, xt);
-		this.m_matrix.set(5, yt);
-	}
-
-	public void setScalingForVector2(float xs, float ys)
-	{
-		this.m_matrix.set(0, xs);
-		this.m_matrix.set(4, ys);
-	}
-
-
-	/** rotation with respect to X axis:*/
-	public void setRotationForVector2Xaxis(float theta)
-	{
-		this.m_matrix.set(0, (float)Math.cos(theta));
-		this.m_matrix.set(1, -(float)Math.sin(theta));
-		this.m_matrix.set(3, (float)Math.sin(theta));
-		this.m_matrix.set(4, (float)Math.cos(theta));
-	}
 
 	/** this is literally matrix multiplication..*/
 	public void compose(Matrix<Float> matrixB)
@@ -88,6 +68,14 @@ public class MatrixTransformations extends Matrix<Float>
 				}
 			}
 		}
+	}
+
+	// swaps data at index a and b without bounds checking
+	public void unsafeSwap(int a, int b)
+	{
+		float tmp = m_matrix.get(a);
+		m_matrix.set(a, m_matrix.get(b));
+		m_matrix.set(b, tmp);
 	}
 
 	public static final boolean matrixEquality(Matrix<Float> A,

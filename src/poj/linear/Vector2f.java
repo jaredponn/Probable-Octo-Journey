@@ -1,6 +1,8 @@
 package poj.linear;
 
 import java.lang.Math;
+import poj.Logger.*;
+
 public class Vector2f
 {
 	public float x;
@@ -29,6 +31,12 @@ public class Vector2f
 		this.y += a.y;
 	}
 
+	public void add(float x, float y)
+	{
+		this.x += x;
+		this.y += y;
+	}
+
 	public void subtract(final Vector2f a)
 	{
 		this.x -= a.x;
@@ -52,6 +60,20 @@ public class Vector2f
 		this.x = tempVector3.x;
 		this.y = tempVector3.y;
 	}
+
+	public void swapXandY()
+	{
+		float tmp = this.x;
+		this.x = y;
+		this.y = tmp;
+	}
+
+	// aliasfor multiplyWithMatrix
+	public final void matrixMultiply(final Matrix<Float> A)
+	{
+		this.multiplyWithMatrix(A);
+	}
+
 
 	public final Vector2f scalarProduct(final Vector2f a,
 					    final float scalar)
@@ -108,6 +130,13 @@ public class Vector2f
 	public void setY(float n)
 	{
 		this.y = n;
+	}
+
+	public void log()
+	{
+		Logger.logMessage(LogLevels.VERBOSE,
+				  "Vector2f: x =  " + this.x
+					  + ", y = " + this.y);
 	}
 }
 // add, minus, scalarProduct, MatrixVectorMultiplication??, dot product,

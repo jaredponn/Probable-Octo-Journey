@@ -2,7 +2,7 @@ package poj.linear;
 
 import java.util.ArrayList;
 
-import poj.Logger.Logger;
+import poj.Logger.*;
 
 public class Matrix<T>
 {
@@ -40,14 +40,18 @@ public class Matrix<T>
 		this.cols = array.size() / rowSize;
 	}
 
-	public void setArray(ArrayList<T> tmp, int size)
+	public void setArray(ArrayList<T> tmp, int rows, int cols)
 	{
-		this.rows = size;
-		this.cols = size;
+		this.rows = rows;
+		this.cols = cols;
+		this.m_matrix = tmp;
+	}
+
+	public void setArray(ArrayList<T> tmp)
+	{
 		this.m_matrix = tmp;
 	}
 	// 0 based indexing!!
-
 	public int getIndexFromMatrixCord(final MatrixCord matrixCord)
 	{
 		Logger.lassert(
@@ -97,12 +101,30 @@ public class Matrix<T>
 			"MAJOR ERROR in getDataWithMatrixCord! index is out of bounds");
 		return m_matrix.get(matrixCord.row * cols + matrixCord.col);
 	}
+
+	public T getDataWithMatrixCord(int r, int c)
+	{
+		return getDataWithMatrixCord(new MatrixCord(r, c));
+	}
 	public T getDataWithIndex(int index)
 	{
 		Logger.lassert(
 			(index < 0 || index > m_matrix.size() - 1),
 			"MAJOR ERROR in getDataWithIndex! index is out of bounds");
 		return m_matrix.get(index);
+	}
+
+	public void log()
+	{
+		Logger.logMessage(LogLevels.VERBOSE, "Matrix log: ");
+		for (int r = 0; r < rows; ++r) {
+			String tmp = "";
+			for (int c = 0; c < cols; ++c) {
+				tmp += getDataWithMatrixCord(r, c).toString()
+				       + ", ";
+			}
+			Logger.logMessage(LogLevels.VERBOSE, tmp);
+		}
 	}
 }
 
