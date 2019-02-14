@@ -25,8 +25,11 @@ public class HasAnimation implements Component
 
 	public void print()
 	{
-		System.out.println("Animation Component");
-		System.out.println();
-		System.out.println("END Animation Component");
+		System.out.println(
+			"Animation Component { top left X: "
+			+ animation.getImageWindow().getX() + ", top left Y: "
+			+ animation.getImageWindow().getY() + ", accTimems: "
+			+ animation.getAccTimems() + ", frameDurationms: "
+			+ animation.getFrameDurationms());
 	}
 }
