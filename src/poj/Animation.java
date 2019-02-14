@@ -51,8 +51,20 @@ public class Animation
 	{
 		addToAccTime(xms);
 
-		if (this.accTimems >= this.frameDurationms)
+		if (this.accTimems >= this.frameDurationms) {
 			slideImageWindow();
+			this.accTimems = 0;
+		}
+	}
+
+	public long getAccTimems()
+	{
+		return this.accTimems;
+	}
+
+	public long getFrameDurationms()
+	{
+		return this.frameDurationms;
 	}
 
 	final public ImageWindow getImageWindow()
@@ -69,8 +81,8 @@ public class Animation
 	// max (exclusive)
 	private void slideImageWindow()
 	{
-		if (this.focusedWindow.getX() >= this.xmax
-		    && this.focusedWindow.getY() >= this.ymax) {
+		if (this.focusedWindow.getX() + xstride >= this.xmax
+		    && this.focusedWindow.getY() + ystride >= this.ymax) {
 			this.focusedWindow.setX(xmin);
 			this.focusedWindow.setY(ymin);
 			return;
