@@ -1,6 +1,6 @@
 package Game;
 
-import Resources.GameResources;
+import Resources.*;
 import Components.*;
 
 import poj.EngineState;
@@ -198,6 +198,58 @@ public class PlayGame extends World
 					.getComponentAt(WorldAttributes.class,
 							i)
 					.add(-playerspeed, 0);
+			}
+
+			////// Build Commands //////
+			if (super.inputPoller.isKeyDown(
+				    GameConfig.BUILD_TOWER)) {
+				System.out.print(
+					"q key is down. Should spawn tower at player location\n");
+				Vector2f currentCoord = getPlayerLocation();
+				// TODO: get tile player is stood on
+				// TODO: highlight that tile?
+				// TODO: spawn new tower entity on tile
+				// TODO: make tower spawn on key up? (to prevent
+				// constant spawning if key down for more than 1
+				// frame)
+			}
+			if (super.inputPoller.isKeyDown(
+				    GameConfig.BUILD_TRAP)) {
+				System.out.print(
+					"e key is down. Should spawn trap at player location\n");
+				Vector2f currentCoord = getPlayerLocation();
+				// TODO: get tile player is stood on
+				// TODO: highlight that tile?
+				// TODO: spawn new trap entity on tile
+				// TODO: make trap spawn on key up? (to prevent
+				// constant spawning if key down for more than 1
+				// frame)
+			}
+
+			////// Combat Commands //////
+			if (super.inputPoller.isKeyDown(
+				    GameConfig.ATTACK_KEY)) {
+				System.out.print(
+					"f key is down. Player character should be attacking\n");
+				// TODO: find adjacent tiles (and any enemies on
+				// them)
+				// TODO: apply damage to enemies
+				// TODO: attack on mouse click instead?
+			}
+			if (super.inputPoller.isLeftMouseButtonDown()) {
+				System.out.println(
+					"left mouse button is down. Player character should be attacking");
+				// TODO: find adjacent tiles (and any enemies on
+				// them)
+				// TODO: apply damage to enemies
+			}
+			if (super.inputPoller.isKeyDown(
+				    GameConfig.SWITCH_WEAPONS)) {
+				System.out.print(
+					"x key is down. Player character should be changing weapons\n");
+				// TODO: implement different weapons
+				// TODO: switch between weapons
+				// player.switchWeapon();
 			}
 
 			super.engineState
