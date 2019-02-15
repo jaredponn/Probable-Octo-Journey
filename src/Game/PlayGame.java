@@ -29,8 +29,6 @@ public class PlayGame extends World
 	private static final float TILE_WIDTH = 64f;
 	private static final float TILE_HEIGHT = 32f;
 
-	private static final float playerspeed = 1f;
-
 	public PlayGame()
 	{
 		super();
@@ -164,40 +162,40 @@ public class PlayGame extends World
 	{
 
 		// player manipulation
-		for (int i = super.engineState.getComponents()
-				     .getInitialSetIndex(PlayerSet.class);
-		     Components.isValidEntity(i);
-		     i = engineState.getComponents().getNextSetIndex(
-			     PlayerSet.class, i)) {
+		for (int player = super.engineState.getComponents()
+					  .getInitialSetIndex(PlayerSet.class);
+		     Components.isValidEntity(player);
+		     player = engineState.getComponents().getNextSetIndex(
+			     PlayerSet.class, player)) {
 
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_W)) {
 				System.out.println("w key is down");
 				super.engineState
 					.getComponentAt(WorldAttributes.class,
-							i)
-					.add(0, playerspeed);
+							player)
+					.add(0, GameConfig.PLAYER_SPEED);
 			}
 
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
 				System.out.println("d key is down");
 				super.engineState
 					.getComponentAt(WorldAttributes.class,
-							i)
-					.add(playerspeed, 0);
+							player)
+					.add(GameConfig.PLAYER_SPEED, 0);
 			}
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_S)) {
 				System.out.println("s key is down");
 				super.engineState
 					.getComponentAt(WorldAttributes.class,
-							i)
-					.add(0, -playerspeed);
+							player)
+					.add(0, -GameConfig.PLAYER_SPEED);
 			}
 			if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
 				System.out.println("a key is down");
 				super.engineState
 					.getComponentAt(WorldAttributes.class,
-							i)
-					.add(-playerspeed, 0);
+							player)
+					.add(-GameConfig.PLAYER_SPEED, 0);
 			}
 
 			////// Build Commands //////
@@ -205,7 +203,6 @@ public class PlayGame extends World
 				    GameConfig.BUILD_TOWER)) {
 				System.out.print(
 					"q key is down. Should spawn tower at player location\n");
-				Vector2f currentCoord = getPlayerLocation();
 				// TODO: get tile player is stood on
 				// TODO: highlight that tile?
 				// TODO: spawn new tower entity on tile
@@ -217,7 +214,6 @@ public class PlayGame extends World
 				    GameConfig.BUILD_TRAP)) {
 				System.out.print(
 					"e key is down. Should spawn trap at player location\n");
-				Vector2f currentCoord = getPlayerLocation();
 				// TODO: get tile player is stood on
 				// TODO: highlight that tile?
 				// TODO: spawn new trap entity on tile
@@ -253,7 +249,7 @@ public class PlayGame extends World
 			}
 
 			super.engineState
-				.getComponentAt(WorldAttributes.class, i)
+				.getComponentAt(WorldAttributes.class, player)
 				.print();
 			System.out.println("x ="
 					   + super.inputPoller.getMouseX());
