@@ -237,6 +237,7 @@ public class PlayGame extends World
 				.getClosestDirectionFromDirectionVector(tmp);
 		super.getComponentAt(FacingDirection.class, player)
 			.setDirection(facingDirection);
+
 		super.getComponentAt(FacingDirection.class, player).print();
 	}
 
