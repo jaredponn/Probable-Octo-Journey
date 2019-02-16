@@ -26,8 +26,6 @@ public class Render implements Component
 	{
 		return this.graphic;
 	}
-	// render layer
-	// load things in, give render component
 
 	public void render(Renderer renderer)
 	{
@@ -51,8 +49,8 @@ public class Render implements Component
 
 	public void print()
 	{
-		System.out.println("Render Component");
-		System.out.println();
-		System.out.println("END Render Component");
+		System.out.println("Render Component: topLeftXPosition = "
+				   + graphic.getX()
+				   + " topLeftYPosition = " + graphic.getY());
 	}
 }
