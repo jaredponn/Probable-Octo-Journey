@@ -7,11 +7,15 @@ import poj.linear.Vector2f;
 public class Render implements Component
 {
 	private ImageRenderObject graphic;
+	// not really used currently -- intetion was to move the object if the
+	// objet has an animation and it still needs to move to have the
+	// position line up with it
 	private Vector2f position_translation;
 
 	// constructor assumes the width and the height of the image is the same
 	// as model shown. Will not work for animations which need their own
-	// specified width and height
+	// specified width and height. To make this show only a portion of the
+	// image, consider setting an ImageWindow
 	public Render(ImageRenderObject a)
 	{
 		this.graphic = a;
