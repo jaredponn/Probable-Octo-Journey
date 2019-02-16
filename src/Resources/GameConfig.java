@@ -14,6 +14,10 @@ public class GameConfig
 	public static final float PLAYER_WIDTH = 0.75f;
 	public static final float PLAYER_HEIGHT = 1f;
 
+	// bullet config
+	public static final float BULLET_SPEED = 1f;
+	public static final float BULLET_WIDTH = 0.1f;
+	public static final float BULLET_HEIGHT = 0.1f;
 
 	// mob config
 	public static final float MOB_VELOCITY = 0.9f * PLAYER_SPEED;
