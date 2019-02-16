@@ -24,6 +24,6 @@ public class Speed implements Component
 
 	public void print()
 	{
-		System.out.println("Velocity Component: vel = " + this.speed);
+		System.out.println("Speed Component: speed = " + this.speed);
 	}
 }
