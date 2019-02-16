@@ -23,6 +23,7 @@ public class WorldAttributes implements Component
 		this(new Vector2f(Float.MAX_VALUE, Float.MAX_VALUE), w, h);
 	}
 
+	// notice -- the vector is the origin coodinate
 	public WorldAttributes(Vector2f c, float w, float h)
 	{
 		this.coord = c;
@@ -50,13 +51,19 @@ public class WorldAttributes implements Component
 	// getters for getting coordinates from the origin (center)
 	public Vector2f getOriginCoord()
 	{
-		return this.coord;
+		return new Vector2f(this.coord);
 	}
 
 	public Vector2f getTopLeftCoordFromOrigin()
 	{
 		return new Vector2f(this.coord.x - width / 2.f,
-				    this.coord.y - height / 2.f);
+				    this.coord.y + height / 2.f);
+	}
+
+	public Vector2f getBottomRightCoordFromOrigin()
+	{
+		return new Vector2f(this.coord.x + width / 2.f,
+				    this.coord.y + height / 2.f);
 	}
 
 	public Rectanglef getCenteredRect()
@@ -89,10 +96,16 @@ public class WorldAttributes implements Component
 		this.coord.add(x, y);
 	}
 
+	public void add(Vector2f n)
+	{
+		this.coord.add(n.x, n.y);
+	}
+
 	// print
 	public void print()
 	{
 		System.out.println("WorldCoordinate Component: x = " + coord.x
-				   + " y = " + coord.y);
+				   + " y = " + coord.y + "width = " + width
+				   + " height =  " + height);
 	}
 }
