@@ -112,8 +112,35 @@ public class PlayGame extends World
 	{
 
 		////// Movement Commands //////
-
-		if (super.inputPoller.isKeyDown(KeyEvent.VK_W)) {
+		if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
+		    && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
+			System.out.println("wd key is down");
+			super.getComponentAt(Direction.class, this.player)
+				.setDirection(CardinalDirections.NE);
+			super.getComponentAt(Speed.class, this.player)
+				.setSpeed(GameConfig.PLAYER_SPEED);
+		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
+			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
+			System.out.println("wa key is down");
+			super.getComponentAt(Direction.class, this.player)
+				.setDirection(CardinalDirections.NW);
+			super.getComponentAt(Speed.class, this.player)
+				.setSpeed(GameConfig.PLAYER_SPEED);
+		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
+			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
+			System.out.println("sa key is down");
+			super.getComponentAt(Direction.class, this.player)
+				.setDirection(CardinalDirections.SW);
+			super.getComponentAt(Speed.class, this.player)
+				.setSpeed(GameConfig.PLAYER_SPEED);
+		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
+			   && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
+			System.out.println("sd key is down");
+			super.getComponentAt(Direction.class, this.player)
+				.setDirection(CardinalDirections.SW);
+			super.getComponentAt(Speed.class, this.player)
+				.setSpeed(GameConfig.PLAYER_SPEED);
+		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_W)) {
 			System.out.println("w key is down");
 			super.getComponentAt(Direction.class, this.player)
 				.setDirection(CardinalDirections.N);
@@ -189,19 +216,20 @@ public class PlayGame extends World
 			// player.switchWeapon();
 		}
 
-		// super.getComponentAt(WorldAttributes.class, player).print();
-		// System.out.println("x =" + super.inputPoller.getMouseX());
-		// System.out.println("y =" + super.inputPoller.getMouseY());
+		// super.getComponentAt(WorldAttributes.class,
+		// player).print(); System.out.println("x =" +
+		// super.inputPoller.getMouseX()); System.out.println("y
+		// =" + super.inputPoller.getMouseY());
 	}
 
 	protected void render()
 	{
 		for (Render r : this.map.getTileLayerRender(0)) {
-			// this if (r != null) was an awful api decision and
-			// needs to be removed unless there is a very very very
-			// good reason for why this is here, as it completely
-			// defeats the purpose of having a packed vector and a
-			// sparse vector
+			// this if (r != null) was an awful api decision
+			// and needs to be removed unless there is a
+			// very very very good reason for why this is
+			// here, as it completely defeats the purpose of
+			// having a packed vector and a sparse vector
 			if (r != null)
 				Systems.pushRenderComponentToRenderer(
 					r, super.renderer);
