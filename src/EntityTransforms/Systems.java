@@ -5,7 +5,7 @@ import Game.Camera;
 import poj.linear.*;
 import poj.Render.Renderer;
 
-public class EntitySetTransforms
+public class Systems
 {
 	public static boolean areCollisionBodiesColliding(CollisionBody a,
 							  CollisionBody b)
@@ -26,7 +26,6 @@ public class EntitySetTransforms
 	{
 		Vector2f topleftcoord = p.getTopLeftCoordFromOrigin();
 		topleftcoord.matrixMultiply(c);
-		topleftcoord.log();
 		r.setTopLeftCornerPosition(Math.round(topleftcoord.getX()),
 					   Math.round(topleftcoord.getY()));
 	}
@@ -49,8 +48,11 @@ public class EntitySetTransforms
 	}
 
 
-	public static Vector2f getVelocity(Direction d, Speed v)
+	public static Vector2f getVelocityFromDirectionAndSpeed(Direction d,
+								Speed v)
 	{
-		return new Vector2f();
+		Vector2f tmp = d.getUnitVector();
+		tmp.mul(v.getSpeed());
+		return tmp;
 	}
 }
