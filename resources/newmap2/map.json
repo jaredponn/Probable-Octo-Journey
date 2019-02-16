@@ -1,0 +1,31 @@
+{ "height":5,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[1, 17, 17, 0, 0, 0, 19, 0, 0, 0, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":5,
+         "id":1,
+         "name":"Tile Layer 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":5,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":2,
+ "nextobjectid":1,
+ "orientation":"isometric",
+ "renderorder":"right-down",
+ "tiledversion":"1.2.1",
+ "tileheight":32,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"caveTileSet128.tsx"
+        }],
+ "tilewidth":64,
+ "type":"map",
+ "version":1.2,
+ "width":5
+}
