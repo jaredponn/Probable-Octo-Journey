@@ -9,6 +9,8 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.MouseWheelEvent;
 
+import poj.linear.Vector2f;
+
 // https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html
 
 public class InputPoller implements KeyListener, MouseListener,
@@ -53,6 +55,12 @@ public class InputPoller implements KeyListener, MouseListener,
 	{
 		return this.mouseY;
 	}
+
+	public Vector2f getMousePosition()
+	{
+		return new Vector2f(this.getMouseX(), this.getMouseY());
+	}
+
 
 	public boolean isLeftMouseButtonDown()
 	{
