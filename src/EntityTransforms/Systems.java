@@ -24,10 +24,19 @@ public class Systems
 	public static void updateRenderScreenCoordinatesFromWorldCoordinates(
 		WorldAttributes p, Render r, final Camera c)
 	{
-		Vector2f topleftcoord = p.getTopLeftCoordFromOrigin();
-		topleftcoord.matrixMultiply(c);
+		Vector2f topleftcoord =
+			Systems.getRenderScreenCoordinateFromWorldCoordinate(p,
+									     c);
 		r.setTopLeftCornerPosition(Math.round(topleftcoord.getX()),
 					   Math.round(topleftcoord.getY()));
+	}
+	public static Vector2f
+	getRenderScreenCoordinateFromWorldCoordinate(WorldAttributes p,
+						     final Camera c)
+	{
+		Vector2f topleftcoord = p.getTopLeftCoordFromOrigin();
+		topleftcoord.matrixMultiply(c);
+		return topleftcoord;
 	}
 
 	public static void pushRenderComponentToRenderer(Render r, Renderer ren)
@@ -48,8 +57,8 @@ public class Systems
 	}
 
 
-	public static Vector2f getVelocityFromDirectionAndSpeed(Direction d,
-								Speed v)
+	public static Vector2f
+	getVelocityFromDirectionAndSpeed(MovementDirection d, Speed v)
 	{
 		Vector2f tmp = d.getUnitVector();
 		tmp.mul(v.getSpeed());
