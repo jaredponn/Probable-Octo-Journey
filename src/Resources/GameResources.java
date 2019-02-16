@@ -35,6 +35,13 @@ public class GameResources
 		tileSet = "resources/newmap/caveTileSet128.json",
 		// mapLayer0 = "resources/newmap/testDifSetCombine1.csv",
 		mapLayer0 = "resources/newmap/mainMap.csv";
+
+	// Tile config TODO == haiyang please update this directly with whatever
+	// value is in the files. THis is currently hard coded in
+	public static final float TILE_WIDTH = 64f;
+	public static final float TILE_HEIGHT = 32f;
+	public static final float TILE_ROTATION = ((float)Math.PI / 4.f);
+
 	// mapLayer0 =
 	//"resources/newmap/testDifSetCombine1_not_ground.csv",
 	// mapLayer1 = "resources/newmap/testDifSetCombine1_ground.csv";
@@ -50,52 +57,42 @@ public class GameResources
 	public static BufferedImage playerSpriteSheet =
 		ImageLoader.load("resources/playerspritesheet.png");
 
+	public static final int PLAYER_SPRITE_WIDTH = 48;
+	public static final int PLAYER_SPRITE_HEIGHT = 64;
+
 	public static Animation playerNMoveAnimation = new Animation(
-		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT, 0, 0, 0,
-		(int)GameConfig.PLAYER_HEIGHT * 4);
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, 0, 0, 0, PLAYER_SPRITE_HEIGHT * 4);
 	public static Animation playerEMoveAnimation = new Animation(
-		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT,
-		(int)GameConfig.PLAYER_WIDTH, 0, (int)GameConfig.PLAYER_WIDTH,
-		(int)GameConfig.PLAYER_HEIGHT * 4);
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH, 0,
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT * 4);
 	public static Animation playerSMoveAnimation = new Animation(
-		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT,
-		(int)GameConfig.PLAYER_WIDTH * 2, 0,
-		(int)GameConfig.PLAYER_WIDTH * 2,
-		(int)GameConfig.PLAYER_HEIGHT * 4);
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 2, 0,
+		PLAYER_SPRITE_WIDTH * 2, PLAYER_SPRITE_HEIGHT * 4);
 	public static Animation playerWMoveAnimation = new Animation(
-		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT,
-		(int)GameConfig.PLAYER_WIDTH * 3, 0,
-		(int)GameConfig.PLAYER_WIDTH * 3,
-		(int)GameConfig.PLAYER_HEIGHT * 4);
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 3, 0,
+		PLAYER_SPRITE_WIDTH * 3, PLAYER_SPRITE_HEIGHT * 4);
 
 	public static Animation playerNIdleAnimation = new Animation(
-		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT, 0,
-		(int)GameConfig.PLAYER_HEIGHT * 4, 0,
-		(int)GameConfig.PLAYER_HEIGHT * 7);
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, 0, PLAYER_SPRITE_HEIGHT * 4, 0,
+		PLAYER_SPRITE_HEIGHT * 7);
 	public static Animation playerEIdleAnimation = new Animation(
-		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT,
-		(int)GameConfig.PLAYER_WIDTH * 1,
-		(int)GameConfig.PLAYER_HEIGHT * 4,
-		(int)GameConfig.PLAYER_WIDTH * 1,
-		(int)GameConfig.PLAYER_HEIGHT * 7);
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 1,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 1,
+		PLAYER_SPRITE_HEIGHT * 7);
 	public static Animation playerSIdleAnimation = new Animation(
-		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT,
-		(int)GameConfig.PLAYER_WIDTH * 2,
-		(int)GameConfig.PLAYER_HEIGHT * 4,
-		(int)GameConfig.PLAYER_WIDTH * 2,
-		(int)GameConfig.PLAYER_HEIGHT * 7);
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 2,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 2,
+		PLAYER_SPRITE_HEIGHT * 7);
 	public static Animation playerWIdleAnimation = new Animation(
-		(int)GameConfig.PLAYER_WIDTH, (int)GameConfig.PLAYER_HEIGHT,
-		animationDurationms, 0, (int)GameConfig.PLAYER_HEIGHT,
-		(int)GameConfig.PLAYER_WIDTH * 3,
-		(int)GameConfig.PLAYER_HEIGHT * 4,
-		(int)GameConfig.PLAYER_WIDTH * 3,
-		(int)GameConfig.PLAYER_HEIGHT * 7);
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 3,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 3,
+		PLAYER_SPRITE_HEIGHT * 7);
 }
