@@ -3,11 +3,11 @@ package Components;
 import poj.Component.Component;
 import poj.linear.*;
 
-public class Direction implements Component
+public class MovementDirection implements Component
 {
 	private CardinalDirections direction;
 
-	public Direction(CardinalDirections n)
+	public MovementDirection(CardinalDirections n)
 	{
 		setDirection(n);
 	}
