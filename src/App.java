@@ -1,13 +1,8 @@
-import poj.EngineState;
 import poj.GameWindow.*;
 import poj.Render.*;
-import poj.Time.*;
-import Components.*;
-import EntitySets.*;
 import Game.PlayGame;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class App
 {
@@ -18,8 +13,12 @@ public class App
 	private GameCanvas gcanvas;
 	private Renderer renderer;
 
+
 	// is running
 	boolean isRunning;
+
+	private int width = 1024;
+	private int height = 768;
 
 	public App()
 	{
@@ -36,7 +35,7 @@ public class App
 					      inputPoller);*/
 
 		// windowed
-		this.gcanvas = new GameCanvas(1024, 768, inputPoller);
+		this.gcanvas = new GameCanvas(width, height, inputPoller);
 
 
 		this.gwindow.defaultAddGameCanvasAndSetBufferStrat(gcanvas);
@@ -54,7 +53,14 @@ public class App
 
 		PlayGame playGame = new PlayGame();
 
+		playGame.setWindowWidth(width);
+		playGame.setWindowHeight(height);
 		playGame.loadRenderer(this.renderer);
+
+		// changes the renderer to use the sorted buffer
+		renderer.setRenderBuffer(
+			new MinYFirstSortedRenderObjectBuffer());
+
 		playGame.loadInputPoller(this.inputPoller);
 		playGame.registerComponents();
 		playGame.registerEntitySets();
