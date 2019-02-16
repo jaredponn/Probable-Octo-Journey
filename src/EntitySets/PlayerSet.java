@@ -13,15 +13,15 @@ public class PlayerSet extends EntitySet
 	public PlayerSet()
 	{
 		super();
-		addComponent(new Speed(GameConfig.PLAYER_SPEED));
-		// addComponent(Direction.N);
 		addComponent(new Render(new ImageRenderObject(
 			0, 0, GameResources.playerSpriteSheet)));
 
-		addComponent(new WorldAttributes(new Vector2f(24f, 26f),
+		addComponent(new WorldAttributes(new Vector2f(0f, 0f),
 						 GameConfig.PLAYER_WIDTH,
 						 GameConfig.PLAYER_HEIGHT));
 		addComponent(
 			new HasAnimation(GameResources.playerNIdleAnimation));
+		addComponent(new Speed(GameConfig.PLAYER_SPEED));
+		addComponent(new Direction(CardinalDirections.N));
 	}
 }
