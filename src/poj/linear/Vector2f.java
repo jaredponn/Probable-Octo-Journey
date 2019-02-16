@@ -43,6 +43,12 @@ public class Vector2f
 		this.y -= a.y;
 	}
 
+	public void mul(float n)
+	{
+		this.x *= n;
+		this.y *= n;
+	}
+
 	public Vector2f pureNormalize()
 	{
 		final float mag = scalarValueOfVector(this);
@@ -134,9 +140,14 @@ public class Vector2f
 
 	public void log()
 	{
-		Logger.logMessage(LogLevels.VERBOSE,
-				  "Vector2f: x =  " + this.x
-					  + ", y = " + this.y);
+		log("");
+	}
+
+	public void log(String s)
+	{
+		Logger.logMessage(LogLevels.VERBOSE, "Vector2f: x =  " + this.x
+							     + ", y = " + this.y
+							     + " " + s);
 	}
 }
 // add, minus, scalarProduct, MatrixVectorMultiplication??, dot product,

@@ -23,6 +23,13 @@ public class Vector2MatrixTransform extends MatrixTransformations
 		this.m_matrix.set(4, ys);
 	}
 
+	public void composeSetScalingForVector2(float xs, float ys)
+	{
+		Vector2MatrixTransform tmp = new Vector2MatrixTransform();
+		tmp.setScalingForVector2(xs, ys);
+		this.compose(tmp);
+	}
+
 
 	/** rotation with respect to X axis:*/
 	public void setRotationForVector2XaxisCC(float theta)
