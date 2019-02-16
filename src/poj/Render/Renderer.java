@@ -67,6 +67,11 @@ public class Renderer
 		backgroundColor = c;
 	}
 
+	public void setRenderBuffer(Queue<RenderObject> n)
+	{
+		renderBuffer = n;
+	}
+
 	public void render()
 	{
 		Graphics g = null;
