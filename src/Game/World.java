@@ -124,6 +124,11 @@ public abstract class World
 		return this.getNextSetIndex(setType, focus);
 	}
 
+	public <T extends Component> boolean hasComponent(Class<T> c, int i)
+	{
+		return engineState.hasComponent(c, i);
+	}
+
 	// init function
 	public abstract void registerComponents();
 	public abstract void registerEntitySets();

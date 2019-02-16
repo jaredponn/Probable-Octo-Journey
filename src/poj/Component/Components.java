@@ -50,6 +50,12 @@ public class Components extends ComponentsArray
 			.get_packed_data();
 	}
 
+	public <T extends Component> boolean hasComponent(Class<T> c, int i)
+	{
+		return getComponentPackedVector(c).get_sparse_vector().get(i)
+			!= PackedVector.INVALID_INDEX;
+	}
+
 
 	/* set iteration */
 	public static int INVALID_ENTITY_INDEX = -1;
