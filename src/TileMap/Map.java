@@ -282,4 +282,11 @@ public class Map
 			}
 		}
 	}
+
+	public ArrayList<Render> getTileLayerRender(int layerNumber)
+	{
+		return this.mapLayers.get(layerNumber)
+			.getComponents()
+			.getRawComponentArrayListPackedData(Render.class);
+	}
 }
