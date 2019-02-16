@@ -202,16 +202,17 @@ public class Map
 								Render.class,
 								new Render(new ImageRenderObject(
 									(i
-									 % tileWidth) * tileWidth
-										+ xShiftValue,
+									 % tileWidth)
+										* tileWidth,
+									//+
+									// xShiftValue,
 									//(numRows
 									//- 1) *
 									// tileHeight,
 									(numRows
-									 - 1)
-										* tileHeight
-										/// 4,
-										/ 8,
+									 - 1) * tileHeight
+										/ 4,
+									/// 8,
 									GameResources
 										.testTile,
 									tilesRenderPart

@@ -31,10 +31,10 @@ public class GameResources
 	*/
 	public static String
 		// mapConfig = "resources/newmap/testDifSetCombine1.json",
-		mapConfig = "resources/newmap/mainMap.json",
-		tileSet = "resources/newmap/caveTileSet128.json",
+		mapConfig = "resources/newmap2/map.json",
+		tileSet = "resources/newmap2/caveTileSet128.json",
 		// mapLayer0 = "resources/newmap/testDifSetCombine1.csv",
-		mapLayer0 = "resources/newmap/mainMap.csv";
+		mapLayer0 = "resources/newmap2/map.csv";
 
 	// Tile config TODO == haiyang please update this directly with whatever
 	// value is in the files. THis is currently hard coded in

@@ -30,6 +30,12 @@ public class WorldAttributes implements Component
 		this.width = w;
 		this.height = h;
 	}
+	public WorldAttributes(Vector2f c)
+	{
+		this.coord = c;
+		this.width = 0;
+		this.height = 0;
+	}
 
 	public WorldAttributes(float x, float y, float w, float h)
 	{
