@@ -20,9 +20,10 @@ public class MobSet extends EntitySet
 			0, 0, GameResources.playerSpriteSheet)));
 		// TODO: mob sprite sheet
 
-		addComponent(new WorldAttributes(new Vector2f(50.f, 50.f),
+		addComponent(new WorldAttributes(new Vector2f(0, 0),
 						 GameConfig.MOB_WIDTH,
 						 GameConfig.MOB_HEIGHT));
+
 		// TODO: make mobs a different size than the player?
 
 		// TODO: mob animations (walking, idle, attacking, dying)
