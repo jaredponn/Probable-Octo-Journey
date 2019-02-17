@@ -8,31 +8,30 @@ import java.awt.event.KeyEvent;
 public class GameConfig
 {
 
-
 	// player config
-	public static final float PLAYER_SPEED = 0.003f;
-	// public static final float PLAYER_WIDTH =
-	//	GameResources.PLAYER_SPRITE_WIDTH
-	//	/ GameResources.TILE_SCREEN_WIDTH;
-	// public static final float PLAYER_HEIGHT =
-	//	GameResources.PLAYER_SPRITE_HEIGHT
-	//	/ GameResources.TILE_SCREEN_HEIGHT;
+	// not gonna lie, idk why we really need this, but the math checks out
+	// with this
+	// TODO someone figure out how this all works so we're no longer just
+	// guessing random numbers sto make everything line up. pretty sure this
+	// happened just because of coincidence.
+	private static final float PLAYER_SCALE = 2f;
 
-	public static final float PLAYER_WIDTH = 0;
-	public static final float PLAYER_HEIGHT = 0;
+	public static final float PLAYER_SPEED = 0.003f;
+	public static final float PLAYER_WIDTH =
+		GameResources.TILE_SCREEN_WIDTH
+		/ GameResources.PLAYER_SPRITE_WIDTH * PLAYER_SCALE;
+	public static final float PLAYER_HEIGHT =
+		GameResources.TILE_SCREEN_HEIGHT
+		/ GameResources.PLAYER_SPRITE_HEIGHT * PLAYER_SCALE;
 
 	// bullet config
 	public static final float BULLET_SPEED = 0.02f;
-	// public static final float BULLET_WIDTH =
-	//	GameResources.BULLET_SPRITE_WIDTH
-	//	/ GameResources.TILE_SCREEN_WIDTH;
-	// public static final float BULLET_HEIGHT =
-	//	GameResources.BULLET_SPRITE_HEIGHT
-	//	/ GameResources.TILE_SCREEN_HEIGHT;
-
-	public static final float BULLET_WIDTH = 0;
-	public static final float BULLET_HEIGHT = 0;
-
+	public static final float BULLET_WIDTH =
+		GameResources.BULLET_SPRITE_WIDTH
+		/ GameResources.TILE_SCREEN_WIDTH;
+	public static final float BULLET_HEIGHT =
+		GameResources.BULLET_SPRITE_HEIGHT
+		/ GameResources.TILE_SCREEN_HEIGHT;
 
 	// mob config
 	public static final float MOB_VELOCITY = 0.9f * PLAYER_SPEED;
