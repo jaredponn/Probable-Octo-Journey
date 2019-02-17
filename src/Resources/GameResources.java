@@ -52,7 +52,7 @@ public class GameResources
 		new ImageWindow(0, 0, 60, 30), 30, 60, 0, 0, 0, 120, 0);
 
 	// global
-	public static int animationDurationms = 30;
+	public static double animationDurationms = 30;
 
 	// bullet resources
 	public static final int BULLET_SPRITE_WIDTH = 5;
