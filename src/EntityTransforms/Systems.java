@@ -54,7 +54,7 @@ public class Systems
 	}
 
 	public static void updateHasAnimationComponent(HasAnimation a,
-						       long dtms)
+						       double dtms)
 	{
 		a.updateAnimation(dtms);
 	}
