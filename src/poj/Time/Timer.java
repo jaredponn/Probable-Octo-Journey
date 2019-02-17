@@ -1,27 +1,35 @@
 package poj.Time;
 
-import poj.Logger.*;
-
 public class Timer
 {
 	private Timer()
 	{
 	}
 
-	static public long getTimeInNanoSeconds()
+	static public double getTimeInNanoSeconds()
 	{
-		return System.nanoTime();
+		return (double)System.nanoTime();
 	}
 
 
-	static public long getTimeInMilliSeconds()
+	static public double getTimeInMilliSeconds()
 	{
-		return convertNanoSecondsToMilliseconds(System.nanoTime());
+		return convertNanoSecondsToMilliseconds(getTimeInNanoSeconds());
 	}
 
-	static public long convertNanoSecondsToMilliseconds(long n)
+
+	static public double getTimeInSeconds()
 	{
-		return n / 1000000;
+		return convertNanoSecondsToSeconds(getTimeInNanoSeconds());
+	}
+
+	static public double convertNanoSecondsToMilliseconds(double n)
+	{
+		return n / 1000000d;
+	}
+	static public double convertNanoSecondsToSeconds(double n)
+	{
+		return n / 1000000000d;
 	}
 
 	static public void sleepNMilliseconds(long n)
@@ -40,11 +48,6 @@ public class Timer
 
 		try {
 			final long sleepDuration = Math.max(fpms - dtms, 0l);
-			/*
-			Logger.logMessage(
-				LogLevels.VERBOSE,
-				"Sleep duration (greater than 0 is good): "
-					+ sleepDuration);*/
 			Thread.sleep(sleepDuration);
 		} catch (InterruptedException e) {
 		}

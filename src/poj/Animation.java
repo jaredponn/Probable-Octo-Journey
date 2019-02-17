@@ -6,9 +6,9 @@ public class Animation
 {
 	private ImageWindow focusedWindow;
 
-	private long accTimems;
+	private double accTimems;
 
-	private long frameDurationms;
+	private double frameDurationms;
 	private int xstride;
 	private int ystride;
 
@@ -20,7 +20,7 @@ public class Animation
 	private int xmax;
 	private int ymax;
 
-	public Animation(ImageWindow w, long fdms, int xstride, int ystride,
+	public Animation(ImageWindow w, double fdms, int xstride, int ystride,
 			 int xmin, int ymin, int xmax, int ymax)
 	{
 		this.focusedWindow = w;
@@ -34,7 +34,7 @@ public class Animation
 	}
 
 
-	public Animation(int width, int height, long fdms, int xstride,
+	public Animation(int width, int height, double fdms, int xstride,
 			 int ystride, int xmin, int ymin, int xmax, int ymax)
 	{
 		this.focusedWindow = new ImageWindow(xmin, ymin, width, height);
@@ -47,7 +47,7 @@ public class Animation
 		this.ymax = ymax;
 	}
 
-	public void updateAnimationWindow(long xms)
+	public void updateAnimationWindow(double xms)
 	{
 		addToAccTime(xms);
 
@@ -57,12 +57,12 @@ public class Animation
 		}
 	}
 
-	public long getAccTimems()
+	public double getAccTimems()
 	{
 		return this.accTimems;
 	}
 
-	public long getFrameDurationms()
+	public double getFrameDurationms()
 	{
 		return this.frameDurationms;
 	}
@@ -72,7 +72,7 @@ public class Animation
 		return this.focusedWindow;
 	}
 
-	private void addToAccTime(long xms)
+	private void addToAccTime(double xms)
 	{
 		this.accTimems += xms;
 	}
