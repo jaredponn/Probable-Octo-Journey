@@ -63,6 +63,14 @@ public class Vector2f
 		this.y *= n;
 	}
 
+	public Vector2f pureMul(float n)
+	{
+		Vector2f tmp = new Vector2f(this);
+		tmp.x *= n;
+		tmp.y *= n;
+		return tmp;
+	}
+
 	public Vector2f pureNormalize()
 	{
 		final float mag = scalarValueOfVector(this);

@@ -17,7 +17,6 @@ public class Bullet extends EntitySet
 		addComponent(new Render(GameResources.bulletImage));
 		addComponent(new WorldAttributes(GameConfig.BULLET_WIDTH,
 						 GameConfig.BULLET_HEIGHT));
-		addComponent(new Speed(GameConfig.BULLET_SPEED));
-		addComponent(new MovementDirection(CardinalDirections.N));
+		addComponent(new Movement(GameConfig.BULLET_SPEED));
 	}
 }

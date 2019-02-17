@@ -17,7 +17,7 @@ public class PlayerSet extends EntitySet
 						 GameConfig.PLAYER_HEIGHT));
 		addComponent(
 			new HasAnimation(GameResources.playerNIdleAnimation));
-		addComponent(new Speed(GameConfig.PLAYER_SPEED));
+		addComponent(new Movement(GameConfig.PLAYER_SPEED));
 		addComponent(new MovementDirection(CardinalDirections.N));
 		addComponent(new FacingDirection(CardinalDirections.N));
 	}

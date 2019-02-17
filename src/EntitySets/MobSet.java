@@ -14,7 +14,7 @@ public class MobSet extends EntitySet
 	{
 		super();
 
-		addComponent(new Speed(GameConfig.MOB_VELOCITY));
+		addComponent(new Movement(GameConfig.MOB_VELOCITY));
 
 		addComponent(new Render(new ImageRenderObject(
 			0, 0, GameResources.playerSpriteSheet)));

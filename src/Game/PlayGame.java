@@ -24,7 +24,9 @@ public class PlayGame extends World
 	private Camera invCam; // inverse camera
 
 	private int player;
+	private Vector2f unitVecPlayerPosToMouseDelta;
 	private CardinalDirections prevDirection = CardinalDirections.N;
+
 	public PlayGame()
 	{
 		super();
@@ -39,6 +41,7 @@ public class PlayGame extends World
 		// this.map.addMapLayer(GameResources.mapLayer2);
 
 		this.cam = new Camera();
+		this.unitVecPlayerPosToMouseDelta = new Vector2f();
 
 		// camera intilization
 		resetCamera();
@@ -55,7 +58,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(WorldAttributes.class);
 		super.engineState.registerComponent(MovementDirection.class);
 		super.engineState.registerComponent(FacingDirection.class);
-		super.engineState.registerComponent(Speed.class);
+		super.engineState.registerComponent(Movement.class);
 	}
 	public void registerEntitySets()
 	{
@@ -76,7 +79,7 @@ public class PlayGame extends World
 		int tmp = super.engineState.spawnEntitySet(new Bullet());
 		super.getComponentAt(WorldAttributes.class, tmp)
 			.setOriginCoord(new Vector2f(0f, 0f));
-		super.getComponentAt(Speed.class, tmp).setSpeed(0);
+		super.getComponentAt(Movement.class, tmp).setSpeed(0);
 
 		clearTime();
 	}
@@ -90,8 +93,10 @@ public class PlayGame extends World
 	{
 		this.processInputs();
 
+
 		// SYSTEMS Go here
-		this.updateWorldAttribPositionFromDirectionAndSpeed(this.dt);
+		this.setMovementVelocityFromMovementDirection();
+		this.updateWorldAttribPositionFromMovement(this.dt);
 
 		// updating the camera
 		this.centerCamerasPositionToPlayer();
@@ -116,7 +121,7 @@ public class PlayGame extends World
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.NE);
-			super.getComponentAt(Speed.class, this.player)
+			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			prevDirection = CardinalDirections.NE;
 			super.getComponentAt(HasAnimation.class, this.player)
@@ -128,7 +133,7 @@ public class PlayGame extends World
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.NW);
-			super.getComponentAt(Speed.class, this.player)
+			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			prevDirection = CardinalDirections.NW;
 			super.getComponentAt(HasAnimation.class, this.player)
@@ -141,7 +146,7 @@ public class PlayGame extends World
 					     this.player)
 				.setDirection(CardinalDirections.SW);
 			prevDirection = CardinalDirections.SW;
-			super.getComponentAt(Speed.class, this.player)
+			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			super.getComponentAt(HasAnimation.class, this.player)
 				.setAnimation(
@@ -153,7 +158,7 @@ public class PlayGame extends World
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.SE);
-			super.getComponentAt(Speed.class, this.player)
+			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			prevDirection = CardinalDirections.SE;
 			super.getComponentAt(HasAnimation.class, this.player)
@@ -164,7 +169,7 @@ public class PlayGame extends World
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.N);
-			super.getComponentAt(Speed.class, this.player)
+			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			prevDirection = CardinalDirections.N;
 			super.getComponentAt(HasAnimation.class, this.player)
@@ -175,7 +180,7 @@ public class PlayGame extends World
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.E);
-			super.getComponentAt(Speed.class, this.player)
+			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			prevDirection = CardinalDirections.E;
 			super.getComponentAt(HasAnimation.class, this.player)
@@ -186,7 +191,7 @@ public class PlayGame extends World
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.W);
-			super.getComponentAt(Speed.class, this.player)
+			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			prevDirection = CardinalDirections.W;
 			super.getComponentAt(HasAnimation.class, this.player)
@@ -197,7 +202,7 @@ public class PlayGame extends World
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.S);
-			super.getComponentAt(Speed.class, this.player)
+			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			prevDirection = CardinalDirections.S;
 			super.getComponentAt(HasAnimation.class, this.player)
@@ -205,7 +210,7 @@ public class PlayGame extends World
 					GameResources.playerSMoveAnimation);
 		} else // no movement key is pressed
 		{
-			super.getComponentAt(Speed.class, this.player)
+			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(0);
 			// TODO idle direction!!!!!
 			super.getComponentAt(FacingDirection.class,
@@ -329,6 +334,8 @@ public class PlayGame extends World
 		super.getComponentAt(FacingDirection.class, player)
 			.setDirection(facingDirection);
 
+		this.unitVecPlayerPosToMouseDelta = tmp.pureNormalize();
+
 		/*super.getComponentAt(FacingDirection.class, player).print();
 		super.getComponentAt(WorldAttributes.class, this.player)
 			.print();*/
@@ -383,6 +390,7 @@ public class PlayGame extends World
 
 	private void centerCamerasPositionsToWorldAttribute(WorldAttributes n)
 	{
+		this.resetCamera();
 		Vector2f tmp = n.getOriginCoord();
 		tmp.matrixMultiply(this.cam);
 
@@ -394,17 +402,18 @@ public class PlayGame extends World
 	private void playerShootBullet()
 	{
 		int e = super.engineState.spawnEntitySet(new Bullet());
+		float bulletSpeed =
+			super.getComponentAt(Movement.class, e).getSpeed();
 		Vector2f tmp = new Vector2f(
 			super.getComponentAt(WorldAttributes.class, this.player)
 				.getOriginCoord());
 
 		super.getComponentAt(WorldAttributes.class, e)
 			.setOriginCoord(tmp);
-		super.getComponentAt(MovementDirection.class, e)
-			.setDirection(
-				super.getComponentAt(FacingDirection.class,
-						     this.player)
-					.getDirection());
+
+		super.getComponentAt(Movement.class, e)
+			.setVelocity(this.unitVecPlayerPosToMouseDelta.pureMul(
+				bulletSpeed));
 	}
 
 	/// SYSTEMS ///
@@ -445,24 +454,32 @@ public class PlayGame extends World
 		}
 	}
 
-	private void updateWorldAttribPositionFromDirectionAndSpeed(double dt)
+	private void updateWorldAttribPositionFromMovement(double dt)
 	{
-		for (int i = super.getInitialComponentIndex(
-			     MovementDirection.class);
+		for (int i = super.getInitialComponentIndex(Movement.class);
 		     Components.isValidEntity(i);
-		     i = super.getNextComponentIndex(MovementDirection.class,
-						     i)) {
-			Vector2f tmp = Systems.getVelocityFromDirectionAndSpeed(
-				getComponentAt(MovementDirection.class, i),
-				getComponentAt(Speed.class, i));
-			tmp.mul((float)dt);
-			getComponentAt(WorldAttributes.class, i).add(tmp);
+		     i = super.getNextComponentIndex(Movement.class, i)) {
+			Systems.updateWorldAttribPositionFromMovement(
+				super.getComponentAt(WorldAttributes.class, i),
+				super.getComponentAt(Movement.class, i),
+				this.dt);
+		}
+	}
+
+	private void setMovementVelocityFromMovementDirection()
+	{
+		for (int i = super.getInitialSetIndex(MovementDirection.class);
+		     Components.isValidEntity(i);
+		     i = super.getNextSetIndex(MovementDirection.class, i)) {
+			Systems.setMovementVelocityFromMovementDirection(
+				super.getComponentAt(Movement.class, i),
+				super.getComponentAt(MovementDirection.class,
+						     i));
 		}
 	}
 
 	private void centerCamerasPositionToPlayer()
 	{
-		this.resetCamera();
 		this.centerCamerasPositionsToWorldAttribute(
 			engineState.getComponentAt(WorldAttributes.class,
 						   this.player));

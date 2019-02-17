@@ -76,11 +76,21 @@ public class Systems
 	}
 
 
-	public static Vector2f
-	getVelocityFromDirectionAndSpeed(MovementDirection d, Speed v)
+	public static void
+	setMovementVelocityFromMovementDirection(Movement m,
+						 MovementDirection d)
 	{
 		Vector2f tmp = d.getUnitVector();
-		tmp.mul(v.getSpeed());
-		return tmp;
+		tmp.mul(m.getSpeed());
+		m.setVelocity(tmp);
+	}
+
+	public static void
+	updateWorldAttribPositionFromMovement(WorldAttributes w, Movement m,
+					      double dtms)
+	{
+		Vector2f vel = new Vector2f(m.getVelocity());
+		vel.mul((float)dtms);
+		w.add(vel);
 	}
 }
