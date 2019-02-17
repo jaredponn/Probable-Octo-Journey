@@ -11,13 +11,22 @@ public class GameConfig
 
 	// player config
 	public static final float PLAYER_SPEED = 0.01f;
-	public static final float PLAYER_WIDTH = 0.75f;
-	public static final float PLAYER_HEIGHT = 1f;
+	public static final float PLAYER_WIDTH =
+		GameResources.PLAYER_SPRITE_WIDTH
+		/ GameResources.TILE_SCREEN_WIDTH;
+	public static final float PLAYER_HEIGHT =
+		GameResources.PLAYER_SPRITE_HEIGHT
+		/ GameResources.TILE_SCREEN_HEIGHT;
 
 	// bullet config
-	public static final float BULLET_SPEED = 1f;
-	public static final float BULLET_WIDTH = 0.1f;
-	public static final float BULLET_HEIGHT = 0.1f;
+	public static final float BULLET_SPEED = 0.2f;
+	public static final float BULLET_WIDTH =
+		GameResources.BULLET_SPRITE_WIDTH
+		/ GameResources.TILE_SCREEN_WIDTH;
+	public static final float BULLET_HEIGHT =
+		GameResources.BULLET_SPRITE_HEIGHT
+		/ GameResources.TILE_SCREEN_HEIGHT;
+
 
 	// mob config
 	public static final float MOB_VELOCITY = 0.9f * PLAYER_SPEED;

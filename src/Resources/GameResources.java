@@ -38,9 +38,10 @@ public class GameResources
 
 	// Tile config TODO == haiyang please update this directly with whatever
 	// value is in the files. THis is currently hard coded in
-	public static final float TILE_WIDTH = 64f;
-	public static final float TILE_HEIGHT = 32f;
-	public static final float TILE_ROTATION = ((float)Math.PI / 4.f);
+	public static final float TILE_SCREEN_WIDTH = 64f / 1.4f;
+	public static final float TILE_SCREEN_HEIGHT = 32f / 1.4f;
+
+	public static final float TILE_SCREEN_ROTATION = ((float)Math.PI / 4.f);
 
 	// mapLayer0 =
 	//"resources/newmap/testDifSetCombine1_not_ground.csv",
@@ -52,6 +53,12 @@ public class GameResources
 
 	// global
 	public static int animationDurationms = 30;
+
+	// bullet resources
+	public static final int BULLET_SPRITE_WIDTH = 5;
+	public static final int BULLET_SPRITE_HEIGHT = 5;
+	public static BufferedImage bulletImage =
+		ImageLoader.load("resources/5x5bullet.png");
 
 	// player resources
 	public static BufferedImage playerSpriteSheet =
