@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import Components.Render;
 import Components.TileCord;
+import Components.WorldAttributes;
 import Resources.GameResources;
 import poj.Logger.Logger;
 
@@ -162,6 +163,8 @@ public class Map
 				.registerComponent(TileCord.class);
 			mapLayers.get(mapLayers.size() - 1)
 				.registerComponent(Render.class);
+			mapLayers.get(mapLayers.size() - 1)
+				.registerComponent(WorldAttributes.class);
 
 			Scanner mapReader =
 				new Scanner(new File(mapLayerLocation));
@@ -186,6 +189,16 @@ public class Map
 								numRows - 1,
 								i % mapWidth),
 							nextFreeIndex);
+
+					mapLayers.get(mapLayers.size() - 1)
+						.addComponentAt(
+							WorldAttributes.class,
+							new WorldAttributes(
+								numRows - 1,
+								i % mapWidth,
+								1f, 1f),
+							nextFreeIndex);
+
 					if ((numRows) % 2 == 0
 					    && (numRows) > 1) { // not in the
 								// first row
@@ -218,17 +231,6 @@ public class Map
 									tilesRenderPart
 										.get(Integer.parseInt(
 											tempList[i])))),
-								nextFreeIndex);
-
-					} else {
-						// add NULL
-						mapLayers
-							.get(mapLayers.size()
-							     - 1)
-							.getComponents()
-							.addComponentAt(
-								Render.class,
-								null,
 								nextFreeIndex);
 					}
 				}
@@ -289,5 +291,10 @@ public class Map
 		return this.mapLayers.get(layerNumber)
 			.getComponents()
 			.getRawComponentArrayListPackedData(Render.class);
+	}
+
+	public EngineState getLayerEngineState(int layerNumber)
+	{
+		return this.mapLayers.get(layerNumber);
 	}
 }
