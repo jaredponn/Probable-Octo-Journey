@@ -24,17 +24,19 @@ public class Systems
 	public static void updateRenderScreenCoordinatesFromWorldCoordinates(
 		WorldAttributes p, Render r, final Camera c)
 	{
-		Vector2f topleftcoord =
+		Vector2f tmp =
 			Systems.getRenderScreenCoordinateFromWorldCoordinate(p,
 									     c);
-		r.setTopLeftCornerPosition(Math.round(topleftcoord.getX()),
-					   Math.round(topleftcoord.getY()));
+		r.setTopLeftCornerPosition(Math.round(tmp.getX()),
+					   Math.round(tmp.getY()));
 	}
+
 	public static Vector2f
-	getRenderScreenCoordinateFromWorldCoordinate(WorldAttributes p,
+	getRenderScreenCoordinateFromWorldCoordinate(final WorldAttributes p,
 						     final Camera c)
 	{
-		Vector2f topleftcoord = p.getTopLeftCoordFromOrigin();
+		// Vector2f topleftcoord = p.getTopLeftCoordFromOrigin();
+		Vector2f topleftcoord = p.getOriginCoord();
 		topleftcoord.matrixMultiply(c);
 		return topleftcoord;
 	}
