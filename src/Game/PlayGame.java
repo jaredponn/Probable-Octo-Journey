@@ -106,7 +106,7 @@ public class PlayGame extends World
 
 			super.calculateDeltaTime();
 
-			Timer.dynamicSleepToFrameRate(64, super.dt);
+			Timer.dynamicSleepToFrameRate(78, super.dt);
 		}
 	}
 
@@ -243,7 +243,6 @@ public class PlayGame extends World
 			.setDirection(facingDirection);
 
 		super.getComponentAt(FacingDirection.class, player).print();
-
 
 		super.getComponentAt(WorldAttributes.class, this.player)
 			.print();

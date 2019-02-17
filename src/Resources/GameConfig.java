@@ -19,7 +19,7 @@ public class GameConfig
 		/ GameResources.TILE_SCREEN_HEIGHT;
 
 	// bullet config
-	public static final float BULLET_SPEED = 0.02f;
+	public static final float BULLET_SPEED = 0.0f;
 	public static final float BULLET_WIDTH =
 		GameResources.BULLET_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;

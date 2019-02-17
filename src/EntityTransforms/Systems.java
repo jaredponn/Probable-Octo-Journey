@@ -29,6 +29,7 @@ public class Systems
 									     c);
 		r.setTopLeftCornerPosition(Math.round(tmp.getX()),
 					   Math.round(tmp.getY()));
+		r.addTranslation();
 	}
 
 	public static Vector2f

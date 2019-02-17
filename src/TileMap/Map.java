@@ -13,6 +13,7 @@ import poj.Logger.Logger;
 
 import poj.EngineState;
 import poj.Render.ImageRenderObject;
+import poj.linear.Vector2f;
 import poj.Render.ImageWindow;
 import poj.Render.Renderer;
 
@@ -213,24 +214,29 @@ public class Map
 							.getComponents()
 							.addComponentAt(
 								Render.class,
-								new Render(new ImageRenderObject(
-									(i
-									 % tileWidth)
-										* tileWidth,
-									//+
-									// xShiftValue,
-									//(numRows
-									//- 1) *
-									// tileHeight,
-									(numRows
-									 - 1) * tileHeight
-										/ 4,
-									/// 8,
-									GameResources
-										.testTile,
-									tilesRenderPart
-										.get(Integer.parseInt(
-											tempList[i])))),
+								new Render(
+									new ImageRenderObject(
+										(i
+										 % tileWidth)
+											* tileWidth,
+										//+
+										// xShiftValue,
+										//(numRows
+										//- 1) *
+										// tileHeight,
+										(numRows
+										 - 1) * tileHeight
+											/ 4,
+										/// 8,
+										GameResources
+											.testTile,
+										tilesRenderPart
+											.get(Integer.parseInt(
+												tempList[i]))),
+									new Vector2f(
+										0,
+										(float)-tileHeight // TODO This is awful -- this is the translation needed to render the tiles so they line up with where the world coordinates are
+											/ 2f)),
 								nextFreeIndex);
 					}
 				}
