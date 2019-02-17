@@ -6,6 +6,7 @@ import Components.*;
 import poj.Component.Components;
 import poj.Time.Timer;
 import poj.linear.Vector2f;
+import poj.EngineState;
 
 import Game.Camera;
 
@@ -19,8 +20,8 @@ import java.awt.event.KeyEvent;
 public class PlayGame extends World
 {
 	private Map map;
-	private Camera entityCam; // camera
-	private Camera invCam;    // inverse camera
+	private Camera cam;    // camera
+	private Camera invCam; // inverse camera
 
 	private int player;
 
@@ -37,12 +38,13 @@ public class PlayGame extends World
 		// this.map.addMapLayer(GameResources.mapLayer1);
 		// this.map.addMapLayer(GameResources.mapLayer2);
 
-		this.entityCam = new Camera();
+		this.cam = new Camera();
 
-		this.entityCam.setScalingForVector2(GameResources.TILE_WIDTH,
-						    -GameResources.TILE_HEIGHT);
-		this.entityCam.composeWithRotationForVector2XaxisCC(
-			GameResources.TILE_ROTATION);
+		// camera intilization
+		this.cam.setScalingForVector2(GameResources.TILE_SCREEN_WIDTH,
+					      GameResources.TILE_SCREEN_HEIGHT);
+		this.cam.composeWithRotationForVector2XaxisCC(
+			GameResources.TILE_SCREEN_ROTATION);
 
 		this.invCam = new Camera();
 		this.updateInverseCamera();
@@ -64,6 +66,7 @@ public class PlayGame extends World
 		super.engineState.registerSet(PlayerSet.class);
 		super.engineState.registerSet(MobSet.class);
 		super.engineState.registerSet(ConstructSet.class);
+		super.engineState.registerSet(Bullet.class);
 	}
 
 	// higher game logic functions
@@ -204,6 +207,7 @@ public class PlayGame extends World
 		if (super.inputPoller.isKeyDown(GameConfig.ATTACK_KEY)) {
 			System.out.print(
 				"f key is down. Player character should be attacking\n");
+			playerShootBullet();
 			// TODO: find adjacent tiles (and any enemies on
 			// them)
 			// TODO: apply damage to enemies
@@ -212,6 +216,7 @@ public class PlayGame extends World
 		if (super.inputPoller.isLeftMouseButtonDown()) {
 			System.out.println(
 				"left mouse button is down. Player character should be attacking");
+
 			// TODO: find adjacent tiles (and any enemies on
 			// them)
 			// TODO: apply damage to enemies
@@ -225,7 +230,6 @@ public class PlayGame extends World
 		}
 
 		////// Mouse handling  //////
-		// refactor this so it uses the camera
 		Vector2f playerScreenPosition =
 			new Vector2f(windowWidth / 2f, windowHeight / 2f);
 		Vector2f mouseScreenPosition =
@@ -239,20 +243,37 @@ public class PlayGame extends World
 			.setDirection(facingDirection);
 
 		super.getComponentAt(FacingDirection.class, player).print();
+
+
+		super.getComponentAt(WorldAttributes.class, this.player)
+			.print();
 	}
 
+	// Render function
 	protected void render()
 	{
+		EngineState tileLayer = this.map.getLayerEngineState(0);
+		for (int i = tileLayer.getInitialComponentIndex(Render.class);
+		     Components.isValidEntity(i);
+		     i = tileLayer.getNextComponentIndex(Render.class, i)) {
+
+			Systems.updateRenderScreenCoordinatesFromWorldCoordinates(
+				tileLayer.getComponentAt(WorldAttributes.class,
+							 i),
+				tileLayer.getComponentAt(Render.class, i),
+				this.cam);
+			Systems.pushRenderComponentToRenderer(
+				tileLayer.getComponentAt(Render.class, i),
+				super.renderer);
+		}
+
+
+		/*
 		for (Render r : this.map.getTileLayerRender(0)) {
-			// this if (r != null) was an awful api decision
-			// and needs to be removed unless there is a
-			// very very very good reason for why this is
-			// here, as it completely defeats the purpose of
-			// having a packed vector and a sparse vector
 			if (r != null)
 				Systems.pushRenderComponentToRenderer(
 					r, super.renderer);
-		}
+		}*/
 
 		for (Render r :
 		     super.getRawComponentArrayListPackedData(Render.class)) {
@@ -266,26 +287,39 @@ public class PlayGame extends World
 
 	private void updateInverseCamera()
 	{
-		if (this.entityCam.isInvertible()) {
-			this.invCam = new Camera(
-				(this.entityCam.unsafePureInverse()));
+		if (this.cam.isInvertible()) {
+			this.invCam =
+				new Camera((this.cam.unsafePureInverse()));
 		}
 	}
 
-
-	// TODO add the other camera for the tile map
 	private void centerCamerasPositionsToWorldAttribute(WorldAttributes n)
 	{
 		Vector2f tmp = n.getOriginCoord();
 
-		tmp.matrixMultiply(this.entityCam);
+		tmp.matrixMultiply(this.cam);
 
-		this.entityCam.setTranslationForVector2(
+		this.cam.setTranslationForVector2(
 			-tmp.x + super.windowWidth / 2f,
 			-tmp.y + super.windowHeight / 2f);
 	}
 
-	/// SYSTEMS
+	private void playerShootBullet()
+	{
+		int e = super.engineState.spawnEntitySet(new Bullet());
+		super.getComponentAt(WorldAttributes.class, e)
+			.setOriginCoord(
+				super.getComponentAt(WorldAttributes.class,
+						     this.player)
+					.getOriginCoord());
+		super.getComponentAt(MovementDirection.class, e)
+			.setDirection(
+				super.getComponentAt(FacingDirection.class,
+						     this.player)
+					.getDirection());
+	}
+
+	/// SYSTEMS ///
 	private void updateAnimationWindows()
 	{
 		for (HasAnimation a : super.getRawComponentArrayListPackedData(
@@ -320,7 +354,7 @@ public class PlayGame extends World
 			Systems.updateRenderScreenCoordinatesFromWorldCoordinates(
 				super.getComponentAt(WorldAttributes.class, i),
 				super.getComponentAt(Render.class, i),
-				this.entityCam);
+				this.cam);
 		}
 	}
 
