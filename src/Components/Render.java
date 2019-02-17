@@ -3,6 +3,8 @@ package Components;
 import poj.Component.Component;
 import poj.Render.*;
 import poj.linear.Vector2f;
+import java.awt.image.*;
+import poj.Render.ImageRenderObject;
 
 public class Render implements Component
 {
@@ -12,13 +14,20 @@ public class Render implements Component
 	// position line up with it
 	private Vector2f position_translation;
 
-	// constructor assumes the width and the height of the image is the same
-	// as model shown. Will not work for animations which need their own
-	// specified width and height. To make this show only a portion of the
-	// image, consider setting an ImageWindow
 	public Render(ImageRenderObject a)
 	{
 		this.graphic = a;
+		this.position_translation = new Vector2f(0, 0);
+	}
+
+	// constructor assumes the width and the height of the image, and the
+	// start of the image is in the top left corner is the same as model
+	// shown. Will not work for animations which need their own specified
+	// width and height. To make this show only a portion of the image,
+	// consider setting an ImageWindow
+	public Render(BufferedImage a)
+	{
+		this.graphic = new ImageRenderObject(0, 0, a);
 		this.position_translation = new Vector2f(0, 0);
 	}
 
