@@ -9,13 +9,18 @@ import java.util.ArrayList;
 
 public abstract class World
 {
+
+	// 124 fps  --> to go from fps to ms: 1/x fps = 1 / (x/1000)
+	private static double DEFAULT_DELTA_TIME = 1 / 0.124d;
+
 	// pure game stuff
 	protected EngineState engineState;
 
 	// time
-	protected long ti;
-	protected long tf;
-	protected long dt;
+	protected double dt;   // deltatime
+	protected double acct; // acculmated time
+
+	protected boolean quit = false;
 
 	// window
 	protected int windowWidth;
@@ -28,9 +33,6 @@ public abstract class World
 	public World()
 	{
 		this.engineState = new EngineState();
-		ti = 0;
-		tf = 0;
-		dt = 0;
 	}
 
 	public void loadRenderer(Renderer r)
@@ -41,21 +43,6 @@ public abstract class World
 	public void loadInputPoller(InputPoller i)
 	{
 		this.inputPoller = i;
-	}
-
-	protected void setInitialTime()
-	{
-		this.ti = Timer.getTimeInMilliSeconds();
-	}
-
-	protected void setFinalTime()
-	{
-		this.tf = Timer.getTimeInMilliSeconds();
-	}
-
-	protected void calculateDeltaTime()
-	{
-		dt = tf - ti;
 	}
 
 	public void setWindowWidth(int w)
@@ -129,6 +116,41 @@ public abstract class World
 		return engineState.hasComponent(c, i);
 	}
 
+	protected void clearTime()
+	{
+		this.dt = DEFAULT_DELTA_TIME;
+		this.acct = 0d;
+	}
+
+	// heavily influenced by:
+	// https://gafferongames.com/post/fix_your_timestep/
+	public final void runGameLoop()
+	{
+		this.clearTime();
+
+		double ct = Timer.getTimeInMilliSeconds();
+		double acc = 0.0d;
+
+		while (!quit) {
+			double nt = Timer.getTimeInMilliSeconds();
+			double ft = nt - ct;
+			ct = nt;
+			acc += ft;
+
+			System.out.println("asdf");
+			System.out.println(acc);
+			System.out.println(this.dt);
+
+			while (acc >= this.dt) {
+				runGame();
+				acc -= this.dt;
+				this.acct += this.dt;
+			}
+
+			this.render();
+		}
+	}
+
 	// init function
 	public abstract void registerComponents();
 	public abstract void registerEntitySets();
@@ -137,7 +159,9 @@ public abstract class World
 	public abstract void spawnWorld();
 	public abstract void clearWorld();
 
-	public abstract void runGameLoop();
 	protected abstract void processInputs();
 	protected abstract void render();
+
+	// use super.acct for the accumlated time, use this.dt for the time step
+	protected abstract void runGame();
 }

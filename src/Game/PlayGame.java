@@ -41,10 +41,7 @@ public class PlayGame extends World
 		this.cam = new Camera();
 
 		// camera intilization
-		this.cam.setScalingForVector2(GameResources.TILE_SCREEN_WIDTH,
-					      GameResources.TILE_SCREEN_HEIGHT);
-		this.cam.composeWithRotationForVector2XaxisCC(
-			GameResources.TILE_SCREEN_ROTATION);
+		resetCamera();
 
 		this.invCam = new Camera();
 		this.updateInverseCamera();
@@ -76,38 +73,35 @@ public class PlayGame extends World
 		// Player
 		this.player = super.engineState.spawnEntitySet(new PlayerSet());
 		super.engineState.spawnEntitySet(new MobSet());
+
+		clearTime();
 	}
 	public void clearWorld()
 	{
 	}
 
-	public void runGameLoop()
+	// use super.acct for the accumlated time, use this.dt for the time
+	// step. Time is all in milliseconds
+	public void runGame()
 	{
-		while (true) {
-			super.setInitialTime();
-			this.processInputs();
+		this.processInputs();
 
-			// SYSTEMS Go here
-			this.updateWorldAttribPositionFromDirectionAndSpeed(
-				this.dt);
-			this.centerCamerasPositionToPlayer();
-			this.updateAnimationWindows();
-			this.cropSpriteSheetsFromAnimationWindows();
-			this.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera();
+		// SYSTEMS Go here
+		this.updateWorldAttribPositionFromDirectionAndSpeed(this.dt);
 
-			this.render();
+		// updating the camera
+		this.centerCamerasPositionToPlayer();
+		this.updateInverseCamera();
 
-			// updating the camera
-			this.centerCamerasPositionToPlayer();
 
-			this.updateInverseCamera();
+		this.updateAnimationWindows();
+		this.cropSpriteSheetsFromAnimationWindows();
 
-			super.setFinalTime();
 
-			super.calculateDeltaTime();
+		this.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera();
 
-			Timer.dynamicSleepToFrameRate(78, super.dt);
-		}
+
+		// rendering is run after this is run
 	}
 
 
@@ -284,10 +278,18 @@ public class PlayGame extends World
 		}
 	}
 
+	private void resetCamera()
+	{
+		this.cam.clearBackToIdentity();
+		this.cam.setScalingForVector2(GameResources.TILE_SCREEN_WIDTH,
+					      GameResources.TILE_SCREEN_HEIGHT);
+		this.cam.composeWithRotationForVector2XaxisCC(
+			GameResources.TILE_SCREEN_ROTATION);
+	}
+
 	private void centerCamerasPositionsToWorldAttribute(WorldAttributes n)
 	{
 		Vector2f tmp = n.getOriginCoord();
-
 		tmp.matrixMultiply(this.cam);
 
 		this.cam.setTranslationForVector2(
@@ -341,7 +343,6 @@ public class PlayGame extends World
 		     Components.isValidEntity(i);
 		     i = super.getNextComponentIndex(WorldAttributes.class,
 						     i)) {
-
 			Systems.updateRenderScreenCoordinatesFromWorldCoordinates(
 				super.getComponentAt(WorldAttributes.class, i),
 				super.getComponentAt(Render.class, i),
@@ -349,7 +350,7 @@ public class PlayGame extends World
 		}
 	}
 
-	private void updateWorldAttribPositionFromDirectionAndSpeed(float dt)
+	private void updateWorldAttribPositionFromDirectionAndSpeed(double dt)
 	{
 		for (int i = super.getInitialComponentIndex(
 			     MovementDirection.class);
@@ -359,13 +360,14 @@ public class PlayGame extends World
 			Vector2f tmp = Systems.getVelocityFromDirectionAndSpeed(
 				getComponentAt(MovementDirection.class, i),
 				getComponentAt(Speed.class, i));
-			tmp.mul(dt);
+			tmp.mul((float)dt);
 			getComponentAt(WorldAttributes.class, i).add(tmp);
 		}
 	}
 
 	private void centerCamerasPositionToPlayer()
 	{
+		this.resetCamera();
 		this.centerCamerasPositionsToWorldAttribute(
 			engineState.getComponentAt(WorldAttributes.class,
 						   this.player));
