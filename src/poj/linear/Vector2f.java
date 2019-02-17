@@ -5,6 +5,8 @@ import poj.Logger.*;
 
 public class Vector2f
 {
+
+	private float EPSILON = 0.00000001f;
 	public float x;
 	public float y;
 
@@ -167,6 +169,11 @@ public class Vector2f
 		Logger.logMessage(LogLevels.VERBOSE, "Vector2f: x =  " + this.x
 							     + ", y = " + this.y
 							     + " " + s);
+	}
+
+	public boolean equals(float n)
+	{
+		return Math.abs(x - n) < EPSILON && Math.abs(y - n) < EPSILON;
 	}
 }
 // add, minus, scalarProduct, MatrixVectorMultiplication??, dot product,
