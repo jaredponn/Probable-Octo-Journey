@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import Components.Render;
-import Components.TileCord;
 import Components.WorldAttributes;
 import Resources.GameResources;
 import poj.Logger.Logger;
@@ -38,24 +37,6 @@ public class Map
 	public Map()
 	{
 		mapLayers = new ArrayList<EngineState>();
-	}
-
-	public TileCord getTileCordFromWorldCord(int x, int y)
-	{
-		y = y - tileHeight + 32;
-		// TODO did not include the out of bound screen exception yet
-		// TODO make the parser to parese in the correct map tile width
-		// and height configuration..
-		//
-		// maybe reverse transform the way to store the rtile cords..
-		System.out.println("x cordinate in the function" + x);
-		System.out.println("y cordinate in the function" + y);
-		if (x < 0 || y < 0) {
-			return new TileCord(-1, -1);
-		}
-		System.out.println("X tile cord =" + x / tileWidth);
-		System.out.println("Y tile cord =" + y / 32);
-		return new TileCord(x % mapHeight, y / mapHeight);
 	}
 
 	public void addMapConfig(String mapConfigLocation)
@@ -161,8 +142,6 @@ public class Map
 			mapLayers.add(new EngineState(mapWidth * mapHeight));
 			// get the last added engine state
 			mapLayers.get(mapLayers.size() - 1)
-				.registerComponent(TileCord.class);
-			mapLayers.get(mapLayers.size() - 1)
 				.registerComponent(Render.class);
 			mapLayers.get(mapLayers.size() - 1)
 				.registerComponent(WorldAttributes.class);
@@ -182,14 +161,6 @@ public class Map
 							     - 1)
 							.getFreeIndex();
 					// add the tile cord to the engine
-					mapLayers.get(mapLayers.size() - 1)
-						.getComponents()
-						.addComponentAt(
-							TileCord.class,
-							new TileCord(
-								numRows - 1,
-								i % mapWidth),
-							nextFreeIndex);
 
 					mapLayers.get(mapLayers.size() - 1)
 						.addComponentAt(
@@ -261,17 +232,6 @@ public class Map
 				j % curTilesetCols * curTilesetWidth,
 				j / curTilesetCols * curTilesetHeight,
 				curTilesetWidth, curTilesetHeight));
-		}
-	}
-	public void printMapLayer(int layerNumber)
-	{
-		ArrayList<TileCord> mapTileCordData =
-			mapLayers.get(layerNumber)
-				.getComponents()
-				.getRawComponentArrayListPackedData(
-					TileCord.class);
-		for (int i = 0; i < mapTileCordData.size(); ++i) {
-			mapTileCordData.get(i).print();
 		}
 	}
 	public void renderTileMap(Renderer renderer)
