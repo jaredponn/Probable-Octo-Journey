@@ -22,6 +22,10 @@ public class HasAnimation implements Component
 	{
 		this.animation.updateAnimationWindow(dtms);
 	}
+	public void setAnimation(Animation n)
+	{
+		this.animation = n;
+	}
 
 	public void print()
 	{

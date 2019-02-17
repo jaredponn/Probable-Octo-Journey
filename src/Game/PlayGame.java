@@ -24,7 +24,7 @@ public class PlayGame extends World
 	private Camera invCam; // inverse camera
 
 	private int player;
-
+	private CardinalDirections prevDirection = CardinalDirections.N;
 	public PlayGame()
 	{
 		super();
@@ -117,6 +117,10 @@ public class PlayGame extends World
 				.setDirection(CardinalDirections.NE);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
+			prevDirection = CardinalDirections.NE;
+			super.getComponentAt(HasAnimation.class, this.player)
+				.setAnimation(
+					GameResources.playerNMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
 			System.out.println("wa key is down");
@@ -125,6 +129,10 @@ public class PlayGame extends World
 				.setDirection(CardinalDirections.NW);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
+			prevDirection = CardinalDirections.NW;
+			super.getComponentAt(HasAnimation.class, this.player)
+				.setAnimation(
+					GameResources.playerNMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
 			System.out.println("sa key is down");
@@ -133,6 +141,10 @@ public class PlayGame extends World
 				.setDirection(CardinalDirections.SW);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
+			prevDirection = CardinalDirections.SW;
+			super.getComponentAt(HasAnimation.class, this.player)
+				.setAnimation(
+					GameResources.playerSMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
 			System.out.println("sd key is down");
@@ -141,6 +153,9 @@ public class PlayGame extends World
 				.setDirection(CardinalDirections.SW);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
+			super.getComponentAt(HasAnimation.class, this.player)
+				.setAnimation(
+					GameResources.playerSMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_W)) {
 			System.out.println("w key is down");
 			super.getComponentAt(MovementDirection.class,
@@ -148,6 +163,10 @@ public class PlayGame extends World
 				.setDirection(CardinalDirections.N);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
+			prevDirection = CardinalDirections.N;
+			super.getComponentAt(HasAnimation.class, this.player)
+				.setAnimation(
+					GameResources.playerNMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
 			System.out.println("a key is down");
 			super.getComponentAt(MovementDirection.class,
@@ -155,6 +174,10 @@ public class PlayGame extends World
 				.setDirection(CardinalDirections.E);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
+			prevDirection = CardinalDirections.E;
+			super.getComponentAt(HasAnimation.class, this.player)
+				.setAnimation(
+					GameResources.playerEMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
 			System.out.println("d key is down");
 			super.getComponentAt(MovementDirection.class,
@@ -162,6 +185,10 @@ public class PlayGame extends World
 				.setDirection(CardinalDirections.W);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
+			prevDirection = CardinalDirections.W;
+			super.getComponentAt(HasAnimation.class, this.player)
+				.setAnimation(
+					GameResources.playerWMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)) {
 			System.out.println("s key is down");
 			super.getComponentAt(MovementDirection.class,
@@ -169,10 +196,84 @@ public class PlayGame extends World
 				.setDirection(CardinalDirections.S);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
+			prevDirection = CardinalDirections.S;
+			super.getComponentAt(HasAnimation.class, this.player)
+				.setAnimation(
+					GameResources.playerSMoveAnimation);
 		} else // no movement key is pressed
 		{
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(0);
+			// TODO idle direction!!!!!
+
+			super.getComponentAt(FacingDirection.class,
+					     this.player);
+
+
+			switch (prevDirection) {
+			case N:
+				super.getComponentAt(HasAnimation.class,
+						     this.player)
+					.setAnimation(
+						GameResources
+							.playerNIdleAnimation);
+				break;
+			case NE:
+				super.getComponentAt(HasAnimation.class,
+						     this.player)
+					.setAnimation(
+						GameResources
+							.playerNIdleAnimation);
+				break;
+			case NW:
+				super.getComponentAt(HasAnimation.class,
+						     this.player)
+					.setAnimation(
+						GameResources
+							.playerNIdleAnimation);
+
+				break;
+			case S:
+				super.getComponentAt(HasAnimation.class,
+						     this.player)
+					.setAnimation(
+						GameResources
+							.playerSIdleAnimation);
+
+				break;
+			case SE:
+				super.getComponentAt(HasAnimation.class,
+						     this.player)
+					.setAnimation(
+						GameResources
+							.playerSIdleAnimation);
+
+				break;
+			case SW:
+				super.getComponentAt(HasAnimation.class,
+						     this.player)
+					.setAnimation(
+						GameResources
+							.playerSIdleAnimation);
+
+				break;
+			case W:
+				super.getComponentAt(HasAnimation.class,
+						     this.player)
+					.setAnimation(
+						GameResources
+							.playerWIdleAnimation);
+
+				break;
+			case E:
+				super.getComponentAt(HasAnimation.class,
+						     this.player)
+					.setAnimation(
+						GameResources
+							.playerEIdleAnimation);
+
+				break;
+			}
 		}
 
 		////// Build Commands //////
