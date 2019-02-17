@@ -12,7 +12,7 @@ public class PlayerSet extends EntitySet
 		super();
 		addComponent(new Render(new ImageRenderObject(
 			0, 0, GameResources.playerSpriteSheet)));
-		addComponent(new WorldAttributes(new Vector2f(0f, 0f),
+		addComponent(new WorldAttributes(new Vector2f(3f, 0f),
 						 GameConfig.PLAYER_WIDTH,
 						 GameConfig.PLAYER_HEIGHT));
 		addComponent(

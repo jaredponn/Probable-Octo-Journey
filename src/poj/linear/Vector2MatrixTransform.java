@@ -141,6 +141,6 @@ public class Vector2MatrixTransform extends MatrixTransformations
 	// refactor this in the future it's generalized
 	public boolean isInvertible()
 	{
-		return Math.abs(det() - 0) < EPSILON;
+		return !(Math.abs(det() - 0) < EPSILON);
 	}
 }

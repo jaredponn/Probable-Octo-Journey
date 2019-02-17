@@ -73,6 +73,11 @@ public class PlayGame extends World
 		this.player = super.engineState.spawnEntitySet(new PlayerSet());
 		super.engineState.spawnEntitySet(new MobSet());
 
+		int tmp = super.engineState.spawnEntitySet(new Bullet());
+		super.getComponentAt(WorldAttributes.class, tmp)
+			.setOriginCoord(new Vector2f(0f, 0f));
+		super.getComponentAt(Speed.class, tmp).setSpeed(0);
+
 		clearTime();
 	}
 	public void clearWorld()
@@ -92,13 +97,10 @@ public class PlayGame extends World
 		this.centerCamerasPositionToPlayer();
 		this.updateInverseCamera();
 
-
 		this.updateAnimationWindows();
 		this.cropSpriteSheetsFromAnimationWindows();
 
-
 		this.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera();
-
 
 		// rendering is run after this is run
 	}
@@ -138,20 +140,22 @@ public class PlayGame extends World
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.SW);
+			prevDirection = CardinalDirections.SW;
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
-			prevDirection = CardinalDirections.SW;
 			super.getComponentAt(HasAnimation.class, this.player)
 				.setAnimation(
 					GameResources.playerSMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
+
 			System.out.println("sd key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
-				.setDirection(CardinalDirections.SW);
+				.setDirection(CardinalDirections.SE);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
+			prevDirection = CardinalDirections.SE;
 			super.getComponentAt(HasAnimation.class, this.player)
 				.setAnimation(
 					GameResources.playerSMoveAnimation);
@@ -166,8 +170,8 @@ public class PlayGame extends World
 			super.getComponentAt(HasAnimation.class, this.player)
 				.setAnimation(
 					GameResources.playerNMoveAnimation);
-		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-			System.out.println("a key is down");
+		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
+			System.out.println("d key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.E);
@@ -177,8 +181,8 @@ public class PlayGame extends World
 			super.getComponentAt(HasAnimation.class, this.player)
 				.setAnimation(
 					GameResources.playerEMoveAnimation);
-		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
-			System.out.println("d key is down");
+		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
+			System.out.println("a key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.W);
@@ -204,11 +208,8 @@ public class PlayGame extends World
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(0);
 			// TODO idle direction!!!!!
-
 			super.getComponentAt(FacingDirection.class,
 					     this.player);
-
-
 			switch (prevDirection) {
 			case N:
 				super.getComponentAt(HasAnimation.class,
@@ -230,7 +231,6 @@ public class PlayGame extends World
 					.setAnimation(
 						GameResources
 							.playerNIdleAnimation);
-
 				break;
 			case S:
 				super.getComponentAt(HasAnimation.class,
@@ -238,7 +238,6 @@ public class PlayGame extends World
 					.setAnimation(
 						GameResources
 							.playerSIdleAnimation);
-
 				break;
 			case SE:
 				super.getComponentAt(HasAnimation.class,
@@ -246,7 +245,6 @@ public class PlayGame extends World
 					.setAnimation(
 						GameResources
 							.playerSIdleAnimation);
-
 				break;
 			case SW:
 				super.getComponentAt(HasAnimation.class,
@@ -254,7 +252,6 @@ public class PlayGame extends World
 					.setAnimation(
 						GameResources
 							.playerSIdleAnimation);
-
 				break;
 			case W:
 				super.getComponentAt(HasAnimation.class,
@@ -262,7 +259,6 @@ public class PlayGame extends World
 					.setAnimation(
 						GameResources
 							.playerWIdleAnimation);
-
 				break;
 			case E:
 				super.getComponentAt(HasAnimation.class,
@@ -270,7 +266,6 @@ public class PlayGame extends World
 					.setAnimation(
 						GameResources
 							.playerEIdleAnimation);
-
 				break;
 			}
 		}
@@ -298,22 +293,15 @@ public class PlayGame extends World
 		}
 
 		////// Combat Commands //////
-		if (super.inputPoller.isKeyDown(GameConfig.ATTACK_KEY)) {
+		if (super.inputPoller.isKeyDown(GameConfig.ATTACK_KEY)
+		    || super.inputPoller.isLeftMouseButtonDown()) {
 			System.out.print(
-				"f key is down. Player character should be attacking\n");
-			playerShootBullet();
+				"space key is down. Player character should be attacking\n");
+			this.playerShootBullet();
 			// TODO: find adjacent tiles (and any enemies on
 			// them)
 			// TODO: apply damage to enemies
 			// TODO: attack on mouse click instead?
-		}
-		if (super.inputPoller.isLeftMouseButtonDown()) {
-			System.out.println(
-				"left mouse button is down. Player character should be attacking");
-
-			// TODO: find adjacent tiles (and any enemies on
-			// them)
-			// TODO: apply damage to enemies
 		}
 		if (super.inputPoller.isKeyDown(GameConfig.SWITCH_WEAPONS)) {
 			System.out.print(
@@ -324,22 +312,26 @@ public class PlayGame extends World
 		}
 
 		////// Mouse handling  //////
-		Vector2f playerScreenPosition =
-			new Vector2f(windowWidth / 2f, windowHeight / 2f);
-		Vector2f mouseScreenPosition =
-			super.inputPoller.getMousePosition();
-		Vector2f tmp =
-			playerScreenPosition.pureSubtract(mouseScreenPosition);
+		Vector2f playerPosition =
+			super.getComponentAt(WorldAttributes.class, this.player)
+				.getOriginCoord();
+
+		Vector2f mousePosition = super.inputPoller.getMousePosition();
+		mousePosition.matrixMultiply(this.invCam);
+
+		mousePosition.log("Mouse position in world coordinates");
+
+		Vector2f tmp = playerPosition.pureSubtract(mousePosition);
 		CardinalDirections facingDirection =
 			CardinalDirections
 				.getClosestDirectionFromDirectionVector(tmp);
+
 		super.getComponentAt(FacingDirection.class, player)
 			.setDirection(facingDirection);
 
-		super.getComponentAt(FacingDirection.class, player).print();
-
+		/*super.getComponentAt(FacingDirection.class, player).print();
 		super.getComponentAt(WorldAttributes.class, this.player)
-			.print();
+			.print();*/
 	}
 
 	// Render function
@@ -355,15 +347,17 @@ public class PlayGame extends World
 							 i),
 				tileLayer.getComponentAt(Render.class, i),
 				this.cam);
-			Systems.pushRenderComponentToRenderer(
+			Systems.cullPushRenderComponentToRenderer(
 				tileLayer.getComponentAt(Render.class, i),
-				super.renderer);
+				super.renderer, this.windowWidth,
+				this.windowHeight);
 		}
 
 		for (Render r :
 		     super.getRawComponentArrayListPackedData(Render.class)) {
-			Systems.pushRenderComponentToRenderer(r,
-							      super.renderer);
+			Systems.cullPushRenderComponentToRenderer(
+				r, super.renderer, this.windowWidth,
+				this.windowHeight);
 		}
 
 		super.renderer.render();
@@ -400,11 +394,12 @@ public class PlayGame extends World
 	private void playerShootBullet()
 	{
 		int e = super.engineState.spawnEntitySet(new Bullet());
+		Vector2f tmp = new Vector2f(
+			super.getComponentAt(WorldAttributes.class, this.player)
+				.getOriginCoord());
+		tmp.add(1f, 0.3f);
 		super.getComponentAt(WorldAttributes.class, e)
-			.setOriginCoord(
-				super.getComponentAt(WorldAttributes.class,
-						     this.player)
-					.getOriginCoord());
+			.setOriginCoord(tmp);
 		super.getComponentAt(MovementDirection.class, e)
 			.setDirection(
 				super.getComponentAt(FacingDirection.class,

@@ -12,6 +12,7 @@ public abstract class World
 
 	// 124 fps  --> to go from fps to ms: 1/x fps = 1 / (x/1000)
 	private static double DEFAULT_DELTA_TIME = 1 / 0.124d;
+	private static double MAX_ACC_TIME = 50d;
 
 	// pure game stuff
 	protected EngineState engineState;
@@ -131,22 +132,19 @@ public abstract class World
 		double ct = Timer.getTimeInMilliSeconds();
 		double acc = 0.0d;
 
-		while (!quit) {
+		while (!this.quit) {
 			double nt = Timer.getTimeInMilliSeconds();
 			double ft = nt - ct;
 			ct = nt;
 			acc += ft;
 
-			System.out.println("asdf");
-			System.out.println(acc);
-			System.out.println(this.dt);
+			acc = Math.min(MAX_ACC_TIME, acc);
 
 			while (acc >= this.dt) {
 				runGame();
 				acc -= this.dt;
 				this.acct += this.dt;
 			}
-
 			this.render();
 		}
 	}

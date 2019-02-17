@@ -42,8 +42,6 @@ public class WorldAttributes implements Component
 		this(new Vector2f(x, y), w, h);
 	}
 
-
-	// basic getters
 	public float getWidth()
 	{
 		return this.width;
@@ -54,7 +52,6 @@ public class WorldAttributes implements Component
 		return this.height;
 	}
 
-	// getters for getting coordinates from the origin (center)
 	public Vector2f getOriginCoord()
 	{
 		return new Vector2f(this.coord);
@@ -62,16 +59,15 @@ public class WorldAttributes implements Component
 
 	public Vector2f getTopLeftCoordFromOrigin()
 	{
-		return new Vector2f(this.coord.x + (this.width / 2f),
-				    this.coord.y + this.height / 2f);
-
-		// return new Vector2f(this.coord.x, this.coord.y);
+		return new Vector2f(this.coord.x, this.coord.y);
+		// return new Vector2f(this.coord.x + this.width / 2f,
+		// this.coord.y + this.height / 2f);
 	}
 
 	public Vector2f getBottomRightCoordFromOrigin()
 	{
-		return new Vector2f(this.coord.x - width / 2.f,
-				    this.coord.y - height / 2.f);
+		return new Vector2f(this.coord.x + width / 2.f,
+				    this.coord.y + height / 2.f);
 	}
 
 	// unstable
