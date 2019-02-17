@@ -59,7 +59,7 @@ public enum CardinalDirections {
 		case N:
 			return new Vector2f(0, -1);
 		case NE:
-			return new Vector2f(CardinalDirections.UNIT_DIAGONAL,
+			return new Vector2f(+CardinalDirections.UNIT_DIAGONAL,
 					    -1);
 		case NW:
 			return new Vector2f(-CardinalDirections.UNIT_DIAGONAL,
@@ -67,13 +67,13 @@ public enum CardinalDirections {
 		case S:
 			return new Vector2f(0, 1);
 		case SE:
-			return new Vector2f(CardinalDirections.UNIT_DIAGONAL,
+			return new Vector2f(+CardinalDirections.UNIT_DIAGONAL,
 					    1);
 		case SW:
 			return new Vector2f(-CardinalDirections.UNIT_DIAGONAL,
 					    1);
 		case E:
-			return new Vector2f(1, 0);
+			return new Vector2f(+1, 0);
 		case W:
 			return new Vector2f(-1, 0);
 
