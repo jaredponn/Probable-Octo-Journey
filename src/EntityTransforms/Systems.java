@@ -3,6 +3,7 @@ package EntityTransforms;
 import Components.*;
 import Game.Camera;
 import poj.linear.*;
+import poj.Render.ImageRenderObject;
 import poj.Render.Renderer;
 
 public class Systems
@@ -36,14 +37,30 @@ public class Systems
 	getRenderScreenCoordinateFromWorldCoordinate(final WorldAttributes p,
 						     final Camera c)
 	{
-		// Vector2f topleftcoord = p.getTopLeftCoordFromOrigin();
-		Vector2f topleftcoord = p.getOriginCoord();
+		Vector2f topleftcoord = p.getTopLeftCoordFromOrigin();
+		// Vector2f topleftcoord = p.getOriginCoord();
 		topleftcoord.matrixMultiply(c);
 		return topleftcoord;
 	}
 
 	public static void pushRenderComponentToRenderer(Render r, Renderer ren)
 	{
+		ren.pushRenderObject(r.getGraphic());
+	}
+
+	public static void cullPushRenderComponentToRenderer(Render r,
+							     Renderer ren,
+							     int windowWidth,
+							     int windowHeight)
+	{
+		ImageRenderObject tmp = r.getGraphic();
+		if (tmp.getX() > windowWidth || tmp.getY() > windowHeight)
+			return;
+
+		if (tmp.getX() + tmp.getImageWindow().getWidth() < 0
+		    || tmp.getY() + tmp.getImageWindow().getHeight() < 0)
+			return;
+
 		ren.pushRenderObject(r.getGraphic());
 	}
 
