@@ -267,14 +267,6 @@ public class PlayGame extends World
 				super.renderer);
 		}
 
-
-		/*
-		for (Render r : this.map.getTileLayerRender(0)) {
-			if (r != null)
-				Systems.pushRenderComponentToRenderer(
-					r, super.renderer);
-		}*/
-
 		for (Render r :
 		     super.getRawComponentArrayListPackedData(Render.class)) {
 			Systems.pushRenderComponentToRenderer(r,
