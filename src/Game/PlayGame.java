@@ -106,7 +106,7 @@ public class PlayGame extends World
 
 			super.calculateDeltaTime();
 
-			Timer.dynamicSleepToFrameRate(124, super.dt);
+			Timer.dynamicSleepToFrameRate(64, super.dt);
 		}
 	}
 
