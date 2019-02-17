@@ -5,7 +5,7 @@ import poj.linear.Rectanglef;
 
 public class WorldAttributes implements Component
 {
-	private Vector2f coord; // the origin of object
+	private Vector2f coord; // origin coordinate
 	private float width;
 	private float height;
 
@@ -59,21 +59,21 @@ public class WorldAttributes implements Component
 
 	public Vector2f getTopLeftCoordFromOrigin()
 	{
-		return new Vector2f(this.coord.x, this.coord.y);
-		// return new Vector2f(this.coord.x + this.width / 2f,
-		// this.coord.y + this.height / 2f);
+		return new Vector2f(this.coord.x - width / 2f,
+				    this.coord.y - height / 2f);
 	}
+
 
 	public Vector2f getBottomRightCoordFromOrigin()
 	{
-		return new Vector2f(this.coord.x + width / 2.f,
-				    this.coord.y + height / 2.f);
+		return new Vector2f(this.coord.x + width / 2f,
+				    this.coord.y + height / 2f);
 	}
 
 	// unstable
 	public Rectanglef getCenteredRect()
 	{
-		Vector2f topleft = this.getTopLeftCoordFromOrigin();
+		Vector2f topleft = this.getOriginCoord();
 		Vector2f botright = this.getBottomRightCoordFromOrigin();
 		return new Rectanglef(topleft.x, topleft.y, botright.x,
 				      botright.y);
