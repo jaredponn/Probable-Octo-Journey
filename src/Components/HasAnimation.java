@@ -18,7 +18,7 @@ public class HasAnimation implements Component
 		return this.animation.getImageWindow();
 	}
 
-	public void updateAnimation(long dtms)
+	public void updateAnimation(double dtms)
 	{
 		this.animation.updateAnimationWindow(dtms);
 	}
