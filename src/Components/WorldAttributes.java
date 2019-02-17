@@ -62,21 +62,25 @@ public class WorldAttributes implements Component
 
 	public Vector2f getTopLeftCoordFromOrigin()
 	{
-		return new Vector2f(this.coord.x - width / 2.f,
-				    this.coord.y + height / 2.f);
+		return new Vector2f(this.coord.x + (this.width / 2f),
+				    this.coord.y + this.height / 2f);
+
+		// return new Vector2f(this.coord.x, this.coord.y);
 	}
 
 	public Vector2f getBottomRightCoordFromOrigin()
 	{
-		return new Vector2f(this.coord.x + width / 2.f,
-				    this.coord.y + height / 2.f);
+		return new Vector2f(this.coord.x - width / 2.f,
+				    this.coord.y - height / 2.f);
 	}
 
+	// unstable
 	public Rectanglef getCenteredRect()
 	{
-		return new Rectanglef(
-			coord.x - width / 2.f, coord.y - height / 2.f,
-			coord.x + width / 2.f, coord.y + height / 2.f);
+		Vector2f topleft = this.getTopLeftCoordFromOrigin();
+		Vector2f botright = this.getBottomRightCoordFromOrigin();
+		return new Rectanglef(topleft.x, topleft.y, botright.x,
+				      botright.y);
 	}
 
 
