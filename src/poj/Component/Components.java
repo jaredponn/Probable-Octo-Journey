@@ -22,6 +22,7 @@ public class Components extends ComponentsArray
 		tmp.add_element_at_sparse_vector(i, c);
 	}
 
+
 	public <T extends Component> void deleteComponentAt(Class<T> c, int i)
 	{
 		getComponentPackedVector(c).delete_element_at_sparse_vector(i);
@@ -35,10 +36,19 @@ public class Components extends ComponentsArray
 			.get_data_from_sparse_vector(i);
 	}
 
-	public <T extends Component> void setComponentAt(Class<T> c, int i,
+	// sets the component at an idnex to the value. If the component has not
+	// been added yet for that enttiy, it will add it for you
+	public <T extends Component> void setComponentAt(Class<?> c, int i,
 							 T val)
 	{
-		getComponentPackedVector(c).set_data_at_sparse_vector(i, val);
+		if (getComponentPackedVector(c).get_sparse_vector().get(i)
+		    == PackedVector.INVALID_INDEX) {
+			this.addComponentAt(c, val, i);
+			return;
+		} else {
+			getComponentPackedVector(c).set_data_at_sparse_vector(
+				i, val);
+		}
 	}
 
 

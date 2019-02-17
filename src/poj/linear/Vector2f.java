@@ -43,6 +43,18 @@ public class Vector2f
 		this.y -= a.y;
 	}
 
+	public Vector2f pureSubtract(final Vector2f a)
+	{
+		Vector2f tmp = new Vector2f(this);
+		tmp.subtract(a);
+		return tmp;
+	}
+
+	public Vector2f pureSubtract(float x, float y)
+	{
+		return pureSubtract(new Vector2f(x, y));
+	}
+
 	public void mul(float n)
 	{
 		this.x *= n;
@@ -78,6 +90,13 @@ public class Vector2f
 	public final void matrixMultiply(final Matrix<Float> A)
 	{
 		this.multiplyWithMatrix(A);
+	}
+
+	public final Vector2f pureMatrixMultiply(final Matrix<Float> A)
+	{
+		Vector2f tmp = new Vector2f(this);
+		tmp.multiplyWithMatrix(A);
+		return tmp;
 	}
 
 

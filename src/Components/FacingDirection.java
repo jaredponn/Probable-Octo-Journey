@@ -3,11 +3,14 @@ package Components;
 import poj.Component.Component;
 import poj.linear.*;
 
-public class Direction implements Component
+// Same thing as Movement direction -- unfortunately java does not allow easy
+// strong typedefing (newtype in Haskell)
+public class FacingDirection implements Component
 {
+
 	private CardinalDirections direction;
 
-	public Direction(CardinalDirections n)
+	public FacingDirection(CardinalDirections n)
 	{
 		setDirection(n);
 	}
@@ -15,13 +18,6 @@ public class Direction implements Component
 	public void setDirection(CardinalDirections n)
 	{
 		this.direction = n;
-	}
-
-	public void setDirectionFromVectorAndSnapToClosestDirection(Vector2f n)
-	{
-		this.direction =
-			CardinalDirections
-				.getClosestDirectionFromDirectionVector(n);
 	}
 
 	public CardinalDirections getDirection()

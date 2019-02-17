@@ -55,7 +55,8 @@ public class PlayGame extends World
 		super.engineState.registerComponent(Render.class);
 		super.engineState.registerComponent(TileCord.class);
 		super.engineState.registerComponent(WorldAttributes.class);
-		super.engineState.registerComponent(Direction.class);
+		super.engineState.registerComponent(MovementDirection.class);
+		super.engineState.registerComponent(FacingDirection.class);
 		super.engineState.registerComponent(Speed.class);
 	}
 	public void registerEntitySets()
@@ -83,8 +84,6 @@ public class PlayGame extends World
 			super.setInitialTime();
 			this.processInputs();
 
-			// updating the camera
-
 			// SYSTEMS Go here
 			this.updateWorldAttribPositionFromDirectionAndSpeed(
 				this.dt);
@@ -101,6 +100,7 @@ public class PlayGame extends World
 			this.updateInverseCamera();
 
 			super.setFinalTime();
+
 			super.calculateDeltaTime();
 
 			Timer.dynamicSleepToFrameRate(124, super.dt);
@@ -115,52 +115,60 @@ public class PlayGame extends World
 		if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
 		    && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
 			System.out.println("wd key is down");
-			super.getComponentAt(Direction.class, this.player)
+			super.getComponentAt(MovementDirection.class,
+					     this.player)
 				.setDirection(CardinalDirections.NE);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
 			System.out.println("wa key is down");
-			super.getComponentAt(Direction.class, this.player)
+			super.getComponentAt(MovementDirection.class,
+					     this.player)
 				.setDirection(CardinalDirections.NW);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
 			System.out.println("sa key is down");
-			super.getComponentAt(Direction.class, this.player)
+			super.getComponentAt(MovementDirection.class,
+					     this.player)
 				.setDirection(CardinalDirections.SW);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
 			System.out.println("sd key is down");
-			super.getComponentAt(Direction.class, this.player)
+			super.getComponentAt(MovementDirection.class,
+					     this.player)
 				.setDirection(CardinalDirections.SW);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_W)) {
 			System.out.println("w key is down");
-			super.getComponentAt(Direction.class, this.player)
+			super.getComponentAt(MovementDirection.class,
+					     this.player)
 				.setDirection(CardinalDirections.N);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
 			System.out.println("a key is down");
-			super.getComponentAt(Direction.class, this.player)
+			super.getComponentAt(MovementDirection.class,
+					     this.player)
 				.setDirection(CardinalDirections.E);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
 			System.out.println("d key is down");
-			super.getComponentAt(Direction.class, this.player)
+			super.getComponentAt(MovementDirection.class,
+					     this.player)
 				.setDirection(CardinalDirections.W);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)) {
 			System.out.println("s key is down");
-			super.getComponentAt(Direction.class, this.player)
+			super.getComponentAt(MovementDirection.class,
+					     this.player)
 				.setDirection(CardinalDirections.S);
 			super.getComponentAt(Speed.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
@@ -216,10 +224,21 @@ public class PlayGame extends World
 			// player.switchWeapon();
 		}
 
-		// super.getComponentAt(WorldAttributes.class,
-		// player).print(); System.out.println("x =" +
-		// super.inputPoller.getMouseX()); System.out.println("y
-		// =" + super.inputPoller.getMouseY());
+		////// Mouse handling  //////
+		// refactor this so it uses the camera
+		Vector2f playerScreenPosition =
+			new Vector2f(windowWidth / 2f, windowHeight / 2f);
+		Vector2f mouseScreenPosition =
+			super.inputPoller.getMousePosition();
+		Vector2f tmp =
+			playerScreenPosition.pureSubtract(mouseScreenPosition);
+		CardinalDirections facingDirection =
+			CardinalDirections
+				.getClosestDirectionFromDirectionVector(tmp);
+		super.getComponentAt(FacingDirection.class, player)
+			.setDirection(facingDirection);
+
+		super.getComponentAt(FacingDirection.class, player).print();
 	}
 
 	protected void render()
@@ -307,11 +326,13 @@ public class PlayGame extends World
 
 	private void updateWorldAttribPositionFromDirectionAndSpeed(float dt)
 	{
-		for (int i = super.getInitialComponentIndex(Direction.class);
+		for (int i = super.getInitialComponentIndex(
+			     MovementDirection.class);
 		     Components.isValidEntity(i);
-		     i = super.getNextComponentIndex(Direction.class, i)) {
+		     i = super.getNextComponentIndex(MovementDirection.class,
+						     i)) {
 			Vector2f tmp = Systems.getVelocityFromDirectionAndSpeed(
-				getComponentAt(Direction.class, i),
+				getComponentAt(MovementDirection.class, i),
 				getComponentAt(Speed.class, i));
 			tmp.mul(dt);
 			getComponentAt(WorldAttributes.class, i).add(tmp);

@@ -97,25 +97,25 @@ public enum CardinalDirections {
 
 		switch (compass) {
 		case 0:
-			return CardinalDirections.E;
+			return CardinalDirections.W;
 		case 1:
-			return CardinalDirections.SE;
+			return CardinalDirections.NW;
 
 		case 2:
-			return CardinalDirections.S;
+			return CardinalDirections.N;
 
 		case 3:
-			return CardinalDirections.SW;
+			return CardinalDirections.NE;
 
 		case 4:
-			return CardinalDirections.W;
+			return CardinalDirections.E;
 
 		case 5:
-			return CardinalDirections.NW;
+			return CardinalDirections.SE;
 		case 6:
-			return CardinalDirections.N;
+			return CardinalDirections.S;
 		case 7:
-			return CardinalDirections.NE;
+			return CardinalDirections.SW;
 		default:
 			Logger.lassert(
 				true,
