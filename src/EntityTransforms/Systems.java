@@ -38,7 +38,6 @@ public class Systems
 						     final Camera c)
 	{
 		Vector2f topleftcoord = p.getTopLeftCoordFromOrigin();
-		// Vector2f topleftcoord = p.getOriginCoord();
 		topleftcoord.matrixMultiply(c);
 		return topleftcoord;
 	}
