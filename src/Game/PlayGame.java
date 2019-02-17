@@ -52,7 +52,6 @@ public class PlayGame extends World
 		super.engineState.registerComponent(CollisionBody.class);
 		super.engineState.registerComponent(HasAnimation.class);
 		super.engineState.registerComponent(Render.class);
-		super.engineState.registerComponent(TileCord.class);
 		super.engineState.registerComponent(WorldAttributes.class);
 		super.engineState.registerComponent(MovementDirection.class);
 		super.engineState.registerComponent(FacingDirection.class);
