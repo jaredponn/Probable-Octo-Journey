@@ -314,7 +314,7 @@ public class PlayGame extends World
 		////// Mouse handling  //////
 		Vector2f playerPosition =
 			super.getComponentAt(WorldAttributes.class, this.player)
-				.getOriginCoord();
+				.getTopLeftCoordFromOrigin();
 
 		Vector2f mousePosition = super.inputPoller.getMousePosition();
 		mousePosition.matrixMultiply(this.invCam);
@@ -397,7 +397,7 @@ public class PlayGame extends World
 		Vector2f tmp = new Vector2f(
 			super.getComponentAt(WorldAttributes.class, this.player)
 				.getOriginCoord());
-		tmp.add(1f, 0.3f);
+
 		super.getComponentAt(WorldAttributes.class, e)
 			.setOriginCoord(tmp);
 		super.getComponentAt(MovementDirection.class, e)
