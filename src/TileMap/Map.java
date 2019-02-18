@@ -11,10 +11,8 @@ import Components.PathFindCord;
 import Resources.GameResources;
 import poj.Logger.Logger;
 
-import poj.EngineState;
 import poj.Render.ImageRenderObject;
 import poj.linear.Vector2f;
-import poj.linear.Matrix;
 import poj.linear.MatrixCord;
 import poj.Render.ImageWindow;
 import poj.Render.Renderer;
@@ -26,7 +24,7 @@ import poj.Render.Renderer;
 
 public class Map
 {
-	public ArrayList<EngineState> mapLayers;
+	public ArrayList<MapLayer> mapLayers;
 	// store the image window of each tiles
 	public ArrayList<ImageWindow> tilesRenderPart =
 		new ArrayList<ImageWindow>();
@@ -35,11 +33,11 @@ public class Map
 
 	public Map(int numLayers)
 	{
-		mapLayers = new ArrayList<EngineState>(numLayers);
+		mapLayers = new ArrayList<MapLayer>(numLayers);
 	}
 	public Map()
 	{
-		mapLayers = new ArrayList<EngineState>();
+		mapLayers = new ArrayList<MapLayer>();
 	}
 
 	public void addMapConfig(String mapConfigLocation)
@@ -145,7 +143,7 @@ public class Map
 		//!: parse wall for different layers????
 		// 2:have indicator for which is wall!!!!!!
 		try {
-			mapLayers.add(new EngineState(mapWidth * mapHeight));
+			mapLayers.add(new MapLayer(mapWidth * mapHeight));
 			// get the last added engine state
 			mapLayers.get(mapLayers.size() - 1)
 				.registerComponent(Render.class);
@@ -367,7 +365,7 @@ public class Map
 			.getRawComponentArrayListPackedData(Render.class);
 	}
 
-	public EngineState getLayerEngineState(int layerNumber)
+	public MapLayer getLayerEngineState(int layerNumber)
 	{
 		return this.mapLayers.get(layerNumber);
 	}
