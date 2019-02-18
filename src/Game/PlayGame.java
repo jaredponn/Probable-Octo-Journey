@@ -16,6 +16,7 @@ import TileMap.Map;
 import EntityTransforms.*;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class PlayGame extends World
 {
@@ -509,23 +510,27 @@ public class PlayGame extends World
 						   this.player));
 	}
 
-	private void generateDiffusionMap(int difCoefficient)
+	private void generateDiffusionMap(int layerNumber, int difCoefficient)
 	{
+		// TODO: HAIYANG will only do one layer!!!!!
 		// will get the 8 neighbours aroud it
-
-
-		/*
+		ArrayList<PathFindCord> pathfindData =
+			this.map.mapLayers.get(layerNumber)
+				.getComponents()
+				.getRawComponentArrayListPackedData(
+					PathFindCord.class);
 		int sum = 0;
-		Vector2f centerCord = center.getOriginCoord();
-		ArrayList<PathFindCord> tempNeighbours =
-			new ArrayList<PathFindCord>();
-		// player initial val?
+		for (PathFindCord center : pathfindData) {
+			Vector2f centerCord = center.getOriginCoord();
+			ArrayList<PathFindCord> tempNeighbours =
+				new ArrayList<PathFindCord>();
+			// player initial val?
 
-		// if it is a wall or out of bounds, dont add it
-		if (!(center.getIsWall() == true
-		      || isValidCord(adfdsa, mapWidth, mapHeight))) {
-			sum +=
+			// if it is a wall or out of bounds, dont add it
+			if (!(center.getIsWall() == true
+			      || isValidCord(adfdsa, mapWidth, mapHeight))) {
+				// sum +=
+			}
 		}
-		*/
 	}
 }
