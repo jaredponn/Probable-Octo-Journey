@@ -24,6 +24,7 @@ public class PlayGame extends World
 	private Camera invCam; // inverse camera
 
 	private int player;
+	private int mob1;
 	private Vector2f unitVecPlayerPosToMouseDelta;
 	private CardinalDirections prevDirection = CardinalDirections.N;
 
@@ -33,9 +34,13 @@ public class PlayGame extends World
 
 		// World loading
 		this.map = new Map(3);
-		this.map.addMapConfig(GameResources.mapConfig);
 		this.map.addTileSet(GameResources.tileSet);
-		this.map.addMapLayer(GameResources.mapLayer0);
+		this.map.addMapConfig(GameResources.pathFindTest1Config);
+		this.map.addMapLayer(GameResources.pathFindTest1Layer);
+
+		// this.map.addMapConfig(GameResources.mapConfig);
+		// this.map.addMapLayer(GameResources.mapLayer0);
+
 		// this.map.addMapLayer(GameResources.mapLayer1);
 		// this.map.addMapLayer(GameResources.mapLayer1);
 		// this.map.addMapLayer(GameResources.mapLayer2);
@@ -74,7 +79,7 @@ public class PlayGame extends World
 	{
 		// Player
 		this.player = super.engineState.spawnEntitySet(new PlayerSet());
-		super.engineState.spawnEntitySet(new MobSet());
+		this.mob1 = super.engineState.spawnEntitySet(new MobSet());
 
 		int tmp = super.engineState.spawnEntitySet(new Bullet());
 		super.getComponentAt(WorldAttributes.class, tmp)
@@ -274,6 +279,7 @@ public class PlayGame extends World
 				break;
 			}
 		}
+
 
 		////// Build Commands //////
 		if (super.inputPoller.isKeyDown(GameConfig.BUILD_TOWER)) {

@@ -13,6 +13,8 @@ import poj.Logger.Logger;
 import poj.EngineState;
 import poj.Render.ImageRenderObject;
 import poj.linear.Vector2f;
+import poj.linear.Matrix;
+import poj.linear.MatrixCord;
 import poj.Render.ImageWindow;
 import poj.Render.Renderer;
 
@@ -29,6 +31,8 @@ public class Map
 		new ArrayList<ImageWindow>();
 	public int rowsOfTileSet, colsOfTileSet, tileHeight, tileWidth,
 		tileCount, mapWidth = 0, mapHeight = 0;
+	public Matrix<Float> initialMapStateForPathfinding =
+		new Matrix<Float>();
 
 	public Map(int numLayers)
 	{
@@ -138,6 +142,9 @@ public class Map
 	}
 	public void addMapLayer(String mapLayerLocation)
 	{
+		// TODO HAIANG:
+		//!: parse wall for different layers????
+		// 2:have indicator for which is wall!!!!!!
 		try {
 			mapLayers.add(new EngineState(mapWidth * mapHeight));
 			// get the last added engine state
@@ -175,6 +182,11 @@ public class Map
 					    && (numRows) > 1) { // not in the
 								// first row
 						xShiftValue = tileWidth / 2;
+					}
+
+					if (Integer.parseInt(tempList[i]) != -1
+					    || Integer.parseInt(tempList[i])
+						       == 17) {
 					}
 
 					if (Integer.parseInt(tempList[i])

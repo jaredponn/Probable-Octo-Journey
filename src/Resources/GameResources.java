@@ -22,31 +22,19 @@ public class GameResources
 	public static BufferedImage testTile =
 		ImageLoader.load("resources/newmap/tiled_cave_1.png");
 
-	/*
-	public static String mapConfig = "resources/map1Config.json",
-			     tileSet = "resources/tiles1.json",
-			     mapLayer0 = "resources/map1_ground.csv",
-			     mapLayer1 = "resources/map1_not_ground.csv",
-			     mapLayer2 = "resources/map1_roof.csv";
-	*/
-	public static String
-		// mapConfig = "resources/newmap/testDifSetCombine1.json",
-		mapConfig = "resources/newmap2/map.json",
-		tileSet = "resources/newmap2/caveTileSet128.json",
-		// mapLayer0 = "resources/newmap/testDifSetCombine1.csv",
-		mapLayer0 = "resources/newmap2/map.csv";
+	public static String mapConfig = "resources/newmap2/map.json",
+			     tileSet = "resources/newmap2/caveTileSet128.json",
+			     mapLayer0 = "resources/newmap2/map.csv",
+			     pathFindTest1Config =
+				     "resources/newmap2/pathFindTest1.json",
+			     pathFindTest1Layer =
+				     "resources/newmap2/pathFindTest1.csv";
 
-	// Tile config TODO == haiyang please update this directly with whatever
 	// value is in the files. THis is currently hard coded in
 	public static final float TILE_SCREEN_WIDTH = 64f / 1.4f;
 	public static final float TILE_SCREEN_HEIGHT = 32f / 1.4f;
 
 	public static final float TILE_SCREEN_ROTATION = ((float)Math.PI / 4.f);
-
-	// mapLayer0 =
-	//"resources/newmap/testDifSetCombine1_not_ground.csv",
-	// mapLayer1 = "resources/newmap/testDifSetCombine1_ground.csv";
-	// mapLayer2 = "resources/map1_roof.csv";
 
 	public static Animation testImageAnimation = new Animation(
 		new ImageWindow(0, 0, 60, 30), 30, 60, 0, 0, 0, 120, 0);
@@ -64,6 +52,8 @@ public class GameResources
 	public static BufferedImage playerSpriteSheet =
 		ImageLoader.load("resources/playerspritesheet.png");
 
+	public static BufferedImage enemySpriteSheet =
+		ImageLoader.load("resources/enemyspritesheet.png");
 	public static final int PLAYER_SPRITE_WIDTH = 48;
 	public static final int PLAYER_SPRITE_HEIGHT = 64;
 
@@ -102,4 +92,8 @@ public class GameResources
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 3,
 		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 3,
 		PLAYER_SPRITE_HEIGHT * 7);
+
+	public static Animation enemyNMoveAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, 0, 0, 0, PLAYER_SPRITE_HEIGHT * 4);
 }
