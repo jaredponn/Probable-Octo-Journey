@@ -31,8 +31,8 @@ public class GameResources
 				     "resources/newmap2/pathFindTest1.csv";
 
 	public static final float MAGIC_CONSTANT =
-		1.4f; // this constant is important and makes things
-		      // "just work"
+		1.45f; // this constant is important and makes things
+		       // "just work"
 	public static final float TILE_SCREEN_ROTATION = (float)Math.PI / 4;
 	public static final float TILE_SCREEN_WIDTH = 64 / MAGIC_CONSTANT;
 	public static final float TILE_SCREEN_HEIGHT = 32 / MAGIC_CONSTANT;

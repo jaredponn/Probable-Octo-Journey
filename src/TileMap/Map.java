@@ -369,4 +369,9 @@ public class Map
 	{
 		return this.mapLayers.get(layerNumber);
 	}
+
+	public int getMapLength()
+	{
+		return this.mapWidth * this.mapHeight;
+	}
 }
