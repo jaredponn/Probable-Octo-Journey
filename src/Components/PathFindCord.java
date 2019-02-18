@@ -7,15 +7,30 @@ public class PathFindCord implements Component
 {
 	private MatrixCord cord;
 	private boolean isWall;
-	public PathFindCord(MatrixCord cord, boolean isWall)
+	private int diffusionValue;
+	public PathFindCord(MatrixCord cord, boolean isWall, int diffusionValue)
 	{
 		this.cord = cord;
 		this.isWall = isWall;
+		this.diffusionValue = diffusionValue;
 	}
 
 	public boolean getIsWall()
 	{
 		return this.isWall;
+	}
+	public int getDiffusionValue()
+	{
+		return this.diffusionValue;
+	}
+	public void setDiffusionValue(int newDifVal)
+	{
+		this.diffusionValue = newDifVal;
+	}
+
+	public MatrixCord getCord()
+	{
+		return this.cord;
 	}
 	public void printWall()
 	{

@@ -5,6 +5,7 @@ import Game.Camera;
 import poj.linear.*;
 import poj.Render.ImageRenderObject;
 import poj.Render.Renderer;
+import java.util.ArrayList;
 
 public class Systems
 {
@@ -21,6 +22,24 @@ public class Systems
 		}
 		return false;
 	}
+
+	/*
+	public static boolean isValidCord(WorldAttributes tile, int mapWidth,
+					  int mapHeight)
+	{
+		Vector2f cord = tile.getOriginCoord();
+		return !(cord.x >= mapHeight || cord.y >= mapWidth)
+			&& (cord.x >= 0 && cord.y >= 0);
+	}
+
+	public static boolean isValidCord(PathFindCord tile, int mapWidth,
+					  int mapHeight)
+	{
+		MatrixCord cord = tile.getCord();
+		return !(cord.row >= mapHeight || cord.col >= mapWidth)
+			&& (cord.row >= 0 && cord.col >= 0);
+	}
+	*/
 
 	public static void updateRenderScreenCoordinatesFromWorldCoordinates(
 		WorldAttributes p, Render r, final Camera c)

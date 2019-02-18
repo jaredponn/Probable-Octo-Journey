@@ -491,4 +491,24 @@ public class PlayGame extends World
 			engineState.getComponentAt(WorldAttributes.class,
 						   this.player));
 	}
+
+	private void generateDiffusionMap(int difCoefficient)
+	{
+		// will get the 8 neighbours aroud it
+
+
+		/*
+		int sum = 0;
+		Vector2f centerCord = center.getOriginCoord();
+		ArrayList<PathFindCord> tempNeighbours =
+			new ArrayList<PathFindCord>();
+		// player initial val?
+
+		// if it is a wall or out of bounds, dont add it
+		if (!(center.getIsWall() == true
+		      || isValidCord(adfdsa, mapWidth, mapHeight))) {
+			sum +=
+		}
+		*/
+	}
 }

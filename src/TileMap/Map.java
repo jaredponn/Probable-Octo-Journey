@@ -199,7 +199,8 @@ public class Map
 									new MatrixCord(
 										numRows - 1,
 										i % mapWidth),
-									true),
+									true,
+									0),
 								nextFreeIndex);
 					} else {
 						mapLayers
@@ -212,7 +213,8 @@ public class Map
 									new MatrixCord(
 										numRows - 1,
 										i % mapWidth),
-									false),
+									false,
+									0),
 								nextFreeIndex);
 					}
 
@@ -257,6 +259,28 @@ public class Map
 				"In TileMap addMapLayer ,file not found exception!"
 				+ e.getMessage());
 		}
+		/*
+		System.out.println("map width = " + mapWidth);
+		System.out.println("map height = " + mapHeight);
+		System.out.println(getEcsCordFromWorldAttributes(
+			new WorldAttributes(1, 0, 1f, 1f)));
+		*/
+	}
+
+	// IMPORTANT: in world attributes  and PathFindCord, X is RowNum, and Y
+	// is ColNum!!!!!!
+	public boolean isValidCord(WorldAttributes tile)
+	{
+		Vector2f cord = tile.getOriginCoord();
+		return !(cord.x >= mapHeight || cord.y >= mapWidth)
+			&& (cord.x >= 0 && cord.y >= 0);
+	}
+
+	public boolean isValidCord(PathFindCord tile)
+	{
+		MatrixCord cord = tile.getCord();
+		return !(cord.row >= mapHeight || cord.col >= mapWidth)
+			&& (cord.row >= 0 && cord.col >= 0);
 	}
 
 	public void printPathfindCord(int layerNumber)
@@ -323,7 +347,17 @@ public class Map
 			}
 		}
 	}
+	public int getEcsCordFromWorldAttributes(WorldAttributes cord)
+	{
+		Vector2f matrixCord = cord.getOriginCoord();
+		if (isValidCord(cord)) {
 
+			return (int)matrixCord.x * (mapWidth)
+				+ (int)matrixCord.y;
+		} else {
+			return -1;
+		}
+	}
 	public ArrayList<Render> getTileLayerRender(int layerNumber)
 	{
 		return this.mapLayers.get(layerNumber)
