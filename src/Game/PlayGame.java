@@ -12,8 +12,6 @@ import Game.Camera;
 import EntitySets.*;
 import TileMap.*;
 
-import EntityTransforms.*;
-
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
@@ -105,16 +103,22 @@ public class PlayGame extends World
 
 
 		// SYSTEMS Go here
-		this.setMovementVelocityFromMovementDirection();
-		this.updateWorldAttribPositionFromMovement(this.dt);
+		EngineTransforms.setMovementVelocityFromMovementDirection(
+			this.engineState);
+		EngineTransforms.updateWorldAttribPositionFromMovement(
+			this.engineState, this.dt);
 		// updating the camera
-		this.centerCamerasPositionToPlayer();
-		this.updateInverseCamera();
+		centerCamerasPositionToPlayer();
+		updateInverseCamera();
 
-		this.updateAnimationWindows();
-		this.cropSpriteSheetsFromAnimationWindows();
+		EngineTransforms.updateAnimationWindows(this.engineState,
+							this.dt);
+		EngineTransforms.cropSpriteSheetsFromAnimationWindows(
+			this.engineState);
 
-		this.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera();
+		EngineTransforms
+			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
+				this.engineState, this.cam);
 
 		// rendering is run after this is run
 	}
@@ -450,67 +454,6 @@ public class PlayGame extends World
 				bulletSpeed));
 	}
 
-	/// SYSTEMS ///
-	private void updateAnimationWindows()
-	{
-		for (HasAnimation a : super.getRawComponentArrayListPackedData(
-			     HasAnimation.class)) {
-			Systems.updateHasAnimationComponent(a, this.dt);
-		}
-	}
-
-	private void cropSpriteSheetsFromAnimationWindows()
-	{
-
-		for (int i = super.getInitialComponentIndex(HasAnimation.class);
-		     Components.isValidEntity(i);
-		     i = super.getNextComponentIndex(HasAnimation.class, i)) {
-			Systems.updateRenderComponentWindowFromHasAnimation(
-				super.getComponentAt(Render.class, i),
-				super.getComponentAt(HasAnimation.class, i));
-		}
-	}
-
-
-	private void
-	updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera()
-	{
-
-		for (int i = super.getInitialComponentIndex(
-			     WorldAttributes.class);
-		     Components.isValidEntity(i);
-		     i = super.getNextComponentIndex(WorldAttributes.class,
-						     i)) {
-			Systems.updateRenderScreenCoordinatesFromWorldCoordinates(
-				super.getComponentAt(WorldAttributes.class, i),
-				super.getComponentAt(Render.class, i),
-				this.cam);
-		}
-	}
-
-	private void updateWorldAttribPositionFromMovement(double dt)
-	{
-		for (int i = super.getInitialComponentIndex(Movement.class);
-		     Components.isValidEntity(i);
-		     i = super.getNextComponentIndex(Movement.class, i)) {
-			Systems.updateWorldAttribPositionFromMovement(
-				super.getComponentAt(WorldAttributes.class, i),
-				super.getComponentAt(Movement.class, i),
-				this.dt);
-		}
-	}
-
-	private void setMovementVelocityFromMovementDirection()
-	{
-		for (int i = super.getInitialSetIndex(MovementDirection.class);
-		     Components.isValidEntity(i);
-		     i = super.getNextSetIndex(MovementDirection.class, i)) {
-			Systems.setMovementVelocityFromMovementDirection(
-				super.getComponentAt(Movement.class, i),
-				super.getComponentAt(MovementDirection.class,
-						     i));
-		}
-	}
 
 	private void centerCamerasPositionToPlayer()
 	{
