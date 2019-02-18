@@ -143,4 +143,13 @@ public class ImageRenderObject extends RenderObject
 	{
 		super.setPosition(x, y);
 	}
+	public int getHeight()
+	{
+		return this.imageWindow.getHeight();
+	}
+
+	public int getWidth()
+	{
+		return this.imageWindow.getWidth();
+	}
 }

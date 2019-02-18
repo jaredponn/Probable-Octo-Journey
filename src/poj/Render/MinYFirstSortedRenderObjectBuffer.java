@@ -8,11 +8,13 @@ class RenderObjectComparator implements Comparator<RenderObject>
 {
 	public int compare(RenderObject a, RenderObject b)
 	{
-		if (a.getY() < b.getY()) {
+		int aypos = a.getY() + a.getHeight() / 2;
+		int bypos = b.getY() + b.getHeight() / 2;
+		if (aypos < bypos) {
 			return -1;
 		}
 
-		else if (a.getY() == b.getY()) {
+		else if (aypos == bypos) {
 			return 0;
 		}
 		// a is greater than b

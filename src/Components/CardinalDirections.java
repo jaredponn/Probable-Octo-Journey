@@ -65,7 +65,7 @@ public enum CardinalDirections {
 			return new Vector2f(-CardinalDirections.UNIT_DIAGONAL,
 					    -1);
 		case S:
-			return new Vector2f(0, 1);
+			return new Vector2f(0, +1);
 		case SE:
 			return new Vector2f(+CardinalDirections.UNIT_DIAGONAL,
 					    1);
@@ -99,23 +99,23 @@ public enum CardinalDirections {
 		case 0:
 			return CardinalDirections.W;
 		case 1:
-			return CardinalDirections.NW;
+			return CardinalDirections.SW;
 
 		case 2:
-			return CardinalDirections.N;
+			return CardinalDirections.S;
 
 		case 3:
-			return CardinalDirections.NE;
+			return CardinalDirections.SE;
 
 		case 4:
 			return CardinalDirections.E;
 
 		case 5:
-			return CardinalDirections.SE;
+			return CardinalDirections.NE;
 		case 6:
-			return CardinalDirections.S;
+			return CardinalDirections.N;
 		case 7:
-			return CardinalDirections.SW;
+			return CardinalDirections.NW;
 		default:
 			Logger.lassert(
 				true,

@@ -27,6 +27,16 @@ public class RenderObject
 		return this.y;
 	}
 
+	public int getHeight()
+	{
+		return 0;
+	}
+
+	public int getWidth()
+	{
+		return 0;
+	}
+
 	public void setPosition(int x, int y)
 	{
 		this.x = x;

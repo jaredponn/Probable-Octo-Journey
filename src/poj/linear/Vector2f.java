@@ -45,6 +45,12 @@ public class Vector2f
 		this.y -= a.y;
 	}
 
+	public void negate()
+	{
+		this.x = -this.x;
+		this.y = -this.y;
+	}
+
 	public Vector2f pureSubtract(final Vector2f a)
 	{
 		Vector2f tmp = new Vector2f(this);
