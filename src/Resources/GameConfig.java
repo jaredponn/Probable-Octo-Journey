@@ -1,6 +1,7 @@
 package Resources;
 
 import java.awt.event.KeyEvent;
+import poj.linear.*;
 
 
 // IMPORTANT: Everything in this document should be in screen coordinates. That
@@ -18,12 +19,13 @@ public class GameConfig
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
-
+	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
 	public static final float PLAYER_HEIGHT =
 
 		GameResources.PLAYER_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
-
+	public static final Vector2f PLAYER_SPAWNNING_POS =
+		new Vector2f(4f, 7f);
 	// bullet config
 	public static final float BULLET_SPEED = 0.02f;
 	public static final float BULLET_WIDTH =
