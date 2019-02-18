@@ -86,9 +86,10 @@ public class PlayGame extends World
 		MapLayer mapLayer = this.map.getLayerEngineState(0);
 		mapLayer.getComponentAt(
 				PathFindCord.class,
-				this.map.getEcsCordFromVector2f(
+				this.map.getEcsIndexFromWorldVector2f(
 					GameConfig.PLAYER_SPAWNNING_POS))
 			.setDiffusionValue(GameConfig.PLAYER_DIFFUSION_VALUE);
+		this.map.printPathfindCord(0);
 		int tmp = super.engineState.spawnEntitySet(new Bullet());
 		super.getComponentAt(WorldAttributes.class, tmp)
 			.setOriginCoord(new Vector2f(0f, 0f));

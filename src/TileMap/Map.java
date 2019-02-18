@@ -365,20 +365,11 @@ public class Map
 		}
 	}
 
-	public int getEcsCordFromVector2f(Vector2f matrixCord)
+
+	public int getEcsIndexFromWorldVector2f(Vector2f matrixCord)
 	{
+
 		if (isValidCord(matrixCord)) {
-
-			return (int)matrixCord.x * (mapWidth)
-				+ (int)matrixCord.y;
-		} else {
-			return -1;
-		}
-	}
-
-	public int getEcsIndexFromWorldVector2f(Vector2f coord)
-	{
-		if (isValidCord(coord)) {
 
 			return (int)matrixCord.x * (mapHeight)
 				+ (int)matrixCord.y;
