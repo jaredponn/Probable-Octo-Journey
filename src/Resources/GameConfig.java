@@ -9,21 +9,20 @@ public class GameConfig
 {
 
 	// player config
-	// not gonna lie, idk why we really need this, but the math checks out
-	// with this
-	// TODO someone figure out how this all works so we're no longer just
-	// guessing random numbers sto make everything line up. pretty sure this
-	// happened just because of coincidence.
 	private static final float PLAYER_SCALE = 2f;
 
+	// They need to be switched because of how the tiles are viewed. Not
+	// going to lie, this is really strange and if someone wants to take the
+	// time to figure this out, please let me know
 	public static final float PLAYER_SPEED = 0.003f;
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
+
 	public static final float PLAYER_HEIGHT =
+
 		GameResources.PLAYER_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
-
 
 	// bullet config
 	public static final float BULLET_SPEED = 0.02f;

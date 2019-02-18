@@ -332,8 +332,7 @@ public class PlayGame extends World
 		mousePosition.log("Mouse position in world coordinates");
 
 		Vector2f tmp = playerPosition.pureSubtract(mousePosition);
-		tmp.x = -tmp.x;
-		tmp.y = -tmp.y;
+		tmp.negate();
 		CardinalDirections facingDirection =
 			CardinalDirections
 				.getClosestDirectionFromDirectionVector(tmp);
@@ -343,7 +342,8 @@ public class PlayGame extends World
 
 		this.unitVecPlayerPosToMouseDelta = tmp.pureNormalize();
 
-		/*super.getComponentAt(FacingDirection.class, player).print();
+		super.getComponentAt(FacingDirection.class, player).print();
+		/*
 		super.getComponentAt(WorldAttributes.class, this.player)
 			.print();*/
 	}

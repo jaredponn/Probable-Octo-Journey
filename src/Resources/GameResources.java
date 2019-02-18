@@ -30,11 +30,12 @@ public class GameResources
 			     pathFindTest1Layer =
 				     "resources/newmap2/pathFindTest1.csv";
 
-	// value is in the files. THis is currently hard coded in
-	public static final float TILE_SCREEN_WIDTH = 64f / 1.4f;
-	public static final float TILE_SCREEN_HEIGHT = 32f / 1.4f;
-
-	public static final float TILE_SCREEN_ROTATION = ((float)Math.PI / 4.f);
+	public static final float MAGIC_CONSTANT =
+		1.4f; // this constant is important and makes things
+		      // "just work"
+	public static final float TILE_SCREEN_ROTATION = (float)Math.PI / 4;
+	public static final float TILE_SCREEN_WIDTH = 64 / MAGIC_CONSTANT;
+	public static final float TILE_SCREEN_HEIGHT = 32 / MAGIC_CONSTANT;
 
 	public static Animation testImageAnimation = new Animation(
 		new ImageWindow(0, 0, 60, 30), 30, 60, 0, 0, 0, 120, 0);

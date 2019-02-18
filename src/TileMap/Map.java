@@ -245,7 +245,7 @@ public class Map
 												tempList[i]))),
 									new Vector2f(
 										0,
-										(float)-tileHeight // TODO This is awful -- this is the translation needed to render the tiles so they line up with where the world coordinates are
+										-(float)tileHeight // TODO This is awful -- this is the translation needed to render the tiles so they line up with where the world coordinates are
 											/ 2f)),
 								nextFreeIndex);
 					}

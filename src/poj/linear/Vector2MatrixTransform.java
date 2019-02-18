@@ -23,6 +23,20 @@ public class Vector2MatrixTransform extends MatrixTransformations
 		this.m_matrix.set(4, ys);
 	}
 
+	public void setSwapXAndY()
+	{
+		unsafeSwap(0, 3);
+		unsafeSwap(1, 4);
+		unsafeSwap(2, 5);
+	}
+
+	public void composeSetSwapXAndY()
+	{
+		Vector2MatrixTransform tmp = new Vector2MatrixTransform();
+		tmp.setSwapXAndY();
+		this.compose(tmp);
+	}
+
 	public void composeSetScalingForVector2(float xs, float ys)
 	{
 		Vector2MatrixTransform tmp = new Vector2MatrixTransform();
