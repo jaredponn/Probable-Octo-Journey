@@ -246,7 +246,8 @@ public class Map
 											.get(Integer.parseInt(
 												tempList[i]))),
 									new Vector2f(
-										-(float)tileWidth, // TODO also awful someone please figure out whty this does this.
+										-(float)tileWidth
+											/ 2f, // TODO also awful someone please figure out whty this does this.
 										-(float)tileHeight // TODO This is awful -- this is the translation needed to render the tiles so they line up with where the world coordinates are
 											/ 2f)),
 								nextFreeIndex);
