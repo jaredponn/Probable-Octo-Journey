@@ -79,9 +79,19 @@ public class Components extends ComponentsArray
 		if (tmp.size() == 0)
 			return INVALID_ENTITY_INDEX;
 		else
-			return getComponentPackedVector(setType)
-				.get_packed_indicies()
-				.get(0);
+			return tmp.get(0);
+	}
+
+	// returns the last valid set index (if there is no such index, returns
+	// INVALID_ENTITY_INDEX)
+	public final <T extends Component> int getLastSetIndex(Class<T> setType)
+	{
+		ArrayList<Integer> tmp =
+			getComponentPackedVector(setType).get_packed_indicies();
+		if (tmp.size() == 0)
+			return INVALID_ENTITY_INDEX;
+		else
+			return tmp.get(tmp.size() - 1);
 	}
 
 	// gets the next entity of a set

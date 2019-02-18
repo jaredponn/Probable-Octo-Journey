@@ -271,7 +271,11 @@ public class Map
 	// Width is rows, height is cols
 	public boolean isValidCord(WorldAttributes tile)
 	{
-		Vector2f cord = tile.getOriginCoord();
+		return isValidCord(tile.getOriginCoord());
+	}
+
+	public boolean isValidCord(Vector2f cord)
+	{
 		return !(cord.x >= mapWidth || cord.y >= mapHeight)
 			&& (cord.x >= 0 && cord.y >= 0);
 	}
@@ -351,6 +355,17 @@ public class Map
 	{
 		Vector2f matrixCord = cord.getOriginCoord();
 		if (isValidCord(cord)) {
+
+			return (int)matrixCord.x * (mapHeight)
+				+ (int)matrixCord.y;
+		} else {
+			return -1;
+		}
+	}
+
+	public int getEcsIndexFromWorldVector2f(Vector2f coord)
+	{
+		if (isValidCord(coord)) {
 
 			return (int)matrixCord.x * (mapHeight)
 				+ (int)matrixCord.y;
