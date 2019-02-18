@@ -38,6 +38,9 @@ public class PlayGame extends World
 		this.map.addMapConfig(GameResources.pathFindTest1Config);
 		this.map.addMapLayer(GameResources.pathFindTest1Layer);
 
+		System.out.println(map.mapWidth);
+		System.out.println(map.mapHeight);
+
 		// this.map.addMapConfig(GameResources.mapConfig);
 		// this.map.addMapLayer(GameResources.mapLayer0);
 
@@ -351,7 +354,30 @@ public class PlayGame extends World
 	// Render function
 	protected void render()
 	{
-		EngineState tileLayer = this.map.getLayerEngineState(0);
+
+
+		this.pushTileMapToRenderer(this.map.getLayerEngineState(0));
+
+		for (Render r :
+		     super.getRawComponentArrayListPackedData(Render.class)) {
+			Systems.cullPushRenderComponentToRenderer(
+				r, super.renderer, this.windowWidth,
+				this.windowHeight);
+		}
+
+		super.renderer.render();
+	}
+
+	// Renders a set window of the tilemap
+	private void pushTileMapToRenderer(EngineState tileLayer)
+	{
+
+		Vector2f topLeftWorldCoordOfScreenTopLeft =
+			new Vector2f(0, 0).pureMatrixMultiply(this.invCam);
+		Vector2f botRightWorldCoordofScreenBotRight =
+			new Vector2f(super.windowWidth, super.windowHeight)
+				.pureMatrixMultiply(this.invCam);
+
 		for (int i = tileLayer.getInitialComponentIndex(Render.class);
 		     Components.isValidEntity(i);
 		     i = tileLayer.getNextComponentIndex(Render.class, i)) {
@@ -366,15 +392,6 @@ public class PlayGame extends World
 				super.renderer, this.windowWidth,
 				this.windowHeight);
 		}
-
-		for (Render r :
-		     super.getRawComponentArrayListPackedData(Render.class)) {
-			Systems.cullPushRenderComponentToRenderer(
-				r, super.renderer, this.windowWidth,
-				this.windowHeight);
-		}
-
-		super.renderer.render();
 	}
 
 
