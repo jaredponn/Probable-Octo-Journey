@@ -325,7 +325,7 @@ public class PlayGame extends World
 		////// Mouse handling  //////
 		Vector2f playerPosition =
 			super.getComponentAt(WorldAttributes.class, this.player)
-				.getTopLeftCoordFromOrigin();
+				.getOriginCoord();
 
 		Vector2f mousePosition = super.inputPoller.getMousePosition();
 		mousePosition.matrixMultiply(this.invCam);
@@ -390,7 +390,7 @@ public class PlayGame extends World
 	private void resetCamera()
 	{
 		this.cam.clearBackToIdentity();
-		this.cam.setScalingForVector2(GameResources.TILE_SCREEN_WIDTH,
+		this.cam.setScalingForVector2(-GameResources.TILE_SCREEN_WIDTH,
 					      GameResources.TILE_SCREEN_HEIGHT);
 		this.cam.composeWithRotationForVector2XaxisCC(
 			GameResources.TILE_SCREEN_ROTATION);
