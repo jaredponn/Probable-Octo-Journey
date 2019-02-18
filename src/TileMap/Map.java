@@ -273,18 +273,15 @@ public class Map
 				.getComponents()
 				.getRawComponentArrayListPackedData(
 					PathFindCord.class);
-		System.out.println("pathfindcord size ="
-				   + pathfindLayerData.size());
 		int tempCount = 0;
 		for (int i = 0; i < pathfindLayerData.size(); ++i) {
-			System.out.println("i= " + i);
+			System.out.println("i =" + i);
 			pathfindLayerData.get(i).printWall();
 			if (pathfindLayerData.get(i).getIsWall()) {
 				++tempCount;
 			}
 			pathfindLayerData.get(i).printDiffusionVal();
 		}
-		System.out.println("number of walls = " + tempCount);
 	}
 
 	// add here for future loop reference
@@ -378,6 +375,11 @@ public class Map
 			return -1;
 		}
 	}
+	public Vector2f getVector2fFromEcsIndex(int index)
+	{
+		return new Vector2f(index / mapWidth, index % mapWidth);
+	}
+
 	public ArrayList<Render> getTileLayerRender(int layerNumber)
 	{
 		return this.mapLayers.get(layerNumber)

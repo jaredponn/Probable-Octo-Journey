@@ -83,13 +83,6 @@ public class PlayGame extends World
 
 		// TODO: HAIYANG get the layer number for the path finding!
 		// right now for testing it only have 1 layer
-		MapLayer mapLayer = this.map.getLayerEngineState(0);
-		mapLayer.getComponentAt(
-				PathFindCord.class,
-				this.map.getEcsIndexFromWorldVector2f(
-					GameConfig.PLAYER_SPAWNNING_POS))
-			.setDiffusionValue(GameConfig.PLAYER_DIFFUSION_VALUE);
-		this.map.printPathfindCord(0);
 		int tmp = super.engineState.spawnEntitySet(new Bullet());
 		super.getComponentAt(WorldAttributes.class, tmp)
 			.setOriginCoord(new Vector2f(0f, 0f));
@@ -502,6 +495,9 @@ public class PlayGame extends World
 				super.getComponentAt(Movement.class, i),
 				this.dt);
 		}
+		System.out.println("start dif");
+		addPlayerDiffusionValAtPlayerPos();
+		System.out.println("end dif");
 	}
 
 	private void setMovementVelocityFromMovementDirection()
@@ -530,8 +526,9 @@ public class PlayGame extends World
 	{
 		// TODO: HAIYANG will only do one layer!!!!!
 		// will get the 8 neighbours aroud it
-		ArrayList<PathFindCord> tempNeighbours =
-			new ArrayList<PathFindCord>();
+		//
+		// ArrayList<PathFindCord> tempNeighbours =
+		// new ArrayList<PathFindCord>();
 		MapLayer mapLayer = this.map.getLayerEngineState(layerNumber);
 		int sum = 0;
 		for (int i = mapLayer.getInitialComponentIndex(
@@ -540,7 +537,26 @@ public class PlayGame extends World
 		     i = mapLayer.getNextComponentIndex(WorldAttributes.class,
 							i)) {
 			// player initial val?
+			// will first diffuse again,
+			// then addPlayerDifVal
+			// then diffuse again
 
+			ArrayList<PathFindCord> tempNeighbours =
+				new ArrayList<PathFindCord>();
+			// Vector2f testVector=
+			//
+
+			for (int j = 0; j < 8; ++j) {
+				// tempNeighbours.add
+			}
+			if (mapLayer.hasComponent(PathFindCord.class, i)) {
+			}
+			/*
+			if (!(center.getIsWall() == true
+			      || isValidCord(adfdsa, mapWidth, mapHeight))) {
+				// sum +=
+			}
+			*/
 
 			// if it is a wall or out of bounds, dont add it
 			/*
@@ -549,6 +565,34 @@ public class PlayGame extends World
 				// sum +=
 			}
 			*/
+		}
+	}
+	private void addPlayerDiffusionValAtPlayerPos()
+	{
+
+
+		Vector2f playerPosition =
+			super.getComponentAt(WorldAttributes.class, this.player)
+				.getOriginCoord();
+		/*
+		System.out.println("player X=" + playerPosition.x);
+		System.out.println("player Y=" + playerPosition.y);
+		System.out.println(
+			"this.map.getEcsIndexFromWorldVector2f(playerPosition)"
+			+ this.map.getEcsIndexFromWorldVector2f(
+				  playerPosition));
+		*/
+		if (this.map.getEcsIndexFromWorldVector2f(playerPosition)
+		    != -1) {
+
+			MapLayer mapLayer = this.map.getLayerEngineState(0);
+			this.map.printPathfindCord(0);
+			mapLayer.getComponentAt(
+					PathFindCord.class,
+					this.map.getEcsIndexFromWorldVector2f(
+						playerPosition))
+				.setDiffusionValue(
+					GameConfig.PLAYER_DIFFUSION_VALUE);
 		}
 	}
 }
