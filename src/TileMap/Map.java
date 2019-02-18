@@ -202,6 +202,18 @@ public class Map
 									true,
 									0),
 								nextFreeIndex);
+						mapLayers
+							.get(mapLayers.size()
+							     - 1)
+							.addComponentAt(
+								Colli.class,
+								new PathFindCord(
+									new MatrixCord(
+										numRows - 1,
+										i % mapWidth),
+									true,
+									0),
+								nextFreeIndex);
 					} else {
 						mapLayers
 							.get(mapLayers.size()

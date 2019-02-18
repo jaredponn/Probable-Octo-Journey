@@ -493,21 +493,25 @@ public class PlayGame extends World
 						   this.player));
 	}
 
+	// IMPORTANT: in world attributes  and PathFindCord, X is RowNum, and Y
+	// is ColNum!!!!!!
+	// Width is rows, height is cols
 	private void generateDiffusionMap(int layerNumber, int difCoefficient)
 	{
 		// TODO: HAIYANG will only do one layer!!!!!
 		// will get the 8 neighbours aroud it
-		ArrayList<PathFindCord> pathfindData =
-			this.map.mapLayers.get(layerNumber)
-				.getComponents()
-				.getRawComponentArrayListPackedData(
-					PathFindCord.class);
-		int sum = 0;
-		for (PathFindCord center : pathfindData) {
-			Vector2f centerCord = center.getOriginCoord();
-			ArrayList<PathFindCord> tempNeighbours =
-				new ArrayList<PathFindCord>();
+		ArrayList<PathFindCord> tempNeighbours =
+			new ArrayList<PathFindCord>();
+		Engine int sum = 0;
+		for (int i = this.map.getLayerEngineState(layerNumber)
+				     .getInitialComponentIndex(
+					     WorldAttributes.class);
+		     Components.isValidEntity(i);
+		     i = this.map.getLayerEngineState(layerNumber)
+				 .getNextComponentIndex(WorldAttributes.class,
+							i)) {
 			// player initial val?
+
 
 			// if it is a wall or out of bounds, dont add it
 			if (!(center.getIsWall() == true
