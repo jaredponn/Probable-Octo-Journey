@@ -1,4 +1,9 @@
 package poj.Collisions;
 
-public class CollisionCircle {
+import poj.linear.*;
+
+public class CollisionCircle
+{
+	float radius;
+	Vector2f center;
 }
