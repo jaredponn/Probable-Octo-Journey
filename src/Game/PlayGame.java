@@ -102,7 +102,6 @@ public class PlayGame extends World
 		// SYSTEMS Go here
 		this.setMovementVelocityFromMovementDirection();
 		this.updateWorldAttribPositionFromMovement(this.dt);
-
 		// updating the camera
 		this.centerCamerasPositionToPlayer();
 		this.updateInverseCamera();

@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import Components.Render;
 import Components.WorldAttributes;
+import Components.PathFindCord;
 import Resources.GameResources;
 import poj.Logger.Logger;
 
@@ -31,8 +32,6 @@ public class Map
 		new ArrayList<ImageWindow>();
 	public int rowsOfTileSet, colsOfTileSet, tileHeight, tileWidth,
 		tileCount, mapWidth = 0, mapHeight = 0;
-	public Matrix<Float> initialMapStateForPathfinding =
-		new Matrix<Float>();
 
 	public Map(int numLayers)
 	{
@@ -152,6 +151,8 @@ public class Map
 				.registerComponent(Render.class);
 			mapLayers.get(mapLayers.size() - 1)
 				.registerComponent(WorldAttributes.class);
+			mapLayers.get(mapLayers.size() - 1)
+				.registerComponent(PathFindCord.class);
 
 			Scanner mapReader =
 				new Scanner(new File(mapLayerLocation));
@@ -184,9 +185,35 @@ public class Map
 						xShiftValue = tileWidth / 2;
 					}
 
-					if (Integer.parseInt(tempList[i]) != -1
+					// PathFindCord create
+					if (Integer.parseInt(tempList[i]) == -1
 					    || Integer.parseInt(tempList[i])
 						       == 17) {
+						mapLayers
+							.get(mapLayers.size()
+							     - 1)
+							.addComponentAt(
+								PathFindCord
+									.class,
+								new PathFindCord(
+									new MatrixCord(
+										numRows - 1,
+										i % mapWidth),
+									true),
+								nextFreeIndex);
+					} else {
+						mapLayers
+							.get(mapLayers.size()
+							     - 1)
+							.addComponentAt(
+								PathFindCord
+									.class,
+								new PathFindCord(
+									new MatrixCord(
+										numRows - 1,
+										i % mapWidth),
+									false),
+								nextFreeIndex);
 					}
 
 					if (Integer.parseInt(tempList[i])
@@ -232,7 +259,40 @@ public class Map
 		}
 	}
 
+	public void printPathfindCord(int layerNumber)
+	{
 
+		ArrayList<PathFindCord> pathfindLayerData =
+			mapLayers.get(layerNumber)
+				.getComponents()
+				.getRawComponentArrayListPackedData(
+					PathFindCord.class);
+		System.out.println("pathfindcord size ="
+				   + pathfindLayerData.size());
+		int tempCount = 0;
+		for (int i = 0; i < pathfindLayerData.size(); ++i) {
+			pathfindLayerData.get(i).printWall();
+			if (pathfindLayerData.get(i).getIsWall()) {
+				++tempCount;
+			}
+		}
+		System.out.println("number of walls = " + tempCount);
+	}
+
+	// add here for future loop reference
+	/*
+		public void printMapLayer(int layerNumber)
+		{
+			ArrayList<TileCord> mapTileCordData =
+				mapLayers.get(layerNumber)
+					.getComponents()
+					.getRawComponentArrayListPackedData(
+						TileCord.class);
+			for (int i = 0; i < mapTileCordData.size(); ++i) {
+				mapTileCordData.get(i).print();
+			}
+		}
+		*/
 	public void createTileRenderObjects()
 	{
 		// rendering tile maps loop
