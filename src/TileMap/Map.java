@@ -277,6 +277,7 @@ public class Map
 				   + pathfindLayerData.size());
 		int tempCount = 0;
 		for (int i = 0; i < pathfindLayerData.size(); ++i) {
+			System.out.println("i= " + i);
 			pathfindLayerData.get(i).printWall();
 			if (pathfindLayerData.get(i).getIsWall()) {
 				++tempCount;
@@ -371,7 +372,7 @@ public class Map
 
 		if (isValidCord(matrixCord)) {
 
-			return (int)matrixCord.x * (mapHeight)
+			return (int)matrixCord.x * (mapWidth)
 				+ (int)matrixCord.y;
 		} else {
 			return -1;
