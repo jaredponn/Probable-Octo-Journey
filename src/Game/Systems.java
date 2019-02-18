@@ -1,7 +1,6 @@
-package EntityTransforms;
+package Game;
 
 import Components.*;
-import Game.Camera;
 import poj.linear.*;
 import poj.Render.ImageRenderObject;
 import poj.Render.Renderer;

@@ -375,6 +375,17 @@ public class Map
 			return -1;
 		}
 	}
+
+	public int getEcsIndexFromWorldVector2f(Vector2f coord)
+	{
+		if (isValidCord(coord)) {
+
+			return (int)matrixCord.x * (mapHeight)
+				+ (int)matrixCord.y;
+		} else {
+			return -1;
+		}
+	}
 	public ArrayList<Render> getTileLayerRender(int layerNumber)
 	{
 		return this.mapLayers.get(layerNumber)

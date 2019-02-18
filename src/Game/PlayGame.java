@@ -9,7 +9,6 @@ import poj.linear.Vector2f;
 import poj.EngineState;
 
 import Game.Camera;
-
 import EntitySets.*;
 import TileMap.*;
 
@@ -38,9 +37,6 @@ public class PlayGame extends World
 		this.map.addTileSet(GameResources.tileSet);
 		this.map.addMapConfig(GameResources.pathFindTest1Config);
 		this.map.addMapLayer(GameResources.pathFindTest1Layer);
-
-		System.out.println("map width = " + map.mapWidth);
-		System.out.println("map height = " + map.mapHeight);
 
 		// this.map.addMapConfig(GameResources.mapConfig);
 		// this.map.addMapLayer(GameResources.mapLayer0);
@@ -378,14 +374,22 @@ public class PlayGame extends World
 	}
 
 	// Renders a set window of the tilemap
-	private void pushTileMapToRenderer(EngineState tileLayer)
+	private void pushTileMapToRenderer(MapLayer tileLayer)
 	{
+
+		// THIS IS IMPOSSIBLE TO WORK WITH
 
 		Vector2f topLeftWorldCoordOfScreenTopLeft =
 			new Vector2f(0, 0).pureMatrixMultiply(this.invCam);
+		int topLefte = this.map.getEcsIndexFromWorldVector2f(
+			topLeftWorldCoordOfScreenTopLeft);
+
 		Vector2f botRightWorldCoordofScreenBotRight =
 			new Vector2f(super.windowWidth, super.windowHeight)
 				.pureMatrixMultiply(this.invCam);
+		int botRighte = this.map.getEcsIndexFromWorldVector2f(
+			botRightWorldCoordofScreenBotRight);
+
 
 		for (int i = tileLayer.getInitialComponentIndex(Render.class);
 		     Components.isValidEntity(i);
