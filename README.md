@@ -1,6 +1,14 @@
 # Probably Octo Journey: CPSC 233 Project
 This is super strange
 
+# Announcements:
+- The coordinate system is a little strange. The following diagram will illustrate:
+     /\
+    /  '
+   /    \
+  /      ' (+y / mapHeight)
+(+x / mapWidth)
+
 # Credits
 Tileset: https://opengameart.org/content/cave-tileset
 
