@@ -265,27 +265,6 @@ public class Map
 		*/
 	}
 
-	// IMPORTANT: in world attributes  and PathFindCord, X is RowNum, and Y
-	// is ColNum!!!!!!
-	// Width is rows, height is cols
-	public boolean isValidCord(WorldAttributes tile)
-	{
-		return isValidCord(tile.getOriginCoord());
-	}
-
-	public boolean isValidCord(Vector2f cord)
-	{
-		return !(cord.x >= mapWidth || cord.y >= mapHeight)
-			&& (cord.x >= 0 && cord.y >= 0);
-	}
-
-	public boolean isValidCord(PathFindCord tile)
-	{
-		MatrixCord cord = tile.getCord();
-		return !(cord.row >= mapWidth || cord.col >= mapHeight)
-			&& (cord.row >= 0 && cord.col >= 0);
-	}
-
 	public void printPathfindCord(int layerNumber)
 	{
 
@@ -351,21 +330,46 @@ public class Map
 			}
 		}
 	}
+
+
+	// IMPORTANT: in world attributes  and PathFindCord, X is RowNum, and Y
+	// is ColNum!!!!!!
+	// Width is rows, height is cols
+	public boolean isValidCord(WorldAttributes tile)
+	{
+		Vector2f cord = tile.getOriginCoord();
+		return !(cord.x >= mapHeight || cord.y >= mapWidth)
+			&& (cord.x >= 0 && cord.y >= 0);
+	}
+
+	public boolean isValidCord(Vector2f cord)
+	{
+		return !(cord.x >= mapHeight || cord.y >= mapWidth)
+			&& (cord.x >= 0 && cord.y >= 0);
+	}
+	public boolean isValidCord(PathFindCord tile)
+	{
+		MatrixCord cord = tile.getCord();
+		return !(cord.row >= mapHeight || cord.col >= mapWidth)
+			&& (cord.row >= 0 && cord.col >= 0);
+	}
 	public int getEcsCordFromWorldAttributes(WorldAttributes cord)
 	{
 		Vector2f matrixCord = cord.getOriginCoord();
 		if (isValidCord(cord)) {
 
-			return (int)matrixCord.x * (mapHeight)
+			return (int)matrixCord.x * (mapWidth)
 				+ (int)matrixCord.y;
 		} else {
 			return -1;
 		}
 	}
 
-	public int getEcsIndexFromWorldVector2f(Vector2f coord)
+
+	public int getEcsIndexFromWorldVector2f(Vector2f matrixCord)
 	{
-		if (isValidCord(coord)) {
+
+		if (isValidCord(matrixCord)) {
 
 			return (int)matrixCord.x * (mapHeight)
 				+ (int)matrixCord.y;

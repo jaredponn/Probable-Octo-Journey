@@ -82,8 +82,12 @@ public class PlayGame extends World
 		// TODO: HAIYANG get the layer number for the path finding!
 		// right now for testing it only have 1 layer
 		MapLayer mapLayer = this.map.getLayerEngineState(0);
-		mapLayer.getComponentAt(PathFindCord.class, this.player)
+		mapLayer.getComponentAt(
+				PathFindCord.class,
+				this.map.getEcsIndexFromWorldVector2f(
+					GameConfig.PLAYER_SPAWNNING_POS))
 			.setDiffusionValue(GameConfig.PLAYER_DIFFUSION_VALUE);
+		this.map.printPathfindCord(0);
 		int tmp = super.engineState.spawnEntitySet(new Bullet());
 		super.getComponentAt(WorldAttributes.class, tmp)
 			.setOriginCoord(new Vector2f(0f, 0f));
