@@ -81,6 +81,11 @@ public class PlayGame extends World
 		this.player = super.engineState.spawnEntitySet(new PlayerSet());
 		this.mob1 = super.engineState.spawnEntitySet(new MobSet());
 
+		// TODO: HAIYANG get the layer number for the path finding!
+		// right now for testing it only have 1 layer
+		MapLayer mapLayer = this.map.getLayerEngineState(0);
+		mapLayer.getComponentAt(PathFindCord.class, this.player)
+			.setDiffusionValue(GameConfig.PLAYER_DIFFUSION_VALUE);
 		int tmp = super.engineState.spawnEntitySet(new Bullet());
 		super.getComponentAt(WorldAttributes.class, tmp)
 			.setOriginCoord(new Vector2f(0f, 0f));
@@ -514,27 +519,32 @@ public class PlayGame extends World
 						   this.player));
 	}
 
+	// IMPORTANT: in world attributes  and PathFindCord, X is RowNum, and Y
+	// is ColNum!!!!!!
+	// Width is rows, height is cols
 	private void generateDiffusionMap(int layerNumber, int difCoefficient)
 	{
 		// TODO: HAIYANG will only do one layer!!!!!
 		// will get the 8 neighbours aroud it
-		ArrayList<PathFindCord> pathfindData =
-			this.map.mapLayers.get(layerNumber)
-				.getComponents()
-				.getRawComponentArrayListPackedData(
-					PathFindCord.class);
+		ArrayList<PathFindCord> tempNeighbours =
+			new ArrayList<PathFindCord>();
+		MapLayer mapLayer = this.map.getLayerEngineState(layerNumber);
 		int sum = 0;
-		for (PathFindCord center : pathfindData) {
-			Vector2f centerCord = center.getOriginCoord();
-			ArrayList<PathFindCord> tempNeighbours =
-				new ArrayList<PathFindCord>();
+		for (int i = mapLayer.getInitialComponentIndex(
+			     WorldAttributes.class);
+		     Components.isValidEntity(i);
+		     i = mapLayer.getNextComponentIndex(WorldAttributes.class,
+							i)) {
 			// player initial val?
 
+
 			// if it is a wall or out of bounds, dont add it
+			/*
 			if (!(center.getIsWall() == true
 			      || isValidCord(adfdsa, mapWidth, mapHeight))) {
 				// sum +=
 			}
+			*/
 		}
 	}
 }

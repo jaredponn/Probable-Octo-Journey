@@ -2,7 +2,6 @@ package EntitySets;
 import poj.EntitySet.*;
 import Resources.GameResources;
 import Resources.GameConfig;
-import poj.linear.*;
 import poj.Render.ImageRenderObject;
 import Components.*;
 public class PlayerSet extends EntitySet
@@ -12,9 +11,10 @@ public class PlayerSet extends EntitySet
 		super();
 		addComponent(new Render(new ImageRenderObject(
 			0, 0, GameResources.playerSpriteSheet)));
-		addComponent(new WorldAttributes(new Vector2f(4f, 7f),
-						 GameConfig.PLAYER_WIDTH,
-						 GameConfig.PLAYER_HEIGHT));
+		addComponent(new WorldAttributes(
+			GameConfig.PLAYER_SPAWNNING_POS,
+			GameConfig.PLAYER_WIDTH, GameConfig.PLAYER_HEIGHT));
+
 		addComponent(
 			new HasAnimation(GameResources.playerNIdleAnimation));
 		addComponent(new Movement(GameConfig.PLAYER_SPEED));

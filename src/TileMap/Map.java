@@ -184,9 +184,8 @@ public class Map
 					}
 
 					// PathFindCord create
-					if (Integer.parseInt(tempList[i]) == -1
-					    || Integer.parseInt(tempList[i])
-						       == 17) {
+					if (Integer.parseInt(tempList[i])
+					    == 17) {
 						mapLayers
 							.get(mapLayers.size()
 							     - 1)
@@ -303,6 +302,7 @@ public class Map
 			if (pathfindLayerData.get(i).getIsWall()) {
 				++tempCount;
 			}
+			pathfindLayerData.get(i).printDiffusionVal();
 		}
 		System.out.println("number of walls = " + tempCount);
 	}

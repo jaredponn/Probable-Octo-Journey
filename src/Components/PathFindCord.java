@@ -32,6 +32,11 @@ public class PathFindCord implements Component
 	{
 		return this.cord;
 	}
+
+	public void printDiffusionVal()
+	{
+		System.out.println("diffusion value = " + this.diffusionValue);
+	}
 	public void printWall()
 	{
 		if (isWall) {
