@@ -41,8 +41,13 @@ public class PlayGame extends World
 		// World loading
 		this.map = new Map(3);
 		this.map.addTileSet(GameResources.tileSet);
+
 		this.map.addMapConfig(GameResources.pathFindTest2Config);
 		this.map.addMapLayer(GameResources.pathFindTest2Layer);
+
+		// this.map.addMapConfig(GameResources.pathFindTest1Config);
+		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
+
 		// this.map.addMapConfig(GameResources.renderPerformanceConf);
 		// this.map.addMapLayer(GameResources.renderPerformanceLayer);
 
@@ -156,10 +161,10 @@ public class PlayGame extends World
 			System.out.println("wd key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
-				.setDirection(CardinalDirections.NE);
+				.setDirection(CardinalDirections.NW);
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
-			prevDirection = CardinalDirections.NE;
+			prevDirection = CardinalDirections.NW;
 			super.getComponentAt(HasAnimation.class, this.player)
 				.setAnimation(
 					GameResources.playerNMoveAnimation);
@@ -168,10 +173,10 @@ public class PlayGame extends World
 			System.out.println("wa key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
-				.setDirection(CardinalDirections.NW);
+				.setDirection(CardinalDirections.SW);
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
-			prevDirection = CardinalDirections.NW;
+			prevDirection = CardinalDirections.SW;
 			super.getComponentAt(HasAnimation.class, this.player)
 				.setAnimation(
 					GameResources.playerNMoveAnimation);
@@ -180,8 +185,8 @@ public class PlayGame extends World
 			System.out.println("sa key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
-				.setDirection(CardinalDirections.SW);
-			prevDirection = CardinalDirections.SW;
+				.setDirection(CardinalDirections.SE);
+			prevDirection = CardinalDirections.SE;
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			super.getComponentAt(HasAnimation.class, this.player)
@@ -193,37 +198,17 @@ public class PlayGame extends World
 			System.out.println("sd key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
-				.setDirection(CardinalDirections.SE);
+				.setDirection(CardinalDirections.NE);
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
-			prevDirection = CardinalDirections.SE;
+			prevDirection = CardinalDirections.NE;
 			super.getComponentAt(HasAnimation.class, this.player)
 				.setAnimation(
 					GameResources.playerSMoveAnimation);
-		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_W)) {
+
+		} else if (super.inputPoller.isKeyDown(
+				   KeyEvent.VK_W)) { // single Key movements
 			System.out.println("w key is down");
-			super.getComponentAt(MovementDirection.class,
-					     this.player)
-				.setDirection(CardinalDirections.N);
-			super.getComponentAt(Movement.class, this.player)
-				.setSpeed(GameConfig.PLAYER_SPEED);
-			prevDirection = CardinalDirections.N;
-			super.getComponentAt(HasAnimation.class, this.player)
-				.setAnimation(
-					GameResources.playerNMoveAnimation);
-		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
-			System.out.println("d key is down");
-			super.getComponentAt(MovementDirection.class,
-					     this.player)
-				.setDirection(CardinalDirections.E);
-			super.getComponentAt(Movement.class, this.player)
-				.setSpeed(GameConfig.PLAYER_SPEED);
-			prevDirection = CardinalDirections.E;
-			super.getComponentAt(HasAnimation.class, this.player)
-				.setAnimation(
-					GameResources.playerEMoveAnimation);
-		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-			System.out.println("a key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.W);
@@ -233,8 +218,19 @@ public class PlayGame extends World
 			super.getComponentAt(HasAnimation.class, this.player)
 				.setAnimation(
 					GameResources.playerWMoveAnimation);
-		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)) {
-			System.out.println("s key is down");
+		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
+			System.out.println("d key is down");
+			super.getComponentAt(MovementDirection.class,
+					     this.player)
+				.setDirection(CardinalDirections.N);
+			super.getComponentAt(Movement.class, this.player)
+				.setSpeed(GameConfig.PLAYER_SPEED);
+			prevDirection = CardinalDirections.N;
+			super.getComponentAt(HasAnimation.class, this.player)
+				.setAnimation(
+					GameResources.playerNMoveAnimation);
+		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
+			System.out.println("a key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.S);
@@ -244,6 +240,17 @@ public class PlayGame extends World
 			super.getComponentAt(HasAnimation.class, this.player)
 				.setAnimation(
 					GameResources.playerSMoveAnimation);
+		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)) {
+			System.out.println("s key is down");
+			super.getComponentAt(MovementDirection.class,
+					     this.player)
+				.setDirection(CardinalDirections.E);
+			super.getComponentAt(Movement.class, this.player)
+				.setSpeed(GameConfig.PLAYER_SPEED);
+			prevDirection = CardinalDirections.E;
+			super.getComponentAt(HasAnimation.class, this.player)
+				.setAnimation(
+					GameResources.playerEMoveAnimation);
 		} else // no movement key is pressed
 		{
 			super.getComponentAt(Movement.class, this.player)
