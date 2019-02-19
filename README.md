@@ -2,12 +2,22 @@
 This is super strange
 
 # Announcements:
+```
 - The coordinate system is a little strange. The following diagram will illustrate:
-     /\
-    /  '
-   /    \
-  /      ' (+y / mapHeight)
-(+x / mapWidth)
+     (-y / S)      (-x / W)
+             \      /
+              '    /
+               \  /
+                '/ (0,0)
+                /\
+               /  '
+              /    \
+             /      ' (+y / mapHeight / N )
+  (+x / mapWidth / E)
+
+- 1 mapWidth is one length of the x direction
+- 1 mapHeight is one length of the y direction
+```
 
 # Credits
 Tileset: https://opengameart.org/content/cave-tileset
