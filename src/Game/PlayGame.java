@@ -41,14 +41,10 @@ public class PlayGame extends World
 		// World loading
 		this.map = new Map(3);
 		this.map.addTileSet(GameResources.tileSet);
-		// this.map.addMapConfig(GameResources.pathFindTest2Config);
-		// this.map.addMapLayer(GameResources.pathFindTest2Layer);
-		this.map.addMapConfig(GameResources.renderPerformanceConf);
-		this.map.addMapLayer(GameResources.renderPerformanceLayer);
-
-		/*this.map.addMapConfig(GameResources.pathFindTest1Config);
-		this.map.addMapLayer(GameResources.pathFindTest1Layer);
-		*/
+		this.map.addMapConfig(GameResources.pathFindTest2Config);
+		this.map.addMapLayer(GameResources.pathFindTest2Layer);
+		// this.map.addMapConfig(GameResources.renderPerformanceConf);
+		// this.map.addMapLayer(GameResources.renderPerformanceLayer);
 
 		// this.map.addMapConfig(GameResources.mapConfig);
 		// this.map.addMapLayer(GameResources.mapLayer0);
@@ -127,13 +123,13 @@ public class PlayGame extends World
 		// this.generateDiffusionMap(0, 1f / 8f);
 		// will set the enemy direction and speed, then will render them
 		// next frame
-		updateEnemyPositionFromPlayer();
 
 
 		EngineTransforms.setMovementVelocityFromMovementDirection(
 			this.engineState);
 		EngineTransforms.updateWorldAttribPositionFromMovement(
 			this.engineState, this.dt);
+		updateEnemyPositionFromPlayer();
 		// updating the camera
 		centerCamerasPositionToPlayer();
 		updateInverseCamera();
@@ -672,8 +668,33 @@ public class PlayGame extends World
 		}
 		return tmp;
 	}
+
+	// TODO: HAIYANG
+	// 1. Please make a no-direction movement..
 	private void updateEnemyPositionFromPlayer()
 	{
+		/*
+	System.out.println("mob position in world attribues: ");
+	System.out.println(
+		"mob ecs cord= "
+		+ this.map.getEcsCordFromWorldAttributes(
+			  super.getComponentAt(WorldAttributes.class,
+					       this.mob1)));
+	System.out.println(
+		"mob x dir="
+		+ super.getComponentAt(WorldAttributes.class, this.mob1)
+			  .getOriginCoord()
+			  .x);
+
+	System.out.println(
+		"mob y dir="
+		+ super.getComponentAt(WorldAttributes.class, this.mob1)
+			  .getOriginCoord()
+			  .y);
+	System.out.println(this.map.isValidCord(
+		super.getComponentAt(WorldAttributes.class, this.mob1)
+			.getOriginCoord()));
+	*/
 		ArrayList<PathFindCord> mobNeighb = getEightNeighbourVector(
 			this.map.getEcsCordFromWorldAttributes(
 				super.getComponentAt(WorldAttributes.class,
@@ -688,11 +709,10 @@ public class PlayGame extends World
 		Vector2f playerPosition =
 			super.getComponentAt(WorldAttributes.class, this.player)
 				.getOriginCoord();
-		if (mobPosition.x == playerPosition.x
-		    && mobPosition.y == playerPosition.y) {
-
-			super.getComponentAt(MovementDirection.class, this.mob1)
-				.setDirection(CardinalDirections.N);
+		if ((int)mobPosition.x == (int)playerPosition.x
+		    && (int)mobPosition.y == (int)playerPosition.y) {
+			super.getComponentAt(Movement.class, this.mob1)
+				.setSpeed(0f);
 		} else {
 			for (PathFindCord neib : mobNeighb) {
 				if (neib.getDiffusionValue() > maxValue) {
@@ -714,13 +734,15 @@ public class PlayGame extends World
 			/*
 			super.getComponentAt(MovementDirection.class, this.mob1)
 				.setDirection(
-					CardinalDirections.getClosestDirectionFromDirectionVectorInverted(
+					CardinalDirections.getClosestDirectionFromDirectionVector(
 						maxPosition
 							.subtractAndReturnVector(
 								mobPosition)));
 								*/
 			super.getComponentAt(MovementDirection.class, this.mob1)
 				.setDirection(CardinalDirections.NW);
+			// super.getComponentAt(Movement.class, this.mob1)
+			//.setSpeed(GameConfig.MOB_VELOCITY);
 		}
 	}
 	private void addPlayerDiffusionValAtPlayerPos()

@@ -35,8 +35,8 @@ public class GameConfig
 
 	// mob config
 	public static final float MOB_VELOCITY = 0.9f * PLAYER_SPEED;
-	public static final float MOB_HEIGHT = PLAYER_WIDTH;
-	public static final float MOB_WIDTH = PLAYER_HEIGHT;
+	public static final float MOB_HEIGHT = PLAYER_HEIGHT;
+	public static final float MOB_WIDTH = PLAYER_WIDTH;
 	public static final float MOB_HP = 100;
 
 	// construct config

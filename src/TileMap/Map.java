@@ -346,8 +346,7 @@ public class Map
 	public boolean isValidCord(PathFindCord tile)
 	{
 		Vector2f cord = tile.getCord();
-		return !(cord.x >= mapHeight || cord.y >= mapWidth)
-			&& (cord.x >= 0 && cord.y >= 0);
+		return isValidCord(cord);
 	}
 
 	public int getEcsCordFromWorldAttributes(WorldAttributes cord)

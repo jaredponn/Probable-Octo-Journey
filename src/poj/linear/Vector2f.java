@@ -26,11 +26,15 @@ public class Vector2f
 	{
 		this(n.x, n.y);
 	}
+	public void floorOfValues()
+	{
+		this.x = (int)this.x;
+		this.y = (int)this.y;
+	}
 
 	public void add(final Vector2f a)
 	{
-		this.x += a.x;
-		this.y += a.y;
+		add(a.x, a.y);
 	}
 
 	public void add(float x, float y)
@@ -41,7 +45,7 @@ public class Vector2f
 
 	public Vector2f addAndReturnVector(final Vector2f a)
 	{
-		return new Vector2f(this.x + a.x, this.y + a.y);
+		return addAndReturnVector(a.x, a.y);
 	}
 	public Vector2f addAndReturnVector(float x, float y)
 	{
@@ -49,8 +53,7 @@ public class Vector2f
 	}
 	public void subtract(final Vector2f a)
 	{
-		this.x -= a.x;
-		this.y -= a.y;
+		subtract(a.x, a.y);
 	}
 	public void subtract(float x, float y)
 	{
@@ -59,7 +62,7 @@ public class Vector2f
 	}
 	public Vector2f subtractAndReturnVector(final Vector2f a)
 	{
-		return new Vector2f(this.x - a.x, this.y - a.y);
+		return subtractAndReturnVector(a.x, a.y);
 	}
 	public Vector2f subtractAndReturnVector(float x, float y)
 	{
@@ -212,6 +215,12 @@ public class Vector2f
 							     + " " + s);
 	}
 
+	public boolean equals(final Vector2f n)
+	{
+
+		return Math.abs(this.x - n.x) < EPSILON
+			&& Math.abs(this.y - n.y) < EPSILON;
+	}
 	public boolean equals(float n)
 	{
 		return Math.abs(x - n) < EPSILON && Math.abs(y - n) < EPSILON;

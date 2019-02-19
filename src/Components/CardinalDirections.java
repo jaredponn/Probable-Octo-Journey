@@ -126,40 +126,38 @@ public enum CardinalDirections {
 
 
 	public static CardinalDirections
-	getClosestDirectionFromDirectionVectorInverted(Vector2f n)
+	getClosestDirectionFromDirectionVectorPathFinding(Vector2f mobPosition,
+							  Vector2f maxPosition)
 	{
 		// slightly magical function from:
 		// https://stackoverflow.com/questions/1437790/how-to-snap-a-directional-2d-vector-to-a-compass-n-ne-e-se-s-sw-w-nw
-		int compass = (((int)Math.round(Math.atan2(n.y, n.x)
-						/ (2 * Math.PI / 8)))
-			       + 8)
-			      % 8;
+		mobPosition.floorOfValues();
+		maxPosition.floorOfValues();
+		Vector2f difference =
+			maxPosition.subtractAndReturnVector(mobPosition);
+		if (difference.equals(new Vector2f(-1f, -1f))) {
+			return CardinalDirections.NW;
+		} else if (difference.equals(new Vector2f(-1f, 0f))) {
 
-		switch (compass) {
-		case 0:
-			return CardinalDirections.E;
-		case 1:
-			return CardinalDirections.NE;
-
-		case 2:
-			return CardinalDirections.N;
-
-		case 3:
+			return CardinalDirections.NW;
+		} else if (difference.equals(new Vector2f(-1f, 1f))) {
+			return CardinalDirections.NW;
+		} else if (difference.equals(new Vector2f(0f, -1f))) {
 			return CardinalDirections.NW;
 
-		case 4:
-			return CardinalDirections.W;
+		} else if (difference.equals(new Vector2f(0f, 1f))) {
+			return CardinalDirections.NW;
 
-		case 5:
-			return CardinalDirections.SW;
-		case 6:
-			return CardinalDirections.S;
-		case 7:
-			return CardinalDirections.SE;
-		default:
-			Logger.lassert(
-				true,
-				"MAJOR ERROR in getClosestDirectionFromDirectionVector -- error in calcluating the cardinal direction from the vector ");
+		} else if (difference.equals(new Vector2f(1f, -1f))) {
+
+			return CardinalDirections.NW;
+		} else if (difference.equals(new Vector2f(1f, 0f))) {
+
+			return CardinalDirections.NW;
+		} else if (difference.equals(new Vector2f(1f, 1f))) {
+			return CardinalDirections.NW;
+		} else {
+			// TODO this should return the no-movement one
 			return CardinalDirections.N;
 		}
 	}
