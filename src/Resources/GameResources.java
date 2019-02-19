@@ -22,13 +22,18 @@ public class GameResources
 	public static BufferedImage testTile =
 		ImageLoader.load("resources/newmap/tiled_cave_1.png");
 
-	public static String mapConfig = "resources/newmap2/map.json",
-			     tileSet = "resources/newmap2/caveTileSet128.json",
-			     mapLayer0 = "resources/newmap2/map.csv",
-			     pathFindTest1Config =
-				     "resources/newmap2/pathFindTest1.json",
-			     pathFindTest1Layer =
-				     "resources/newmap2/pathFindTest1.csv";
+	public static String
+		mapConfig = "resources/newmap2/map.json",
+		tileSet = "resources/newmap2/caveTileSet128.json",
+		mapLayer0 = "resources/newmap2/map.csv",
+		pathFindTest1Config = "resources/newmap2/pathFindTest1.json",
+		pathFindTest1Layer = "resources/newmap2/pathFindTest1.csv",
+		pathFindTest2Config = "resources/newmap2/pathFindTest2.json",
+		pathFindTest2Layer = "resources/newmap2/pathFindTest2.csv",
+		pathFindTest3Config = "resources/newmap2/pathFindTest3.json",
+		pathFindTest3Layer = "resources/newmap2/pathFindTest3.csv",
+		pathFindTest4Config = "resources/newmap2/pathFindTest4.json",
+		pathFindTest4Layer = "resources/newmap2/pathFindTest4.csv";
 
 	public static final float MAGIC_CONSTANT =
 		1.45f; // this constant is important and makes things

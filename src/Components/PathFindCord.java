@@ -1,14 +1,14 @@
 package Components;
 
 import poj.Component.Component;
-import poj.linear.MatrixCord;
+import poj.linear.Vector2f;
 
 public class PathFindCord implements Component
 {
-	private MatrixCord cord;
+	private Vector2f cord;
 	private boolean isWall;
-	private int diffusionValue;
-	public PathFindCord(MatrixCord cord, boolean isWall, int diffusionValue)
+	private float diffusionValue;
+	public PathFindCord(Vector2f cord, boolean isWall, int diffusionValue)
 	{
 		this.cord = cord;
 		this.isWall = isWall;
@@ -19,18 +19,28 @@ public class PathFindCord implements Component
 	{
 		return this.isWall;
 	}
-	public int getDiffusionValue()
+	public float getDiffusionValue()
 	{
 		return this.diffusionValue;
 	}
-	public void setDiffusionValue(int newDifVal)
+	public void setDiffusionValue(float newDifVal)
 	{
 		this.diffusionValue = newDifVal;
 	}
 
-	public MatrixCord getCord()
+	public void addDiffusionValue(float newDifVal)
 	{
-		return this.cord;
+		this.diffusionValue += newDifVal;
+	}
+	public Vector2f getCord()
+	{
+		return new Vector2f(this.cord);
+	}
+	public void printCord()
+	{
+		System.out.println("cord x =" + this.cord.x);
+		System.out.println("cord y =" + this.cord.y);
+		System.out.println("----------");
 	}
 
 	public void printDiffusionVal()

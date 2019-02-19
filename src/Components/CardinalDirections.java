@@ -123,4 +123,44 @@ public enum CardinalDirections {
 			return CardinalDirections.N;
 		}
 	}
+
+
+	public static CardinalDirections
+	getClosestDirectionFromDirectionVectorInverted(Vector2f n)
+	{
+		// slightly magical function from:
+		// https://stackoverflow.com/questions/1437790/how-to-snap-a-directional-2d-vector-to-a-compass-n-ne-e-se-s-sw-w-nw
+		int compass = (((int)Math.round(Math.atan2(n.y, n.x)
+						/ (2 * Math.PI / 8)))
+			       + 8)
+			      % 8;
+
+		switch (compass) {
+		case 0:
+			return CardinalDirections.E;
+		case 1:
+			return CardinalDirections.NE;
+
+		case 2:
+			return CardinalDirections.N;
+
+		case 3:
+			return CardinalDirections.NW;
+
+		case 4:
+			return CardinalDirections.W;
+
+		case 5:
+			return CardinalDirections.SW;
+		case 6:
+			return CardinalDirections.S;
+		case 7:
+			return CardinalDirections.SE;
+		default:
+			Logger.lassert(
+				true,
+				"MAJOR ERROR in getClosestDirectionFromDirectionVector -- error in calcluating the cardinal direction from the vector ");
+			return CardinalDirections.N;
+		}
+	}
 }

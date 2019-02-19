@@ -39,10 +39,31 @@ public class Vector2f
 		this.y += y;
 	}
 
+	public Vector2f addAndReturnVector(final Vector2f a)
+	{
+		return new Vector2f(this.x + a.x, this.y + a.y);
+	}
+	public Vector2f addAndReturnVector(float x, float y)
+	{
+		return new Vector2f(this.x + x, this.y + y);
+	}
 	public void subtract(final Vector2f a)
 	{
 		this.x -= a.x;
 		this.y -= a.y;
+	}
+	public void subtract(float x, float y)
+	{
+		this.x -= x;
+		this.y -= y;
+	}
+	public Vector2f subtractAndReturnVector(final Vector2f a)
+	{
+		return new Vector2f(this.x - a.x, this.y - a.y);
+	}
+	public Vector2f subtractAndReturnVector(float x, float y)
+	{
+		return new Vector2f(this.x - x, this.y - y);
 	}
 
 	public void negate()

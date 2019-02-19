@@ -193,7 +193,7 @@ public class Map
 								PathFindCord
 									.class,
 								new PathFindCord(
-									new MatrixCord(
+									new Vector2f(
 										numRows - 1,
 										i % mapWidth),
 									true,
@@ -207,7 +207,7 @@ public class Map
 								PathFindCord
 									.class,
 								new PathFindCord(
-									new MatrixCord(
+									new Vector2f(
 										numRows - 1,
 										i % mapWidth),
 									false,
@@ -344,12 +344,6 @@ public class Map
 	{
 		return !(cord.x >= mapHeight || cord.y >= mapWidth)
 			&& (cord.x >= 0 && cord.y >= 0);
-	}
-	public boolean isValidCord(PathFindCord tile)
-	{
-		MatrixCord cord = tile.getCord();
-		return !(cord.row >= mapHeight || cord.col >= mapWidth)
-			&& (cord.row >= 0 && cord.col >= 0);
 	}
 	public int getEcsCordFromWorldAttributes(WorldAttributes cord)
 	{

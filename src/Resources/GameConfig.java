@@ -25,7 +25,7 @@ public class GameConfig
 		GameResources.PLAYER_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final Vector2f PLAYER_SPAWNNING_POS =
-		new Vector2f(4f, 7f);
+		new Vector2f(0f, 0f);
 	// bullet config
 	public static final float BULLET_SPEED = 0.02f;
 	public static final float BULLET_WIDTH =

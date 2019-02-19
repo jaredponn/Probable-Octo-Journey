@@ -12,7 +12,6 @@ import Game.Camera;
 import EntitySets.*;
 import TileMap.*;
 
-import EntityTransforms.*;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -35,8 +34,8 @@ public class PlayGame extends World
 		// World loading
 		this.map = new Map(3);
 		this.map.addTileSet(GameResources.tileSet);
-		this.map.addMapConfig(GameResources.pathFindTest1Config);
-		this.map.addMapLayer(GameResources.pathFindTest1Layer);
+		this.map.addMapConfig(GameResources.pathFindTest2Config);
+		this.map.addMapLayer(GameResources.pathFindTest2Layer);
 
 		// this.map.addMapConfig(GameResources.mapConfig);
 		// this.map.addMapLayer(GameResources.mapLayer0);
@@ -80,7 +79,7 @@ public class PlayGame extends World
 		// Player
 		this.player = super.engineState.spawnEntitySet(new PlayerSet());
 		this.mob1 = super.engineState.spawnEntitySet(new MobSet());
-
+		// addPlayerDiffusionValAtPlayerPos();
 		// TODO: HAIYANG get the layer number for the path finding!
 		// right now for testing it only have 1 layer
 		int tmp = super.engineState.spawnEntitySet(new Bullet());
@@ -104,6 +103,13 @@ public class PlayGame extends World
 		// SYSTEMS Go here
 		this.setMovementVelocityFromMovementDirection();
 		this.updateWorldAttribPositionFromMovement(this.dt);
+
+		this.generateDiffusionMap(0, 1f / 8f);
+		// will set the enemy direction and speed, then will render them
+		// next frame
+		updateEnemyPositionFromPlayer();
+
+
 		// updating the camera
 		this.centerCamerasPositionToPlayer();
 		this.updateInverseCamera();
@@ -522,49 +528,166 @@ public class PlayGame extends World
 	// IMPORTANT: in world attributes  and PathFindCord, X is RowNum, and Y
 	// is ColNum!!!!!!
 	// Width is rows, height is cols
-	private void generateDiffusionMap(int layerNumber, int difCoefficient)
+	private void generateDiffusionMap(int layerNumber, float difCoefficient)
 	{
 		// TODO: HAIYANG will only do one layer!!!!!
 		// will get the 8 neighbours aroud it
-		//
-		// ArrayList<PathFindCord> tempNeighbours =
-		// new ArrayList<PathFindCord>();
+
 		MapLayer mapLayer = this.map.getLayerEngineState(layerNumber);
-		int sum = 0;
+		// temporary buffer used to store the modified diffusion values
+		ArrayList<Float> tempDiffusionBuffer = new ArrayList<Float>();
+		// will not loop to the empty tiles inside the map, hopefull !!
 		for (int i = mapLayer.getInitialComponentIndex(
 			     WorldAttributes.class);
 		     Components.isValidEntity(i);
 		     i = mapLayer.getNextComponentIndex(WorldAttributes.class,
 							i)) {
-			// player initial val?
-			// will first diffuse again,
-			// then addPlayerDifVal
-			// then diffuse again
 
-			ArrayList<PathFindCord> tempNeighbours =
-				new ArrayList<PathFindCord>();
 			// Vector2f testVector=
 			//
 
-			for (int j = 0; j < 8; ++j) {
-				// tempNeighbours.add
-			}
 			if (mapLayer.hasComponent(PathFindCord.class, i)) {
+				float sum = 0f;
+				PathFindCord center = mapLayer.getComponentAt(
+					PathFindCord.class, i);
+				/*
+				System.out.println(
+					"center's diffusion value: = "
+					+ center.getDiffusionValue());
+				*/
+				ArrayList<PathFindCord> tempNeighbours =
+					getEightNeighbourVector(i, 0);
+				// System.out.println("size of tempNeighbours ="
+				//+ tempNeighbours.size());
+				/*
+				for (PathFindCord a : tempNeighbours) {
+					a.printCord();
+				}
+				*/
+				for (PathFindCord a : tempNeighbours) {
+					// if not a wall
+					if (!a.getIsWall()) {
+						sum += a.getDiffusionValue()
+						       - center.getDiffusionValue();
+					}
+				}
+				/*
+				System.out.println(
+					"sum before adding center diffusion
+				value = "
+					+ sum);
+				*/
+				sum = center.getDiffusionValue()
+				      + sum * difCoefficient;
+				sum = sum * 1 / 2;
+				tempDiffusionBuffer.add(sum);
+				/*
+				System.out.println(
+					"sum after adding center diffusion value
+				= "
+					+ sum);
+				*/
 			}
-			/*
-			if (!(center.getIsWall() == true
-			      || isValidCord(adfdsa, mapWidth, mapHeight))) {
-				// sum +=
-			}
-			*/
+		}
 
-			// if it is a wall or out of bounds, dont add it
-			/*
-			if (!(center.getIsWall() == true
-			      || isValidCord(adfdsa, mapWidth, mapHeight))) {
-				// sum +=
+		int counter = 0;
+		for (int i = 0; i < tempDiffusionBuffer.size(); ++i) {
+			if (counter == 3) {
+				counter = 0;
+				System.out.println();
 			}
-			*/
+			System.out.print(tempDiffusionBuffer.get(i) + " , ");
+			counter++;
+		}
+		System.out.println();
+		for (int i = mapLayer.getInitialComponentIndex(
+			     WorldAttributes.class);
+		     Components.isValidEntity(i);
+		     i = mapLayer.getNextComponentIndex(WorldAttributes.class,
+							i)) {
+			mapLayer.getComponentAt(PathFindCord.class, i)
+				.setDiffusionValue(tempDiffusionBuffer.get(0));
+			tempDiffusionBuffer.remove(0);
+		}
+	}
+	private ArrayList<PathFindCord> getEightNeighbourVector(int indexOfEcs,
+								int layerNumber)
+	{
+		MapLayer mapLayer = this.map.getLayerEngineState(layerNumber);
+		ArrayList<Vector2f> neighbours = new ArrayList<Vector2f>();
+		ArrayList<PathFindCord> tmp = new ArrayList<PathFindCord>();
+		Vector2f centerVector =
+			mapLayer.getComponentAt(PathFindCord.class, indexOfEcs)
+				.getCord();
+		// add the 8 neighbours
+		neighbours.add(centerVector.addAndReturnVector(0, 1));
+		neighbours.add(centerVector.addAndReturnVector(0, -1));
+		neighbours.add(centerVector.addAndReturnVector(1, 0));
+		neighbours.add(centerVector.addAndReturnVector(-1, 0));
+		neighbours.add(centerVector.addAndReturnVector(1, 1));
+		neighbours.add(centerVector.addAndReturnVector(-1, 1));
+		neighbours.add(centerVector.addAndReturnVector(1, -1));
+		neighbours.add(centerVector.addAndReturnVector(-1, -1));
+		for (Vector2f neib : neighbours) {
+			// if the tile is valid
+			if (this.map.isValidCord(neib)) {
+				tmp.add(mapLayer.getComponentAt(
+					PathFindCord.class,
+					this.map.getEcsIndexFromWorldVector2f(
+						neib)));
+			}
+		}
+		return tmp;
+	}
+	private void updateEnemyPositionFromPlayer()
+	{
+		ArrayList<PathFindCord> mobNeighb = getEightNeighbourVector(
+			this.map.getEcsCordFromWorldAttributes(
+				super.getComponentAt(WorldAttributes.class,
+						     this.mob1)),
+			0);
+		float maxValue = 0;
+		Vector2f maxPosition = new Vector2f();
+		Vector2f mobPosition =
+			super.getComponentAt(WorldAttributes.class, this.mob1)
+				.getOriginCoord();
+
+		Vector2f playerPosition =
+			super.getComponentAt(WorldAttributes.class, this.player)
+				.getOriginCoord();
+		if (mobPosition.x == playerPosition.x
+		    && mobPosition.y == playerPosition.y) {
+
+			super.getComponentAt(MovementDirection.class, this.mob1)
+				.setDirection(CardinalDirections.N);
+		} else {
+			for (PathFindCord neib : mobNeighb) {
+				if (neib.getDiffusionValue() > maxValue) {
+					maxValue = neib.getDiffusionValue();
+					maxPosition = neib.getCord();
+				}
+			}
+			System.out.println(
+				" the max value calculated for the enemy: "
+				+ maxValue);
+			System.out.println("maxPosition x =" + maxPosition.x);
+			System.out.println("maxPosition y =" + maxPosition.y);
+			CardinalDirections.print(
+				CardinalDirections
+					.getClosestDirectionFromDirectionVector(
+						mobPosition
+							.subtractAndReturnVector(
+								maxPosition)));
+			/*
+			super.getComponentAt(MovementDirection.class, this.mob1)
+				.setDirection(
+					CardinalDirections.getClosestDirectionFromDirectionVectorInverted(
+						maxPosition
+							.subtractAndReturnVector(
+								mobPosition)));
+								*/
+			super.getComponentAt(MovementDirection.class, this.mob1)
+				.setDirection(CardinalDirections.NW);
 		}
 	}
 	private void addPlayerDiffusionValAtPlayerPos()
@@ -586,7 +709,7 @@ public class PlayGame extends World
 		    != -1) {
 
 			MapLayer mapLayer = this.map.getLayerEngineState(0);
-			this.map.printPathfindCord(0);
+			// this.map.printPathfindCord(0);
 			mapLayer.getComponentAt(
 					PathFindCord.class,
 					this.map.getEcsIndexFromWorldVector2f(
