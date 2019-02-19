@@ -42,8 +42,8 @@ public class PlayGame extends World
 		this.map = new Map(3);
 		this.map.addTileSet(GameResources.tileSet);
 
-		this.map.addMapConfig(GameResources.pathFindTest2Config);
-		this.map.addMapLayer(GameResources.pathFindTest2Layer);
+		this.map.addMapConfig(GameResources.pathFindTest1Config);
+		this.map.addMapLayer(GameResources.pathFindTest1Layer);
 
 		// this.map.addMapConfig(GameResources.pathFindTest1Config);
 		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
@@ -134,8 +134,7 @@ public class PlayGame extends World
 			this.engineState);
 		EngineTransforms.updateWorldAttribPositionFromMovement(
 			this.engineState, this.dt);
-		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
-			this.engineState, this.map, this.player);
+
 		this.generateDiffusionMap(0, 1f / 8f);
 		this.updateEnemyPositionFromPlayer();
 
@@ -151,6 +150,7 @@ public class PlayGame extends World
 		EngineTransforms
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 				this.engineState, this.cam);
+		System.out.println(" one loop finishes!!!!!!!!!!!!!!!!!!!!!");
 
 		// rendering is run after this is run
 	}
@@ -367,7 +367,7 @@ public class PlayGame extends World
 		////// Mouse handling  //////
 		Vector2f playerPosition =
 			super.getComponentAt(WorldAttributes.class, this.player)
-				.getOriginCoord();
+				.getCenteredBottomQuarter();
 
 		Vector2f mousePosition = super.inputPoller.getMousePosition();
 		mousePosition.matrixMultiply(this.invCam);
@@ -572,7 +572,11 @@ public class PlayGame extends World
 
 		MapLayer mapLayer = this.map.getLayerEngineState(layerNumber);
 		// temporary buffer used to store the modified diffusion values
+		int playerECSindex = this.map.getEcsIndexFromWorldVector2f(
+			super.getComponentAt(WorldAttributes.class, this.player)
+				.getCenteredBottomQuarter());
 		ArrayList<Float> tempDiffusionBuffer = new ArrayList<Float>();
+		ArrayList<Float> prevDiffusionBuffer = new ArrayList<Float>();
 		// will not loop to the empty tiles inside the map, hopefull !!
 		for (int i = mapLayer.getInitialComponentIndex(
 			     WorldAttributes.class);
@@ -587,49 +591,78 @@ public class PlayGame extends World
 				float sum = 0f;
 				PathFindCord center = mapLayer.getComponentAt(
 					PathFindCord.class, i);
+				prevDiffusionBuffer.add(
+					this.map.getLayerEngineState(0)
+						.getComponentAt(
+							PathFindCord.class, i)
+						.getDiffusionValue());
 				/*
 				System.out.println(
 					"center's diffusion value: = "
 					+ center.getDiffusionValue());
 					*/
-				ArrayList<PathFindCord> tempNeighbours =
-					getEightNeighbourVector(i, 0);
-				// System.out.println("size of tempNeighbours ="
-				//+ tempNeighbours.size());
-				/*
-				for (PathFindCord a : tempNeighbours) {
-					a.printCord();
-				}
-				*/
-				for (PathFindCord a : tempNeighbours) {
-					// if not a wall
-					if (!a.getIsWall()) {
-						sum += a.getDiffusionValue()
-						       - center.getDiffusionValue();
+				if (!center.getIsWall()) {
+					ArrayList<PathFindCord> tempNeighbours =
+						getEightNeighbourVector(i, 0);
+					// System.out.println("size of
+					// tempNeighbours ="
+					//+ tempNeighbours.size());
+					/*
+					for (PathFindCord a : tempNeighbours) {
+						a.printCord();
 					}
+					*/
+					for (PathFindCord a : tempNeighbours) {
+						// if not a wall
+						if (!a.getIsWall()) {
+							sum += a.getDiffusionValue()
+							       - center.getDiffusionValue();
+						} else {
+							System.out.println(
+								"I did not pass!!, the Vector x  index is ="
+								+ a.getCord()
+									  .x);
+							System.out.println(
+								"I did not pass!!, the Vector y  index is ="
+								+ a.getCord()
+									  .y);
+						}
+					}
+					/*
+					System.out.println(
+						"sum before adding center
+					diffusion value = "
+						+ sum);
+					*/
+					sum = center.getDiffusionValue()
+					      + sum * difCoefficient;
+					System.out.println("playerECSindex = "
+							   + playerECSindex);
+					sum = sum * 1 / 2;
+					/*
+					if (i != playerECSindex) {
+						sum = sum * 1 / 2;
+					}
+					*/
+
+
+					tempDiffusionBuffer.add(sum);
+					/*
+					System.out.println(
+						"sum after adding center
+					diffusion value = "
+						+ sum);
+					*/
+				} else {
+					sum = 0f;
+					tempDiffusionBuffer.add(sum);
 				}
-				/*
-				System.out.println(
-					"sum before adding center diffusion
-				value = "
-					+ sum);
-				*/
-				sum = center.getDiffusionValue()
-				      + sum * difCoefficient;
-				sum = sum * 1 / 2;
-				tempDiffusionBuffer.add(sum);
-				/*
-				System.out.println(
-					"sum after adding center diffusion value
-				= "
-					+ sum);
-				*/
 			}
 		}
 
 		int counter = 0;
 		for (int i = 0; i < tempDiffusionBuffer.size(); ++i) {
-			if (counter == 3) {
+			if (counter == this.map.mapWidth) {
 				counter = 0;
 				System.out.println();
 			}
@@ -637,14 +670,28 @@ public class PlayGame extends World
 			counter++;
 		}
 		System.out.println();
-		for (int i = mapLayer.getInitialComponentIndex(
-			     WorldAttributes.class);
-		     Components.isValidEntity(i);
-		     i = mapLayer.getNextComponentIndex(WorldAttributes.class,
-							i)) {
-			mapLayer.getComponentAt(PathFindCord.class, i)
-				.setDiffusionValue(tempDiffusionBuffer.get(0));
-			tempDiffusionBuffer.remove(0);
+		System.out.println("the diffusion value map it should be..");
+		counter = 0;
+		for (int i = 0; i < prevDiffusionBuffer.size(); ++i) {
+			if (counter == this.map.mapWidth) {
+				counter = 0;
+				System.out.println();
+			}
+			System.out.print(prevDiffusionBuffer.get(i) + " , ");
+			counter++;
+		}
+		System.out.println();
+		if (tempDiffusionBuffer.size() > 0) {
+			for (int i = mapLayer.getInitialComponentIndex(
+				     WorldAttributes.class);
+			     Components.isValidEntity(i);
+			     i = mapLayer.getNextComponentIndex(
+				     WorldAttributes.class, i)) {
+				mapLayer.getComponentAt(PathFindCord.class, i)
+					.setDiffusionValue(
+						tempDiffusionBuffer.get(0));
+				tempDiffusionBuffer.remove(0);
+			}
 		}
 	}
 	private ArrayList<PathFindCord> getEightNeighbourVector(int indexOfEcs,
@@ -681,99 +728,152 @@ public class PlayGame extends World
 	// 1. Please make a no-direction movement..
 	private void updateEnemyPositionFromPlayer()
 	{
-		/*
-	System.out.println("mob position in world attribues: ");
-	System.out.println(
-		"mob ecs cord= "
-		+ this.map.getEcsCordFromWorldAttributes(
-			  super.getComponentAt(WorldAttributes.class,
-					       this.mob1)));
-	System.out.println(
-		"mob x dir="
-		+ super.getComponentAt(WorldAttributes.class, this.mob1)
-			  .getOriginCoord()
-			  .x);
+		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
+			this.engineState, this.map, this.player);
+		System.out.println("mob position in world attribues: ");
+		System.out.println(
+			"mob ecs cord= "
+			+ this.map.getEcsCordFromWorldAttributes(
+				  super.getComponentAt(WorldAttributes.class,
+						       this.mob1)));
+		System.out.println(
+			"mob x dir="
+			+ super.getComponentAt(WorldAttributes.class, this.mob1)
+				  .getCenteredBottomQuarter()
+				  .x);
 
-	System.out.println(
-		"mob y dir="
-		+ super.getComponentAt(WorldAttributes.class, this.mob1)
-			  .getOriginCoord()
-			  .y);
-	System.out.println(this.map.isValidCord(
-		super.getComponentAt(WorldAttributes.class, this.mob1)
-			.getOriginCoord()));
-	*/
+		System.out.println(
+			"mob y dir="
+			+ super.getComponentAt(WorldAttributes.class, this.mob1)
+				  .getCenteredBottomQuarter()
+				  .y);
+		System.out.println(this.map.isValidCord(
+			super.getComponentAt(WorldAttributes.class, this.mob1)
+				.getCenteredBottomQuarter()));
 		ArrayList<PathFindCord> mobNeighb = getEightNeighbourVector(
-			this.map.getEcsCordFromWorldAttributes(
+			this.map.getEcsIndexFromWorldVector2f(
 				super.getComponentAt(WorldAttributes.class,
-						     this.mob1)),
+						     this.mob1)
+					.getCenteredBottomQuarter()),
 			0);
 		float maxValue = 0;
 		Vector2f maxPosition = new Vector2f();
 		Vector2f mobPosition =
 			super.getComponentAt(WorldAttributes.class, this.mob1)
-				.getOriginCoord();
+				.getCenteredBottomQuarter();
 
 		Vector2f playerPosition =
 			super.getComponentAt(WorldAttributes.class, this.player)
-				.getOriginCoord();
-		if ((int)mobPosition.x == (int)playerPosition.x
-		    && (int)mobPosition.y == (int)playerPosition.y) {
-			super.getComponentAt(Movement.class, this.mob1)
-				.setSpeed(0f);
-		} else {
-			for (PathFindCord neib : mobNeighb) {
-				if (neib.getDiffusionValue() > maxValue) {
-					maxValue = neib.getDiffusionValue();
-					maxPosition = neib.getCord();
-				}
+				.getCenteredBottomQuarter();
+		/*
+		System.out.println("mob x position: " + mobPosition.x);
+		System.out.println("mob y position: " + mobPosition.y);
+		System.out.println("mob x floored position: "
+				   + (int)mobPosition.x);
+		System.out.println("mob y floored position: "
+				   + (int)mobPosition.y);
+		System.out.println("player x position: " + playerPosition.x);
+		System.out.println("player y position: " + playerPosition.y);
+		System.out.println("player x floored position: "
+				   + (int)playerPosition.x);
+		System.out.println("player y floored position: "
+				   + (int)playerPosition.y);
+				   */
+		System.out.println("player x position  floor ="
+				   + playerPosition.x);
+		System.out.println("player y position  floor ="
+				   + playerPosition.y);
+		System.out.println("mob x position before floor ="
+				   + mobPosition.x);
+		System.out.println("mob y position before floor ="
+				   + mobPosition.y);
+		/*
+		System.out.println("mob x position after  floor ="
+				   + mobPosition.x);
+		System.out.println("mob y position after  floor ="
+				   + mobPosition.y);
+				   */
+
+		// else {
+		for (PathFindCord neib : mobNeighb) {
+			if (neib.getDiffusionValue() > maxValue) {
+				maxValue = neib.getDiffusionValue();
+				maxPosition = neib.getCord();
 			}
+		}
+		System.out.println(" the max value calculated for the enemy: "
+				   + maxValue);
+		System.out.println("maxPosition x =" + maxPosition.x);
+		System.out.println("maxPosition y =" + maxPosition.y);
+		System.out.println("cardinal inside enemy :");
+		CardinalDirections.print(
+			CardinalDirections
+				.getClosestDirectionFromDirectionVector(
+					maxPosition.subtractAndReturnVector(
+						mobPosition)));
+		System.out.println(
+			" the diffusion value at mob is ="
+			+ this.map.getLayerEngineState(0)
+				  .getComponentAt(
+					  PathFindCord.class,
+					  this.map.getEcsIndexFromWorldVector2f(
+						  super.getComponentAt(
+							       WorldAttributes
+								       .class,
+							       this.mob1)
+							  .getCenteredBottomQuarter()))
+				  .getDiffusionValue());
+		if (maxValue
+		    < this.map.getLayerEngineState(0)
+			      .getComponentAt(
+				      PathFindCord.class,
+				      this.map.getEcsIndexFromWorldVector2f(
+					      super.getComponentAt(
+							   WorldAttributes
+								   .class,
+							   this.mob1)
+						      .getCenteredBottomQuarter()))
+			      .getDiffusionValue()
+
+		) {
 			System.out.println(
-				" the max value calculated for the enemy: "
-				+ maxValue);
-			System.out.println("maxPosition x =" + maxPosition.x);
-			System.out.println("maxPosition y =" + maxPosition.y);
-			CardinalDirections.print(
-				CardinalDirections
-					.getClosestDirectionFromDirectionVector(
-						mobPosition
+				" went inside this cord is bigger than all neightbours!!");
+			System.out.println("player x position  floor ="
+					   + playerPosition.x);
+			System.out.println("player y position  floor ="
+					   + playerPosition.y);
+			System.out.println("mob x position before floor ="
+					   + mobPosition.x);
+			System.out.println("mob y position before floor ="
+					   + mobPosition.y);
+			if (Math.abs(mobPosition.x - playerPosition.x) != 0f
+			    && Math.abs(mobPosition.y - playerPosition.y)
+				       != 0f) {
+				super.getComponentAt(MovementDirection.class,
+						     this.mob1)
+					.setDirection(CardinalDirections.getClosestDirectionFromDirectionVector(
+						playerPosition
 							.subtractAndReturnVector(
-								maxPosition)));
+								mobPosition)));
+				super.getComponentAt(Movement.class, this.mob1)
+					.setSpeed(GameConfig.MOB_VELOCITY);
+			} else {
+				System.out.println(
+					"set the mob speed equal to 0!!!!!!!");
+				super.getComponentAt(Movement.class, this.mob1)
+					.setSpeed(0f);
+			}
+		} else {
+			mobPosition.floor();
 			super.getComponentAt(MovementDirection.class, this.mob1)
 				.setDirection(
 					CardinalDirections.getClosestDirectionFromDirectionVector(
 						maxPosition
 							.subtractAndReturnVector(
 								mobPosition)));
-			// super.getComponentAt(MovementDirection.class,
-			// this.mob1) .setDirection(CardinalDirections.NW);
 			super.getComponentAt(Movement.class, this.mob1)
 				.setSpeed(GameConfig.MOB_VELOCITY);
 		}
+		//}
 	}
-	/*
-	private void addPlayerDiffusionValAtPlayerPos()
-	{
-
-
-		Vector2f playerPosition =
-			super.getComponentAt(WorldAttributes.class, this.player)
-				.getOriginCoord();
-		System.out.println("player X=" + playerPosition.x);
-		System.out.println("player Y=" + playerPosition.y);
-		System.out.println(
-			"this.map.getEcsIndexFromWorldVector2f(playerPosition)"
-			+ this.map.getEcsIndexFromWorldVector2f(
-				  playerPosition));
-	if (this.map.getEcsIndexFromWorldVector2f(playerPosition) != -1) {
-
-		MapLayer mapLayer = this.map.getLayerEngineState(0);
-		// this.map.printPathfindCord(0);
-		mapLayer.getComponentAt(PathFindCord.class,
-					this.map.getEcsIndexFromWorldVector2f(
-						playerPosition))
-			.setDiffusionValue(GameConfig.PLAYER_DIFFUSION_VALUE);
-	}
-}
-*/
 }

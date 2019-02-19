@@ -34,7 +34,7 @@ public class GameConfig
 		/ GameResources.TILE_SCREEN_HEIGHT;
 
 	// mob config
-	public static final float MOB_VELOCITY = 0.9f * PLAYER_SPEED;
+	public static final float MOB_VELOCITY = 0.3f * PLAYER_SPEED;
 	public static final float MOB_HEIGHT = PLAYER_HEIGHT;
 	public static final float MOB_WIDTH = PLAYER_WIDTH;
 	public static final float MOB_HP = 100;

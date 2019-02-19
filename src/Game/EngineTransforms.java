@@ -95,7 +95,7 @@ public class EngineTransforms
 		Vector2f playerPosition =
 			engineState
 				.getComponentAt(WorldAttributes.class, player)
-				.getOriginCoord();
+				.getCenteredBottomQuarter();
 		/*
 		System.out.println("player X=" + playerPosition.x);
 		System.out.println("player Y=" + playerPosition.y);
@@ -104,16 +104,38 @@ public class EngineTransforms
 			+ this.map.getEcsIndexFromWorldVector2f(
 				  playerPosition));
 		*/
+		System.out.println(
+			"player x position inside addPlayerDiffusionValAtPlayerPos ="
+			+ playerPosition.x);
+		System.out.println(
+			"player y position inside addPlayerDiffusionValAtPlayerPos ="
+			+ playerPosition.y);
 		if (map.getEcsIndexFromWorldVector2f(playerPosition) != -1) {
 
 			MapLayer mapLayer = map.getLayerEngineState(0);
 			// map.printPathfindCord(0);
-			mapLayer.getComponentAt(
-					PathFindCord.class,
-					map.getEcsIndexFromWorldVector2f(
-						playerPosition))
-				.setDiffusionValue(
-					GameConfig.PLAYER_DIFFUSION_VALUE);
+
+			if (!mapLayer.getComponentAt(
+					     PathFindCord.class,
+					     map.getEcsIndexFromWorldVector2f(
+						     playerPosition))
+				     .getIsWall()) {
+
+				mapLayer.getComponentAt(
+						PathFindCord.class,
+						map.getEcsIndexFromWorldVector2f(
+							playerPosition))
+					.setDiffusionValue(
+						GameConfig
+							.PLAYER_DIFFUSION_VALUE);
+			} else {
+
+				mapLayer.getComponentAt(
+						PathFindCord.class,
+						map.getEcsIndexFromWorldVector2f(
+							playerPosition))
+					.setDiffusionValue(0f);
+			}
 		}
 	}
 }
