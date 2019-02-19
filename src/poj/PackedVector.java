@@ -80,10 +80,11 @@ public class PackedVector<T>
 	{
 		Logger.lassert(
 			(index >= m_sparse_vector.size()),
-			"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of sparse vector with set_data_at_sparse_vector function");
+			"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of sparse vector with set_data_at_sparse_vector function.");
 		Logger.lassert(
 			(m_sparse_vector.get(index) == INVALID_INDEX),
-			"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with set_data_at_sparse_vector function");
+			"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with set_data_at_sparse_vector function. This is with type "
+				+ val.getClass());
 		return m_packed_data.set(m_sparse_vector.get(index), val);
 	}
 

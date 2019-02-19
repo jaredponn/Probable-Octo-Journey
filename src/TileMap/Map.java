@@ -335,36 +335,32 @@ public class Map
 	// Width is rows, height is cols
 	public boolean isValidCord(WorldAttributes tile)
 	{
-		Vector2f cord = tile.getOriginCoord();
-		return !(cord.x >= mapHeight || cord.y >= mapWidth)
-			&& (cord.x >= 0 && cord.y >= 0);
+		return isValidCord(tile.getOriginCoord());
 	}
 
 	public boolean isValidCord(Vector2f cord)
 	{
+		return (cord.x <= mapHeight && cord.y <= mapWidth)
+			&& (cord.x >= 0 && cord.y >= 0);
+	}
+	public boolean isValidCord(PathFindCord tile)
+	{
+		Vector2f cord = tile.getCord();
 		return !(cord.x >= mapHeight || cord.y >= mapWidth)
 			&& (cord.x >= 0 && cord.y >= 0);
 	}
+
 	public int getEcsCordFromWorldAttributes(WorldAttributes cord)
 	{
-		Vector2f matrixCord = cord.getOriginCoord();
-		if (isValidCord(cord)) {
-
-			return (int)matrixCord.x * (mapWidth)
-				+ (int)matrixCord.y;
-		} else {
-			return -1;
-		}
+		return getEcsIndexFromWorldVector2f(cord.getOriginCoord());
 	}
 
-
-	public int getEcsIndexFromWorldVector2f(Vector2f matrixCord)
+	public int getEcsIndexFromWorldVector2f(Vector2f v)
 	{
 
-		if (isValidCord(matrixCord)) {
+		if (isValidCord(v)) {
 
-			return (int)matrixCord.x * (mapWidth)
-				+ (int)matrixCord.y;
+			return (int)v.x * (mapWidth) + (int)v.y;
 		} else {
 			return -1;
 		}

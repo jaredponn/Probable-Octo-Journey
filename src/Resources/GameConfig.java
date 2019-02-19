@@ -10,8 +10,6 @@ public class GameConfig
 {
 
 	// player config
-	private static final float PLAYER_SCALE = 2f;
-
 	// They need to be switched because of how the tiles are viewed. Not
 	// going to lie, this is really strange and if someone wants to take the
 	// time to figure this out, please let me know

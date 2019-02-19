@@ -72,6 +72,12 @@ public class Vector2f
 		this.y = -this.y;
 	}
 
+	public void floor()
+	{
+		this.x = (float)Math.floor(this.x);
+		this.y = (float)Math.floor(this.y);
+	}
+
 	public Vector2f pureSubtract(final Vector2f a)
 	{
 		Vector2f tmp = new Vector2f(this);

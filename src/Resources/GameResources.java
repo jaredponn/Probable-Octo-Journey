@@ -33,7 +33,12 @@ public class GameResources
 		pathFindTest3Config = "resources/newmap2/pathFindTest3.json",
 		pathFindTest3Layer = "resources/newmap2/pathFindTest3.csv",
 		pathFindTest4Config = "resources/newmap2/pathFindTest4.json",
-		pathFindTest4Layer = "resources/newmap2/pathFindTest4.csv";
+		pathFindTest4Layer = "resources/newmap2/pathFindTest4.csv",
+		// 1000,1000 map to test the performance of rendering
+		renderPerformanceConf =
+			"resources/renderperformancemap/massivemap.json",
+		renderPerformanceLayer =
+			"resources/renderperformancemap/massivemap.csv";
 
 	public static final float MAGIC_CONSTANT =
 		1.45f; // this constant is important and makes things
