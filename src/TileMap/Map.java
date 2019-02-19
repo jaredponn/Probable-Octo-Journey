@@ -340,7 +340,7 @@ public class Map
 
 	public boolean isValidCord(Vector2f cord)
 	{
-		return (cord.x <= mapHeight && cord.y <= mapWidth)
+		return (cord.x < mapHeight && cord.y < mapWidth)
 			&& (cord.x >= 0 && cord.y >= 0);
 	}
 	public boolean isValidCord(PathFindCord tile)

@@ -46,5 +46,10 @@ public class Logger
 			logMessage(str, LogLevels.MAJOR_CRITICAL);
 		}
 	}
+
+	public static final void lassert(String str)
+	{
+		lassert(true, str);
+	}
 }
 

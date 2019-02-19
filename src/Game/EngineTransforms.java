@@ -2,6 +2,9 @@ package Game;
 import poj.EngineState;
 import poj.Component.*;
 import Components.*;
+import poj.linear.Vector2f;
+import Resources.*;
+import TileMap.*;
 
 public class EngineTransforms
 {
@@ -80,6 +83,37 @@ public class EngineTransforms
 				engineState.getComponentAt(Movement.class, i),
 				engineState.getComponentAt(
 					MovementDirection.class, i));
+		}
+	}
+
+	public static void
+	addPlayerDiffusionValAtPlayerPos(EngineState engineState, Map map,
+					 int player)
+	{
+
+
+		Vector2f playerPosition =
+			engineState
+				.getComponentAt(WorldAttributes.class, player)
+				.getOriginCoord();
+		/*
+		System.out.println("player X=" + playerPosition.x);
+		System.out.println("player Y=" + playerPosition.y);
+		System.out.println(
+			"this.map.getEcsIndexFromWorldVector2f(playerPosition)"
+			+ this.map.getEcsIndexFromWorldVector2f(
+				  playerPosition));
+		*/
+		if (map.getEcsIndexFromWorldVector2f(playerPosition) != -1) {
+
+			MapLayer mapLayer = map.getLayerEngineState(0);
+			// map.printPathfindCord(0);
+			mapLayer.getComponentAt(
+					PathFindCord.class,
+					map.getEcsIndexFromWorldVector2f(
+						playerPosition))
+				.setDiffusionValue(
+					GameConfig.PLAYER_DIFFUSION_VALUE);
 		}
 	}
 }

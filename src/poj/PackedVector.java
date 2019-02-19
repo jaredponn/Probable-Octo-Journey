@@ -2,7 +2,7 @@ package poj;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import poj.Logger.Logger;
+import poj.Logger.*;
 
 
 public class PackedVector<T>
@@ -67,9 +67,16 @@ public class PackedVector<T>
 
 	public final T get_data_from_sparse_vector(final int index)
 	{
-		Logger.lassert(
-			(index >= m_sparse_vector.size()),
-			"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of sparse vector with get_data_from_sparse_vector function");
+		if (index >= m_sparse_vector.size()) {
+			try {
+				Logger.lassert(
+					"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of sparse vector with get_data_from_sparse_vector function. The error is with packed vector of type: "
+					+ m_packed_data.get(0).getClass());
+			} catch (ArrayIndexOutOfBoundsException exception) {
+				Logger.lassert(
+					"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of sparse vector with get_data_from_sparse_vector function.");
+			}
+		}
 		Logger.lassert(
 			(m_sparse_vector.get(index) == INVALID_INDEX),
 			"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with get_data_from_sparse_vector function");

@@ -22,8 +22,8 @@ public class MobSet extends EntitySet
 
 		addComponent(
 			new HasAnimation(GameResources.enemyNMoveAnimation));
-		// addComponent(new Movement(GameConfig.MOB_VELOCITY));
-		addComponent(new Movement(0f));
+		addComponent(new Movement(GameConfig.MOB_VELOCITY));
+		// addComponent(new Movement(0f));
 		addComponent(new MovementDirection(CardinalDirections.N));
 		addComponent(new FacingDirection(CardinalDirections.N));
 

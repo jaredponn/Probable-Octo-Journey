@@ -92,7 +92,8 @@ public class PlayGame extends World
 		// Player
 		this.player = super.engineState.spawnEntitySet(new PlayerSet());
 		this.mob1 = super.engineState.spawnEntitySet(new MobSet());
-		// addPlayerDiffusionValAtPlayerPos();
+		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
+			this.engineState, this.map, this.player);
 		// TODO: HAIYANG get the layer number for the path finding!
 		// right now for testing it only have 1 layer
 		//
@@ -120,7 +121,6 @@ public class PlayGame extends World
 		// this.setMovementVelocityFromMovementDirection();
 		// this.updateWorldAttribPositionFromMovement(this.dt);
 
-		// this.generateDiffusionMap(0, 1f / 8f);
 		// will set the enemy direction and speed, then will render them
 		// next frame
 
@@ -129,7 +129,11 @@ public class PlayGame extends World
 			this.engineState);
 		EngineTransforms.updateWorldAttribPositionFromMovement(
 			this.engineState, this.dt);
-		updateEnemyPositionFromPlayer();
+		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
+			this.engineState, this.map, this.player);
+		this.generateDiffusionMap(0, 1f / 8f);
+		this.updateEnemyPositionFromPlayer();
+
 		// updating the camera
 		centerCamerasPositionToPlayer();
 		updateInverseCamera();
@@ -530,9 +534,6 @@ public class PlayGame extends World
 				super.getComponentAt(Movement.class, i),
 				this.dt);
 		}
-		System.out.println("start dif");
-		addPlayerDiffusionValAtPlayerPos();
-		System.out.println("end dif");
 	}
 
 	private void setMovementVelocityFromMovementDirection()
@@ -583,7 +584,7 @@ public class PlayGame extends World
 				System.out.println(
 					"center's diffusion value: = "
 					+ center.getDiffusionValue());
-				*/
+					*/
 				ArrayList<PathFindCord> tempNeighbours =
 					getEightNeighbourVector(i, 0);
 				// System.out.println("size of tempNeighbours ="
@@ -731,20 +732,19 @@ public class PlayGame extends World
 						mobPosition
 							.subtractAndReturnVector(
 								maxPosition)));
-			/*
 			super.getComponentAt(MovementDirection.class, this.mob1)
 				.setDirection(
 					CardinalDirections.getClosestDirectionFromDirectionVector(
 						maxPosition
 							.subtractAndReturnVector(
 								mobPosition)));
-								*/
-			super.getComponentAt(MovementDirection.class, this.mob1)
-				.setDirection(CardinalDirections.NW);
-			// super.getComponentAt(Movement.class, this.mob1)
-			//.setSpeed(GameConfig.MOB_VELOCITY);
+			// super.getComponentAt(MovementDirection.class,
+			// this.mob1) .setDirection(CardinalDirections.NW);
+			super.getComponentAt(Movement.class, this.mob1)
+				.setSpeed(GameConfig.MOB_VELOCITY);
 		}
 	}
+	/*
 	private void addPlayerDiffusionValAtPlayerPos()
 	{
 
@@ -752,25 +752,21 @@ public class PlayGame extends World
 		Vector2f playerPosition =
 			super.getComponentAt(WorldAttributes.class, this.player)
 				.getOriginCoord();
-		/*
 		System.out.println("player X=" + playerPosition.x);
 		System.out.println("player Y=" + playerPosition.y);
 		System.out.println(
 			"this.map.getEcsIndexFromWorldVector2f(playerPosition)"
 			+ this.map.getEcsIndexFromWorldVector2f(
 				  playerPosition));
-		*/
-		if (this.map.getEcsIndexFromWorldVector2f(playerPosition)
-		    != -1) {
+	if (this.map.getEcsIndexFromWorldVector2f(playerPosition) != -1) {
 
-			MapLayer mapLayer = this.map.getLayerEngineState(0);
-			// this.map.printPathfindCord(0);
-			mapLayer.getComponentAt(
-					PathFindCord.class,
+		MapLayer mapLayer = this.map.getLayerEngineState(0);
+		// this.map.printPathfindCord(0);
+		mapLayer.getComponentAt(PathFindCord.class,
 					this.map.getEcsIndexFromWorldVector2f(
 						playerPosition))
-				.setDiffusionValue(
-					GameConfig.PLAYER_DIFFUSION_VALUE);
-		}
+			.setDiffusionValue(GameConfig.PLAYER_DIFFUSION_VALUE);
 	}
+}
+*/
 }
