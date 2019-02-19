@@ -97,14 +97,9 @@ public class PlayGame extends World
 
 		// TODO: HAIYANG get the layer number for the path finding!
 		// right now for testing it only have 1 layer
+		//
 		MapLayer mapLayer = this.map.getLayerEngineState(0);
-		/*
-		mapLayer.getComponentAt(
-				PathFindCord.class,
-				this.map.getEcsIndexFromWorldVector2f(
-					GameConfig.PLAYER_SPAWNNING_POS))
-			.setDiffusionValue(GameConfig.PLAYER_DIFFUSION_VALUE);
-		this.map.printPathfindCord(0);*/
+
 		int tmp = super.engineState.spawnEntitySet(new Bullet());
 		super.getComponentAt(WorldAttributes.class, tmp)
 			.setOriginCoord(new Vector2f(0f, 0f));
@@ -383,7 +378,8 @@ public class PlayGame extends World
 	{
 
 
-		this.pushTileMapToRenderer(this.map.getLayerEngineState(0));
+		this.pushTileMapLayerToRenderer(
+			this.map.getLayerEngineState(0));
 
 		for (Render r :
 		     super.getRawComponentArrayListPackedData(Render.class)) {
@@ -396,7 +392,7 @@ public class PlayGame extends World
 	}
 
 	// Renders a set window of the tilemap
-	private void pushTileMapToRenderer(MapLayer tileLayer)
+	private void pushTileMapLayerToRenderer(MapLayer tileLayer)
 	{
 		tileMapRenderHelperSet.clear();
 		for (float i = -GameResources.TILE_SCREEN_WIDTH;
@@ -479,6 +475,70 @@ public class PlayGame extends World
 				bulletSpeed));
 	}
 
+	/// SYSTEMS ///
+	private void updateAnimationWindows()
+	{
+		for (HasAnimation a : super.getRawComponentArrayListPackedData(
+			     HasAnimation.class)) {
+			Systems.updateHasAnimationComponent(a, this.dt);
+		}
+	}
+
+	private void cropSpriteSheetsFromAnimationWindows()
+	{
+
+		for (int i = super.getInitialComponentIndex(HasAnimation.class);
+		     Components.isValidEntity(i);
+		     i = super.getNextComponentIndex(HasAnimation.class, i)) {
+			Systems.updateRenderComponentWindowFromHasAnimation(
+				super.getComponentAt(Render.class, i),
+				super.getComponentAt(HasAnimation.class, i));
+		}
+	}
+
+
+	private void
+	updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera()
+	{
+
+		for (int i = super.getInitialComponentIndex(
+			     WorldAttributes.class);
+		     Components.isValidEntity(i);
+		     i = super.getNextComponentIndex(WorldAttributes.class,
+						     i)) {
+			Systems.updateRenderScreenCoordinatesFromWorldCoordinates(
+				super.getComponentAt(WorldAttributes.class, i),
+				super.getComponentAt(Render.class, i),
+				this.cam);
+		}
+	}
+
+	private void updateWorldAttribPositionFromMovement(double dt)
+	{
+		for (int i = super.getInitialComponentIndex(Movement.class);
+		     Components.isValidEntity(i);
+		     i = super.getNextComponentIndex(Movement.class, i)) {
+			Systems.updateWorldAttribPositionFromMovement(
+				super.getComponentAt(WorldAttributes.class, i),
+				super.getComponentAt(Movement.class, i),
+				this.dt);
+		}
+		System.out.println("start dif");
+		addPlayerDiffusionValAtPlayerPos();
+		System.out.println("end dif");
+	}
+
+	private void setMovementVelocityFromMovementDirection()
+	{
+		for (int i = super.getInitialSetIndex(MovementDirection.class);
+		     Components.isValidEntity(i);
+		     i = super.getNextSetIndex(MovementDirection.class, i)) {
+			Systems.setMovementVelocityFromMovementDirection(
+				super.getComponentAt(Movement.class, i),
+				super.getComponentAt(MovementDirection.class,
+						     i));
+		}
+	}
 
 	private void centerCamerasPositionToPlayer()
 	{
@@ -494,8 +554,9 @@ public class PlayGame extends World
 	{
 		// TODO: HAIYANG will only do one layer!!!!!
 		// will get the 8 neighbours aroud it
-		ArrayList<PathFindCord> tempNeighbours =
-			new ArrayList<PathFindCord>();
+		//
+		// ArrayList<PathFindCord> tempNeighbours =
+		// new ArrayList<PathFindCord>();
 		MapLayer mapLayer = this.map.getLayerEngineState(layerNumber);
 		int sum = 0;
 		for (int i = mapLayer.getInitialComponentIndex(
@@ -504,7 +565,26 @@ public class PlayGame extends World
 		     i = mapLayer.getNextComponentIndex(WorldAttributes.class,
 							i)) {
 			// player initial val?
+			// will first diffuse again,
+			// then addPlayerDifVal
+			// then diffuse again
 
+			ArrayList<PathFindCord> tempNeighbours =
+				new ArrayList<PathFindCord>();
+			// Vector2f testVector=
+			//
+
+			for (int j = 0; j < 8; ++j) {
+				// tempNeighbours.add
+			}
+			if (mapLayer.hasComponent(PathFindCord.class, i)) {
+			}
+			/*
+			if (!(center.getIsWall() == true
+			      || isValidCord(adfdsa, mapWidth, mapHeight))) {
+				// sum +=
+			}
+			*/
 
 			// if it is a wall or out of bounds, dont add it
 			/*
@@ -513,6 +593,34 @@ public class PlayGame extends World
 				// sum +=
 			}
 			*/
+		}
+	}
+	private void addPlayerDiffusionValAtPlayerPos()
+	{
+
+
+		Vector2f playerPosition =
+			super.getComponentAt(WorldAttributes.class, this.player)
+				.getOriginCoord();
+		/*
+		System.out.println("player X=" + playerPosition.x);
+		System.out.println("player Y=" + playerPosition.y);
+		System.out.println(
+			"this.map.getEcsIndexFromWorldVector2f(playerPosition)"
+			+ this.map.getEcsIndexFromWorldVector2f(
+				  playerPosition));
+		*/
+		if (this.map.getEcsIndexFromWorldVector2f(playerPosition)
+		    != -1) {
+
+			MapLayer mapLayer = this.map.getLayerEngineState(0);
+			this.map.printPathfindCord(0);
+			mapLayer.getComponentAt(
+					PathFindCord.class,
+					this.map.getEcsIndexFromWorldVector2f(
+						playerPosition))
+				.setDiffusionValue(
+					GameConfig.PLAYER_DIFFUSION_VALUE);
 		}
 	}
 }
