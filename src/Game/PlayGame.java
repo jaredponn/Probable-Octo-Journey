@@ -14,13 +14,21 @@ import TileMap.*;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class PlayGame extends World
 {
+	// Render
 	private Map map;
+	private HashSet<Integer>
+		tileMapRenderHelperSet; // used to help render the tiles in O(1)
+					// time
+
+	// Camera
 	private Camera cam;    // camera
 	private Camera invCam; // inverse camera
 
+	// Higher level game logic
 	private int player;
 	private int mob1;
 	private Vector2f unitVecPlayerPosToMouseDelta;
@@ -33,8 +41,12 @@ public class PlayGame extends World
 		// World loading
 		this.map = new Map(3);
 		this.map.addTileSet(GameResources.tileSet);
-		this.map.addMapConfig(GameResources.pathFindTest1Config);
+		this.map.addMapConfig(GameResources.renderPerformanceConf);
+		this.map.addMapLayer(GameResources.renderPerformanceLayer);
+
+		/*this.map.addMapConfig(GameResources.pathFindTest1Config);
 		this.map.addMapLayer(GameResources.pathFindTest1Layer);
+		*/
 
 		// this.map.addMapConfig(GameResources.mapConfig);
 		// this.map.addMapLayer(GameResources.mapLayer0);
@@ -42,6 +54,10 @@ public class PlayGame extends World
 		// this.map.addMapLayer(GameResources.mapLayer1);
 		// this.map.addMapLayer(GameResources.mapLayer1);
 		// this.map.addMapLayer(GameResources.mapLayer2);
+		this.tileMapRenderHelperSet = new HashSet<Integer>(
+			(int)(this.windowWidth * this.windowHeight)
+			/ (int)(GameResources.TILE_SCREEN_WIDTH
+				* GameResources.TILE_SCREEN_HEIGHT));
 
 		this.cam = new Camera();
 		this.unitVecPlayerPosToMouseDelta = new Vector2f();
@@ -82,12 +98,13 @@ public class PlayGame extends World
 		// TODO: HAIYANG get the layer number for the path finding!
 		// right now for testing it only have 1 layer
 		MapLayer mapLayer = this.map.getLayerEngineState(0);
+		/*
 		mapLayer.getComponentAt(
 				PathFindCord.class,
 				this.map.getEcsIndexFromWorldVector2f(
 					GameConfig.PLAYER_SPAWNNING_POS))
 			.setDiffusionValue(GameConfig.PLAYER_DIFFUSION_VALUE);
-		this.map.printPathfindCord(0);
+		this.map.printPathfindCord(0);*/
 		int tmp = super.engineState.spawnEntitySet(new Bullet());
 		super.getComponentAt(WorldAttributes.class, tmp)
 			.setOriginCoord(new Vector2f(0f, 0f));
@@ -381,34 +398,38 @@ public class PlayGame extends World
 	// Renders a set window of the tilemap
 	private void pushTileMapToRenderer(MapLayer tileLayer)
 	{
+		tileMapRenderHelperSet.clear();
+		for (float i = -GameResources.TILE_SCREEN_WIDTH;
+		     i <= this.windowWidth + GameResources.TILE_SCREEN_WIDTH;
+		     i += GameResources.TILE_SCREEN_WIDTH / 2f) {
+			for (float j = -GameResources.TILE_SCREEN_HEIGHT;
+			     j
+			     <= this.windowHeight
+					+ 3 * GameResources.TILE_SCREEN_HEIGHT;
+			     j += GameResources.TILE_SCREEN_HEIGHT / 2f) {
+				Vector2f wc =
+					new Vector2f(i, j).pureMatrixMultiply(
+						this.invCam);
 
-		// THIS IS IMPOSSIBLE TO WORK WITH
+				int e = this.map.getEcsIndexFromWorldVector2f(
+					wc);
 
-		Vector2f topLeftWorldCoordOfScreenTopLeft =
-			new Vector2f(0, 0).pureMatrixMultiply(this.invCam);
-		int topLefte = this.map.getEcsIndexFromWorldVector2f(
-			topLeftWorldCoordOfScreenTopLeft);
+				if (e == -1
+				    || tileMapRenderHelperSet.contains(e))
+					continue;
 
-		Vector2f botRightWorldCoordofScreenBotRight =
-			new Vector2f(super.windowWidth, super.windowHeight)
-				.pureMatrixMultiply(this.invCam);
-		int botRighte = this.map.getEcsIndexFromWorldVector2f(
-			botRightWorldCoordofScreenBotRight);
-
-
-		for (int i = tileLayer.getInitialComponentIndex(Render.class);
-		     Components.isValidEntity(i);
-		     i = tileLayer.getNextComponentIndex(Render.class, i)) {
-
-			Systems.updateRenderScreenCoordinatesFromWorldCoordinates(
-				tileLayer.getComponentAt(WorldAttributes.class,
-							 i),
-				tileLayer.getComponentAt(Render.class, i),
-				this.cam);
-			Systems.cullPushRenderComponentToRenderer(
-				tileLayer.getComponentAt(Render.class, i),
-				super.renderer, this.windowWidth,
-				this.windowHeight);
+				Systems.updateRenderScreenCoordinatesFromWorldCoordinates(
+					tileLayer.getComponentAt(
+						WorldAttributes.class, e),
+					tileLayer.getComponentAt(Render.class,
+								 e),
+					this.cam);
+				Systems.pushRenderComponentToRenderer(
+					tileLayer.getComponentAt(Render.class,
+								 e),
+					super.renderer);
+				tileMapRenderHelperSet.add(e);
+			}
 		}
 	}
 
