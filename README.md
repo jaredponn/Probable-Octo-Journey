@@ -32,6 +32,7 @@ if (a.isEmpty())
 else
 {
 	// do whatever
+	a.get() // gets the value
 }
 
 // 2 ways to test if the value exists or not respectively
