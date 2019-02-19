@@ -37,14 +37,15 @@ public class Animation
 	public Animation(int width, int height, double fdms, int xstride,
 			 int ystride, int xmin, int ymin, int xmax, int ymax)
 	{
-		this.focusedWindow = new ImageWindow(xmin, ymin, width, height);
-		this.frameDurationms = fdms;
-		this.xstride = xstride;
-		this.ystride = ystride;
-		this.xmin = xmin;
-		this.ymin = ymin;
-		this.xmax = xmax;
-		this.ymax = ymax;
+		this(new ImageWindow(xmin, ymin, width, height), fdms, xstride,
+		     ystride, xmin, ymin, xmax, ymax);
+	}
+
+	public Animation(Animation a)
+	{
+		this(new ImageWindow(a.getImageWindow()),
+		     a.getFrameDurationms(), a.getXStride(), a.getYStride(),
+		     a.getXMin(), a.getYMin(), a.getXMax(), a.getYMax());
 	}
 
 	public void updateAnimationWindow(double xms)
@@ -90,5 +91,33 @@ public class Animation
 			this.focusedWindow.setX(focusedWindow.getX() + xstride);
 			this.focusedWindow.setY(focusedWindow.getY() + ystride);
 		}
+	}
+
+	public int getXStride()
+	{
+		return this.xstride;
+	}
+	public int getYStride()
+	{
+
+		return this.ystride;
+	}
+
+	public int getXMin()
+	{
+		return this.xmin;
+	}
+	public int getYMin()
+	{
+		return this.ymin;
+	}
+
+	public int getXMax()
+	{
+		return this.xmax;
+	}
+	public int getYMax()
+	{
+		return this.ymax;
 	}
 }

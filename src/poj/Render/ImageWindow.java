@@ -19,6 +19,11 @@ public class ImageWindow
 		this.height = h;
 	}
 
+	public ImageWindow(ImageWindow n)
+	{
+		this(n.getX(), n.getY(), n.getWidth(), n.getHeight());
+	}
+
 	public void shiftPosition(int x, int y)
 	{
 		this.x += x;
