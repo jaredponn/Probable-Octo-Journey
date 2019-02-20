@@ -7,6 +7,8 @@ public class Vector2f
 {
 
 	private float EPSILON = 0.00000001f;
+	public static int MAX_LENGTH = 2;
+
 	public float x;
 	public float y;
 
@@ -152,9 +154,14 @@ public class Vector2f
 		return new Vector2f((a.x * scalar), (a.y * scalar));
 	}
 
-	public final float dotProduct(final Vector2f a, final Vector2f b)
+	public static final float dotProduct(final Vector2f a, final Vector2f b)
 	{
 		return a.x * b.x + a.y * b.y;
+	}
+
+	public float dotProduct(final Vector2f a)
+	{
+		return Vector2f.dotProduct(this, a);
 	}
 
 	public final float scalarValueOfVector(final Vector2f a)
@@ -177,9 +184,14 @@ public class Vector2f
 			/ (scalarValueOfVector(a) * scalarValueOfVector(b)));
 	}
 
-	public final Vector2f normalOfVector2f(final Vector2f a)
+	public final Vector2f pureGetCCPerpendicularVector()
 	{
-		return new Vector2f(a.y, -a.x);
+		return new Vector2f(y, -x);
+	}
+
+	public final Vector2f pureGetCCWPerpendicularVector()
+	{
+		return new Vector2f(-y, x);
 	}
 
 	public final float getX()
@@ -190,6 +202,25 @@ public class Vector2f
 	public final float getY()
 	{
 		return this.y;
+	}
+
+	public final float get(int i)
+	{
+		if (i == 0) {
+			return x;
+		} else if (i == 1) {
+			return y;
+		} else {
+			Logger.logMessage(
+				"Error in Vector2f -- accessing an element out of bounds. Returning the y value.");
+			return y;
+		}
+	}
+
+	public void set(float x, float y)
+	{
+		this.x = x;
+		this.y = y;
 	}
 
 	public void setX(float n)
@@ -221,14 +252,19 @@ public class Vector2f
 		return Math.abs(this.x - n.x) < EPSILON
 			&& Math.abs(this.y - n.y) < EPSILON;
 	}
+
 	public boolean equals(float n)
 	{
 		return Math.abs(x - n) < EPSILON && Math.abs(y - n) < EPSILON;
 	}
+
+	public boolean lessThan(final Vector2f n)
+	{
+		return x < n.x && y < n.y;
+	}
+
+	public boolean greaterThan(final Vector2f n)
+	{
+		return x > n.x && y > n.y;
+	}
 }
-// add, minus, scalarProduct, MatrixVectorMultiplication??, dot product,
-// Crossproduct??
-// normalize
-//  vector transformation 2d
-//  matrix multiplication
-//  transformation matrix
