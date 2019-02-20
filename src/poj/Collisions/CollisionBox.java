@@ -18,7 +18,7 @@ public class CollisionBox
 	private float width;
 	private float height;
 
-	private static int NUM_POINTS = 4;
+	final public static int NUM_POINTS = 4;
 
 	public CollisionBox(float topleftx, float toplefty, float w, float h)
 	{
@@ -51,15 +51,13 @@ public class CollisionBox
 
 	// functions
 	// https://jaredponn.github.io/posts/2018-06-07-Write-Me-A-FlappyBird-In-Haskell.html
+	// xmin0 <= xmax1 && xmax0 >= xmin1) &&
+	// (ymin0 <= ymax1 && ymax0 >= ymin1)
 	public static boolean isColliding(final CollisionBox a,
 					  final CollisionBox b)
 	{
-
-		return (a.getTopLeftPoint().x <= b.getBottomRightPoint().x
-			&& a.getBottomRightPoint().x >= b.getTopLeftPoint().x)
-			&& (a.getTopLeftPoint().y <= b.getBottomRightPoint().y
-			    && a.getBottomRightPoint().y
-				       >= b.getTopLeftPoint().y);
+		return a.min().x <= b.max().x && a.max().x >= b.min().x
+			&& a.min().y <= b.max().y && a.max().y >= b.min().y;
 	}
 
 	public boolean isColliding(CollisionBox c)
@@ -79,17 +77,24 @@ public class CollisionBox
 	intersectionTimeOfMoving(final CollisionBox a, final CollisionBox b,
 				 final Vector2f va, final Vector2f vb)
 	{
+		System.out.println("START--------------------------------");
+		va.log("VA");
+		System.out.println(a.toString());
+		vb.log("VB");
+		System.out.println(b.toString());
 		// first and last contact times
 		double ti = 0d;
 		double tf = 1d;
 
 		// check if initially interesecting
 		if (CollisionBox.isColliding(a, b)) {
+			System.out.println("initially colliding");
 			return Optional.of(0d);
 		}
 
 		// relative velocity where a is not moving and b is moving
 		Vector2f rv = vb.pureSubtract(va);
+		rv.log("relative vector");
 
 		// iterating through each axis of the vector and determining the
 		// first and last contact times
@@ -110,7 +115,7 @@ public class CollisionBox
 				// clang-format on
 			}
 
-			if (rv.get(i) > 0f) {
+			else if (rv.get(i) > 0f) {
 				// clang-format off
 				// non intersecting and moving apart
 				if (b.min().get(i) > a.max().get(i))
@@ -129,8 +134,19 @@ public class CollisionBox
 
 		// no overlap possible if the initial contanct time happens
 		// after the last
-		if (ti > tf)
+		if (ti > tf) {
+			System.out.println(
+				"initail contact before final contact");
 			return Optional.empty();
+		}
+
+
+		// if they were't going to touch at all
+		if (ti == 0) {
+			System.out.println("ti was 0 ");
+			return Optional.empty();
+		}
+		System.out.println("tifinal: " + ti);
 
 		return Optional.of(ti);
 	}
@@ -147,8 +163,15 @@ public class CollisionBox
 	{
 		points[0].set(topleftx, toplefty);
 		points[1].set(topleftx + width, toplefty);
+		points[2].set(topleftx, toplefty - height);
+		points[3].set(topleftx + width, toplefty - height);
+
+		/*
+		points[0].set(topleftx, toplefty);
+		points[1].set(topleftx + width, toplefty);
 		points[2].set(topleftx, toplefty + height);
 		points[3].set(topleftx + width, toplefty + height);
+		*/
 	}
 
 	public void addToTopLeftAndUpdateAllPoints(float topleftxshift,
@@ -188,12 +211,13 @@ public class CollisionBox
 
 	public Vector2f min()
 	{
-		return getTopLeftPoint();
+
+		return points[2];
 	}
 
 	public Vector2f pureGetMin()
 	{
-		return pureGetTopLeftPoint();
+		return new Vector2f(min());
 	}
 
 	public Vector2f getBottomRightPoint()
@@ -203,23 +227,23 @@ public class CollisionBox
 
 	public Vector2f max()
 	{
-		return getBottomRightPoint();
+		return points[1];
 	}
 
 
 	public Vector2f pureGetMax()
 	{
-		return pureGetBottomRightPoint();
+		return new Vector2f(max());
 	}
 
 	public Vector2f pureGetTopLeftPoint()
 	{
-		return new Vector2f(points[0]);
+		return new Vector2f(getTopLeftPoint());
 	}
 
 	public Vector2f pureGetBottomRightPoint()
 	{
-		return new Vector2f(points[3]);
+		return new Vector2f(getBottomRightPoint());
 	}
 
 	public Vector2f[] getPoints()
@@ -234,5 +258,11 @@ public class CollisionBox
 			tmp[i] = new Vector2f(points[i]);
 		}
 		return tmp;
+	}
+	public String toString()
+	{
+		return "Collision Body: min = (" + min().x + ", " + min().y
+			+ "), max = (" + max().x + ", " + max().y
+			+ "), width = " + width + ", height = " + height;
 	}
 }

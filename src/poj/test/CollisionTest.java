@@ -45,10 +45,10 @@ public class CollisionTest
 	{
 		CollisionBox a = new CollisionBox(0, 0, 10, 10);
 		CollisionBox b = new CollisionBox(11, 11, 1, 1);
-
 		assertFalse(a.isColliding(b));
 		assertFalse(b.isColliding(a));
 	}
+
 
 	@Test public void settingTopLeftAndUpdate()
 	{
@@ -154,6 +154,17 @@ public class CollisionTest
 		// assertEquals(val.get(), 1f, 1f);
 	}
 
+
+	@Test public void isNotColliding1()
+	{
+		CollisionBox a = new CollisionBox(0, 0, 10, 10);
+		CollisionBox b = new CollisionBox(11, 11, 1, 1);
+		assertFalse(CollisionBox
+				    .intersectionTimeOfMoving(
+					    a, b, new Vector2f(0, 0),
+					    new Vector2f(0, 0))
+				    .isPresent());
+	}
 	private void assertVectorsAreEqual(Vector2f a, Vector2f b)
 	{
 		assertEquals(a.x, b.x, EPS);

@@ -41,7 +41,6 @@ public class PlayGame extends World
 		// World loading
 		this.map = new Map(3);
 		this.map.addTileSet(GameResources.tileSet);
-
 		this.map.addMapConfig(GameResources.pathFindTest1Config);
 		this.map.addMapLayer(GameResources.pathFindTest1Layer);
 
@@ -74,13 +73,13 @@ public class PlayGame extends World
 
 	public void registerComponents()
 	{
-		super.engineState.registerComponent(CollisionBody.class);
 		super.engineState.registerComponent(HasAnimation.class);
 		super.engineState.registerComponent(Render.class);
 		super.engineState.registerComponent(WorldAttributes.class);
 		super.engineState.registerComponent(MovementDirection.class);
 		super.engineState.registerComponent(FacingDirection.class);
 		super.engineState.registerComponent(Movement.class);
+		super.engineState.registerComponent(CollisionBoxBody.class);
 	}
 	public void registerEntitySets()
 	{
@@ -97,6 +96,34 @@ public class PlayGame extends World
 		// Player
 		this.player = super.engineState.spawnEntitySet(new PlayerSet());
 		this.mob1 = super.engineState.spawnEntitySet(new MobSet());
+
+		// ------
+		/*
+		super.engineState
+			.getComponentAt(
+				WorldAttributes.class,
+				super.engineState.spawnEntitySet(new MobSet()))
+			.setOriginCoord(new Vector2f(5, 6));
+		super.engineState
+			.getComponentAt(
+				WorldAttributes.class,
+				super.engineState.spawnEntitySet(new MobSet()))
+			.setOriginCoord(new Vector2f(5, 7));
+
+		super.engineState
+			.getComponentAt(
+				WorldAttributes.class,
+				super.engineState.spawnEntitySet(new MobSet()))
+			.setOriginCoord(new Vector2f(5, 8));
+
+		super.engineState
+			.getComponentAt(
+				WorldAttributes.class,
+				super.engineState.spawnEntitySet(new MobSet()))
+			.setOriginCoord(new Vector2f(6, 8));
+			*/
+		// ------
+
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
 			this.engineState, this.map, this.player);
 		// TODO: HAIYANG get the layer number for the path finding!
@@ -132,11 +159,22 @@ public class PlayGame extends World
 
 		EngineTransforms.setMovementVelocityFromMovementDirection(
 			this.engineState);
+		EngineTransforms
+			.updateCollisionBoxBodyTopLeftFromWorldAttributes(
+				engineState);
+		EngineTransforms.debugCollisionRenderPush(
+			this.engineState, this.renderer, this.cam);
+
+		EngineTransforms.checkCollisionsBetween(
+			engineState, PlayerSet.class, MobSet.class);
+		// EngineTransforms.resolveCollisionsOfEntitySets(
+		//	engineState, PlayerSet.class, MobSet.class, this.dt);
+
 		EngineTransforms.updateWorldAttribPositionFromMovement(
 			this.engineState, this.dt);
 
-		this.generateDiffusionMap(0, 1f / 8f);
-		this.updateEnemyPositionFromPlayer();
+		// this.generateDiffusionMap(0, 1f / 8f);
+		// this.updateEnemyPositionFromPlayer();
 
 		// updating the camera
 		centerCamerasPositionToPlayer();
@@ -150,7 +188,6 @@ public class PlayGame extends World
 		EngineTransforms
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 				this.engineState, this.cam);
-		System.out.println(" one loop finishes!!!!!!!!!!!!!!!!!!!!!");
 
 		// rendering is run after this is run
 	}
@@ -372,7 +409,7 @@ public class PlayGame extends World
 		Vector2f mousePosition = super.inputPoller.getMousePosition();
 		mousePosition.matrixMultiply(this.invCam);
 
-		mousePosition.log("Mouse position in world coordinates");
+		// mousePosition.log("Mouse position in world coordinates");
 
 		Vector2f tmp = playerPosition.pureSubtract(mousePosition);
 		tmp.negate();
@@ -385,7 +422,7 @@ public class PlayGame extends World
 
 		this.unitVecPlayerPosToMouseDelta = tmp.pureNormalize();
 
-		super.getComponentAt(FacingDirection.class, player).print();
+		// super.getComponentAt(FacingDirection.class, player).print();
 		/*
 		super.getComponentAt(WorldAttributes.class, this.player)
 			.print();*/
@@ -463,6 +500,14 @@ public class PlayGame extends World
 					      GameResources.TILE_SCREEN_HEIGHT);
 		this.cam.composeWithRotationForVector2XaxisCC(
 			GameResources.TILE_SCREEN_ROTATION);
+		this.cam.composeSetScalingForVector2(
+			GameResources.MAGIC_CONSTANT,
+			GameResources.MAGIC_CONSTANT);
+		/*
+		this.cam.setScalingForVector2(-GameResources.TILE_SCREEN_WIDTH,
+					      GameResources.TILE_SCREEN_HEIGHT);
+		this.cam.composeWithRotationForVector2XaxisCC(
+			GameResources.TILE_SCREEN_ROTATION);*/
 	}
 
 	private void centerCamerasPositionsToWorldAttribute(WorldAttributes n)
@@ -493,67 +538,6 @@ public class PlayGame extends World
 				bulletSpeed));
 	}
 
-	/// SYSTEMS ///
-	private void updateAnimationWindows()
-	{
-		for (HasAnimation a : super.getRawComponentArrayListPackedData(
-			     HasAnimation.class)) {
-			Systems.updateHasAnimationComponent(a, this.dt);
-		}
-	}
-
-	private void cropSpriteSheetsFromAnimationWindows()
-	{
-
-		for (int i = super.getInitialComponentIndex(HasAnimation.class);
-		     Components.isValidEntity(i);
-		     i = super.getNextComponentIndex(HasAnimation.class, i)) {
-			Systems.updateRenderComponentWindowFromHasAnimation(
-				super.getComponentAt(Render.class, i),
-				super.getComponentAt(HasAnimation.class, i));
-		}
-	}
-
-
-	private void
-	updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera()
-	{
-
-		for (int i = super.getInitialComponentIndex(
-			     WorldAttributes.class);
-		     Components.isValidEntity(i);
-		     i = super.getNextComponentIndex(WorldAttributes.class,
-						     i)) {
-			Systems.updateRenderScreenCoordinatesFromWorldCoordinates(
-				super.getComponentAt(WorldAttributes.class, i),
-				super.getComponentAt(Render.class, i),
-				this.cam);
-		}
-	}
-
-	private void updateWorldAttribPositionFromMovement(double dt)
-	{
-		for (int i = super.getInitialComponentIndex(Movement.class);
-		     Components.isValidEntity(i);
-		     i = super.getNextComponentIndex(Movement.class, i)) {
-			Systems.updateWorldAttribPositionFromMovement(
-				super.getComponentAt(WorldAttributes.class, i),
-				super.getComponentAt(Movement.class, i),
-				this.dt);
-		}
-	}
-
-	private void setMovementVelocityFromMovementDirection()
-	{
-		for (int i = super.getInitialSetIndex(MovementDirection.class);
-		     Components.isValidEntity(i);
-		     i = super.getNextSetIndex(MovementDirection.class, i)) {
-			Systems.setMovementVelocityFromMovementDirection(
-				super.getComponentAt(Movement.class, i),
-				super.getComponentAt(MovementDirection.class,
-						     i));
-		}
-	}
 
 	private void centerCamerasPositionToPlayer()
 	{
@@ -856,7 +840,7 @@ public class PlayGame extends World
 							.subtractAndReturnVector(
 								mobPosition)));
 				super.getComponentAt(Movement.class, this.mob1)
-					.setSpeed(GameConfig.MOB_VELOCITY);
+					.setSpeed(GameConfig.MOB_SPEED);
 			} else {
 				System.out.println(
 					"set the mob speed equal to 0!!!!!!!");
@@ -872,7 +856,7 @@ public class PlayGame extends World
 							.subtractAndReturnVector(
 								mobPosition)));
 			super.getComponentAt(Movement.class, this.mob1)
-				.setSpeed(GameConfig.MOB_VELOCITY);
+				.setSpeed(GameConfig.MOB_SPEED);
 		}
 		//}
 	}

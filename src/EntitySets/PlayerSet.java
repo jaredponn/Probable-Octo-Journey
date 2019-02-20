@@ -3,6 +3,7 @@ import poj.EntitySet.*;
 import Resources.GameResources;
 import Resources.GameConfig;
 import poj.Render.ImageRenderObject;
+import poj.linear.Vector2f;
 import Components.*;
 public class PlayerSet extends EntitySet
 {
@@ -12,7 +13,7 @@ public class PlayerSet extends EntitySet
 		addComponent(new Render(new ImageRenderObject(
 			0, 0, GameResources.playerSpriteSheet)));
 		addComponent(new WorldAttributes(
-			GameConfig.PLAYER_SPAWNNING_POS,
+			new Vector2f(GameConfig.PLAYER_SPAWNNING_POS),
 			GameConfig.PLAYER_WIDTH, GameConfig.PLAYER_HEIGHT));
 
 		addComponent(
@@ -20,5 +21,8 @@ public class PlayerSet extends EntitySet
 		addComponent(new Movement(GameConfig.PLAYER_SPEED));
 		addComponent(new MovementDirection(CardinalDirections.N));
 		addComponent(new FacingDirection(CardinalDirections.N));
+
+		addComponent(new CollisionBoxBody(
+			GameConfig.PLAYER_COLLISION_BOX_BODY));
 	}
 }

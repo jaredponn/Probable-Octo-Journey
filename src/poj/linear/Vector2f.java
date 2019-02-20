@@ -52,6 +52,12 @@ public class Vector2f
 	{
 		return new Vector2f(this.x + x, this.y + y);
 	}
+
+	public Vector2f pureAdd(final Vector2f a)
+	{
+		return addAndReturnVector(a);
+	}
+
 	public void subtract(final Vector2f a)
 	{
 		subtract(a.x, a.y);

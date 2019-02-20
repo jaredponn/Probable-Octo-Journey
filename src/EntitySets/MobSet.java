@@ -22,10 +22,12 @@ public class MobSet extends EntitySet
 
 		addComponent(
 			new HasAnimation(GameResources.enemyNMoveAnimation));
-		addComponent(new Movement(GameConfig.MOB_VELOCITY));
-		// addComponent(new Movement(0f));
+		addComponent(new Movement(GameConfig.MOB_SPEED));
 		addComponent(new MovementDirection(CardinalDirections.N));
 		addComponent(new FacingDirection(CardinalDirections.N));
+
+		addComponent(new CollisionBoxBody(
+			GameConfig.MOB_COLLISION_BOX_BODY));
 
 		// TODO: mob sprite sheet
 
