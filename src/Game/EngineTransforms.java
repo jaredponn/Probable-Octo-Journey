@@ -111,7 +111,6 @@ public class EngineTransforms
 			"player y position inside addPlayerDiffusionValAtPlayerPos ="
 			+ playerPosition.y);
 		if (map.getEcsIndexFromWorldVector2f(playerPosition) != -1) {
-
 			// map.printPathfindCord(0);
 
 			if (!mapLayer.getComponentAt(

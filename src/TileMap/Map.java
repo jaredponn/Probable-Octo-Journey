@@ -183,40 +183,47 @@ public class Map
 						xShiftValue = tileWidth / 2;
 					}
 
-					// PathFindCord create
-					if (Integer.parseInt(tempList[i])
-					    == 17) {
-						mapLayers
-							.get(mapLayers.size()
-							     - 1)
-							.addComponentAt(
-								PathFindCord
-									.class,
-								new PathFindCord(
-									new Vector2f(
-										numRows - 1,
-										i % mapWidth),
-									true,
-									0),
-								nextFreeIndex);
-					} else {
-						mapLayers
-							.get(mapLayers.size()
-							     - 1)
-							.addComponentAt(
-								PathFindCord
-									.class,
-								new PathFindCord(
-									new Vector2f(
-										numRows - 1,
-										i % mapWidth),
-									false,
-									0),
-								nextFreeIndex);
-					}
-
 					if (Integer.parseInt(tempList[i])
 					    != -1) {
+
+						// PathFindCord create
+						if (Integer.parseInt(
+							    tempList[i])
+						    == 17) {
+							mapLayers
+								.get(mapLayers
+									     .size()
+								     - 1)
+								.addComponentAt(
+									PathFindCord
+										.class
+									,
+									new PathFindCord(
+										new Vector2f(
+											numRows - 1,
+											i % mapWidth),
+										true,
+										0),
+									nextFreeIndex);
+						} else {
+							mapLayers
+								.get(mapLayers
+									     .size()
+								     - 1)
+								.addComponentAt(
+									PathFindCord
+										.class
+									,
+									new PathFindCord(
+										new Vector2f(
+											numRows - 1,
+											i % mapWidth),
+										false,
+										0),
+									nextFreeIndex);
+						}
+
+
 						mapLayers
 							.get(mapLayers.size()
 							     - 1)

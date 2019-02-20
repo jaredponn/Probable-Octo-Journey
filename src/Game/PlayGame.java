@@ -45,13 +45,13 @@ public class PlayGame extends World
 		// this.map.addMapConfig(GameResources.mapConfig);
 		// this.map.addMapLayer(GameResources.mapLayer0);
 
-		this.map.addMapConfig(GameResources.pathFindTest1Config);
-		this.map.addMapLayer(GameResources.pathFindTest1Layer);
-		mapLayer = this.map.getLayerEngineState(0);
+		this.map.addMapConfig(GameResources.pathFindTest3Config);
+		this.map.addMapLayer(GameResources.pathFindTest3Layer);
 
 		// this.map.addMapConfig(GameResources.renderPerformanceConf);
 		// this.map.addMapLayer(GameResources.renderPerformanceLayer);
 
+		mapLayer = this.map.getLayerEngineState(0);
 
 		// this.map.addMapLayer(GameResources.mapLayer1);
 		// this.map.addMapLayer(GameResources.mapLayer1);
@@ -427,7 +427,8 @@ public class PlayGame extends World
 					wc);
 
 				if (e == -1
-				    || tileMapRenderHelperSet.contains(e))
+				    || tileMapRenderHelperSet.contains(e)
+				    || !tileLayer.hasComponent(Render.class, e))
 					continue;
 
 				Systems.updateRenderScreenCoordinatesFromWorldCoordinates(
@@ -576,82 +577,78 @@ public class PlayGame extends World
 		ArrayList<Float> tempDiffusionBuffer = new ArrayList<Float>();
 		// will not loop to the empty tiles inside the map, hopefull !!
 		for (int i = mapLayer.getInitialComponentIndex(
-			     WorldAttributes.class);
+			     PathFindCord.class);
 		     Components.isValidEntity(i);
-		     i = mapLayer.getNextComponentIndex(WorldAttributes.class,
+		     i = mapLayer.getNextComponentIndex(PathFindCord.class,
 							i)) {
-
 			// Vector2f testVector=
 			//
 
-			if (mapLayer.hasComponent(PathFindCord.class, i)) {
-				float sum = 0f;
-				PathFindCord center = mapLayer.getComponentAt(
-					PathFindCord.class, i);
+			float sum = 0f;
+			PathFindCord center =
+				mapLayer.getComponentAt(PathFindCord.class, i);
+			/*
+			System.out.println(
+				"center's diffusion value: = "
+				+ center.getDiffusionValue());
+				*/
+			if (!center.getIsWall()) {
+				ArrayList<PathFindCord> tempNeighbours =
+					getEightNeighbourVector(i, mapLayer);
+				// System.out.println("size of
+				// tempNeighbours ="
+				//+ tempNeighbours.size());
+				/*
+				for (PathFindCord a : tempNeighbours) {
+					a.printCord();
+				}
+				*/
+				for (PathFindCord a : tempNeighbours) {
+					// if not a wall
+					if (!a.getIsWall()) {
+						sum += a.getDiffusionValue()
+						       - center.getDiffusionValue();
+					} else {
+						/*
+					System.out.println(
+						"I did not pass!!, the
+					Vector x  index is ="
+						+ a.getCord()
+							  .x);
+					System.out.println(
+						"I did not pass!!, the
+					Vector y  index is ="
+						+ a.getCord()
+							  .y);
+							  */
+					}
+				}
 				/*
 				System.out.println(
-					"center's diffusion value: = "
-					+ center.getDiffusionValue());
-					*/
-				if (!center.getIsWall()) {
-					ArrayList<PathFindCord> tempNeighbours =
-						getEightNeighbourVector(
-							i, mapLayer);
-					// System.out.println("size of
-					// tempNeighbours ="
-					//+ tempNeighbours.size());
-					/*
-					for (PathFindCord a : tempNeighbours) {
-						a.printCord();
-					}
-					*/
-					for (PathFindCord a : tempNeighbours) {
-						// if not a wall
-						if (!a.getIsWall()) {
-							sum += a.getDiffusionValue()
-							       - center.getDiffusionValue();
-						} else {
-							/*
-						System.out.println(
-							"I did not pass!!, the
-						Vector x  index is ="
-							+ a.getCord()
-								  .x);
-						System.out.println(
-							"I did not pass!!, the
-						Vector y  index is ="
-							+ a.getCord()
-								  .y);
-								  */
-						}
-					}
-					/*
-					System.out.println(
-						"sum before adding center
-					diffusion value = "
-						+ sum);
-					*/
-					sum = center.getDiffusionValue()
-					      + sum * difCoefficient;
+					"sum before adding center
+				diffusion value = "
+					+ sum);
+				*/
+				sum = center.getDiffusionValue()
+				      + sum * difCoefficient;
+				sum = sum * 1 / 2;
+				/*
+				if (i != playerECSindex) {
 					sum = sum * 1 / 2;
-					/*
-					if (i != playerECSindex) {
-						sum = sum * 1 / 2;
-					}
-					*/
-
-
-					tempDiffusionBuffer.add(sum);
-					/*
-					System.out.println(
-						"sum after adding center
-					diffusion value = "
-						+ sum);
-					*/
-				} else {
-					sum = 0f;
-					tempDiffusionBuffer.add(sum);
 				}
+				*/
+
+
+				tempDiffusionBuffer.add(sum);
+				/*
+				System.out.println(
+					"sum after adding center
+				diffusion value = "
+					+ sum);
+				*/
+			} else {
+				sum = 0f;
+				tempDiffusionBuffer.add(sum);
 			}
 		}
 
@@ -670,10 +667,10 @@ public class PlayGame extends World
 		*/
 		if (tempDiffusionBuffer.size() > 0) {
 			for (int i = mapLayer.getInitialComponentIndex(
-				     WorldAttributes.class);
+				     PathFindCord.class);
 			     Components.isValidEntity(i);
 			     i = mapLayer.getNextComponentIndex(
-				     WorldAttributes.class, i)) {
+				     PathFindCord.class, i)) {
 				mapLayer.getComponentAt(PathFindCord.class, i)
 					.setDiffusionValue(
 						tempDiffusionBuffer.get(0));
@@ -690,17 +687,22 @@ public class PlayGame extends World
 			mapLayer.getComponentAt(PathFindCord.class, indexOfEcs)
 				.getCord();
 		// add the 8 neighbours
-		neighbours.add(centerVector.addAndReturnVector(0, 1));
-		neighbours.add(centerVector.addAndReturnVector(0, -1));
-		neighbours.add(centerVector.addAndReturnVector(1, 0));
 		neighbours.add(centerVector.addAndReturnVector(-1, 0));
+		neighbours.add(centerVector.addAndReturnVector(0, -1));
+		neighbours.add(centerVector.addAndReturnVector(0, 1));
+		neighbours.add(centerVector.addAndReturnVector(1, 0));
+
 		neighbours.add(centerVector.addAndReturnVector(1, 1));
 		neighbours.add(centerVector.addAndReturnVector(-1, 1));
 		neighbours.add(centerVector.addAndReturnVector(1, -1));
 		neighbours.add(centerVector.addAndReturnVector(-1, -1));
 		for (Vector2f neib : neighbours) {
 			// if the tile is valid
-			if (this.map.isValidCord(neib)) {
+			if (this.map.isValidCord(neib)
+			    && (this.mapLayer.hasComponent(
+				       PathFindCord.class,
+				       this.map.getEcsIndexFromWorldVector2f(
+					       neib)))) {
 				tmp.add(mapLayer.getComponentAt(
 					PathFindCord.class,
 					this.map.getEcsIndexFromWorldVector2f(
@@ -968,6 +970,5 @@ public class PlayGame extends World
 			super.getComponentAt(Movement.class, this.mob1)
 				.setSpeed(GameConfig.MOB_VELOCITY);
 		}
-		//}
 	}
 }
