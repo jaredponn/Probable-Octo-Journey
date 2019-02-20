@@ -5,6 +5,7 @@ import Resources.GameConfig;
 import poj.Render.ImageRenderObject;
 import poj.linear.Vector2f;
 import Components.*;
+import poj.linear.*;
 public class PlayerSet extends EntitySet
 {
 	public PlayerSet()

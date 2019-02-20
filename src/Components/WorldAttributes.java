@@ -72,8 +72,8 @@ public class WorldAttributes implements Component
 
 	public Vector2f getCenteredBottomQuarter()
 	{
-		return new Vector2f(this.coord.x + width / 6f,
-				    this.coord.y + height / 6f);
+		return new Vector2f(this.coord.x + width / 7f,
+				    this.coord.y + height / 7f);
 	}
 
 	// unstable

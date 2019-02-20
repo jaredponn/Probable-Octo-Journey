@@ -77,9 +77,16 @@ public class PackedVector<T>
 					"MAJOR ERROR IN PACKEDVECTOR. Index is bigger than the size of sparse vector with get_data_from_sparse_vector function.");
 			}
 		}
-		Logger.lassert(
-			(m_sparse_vector.get(index) == INVALID_INDEX),
-			"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with get_data_from_sparse_vector function");
+		if (m_sparse_vector.get(index) == INVALID_INDEX) {
+			try {
+				Logger.lassert(
+					"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with get_data_from_sparse_vector function. Error with type: "
+					+ m_packed_data.get(0).getClass());
+			} catch (ArrayIndexOutOfBoundsException exception) {
+				Logger.lassert(
+					"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with get_data_from_sparse_vector function. ");
+			}
+		}
 		return m_packed_data.get(m_sparse_vector.get(index));
 	}
 
