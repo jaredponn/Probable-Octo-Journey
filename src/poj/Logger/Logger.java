@@ -40,6 +40,11 @@ public class Logger
 		Logger.logMessage(str, lvl);
 	}
 
+	public static final void logMessage(String str)
+	{
+		Logger.logMessage(str, LogLevels.VERBOSE);
+	}
+
 	public static final void lassert(boolean b, String str)
 	{
 		if (b) {
