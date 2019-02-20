@@ -70,6 +70,12 @@ public class WorldAttributes implements Component
 				    this.coord.y + height / 2f);
 	}
 
+	public Vector2f getCenteredBottomQuarter()
+	{
+		return new Vector2f(this.coord.x + width / 6f,
+				    this.coord.y + height / 6f);
+	}
+
 	// unstable
 	public Rectanglef getCenteredRect()
 	{

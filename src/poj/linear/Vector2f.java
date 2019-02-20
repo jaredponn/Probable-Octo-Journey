@@ -30,8 +30,7 @@ public class Vector2f
 	}
 	public void floorOfValues()
 	{
-		this.x = (int)this.x;
-		this.y = (int)this.y;
+		floor();
 	}
 
 	public void add(final Vector2f a)

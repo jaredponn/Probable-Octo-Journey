@@ -16,7 +16,7 @@ public class MobSet extends EntitySet
 
 		addComponent(new Render(new ImageRenderObject(
 			0, 0, GameResources.enemySpriteSheet)));
-		addComponent(new WorldAttributes(new Vector2f(1f, 1f),
+		addComponent(new WorldAttributes(new Vector2f(5f, 5f),
 						 GameConfig.MOB_WIDTH,
 						 GameConfig.MOB_HEIGHT));
 
