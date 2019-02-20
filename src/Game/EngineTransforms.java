@@ -88,7 +88,7 @@ public class EngineTransforms
 
 	public static void
 	addPlayerDiffusionValAtPlayerPos(EngineState engineState, Map map,
-					 int player)
+					 MapLayer mapLayer, int player)
 	{
 
 
@@ -112,7 +112,6 @@ public class EngineTransforms
 			+ playerPosition.y);
 		if (map.getEcsIndexFromWorldVector2f(playerPosition) != -1) {
 
-			MapLayer mapLayer = map.getLayerEngineState(0);
 			// map.printPathfindCord(0);
 
 			if (!mapLayer.getComponentAt(

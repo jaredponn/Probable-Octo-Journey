@@ -136,26 +136,21 @@ public enum CardinalDirections {
 		Vector2f difference =
 			maxPosition.subtractAndReturnVector(mobPosition);
 		if (difference.equals(new Vector2f(-1f, -1f))) {
-			return CardinalDirections.NW;
+			return CardinalDirections.SW;
 		} else if (difference.equals(new Vector2f(-1f, 0f))) {
-
-			return CardinalDirections.NW;
+			return CardinalDirections.W;
 		} else if (difference.equals(new Vector2f(-1f, 1f))) {
 			return CardinalDirections.NW;
 		} else if (difference.equals(new Vector2f(0f, -1f))) {
-			return CardinalDirections.NW;
-
+			return CardinalDirections.S;
 		} else if (difference.equals(new Vector2f(0f, 1f))) {
-			return CardinalDirections.NW;
-
+			return CardinalDirections.N;
 		} else if (difference.equals(new Vector2f(1f, -1f))) {
-
-			return CardinalDirections.NW;
+			return CardinalDirections.SE;
 		} else if (difference.equals(new Vector2f(1f, 0f))) {
-
-			return CardinalDirections.NW;
+			return CardinalDirections.E;
 		} else if (difference.equals(new Vector2f(1f, 1f))) {
-			return CardinalDirections.NW;
+			return CardinalDirections.NE;
 		} else {
 			// TODO this should return the no-movement one
 			return CardinalDirections.N;
