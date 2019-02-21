@@ -41,6 +41,7 @@ else
 
 # Credits
 Tileset: https://opengameart.org/content/cave-tileset
+Turrent: https://opengameart.org/content/orange-defense-gun-isometric
 
 # Useful readings
 Path-finding: http://www.cs.colorado.edu/~ralex/papers/PDF/OOPSLA06antiobjects.pdf
