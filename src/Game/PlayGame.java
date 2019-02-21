@@ -5,6 +5,7 @@ import Components.*;
 
 import poj.Component.Components;
 import poj.linear.Vector2f;
+import poj.Render.*;
 
 import Game.Camera;
 import EntitySets.*;
@@ -13,6 +14,7 @@ import TileMap.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Collections;
 
 public class PlayGame extends World
 {
@@ -27,9 +29,15 @@ public class PlayGame extends World
 	private Camera cam;    // camera
 	private Camera invCam; // inverse camera
 
+
+	private static ArrayList<Double> coolDownMax = new ArrayList<Double>(
+		Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
+	private ArrayList<Double> lastCoolDown = new ArrayList<Double>(
+		Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
 	// Higher level game logic
 	private int player;
 	private int mob1;
+	private float EPSILON = 0.01f;
 	private Vector2f unitVecPlayerPosToMouseDelta;
 	private CardinalDirections prevDirection = CardinalDirections.N;
 
@@ -42,7 +50,15 @@ public class PlayGame extends World
 		this.map.addTileSet(GameResources.tileSet);
 		this.map.addMapConfig(GameResources.pathFindTest1Config);
 		this.map.addMapLayer(GameResources.pathFindTest1Layer);
+		// adding the maximum cooldown for turrent
 
+
+		// setting the build turrent coolDown
+		for (int i = 0; i < GameConfig.COOL_DOWN_KEYS.size(); ++i) {
+			coolDownMax.set(GameConfig.COOL_DOWN_KEYS.get(i).fst,
+					GameConfig.COOL_DOWN_KEYS.get(i).snd);
+		}
+		// lastCoolDown.set(GameConfig.BUILD_TOWER, 0d);
 		// this.map.addMapConfig(GameResources.pathFindTest1Config);
 		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
 
@@ -87,6 +103,7 @@ public class PlayGame extends World
 		super.engineState.registerSet(MobSet.class);
 		super.engineState.registerSet(ConstructSet.class);
 		super.engineState.registerSet(Bullet.class);
+		super.engineState.registerSet(TurrentSet.class);
 	}
 
 	// higher game logic functions
@@ -96,6 +113,7 @@ public class PlayGame extends World
 		// Player
 		this.player = super.engineState.spawnEntitySet(new PlayerSet());
 		this.mob1 = super.engineState.spawnEntitySet(new MobSet());
+
 
 		// ------
 		/*
@@ -147,7 +165,6 @@ public class PlayGame extends World
 	{
 		this.processInputs();
 
-
 		// SYSTEMS Go here
 		// this.setMovementVelocityFromMovementDirection();
 		// this.updateWorldAttribPositionFromMovement(this.dt);
@@ -177,6 +194,7 @@ public class PlayGame extends World
 		// updating the camera
 		centerCamerasPositionToPlayer();
 		updateInverseCamera();
+		updateCoolDownKeys();
 
 		EngineTransforms.updateAnimationWindows(this.engineState,
 							this.dt);
@@ -187,6 +205,7 @@ public class PlayGame extends World
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 				this.engineState, this.cam);
 
+		System.out.println("----------------------- end one loop");
 		// rendering is run after this is run
 	}
 
@@ -360,8 +379,27 @@ public class PlayGame extends World
 
 		////// Build Commands //////
 		if (super.inputPoller.isKeyDown(GameConfig.BUILD_TOWER)) {
-			System.out.print(
-				"q key is down. Should spawn tower at player location\n");
+			if (Math.abs(lastCoolDown.get(GameConfig.BUILD_TOWER))
+			    <= EPSILON) {
+				Vector2f playerPosition =
+					super.getComponentAt(
+						     WorldAttributes.class,
+						     this.player)
+						.getOriginCoord();
+				int tmp = super.engineState.spawnEntitySet(
+					new TurrentSet());
+				super.getComponentAt(WorldAttributes.class, tmp)
+					.setOriginCoord(playerPosition);
+				// reset the lastCooldown key to the max
+				// cooldown of that key
+				updateDtForKey(GameConfig.BUILD_TOWER,
+					       -coolDownMax.get(
+						       GameConfig.BUILD_TOWER));
+				// lastCoolDown.set(GameConfig.BUILD_TOWER,
+				//-coolDownMax.get(
+				// GameConfig.BUILD_TOWER));
+			}
+
 			// TODO: get tile player is stood on
 			// TODO: highlight that tile?
 			// TODO: spawn new tower entity on tile
@@ -385,7 +423,21 @@ public class PlayGame extends World
 		    || super.inputPoller.isLeftMouseButtonDown()) {
 			System.out.print(
 				"space key is down. Player character should be attacking\n");
-			this.playerShootBullet();
+
+			System.out.println("the cd value of attack key = "
+					   + Math.abs(lastCoolDown.get(
+						     GameConfig.ATTACK_KEY)));
+			if (Math.abs(lastCoolDown.get(GameConfig.ATTACK_KEY))
+			    <= EPSILON) {
+				updateDtForKey(GameConfig.ATTACK_KEY,
+					       -coolDownMax.get(
+						       GameConfig.ATTACK_KEY));
+				this.playerShootBullet();
+				// lastCoolDown.set(GameConfig.BUILD_TOWER,
+				//-coolDownMax.get(
+				// GameConfig.BUILD_TOWER));
+			}
+
 			// TODO: find adjacent tiles (and any enemies on
 			// them)
 			// TODO: apply damage to enemies
@@ -543,5 +595,23 @@ public class PlayGame extends World
 		this.centerCamerasPositionsToWorldAttribute(
 			engineState.getComponentAt(WorldAttributes.class,
 						   this.player));
+	}
+	private void updateCoolDownKeys()
+	{
+		for (int i = 0; i < Resources.GameConfig.COOL_DOWN_KEYS.size();
+		     ++i) {
+			updateDtForKey(
+				Resources.GameConfig.COOL_DOWN_KEYS.get(i).fst,
+				this.dt / 1000);
+		}
+	}
+	private void updateDtForKey(int keyIndex, double val)
+	{
+		// if the key cooldown is not 0.. i put a if statement here
+		// becasuse i don't want to subtract it to neg infinity..
+		if (lastCoolDown.get(keyIndex) - val >= 0d) {
+			lastCoolDown.set(keyIndex,
+					 lastCoolDown.get(keyIndex) - val);
+		}
 	}
 }

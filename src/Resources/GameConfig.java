@@ -1,9 +1,12 @@
 package Resources;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import poj.linear.*;
 import Components.*;
 import poj.Collisions.*;
+import poj.PackedVector;
+import poj.Pair;
 
 
 // IMPORTANT: Everything in this document should be in screen coordinates. That
@@ -58,4 +61,17 @@ public class GameConfig
 	public static final int ATTACK_KEY = KeyEvent.VK_SPACE;
 	public static final int BUILD_TOWER = KeyEvent.VK_Q;
 	public static final int BUILD_TRAP = KeyEvent.VK_E;
+
+	// key, cooldown (ms)
+	public static final ArrayList<Pair<Integer, Double>> COOL_DOWN_KEYS =
+		new ArrayList<Pair<Integer, Double>>() {
+			{
+				add(new Pair<Integer, Double>(SWITCH_WEAPONS,
+							      0.3d));
+				add(new Pair<Integer, Double>(ATTACK_KEY,
+							      0.08d));
+				add(new Pair<Integer, Double>(BUILD_TOWER, 1d));
+				add(new Pair<Integer, Double>(BUILD_TRAP, 1d));
+			}
+		};
 }
