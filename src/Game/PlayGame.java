@@ -4,9 +4,7 @@ import Resources.*;
 import Components.*;
 
 import poj.Component.Components;
-import poj.Time.Timer;
 import poj.linear.Vector2f;
-import poj.EngineState;
 
 import Game.Camera;
 import EntitySets.*;
@@ -79,7 +77,9 @@ public class PlayGame extends World
 		super.engineState.registerComponent(MovementDirection.class);
 		super.engineState.registerComponent(FacingDirection.class);
 		super.engineState.registerComponent(Movement.class);
-		super.engineState.registerComponent(CollisionBoxBody.class);
+		super.engineState.registerComponent(CollisionAabbBodies.class);
+		super.engineState.registerComponent(AabbCollisionBody.class);
+		super.engineState.registerComponent(CircleCollisionBody.class);
 	}
 	public void registerEntitySets()
 	{
@@ -158,16 +158,11 @@ public class PlayGame extends World
 
 		EngineTransforms.setMovementVelocityFromMovementDirection(
 			this.engineState);
-		EngineTransforms
-			.updateCollisionBoxBodyTopLeftFromWorldAttributes(
-				engineState);
-		EngineTransforms.debugCollisionRenderPush(
-			this.engineState, this.renderer, this.cam);
 
-		EngineTransforms.checkCollisionsBetween(
-			engineState, PlayerSet.class, MobSet.class);
-		// EngineTransforms.resolveCollisionsOfEntitySets(
-		//	engineState, PlayerSet.class, MobSet.class, this.dt);
+		EngineTransforms.updateCircleCollisionFromWorldAttributes(
+			engineState);
+		EngineTransforms.debugCircleCollisionRender(
+			engineState, super.renderer, this.cam);
 
 		EngineTransforms.updateWorldAttribPositionFromMovement(
 			this.engineState, this.dt);

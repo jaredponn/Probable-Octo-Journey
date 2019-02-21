@@ -574,13 +574,13 @@ public class EngineTransforms
 	{
 
 		for (int i = engineState.getInitialComponentIndex(
-			     CollisionBoxBody.class);
+			     CollisionAabbBodies.class);
 		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(CollisionBoxBody.class,
+		     i = engineState.getNextSetIndex(CollisionAabbBodies.class,
 						     i)) {
-			Systems.updateCollisionBoxBodyTopLeftFromWorldAttributes(
+			Systems.updateAabbCollisionBodiesTopLeftFromWorldAttributes(
 				engineState.getComponentAt(
-					CollisionBoxBody.class, i),
+					CollisionAabbBodies.class, i),
 				engineState.getComponentAt(
 					WorldAttributes.class, i));
 		}
@@ -594,8 +594,9 @@ public class EngineTransforms
 		     Components.isValidEntity(i);
 		     i = engineState.getNextSetIndex(set0, i)) {
 
-			final CollisionBoxBody a = engineState.getComponentAt(
-				CollisionBoxBody.class, i);
+			final CollisionAabbBodies a =
+				engineState.getComponentAt(
+					CollisionAabbBodies.class, i);
 			Movement va =
 				engineState.getComponentAt(Movement.class, i);
 
@@ -603,15 +604,15 @@ public class EngineTransforms
 			     Components.isValidEntity(j);
 			     j = engineState.getNextSetIndex(set1, j)) {
 
-				final CollisionBoxBody b =
+				final CollisionAabbBodies b =
 					engineState.getComponentAt(
-						CollisionBoxBody.class, j);
+						CollisionAabbBodies.class, j);
 				Movement vb = engineState.getComponentAt(
 					Movement.class, j);
 
 
 				final Optional<Double> tmp =
-					Systems.calcTimeForCollision(
+					Systems.calcTimeForCollisionForAabbBodies(
 						a, b, va.getVelocity(),
 						vb.getVelocity());
 
@@ -643,17 +644,19 @@ public class EngineTransforms
 		     Components.isValidEntity(i);
 		     i = engineState.getNextSetIndex(set0, i)) {
 
-			final CollisionBoxBody a = engineState.getComponentAt(
-				CollisionBoxBody.class, i);
+			final CollisionAabbBodies a =
+				engineState.getComponentAt(
+					CollisionAabbBodies.class, i);
 
 			for (int j = engineState.getInitialSetIndex(set1);
 			     Components.isValidEntity(j);
 			     j = engineState.getNextSetIndex(set1, j)) {
 
-				final CollisionBoxBody b =
+				final CollisionAabbBodies b =
 					engineState.getComponentAt(
-						CollisionBoxBody.class, j);
-				if (Systems.areCollisionBodiesCollding(a, b)) {
+						CollisionAabbBodies.class, j);
+				if (Systems.areAabbCollisionBodiesColliding(
+					    a, b)) {
 					System.out.println("Are colliding");
 					break;
 				}
@@ -666,13 +669,46 @@ public class EngineTransforms
 						    final Camera cam)
 	{
 		for (int i = engineState.getInitialSetIndex(
-			     CollisionBoxBody.class);
+			     CollisionAabbBodies.class);
 		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(CollisionBoxBody.class,
+		     i = engineState.getNextSetIndex(CollisionAabbBodies.class,
 						     i)) {
-			Systems.debugCollisionRenderPush(
+			Systems.aabbCollisionBodiesDebugRender(
 				engineState.getComponentAt(
-					CollisionBoxBody.class, i),
+					CollisionAabbBodies.class, i),
+				r, cam);
+		}
+	}
+
+	public static void
+	updateCircleCollisionFromWorldAttributes(EngineState engineState)
+	{
+		for (int i = engineState.getInitialSetIndex(
+			     CircleCollisionBody.class);
+		     Components.isValidEntity(i);
+		     i = engineState.getNextSetIndex(CircleCollisionBody.class,
+						     i)) {
+			Systems.updateCircleCollisionFromWorldAttributes(
+				engineState.getComponentAt(
+					CircleCollisionBody.class, i),
+				engineState.getComponentAt(
+					WorldAttributes.class, i));
+		}
+	}
+
+
+	public static void debugCircleCollisionRender(EngineState engineState,
+						      Renderer r,
+						      final Camera cam)
+	{
+		for (int i = engineState.getInitialSetIndex(
+			     CircleCollisionBody.class);
+		     Components.isValidEntity(i);
+		     i = engineState.getNextSetIndex(CircleCollisionBody.class,
+						     i)) {
+			Systems.circleCollisionDebugRenderer(
+				engineState.getComponentAt(
+					CircleCollisionBody.class, i),
 				r, cam);
 		}
 	}

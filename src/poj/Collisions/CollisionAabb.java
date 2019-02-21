@@ -3,7 +3,7 @@ package poj.Collisions;
 import java.util.Optional;
 import poj.linear.Vector2f;
 
-public class CollisionBox
+public class CollisionAabb
 {
 
 	/*
@@ -20,7 +20,7 @@ public class CollisionBox
 
 	final public static int NUM_POINTS = 4;
 
-	public CollisionBox(float topleftx, float toplefty, float w, float h)
+	public CollisionAabb(float topleftx, float toplefty, float w, float h)
 	{
 		points = new Vector2f[NUM_POINTS];
 		for (int i = 0; i < NUM_POINTS; ++i) {
@@ -33,17 +33,17 @@ public class CollisionBox
 		setTopLeftAndUpdateAllPoints(topleftx, toplefty);
 	}
 
-	public CollisionBox(float w, float h)
+	public CollisionAabb(float w, float h)
 	{
 		this(0, 0, w, h);
 	}
 
-	public CollisionBox(Vector2f topleftv, float w, float h)
+	public CollisionAabb(Vector2f topleftv, float w, float h)
 	{
 		this(topleftv.x, topleftv.y, w, h);
 	}
 
-	public CollisionBox(CollisionBox c)
+	public CollisionAabb(CollisionAabb c)
 	{
 		this(c.pureGetTopLeftPoint(), c.getWidth(), c.getHeight());
 	}
@@ -53,16 +53,16 @@ public class CollisionBox
 	// https://jaredponn.github.io/posts/2018-06-07-Write-Me-A-FlappyBird-In-Haskell.html
 	// xmin0 <= xmax1 && xmax0 >= xmin1) &&
 	// (ymin0 <= ymax1 && ymax0 >= ymin1)
-	public static boolean isColliding(final CollisionBox a,
-					  final CollisionBox b)
+	public static boolean isColliding(final CollisionAabb a,
+					  final CollisionAabb b)
 	{
 		return a.min().x <= b.max().x && a.max().x >= b.min().x
 			&& a.min().y <= b.max().y && a.max().y >= b.min().y;
 	}
 
-	public boolean isColliding(CollisionBox c)
+	public boolean isColliding(CollisionAabb c)
 	{
-		return CollisionBox.isColliding(this, c);
+		return CollisionAabb.isColliding(this, c);
 	}
 
 	// algorithim from page 232 of Real-Time Collision Detection by Christer
@@ -74,7 +74,7 @@ public class CollisionBox
 	// vb -- velocity of collision box b
 	// returns Optional of the time in the range of 0 <= t <= 1
 	public static Optional<Double>
-	intersectionTimeOfMoving(final CollisionBox a, final CollisionBox b,
+	intersectionTimeOfMoving(final CollisionAabb a, final CollisionAabb b,
 				 final Vector2f va, final Vector2f vb)
 	{
 		System.out.println("START--------------------------------");
@@ -87,7 +87,7 @@ public class CollisionBox
 		double tf = 1d;
 
 		// check if initially interesecting
-		if (CollisionBox.isColliding(a, b)) {
+		if (CollisionAabb.isColliding(a, b)) {
 			System.out.println("initially colliding");
 			return Optional.of(0d);
 		}
@@ -165,13 +165,6 @@ public class CollisionBox
 		points[1].set(topleftx + width, toplefty);
 		points[2].set(topleftx, toplefty - height);
 		points[3].set(topleftx + width, toplefty - height);
-
-		/*
-		points[0].set(topleftx, toplefty);
-		points[1].set(topleftx + width, toplefty);
-		points[2].set(topleftx, toplefty + height);
-		points[3].set(topleftx + width, toplefty + height);
-		*/
 	}
 
 	public void addToTopLeftAndUpdateAllPoints(float topleftxshift,

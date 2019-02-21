@@ -2,11 +2,12 @@ package poj.linear;
 
 import java.lang.Math;
 import poj.Logger.*;
+import java.util.Optional;
 
 public class Vector2f
 {
 
-	private float EPSILON = 0.00000001f;
+	private static float EPSILON = 0.00000001f;
 	public static int MAX_LENGTH = 2;
 
 	public float x;
@@ -153,26 +154,42 @@ public class Vector2f
 	}
 
 
-	public final Vector2f scalarProduct(final Vector2f a,
-					    final float scalar)
+	public final static Vector2f scalarProduct(final Vector2f a,
+						   final float scalar)
 	{
 		return new Vector2f((a.x * scalar), (a.y * scalar));
 	}
 
-	public static final float dotProduct(final Vector2f a, final Vector2f b)
+	public static final float dot(final Vector2f a, final Vector2f b)
 	{
 		return a.x * b.x + a.y * b.y;
 	}
 
-	public float dotProduct(final Vector2f a)
+	public float dot(final Vector2f a)
 	{
-		return Vector2f.dotProduct(this, a);
+		return Vector2f.dot(this, a);
 	}
 
-	public final float scalarValueOfVector(final Vector2f a)
+	public final static float scalarValueOfVector(final Vector2f a)
 	{
-		return (float)Math.sqrt(a.x * a.x + a.y * a.y);
+		return (float)Math.sqrt(sqMag(a));
 	}
+
+	public static final float sqMag(final Vector2f a)
+	{
+		return a.x * a.x + a.y * a.y;
+	}
+
+	public final float sqMag()
+	{
+		return sqMag(this);
+	}
+
+	public final float mag()
+	{
+		return scalarValueOfVector(this);
+	}
+
 
 	public final float abs(final Vector2f a)
 	{
@@ -185,7 +202,7 @@ public class Vector2f
 		// angle is NOT ABSOLUTE VALUE!! if negative angle then
 		// pi/2< theta < pi
 		return (float)Math.acos(
-			dotProduct(a, b)
+			dot(a, b)
 			/ (scalarValueOfVector(a) * scalarValueOfVector(b)));
 	}
 
@@ -220,6 +237,17 @@ public class Vector2f
 				"Error in Vector2f -- accessing an element out of bounds. Returning the y value.");
 			return y;
 		}
+	}
+
+	public final void set(int i, float n)
+	{
+		if (i == 0)
+			this.x = n;
+		else if (i == 1)
+			this.y = n;
+		else
+			Logger.logMessage(
+				"Error in Vector2f -- setting an element out of bounds. Doing nothing .");
 	}
 
 	public void set(float x, float y)
@@ -271,5 +299,42 @@ public class Vector2f
 	public boolean greaterThan(final Vector2f n)
 	{
 		return x > n.x && y > n.y;
+	}
+
+	public String toString()
+	{
+		return "(" + x + ", " + y + ")";
+	}
+
+	/*
+	 *       C
+	 *      /|
+	 *     / '
+	 *    /  |
+	 *  A---------------B
+	 *       ^--- comp(AB,AC)* AB + A
+	 *  |----|
+	 *     |
+	 *  proj(AB, AC)
+	 */
+	//
+	public static Optional<Float> comp(Vector2f ab, Vector2f ac)
+	{
+		float absqmag = ab.sqMag();
+		if (Math.abs(absqmag - 0.0f) <= EPSILON)
+			return Optional.empty();
+		else
+			return Optional.of(ab.dot(ac) / absqmag);
+	}
+
+	public static Optional<Vector2f> proj(Vector2f ab, Vector2f ac)
+	{
+		float absqmag = ab.sqMag();
+		if (Math.abs(absqmag - 0.0f) <= EPSILON)
+			return Optional.empty();
+		else {
+			float n = ab.dot(ac) / absqmag;
+			return Optional.of(ab.pureMul(n));
+		}
 	}
 }
