@@ -2,7 +2,7 @@ package Resources;
 
 import java.awt.event.KeyEvent;
 import poj.linear.*;
-import Components.CollisionBoxBody;
+import Components.*;
 import poj.Collisions.*;
 
 
@@ -25,9 +25,9 @@ public class GameConfig
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final Vector2f PLAYER_SPAWNNING_POS =
 		new Vector2f(0f, 0f);
-	public static final CollisionBoxBody PLAYER_COLLISION_BOX_BODY =
-		new CollisionBoxBody(
-			new CollisionBox(PLAYER_WIDTH, PLAYER_HEIGHT));
+	public static final CircleCollisionBody PLAYER_COLLISION_BODY =
+		new CircleCollisionBody(
+			new CollisionCircle(0, 0, PLAYER_WIDTH));
 
 
 	// bullet config
@@ -45,9 +45,8 @@ public class GameConfig
 	public static final float MOB_HEIGHT = PLAYER_HEIGHT;
 	public static final float MOB_WIDTH = PLAYER_WIDTH;
 	public static final float MOB_HP = 100;
-
-	public static final CollisionBoxBody MOB_COLLISION_BOX_BODY =
-		new CollisionBoxBody(new CollisionBox(MOB_WIDTH, MOB_HEIGHT));
+	public static final CircleCollisionBody MOB_COLLISION_BODY =
+		new CircleCollisionBody(new CollisionCircle(0, 0, MOB_WIDTH));
 
 	// construct config
 	public static final float CONSTRUCT_HEIGHT = 64;

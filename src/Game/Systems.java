@@ -14,7 +14,6 @@ import poj.Render.RenderRect;
 
 public class Systems
 {
-
 	public static void updateRenderScreenCoordinatesFromWorldCoordinates(
 		WorldAttributes p, Render r, final Camera c)
 	{
@@ -87,14 +86,16 @@ public class Systems
 		w.add(vel);
 	}
 
+
 	public static Optional<Double>
-	calcTimeForCollision(final CollisionBoxBody a, final CollisionBoxBody b,
-			     Vector2f va, Vector2f vb)
+	calcTimeForCollisionForAabbBodies(final CollisionAabbBodies a,
+					  final CollisionAabbBodies b,
+					  Vector2f va, Vector2f vb)
 	{
-		for (CollisionBox i : a.getCollisionBodies()) {
-			for (CollisionBox j : b.getCollisionBodies()) {
+		for (CollisionAabb i : a.getCollisionBodies()) {
+			for (CollisionAabb j : b.getCollisionBodies()) {
 				final Optional<Double> tmp =
-					CollisionBox.intersectionTimeOfMoving(
+					CollisionAabb.intersectionTimeOfMoving(
 						i, j, va, vb);
 				if (tmp.isPresent()) {
 					return tmp;
@@ -105,12 +106,12 @@ public class Systems
 	}
 
 	public static boolean
-	areCollisionBodiesCollding(final CollisionBoxBody a,
-				   final CollisionBoxBody b)
+	areAabbCollisionBodiesColliding(final CollisionAabbBodies a,
+					final CollisionAabbBodies b)
 	{
-		for (CollisionBox i : a.getCollisionBodies()) {
-			for (CollisionBox j : b.getCollisionBodies()) {
-				if (CollisionBox.isColliding(i, j)) {
+		for (CollisionAabb i : a.getCollisionBodies()) {
+			for (CollisionAabb j : b.getCollisionBodies()) {
+				if (CollisionAabb.isColliding(i, j)) {
 					return true;
 				}
 			}
@@ -118,26 +119,25 @@ public class Systems
 		return false;
 	}
 
-	public static void
-	updateCollisionBoxBodyTopLeftFromWorldAttributes(CollisionBoxBody a,
-							 WorldAttributes w)
+	public static void updateAabbCollisionBodiesTopLeftFromWorldAttributes(
+		CollisionAabbBodies a, WorldAttributes w)
 	{
 		a.setCollisionBodyPositionFromTopLeft(
-			w.getTopLeftCoordFromOrigin());
+			w.getBottomRightCoordFromOrigin());
 	}
 
-	public static void debugCollisionRenderPush(final CollisionBoxBody c,
-						    Renderer r,
-						    final Camera cam)
+	public static void
+	aabbCollisionBodiesDebugRender(final CollisionAabbBodies c, Renderer r,
+				       final Camera cam)
 	{
 
-		ArrayList<CollisionBox> arr = c.pureGetCollisionBodies();
+		ArrayList<CollisionAabb> arr = c.pureGetCollisionBodies();
 
 
 		for (int i = 0; i < arr.size(); ++i) {
-			final CollisionBox cb = arr.get(i);
+			final CollisionAabb cb = arr.get(i);
 
-			for (int j = 0; j < CollisionBox.NUM_POINTS; ++j) {
+			for (int j = 0; j < CollisionAabb.NUM_POINTS; ++j) {
 				Vector2f tmp = cb.pureGetPoints()[j]
 						       .pureMatrixMultiply(cam);
 				r.pushRenderObject(new RenderRect(
@@ -152,6 +152,54 @@ public class Systems
 			Vector2f smax = cb.max().pureMatrixMultiply(cam);
 			r.pushRenderObject(new RenderRect(
 				(int)smax.x, (int)smax.y, 2, 2, Color.pink));
+		}
+	}
+
+
+	public static void
+	updateCircleCollisionFromWorldAttributes(CircleCollisionBody c,
+						 final WorldAttributes w)
+	{
+		c.setCollisionCircleCenter(w.getOriginCoord());
+	}
+
+	public static boolean
+	areCollisionCirclesColliding(CircleCollisionBody a,
+				     CircleCollisionBody b)
+	{
+		return CollisionTests.areCirclesColliding(
+			a.getCollisionCircle(), b.getCollisionCircle());
+	}
+
+	public static void
+	circleCollisionDebugRenderer(final CircleCollisionBody a, Renderer r,
+				     final Camera cam)
+	{
+
+		CollisionCircle cc = a.getCollisionCircle();
+		Vector2f center = cc.c();
+		Vector2f perimeters[] = new Vector2f[12];
+
+		for (int i = 0; i < 12; ++i) {
+			final float j = (float)i * (float)Math.PI / 4f;
+			perimeters[i] =
+				new Vector2f((float)(cc.r() * Math.cos(j)
+						     + center.x),
+					     (float)(cc.r() * Math.sin(j)
+						     + center.y))
+					.pureMatrixMultiply(cam);
+		}
+
+		Vector2f centerScreenCoord = center.pureMatrixMultiply(cam);
+
+		r.pushRenderObject(new RenderRect((int)centerScreenCoord.x,
+						  (int)centerScreenCoord.y, 2,
+						  2, Color.YELLOW));
+		for (int i = 0; i < 12; ++i) {
+			r.pushRenderObject(new RenderRect((int)perimeters[i].x,
+							  (int)perimeters[i].y,
+
+							  2, 2, Color.RED));
 		}
 	}
 }

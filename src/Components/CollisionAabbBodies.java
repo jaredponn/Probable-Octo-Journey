@@ -3,25 +3,25 @@ package Components;
 import poj.Component.*;
 import poj.Collisions.*;
 import poj.linear.*;
-import poj.Render.RenderRect;
 import java.util.ArrayList;
 
-// http://www.jeffreythompson.org/collision-detection/line-circle.php
-public class CollisionBoxBody implements Component
+// WARNING -- untested and will probably be only used in the final dank boss
+// fight. One super godly collisionbodies class
+public class CollisionAabbBodies implements Component
 {
 
-	private ArrayList<CollisionBox> collisionBodies;
+	private ArrayList<CollisionAabb> collisionBodies;
 	private ArrayList<Vector2f>
 		distanceDeltas; // all distance deltas are relative to the first
 				// CollisionBox added
 
-	public CollisionBoxBody(CollisionBox... a)
+	public CollisionAabbBodies(CollisionAabb... a)
 	{
-		collisionBodies = new ArrayList<CollisionBox>();
+		collisionBodies = new ArrayList<CollisionAabb>();
 		distanceDeltas = new ArrayList<Vector2f>();
 
 		// TODO test if this works
-		for (CollisionBox i : a) {
+		for (CollisionAabb i : a) {
 			this.collisionBodies.add(i);
 
 			// first CollisionBox has a distance delta of 0
@@ -34,19 +34,38 @@ public class CollisionBoxBody implements Component
 		}
 	}
 
-	public CollisionBoxBody()
+	public CollisionAabbBodies(Vector2f d, CollisionAabb... a)
 	{
-		collisionBodies = new ArrayList<CollisionBox>();
+		collisionBodies = new ArrayList<CollisionAabb>();
+		distanceDeltas = new ArrayList<Vector2f>();
+
+		// TODO test if this works
+		for (CollisionAabb i : a) {
+			this.collisionBodies.add(i);
+
+			// first CollisionBox has a distance delta of 0
+			if (distanceDeltas.size() == 0) {
+				distanceDeltas.add(new Vector2f(d));
+			} else {
+				distanceDeltas.add(i.pureGetMin().pureSubtract(
+					collisionBodies.get(0).pureGetMin()));
+			}
+		}
+	}
+
+	public CollisionAabbBodies()
+	{
+		collisionBodies = new ArrayList<CollisionAabb>();
 		distanceDeltas = new ArrayList<Vector2f>();
 	}
 
-	public CollisionBoxBody(CollisionBoxBody n)
+	public CollisionAabbBodies(CollisionAabbBodies n)
 	{
 		collisionBodies = n.pureGetCollisionBodies();
 		distanceDeltas = n.pureGetDistanceDeltas();
 	}
 
-	public final ArrayList<CollisionBox> getCollisionBodies()
+	public final ArrayList<CollisionAabb> getCollisionBodies()
 	{
 		return this.collisionBodies;
 	}
@@ -56,11 +75,11 @@ public class CollisionBoxBody implements Component
 		return this.distanceDeltas;
 	}
 
-	public final ArrayList<CollisionBox> pureGetCollisionBodies()
+	public final ArrayList<CollisionAabb> pureGetCollisionBodies()
 	{
-		ArrayList<CollisionBox> tmp = new ArrayList<CollisionBox>();
-		for (CollisionBox i : collisionBodies) {
-			tmp.add(new CollisionBox(i));
+		ArrayList<CollisionAabb> tmp = new ArrayList<CollisionAabb>();
+		for (CollisionAabb i : collisionBodies) {
+			tmp.add(new CollisionAabb(i));
 		}
 		return tmp;
 	}
@@ -88,7 +107,7 @@ public class CollisionBoxBody implements Component
 	public void print()
 	{
 		String tmp = "";
-		for (CollisionBox i : collisionBodies) {
+		for (CollisionAabb i : collisionBodies) {
 			tmp += i.toString() + " ";
 		}
 		System.out.println("CollisionBoxBody component: " + tmp);

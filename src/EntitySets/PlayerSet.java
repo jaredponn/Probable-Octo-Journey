@@ -16,14 +16,12 @@ public class PlayerSet extends EntitySet
 		addComponent(new WorldAttributes(
 			new Vector2f(GameConfig.PLAYER_SPAWNNING_POS),
 			GameConfig.PLAYER_WIDTH, GameConfig.PLAYER_HEIGHT));
-
 		addComponent(
 			new HasAnimation(GameResources.playerNIdleAnimation));
 		addComponent(new Movement(GameConfig.PLAYER_SPEED));
 		addComponent(new MovementDirection(CardinalDirections.N));
 		addComponent(new FacingDirection(CardinalDirections.N));
-
-		addComponent(new CollisionBoxBody(
-			GameConfig.PLAYER_COLLISION_BOX_BODY));
+		addComponent(new CircleCollisionBody(
+			GameConfig.PLAYER_COLLISION_BODY));
 	}
 }

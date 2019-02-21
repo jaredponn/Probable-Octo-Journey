@@ -25,16 +25,12 @@ public class MobSet extends EntitySet
 		addComponent(new Movement(GameConfig.MOB_SPEED));
 		addComponent(new MovementDirection(CardinalDirections.N));
 		addComponent(new FacingDirection(CardinalDirections.N));
+		addComponent(
+			new CircleCollisionBody(GameConfig.MOB_COLLISION_BODY));
 
-		addComponent(new CollisionBoxBody(
-			GameConfig.MOB_COLLISION_BOX_BODY));
 
 		// TODO: mob sprite sheet
-
-
-		//
 		// TODO: make mobs a different size than the player?
-
 		// TODO: mob animations (walking, idle, attacking, dying)
 	}
 }
