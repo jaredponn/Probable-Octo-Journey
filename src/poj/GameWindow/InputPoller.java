@@ -18,7 +18,7 @@ public class InputPoller implements KeyListener, MouseListener,
 {
 
 	// for some reason KeyEvent.KEY_LAST isn't really the last key.
-	private static int MAX_KEY = 65535;
+	public static int MAX_KEY = 65535;
 
 	private boolean[] key_input_buffer;
 
