@@ -36,7 +36,7 @@ public class PlayGame extends World
 		Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
 	// Higher level game logic
 	private int player;
-	private int mob1;
+	// private int mob1;
 	private float EPSILON = 0.01f;
 	private Vector2f unitVecPlayerPosToMouseDelta;
 	private CardinalDirections prevDirection = CardinalDirections.N;
@@ -114,7 +114,9 @@ public class PlayGame extends World
 	{
 		// Player
 		this.player = super.engineState.spawnEntitySet(new PlayerSet());
-		this.mob1 = super.engineState.spawnEntitySet(new MobSet());
+		for (int i = 0; i < 1; ++i) {
+			super.engineState.spawnEntitySet(new MobSet());
+		}
 
 
 		// ------
@@ -207,9 +209,14 @@ public class PlayGame extends World
 		EngineTransforms.updateWorldAttribPositionFromMovement(
 			this.engineState, this.dt);
 		EngineTransforms.generateDiffusionMap(this.map, 0, 1f / 8f);
-		EngineTransforms.updateEnemyPositionFromPlayer(
-			this.engineState, this.map, 0, this.player, this.mob1);
 
+		for (int i = this.engineState.getInitialSetIndex(MobSet.class);
+		     this.engineState.isValidEntity(i);
+		     i = this.engineState.getNextSetIndex(MobSet.class, i)) {
+
+			EngineTransforms.updateEnemyPositionFromPlayer(
+				this.engineState, this.map, 0, this.player, i);
+		}
 		// this.generateDiffusionMap(0, 1f / 8f);
 		// this.updateEnemyPositionFromPlayer();
 
@@ -401,6 +408,7 @@ public class PlayGame extends World
 
 		////// Build Commands //////
 		if (super.inputPoller.isKeyDown(GameConfig.BUILD_TOWER)) {
+
 			if (Math.abs(lastCoolDown.get(GameConfig.BUILD_TOWER))
 			    <= EPSILON) {
 				Vector2f playerPosition =
