@@ -16,6 +16,7 @@ public class EntitySetMemberComponents
 		entitySet = HList.hcons(c, entitySet);
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T extends Component> void printSet()
 	{
 		HTypeVisitor h = new HTypeVisitor();
@@ -23,13 +24,16 @@ public class EntitySetMemberComponents
 		HCons<?, ?> foc = entitySet;
 
 		while (foc.tail().accept(h) != HNil.class) {
+
 			((T)(foc.head())).print();
 
 			foc = (HCons<?, ?>)foc.tail();
 		}
+
 		((T)(foc.head())).print();
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T extends Component> void addSetToComponents(Components cs,
 							     int i)
 	{

@@ -59,6 +59,11 @@ public class Vector2f
 		return addAndReturnVector(a);
 	}
 
+	public Vector2f pureAdd(float x, float y)
+	{
+		return addAndReturnVector(x, y);
+	}
+
 	public void subtract(final Vector2f a)
 	{
 		subtract(a.x, a.y);
@@ -81,6 +86,13 @@ public class Vector2f
 	{
 		this.x = -this.x;
 		this.y = -this.y;
+	}
+
+	public Vector2f pureNegate()
+	{
+		Vector2f tmp = new Vector2f(this);
+		tmp.negate();
+		return tmp;
 	}
 
 	public void floor()
@@ -121,6 +133,17 @@ public class Vector2f
 		Vector2f v = new Vector2f(this);
 		v.setX(v.getX() / mag);
 		v.setY(v.getY() / mag);
+		return v;
+	}
+
+	public Vector2f safePureNormalize()
+	{
+		Vector2f v = new Vector2f(this);
+		final float mag = scalarValueOfVector(this);
+		if (!(Math.abs(mag - 0f) <= EPSILON)) {
+			v.setX(v.getX() / mag);
+			v.setY(v.getY() / mag);
+		}
 		return v;
 	}
 
@@ -221,9 +244,20 @@ public class Vector2f
 		return this.x;
 	}
 
+	public final float x()
+	{
+		return getX();
+	}
+
+
 	public final float getY()
 	{
 		return this.y;
+	}
+
+	public final float y()
+	{
+		return getY();
 	}
 
 	public final float get(int i)
@@ -274,9 +308,7 @@ public class Vector2f
 
 	public void log(String s)
 	{
-		Logger.logMessage(LogLevels.VERBOSE, "Vector2f: x =  " + this.x
-							     + ", y = " + this.y
-							     + " " + s);
+		Logger.logMessage(LogLevels.VERBOSE, this.toString() + " " + s);
 	}
 
 	public boolean equals(final Vector2f n)
@@ -312,13 +344,15 @@ public class Vector2f
 	 *     / '
 	 *    /  |
 	 *  A---------------B
-	 *       ^--- comp(AB,AC)* AB + A
+	 *       ^--- compt(AB,AC)* AB + A
 	 *  |----|
 	 *     |
 	 *  proj(AB, AC)
 	 */
-	//
-	public static Optional<Float> comp(Vector2f ab, Vector2f ac)
+
+	// returns the parameter t that is the ratio of AB so that it is the
+	// size of the projection of AC on AB
+	public static Optional<Float> compt(Vector2f ab, Vector2f ac)
 	{
 		float absqmag = ab.sqMag();
 		if (Math.abs(absqmag - 0.0f) <= EPSILON)

@@ -136,23 +136,45 @@ public class Systems
 
 		for (int i = 0; i < arr.size(); ++i) {
 			final CollisionAabb cb = arr.get(i);
-
-			for (int j = 0; j < CollisionAabb.NUM_POINTS; ++j) {
-				Vector2f tmp = cb.pureGetPoints()[j]
-						       .pureMatrixMultiply(cam);
-				r.pushRenderObject(new RenderRect(
-					(int)tmp.x, (int)tmp.y, 1, 1));
-			}
-
-			Vector2f smin = cb.min().pureMatrixMultiply(cam);
-			r.pushRenderObject(new RenderRect(
-				(int)smin.x, (int)smin.y, 2, 2, Color.YELLOW));
-
-
-			Vector2f smax = cb.max().pureMatrixMultiply(cam);
-			r.pushRenderObject(new RenderRect(
-				(int)smax.x, (int)smax.y, 2, 2, Color.pink));
+			aabbCollisionBodyDebugRender(cb, r, cam);
 		}
+	}
+
+
+	public static void
+	updateAabbCollisionBodyFromWorldAttributes(AabbCollisionBody a,
+						   WorldAttributes w)
+	{
+		a.setCollisionAabbTopLeft(w.getBottomRightCoordFromOrigin());
+	}
+
+	public static void
+	aabbCollisionBodyDebugRender(final AabbCollisionBody c, Renderer r,
+				     final Camera cam)
+	{
+		aabbCollisionBodyDebugRender(c.getCollisionAabb(), r, cam);
+	}
+
+	private static void aabbCollisionBodyDebugRender(final CollisionAabb c,
+							 Renderer r,
+							 final Camera cam)
+	{
+
+		for (int j = 0; j < CollisionAabb.NUM_POINTS; ++j) {
+			Vector2f tmp =
+				c.pureGetPoints()[j].pureMatrixMultiply(cam);
+			r.pushRenderObject(
+				new RenderRect((int)tmp.x, (int)tmp.y, 1, 1));
+		}
+
+		Vector2f smin = c.min().pureMatrixMultiply(cam);
+		r.pushRenderObject(new RenderRect((int)smin.x, (int)smin.y, 2,
+						  2, Color.YELLOW));
+
+
+		Vector2f smax = c.max().pureMatrixMultiply(cam);
+		r.pushRenderObject(new RenderRect((int)smax.x, (int)smax.y, 2,
+						  2, Color.pink));
 	}
 
 
@@ -171,12 +193,20 @@ public class Systems
 			a.getCollisionCircle(), b.getCollisionCircle());
 	}
 
+	public static boolean
+	areCollisionCirclesCollidingAgainstAabb(CircleCollisionBody a,
+						AabbCollisionBody b)
+	{
+		return CollisionTests.areCircleAndAabbColliding(
+			a.getCollisionCircle(), b.getCollisionAabb());
+	}
+
 	public static void
 	circleCollisionDebugRenderer(final CircleCollisionBody a, Renderer r,
 				     final Camera cam)
 	{
 
-		CollisionCircle cc = a.getCollisionCircle();
+		Circle cc = a.getCollisionCircle();
 		Vector2f center = cc.c();
 		Vector2f perimeters[] = new Vector2f[12];
 
@@ -201,5 +231,39 @@ public class Systems
 
 							  2, 2, Color.RED));
 		}
+	}
+
+	// modifies the velocity of the Movement component of the Circle
+	// colllision body so that it never goes inside ofthe aabb collision
+	// body
+	public static void resolveCircleCollisionBodyWithAabbCollisionBody(
+		Movement m, final CircleCollisionBody s,
+		final AabbCollisionBody b, final double dt)
+	{
+		Circle cs = s.getCollisionCircle();
+		CollisionAabb cb = b.getCollisionAabb();
+		float dmag = m.getVelocity().mag();
+
+		if (Math.abs(dmag) <= 0.000001d)
+			return;
+
+		Vector2f d = m.getVelocity().pureMul(1f / dmag);
+
+		Optional<Double> tmp =
+			CollisionTests.intersectMovingCircleAabb(cs, d, cb);
+
+
+		if (tmp.isPresent()) {
+			double ttmp = (tmp.get() - 0.1d) / dt;
+			m.setVelocity(m.getVelocity().pureMul((float)ttmp));
+		}
+	}
+
+	public static void pushCircleCollisionBodyOutOfAabbCollisionBody(
+		WorldAttributes w, final CircleCollisionBody s,
+		final AabbCollisionBody b)
+	{
+		w.add(CollisionTests.circleAabbNormal(s.getCollisionCircle(),
+						      b.getCollisionAabb()));
 	}
 }

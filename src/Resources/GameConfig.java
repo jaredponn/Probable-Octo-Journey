@@ -30,8 +30,7 @@ public class GameConfig
 		new Vector2f(0f, 0f);
 	public static final CircleCollisionBody PLAYER_COLLISION_BODY =
 		new CircleCollisionBody(
-			new CollisionCircle(0, 0, PLAYER_WIDTH));
-
+			new Circle(0, 0, PLAYER_WIDTH / 2f));
 
 	// bullet config
 	public static final float BULLET_SPEED = 0.02f;
@@ -48,8 +47,10 @@ public class GameConfig
 	public static final float MOB_HEIGHT = PLAYER_HEIGHT;
 	public static final float MOB_WIDTH = PLAYER_WIDTH;
 	public static final float MOB_HP = 100;
-	public static final CircleCollisionBody MOB_COLLISION_BODY =
-		new CircleCollisionBody(new CollisionCircle(0, 0, MOB_WIDTH));
+	/*public static final CircleCollisionBody MOB_COLLISION_BODY =
+		new CircleCollisionBody(new CollisionCircle(0, 0, MOB_WIDTH));*/
+	public static final AabbCollisionBody MOB_COLLISION_BODY =
+		new AabbCollisionBody(new CollisionAabb(MOB_WIDTH, MOB_HEIGHT));
 
 	// construct config
 	public static final float CONSTRUCT_HEIGHT = 64;

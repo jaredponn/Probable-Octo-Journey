@@ -10,4 +10,14 @@ public class Pair<T, U>
 		fst = t;
 		snd = u;
 	}
+
+	public T fst()
+	{
+		return fst;
+	}
+
+	public U snd()
+	{
+		return snd;
+	}
 }
