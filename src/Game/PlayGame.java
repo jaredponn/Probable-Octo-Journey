@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Collections;
 
+import java.awt.*;
+
 public class PlayGame extends World
 {
 	// Render
@@ -41,8 +43,11 @@ public class PlayGame extends World
 	private Vector2f unitVecPlayerPosToMouseDelta;
 	private CardinalDirections prevDirection = CardinalDirections.N;
 	
+	// ASE
 	private double timeOfLastMobSpawn = 0.0;
-
+	private StringRenderObject gameTimer = new StringRenderObject( "" , 5 , 10 , Color.WHITE);
+	// /ASE
+	
 	public PlayGame()
 	{
 		super();
@@ -52,10 +57,10 @@ public class PlayGame extends World
 		this.map.addTileSet(GameResources.tileSet);
 		this.map.addMapConfig(GameResources.pathFindTest1Config);
 		this.map.addMapLayer(GameResources.pathFindTest1Layer);
-		// adding the maximum cooldown for turrent
+		// adding the maximum cooldown for turret
 
 
-		// setting the build turrent coolDown
+		// setting the build turret coolDown
 		for (int i = 0; i < GameConfig.COOL_DOWN_KEYS.size(); ++i) {
 			coolDownMax.set(GameConfig.COOL_DOWN_KEYS.get(i).fst,
 					GameConfig.COOL_DOWN_KEYS.get(i).snd);
@@ -80,7 +85,7 @@ public class PlayGame extends World
 		this.cam = new Camera();
 		this.unitVecPlayerPosToMouseDelta = new Vector2f();
 
-		// camera intilization
+		// camera initialization
 		resetCamera();
 
 		this.invCam = new Camera();
@@ -163,14 +168,18 @@ public class PlayGame extends World
 	{
 	}
 
-	// use super.acct for the accumlated time, use this.dt for the time
+	// use super.acct for the accumulated time, use this.dt for the time
 	// step. Time is all in milliseconds
 	public void runGame()
 	{
 		this.processInputs();
 		
+		// ASE
 		this.mobSpawner();
-
+		this.updateGameTimer();
+		super.renderer.pushRenderObject( this.gameTimer );
+		// /ASE
+		
 		// SYSTEMS Go here
 		// this.setMovementVelocityFromMovementDirection();
 		// this.updateWorldAttribPositionFromMovement(this.dt);
@@ -645,17 +654,23 @@ public class PlayGame extends World
 		}
 	}
 	
+	// ASE
 	/** @return: current time the game has been running in seconds */
 	private double getPlayTime() {
-		double playTime = super.acct/1000;
+		double playTime = super.acct / 1000;
 		return playTime;
 	}
 	
+	private void updateGameTimer() {
+		this.gameTimer.setStr( ""+ getPlayTime() );
+	}
+	
 	private void mobSpawner() {
-		if (this.getPlayTime() - this.timeOfLastMobSpawn > 10) {
+		if (this.getPlayTime() - this.timeOfLastMobSpawn > GameConfig.MOB_SPAWN_TIMER) {
 			super.engineState.spawnEntitySet(new MobSet());
 			this.timeOfLastMobSpawn = this.getPlayTime();
 			System.out.println("Spawning new mob at time: " + this.timeOfLastMobSpawn);
 		}
 	}
+	// /ASE
 }

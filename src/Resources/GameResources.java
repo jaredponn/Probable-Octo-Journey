@@ -15,8 +15,8 @@ public class GameResources
 	public static BufferedImage testImage =
 		ImageLoader.load("resources/playerspritesheet.png");
 
-	public static BufferedImage turrent =
-		ImageLoader.load("resources/turrent1Crop.png");
+	public static BufferedImage turret =
+		ImageLoader.load("resources/turret1Crop.png");
 	/*
 	public static BufferedImage testTile =
 		ImageLoader.load("resources/iso-64x64-building.png");
