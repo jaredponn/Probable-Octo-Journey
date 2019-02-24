@@ -40,6 +40,8 @@ public class PlayGame extends World
 	private float EPSILON = 0.01f;
 	private Vector2f unitVecPlayerPosToMouseDelta;
 	private CardinalDirections prevDirection = CardinalDirections.N;
+	
+	private double timeOfLastMobSpawn = 0.0;
 
 	public PlayGame()
 	{
@@ -164,6 +166,8 @@ public class PlayGame extends World
 	public void runGame()
 	{
 		this.processInputs();
+		
+		this.mobSpawner();
 
 		// SYSTEMS Go here
 		// this.setMovementVelocityFromMovementDirection();
@@ -223,7 +227,7 @@ public class PlayGame extends World
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 				this.engineState, this.cam);
 
-		System.out.println("----------------------- end one loop");
+		//ALexTest System.out.println("----------------------- end one loop");
 		// rendering is run after this is run
 	}
 
@@ -626,10 +630,24 @@ public class PlayGame extends World
 	private void updateDtForKey(int keyIndex, double val)
 	{
 		// if the key cooldown is not 0.. i put a if statement here
-		// becasuse i don't want to subtract it to neg infinity..
+		// because i don't want to subtract it to neg infinity..
 		if (lastCoolDown.get(keyIndex) - val >= 0d) {
 			lastCoolDown.set(keyIndex,
 					 lastCoolDown.get(keyIndex) - val);
+		}
+	}
+	
+	/** @return: current time the game has been running in seconds */
+	private double getPlayTime() {
+		double playTime = super.acct/1000;
+		return playTime;
+	}
+	
+	private void mobSpawner() {
+		if (this.getPlayTime() - this.timeOfLastMobSpawn > 10) {
+			super.engineState.spawnEntitySet(new MobSet());
+			this.timeOfLastMobSpawn = this.getPlayTime();
+			System.out.println("Spawning new mob at time: " + this.timeOfLastMobSpawn);
 		}
 	}
 }
