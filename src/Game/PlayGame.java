@@ -183,8 +183,12 @@ public class PlayGame extends World
 
 		EngineTransforms.updateWorldAttribPositionFromMovement(
 			this.engineState, this.dt);
+		// the diffusion map can be generated while the previous
+		// functions are running
 		EngineTransforms.generateDiffusionMap(this.map, this.mapLayer,
 						      0, 1f / 8f);
+
+		// this function must run after
 		EngineTransforms.updateEnemyPositionFromPlayer(
 			this.engineState, this.map, this.mapLayer, this.player,
 			this.mob1);
