@@ -25,21 +25,21 @@ public class Vector2fTest
 			Vector2f ab = new Vector2f(1, 0);
 			Vector2f ac = new Vector2f(1, 0);
 
-			assertEquals(1f, Vector2f.comp(ab, ac).get(),
+			assertEquals(1f, Vector2f.compt(ab, ac).get(),
 				     0.000001f);
 		}
 
 		{
 			Vector2f ab = new Vector2f(2, 0);
 			Vector2f ac = new Vector2f(1, 1);
-			assertEquals(.5f, Vector2f.comp(ab, ac).get(),
+			assertEquals(.5f, Vector2f.compt(ab, ac).get(),
 				     0.000001f);
 		}
 
 		{
 			Vector2f ab = new Vector2f(1, 0);
 			Vector2f ac = new Vector2f(-1, -1);
-			assertEquals(-1.0f, Vector2f.comp(ab, ac).get(),
+			assertEquals(-1.0f, Vector2f.compt(ab, ac).get(),
 				     0.000001f);
 		}
 	}

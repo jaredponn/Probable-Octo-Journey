@@ -42,6 +42,14 @@ else
 # Credits
 Tileset: https://opengameart.org/content/cave-tileset
 
+
+Majority of the collision algorithms were from or built upon /*Real-Time Collision Detection*/ by Christer Ericson, published by Morgan Kaufmann Publishers, Copyright 2005 Elsevier Inc.
+
+
 # Useful readings
 Path-finding: http://www.cs.colorado.edu/~ralex/papers/PDF/OOPSLA06antiobjects.pdf
+
 Collision detection and resolution: http://www.cs.colorado.edu/~ralex/papers/PDF/OOPSLA06antiobjects.pdf
+
+
+

@@ -2,27 +2,32 @@ package poj.Collisions;
 
 import poj.linear.*;
 
-public class CollisionCircle
+public class Circle implements CollisionShape
 {
 	private Vector2f center;
 	private float radius;
 
-	public CollisionCircle(float x, float y, float r)
+	public Circle(float x, float y, float r)
 	{
 		center = new Vector2f(x, y);
 		radius = r;
 	}
 
-	public CollisionCircle(Vector2f p, float r)
+	public Circle(Vector2f p, float r)
 	{
 		center = p;
 		radius = r;
 	}
 
-	public CollisionCircle(CollisionCircle n)
+	public Circle(Circle n)
 	{
 		center = new Vector2f(n.c());
 		radius = n.r();
+	}
+
+	public Vector2f furthestPointInDirection(Vector2f d)
+	{
+		return center.pureAdd(d.pureNormalize().pureMul(this.r()));
 	}
 
 
@@ -36,7 +41,6 @@ public class CollisionCircle
 	{
 		return center;
 	}
-
 
 	public Vector2f c()
 	{
@@ -61,5 +65,10 @@ public class CollisionCircle
 	public void setRadius(float n)
 	{
 		radius = n;
+	}
+	public String toString()
+	{
+		return "Circle: center = " + center.toString()
+			+ " radius = " + radius;
 	}
 }

@@ -156,16 +156,40 @@ public class PlayGame extends World
 		// next frame
 
 
+		// updating positions
 		EngineTransforms.setMovementVelocityFromMovementDirection(
 			this.engineState);
 
 		EngineTransforms.updateCircleCollisionFromWorldAttributes(
 			engineState);
+
+		EngineTransforms.updateAabbCollisionFromWorldAttributes(
+			engineState);
+
+		// debug renderers
 		EngineTransforms.debugCircleCollisionRender(
 			engineState, super.renderer, this.cam);
+		EngineTransforms.debugAabbCollisionRender(
+			engineState, super.renderer, this.cam);
 
+		// collision
+		/*
+	       EngineTransforms
+		       .resolveCircleCollisionBodyWithAabbCollisionBody(
+			       engineState, PlayerSet.class, MobSet.class,
+			       this.dt);
+	       EngineTransforms.areCirclesCollidingAgainstAabb(
+		       engineState, PlayerSet.class, MobSet.class);*/
+
+
+		// changing world attrib position
 		EngineTransforms.updateWorldAttribPositionFromMovement(
 			this.engineState, this.dt);
+
+		// collision
+		EngineTransforms.pushCircleCollisionBodyOutOfAabbCollisionBody(
+			engineState, PlayerSet.class, MobSet.class);
+
 
 		// this.generateDiffusionMap(0, 1f / 8f);
 		// this.updateEnemyPositionFromPlayer();
@@ -193,7 +217,7 @@ public class PlayGame extends World
 		////// Movement Commands //////
 		if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
 		    && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
-			System.out.println("wd key is down");
+			// System.out.println("wd key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.NW);
@@ -205,7 +229,7 @@ public class PlayGame extends World
 					GameResources.playerNMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-			System.out.println("wa key is down");
+			// System.out.println("wa key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.SW);
@@ -217,7 +241,7 @@ public class PlayGame extends World
 					GameResources.playerNMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-			System.out.println("sa key is down");
+			// System.out.println("sa key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.SE);
@@ -230,7 +254,7 @@ public class PlayGame extends World
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
 
-			System.out.println("sd key is down");
+			// System.out.println("sd key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.NE);
@@ -243,7 +267,7 @@ public class PlayGame extends World
 
 		} else if (super.inputPoller.isKeyDown(
 				   KeyEvent.VK_W)) { // single Key movements
-			System.out.println("w key is down");
+			// System.out.println("w key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.W);
@@ -254,7 +278,7 @@ public class PlayGame extends World
 				.setAnimation(
 					GameResources.playerWMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
-			System.out.println("d key is down");
+			// System.out.println("d key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.N);
@@ -265,7 +289,7 @@ public class PlayGame extends World
 				.setAnimation(
 					GameResources.playerNMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-			System.out.println("a key is down");
+			// System.out.println("a key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.S);
@@ -276,7 +300,7 @@ public class PlayGame extends World
 				.setAnimation(
 					GameResources.playerSMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)) {
-			System.out.println("s key is down");
+			// System.out.println("s key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.E);

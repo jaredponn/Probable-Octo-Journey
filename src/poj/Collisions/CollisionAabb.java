@@ -254,8 +254,10 @@ public class CollisionAabb
 	}
 	public String toString()
 	{
-		return "Collision Body: min = (" + min().x + ", " + min().y
-			+ "), max = (" + max().x + ", " + max().y
-			+ "), width = " + width + ", height = " + height;
+		return "Collision Body: topLeft: "
+			+ getTopLeftPoint().toString() + " min = (" + min().x
+			+ ", " + min().y + "), max = (" + max().x + ", "
+			+ max().y + "), width = " + width
+			+ ", height = " + height;
 	}
 }

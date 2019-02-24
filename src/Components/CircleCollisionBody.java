@@ -7,16 +7,16 @@ import poj.linear.*;
 public class CircleCollisionBody implements Component
 {
 
-	private CollisionCircle collisonCircle;
+	private Circle collisonCircle;
 	private Vector2f positionDelta;
 
-	public CircleCollisionBody(CollisionCircle c)
+	public CircleCollisionBody(Circle c)
 	{
 		collisonCircle = c;
 		positionDelta = new Vector2f(0, 0);
 	}
 
-	public CircleCollisionBody(CollisionCircle c, Vector2f v)
+	public CircleCollisionBody(Circle c, Vector2f v)
 	{
 		collisonCircle = c;
 		positionDelta = v;
@@ -24,11 +24,11 @@ public class CircleCollisionBody implements Component
 
 	public CircleCollisionBody(CircleCollisionBody n)
 	{
-		collisonCircle = new CollisionCircle(n.getCollisionCircle());
+		collisonCircle = new Circle(n.getCollisionCircle());
 		positionDelta = new Vector2f(n.getPositionDelta());
 	}
 
-	public CollisionCircle getCollisionCircle()
+	public Circle getCollisionCircle()
 	{
 		return collisonCircle;
 	}
