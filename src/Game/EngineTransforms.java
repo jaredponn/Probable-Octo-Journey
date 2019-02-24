@@ -98,8 +98,7 @@ public class EngineTransforms
 	// IMPORTANT: in world attributes  and PathFindCord, X is RowNum, and Y
 	// is ColNum!!!!!!
 	// Width is rows, height is cols
-	public static void generateDiffusionMap(Map map, MapLayer mapLayer,
-						int layerNumber,
+	public static void generateDiffusionMap(Map map, int layerNumber,
 						float difCoefficient)
 	{
 		// TODO: HAIYANG will only do one layer!!!!!
@@ -109,7 +108,10 @@ public class EngineTransforms
 		// int playerECSindex = this.map.getEcsIndexFromWorldVector2f(
 		// super.getComponentAt(WorldAttributes.class, this.player)
 		//.getCenteredBottomQuarter());
-		ArrayList<Float> tempDiffusionBuffer = new ArrayList<Float>();
+		long startTime = System.nanoTime();
+		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
+		ArrayList<PathFindCord> tempDiffusionBuffer =
+			new ArrayList<PathFindCord>();
 		// will not loop to the empty tiles inside the map, hopefull !!
 		for (int i = mapLayer.getInitialComponentIndex(
 			     PathFindCord.class);
@@ -129,8 +131,9 @@ public class EngineTransforms
 				*/
 			if (!center.getIsWall()) {
 				ArrayList<PathFindCord> tempNeighbours =
-					getEightNeighbourVector(map, i,
-								mapLayer);
+					PathFinding.MapGeneration
+						.getEightNeighbourVector(
+							map, i, mapLayer);
 				// System.out.println("size of
 				// tempNeighbours ="
 				//+ tempNeighbours.size());
@@ -175,7 +178,10 @@ public class EngineTransforms
 				*/
 
 
-				tempDiffusionBuffer.add(sum);
+				PathFindCord tempCord =
+					new PathFindCord(center);
+				tempCord.setDiffusionValue(sum);
+				tempDiffusionBuffer.add(tempCord);
 				/*
 				System.out.println(
 					"sum after adding center
@@ -183,16 +189,25 @@ public class EngineTransforms
 					+ sum);
 				*/
 			} else {
-				sum = 0f;
-				tempDiffusionBuffer.add(sum);
+
+				// TODO:HAIYANG
+				// is this correct for the walls?
+				tempDiffusionBuffer.add(
+					new PathFindCord(center));
 			}
 		}
 
+		long endTime = System.nanoTime();
+
+		long duration = (endTime - startTime) / 1000000;
+		System.out.println(
+			"time took to generate map for  path finding: "
+			+ duration);
 
 		/*
 		int counter = 0;
 		for (int i = 0; i < tempDiffusionBuffer.size(); ++i) {
-			if (counter == this.map.mapWidth) {
+			if (counter == map.mapWidth) {
 				counter = 0;
 				System.out.println();
 			}
@@ -201,6 +216,9 @@ public class EngineTransforms
 		}
 		System.out.println();
 		*/
+
+		startTime = System.nanoTime();
+		/*
 		if (tempDiffusionBuffer.size() > 0) {
 			for (int i = mapLayer.getInitialComponentIndex(
 				     PathFindCord.class);
@@ -213,6 +231,16 @@ public class EngineTransforms
 				tempDiffusionBuffer.remove(0);
 			}
 		}
+		*/
+		mapLayer.getComponentPackedVector(PathFindCord.class)
+			.set_packed_data(tempDiffusionBuffer);
+
+		endTime = System.nanoTime();
+		duration = (endTime - startTime) / 1000000;
+		System.out.println(
+			"time took to switch buffer into ECS for  path finding: "
+			+ duration);
+		System.out.println("im done switching the buffer");
 	}
 
 	public static ArrayList<PathFindCord>
@@ -251,11 +279,11 @@ public class EngineTransforms
 
 	public static void
 	updateEnemyPositionFromPlayer(EngineState engineState, Map map,
-				      MapLayer mapLayer, int player, int mob1)
+				      int layerNumber, int player, int mob1)
 	{
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
-			engineState, map, mapLayer, player);
-
+			engineState, map, layerNumber, player);
+		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
 		/*
 		System.out.println("mob position in world attribues: ");
 		System.out.println(
@@ -268,7 +296,6 @@ public class EngineTransforms
 			+ super.getComponentAt(WorldAttributes.class, this.mob1)
 				  .getCenteredBottomQuarter()
 				  .x);
-
 		System.out.println(
 			"mob y dir="
 			+ super.getComponentAt(WorldAttributes.class, this.mob1)
@@ -441,7 +468,6 @@ public class EngineTransforms
 						    mobPosition))
 				    .getIsWall()) {
 				System.out.println("mob inside wall!!");
-
 				CardinalDirections curDir =
 					CardinalDirections.getClosestDirectionFromDirectionVector(
 						maxPosition
@@ -467,8 +493,6 @@ public class EngineTransforms
 					System.out.println(
 						"finish went inside WENS!! ");
 				}
-
-
 				if (curDir == CardinalDirections.NW) {
 					super.getComponentAt(
 						     MovementDirection.class,
@@ -494,7 +518,6 @@ public class EngineTransforms
 						.setDirection(
 							CardinalDirections.SW);
 				}
-
 				System.out.println(
 					"aftr changign the cardianl direction
 			inside the wall, the new cardinal position of the player
@@ -520,10 +543,10 @@ public class EngineTransforms
 
 	public static void
 	addPlayerDiffusionValAtPlayerPos(EngineState engineState, Map map,
-					 MapLayer mapLayer, int player)
+					 int layerNumber, int player)
 	{
 
-
+		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
 		Vector2f playerPosition =
 			engineState
 				.getComponentAt(WorldAttributes.class, player)

@@ -134,4 +134,9 @@ public class PackedVector<T>
 			"MAJOR ERROR IN PACKEDVECTOR. Packed indices and packed data are not the same size!");
 		return m_packed_data.size();
 	}
+
+	public final void set_packed_data(ArrayList<?> new_packed_data)
+	{
+		this.m_packed_data = (ArrayList<T>)new_packed_data;
+	}
 }

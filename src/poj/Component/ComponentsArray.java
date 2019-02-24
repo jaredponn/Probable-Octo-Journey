@@ -31,7 +31,7 @@ public class ComponentsArray
 		m_component_list.put(c, new PackedVector<T>(MAX_ENTITIES));
 	}
 
-	protected <T extends Component> PackedVector<T>
+	public <T extends Component> PackedVector<T>
 	getComponentPackedVector(Class<?> c)
 	{
 		Logger.lassert(

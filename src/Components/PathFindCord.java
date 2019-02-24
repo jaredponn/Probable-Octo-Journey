@@ -15,6 +15,13 @@ public class PathFindCord implements Component
 		this.diffusionValue = diffusionValue;
 	}
 
+	public PathFindCord(PathFindCord newcord)
+	{
+		this.cord = newcord.getCord();
+		this.isWall = newcord.getIsWall();
+		this.diffusionValue = newcord.getDiffusionValue();
+	}
+
 	public boolean getIsWall()
 	{
 		return this.isWall;

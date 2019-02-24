@@ -1,21 +1,34 @@
 package Game;
 
-import Resources.*;
-import Components.*;
-
-import poj.Component.Components;
-import poj.linear.Vector2f;
-import poj.Render.*;
-
-import Game.Camera;
-import EntitySets.*;
-import TileMap.*;
-
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Collections;
+import java.util.HashSet;
 
+import Components.AabbCollisionBody;
+import Components.CardinalDirections;
+import Components.CircleCollisionBody;
+import Components.CollisionAabbBodies;
+import Components.FacingDirection;
+import Components.HasAnimation;
+import Components.Movement;
+import Components.MovementDirection;
+import Components.Render;
+import Components.WorldAttributes;
+import EntitySets.Bullet;
+import EntitySets.ConstructSet;
+import EntitySets.MobSet;
+import EntitySets.PlayerSet;
+import EntitySets.TurrentSet;
+import PathFinding.MapGeneration;
+import Resources.GameConfig;
+import Resources.GameResources;
+import TileMap.Map;
+import TileMap.MapLayer;
+
+import poj.linear.Vector2f;
+
+import java.util.concurrent.*;
 public class PlayGame extends World
 {
 	// Render
@@ -23,7 +36,7 @@ public class PlayGame extends World
 	private HashSet<Integer>
 		tileMapRenderHelperSet; // used to help render the tiles in O(1)
 					// time
-	private MapLayer mapLayer;
+	// private MapLayer mapLayer;
 
 	// Camera
 	private Camera cam;    // camera
@@ -41,6 +54,11 @@ public class PlayGame extends World
 	private Vector2f unitVecPlayerPosToMouseDelta;
 	private CardinalDirections prevDirection = CardinalDirections.N;
 
+	private MapGeneration generateDiffusionMap;
+	private Thread thread = null;
+	private Executor executor = Executors.newSingleThreadExecutor();
+	private ExecutorService pool = Executors.newFixedThreadPool(2);
+	// private Runnable r1;
 	public PlayGame()
 	{
 		super();
@@ -48,8 +66,11 @@ public class PlayGame extends World
 		// World loading
 		this.map = new Map(3);
 		this.map.addTileSet(GameResources.tileSet);
-		this.map.addMapConfig(GameResources.pathFindTest1Config);
-		this.map.addMapLayer(GameResources.pathFindTest1Layer);
+		this.map.addMapConfig(GameResources.pathFindTest3Config);
+		this.map.addMapLayer(GameResources.pathFindTest3Layer);
+
+		// this.map.addMapConfig(GameResources.renderPerformanceConf);
+		// this.map.addMapLayer(GameResources.renderPerformanceLayer);
 		// adding the maximum cooldown for turrent
 
 
@@ -62,10 +83,8 @@ public class PlayGame extends World
 		// this.map.addMapConfig(GameResources.pathFindTest1Config);
 		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
 
-		// this.map.addMapConfig(GameResources.renderPerformanceConf);
-		// this.map.addMapLayer(GameResources.renderPerformanceLayer);
 
-		mapLayer = this.map.getLayerEngineState(0);
+		// mapLayer = this.map.getLayerEngineState(0);
 
 		// this.map.addMapLayer(GameResources.mapLayer1);
 		// this.map.addMapLayer(GameResources.mapLayer1);
@@ -83,6 +102,10 @@ public class PlayGame extends World
 
 		this.invCam = new Camera();
 		this.updateInverseCamera();
+
+		this.generateDiffusionMap =
+			new MapGeneration(this.map, 0, 1f / 8f);
+		// this.thread = new Thread(generateDiffusionMap);
 	}
 
 	public void registerComponents()
@@ -127,13 +150,11 @@ public class PlayGame extends World
 				WorldAttributes.class,
 				super.engineState.spawnEntitySet(new MobSet()))
 			.setOriginCoord(new Vector2f(5, 7));
-
 		super.engineState
 			.getComponentAt(
 				WorldAttributes.class,
 				super.engineState.spawnEntitySet(new MobSet()))
 			.setOriginCoord(new Vector2f(5, 8));
-
 		super.engineState
 			.getComponentAt(
 				WorldAttributes.class,
@@ -143,7 +164,7 @@ public class PlayGame extends World
 		// ------
 
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
-			this.engineState, this.map, this.mapLayer, this.player);
+			this.engineState, this.map, 0, this.player);
 		// TODO: HAIYANG get the layer number for the path finding!
 		// right now for testing it only have 1 layer
 
@@ -153,6 +174,9 @@ public class PlayGame extends World
 			.setOriginCoord(new Vector2f(0f, 0f));
 		super.getComponentAt(Movement.class, tmp).setSpeed(0);
 
+		// this.thread = generateDiffusionMap;
+		// this.thread.start();
+		// generateDiffusionMap.start();
 		clearTime();
 	}
 	public void clearWorld()
@@ -171,45 +195,71 @@ public class PlayGame extends World
 
 		// will set the enemy direction and speed, then will render them
 		// next frame
+		try {
+			// generateDiffusionMap.start();
+			// executor.execute(generateDiffusionMap);
+			// pool.execute(generateDiffusionMap);
+			// generateDiffusionMap.setStart();
+			System.out.println("start in generateDiffusionMap is ="
+					   + generateDiffusionMap.start);
+			long startTime = System.nanoTime();
+			EngineTransforms
+				.setMovementVelocityFromMovementDirection(
+					this.engineState);
 
+			EngineTransforms
+				.updateCircleCollisionFromWorldAttributes(
+					engineState);
+			EngineTransforms.debugCircleCollisionRender(
+				engineState, super.renderer, this.cam);
 
-		EngineTransforms.setMovementVelocityFromMovementDirection(
-			this.engineState);
+			EngineTransforms.updateWorldAttribPositionFromMovement(
+				this.engineState, this.dt);
 
-		EngineTransforms.updateCircleCollisionFromWorldAttributes(
-			engineState);
-		EngineTransforms.debugCircleCollisionRender(
-			engineState, super.renderer, this.cam);
+			long endTime = System.nanoTime();
 
-		EngineTransforms.updateWorldAttribPositionFromMovement(
-			this.engineState, this.dt);
-		// the diffusion map can be generated while the previous
-		// functions are running
-		EngineTransforms.generateDiffusionMap(this.map, this.mapLayer,
-						      0, 1f / 8f);
+			// in milisecond
+			long duration = (endTime - startTime) / 1000000;
+			System.out.println("time took for before path finding: "
+					   + duration);
 
-		// this function must run after
-		EngineTransforms.updateEnemyPositionFromPlayer(
-			this.engineState, this.map, this.mapLayer, this.player,
-			this.mob1);
-		// this.generateDiffusionMap(0, 1f / 8f);
-		// this.updateEnemyPositionFromPlayer();
+			// while (generateDiffusionMap.start == true) {
+			//}
 
-		// updating the camera
-		centerCamerasPositionToPlayer();
-		updateInverseCamera();
-		updateCoolDownKeys();
+			startTime = System.nanoTime();
 
-		EngineTransforms.updateAnimationWindows(this.engineState,
-							this.dt);
-		EngineTransforms.cropSpriteSheetsFromAnimationWindows(
-			this.engineState);
+			EngineTransforms.generateDiffusionMap(this.map, 0,
+							      1f / 8f);
+			endTime = System.nanoTime();
+			duration = (endTime - startTime) / 1000000;
+			System.out.println("time took for the path finding..: "
+					   + duration);
 
-		EngineTransforms
-			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
-				this.engineState, this.cam);
+			EngineTransforms.updateEnemyPositionFromPlayer(
+				this.engineState, this.map, 0, this.player,
+				this.mob1);
+			// this.generateDiffusionMap(0, 1f / 8f);
+			// this.updateEnemyPositionFromPlayer();
 
-		System.out.println("----------------------- end one loop");
+			// updating the camera
+			centerCamerasPositionToPlayer();
+			updateInverseCamera();
+			updateCoolDownKeys();
+
+			EngineTransforms.updateAnimationWindows(
+				this.engineState, this.dt);
+			EngineTransforms.cropSpriteSheetsFromAnimationWindows(
+				this.engineState);
+
+			EngineTransforms
+				.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
+					this.engineState, this.cam);
+
+			System.out.println(
+				"----------------------- end one loop");
+		} catch (Exception ex) {
+			System.out.println("an exception had occured: " + ex);
+		}
 		// rendering is run after this is run
 	}
 
@@ -616,6 +666,24 @@ public class PlayGame extends World
 		if (lastCoolDown.get(keyIndex) - val >= 0d) {
 			lastCoolDown.set(keyIndex,
 					 lastCoolDown.get(keyIndex) - val);
+		}
+	}
+	private void startThread()
+	{
+		this.thread.start();
+	}
+	private void endThread()
+	{
+		if (thread != null) {
+			try {
+				thread.join();
+			} catch (Exception ex) {
+				System.out.println(
+					"exception happened inside endThread: "
+					+ ex);
+			}
+		} else {
+			System.out.println("thread is null!");
 		}
 	}
 }
