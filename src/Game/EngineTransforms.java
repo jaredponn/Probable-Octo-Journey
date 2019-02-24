@@ -98,8 +98,7 @@ public class EngineTransforms
 	// IMPORTANT: in world attributes  and PathFindCord, X is RowNum, and Y
 	// is ColNum!!!!!!
 	// Width is rows, height is cols
-	public static void generateDiffusionMap(Map map, MapLayer mapLayer,
-						int layerNumber,
+	public static void generateDiffusionMap(Map map, int layerNumber,
 						float difCoefficient)
 	{
 		// TODO: HAIYANG will only do one layer!!!!!
@@ -109,6 +108,7 @@ public class EngineTransforms
 		// int playerECSindex = this.map.getEcsIndexFromWorldVector2f(
 		// super.getComponentAt(WorldAttributes.class, this.player)
 		//.getCenteredBottomQuarter());
+		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
 		ArrayList<Float> tempDiffusionBuffer = new ArrayList<Float>();
 		// will not loop to the empty tiles inside the map, hopefull !!
 		for (int i = mapLayer.getInitialComponentIndex(
@@ -251,11 +251,11 @@ public class EngineTransforms
 
 	public static void
 	updateEnemyPositionFromPlayer(EngineState engineState, Map map,
-				      MapLayer mapLayer, int player, int mob1)
+				      int layerNumber, int player, int mob1)
 	{
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
-			engineState, map, mapLayer, player);
-
+			engineState, map, layerNumber, player);
+		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
 		/*
 		System.out.println("mob position in world attribues: ");
 		System.out.println(
@@ -520,10 +520,10 @@ public class EngineTransforms
 
 	public static void
 	addPlayerDiffusionValAtPlayerPos(EngineState engineState, Map map,
-					 MapLayer mapLayer, int player)
+					 int layerNumber, int player)
 	{
 
-
+		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
 		Vector2f playerPosition =
 			engineState
 				.getComponentAt(WorldAttributes.class, player)

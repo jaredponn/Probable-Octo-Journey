@@ -23,7 +23,7 @@ public class PlayGame extends World
 	private HashSet<Integer>
 		tileMapRenderHelperSet; // used to help render the tiles in O(1)
 					// time
-	private MapLayer mapLayer;
+	// private MapLayer mapLayer;
 
 	// Camera
 	private Camera cam;    // camera
@@ -65,7 +65,7 @@ public class PlayGame extends World
 		// this.map.addMapConfig(GameResources.renderPerformanceConf);
 		// this.map.addMapLayer(GameResources.renderPerformanceLayer);
 
-		mapLayer = this.map.getLayerEngineState(0);
+		// mapLayer = this.map.getLayerEngineState(0);
 
 		// this.map.addMapLayer(GameResources.mapLayer1);
 		// this.map.addMapLayer(GameResources.mapLayer1);
@@ -143,7 +143,7 @@ public class PlayGame extends World
 		// ------
 
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
-			this.engineState, this.map, this.mapLayer, this.player);
+			this.engineState, this.map, 0, this.player);
 		// TODO: HAIYANG get the layer number for the path finding!
 		// right now for testing it only have 1 layer
 
@@ -183,11 +183,9 @@ public class PlayGame extends World
 
 		EngineTransforms.updateWorldAttribPositionFromMovement(
 			this.engineState, this.dt);
-		EngineTransforms.generateDiffusionMap(this.map, this.mapLayer,
-						      0, 1f / 8f);
+		EngineTransforms.generateDiffusionMap(this.map, 0, 1f / 8f);
 		EngineTransforms.updateEnemyPositionFromPlayer(
-			this.engineState, this.map, this.mapLayer, this.player,
-			this.mob1);
+			this.engineState, this.map, 0, this.player, this.mob1);
 		// this.generateDiffusionMap(0, 1f / 8f);
 		// this.updateEnemyPositionFromPlayer();
 
