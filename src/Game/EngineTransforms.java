@@ -110,8 +110,7 @@ public class EngineTransforms
 		//.getCenteredBottomQuarter());
 		long startTime = System.nanoTime();
 		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
-		ArrayList<PathFindCord> tempDiffusionBuffer =
-			new ArrayList<PathFindCord>();
+		ArrayList<Float> tempDiffusionBuffer = new ArrayList<Float>();
 		// will not loop to the empty tiles inside the map, hopefull !!
 		for (int i = mapLayer.getInitialComponentIndex(
 			     PathFindCord.class);
@@ -178,10 +177,7 @@ public class EngineTransforms
 				*/
 
 
-				PathFindCord tempCord =
-					new PathFindCord(center);
-				tempCord.setDiffusionValue(sum);
-				tempDiffusionBuffer.add(tempCord);
+				tempDiffusionBuffer.add(sum);
 				/*
 				System.out.println(
 					"sum after adding center
@@ -189,11 +185,8 @@ public class EngineTransforms
 					+ sum);
 				*/
 			} else {
-
-				// TODO:HAIYANG
-				// is this correct for the walls?
-				tempDiffusionBuffer.add(
-					new PathFindCord(center));
+				sum = 0f;
+				tempDiffusionBuffer.add(sum);
 			}
 		}
 
@@ -218,8 +211,9 @@ public class EngineTransforms
 		*/
 
 		startTime = System.nanoTime();
-		/*
+
 		if (tempDiffusionBuffer.size() > 0) {
+			int counter = 0;
 			for (int i = mapLayer.getInitialComponentIndex(
 				     PathFindCord.class);
 			     Components.isValidEntity(i);
@@ -227,14 +221,12 @@ public class EngineTransforms
 				     PathFindCord.class, i)) {
 				mapLayer.getComponentAt(PathFindCord.class, i)
 					.setDiffusionValue(
-						tempDiffusionBuffer.get(0));
-				tempDiffusionBuffer.remove(0);
+						tempDiffusionBuffer.get(
+							counter));
+				++counter;
+				// tempDiffusionBuffer.remove(0);
 			}
 		}
-		*/
-		mapLayer.getComponentPackedVector(PathFindCord.class)
-			.set_packed_data(tempDiffusionBuffer);
-
 		endTime = System.nanoTime();
 		duration = (endTime - startTime) / 1000000;
 		System.out.println(

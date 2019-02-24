@@ -66,11 +66,11 @@ public class PlayGame extends World
 		// World loading
 		this.map = new Map(3);
 		this.map.addTileSet(GameResources.tileSet);
-		this.map.addMapConfig(GameResources.pathFindTest3Config);
-		this.map.addMapLayer(GameResources.pathFindTest3Layer);
+		// this.map.addMapConfig(GameResources.pathFindTest3Config);
+		// this.map.addMapLayer(GameResources.pathFindTest3Layer);
 
-		// this.map.addMapConfig(GameResources.renderPerformanceConf);
-		// this.map.addMapLayer(GameResources.renderPerformanceLayer);
+		this.map.addMapConfig(GameResources.renderPerformanceConf);
+		this.map.addMapLayer(GameResources.renderPerformanceLayer);
 		// adding the maximum cooldown for turrent
 
 
@@ -176,7 +176,7 @@ public class PlayGame extends World
 
 		// this.thread = generateDiffusionMap;
 		// this.thread.start();
-		// generateDiffusionMap.start();
+		generateDiffusionMap.start();
 		clearTime();
 	}
 	public void clearWorld()
@@ -199,7 +199,7 @@ public class PlayGame extends World
 			// generateDiffusionMap.start();
 			// executor.execute(generateDiffusionMap);
 			// pool.execute(generateDiffusionMap);
-			// generateDiffusionMap.setStart();
+			generateDiffusionMap.setStart();
 			System.out.println("start in generateDiffusionMap is ="
 					   + generateDiffusionMap.start);
 			long startTime = System.nanoTime();
@@ -223,13 +223,13 @@ public class PlayGame extends World
 			System.out.println("time took for before path finding: "
 					   + duration);
 
-			// while (generateDiffusionMap.start == true) {
-			//}
+			while (generateDiffusionMap.start == true) {
+			}
 
 			startTime = System.nanoTime();
 
-			EngineTransforms.generateDiffusionMap(this.map, 0,
-							      1f / 8f);
+			// EngineTransforms.generateDiffusionMap(this.map, 0,
+			// 1f / 8f);
 			endTime = System.nanoTime();
 			duration = (endTime - startTime) / 1000000;
 			System.out.println("time took for the path finding..: "

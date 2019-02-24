@@ -139,22 +139,23 @@ public class MapGeneration extends Thread
 				}
 
 				/*
-				int counter = 0;
+				int counter1 = 0;
 				for (int i = 0; i < tempDiffusionBuffer.size();
 				     ++i) {
-					if (counter == this.map.mapWidth) {
-						counter = 0;
+					if (counter1 == this.map.mapWidth) {
+						counter1 = 0;
 						System.out.println();
 					}
 					System.out.print(
 						tempDiffusionBuffer.get(i)
 						+ " , ");
-					counter++;
+					counter1++;
 				}
 				System.out.println();
 				*/
 
 				if (tempDiffusionBuffer.size() > 0) {
+					int counter = 0;
 					for (int i = this.mapLayer.getInitialComponentIndex(
 						     PathFindCord.class);
 					     Components.isValidEntity(i);
@@ -170,8 +171,8 @@ public class MapGeneration extends Thread
 								i)
 							.setDiffusionValue(
 								tempDiffusionBuffer
-									.get(0));
-						tempDiffusionBuffer.remove(0);
+									.get(counter));
+						++counter;
 					}
 				}
 				this.start = false;
