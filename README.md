@@ -41,6 +41,7 @@ else
 
 # Credits
 Tileset: https://opengameart.org/content/cave-tileset
+Turrent: https://opengameart.org/content/orange-defense-gun-isometric
 
 
 Majority of the collision algorithms were from or built upon /*Real-Time Collision Detection*/ by Christer Ericson, published by Morgan Kaufmann Publishers, Copyright 2005 Elsevier Inc.

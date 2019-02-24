@@ -5,6 +5,7 @@ import Components.*;
 
 import poj.Component.Components;
 import poj.linear.Vector2f;
+import poj.Render.*;
 
 import Game.Camera;
 import EntitySets.*;
@@ -13,6 +14,7 @@ import TileMap.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Collections;
 
 public class PlayGame extends World
 {
@@ -21,15 +23,21 @@ public class PlayGame extends World
 	private HashSet<Integer>
 		tileMapRenderHelperSet; // used to help render the tiles in O(1)
 					// time
-	private MapLayer mapLayer;
+	// private MapLayer mapLayer;
 
 	// Camera
 	private Camera cam;    // camera
 	private Camera invCam; // inverse camera
 
+
+	private static ArrayList<Double> coolDownMax = new ArrayList<Double>(
+		Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
+	private ArrayList<Double> lastCoolDown = new ArrayList<Double>(
+		Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
 	// Higher level game logic
 	private int player;
 	private int mob1;
+	private float EPSILON = 0.01f;
 	private Vector2f unitVecPlayerPosToMouseDelta;
 	private CardinalDirections prevDirection = CardinalDirections.N;
 
@@ -42,14 +50,22 @@ public class PlayGame extends World
 		this.map.addTileSet(GameResources.tileSet);
 		this.map.addMapConfig(GameResources.pathFindTest1Config);
 		this.map.addMapLayer(GameResources.pathFindTest1Layer);
+		// adding the maximum cooldown for turrent
 
+
+		// setting the build turrent coolDown
+		for (int i = 0; i < GameConfig.COOL_DOWN_KEYS.size(); ++i) {
+			coolDownMax.set(GameConfig.COOL_DOWN_KEYS.get(i).fst,
+					GameConfig.COOL_DOWN_KEYS.get(i).snd);
+		}
+		// lastCoolDown.set(GameConfig.BUILD_TOWER, 0d);
 		// this.map.addMapConfig(GameResources.pathFindTest1Config);
 		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
 
 		// this.map.addMapConfig(GameResources.renderPerformanceConf);
 		// this.map.addMapLayer(GameResources.renderPerformanceLayer);
 
-		mapLayer = this.map.getLayerEngineState(0);
+		// mapLayer = this.map.getLayerEngineState(0);
 
 		// this.map.addMapLayer(GameResources.mapLayer1);
 		// this.map.addMapLayer(GameResources.mapLayer1);
@@ -87,6 +103,7 @@ public class PlayGame extends World
 		super.engineState.registerSet(MobSet.class);
 		super.engineState.registerSet(ConstructSet.class);
 		super.engineState.registerSet(Bullet.class);
+		super.engineState.registerSet(TurrentSet.class);
 	}
 
 	// higher game logic functions
@@ -96,6 +113,7 @@ public class PlayGame extends World
 		// Player
 		this.player = super.engineState.spawnEntitySet(new PlayerSet());
 		this.mob1 = super.engineState.spawnEntitySet(new MobSet());
+
 
 		// ------
 		/*
@@ -125,7 +143,7 @@ public class PlayGame extends World
 		// ------
 
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
-			this.engineState, this.map, this.mapLayer, this.player);
+			this.engineState, this.map, 0, this.player);
 		// TODO: HAIYANG get the layer number for the path finding!
 		// right now for testing it only have 1 layer
 
@@ -146,7 +164,6 @@ public class PlayGame extends World
 	public void runGame()
 	{
 		this.processInputs();
-
 
 		// SYSTEMS Go here
 		// this.setMovementVelocityFromMovementDirection();
@@ -185,11 +202,9 @@ public class PlayGame extends World
 		// changing world attrib position
 		EngineTransforms.updateWorldAttribPositionFromMovement(
 			this.engineState, this.dt);
-
-		// collision
-		EngineTransforms.pushCircleCollisionBodyOutOfAabbCollisionBody(
-			engineState, PlayerSet.class, MobSet.class);
-
+		EngineTransforms.generateDiffusionMap(this.map, 0, 1f / 8f);
+		EngineTransforms.updateEnemyPositionFromPlayer(
+			this.engineState, this.map, 0, this.player, this.mob1);
 
 		// this.generateDiffusionMap(0, 1f / 8f);
 		// this.updateEnemyPositionFromPlayer();
@@ -197,6 +212,7 @@ public class PlayGame extends World
 		// updating the camera
 		centerCamerasPositionToPlayer();
 		updateInverseCamera();
+		updateCoolDownKeys();
 
 		EngineTransforms.updateAnimationWindows(this.engineState,
 							this.dt);
@@ -207,6 +223,7 @@ public class PlayGame extends World
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 				this.engineState, this.cam);
 
+		System.out.println("----------------------- end one loop");
 		// rendering is run after this is run
 	}
 
@@ -380,8 +397,27 @@ public class PlayGame extends World
 
 		////// Build Commands //////
 		if (super.inputPoller.isKeyDown(GameConfig.BUILD_TOWER)) {
-			System.out.print(
-				"q key is down. Should spawn tower at player location\n");
+			if (Math.abs(lastCoolDown.get(GameConfig.BUILD_TOWER))
+			    <= EPSILON) {
+				Vector2f playerPosition =
+					super.getComponentAt(
+						     WorldAttributes.class,
+						     this.player)
+						.getOriginCoord();
+				int tmp = super.engineState.spawnEntitySet(
+					new TurrentSet());
+				super.getComponentAt(WorldAttributes.class, tmp)
+					.setOriginCoord(playerPosition);
+				// reset the lastCooldown key to the max
+				// cooldown of that key
+				updateDtForKey(GameConfig.BUILD_TOWER,
+					       -coolDownMax.get(
+						       GameConfig.BUILD_TOWER));
+				// lastCoolDown.set(GameConfig.BUILD_TOWER,
+				//-coolDownMax.get(
+				// GameConfig.BUILD_TOWER));
+			}
+
 			// TODO: get tile player is stood on
 			// TODO: highlight that tile?
 			// TODO: spawn new tower entity on tile
@@ -405,7 +441,21 @@ public class PlayGame extends World
 		    || super.inputPoller.isLeftMouseButtonDown()) {
 			System.out.print(
 				"space key is down. Player character should be attacking\n");
-			this.playerShootBullet();
+
+			System.out.println("the cd value of attack key = "
+					   + Math.abs(lastCoolDown.get(
+						     GameConfig.ATTACK_KEY)));
+			if (Math.abs(lastCoolDown.get(GameConfig.ATTACK_KEY))
+			    <= EPSILON) {
+				updateDtForKey(GameConfig.ATTACK_KEY,
+					       -coolDownMax.get(
+						       GameConfig.ATTACK_KEY));
+				this.playerShootBullet();
+				// lastCoolDown.set(GameConfig.BUILD_TOWER,
+				//-coolDownMax.get(
+				// GameConfig.BUILD_TOWER));
+			}
+
 			// TODO: find adjacent tiles (and any enemies on
 			// them)
 			// TODO: apply damage to enemies
@@ -564,415 +614,22 @@ public class PlayGame extends World
 			engineState.getComponentAt(WorldAttributes.class,
 						   this.player));
 	}
-
-	// IMPORTANT: in world attributes  and PathFindCord, X is RowNum, and Y
-	// is ColNum!!!!!!
-	// Width is rows, height is cols
-	private void generateDiffusionMap(int layerNumber, float difCoefficient)
+	private void updateCoolDownKeys()
 	{
-		// TODO: HAIYANG will only do one layer!!!!!
-		// will get the 8 neighbours aroud it
-
-		MapLayer mapLayer = this.map.getLayerEngineState(layerNumber);
-		// temporary buffer used to store the modified diffusion values
-		// int playerECSindex = this.map.getEcsIndexFromWorldVector2f(
-		// super.getComponentAt(WorldAttributes.class, this.player)
-		//.getCenteredBottomQuarter());
-		ArrayList<Float> tempDiffusionBuffer = new ArrayList<Float>();
-		// will not loop to the empty tiles inside the map, hopefull !!
-		for (int i = mapLayer.getInitialComponentIndex(
-			     PathFindCord.class);
-		     Components.isValidEntity(i);
-		     i = mapLayer.getNextComponentIndex(PathFindCord.class,
-							i)) {
-			// Vector2f testVector=
-			//
-
-			float sum = 0f;
-			PathFindCord center =
-				mapLayer.getComponentAt(PathFindCord.class, i);
-			/*
-			System.out.println(
-				"center's diffusion value: = "
-				+ center.getDiffusionValue());
-				*/
-			if (!center.getIsWall()) {
-				ArrayList<PathFindCord> tempNeighbours =
-					getEightNeighbourVector(i, mapLayer);
-				// System.out.println("size of
-				// tempNeighbours ="
-				//+ tempNeighbours.size());
-				/*
-				for (PathFindCord a : tempNeighbours) {
-					a.printCord();
-				}
-				*/
-				for (PathFindCord a : tempNeighbours) {
-					// if not a wall
-					if (!a.getIsWall()) {
-						sum += a.getDiffusionValue()
-						       - center.getDiffusionValue();
-					} else {
-						/*
-					System.out.println(
-						"I did not pass!!, the
-					Vector x  index is ="
-						+ a.getCord()
-							  .x);
-					System.out.println(
-						"I did not pass!!, the
-					Vector y  index is ="
-						+ a.getCord()
-							  .y);
-							  */
-					}
-				}
-				/*
-				System.out.println(
-					"sum before adding center
-				diffusion value = "
-					+ sum);
-				*/
-				sum = center.getDiffusionValue()
-				      + sum * difCoefficient;
-				sum = sum * 1 / 2;
-				/*
-				if (i != playerECSindex) {
-					sum = sum * 1 / 2;
-				}
-				*/
-
-
-				tempDiffusionBuffer.add(sum);
-				/*
-				System.out.println(
-					"sum after adding center
-				diffusion value = "
-					+ sum);
-				*/
-			} else {
-				sum = 0f;
-				tempDiffusionBuffer.add(sum);
-			}
-		}
-
-
-		/*
-		int counter = 0;
-		for (int i = 0; i < tempDiffusionBuffer.size(); ++i) {
-			if (counter == this.map.mapWidth) {
-				counter = 0;
-				System.out.println();
-			}
-			System.out.print(tempDiffusionBuffer.get(i) + " , ");
-			counter++;
-		}
-		System.out.println();
-		*/
-		if (tempDiffusionBuffer.size() > 0) {
-			for (int i = mapLayer.getInitialComponentIndex(
-				     PathFindCord.class);
-			     Components.isValidEntity(i);
-			     i = mapLayer.getNextComponentIndex(
-				     PathFindCord.class, i)) {
-				mapLayer.getComponentAt(PathFindCord.class, i)
-					.setDiffusionValue(
-						tempDiffusionBuffer.get(0));
-				tempDiffusionBuffer.remove(0);
-			}
+		for (int i = 0; i < Resources.GameConfig.COOL_DOWN_KEYS.size();
+		     ++i) {
+			updateDtForKey(
+				Resources.GameConfig.COOL_DOWN_KEYS.get(i).fst,
+				this.dt / 1000);
 		}
 	}
-	private ArrayList<PathFindCord>
-	getEightNeighbourVector(int indexOfEcs, MapLayer mapLayer)
+	private void updateDtForKey(int keyIndex, double val)
 	{
-		ArrayList<Vector2f> neighbours = new ArrayList<Vector2f>();
-		ArrayList<PathFindCord> tmp = new ArrayList<PathFindCord>();
-		Vector2f centerVector =
-			mapLayer.getComponentAt(PathFindCord.class, indexOfEcs)
-				.getCord();
-		// add the 8 neighbours
-		neighbours.add(centerVector.addAndReturnVector(-1, 0));
-		neighbours.add(centerVector.addAndReturnVector(0, -1));
-		neighbours.add(centerVector.addAndReturnVector(0, 1));
-		neighbours.add(centerVector.addAndReturnVector(1, 0));
-
-		neighbours.add(centerVector.addAndReturnVector(1, 1));
-		neighbours.add(centerVector.addAndReturnVector(-1, 1));
-		neighbours.add(centerVector.addAndReturnVector(1, -1));
-		neighbours.add(centerVector.addAndReturnVector(-1, -1));
-		for (Vector2f neib : neighbours) {
-			// if the tile is valid
-			if (this.map.isValidCord(neib)
-			    && (this.mapLayer.hasComponent(
-				       PathFindCord.class,
-				       this.map.getEcsIndexFromWorldVector2f(
-					       neib)))) {
-				tmp.add(mapLayer.getComponentAt(
-					PathFindCord.class,
-					this.map.getEcsIndexFromWorldVector2f(
-						neib)));
-			}
-		}
-		return tmp;
-	}
-
-	// TODO: HAIYANG
-	// 1. Please make a no-direction movement..
-	private void updateEnemyPositionFromPlayer()
-	{
-		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
-			this.engineState, this.map, this.mapLayer, this.player);
-
-		/*
-		System.out.println("mob position in world attribues: ");
-		System.out.println(
-			"mob ecs cord= "
-			+ this.map.getEcsCordFromWorldAttributes(
-				  super.getComponentAt(WorldAttributes.class,
-						       this.mob1)));
-		System.out.println(
-			"mob x dir="
-			+ super.getComponentAt(WorldAttributes.class, this.mob1)
-				  .getCenteredBottomQuarter()
-				  .x);
-
-		System.out.println(
-			"mob y dir="
-			+ super.getComponentAt(WorldAttributes.class, this.mob1)
-				  .getCenteredBottomQuarter()
-				  .y);
-		System.out.println(this.map.isValidCord(
-			super.getComponentAt(WorldAttributes.class, this.mob1)
-				.getCenteredBottomQuarter()));
-			*/
-		ArrayList<PathFindCord> mobNeighb = getEightNeighbourVector(
-			this.map.getEcsIndexFromWorldVector2f(
-				super.getComponentAt(WorldAttributes.class,
-						     this.mob1)
-					.getCenteredBottomQuarter()),
-			this.mapLayer);
-		float maxValue = 0;
-		Vector2f maxPosition = new Vector2f();
-		Vector2f mobPosition =
-			super.getComponentAt(WorldAttributes.class, this.mob1)
-				.getCenteredBottomQuarter();
-
-		Vector2f playerPosition =
-			super.getComponentAt(WorldAttributes.class, this.player)
-				.getCenteredBottomQuarter();
-		/*
-		System.out.println("mob x position: " + mobPosition.x);
-		System.out.println("mob y position: " + mobPosition.y);
-		System.out.println("mob x floored position: "
-				   + (int)mobPosition.x);
-		System.out.println("mob y floored position: "
-				   + (int)mobPosition.y);
-		//System.out.println("player x position: " + playerPosition.x);
-		System.out.println("player y position: " + playerPosition.y);
-		System.out.println("player x floored position: "
-				   + (int)playerPosition.x);
-		System.out.println("player y floored position: "
-				   + (int)playerPosition.y);
-		System.out.println("player x position  floor ="
-				   + playerPosition.x);
-		System.out.println("player y position  floor ="
-				   + playerPosition.y);
-		System.out.println("mob x position before floor ="
-				   + mobPosition.x);
-		System.out.println("mob y position before floor ="
-				   + mobPosition.y);
-		System.out.println("mob x position after  floor ="
-				   + mobPosition.x);
-		System.out.println("mob y position after  floor ="
-				   + mobPosition.y);
-				   */
-
-		// else {
-		for (PathFindCord neib : mobNeighb) {
-			if (neib.getDiffusionValue() >= maxValue) {
-				maxValue = neib.getDiffusionValue();
-				maxPosition = neib.getCord();
-			}
-		}
-		/*
-		System.out.println(" the max value calculated for the enemy: "
-				   + maxValue);
-		System.out.println("maxPosition x =" + maxPosition.x);
-		System.out.println("maxPosition y =" + maxPosition.y);
-		System.out.println("cardinal inside enemy :");
-		CardinalDirections.print(
-			CardinalDirections
-				.getClosestDirectionFromDirectionVector(
-					maxPosition.subtractAndReturnVector(
-						mobPosition)));
-						*/
-		CardinalDirections.print(
-			CardinalDirections
-				.getClosestDirectionFromDirectionVector(
-					playerPosition.subtractAndReturnVector(
-						mobPosition)));
-		System.out.println(
-			" the diffusion value at mob is ="
-			+ this.map.getLayerEngineState(0)
-				  .getComponentAt(
-					  PathFindCord.class,
-					  this.map.getEcsIndexFromWorldVector2f(
-						  super.getComponentAt(
-							       WorldAttributes
-								       .class,
-							       this.mob1)
-							  .getCenteredBottomQuarter()))
-				  .getDiffusionValue());
-		System.out.println("player x position  floor ="
-				   + playerPosition.x);
-		System.out.println("player y position  floor ="
-				   + playerPosition.y);
-		System.out.println("mob x position before floor ="
-				   + mobPosition.x);
-		System.out.println("mob y position before floor ="
-				   + mobPosition.y);
-		// if mob and player are at the same tile
-		if ((int)mobPosition.x == (int)playerPosition.x
-		    && (int)mobPosition.y == (int)playerPosition.y) {
-			System.out.println(
-				"went inside where the player cord is equal to mob cord!");
-
-			if (Math.abs(mobPosition.x - playerPosition.x) != 0f
-			    && Math.abs(mobPosition.y - playerPosition.y)
-				       != 0f) {
-				super.getComponentAt(MovementDirection.class,
-						     this.mob1)
-					.setDirection(CardinalDirections.getClosestDirectionFromDirectionVector(
-						playerPosition
-							.subtractAndReturnVector(
-								mobPosition)));
-				super.getComponentAt(Movement.class, this.mob1)
-					.setSpeed(GameConfig.MOB_SPEED);
-			} else {
-				super.getComponentAt(Movement.class, this.mob1)
-					.setSpeed(0);
-			}
-		}
-		// test if the current tile the mob is at is bigger than the max
-		// value
-		else if (
-			maxValue
-			<= this.map.getLayerEngineState(0)
-				   .getComponentAt(
-					   PathFindCord.class,
-					   this.map.getEcsIndexFromWorldVector2f(
-						   super.getComponentAt(
-								WorldAttributes
-									.class,
-								this.mob1)
-							   .getCenteredBottomQuarter()))
-				   .getDiffusionValue()
-
-		) {
-			System.out.println(
-				" went inside this cord is bigger than all neightbours!!");
-			System.out.println(
-				"set the mob speed equal to 0!!!!!!!");
-			super.getComponentAt(Movement.class, this.mob1)
-				.setSpeed(0f);
-		} else {
-			// mobPosition.floor();
-			// maxPosition.floor();
-
-			/*
-			super.getComponentAt(MovementDirection.class, this.mob1)
-				.setDirection(
-					CardinalDirections.getClosestDirectionFromDirectionVector(
-						maxPosition
-							.subtractAndReturnVector(
-								mobPosition)));
-				*/
-
-
-			// if the mob is on a wall
-			// TODO: Please don't delete this!!!!! might be
-			// important when the player is moving aroudn the
-			// corners..
-			/*
-			if (mapLayer.getComponentAt(
-					    PathFindCord.class,
-					    this.map.getEcsIndexFromWorldVector2f(
-						    mobPosition))
-				    .getIsWall()) {
-				System.out.println("mob inside wall!!");
-
-				CardinalDirections curDir =
-					CardinalDirections.getClosestDirectionFromDirectionVector(
-						maxPosition
-							.subtractAndReturnVector(
-								mobPosition));
-				System.out.println(
-					"inside the wall, the new cardinal
-			position of the player is ");
-				CardinalDirections.print(curDir);
-				if (curDir == CardinalDirections.W
-				    || curDir == CardinalDirections.E
-				    || curDir == CardinalDirections.N
-				    || curDir == CardinalDirections.S) {
-					curDir =
-			CardinalDirections.getClosestDirectionFromDirectionVector(
-						playerPosition
-							.subtractAndReturnVector(
-								mobPosition));
-					System.out.println(
-						"went inside WENS!! The new
-			cardinal direction need to be checked it: ");
-					CardinalDirections.print(curDir);
-					System.out.println(
-						"finish went inside WENS!! ");
-				}
-
-
-				if (curDir == CardinalDirections.NW) {
-					super.getComponentAt(
-						     MovementDirection.class,
-						     this.mob1)
-						.setDirection(
-							CardinalDirections.NE);
-				} else if (curDir == CardinalDirections.SW) {
-					super.getComponentAt(
-						     MovementDirection.class,
-						     this.mob1)
-						.setDirection(
-							CardinalDirections.NW);
-				} else if (curDir == CardinalDirections.NE) {
-					super.getComponentAt(
-						     MovementDirection.class,
-						     this.mob1)
-						.setDirection(
-							CardinalDirections.SE);
-				} else if (curDir == CardinalDirections.SE) {
-					super.getComponentAt(
-						     MovementDirection.class,
-						     this.mob1)
-						.setDirection(
-							CardinalDirections.SW);
-				}
-
-				System.out.println(
-					"aftr changign the cardianl direction
-			inside the wall, the new cardinal position of the player
-			is "); CardinalDirections.print( super.getComponentAt(
-						     MovementDirection.class,
-						     this.mob1)
-						.getDirection());
-			} else {
-			*/
-			mobPosition.floor();
-			maxPosition.floor();
-			super.getComponentAt(MovementDirection.class, this.mob1)
-				.setDirection(
-					CardinalDirections.getClosestDirectionFromDirectionVector(
-						maxPosition
-							.subtractAndReturnVector(
-								mobPosition)));
-			super.getComponentAt(Movement.class, this.mob1)
-				.setSpeed(GameConfig.MOB_SPEED);
+		// if the key cooldown is not 0.. i put a if statement here
+		// becasuse i don't want to subtract it to neg infinity..
+		if (lastCoolDown.get(keyIndex) - val >= 0d) {
+			lastCoolDown.set(keyIndex,
+					 lastCoolDown.get(keyIndex) - val);
 		}
 	}
 }
