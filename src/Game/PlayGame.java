@@ -5,16 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
-import Components.AabbCollisionBody;
-import Components.CardinalDirections;
-import Components.CircleCollisionBody;
-import Components.CollisionAabbBodies;
-import Components.FacingDirection;
-import Components.HasAnimation;
-import Components.Movement;
-import Components.MovementDirection;
-import Components.Render;
-import Components.WorldAttributes;
+import Components.*;
 import EntitySets.Bullet;
 import EntitySets.ConstructSet;
 import EntitySets.MobSet;
@@ -66,11 +57,11 @@ public class PlayGame extends World
 		// World loading
 		this.map = new Map(3);
 		this.map.addTileSet(GameResources.tileSet);
-		// this.map.addMapConfig(GameResources.pathFindTest3Config);
-		// this.map.addMapLayer(GameResources.pathFindTest3Layer);
+		this.map.addMapConfig(GameResources.pathFindTest3Config);
+		this.map.addMapLayer(GameResources.pathFindTest3Layer);
 
-		this.map.addMapConfig(GameResources.renderPerformanceConf);
-		this.map.addMapLayer(GameResources.renderPerformanceLayer);
+		// this.map.addMapConfig(GameResources.renderPerformanceConf);
+		// this.map.addMapLayer(GameResources.renderPerformanceLayer);
 		// adding the maximum cooldown for turrent
 
 
@@ -199,7 +190,11 @@ public class PlayGame extends World
 			// generateDiffusionMap.start();
 			// executor.execute(generateDiffusionMap);
 			// pool.execute(generateDiffusionMap);
+
+
 			generateDiffusionMap.setStart();
+
+
 			System.out.println("start in generateDiffusionMap is ="
 					   + generateDiffusionMap.start);
 			long startTime = System.nanoTime();
@@ -223,8 +218,6 @@ public class PlayGame extends World
 			System.out.println("time took for before path finding: "
 					   + duration);
 
-			while (generateDiffusionMap.start == true) {
-			}
 
 			startTime = System.nanoTime();
 
@@ -235,9 +228,15 @@ public class PlayGame extends World
 			System.out.println("time took for the path finding..: "
 					   + duration);
 
+
+			while (generateDiffusionMap.start == true) {
+			}
 			EngineTransforms.updateEnemyPositionFromPlayer(
 				this.engineState, this.map, 0, this.player,
 				this.mob1);
+			System.out.println(
+				"start in generateDiffusionMap after updateEnemyPositionFromPlayer is ="
+				+ generateDiffusionMap.start);
 			// this.generateDiffusionMap(0, 1f / 8f);
 			// this.updateEnemyPositionFromPlayer();
 
@@ -245,6 +244,7 @@ public class PlayGame extends World
 			centerCamerasPositionToPlayer();
 			updateInverseCamera();
 			updateCoolDownKeys();
+
 
 			EngineTransforms.updateAnimationWindows(
 				this.engineState, this.dt);
@@ -254,6 +254,7 @@ public class PlayGame extends World
 			EngineTransforms
 				.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 					this.engineState, this.cam);
+
 
 			System.out.println(
 				"----------------------- end one loop");
@@ -444,6 +445,16 @@ public class PlayGame extends World
 					new TurrentSet());
 				super.getComponentAt(WorldAttributes.class, tmp)
 					.setOriginCoord(playerPosition);
+
+
+				this.map.getLayerEngineState(0)
+					.getComponentAt(
+						PathFindCord.class,
+						this.map.getEcsIndexFromWorldVector2f(
+							playerPosition))
+					.setDiffusionValue(
+						GameConfig
+							.TOWER_DIFFUSION_VALUE);
 				// reset the lastCooldown key to the max
 				// cooldown of that key
 				updateDtForKey(GameConfig.BUILD_TOWER,

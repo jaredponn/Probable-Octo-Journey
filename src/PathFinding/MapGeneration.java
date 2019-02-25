@@ -50,7 +50,8 @@ public class MapGeneration extends Thread
 				// this.player)
 				//.getCenteredBottomQuarter());
 				ArrayList<Float> tempDiffusionBuffer =
-					new ArrayList<Float>();
+					new ArrayList<Float>(map.mapWidth
+							     * map.mapHeight);
 				// will not loop to the empty tiles inside the
 				// map, hopefull !!
 				for (int i = this.mapLayer
@@ -63,7 +64,6 @@ public class MapGeneration extends Thread
 					// Vector2f testVector=
 					//
 
-					float sum = 0f;
 					PathFindCord center =
 						this.mapLayer.getComponentAt(
 							PathFindCord.class, i);
@@ -78,6 +78,8 @@ public class MapGeneration extends Thread
 							getEightNeighbourVector(
 								map, i,
 								this.mapLayer);
+						float sum = 0f;
+
 						// System.out.println("size of
 						// tempNeighbours ="
 						//+ tempNeighbours.size());
@@ -133,8 +135,7 @@ public class MapGeneration extends Thread
 							+ sum);
 						*/
 					} else {
-						sum = 0f;
-						tempDiffusionBuffer.add(sum);
+						tempDiffusionBuffer.add(0f);
 					}
 				}
 

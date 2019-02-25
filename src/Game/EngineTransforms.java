@@ -14,6 +14,7 @@ import Resources.*;
 import TileMap.*;
 
 import poj.Render.Renderer;
+import EntitySets.*;
 
 public class EngineTransforms
 {
@@ -111,7 +112,7 @@ public class EngineTransforms
 		long startTime = System.nanoTime();
 		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
 		ArrayList<Float> tempDiffusionBuffer = new ArrayList<Float>();
-		// will not loop to the empty tiles inside the map, hopefull !!
+		// will not loop to the empty tiles inside the map
 		for (int i = mapLayer.getInitialComponentIndex(
 			     PathFindCord.class);
 		     Components.isValidEntity(i);
@@ -120,7 +121,6 @@ public class EngineTransforms
 			// Vector2f testVector=
 			//
 
-			float sum = 0f;
 			PathFindCord center =
 				mapLayer.getComponentAt(PathFindCord.class, i);
 			/*
@@ -133,6 +133,8 @@ public class EngineTransforms
 					PathFinding.MapGeneration
 						.getEightNeighbourVector(
 							map, i, mapLayer);
+				float sum = 0f;
+
 				// System.out.println("size of
 				// tempNeighbours ="
 				//+ tempNeighbours.size());
@@ -146,20 +148,22 @@ public class EngineTransforms
 					if (!a.getIsWall()) {
 						sum += a.getDiffusionValue()
 						       - center.getDiffusionValue();
-					} else {
-						/*
-					System.out.println(
-						"I did not pass!!, the
-					Vector x  index is ="
-						+ a.getCord()
-							  .x);
-					System.out.println(
-						"I did not pass!!, the
-					Vector y  index is ="
-						+ a.getCord()
-							  .y);
-							  */
 					}
+
+					// else {
+					/*
+				System.out.println(
+					"I did not pass!!, the
+				Vector x  index is ="
+					+ a.getCord()
+						  .x);
+				System.out.println(
+					"I did not pass!!, the
+				Vector y  index is ="
+					+ a.getCord()
+						  .y);
+						  */
+					//}
 				}
 				/*
 				System.out.println(
@@ -185,8 +189,7 @@ public class EngineTransforms
 					+ sum);
 				*/
 			} else {
-				sum = 0f;
-				tempDiffusionBuffer.add(sum);
+				tempDiffusionBuffer.add(0f);
 			}
 		}
 
@@ -213,7 +216,7 @@ public class EngineTransforms
 		startTime = System.nanoTime();
 
 		if (tempDiffusionBuffer.size() > 0) {
-			int counter = 0;
+			int count = 0;
 			for (int i = mapLayer.getInitialComponentIndex(
 				     PathFindCord.class);
 			     Components.isValidEntity(i);
@@ -221,9 +224,8 @@ public class EngineTransforms
 				     PathFindCord.class, i)) {
 				mapLayer.getComponentAt(PathFindCord.class, i)
 					.setDiffusionValue(
-						tempDiffusionBuffer.get(
-							counter));
-				++counter;
+						tempDiffusionBuffer.get(count));
+				++count;
 				// tempDiffusionBuffer.remove(0);
 			}
 		}
@@ -543,6 +545,24 @@ public class EngineTransforms
 			engineState
 				.getComponentAt(WorldAttributes.class, player)
 				.getCenteredBottomQuarter();
+
+		// loop the turrents and set their diffusion values
+		for (int i = engineState.getInitialSetIndex(TurrentSet.class);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(TurrentSet.class, i)) {
+			mapLayer.getComponentAt(
+					PathFindCord.class,
+					map.getEcsIndexFromWorldVector2f(
+						engineState
+							.getComponentAt(
+								WorldAttributes
+									.class,
+								i)
+							.getCenteredBottomQuarter()))
+				.setDiffusionValue(
+					GameConfig.TOWER_DIFFUSION_VALUE);
+		}
+
 		/*
 		System.out.println("player X=" + playerPosition.x);
 		System.out.println("player Y=" + playerPosition.y);
