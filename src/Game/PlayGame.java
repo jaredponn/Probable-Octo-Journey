@@ -651,16 +651,20 @@ public class PlayGame extends World
 		return playTime;
 	}
 
+	/** updates the gameTimer string with the current play time */
 	private void updateGameTimer()
 	{
 		this.gameTimer.setStr("" + getPlayTime());
 	}
 
+	/**  updates the cashDisplay string with the players current cash */
 	private void updateCashDisplay()
 	{
 		this.cashDisplay.setStr("Your Cash: $" + this.cash);
 	}
 
+	/** spawns a new mob entity if it has been at least 
+	 * MOB_SPAWN_TIMER seconds since the last spawn  */
 	private void mobSpawner()
 	{
 		double currentPlayTime = this.getPlayTime();
@@ -673,6 +677,11 @@ public class PlayGame extends World
 		}
 	}
 
+	/** spawns a new cash pick-up at a location
+	 * @param timed: only spawn if PICKUP_CASH_SPAWN_TIME seconds have passed since last spawn
+	 * @param x: x-coordinate to spawn the drop at
+	 * @param y: y-coordinate to spawn the drop at
+	 *   */
 	private void cashSpawner(boolean timed, float x, float y)
 	{
 		double currentPlayTime = this.getPlayTime();
@@ -691,6 +700,8 @@ public class PlayGame extends World
 		}
 	}
 
+	/** deletes cash drops older than the lifespan  
+	 * prevents drops that have not been collected from piling up*/
 	private void cashDropDespawner()
 	{
 		for (int i = this.engineState.getInitialSetIndex(
