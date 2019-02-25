@@ -20,4 +20,10 @@ public class Pair<T, U>
 	{
 		return snd;
 	}
+
+	public void setCord(T newT, U newU)
+	{
+		this.fst = newT;
+		this.snd = newU;
+	}
 }
