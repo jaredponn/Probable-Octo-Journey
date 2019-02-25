@@ -23,6 +23,7 @@ public class GameConfig
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
 	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
+	public static final int TOWER_DIFFUSION_VALUE = (int)Math.pow(2, 5);
 	public static final float PLAYER_HEIGHT =
 		GameResources.PLAYER_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 
 import Components.*;
+import EntitySets.*;
 
 import poj.linear.Vector2f;
 import Resources.*;
@@ -526,6 +527,23 @@ public class EngineTransforms
 			engineState
 				.getComponentAt(WorldAttributes.class, player)
 				.getCenteredBottomQuarter();
+		for (int i = engineState.getInitialSetIndex(TurretSet.class);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
+			mapLayer.getComponentAt(
+					PathFindCord.class,
+					map.getEcsIndexFromWorldVector2f(
+						engineState
+							.getComponentAt(
+								WorldAttributes
+									.class,
+								i)
+							.getCenteredBottomQuarter()))
+				.setDiffusionValue(
+					GameConfig.TOWER_DIFFUSION_VALUE);
+		}
+
+
 		/*
 		System.out.println("player X=" + playerPosition.x);
 		System.out.println("player Y=" + playerPosition.y);
