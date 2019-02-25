@@ -174,32 +174,31 @@ public class Systems
 	}
 
 	public static void
-	aabbCollisionBodyDebugRender(final AabbCollisionBody c, Renderer r,
-				     final Camera cam)
+	aabbCollisionBodyDebugRender(final AabbCollisionBody c,
+				     Queue<RenderObject> q, final Camera cam)
 	{
-		aabbCollisionBodyDebugRender(c.getCollisionAabb(), r, cam);
+		aabbCollisionBodyDebugRender(c.getCollisionAabb(), q, cam);
 	}
 
 	private static void aabbCollisionBodyDebugRender(final CollisionAabb c,
-							 Renderer r,
+							 Queue<RenderObject> q,
 							 final Camera cam)
 	{
 
 		for (int j = 0; j < CollisionAabb.NUM_POINTS; ++j) {
 			Vector2f tmp =
 				c.pureGetPoints()[j].pureMatrixMultiply(cam);
-			r.pushRenderObject(
-				new RenderRect((int)tmp.x, (int)tmp.y, 1, 1));
+			q.add(new RenderRect((int)tmp.x, (int)tmp.y, 1, 1));
 		}
 
 		Vector2f smin = c.min().pureMatrixMultiply(cam);
-		r.pushRenderObject(new RenderRect((int)smin.x, (int)smin.y, 2,
-						  2, Color.YELLOW));
+		q.add(new RenderRect((int)smin.x, (int)smin.y, 2, 2,
+				     Color.YELLOW));
 
 
 		Vector2f smax = c.max().pureMatrixMultiply(cam);
-		r.pushRenderObject(new RenderRect((int)smax.x, (int)smax.y, 2,
-						  2, Color.pink));
+		q.add(new RenderRect((int)smax.x, (int)smax.y, 2, 2,
+				     Color.pink));
 	}
 
 
@@ -227,8 +226,8 @@ public class Systems
 	}
 
 	public static void
-	circleCollisionDebugRenderer(final CircleCollisionBody a, Renderer r,
-				     final Camera cam)
+	circleCollisionDebugRenderer(final CircleCollisionBody a,
+				     Queue<RenderObject> q, final Camera cam)
 	{
 
 		Circle cc = a.getCollisionCircle();
@@ -247,14 +246,14 @@ public class Systems
 
 		Vector2f centerScreenCoord = center.pureMatrixMultiply(cam);
 
-		r.pushRenderObject(new RenderRect((int)centerScreenCoord.x,
-						  (int)centerScreenCoord.y, 2,
-						  2, Color.YELLOW));
+		q.add(new RenderRect((int)centerScreenCoord.x,
+				     (int)centerScreenCoord.y, 2, 2,
+				     Color.YELLOW));
 		for (int i = 0; i < 12; ++i) {
-			r.pushRenderObject(new RenderRect((int)perimeters[i].x,
-							  (int)perimeters[i].y,
+			q.add(new RenderRect((int)perimeters[i].x,
+					     (int)perimeters[i].y,
 
-							  2, 2, Color.RED));
+					     2, 2, Color.RED));
 		}
 	}
 
