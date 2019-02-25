@@ -15,6 +15,12 @@ public class PackedVector<T>
 
 	public static int INVALID_INDEX = -1;
 
+	/**
+	 * Constructs the PackedVector with a specified capacity
+	 *
+	 * @param  capacity capacity
+	 * @return      void
+	 */
 	public PackedVector(int capacity)
 	{
 		m_sparse_vector = new ArrayList<Integer>(
@@ -24,6 +30,13 @@ public class PackedVector<T>
 		m_next_free_index = 0;
 	}
 
+	/**
+	 * add element at sparse vector
+	 *
+	 * @param  index index
+	 * @param  val value to add
+	 * @return      void
+	 */
 	public void add_element_at_sparse_vector(final int index, final T val)
 	{
 		Logger.lassert(
@@ -39,6 +52,12 @@ public class PackedVector<T>
 		++m_next_free_index;
 	}
 
+	/**
+	 * delete element at sparse vector
+	 *
+	 * @param  index index
+	 * @return      void
+	 */
 	public void delete_element_at_sparse_vector(final int index)
 	{
 		Logger.lassert(
@@ -65,6 +84,13 @@ public class PackedVector<T>
 		--m_next_free_index;
 	}
 
+	/**
+	 * gets data from sparse vector
+	 *
+	 * @param  index index
+	 * @return      value at the index in the packed vector. If the index
+	 *         does not exist, or it is too large, crashes the program.
+	 */
 	public final T get_data_from_sparse_vector(final int index)
 	{
 		if (index >= m_sparse_vector.size()) {
@@ -89,6 +115,7 @@ public class PackedVector<T>
 		}
 		return m_packed_data.get(m_sparse_vector.get(index));
 	}
+
 
 	public final T set_data_at_sparse_vector(final int index, T val)
 	{
