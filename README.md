@@ -1,5 +1,8 @@
 # Probably Octo Journey: CPSC 233 Project
 
+
+#
+
 # Announcements:
 - The coordinate system is a little strange. The following diagram will illustrate:
 ```
@@ -41,16 +44,23 @@ else
 # Credits
 Tileset: https://opengameart.org/content/cave-tileset
 
+
 Turret: https://opengameart.org/content/orange-defense-gun-isometric
 
+
 Coin: https://opengameart.org/content/spinning-pixel-coin-0
+
 
 
 Majority of the collision algorithms were from or built upon /*Real-Time Collision Detection*/ by Christer Ericson, published by Morgan Kaufmann Publishers, Copyright 2005 Elsevier Inc.
 
 
+The game engine design came from various posts and contributions from: https://jaredponn.github.io/ and from the project https://github.com/jaredponn/improved-octo-waffle
+
+
 # Useful readings
 Path-finding: http://www.cs.colorado.edu/~ralex/papers/PDF/OOPSLA06antiobjects.pdf
+
 
 Collision detection and resolution: http://www.cs.colorado.edu/~ralex/papers/PDF/OOPSLA06antiobjects.pdf
 
