@@ -51,8 +51,6 @@ public class PlayGame extends World
 		this.map.addMapConfig(GameResources.pathFindTest1Config);
 		this.map.addMapLayer(GameResources.pathFindTest1Layer);
 		// adding the maximum cooldown for turrent
-
-
 		// setting the build turrent coolDown
 		for (int i = 0; i < GameConfig.COOL_DOWN_KEYS.size(); ++i) {
 			coolDownMax.set(GameConfig.COOL_DOWN_KEYS.get(i).fst,
@@ -190,6 +188,8 @@ public class PlayGame extends World
 			engineState, super.renderer, this.cam);
 		EngineTransforms.debugAabbCollisionRender(
 			engineState, super.renderer, this.cam);
+		EngineTransforms.debugMapAabbCollisionRender(
+			map, 0, super.renderer, this.cam);
 
 		// collision
 		/*
@@ -213,6 +213,7 @@ public class PlayGame extends World
 			EngineTransforms.updateEnemyPositionFromPlayer(
 				this.engineState, this.map, 0, this.player, i);
 		}
+
 		// this.generateDiffusionMap(0, 1f / 8f);
 		// this.updateEnemyPositionFromPlayer();
 

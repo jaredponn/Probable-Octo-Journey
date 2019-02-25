@@ -3,33 +3,31 @@ package TileMap;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
+import Components.AabbCollisionBody;
+import Components.PathFindCord;
 import Components.Render;
 import Components.WorldAttributes;
-import Components.PathFindCord;
 import Resources.GameResources;
-import poj.Logger.Logger;
 
+import poj.Collisions.CollisionAabb;
+import poj.Logger.Logger;
 import poj.Render.ImageRenderObject;
-import poj.linear.Vector2f;
-import poj.linear.MatrixCord;
 import poj.Render.ImageWindow;
 import poj.Render.Renderer;
-
-/*
- * getTileCordFromWorldCord
- * isValidTileCord
- */
+import poj.linear.Vector2f;
 
 public class Map
 {
-	public ArrayList<MapLayer> mapLayers;
+	private ArrayList<MapLayer> mapLayers;
 	// store the image window of each tiles
-	public ArrayList<ImageWindow> tilesRenderPart =
+	private ArrayList<ImageWindow> tilesRenderPart =
 		new ArrayList<ImageWindow>();
-	public int rowsOfTileSet, colsOfTileSet, tileHeight, tileWidth,
+	private int rowsOfTileSet, colsOfTileSet, tileHeight, tileWidth,
 		tileCount, mapWidth = 0, mapHeight = 0;
+	private ArrayList<Boolean> wallState;
 
 	public Map(int numLayers)
 	{
@@ -131,6 +129,8 @@ public class Map
 			}
 			mapReader.close();
 			createTileRenderObjects();
+			createWallState();
+
 		} catch (FileNotFoundException e) {
 			System.out.println(
 				"In TileMap addTileSet ,file not found exception!"
@@ -151,6 +151,8 @@ public class Map
 				.registerComponent(WorldAttributes.class);
 			mapLayers.get(mapLayers.size() - 1)
 				.registerComponent(PathFindCord.class);
+			mapLayers.get(mapLayers.size() - 1)
+				.registerComponent(AabbCollisionBody.class);
 
 			Scanner mapReader =
 				new Scanner(new File(mapLayerLocation));
@@ -187,9 +189,9 @@ public class Map
 					    != -1) {
 
 						// PathFindCord create
-						if (Integer.parseInt(
-							    tempList[i])
-						    == 17) {
+						// if it is wall
+						if (wallState.get(Integer.parseInt(
+							    tempList[i]))) {
 							mapLayers
 								.get(mapLayers
 									     .size()
@@ -204,6 +206,21 @@ public class Map
 											i % mapWidth),
 										true,
 										0),
+									nextFreeIndex);
+
+							mapLayers
+								.get(mapLayers
+									     .size()
+								     - 1)
+								.addComponentAt(
+									AabbCollisionBody
+										.class
+									,
+									new AabbCollisionBody(new CollisionAabb(
+										numRows - 1,
+										i % mapWidth,
+										64,
+										32)),
 									nextFreeIndex);
 						} else {
 							mapLayers
@@ -333,6 +350,26 @@ public class Map
 					mapRenderLayer.get(i).render(renderer);
 				}
 			}
+		}
+	}
+
+	public void createWallState()
+	{
+		wallState = new ArrayList<Boolean>(
+			Collections.nCopies(tileCount, false));
+
+		// setting the tile cord of these tiles
+		for (int i = 48; i <= 99; ++i) {
+			wallState.set(i, true);
+		}
+		for (int i = 112; i <= 119; ++i) {
+			wallState.set(i, true);
+		}
+		for (int i = 128; i <= 137; ++i) {
+			wallState.set(i, true);
+		}
+		for (int i = 176; i <= 203; ++i) {
+			wallState.set(i, true);
 		}
 	}
 
