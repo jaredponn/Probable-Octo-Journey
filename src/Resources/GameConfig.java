@@ -51,6 +51,7 @@ public class GameConfig
 		new CircleCollisionBody(new CollisionCircle(0, 0, MOB_WIDTH));*/
 	public static final AabbCollisionBody MOB_COLLISION_BODY =
 		new AabbCollisionBody(new CollisionAabb(MOB_WIDTH, MOB_HEIGHT));
+	public static final float MOB_SPAWN_TIMER = 10.0f;
 
 	// construct config
 	public static final float CONSTRUCT_HEIGHT = 64;
