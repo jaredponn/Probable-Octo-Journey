@@ -103,15 +103,10 @@ public class EngineTransforms
 	public static void generateDiffusionMap(Map map, int layerNumber,
 						float difCoefficient)
 	{
-		// TODO: HAIYANG will only do one layer!!!!!
-		// will get the 8 neighbours aroud it
-
-		// temporary buffer used to store the modified diffusion values
-		// int playerECSindex = this.map.getEcsIndexFromWorldVector2f(
-		// super.getComponentAt(WorldAttributes.class, this.player)
-		//.getCenteredBottomQuarter());
 		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
-		ArrayList<Float> tempDiffusionBuffer = new ArrayList<Float>();
+		// will allocate vector size of map size
+		ArrayList<Float> tempDiffusionBuffer =
+			new ArrayList<Float>(map.mapWidth * map.mapHeight);
 		// will not loop to the empty tiles inside the map, hopefull !!
 		for (int i = mapLayer.getInitialComponentIndex(
 			     PathFindCord.class);
@@ -204,6 +199,7 @@ public class EngineTransforms
 		System.out.println();
 		*/
 		if (tempDiffusionBuffer.size() > 0) {
+			int count = 0;
 			for (int i = mapLayer.getInitialComponentIndex(
 				     PathFindCord.class);
 			     Components.isValidEntity(i);
@@ -211,8 +207,8 @@ public class EngineTransforms
 				     PathFindCord.class, i)) {
 				mapLayer.getComponentAt(PathFindCord.class, i)
 					.setDiffusionValue(
-						tempDiffusionBuffer.get(0));
-				tempDiffusionBuffer.remove(0);
+						tempDiffusionBuffer.get(count));
+				++count;
 			}
 		}
 	}

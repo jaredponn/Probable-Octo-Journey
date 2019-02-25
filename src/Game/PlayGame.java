@@ -71,6 +71,7 @@ public class PlayGame extends World
 		this.map.addMapConfig(GameResources.demo1Config);
 		this.map.addMapLayer(GameResources.demo1LayerGround);
 		this.map.addMapLayer(GameResources.demo1LayerWall);
+		// this.map.addMapConfig(GameResources.pathFindTest3Config);
 		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
 
 

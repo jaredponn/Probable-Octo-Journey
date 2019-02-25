@@ -25,7 +25,7 @@ public class Map
 	// store the image window of each tiles
 	private ArrayList<ImageWindow> tilesRenderPart =
 		new ArrayList<ImageWindow>();
-	private int rowsOfTileSet, colsOfTileSet, tileHeight, tileWidth,
+	public int rowsOfTileSet, colsOfTileSet, tileHeight, tileWidth,
 		tileCount, mapWidth = 0, mapHeight = 0;
 	private ArrayList<Boolean> wallState;
 
