@@ -1,7 +1,14 @@
 # Probably Octo Journey: CPSC 233 Project
 
 
-#
+# Running the demo
+
+```
+git clone https://github.com/jaredponn/probable-octo-journey
+cd probable-octo-journey
+./run.sh
+```
+
 
 # Announcements:
 - The coordinate system is a little strange. The following diagram will illustrate:
