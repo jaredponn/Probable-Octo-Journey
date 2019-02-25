@@ -116,7 +116,6 @@ public class EngineTransforms
 			// Vector2f testVector=
 			//
 
-			float sum = 0f;
 			PathFindCord center =
 				mapLayer.getComponentAt(PathFindCord.class, i);
 			/*
@@ -128,6 +127,7 @@ public class EngineTransforms
 				ArrayList<PathFindCord> tempNeighbours =
 					getEightNeighbourVector(map, i,
 								mapLayer);
+				float sum = 0f;
 				// System.out.println("size of
 				// tempNeighbours ="
 				//+ tempNeighbours.size());
@@ -180,8 +180,7 @@ public class EngineTransforms
 					+ sum);
 				*/
 			} else {
-				sum = 0f;
-				tempDiffusionBuffer.add(sum);
+				tempDiffusionBuffer.add(0f);
 			}
 		}
 
