@@ -9,7 +9,7 @@ import Components.*;
 
 public class CollectibleSet extends EntitySet{
 
-	public CollectibleSet() {
+	public CollectibleSet( double spawnTime ) {
 		super();
 		
 		addComponent(new Render(new ImageRenderObject(
@@ -18,9 +18,11 @@ public class CollectibleSet extends EntitySet{
 		addComponent(new WorldAttributes(new Vector2f(1f, 1f),
 				 GameConfig.MOB_WIDTH,
 				 GameConfig.MOB_HEIGHT));
+		
+		addComponent(new Lifespan( GameConfig.PICKUP_CASH_SPAWN_TIME , spawnTime));
 	}
 	
-	public CollectibleSet( float x , float y) {
+	public CollectibleSet( float x , float y , double spawnTime ) {
 		super();
 		
 		addComponent(new Render(new ImageRenderObject(
@@ -29,5 +31,7 @@ public class CollectibleSet extends EntitySet{
 		addComponent(new WorldAttributes(new Vector2f( x , y ),
 				 GameConfig.MOB_WIDTH,
 				 GameConfig.MOB_HEIGHT));
+		
+		addComponent(new Lifespan( GameConfig.PICKUP_CASH_SPAWN_TIME , spawnTime ));
 	}
 }

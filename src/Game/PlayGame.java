@@ -45,7 +45,7 @@ public class PlayGame extends World
 
 	// ASE
 	private double timeOfLastMobSpawn = 0.0;
-	private double timeOfLastCashSpawn = 0.0;
+	private double timeOfLastCashSpawn = 0.0 - GameConfig.PICKUP_CASH_SPAWN_TIME;
 	private int cash = 0;
 
 	private StringRenderObject gameTimer =
@@ -109,6 +109,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(CollisionAabbBodies.class);
 		super.engineState.registerComponent(AabbCollisionBody.class);
 		super.engineState.registerComponent(CircleCollisionBody.class);
+		super.engineState.registerComponent(Lifespan.class);
 	}
 	public void registerEntitySets()
 	{
@@ -129,8 +130,6 @@ public class PlayGame extends World
 		for (int i = 0; i < 1; ++i) {
 			super.engineState.spawnEntitySet(new MobSet());
 		}
-		// AlexTest
-		super.engineState.spawnEntitySet(new CollectibleSet());
 
 
 		// ------
@@ -186,6 +185,7 @@ public class PlayGame extends World
 		// ASE
 		this.mobSpawner();
 		// TODO: make mobs drop cash on death?
+		this.cashDropDespawner();
 		this.cashSpawner( true , 4f , 7f );
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
 
@@ -713,14 +713,33 @@ public class PlayGame extends World
 	private void cashSpawner( boolean timed , float x , float y ) {
 		double currentPlayTime = this.getPlayTime();
 		if ( timed == true && currentPlayTime - this.timeOfLastCashSpawn > GameConfig.PICKUP_CASH_SPAWN_TIME) {
-			super.engineState.spawnEntitySet(new CollectibleSet( x , y ));
+			super.engineState.spawnEntitySet(new CollectibleSet( x , y , currentPlayTime ));
 			this.timeOfLastCashSpawn = currentPlayTime;
 			System.out.println("Spawning new timed cash drop.");
 		}
 		else if ( timed == false ){
-			super.engineState.spawnEntitySet(new CollectibleSet( x , y ));
+			super.engineState.spawnEntitySet(new CollectibleSet( x , y , currentPlayTime ));
 			this.timeOfLastCashSpawn = currentPlayTime;
 			System.out.println("Spawning new cash drop.");
+		}
+	}
+	
+	private void cashDropDespawner() {
+		for (int i = this.engineState.getInitialSetIndex(
+			     CollectibleSet.class);
+		     this.engineState.isValidEntity(i);
+		     i = this.engineState.getNextSetIndex(CollectibleSet.class,
+							  i)) {
+			
+			double spawnTime = engineState.getComponentAt(Lifespan.class, i).getSpawnTime();
+			double lifespan = engineState.getComponentAt(Lifespan.class, i).getLifespan();
+			
+			if ( this.getPlayTime() - spawnTime >= lifespan ) {
+				this.engineState.deleteComponentAt(CollectibleSet.class, i);
+				this.engineState.deleteComponentAt(Render.class, i);
+				this.engineState.deleteComponentAt(WorldAttributes.class, i);
+				this.engineState.deleteComponentAt(Lifespan.class, i);
+			}
 		}
 	}
 
@@ -757,6 +776,7 @@ public class PlayGame extends World
 								   i);
 				this.engineState.deleteComponentAt(
 					WorldAttributes.class, i);
+				this.engineState.deleteComponentAt(Lifespan.class, i);
 			}
 		}
 	}
