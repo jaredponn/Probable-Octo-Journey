@@ -840,7 +840,7 @@ public class EngineTransforms
 
 
 	public static void debugCircleCollisionRender(EngineState engineState,
-						      Renderer r,
+						      Queue<RenderObject> q,
 						      final Camera cam)
 	{
 		for (int i = engineState.getInitialSetIndex(
@@ -851,12 +851,12 @@ public class EngineTransforms
 			Systems.circleCollisionDebugRenderer(
 				engineState.getComponentAt(
 					CircleCollisionBody.class, i),
-				r, cam);
+				q, cam);
 		}
 	}
 
 	public static void debugAabbCollisionRender(EngineState engineState,
-						    Renderer r,
+						    Queue<RenderObject> q,
 						    final Camera cam)
 	{
 		for (int i = engineState.getInitialSetIndex(
@@ -868,13 +868,13 @@ public class EngineTransforms
 			Systems.aabbCollisionBodyDebugRender(
 				engineState.getComponentAt(
 					AabbCollisionBody.class, i),
-				r, cam);
+				q, cam);
 		}
 	}
 
 
 	public static void debugMapAabbCollisionRender(Map map, int layerNumber,
-						       Renderer r,
+						       Queue<RenderObject> q,
 						       final Camera cam)
 	{
 		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
@@ -886,7 +886,7 @@ public class EngineTransforms
 			Systems.aabbCollisionBodyDebugRender(
 				mapLayer.getComponentAt(AabbCollisionBody.class,
 							i),
-				r, cam);
+				q, cam);
 		}
 	}
 
