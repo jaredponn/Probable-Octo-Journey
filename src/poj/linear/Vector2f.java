@@ -338,6 +338,20 @@ public class Vector2f
 		return "(" + x + ", " + y + ")";
 	}
 
+	public static Vector2f pureTripleProduct(Vector2f a2, Vector2f b2,
+						 Vector2f c2)
+	{
+		Vector3f a = Vector3f.convertVec2ToVec3(a2);
+		Vector3f b = Vector3f.convertVec2ToVec3(b2);
+		Vector3f c = Vector3f.convertVec2ToVec3(c2);
+
+		Vector3f p = a.pureCross(b);
+		Vector3f q = p.pureCross(c);
+
+		return new Vector2f(q.x, q.y);
+	}
+
+
 	/*
 	 *       C
 	 *      /|

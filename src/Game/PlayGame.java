@@ -62,8 +62,9 @@ public class PlayGame extends World
 		this.map = new Map(3);
 		this.map.addTileSet(GameResources.tileSet);
 		this.map.addMapConfig(GameResources.pathFindTest1Config);
-		this.map.addMapLayer(GameResources.pathFindTest1Layer);
-		// adding the maximum cooldown for turret
+		this.map.addMapLayer(GameResources.pathFindTest1LayerGround);
+		this.map.addMapLayer(GameResources.pathFindTest1LayerWall);
+		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
 
 
 		// setting the build turret coolDown
@@ -219,8 +220,10 @@ public class PlayGame extends World
 			engineState, super.renderer, this.cam);
 		EngineTransforms.debugAabbCollisionRender(
 			engineState, super.renderer, this.cam);
-		EngineTransforms.debugMapAabbCollisionRender(
-			map, 0, super.renderer, this.cam);
+		for (int i = 0; i < this.map.getLayerNumber(); ++i) {
+			EngineTransforms.debugMapAabbCollisionRender(
+				map, i, super.renderer, this.cam);
+		}
 
 		// collision
 		/*
@@ -546,8 +549,10 @@ public class PlayGame extends World
 	{
 
 
-		this.pushTileMapLayerToRenderer(
-			this.map.getLayerEngineState(0));
+		for (int i = 0; i < this.map.getLayerNumber(); ++i) {
+			this.pushTileMapLayerToRenderer(
+				this.map.getLayerEngineState(i));
+		}
 
 		for (Render r :
 		     super.getRawComponentArrayListPackedData(Render.class)) {
@@ -684,7 +689,7 @@ public class PlayGame extends World
 	/** @return: current time the game has been running in seconds */
 	private double getPlayTime()
 	{
-		double playTime = Math.floor( (super.acct / 1000) * 100 ) / 100 ;
+		double playTime = Math.floor((super.acct / 1000) * 100) / 100;
 		return playTime;
 	}
 
@@ -709,8 +714,9 @@ public class PlayGame extends World
 					   + this.timeOfLastMobSpawn);
 		}
 	}
-	
-	private void cashSpawner( boolean timed , float x , float y ) {
+
+	private void cashSpawner(boolean timed, float x, float y)
+	{
 		double currentPlayTime = this.getPlayTime();
 		if ( timed == true && currentPlayTime - this.timeOfLastCashSpawn > GameConfig.PICKUP_CASH_SPAWN_TIME) {
 			super.engineState.spawnEntitySet(new CollectibleSet( x , y , currentPlayTime ));

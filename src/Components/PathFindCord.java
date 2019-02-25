@@ -19,6 +19,11 @@ public class PathFindCord implements Component
 	{
 		return this.isWall;
 	}
+
+	public void setIsWall(boolean newWall)
+	{
+		this.isWall = newWall;
+	}
 	public float getDiffusionValue()
 	{
 		return this.diffusionValue;

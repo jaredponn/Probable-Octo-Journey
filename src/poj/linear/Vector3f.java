@@ -151,15 +151,25 @@ public class Vector3f
 		}
 	}
 
-	public final Vector3f crossProduct(final Vector3f a, final Vector3f b)
+	public final static Vector3f crossProduct(final Vector3f a,
+						  final Vector3f b)
 	{
-		Logger.lassert(
-			(a == new Vector3f(0, 0, 0)
-			 || b == new Vector3f(0, 0, 0)),
-			"MAJOR ERROR in crossProduct!! one of the vectors are 0!!");
 		return new Vector3f(a.y * b.z - a.z * b.y,
 				    a.z * b.x - a.x * b.z,
 				    a.x * b.y - a.y * b.x);
+	}
+
+	public final Vector3f pureCross(final Vector3f b)
+	{
+		return new Vector3f(this.y * b.z - this.z * b.y,
+				    this.z * b.x - this.x * b.z,
+				    this.x * b.y - this.y * b.x);
+	}
+
+
+	public static final Vector3f convertVec2ToVec3(Vector2f a)
+	{
+		return new Vector3f(a.x, a.y, 0);
 	}
 
 	public final float getX()
