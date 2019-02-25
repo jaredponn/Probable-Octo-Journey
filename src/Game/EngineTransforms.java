@@ -108,7 +108,7 @@ public class EngineTransforms
 		// will allocate vector size of map size
 		ArrayList<Float> tempDiffusionBuffer =
 			new ArrayList<Float>(map.mapWidth * map.mapHeight);
-		// will not loop to the empty tiles inside the map, hopefull !!
+		// will not loop to the empty tiles inside the map
 		for (int i = mapLayer.getInitialComponentIndex(
 			     PathFindCord.class);
 		     Components.isValidEntity(i);
@@ -224,6 +224,8 @@ public class EngineTransforms
 			engineState
 				.getComponentAt(WorldAttributes.class, player)
 				.getCenteredBottomQuarter();
+
+		// get the mob's highest neighbour value
 		for (PathFindCord neib : mobNeighb) {
 			if (neib.getDiffusionValue() >= maxValue) {
 				maxValue = neib.getDiffusionValue();
@@ -263,6 +265,8 @@ public class EngineTransforms
 			System.out.println(
 				"went inside where the player cord is equal to mob cord!");
 
+			// if the mob does not have the same position as the
+			// player
 			if (Math.abs(mobPosition.x - playerPosition.x)
 				    >= PlayGame.EPSILON
 			    && Math.abs(mobPosition.y - playerPosition.y)
@@ -276,7 +280,9 @@ public class EngineTransforms
 								mobPosition)));
 				engineState.getComponentAt(Movement.class, mob1)
 					.setSpeed(GameConfig.MOB_SPEED);
-			} else {
+			}
+			// mob have the same position as the player
+			else {
 				engineState.getComponentAt(Movement.class, mob1)
 					.setSpeed(0);
 			}
@@ -305,7 +311,10 @@ public class EngineTransforms
 				"set the mob speed equal to 0!!!!!!!");
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(0f);
-		} else {
+		}
+		// the max neighbour value is bigger than the value of the tile
+		// that the mob is standing on
+		else {
 			mobPosition.floor();
 			maxPosition.floor();
 			engineState
