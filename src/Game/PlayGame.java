@@ -1,25 +1,30 @@
 package Game;
 
-import Resources.*;
-import Components.*;
-
-import poj.Component.Components;
-import poj.linear.Vector2f;
-import poj.Render.*;
-import poj.Render.MinYFirstSortedRenderObjectBuffer;
-
-import Game.Camera;
-import EntitySets.*;
-import TileMap.*;
-
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.LinkedList;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Queue;
 
-import java.awt.*;
+import Components.*;
+import EntitySets.Bullet;
+import EntitySets.CollectibleSet;
+import EntitySets.ConstructSet;
+import EntitySets.MobSet;
+import EntitySets.PlayerSet;
+import EntitySets.TurretSet;
+import PathFinding.MapGeneration;
+import Resources.GameConfig;
+import Resources.GameResources;
+import TileMap.Map;
+import TileMap.MapLayer;
+
+import poj.Render.MinYFirstSortedRenderObjectBuffer;
+import poj.Render.RenderObject;
+import poj.Render.StringRenderObject;
+import poj.linear.Vector2f;
+import poj.Logger.*;
 
 public class PlayGame extends World
 {
@@ -61,6 +66,7 @@ public class PlayGame extends World
 		"Your Cash: " + this.cash, 5, 20, Color.WHITE);
 	// /ASE
 
+	private MapGeneration generateDiffusionMap;
 	public PlayGame()
 	{
 		super();
@@ -106,6 +112,10 @@ public class PlayGame extends World
 
 		this.invCam = new Camera();
 		this.updateInverseCamera();
+
+		// initialize the path finding thread
+		this.generateDiffusionMap =
+			new MapGeneration(this.map, 0, 1f / 8f);
 	}
 
 	public void registerComponents()
@@ -147,6 +157,9 @@ public class PlayGame extends World
 		// right now for testing it only have 1 layer
 
 		clearTime();
+
+		// start the path finding thread
+		generateDiffusionMap.start();
 	}
 	public void clearWorld()
 	{
@@ -156,6 +169,13 @@ public class PlayGame extends World
 	// step. Time is all in milliseconds
 	public void runGame()
 	{
+		try {
+			generateDiffusionMap.setStart();
+		} catch (Exception ex) {
+			Logger.logMessage(
+				"an exception has occured in path finding generation thread "
+				+ ex);
+		}
 		this.processInputs();
 
 		// ASE
@@ -215,7 +235,9 @@ public class PlayGame extends World
 		// changing world attrib position
 		EngineTransforms.updateWorldAttribPositionFromMovement(
 			this.engineState, this.dt);
-		EngineTransforms.generateDiffusionMap(this.map, 0, 1f / 8f);
+
+
+		// EngineTransforms.generateDiffusionMap(this.map, 0, 1f / 8f);
 
 		for (int i = this.engineState.getInitialSetIndex(MobSet.class);
 		     this.engineState.isValidEntity(i);
@@ -224,9 +246,6 @@ public class PlayGame extends World
 			EngineTransforms.updateEnemyPositionFromPlayer(
 				this.engineState, this.map, 0, this.player, i);
 		}
-
-		// this.generateDiffusionMap(0, 1f / 8f);
-		// this.updateEnemyPositionFromPlayer();
 
 		// updating the camera
 		centerCamerasPositionToPlayer();

@@ -15,6 +15,12 @@ public class PackedVector<T>
 
 	public static int INVALID_INDEX = -1;
 
+	/**
+	 * Constructs the PackedVector with a specified capacity
+	 *
+	 * @param  capacity capacity
+	 * @return      void
+	 */
 	public PackedVector(int capacity)
 	{
 		m_sparse_vector = new ArrayList<Integer>(
@@ -24,6 +30,13 @@ public class PackedVector<T>
 		m_next_free_index = 0;
 	}
 
+	/**
+	 * add element at sparse vector
+	 *
+	 * @param  index index
+	 * @param  val value to add
+	 * @return      void
+	 */
 	public void add_element_at_sparse_vector(final int index, final T val)
 	{
 		Logger.lassert(
@@ -39,6 +52,12 @@ public class PackedVector<T>
 		++m_next_free_index;
 	}
 
+	/**
+	 * delete element at sparse vector
+	 *
+	 * @param  index index
+	 * @return      void
+	 */
 	public void delete_element_at_sparse_vector(final int index)
 	{
 		Logger.lassert(
@@ -65,6 +84,13 @@ public class PackedVector<T>
 		--m_next_free_index;
 	}
 
+	/**
+	 * gets data from sparse vector
+	 *
+	 * @param  index index
+	 * @return      value at the index in the packed vector. If the index
+	 *         does not exist, or it is too large, crashes the program.
+	 */
 	public final T get_data_from_sparse_vector(final int index)
 	{
 		if (index >= m_sparse_vector.size()) {
@@ -90,7 +116,15 @@ public class PackedVector<T>
 		return m_packed_data.get(m_sparse_vector.get(index));
 	}
 
-	public final T set_data_at_sparse_vector(final int index, T val)
+
+	/**
+	 * sets data from sparse vector
+	 *
+	 * @param  index index
+	 * @param  value  the value
+	 * @return  void
+	 */
+	public final void set_data_at_sparse_vector(final int index, T val)
 	{
 		Logger.lassert(
 			(index >= m_sparse_vector.size()),
@@ -99,10 +133,17 @@ public class PackedVector<T>
 			(m_sparse_vector.get(index) == INVALID_INDEX),
 			"MAJOR ERROR IN PACKEDVECTOR. Accessing invalid sparse vector index with set_data_at_sparse_vector function. This is with type "
 				+ val.getClass());
-		return m_packed_data.set(m_sparse_vector.get(index), val);
+		m_packed_data.set(m_sparse_vector.get(index), val);
 	}
 
 
+	/**
+	 * get global index from sparse vector
+	 *
+	 * @param  index index
+	 * @return  return the index, as integer. If the index is bigger than
+	 *         the packed indicies size, it will crash
+	 */
 	public final int get_global_index_from_packed_index(final int index)
 	{
 
@@ -112,21 +153,43 @@ public class PackedVector<T>
 		return m_packed_indices.get(index);
 	}
 
+	/**
+	 * get sparse vector
+	 *
+	 * @return  return the entire sparse vector
+	 * */
 	public final ArrayList<Integer> get_sparse_vector()
 	{
 		return m_sparse_vector;
 	}
 
+	/**
+	 * get packed indicies
+	 *
+	 * @return  return the entire packed indicies vector
+	 * */
 	public final ArrayList<Integer> get_packed_indicies()
 	{
 		return m_packed_indices;
 	}
 
+	/**
+	 * get packed packed data
+	 *
+	 * @return  return the entire packed data vector
+	 * */
 	public final ArrayList<T> get_packed_data()
 	{
 		return m_packed_data;
 	}
 
+	/**
+	 * get get packed packed data size
+	 *
+	 * @return  return the integer of the size of the packed data vector,
+	 *         will return an error if the packed indicies and the packed
+	 *         data are not the same size
+	 * */
 	public final int get_packed_data_size()
 	{
 		Logger.lassert(
