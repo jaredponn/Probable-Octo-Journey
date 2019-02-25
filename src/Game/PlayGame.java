@@ -45,8 +45,13 @@ public class PlayGame extends World
 
 	// ASE
 	private double timeOfLastMobSpawn = 0.0;
+	private double timeOfLastCashSpawn = 0.0;
+	private int cash = 0;
+
 	private StringRenderObject gameTimer =
 		new StringRenderObject("", 5, 10, Color.WHITE);
+	private StringRenderObject cashDisplay = new StringRenderObject(
+		"Your Cash: " + this.cash, 5, 20, Color.WHITE);
 	// /ASE
 
 	public PlayGame()
@@ -111,7 +116,8 @@ public class PlayGame extends World
 		super.engineState.registerSet(MobSet.class);
 		super.engineState.registerSet(ConstructSet.class);
 		super.engineState.registerSet(Bullet.class);
-		super.engineState.registerSet(TurrentSet.class);
+		super.engineState.registerSet(TurretSet.class);
+		super.engineState.registerSet(CollectibleSet.class);
 	}
 
 	// higher game logic functions
@@ -123,6 +129,8 @@ public class PlayGame extends World
 		for (int i = 0; i < 1; ++i) {
 			super.engineState.spawnEntitySet(new MobSet());
 		}
+		// AlexTest
+		super.engineState.spawnEntitySet(new CollectibleSet());
 
 
 		// ------
@@ -177,8 +185,15 @@ public class PlayGame extends World
 
 		// ASE
 		this.mobSpawner();
+		// TODO: make mobs drop cash on death?
+		this.cashSpawner(4f, 7f);
+		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
+
 		this.updateGameTimer();
 		super.renderer.pushRenderObject(this.gameTimer);
+
+		this.updateCashDisplay();
+		super.renderer.pushRenderObject(this.cashDisplay);
 		// /ASE
 
 		// SYSTEMS Go here
@@ -427,16 +442,21 @@ public class PlayGame extends World
 				" last cooldown = "
 				+ lastCoolDown.get(GameConfig.BUILD_TOWER));
 			if (Math.abs(lastCoolDown.get(GameConfig.BUILD_TOWER))
-			    == 0d) {
+				    == 0d
+			    && this.cash >= GameConfig.TOWER_BUILD_COST) {
 				Vector2f playerPosition =
 					super.getComponentAt(
 						     WorldAttributes.class,
 						     this.player)
 						.getOriginCoord();
 				int tmp = super.engineState.spawnEntitySet(
-					new TurrentSet());
+					new TurretSet());
+				this.cash -= 250;
 				super.getComponentAt(WorldAttributes.class, tmp)
 					.setOriginCoord(playerPosition);
+				System.out.println(
+					"Built a tower. It cost $"
+					+ GameConfig.TOWER_BUILD_COST);
 				// reset the lastCooldown key to the max
 				// cooldown of that key
 				updateDtForKey(GameConfig.BUILD_TOWER,
@@ -445,14 +465,10 @@ public class PlayGame extends World
 				// lastCoolDown.set(GameConfig.BUILD_TOWER,
 				//-coolDownMax.get(
 				// GameConfig.BUILD_TOWER));
-			}
-
-			// TODO: get tile player is stood on
-			// TODO: highlight that tile?
-			// TODO: spawn new tower entity on tile
-			// TODO: make tower spawn on key up? (to prevent
-			// constant spawning if key down for more than 1
-			// frame)
+			} else if (this.cash < GameConfig.TOWER_BUILD_COST)
+				System.out.print(
+					"Not enough cash to build a turret\nYou need at least $"
+					+ GameConfig.TOWER_BUILD_COST + "\n");
 		}
 		if (super.inputPoller.isKeyDown(GameConfig.BUILD_TRAP)) {
 			System.out.print(
@@ -677,14 +693,69 @@ public class PlayGame extends World
 		this.gameTimer.setStr("" + getPlayTime());
 	}
 
+	private void updateCashDisplay()
+	{
+		this.cashDisplay.setStr("Your Cash: $" + this.cash);
+	}
+
 	private void mobSpawner()
 	{
-		if (this.getPlayTime() - this.timeOfLastMobSpawn
+		double currentPlayTime = this.getPlayTime();
+		if (currentPlayTime - this.timeOfLastMobSpawn
 		    > GameConfig.MOB_SPAWN_TIMER) {
 			super.engineState.spawnEntitySet(new MobSet());
-			this.timeOfLastMobSpawn = this.getPlayTime();
+			this.timeOfLastMobSpawn = currentPlayTime;
 			System.out.println("Spawning new mob at time: "
 					   + this.timeOfLastMobSpawn);
+		}
+	}
+
+	private void cashSpawner(float x, float y)
+	{
+		double currentPlayTime = this.getPlayTime();
+		if (currentPlayTime - this.timeOfLastCashSpawn
+		    > GameConfig.PICKUP_CASH_SPAWN_TIME) {
+			super.engineState.spawnEntitySet(
+				new CollectibleSet(x, y));
+			this.timeOfLastCashSpawn = currentPlayTime;
+			System.out.println("Spawning new cash drop.");
+		}
+	}
+
+	private void collectCash(int amount)
+	{
+		Vector2f playerPosition =
+			engineState
+				.getComponentAt(WorldAttributes.class,
+						this.player)
+				.getCenteredBottomQuarter();
+
+		for (int i = this.engineState.getInitialSetIndex(
+			     CollectibleSet.class);
+		     this.engineState.isValidEntity(i);
+		     i = this.engineState.getNextSetIndex(CollectibleSet.class,
+							  i)) {
+
+			Vector2f collectiblePosition =
+				engineState
+					.getComponentAt(WorldAttributes.class,
+							i)
+					.getCenteredBottomQuarter();
+
+			if ((int)playerPosition.x == (int)collectiblePosition.x
+			    && (int)playerPosition.y
+				       == (int)collectiblePosition.y) {
+				this.cash += amount;
+				System.out.println("Picked up $" + amount
+						   + ". You now have $"
+						   + this.cash);
+				this.engineState.deleteComponentAt(
+					CollectibleSet.class, i);
+				this.engineState.deleteComponentAt(Render.class,
+								   i);
+				this.engineState.deleteComponentAt(
+					WorldAttributes.class, i);
+			}
 		}
 	}
 	// /ASE

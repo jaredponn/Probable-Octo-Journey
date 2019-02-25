@@ -64,6 +64,12 @@ public class GameResources
 	public static final int BULLET_SPRITE_HEIGHT = 5;
 	public static BufferedImage bulletImage =
 		ImageLoader.load("resources/5x5bullet.png");
+	
+	// money resources
+	public static final int CASH_SPRITE_WIDTH = 16;
+	public static final int CASH_SPRITE_HEIGHT = 16;
+	public static BufferedImage cashImage = 
+			ImageLoader.load("resources/coin.png");
 
 	// player resources
 	public static BufferedImage playerSpriteSheet =
