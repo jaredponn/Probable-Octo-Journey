@@ -185,7 +185,7 @@ public class PlayGame extends World
 		// ASE
 		this.mobSpawner();
 		// TODO: make mobs drop cash on death?
-		this.cashSpawner( 4f , 7f );
+		this.cashSpawner( true , 4f , 7f );
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
 		
 		this.updateGameTimer();
@@ -697,9 +697,14 @@ public class PlayGame extends World
 		}
 	}
 	
-	private void cashSpawner( float x , float y ) {
+	private void cashSpawner( boolean timed , float x , float y ) {
 		double currentPlayTime = this.getPlayTime();
-		if ( currentPlayTime - this.timeOfLastCashSpawn > GameConfig.PICKUP_CASH_SPAWN_TIME) {
+		if ( timed == true && currentPlayTime - this.timeOfLastCashSpawn > GameConfig.PICKUP_CASH_SPAWN_TIME) {
+			super.engineState.spawnEntitySet(new CollectibleSet( x , y ));
+			this.timeOfLastCashSpawn = currentPlayTime;
+			System.out.println("Spawning new timed cash drop.");
+		}
+		else {
 			super.engineState.spawnEntitySet(new CollectibleSet( x , y ));
 			this.timeOfLastCashSpawn = currentPlayTime;
 			System.out.println("Spawning new cash drop.");
