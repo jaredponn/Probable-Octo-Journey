@@ -192,21 +192,41 @@ public class Map
 						// if it is wall
 						if (wallState.get(Integer.parseInt(
 							    tempList[i]))) {
-							mapLayers
-								.get(mapLayers
-									     .size()
-								     - 1)
-								.addComponentAt(
-									PathFindCord
-										.class
-									,
-									new PathFindCord(
-										new Vector2f(
+
+
+							// NOT on 0th layer
+							if (mapLayers.size()
+							    > 1) {
+
+								mapLayers.get(0)
+									.getComponentAt(
+										PathFindCord
+											.class
+										,
+										getEcsIndexFromWorldVector2f(new Vector2f(
 											numRows - 1,
-											i % mapWidth),
-										true,
-										0),
-									nextFreeIndex);
+											i % mapWidth)))
+									.setIsWall(
+										true);
+							}
+							// on 0th layer
+							else {
+								mapLayers
+									.get(mapLayers
+										     .size()
+									     - 1)
+									.addComponentAt(
+										PathFindCord
+											.class
+										,
+										new PathFindCord(
+											new Vector2f(
+												numRows - 1,
+												i % mapWidth),
+											true,
+											0),
+										nextFreeIndex);
+							}
 
 							mapLayers
 								.get(mapLayers
@@ -428,5 +448,10 @@ public class Map
 	public int getMapLength()
 	{
 		return this.mapWidth * this.mapHeight;
+	}
+
+	public int getLayerNumber()
+	{
+		return this.mapLayers.size();
 	}
 }
