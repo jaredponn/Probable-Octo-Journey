@@ -671,8 +671,8 @@ public class EngineTransforms
 	}
 
 	public static void
-	debugAabbCollisionBodiesRender(EngineState engineState, Renderer r,
-				       final Camera cam)
+	debugAabbCollisionBodiesRender(EngineState engineState,
+				       Queue<RenderObject> q, final Camera cam)
 	{
 		for (int i = engineState.getInitialSetIndex(
 			     CollisionAabbBodies.class);
@@ -682,7 +682,7 @@ public class EngineTransforms
 			Systems.aabbCollisionBodiesDebugRender(
 				engineState.getComponentAt(
 					CollisionAabbBodies.class, i),
-				r, cam);
+				q, cam);
 		}
 	}
 
