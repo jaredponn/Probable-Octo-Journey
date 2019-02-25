@@ -20,6 +20,19 @@ public class Animation
 	private int xmax;
 	private int ymax;
 
+	/**
+	 * Constructs an animation object
+	 *
+	 * @param  w image window
+	 * @param  fdms frameduration in ms
+	 * @param  xstride stride in x direction
+	 * @param  ystride stride in y direction
+	 * @param  xmin minimum x value
+	 * @param  ymin minimum y value
+	 * @param  xmax max x value
+	 * @param  xmax max x value
+	 * @return      void
+	 */
 	public Animation(ImageWindow w, double fdms, int xstride, int ystride,
 			 int xmin, int ymin, int xmax, int ymax)
 	{
@@ -34,6 +47,20 @@ public class Animation
 	}
 
 
+	/**
+	 * Constructs an animation object
+	 *
+	 * @param  width width of image window
+	 * @param  height height of image window
+	 * @param  fdms frameduration in ms
+	 * @param  xstride stride in x direction
+	 * @param  ystride stride in y direction
+	 * @param  xmin minimum x value
+	 * @param  ymin minimum y value
+	 * @param  xmax max x value
+	 * @param  xmax max x value
+	 * @return      void
+	 */
 	public Animation(int width, int height, double fdms, int xstride,
 			 int ystride, int xmin, int ymin, int xmax, int ymax)
 	{
@@ -41,6 +68,12 @@ public class Animation
 		     ystride, xmin, ymin, xmax, ymax);
 	}
 
+
+	/**
+	 * Copy constructor
+	 * @param  a animation object
+	 * @return      void
+	 */
 	public Animation(Animation a)
 	{
 		this(new ImageWindow(a.getImageWindow()),
@@ -48,6 +81,12 @@ public class Animation
 		     a.getXMin(), a.getYMin(), a.getXMax(), a.getYMax());
 	}
 
+
+	/**
+	 * updates the animation window
+	 * @param  xms duration of ms that has passed
+	 * @return      void
+	 */
 	public void updateAnimationWindow(double xms)
 	{
 		addToAccTime(xms);
@@ -58,6 +97,12 @@ public class Animation
 		}
 	}
 
+
+	/**
+	 * gets acctime in ms
+	 * @param
+	 * @return      acctime
+	 */
 	public double getAccTimems()
 	{
 		return this.accTimems;
