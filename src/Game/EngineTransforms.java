@@ -375,9 +375,10 @@ public class EngineTransforms
 			System.out.println(
 				"went inside where the player cord is equal to mob cord!");
 
-			if (Math.abs(mobPosition.x - playerPosition.x) != 0f
+			if (Math.abs(mobPosition.x - playerPosition.x)
+				    >= PlayGame.EPSILON
 			    && Math.abs(mobPosition.y - playerPosition.y)
-				       != 0f) {
+				       >= PlayGame.EPSILON) {
 				engineState
 					.getComponentAt(MovementDirection.class,
 							mob1)

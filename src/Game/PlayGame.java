@@ -39,7 +39,7 @@ public class PlayGame extends World
 	// Higher level game logic
 	private int player;
 	// private int mob1;
-	private float EPSILON = 0.01f;
+	public static double EPSILON = 0.0001d;
 	private Vector2f unitVecPlayerPosToMouseDelta;
 	private CardinalDirections prevDirection = CardinalDirections.N;
 
@@ -247,8 +247,7 @@ public class PlayGame extends World
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 				this.engineState, this.cam);
 
-		// ALexTest System.out.println("----------------------- end one
-		// loop");
+		System.out.println("----------------------- end one loop");
 		// rendering is run after this is run
 	}
 
@@ -423,8 +422,12 @@ public class PlayGame extends World
 		////// Build Commands //////
 		if (super.inputPoller.isKeyDown(GameConfig.BUILD_TOWER)) {
 
+			System.out.println("will build turret!!!!");
+			System.out.println(
+				" last cooldown = "
+				+ lastCoolDown.get(GameConfig.BUILD_TOWER));
 			if (Math.abs(lastCoolDown.get(GameConfig.BUILD_TOWER))
-			    <= EPSILON) {
+			    == 0d) {
 				Vector2f playerPosition =
 					super.getComponentAt(
 						     WorldAttributes.class,
@@ -472,7 +475,7 @@ public class PlayGame extends World
 					   + Math.abs(lastCoolDown.get(
 						     GameConfig.ATTACK_KEY)));
 			if (Math.abs(lastCoolDown.get(GameConfig.ATTACK_KEY))
-			    <= EPSILON) {
+			    == 0d) {
 				updateDtForKey(GameConfig.ATTACK_KEY,
 					       -coolDownMax.get(
 						       GameConfig.ATTACK_KEY));
@@ -653,9 +656,11 @@ public class PlayGame extends World
 	{
 		// if the key cooldown is not 0.. i put a if statement here
 		// because i don't want to subtract it to neg infinity..
-		if (lastCoolDown.get(keyIndex) - val >= 0d) {
+		if (lastCoolDown.get(keyIndex) - val > EPSILON) {
 			lastCoolDown.set(keyIndex,
 					 lastCoolDown.get(keyIndex) - val);
+		} else {
+			lastCoolDown.set(keyIndex, 0d);
 		}
 	}
 
