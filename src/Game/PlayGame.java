@@ -140,45 +140,10 @@ public class PlayGame extends World
 			super.engineState.spawnEntitySet(new MobSet());
 		}
 
-
-		// ------
-		/*
-		super.engineState
-			.getComponentAt(
-				WorldAttributes.class,
-				super.engineState.spawnEntitySet(new MobSet()))
-			.setOriginCoord(new Vector2f(5, 6));
-		super.engineState
-			.getComponentAt(
-				WorldAttributes.class,
-				super.engineState.spawnEntitySet(new MobSet()))
-			.setOriginCoord(new Vector2f(5, 7));
-
-		super.engineState
-			.getComponentAt(
-				WorldAttributes.class,
-				super.engineState.spawnEntitySet(new MobSet()))
-			.setOriginCoord(new Vector2f(5, 8));
-
-		super.engineState
-			.getComponentAt(
-				WorldAttributes.class,
-				super.engineState.spawnEntitySet(new MobSet()))
-			.setOriginCoord(new Vector2f(6, 8));
-			*/
-		// ------
-
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
 			this.engineState, this.map, 0, this.player);
 		// TODO: HAIYANG get the layer number for the path finding!
 		// right now for testing it only have 1 layer
-
-
-		int tmp = super.engineState.spawnEntitySet(
-			new Bullet(this.getPlayTime()));
-		super.getComponentAt(WorldAttributes.class, tmp)
-			.setOriginCoord(new Vector2f(0f, 0f));
-		super.getComponentAt(Movement.class, tmp).setSpeed(0);
 
 		clearTime();
 	}
@@ -205,6 +170,7 @@ public class PlayGame extends World
 		this.updateGameTimer();
 
 		this.updateCashDisplay();
+
 		// /ASE
 
 		// SYSTEMS Go here
@@ -240,9 +206,9 @@ public class PlayGame extends World
 	       EngineTransforms
 		       .resolveCircleCollisionBodyWithAabbCollisionBody(
 			       engineState, PlayerSet.class, MobSet.class,
-			       this.dt);
-	       EngineTransforms.areCirclesCollidingAgainstAabb(
-		       engineState, PlayerSet.class, MobSet.class);*/
+			       this.dt);*/
+		EngineTransforms.areCirclesCollidingAgainstAabb(
+			engineState, PlayerSet.class, MobSet.class);
 
 
 		// changing world attrib position
@@ -286,7 +252,7 @@ public class PlayGame extends World
 		////// Movement Commands //////
 		if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
 		    && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
-			// System.out.println("wd key is down");
+			System.out.println("wd key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.NW);
@@ -298,7 +264,7 @@ public class PlayGame extends World
 					GameResources.playerNMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-			// System.out.println("wa key is down");
+			System.out.println("wa key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.SW);
@@ -310,7 +276,7 @@ public class PlayGame extends World
 					GameResources.playerNMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-			// System.out.println("sa key is down");
+			System.out.println("sa key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.SE);
@@ -323,7 +289,7 @@ public class PlayGame extends World
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
 
-			// System.out.println("sd key is down");
+			System.out.println("sd key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.NE);
@@ -336,7 +302,7 @@ public class PlayGame extends World
 
 		} else if (super.inputPoller.isKeyDown(
 				   KeyEvent.VK_W)) { // single Key movements
-			// System.out.println("w key is down");
+			System.out.println("w key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.W);
@@ -347,7 +313,7 @@ public class PlayGame extends World
 				.setAnimation(
 					GameResources.playerWMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
-			// System.out.println("d key is down");
+			System.out.println("d key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.N);
@@ -358,7 +324,7 @@ public class PlayGame extends World
 				.setAnimation(
 					GameResources.playerNMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-			// System.out.println("a key is down");
+			System.out.println("a key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.S);
@@ -369,7 +335,7 @@ public class PlayGame extends World
 				.setAnimation(
 					GameResources.playerSMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)) {
-			// System.out.println("s key is down");
+			System.out.println("s key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.E);
@@ -537,7 +503,7 @@ public class PlayGame extends World
 		Vector2f mousePosition = super.inputPoller.getMousePosition();
 		mousePosition.matrixMultiply(this.invCam);
 
-		// mousePosition.log("Mouse position in world coordinates");
+		mousePosition.log("Mouse position in world coordinates");
 
 		Vector2f tmp = playerPosition.pureSubtract(mousePosition);
 		tmp.negate();
@@ -550,15 +516,16 @@ public class PlayGame extends World
 
 		this.unitVecPlayerPosToMouseDelta = tmp.pureNormalize();
 
-		// super.getComponentAt(FacingDirection.class, player).print();
-		/*
+		System.out.println("PLAYER INFROMATION: ");
+		super.getComponentAt(FacingDirection.class, player).print();
 		super.getComponentAt(WorldAttributes.class, this.player)
-			.print();*/
+			.print();
 	}
 
 	// Render function
 	protected void render()
 	{
+
 		pushTileMapLayerToQueue(map.getLayerEngineState(0),
 					groundBuffer);
 

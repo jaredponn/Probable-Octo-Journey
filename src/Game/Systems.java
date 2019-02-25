@@ -10,7 +10,6 @@ import Components.*;
 import poj.linear.*;
 import poj.Render.RenderObject;
 import poj.Collisions.*;
-import poj.Render.RenderObject;
 import poj.Render.ImageRenderObject;
 import poj.Render.Renderer;
 import poj.Render.RenderRect;
@@ -152,8 +151,8 @@ public class Systems
 	}
 
 	public static void
-	aabbCollisionBodiesDebugRender(final CollisionAabbBodies c, Renderer r,
-				       final Camera cam)
+	aabbCollisionBodiesDebugRender(final CollisionAabbBodies c,
+				       Queue<RenderObject> q, final Camera cam)
 	{
 
 		ArrayList<CollisionAabb> arr = c.pureGetCollisionBodies();
@@ -161,7 +160,7 @@ public class Systems
 
 		for (int i = 0; i < arr.size(); ++i) {
 			final CollisionAabb cb = arr.get(i);
-			aabbCollisionBodyDebugRender(cb, r, cam);
+			aabbCollisionBodyDebugRender(cb, q, cam);
 		}
 	}
 

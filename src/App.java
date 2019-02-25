@@ -42,8 +42,8 @@ public class App
 
 		this.renderer = new Renderer(gcanvas);
 
-		// this.renderer.setClearColor(Color.black);
-		this.renderer.setClearColor(Color.darkGray);
+		this.renderer.setClearColor(Color.black);
+		// this.renderer.setClearColor(Color.darkGray);
 
 		this.isRunning = true;
 	}

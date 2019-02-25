@@ -29,8 +29,7 @@ public class GameConfig
 	public static final Vector2f PLAYER_SPAWNNING_POS =
 		new Vector2f(0f, 0f);
 	public static final CircleCollisionBody PLAYER_COLLISION_BODY =
-		new CircleCollisionBody(
-			new Circle(0, 0, PLAYER_WIDTH / 2f));
+		new CircleCollisionBody(new Circle(0, 0, PLAYER_WIDTH / 2f));
 
 	// bullet config
 	public static final float BULLET_SPEED = 0.02f;
@@ -58,9 +57,9 @@ public class GameConfig
 	public static final float CONSTRUCT_HEIGHT = 64;
 	public static final float CONSTRUCT_WIDTH = 48;
 	public static final float CONSTRUCT_HP = 100;
-	
+
 	public static final int TOWER_BUILD_COST = 250;
-	
+
 	// pickup config
 	public static final int PICKUP_CASH_AMOUNT = 100;
 	public static final float PICKUP_CASH_SPAWN_TIME = 20.0f;
