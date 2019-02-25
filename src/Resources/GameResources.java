@@ -30,6 +30,10 @@ public class GameResources
 		mapLayer0 = "resources/newmap2/map.csv",
 		pathFindTest1Config = "resources/newmap2/pathFindTest1.json",
 		pathFindTest1Layer = "resources/newmap2/pathFindTest1.csv",
+		pathFindTest1LayerGround =
+			"resources/newmap2/pathFindTest1_ground.csv",
+		pathFindTest1LayerWall =
+			"resources/newmap2/pathFindTest1_wall.csv",
 		pathFindTest2Config = "resources/newmap2/pathFindTest2.json",
 		pathFindTest2Layer = "resources/newmap2/pathFindTest2.csv",
 		pathFindTest3Config = "resources/newmap2/pathFindTest3.json",
