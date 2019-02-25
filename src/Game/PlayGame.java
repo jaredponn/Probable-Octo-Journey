@@ -684,7 +684,7 @@ public class PlayGame extends World
 	/** @return: current time the game has been running in seconds */
 	private double getPlayTime()
 	{
-		double playTime = super.acct / 1000;
+		double playTime = Math.floor( (super.acct / 1000) * 100 ) / 100 ;
 		return playTime;
 	}
 
@@ -717,7 +717,7 @@ public class PlayGame extends World
 			this.timeOfLastCashSpawn = currentPlayTime;
 			System.out.println("Spawning new timed cash drop.");
 		}
-		else {
+		else if ( timed == false ){
 			super.engineState.spawnEntitySet(new CollectibleSet( x , y ));
 			this.timeOfLastCashSpawn = currentPlayTime;
 			System.out.println("Spawning new cash drop.");
