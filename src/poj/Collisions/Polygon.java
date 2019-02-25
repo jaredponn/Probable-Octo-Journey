@@ -98,7 +98,7 @@ public class Polygon implements CollisionShape
 
 	public int indexOfFurthestPointInDirection(Vector2f dir)
 	{
-		Vector2f d = dir.pureNormalize();
+		Vector2f d = dir;
 		int max = 0;
 		// scalar projectio upon d
 		float maxdist = Float.MIN_VALUE;
