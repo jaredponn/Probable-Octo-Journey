@@ -166,7 +166,7 @@ public class PlayGame extends World
 		// right now for testing it only have 1 layer
 
 
-		int tmp = super.engineState.spawnEntitySet(new Bullet());
+		int tmp = super.engineState.spawnEntitySet(new Bullet( this.getPlayTime() ));
 		super.getComponentAt(WorldAttributes.class, tmp)
 			.setOriginCoord(new Vector2f(0f, 0f));
 		super.getComponentAt(Movement.class, tmp).setSpeed(0);
@@ -185,8 +185,11 @@ public class PlayGame extends World
 
 		// ASE
 		this.mobSpawner();
-		// TODO: make mobs drop cash on death?
+		
 		this.cashDropDespawner();
+		this.bulletDespawner();
+		
+		// TODO: make mobs drop cash on death?
 		this.cashSpawner( true , 4f , 7f );
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
 
@@ -642,7 +645,7 @@ public class PlayGame extends World
 
 	private void playerShootBullet()
 	{
-		int e = super.engineState.spawnEntitySet(new Bullet());
+		int e = super.engineState.spawnEntitySet(new Bullet( this.getPlayTime()));
 		float bulletSpeed =
 			super.getComponentAt(Movement.class, e).getSpeed();
 		Vector2f tmp = new Vector2f(
@@ -744,6 +747,26 @@ public class PlayGame extends World
 				this.engineState.deleteComponentAt(CollectibleSet.class, i);
 				this.engineState.deleteComponentAt(Render.class, i);
 				this.engineState.deleteComponentAt(WorldAttributes.class, i);
+				this.engineState.deleteComponentAt(Lifespan.class, i);
+			}
+		}
+	}
+	
+	private void bulletDespawner() {
+		for (int i = this.engineState.getInitialSetIndex(
+			     Bullet.class);
+		     this.engineState.isValidEntity(i);
+		     i = this.engineState.getNextSetIndex(Bullet.class,
+							  i)) {
+			
+			double spawnTime = engineState.getComponentAt(Lifespan.class, i).getSpawnTime();
+			double lifespan = engineState.getComponentAt(Lifespan.class, i).getLifespan();
+			
+			if ( this.getPlayTime() - spawnTime >= lifespan ) {
+				this.engineState.deleteComponentAt(Bullet.class, i);
+				this.engineState.deleteComponentAt(Render.class, i);
+				this.engineState.deleteComponentAt(WorldAttributes.class, i);
+				this.engineState.deleteComponentAt(Movement.class, i);
 				this.engineState.deleteComponentAt(Lifespan.class, i);
 			}
 		}

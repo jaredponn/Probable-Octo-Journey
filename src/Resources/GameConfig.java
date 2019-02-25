@@ -40,6 +40,7 @@ public class GameConfig
 	public static final float BULLET_HEIGHT =
 		GameResources.BULLET_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
+	public static final double BULLET_LIFE_SPAN = 0.8;
 
 	// mob config
 	public static final float MOB_SPEED = 0.6f * PLAYER_SPEED;
