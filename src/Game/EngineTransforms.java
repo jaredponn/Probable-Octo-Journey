@@ -4,16 +4,18 @@ import poj.Component.*;
 import poj.Logger.Logger;
 
 import java.util.Optional;
+import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.Queue;
 
 import Components.*;
 
 import poj.linear.Vector2f;
-
 import Resources.*;
 import TileMap.*;
 
 import poj.Render.Renderer;
+import poj.Render.RenderObject;
 
 public class EngineTransforms
 {
@@ -885,6 +887,56 @@ public class EngineTransforms
 				mapLayer.getComponentAt(AabbCollisionBody.class,
 							i),
 				r, cam);
+		}
+	}
+
+
+	private static int TILE_MAP_RENDER_HELPER_SET_CAPACITY = 5000;
+	private static HashSet<Integer> tileMapRenderHelperSet =
+		new HashSet<Integer>(
+			TILE_MAP_RENDER_HELPER_SET_CAPACITY); // used to help
+							      // render the
+							      // tiles in
+							      // O(1) time
+							      //
+	public static void
+	pushTileMapLayerToQueue(final Map map, final MapLayer tileLayer,
+				final int windowWidth, final int windowHeight,
+				final int tileScreenWidth,
+				final int tileScreenHeight, final Camera cam,
+				final Camera invCam, Queue<RenderObject> q)
+	{
+		tileMapRenderHelperSet.clear();
+
+		for (float i = -tileScreenWidth;
+		     i <= windowWidth + tileScreenWidth;
+		     i += tileScreenWidth / 2f) {
+			for (float j = -tileScreenHeight;
+			     j <= windowHeight + 3 * tileScreenHeight;
+			     j += tileScreenHeight / 2f) {
+				Vector2f wc =
+					new Vector2f(i, j).pureMatrixMultiply(
+						invCam);
+
+				int e = map.getEcsIndexFromWorldVector2f(wc);
+
+				if (e == -1
+				    || tileMapRenderHelperSet.contains(e)
+				    || !tileLayer.hasComponent(Render.class, e))
+					continue;
+
+				Systems.updateRenderScreenCoordinatesFromWorldCoordinates(
+					tileLayer.getComponentAt(
+						WorldAttributes.class, e),
+					tileLayer.getComponentAt(Render.class,
+								 e),
+					cam);
+				Systems.pushRenderComponentToQueue(
+					tileLayer.getComponentAt(Render.class,
+								 e),
+					q);
+				tileMapRenderHelperSet.add(e);
+			}
 		}
 	}
 }

@@ -6,6 +6,7 @@ import Components.*;
 import poj.Component.Components;
 import poj.linear.Vector2f;
 import poj.Render.*;
+import poj.Render.MinYFirstSortedRenderObjectBuffer;
 
 import Game.Camera;
 import EntitySets.*;
@@ -14,6 +15,8 @@ import TileMap.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Queue;
+import java.util.LinkedList;
 import java.util.Collections;
 
 import java.awt.*;
@@ -22,9 +25,12 @@ public class PlayGame extends World
 {
 	// Render
 	private Map map;
-	private HashSet<Integer>
-		tileMapRenderHelperSet; // used to help render the tiles in O(1)
-					// time
+
+	// buffers for the renderer
+	private Queue<RenderObject> groundBuffer;
+	private MinYFirstSortedRenderObjectBuffer entityBuffer;
+	private Queue<RenderObject> guiBuffer;
+
 	// private MapLayer mapLayer;
 
 	// Camera
@@ -84,13 +90,13 @@ public class PlayGame extends World
 		// this.map.addMapLayer(GameResources.mapLayer1);
 		// this.map.addMapLayer(GameResources.mapLayer1);
 		// this.map.addMapLayer(GameResources.mapLayer2);
-		this.tileMapRenderHelperSet = new HashSet<Integer>(
-			(int)(this.windowWidth * this.windowHeight)
-			/ (int)(GameResources.TILE_SCREEN_WIDTH
-				* GameResources.TILE_SCREEN_HEIGHT));
 
 		this.cam = new Camera();
 		this.unitVecPlayerPosToMouseDelta = new Vector2f();
+
+		this.groundBuffer = new LinkedList<RenderObject>();
+		this.entityBuffer = new MinYFirstSortedRenderObjectBuffer();
+		this.guiBuffer = new LinkedList<RenderObject>();
 
 		// camera initialization
 		resetCamera();
@@ -191,10 +197,8 @@ public class PlayGame extends World
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
 
 		this.updateGameTimer();
-		super.renderer.pushRenderObject(this.gameTimer);
 
 		this.updateCashDisplay();
-		super.renderer.pushRenderObject(this.cashDisplay);
 		// /ASE
 
 		// SYSTEMS Go here
@@ -545,60 +549,37 @@ public class PlayGame extends World
 	// Render function
 	protected void render()
 	{
+		pushTileMapLayerToQueue(map.getLayerEngineState(0),
+					groundBuffer);
 
-
-		for (int i = 0; i < this.map.getLayerNumber(); ++i) {
-			this.pushTileMapLayerToRenderer(
-				this.map.getLayerEngineState(i));
-		}
+		pushTileMapLayerToQueue(map.getLayerEngineState(1),
+					entityBuffer);
 
 		for (Render r :
 		     super.getRawComponentArrayListPackedData(Render.class)) {
-			Systems.cullPushRenderComponentToRenderer(
-				r, super.renderer, this.windowWidth,
+			Systems.cullPushRenderComponentToQueue(
+				r, entityBuffer, this.windowWidth,
 				this.windowHeight);
 		}
 
-		super.renderer.render();
+		guiBuffer.add(this.gameTimer);
+		guiBuffer.add(this.cashDisplay);
+
+		super.renderer.renderBuffers(groundBuffer, entityBuffer,
+					     guiBuffer);
+
+		// TODO FIX THE BADdebug render
+		// super.renderer.render();
 	}
 
-	// Renders a set window of the tilemap
-	private void pushTileMapLayerToRenderer(MapLayer tileLayer)
+	protected void pushTileMapLayerToQueue(MapLayer n,
+					       Queue<RenderObject> q)
 	{
-		tileMapRenderHelperSet.clear();
-		for (float i = -GameResources.TILE_SCREEN_WIDTH;
-		     i <= this.windowWidth + GameResources.TILE_SCREEN_WIDTH;
-		     i += GameResources.TILE_SCREEN_WIDTH / 2f) {
-			for (float j = -GameResources.TILE_SCREEN_HEIGHT;
-			     j
-			     <= this.windowHeight
-					+ 3 * GameResources.TILE_SCREEN_HEIGHT;
-			     j += GameResources.TILE_SCREEN_HEIGHT / 2f) {
-				Vector2f wc =
-					new Vector2f(i, j).pureMatrixMultiply(
-						this.invCam);
-
-				int e = this.map.getEcsIndexFromWorldVector2f(
-					wc);
-
-				if (e == -1
-				    || tileMapRenderHelperSet.contains(e)
-				    || !tileLayer.hasComponent(Render.class, e))
-					continue;
-
-				Systems.updateRenderScreenCoordinatesFromWorldCoordinates(
-					tileLayer.getComponentAt(
-						WorldAttributes.class, e),
-					tileLayer.getComponentAt(Render.class,
-								 e),
-					this.cam);
-				Systems.pushRenderComponentToRenderer(
-					tileLayer.getComponentAt(Render.class,
-								 e),
-					super.renderer);
-				tileMapRenderHelperSet.add(e);
-			}
-		}
+		EngineTransforms.pushTileMapLayerToQueue(
+			this.map, n, windowWidth, this.windowHeight,
+			(int)GameResources.TILE_SCREEN_WIDTH,
+			(int)GameResources.TILE_SCREEN_HEIGHT, this.cam,
+			this.invCam, q);
 	}
 
 

@@ -72,7 +72,17 @@ public class Renderer
 		renderBuffer = n;
 	}
 
+	public void clear()
+	{
+	}
+
 	public void render()
+	{
+		renderBuffers(this.renderBuffer);
+	}
+
+
+	public void renderBuffers(Queue<RenderObject>... renderBuffers)
 	{
 		Graphics g = null;
 		Graphics2D g2d = null;
@@ -84,33 +94,41 @@ public class Renderer
 
 		do {
 			do {
-				while (!this.renderBuffer.isEmpty()) {
-					final RenderObject t =
-						renderBuffer.remove();
-					// deprecated
-					if (t.getRenderObjectType()
-					    == RenderRect.class) {
-						renderRect((RenderRect)t, g2d);
-					} else if (t.getRenderObjectType()
-						   == ImageRenderObject.class) {
-						renderImageRenderObject(
-							(ImageRenderObject)t,
-							g2d);
-					} else if (t.getRenderObjectType()
-						   == StringRenderObject
-							      .class) {
-						renderStringRenderObject(
-							(StringRenderObject)t,
-							g2d);
+				for (Queue<RenderObject> rb : renderBuffers) {
+					while (!rb.isEmpty()) {
+						final RenderObject t =
+							rb.remove();
+						// deprecated
+						if (t.getRenderObjectType()
+						    == RenderRect.class) {
+							renderRect(
+								(RenderRect)t,
+								g2d);
+						} else if (
+							t.getRenderObjectType()
+							== ImageRenderObject
+								   .class) {
+							renderImageRenderObject(
+								(ImageRenderObject)
+									t,
+								g2d);
+						} else if (
+							t.getRenderObjectType()
+							== StringRenderObject
+								   .class) {
+							renderStringRenderObject(
+								(StringRenderObject)
+									t,
+								g2d);
 
-					} else {
-						Logger.logMessage(
-							"Error in renderer -- unknown render object type",
-							LogLevels
-								.MINOR_CRITICAL);
+						} else {
+							Logger.logMessage(
+								"Error in renderer -- unknown render object type",
+								LogLevels
+									.MINOR_CRITICAL);
+						}
 					}
 				}
-
 				g = bufferStrat.getDrawGraphics();
 				g.drawImage(bufferedImage, 0, 0, null);
 

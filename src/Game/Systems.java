@@ -2,12 +2,15 @@ package Game;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Queue;
 import java.awt.Color;
 
 import Components.*;
 
 import poj.linear.*;
+import poj.Render.RenderObject;
 import poj.Collisions.*;
+import poj.Render.RenderObject;
 import poj.Render.ImageRenderObject;
 import poj.Render.Renderer;
 import poj.Render.RenderRect;
@@ -39,6 +42,12 @@ public class Systems
 		ren.pushRenderObject(r.getGraphic());
 	}
 
+	public static void pushRenderComponentToQueue(Render r,
+						      Queue<RenderObject> q)
+	{
+		q.add(r.getGraphic());
+	}
+
 	public static void cullPushRenderComponentToRenderer(Render r,
 							     Renderer ren,
 							     int windowWidth,
@@ -53,6 +62,22 @@ public class Systems
 			return;
 
 		ren.pushRenderObject(r.getGraphic());
+	}
+
+	public static void cullPushRenderComponentToQueue(Render r,
+							  Queue<RenderObject> q,
+							  int windowWidth,
+							  int windowHeight)
+	{
+		ImageRenderObject tmp = r.getGraphic();
+		if (tmp.getX() > windowWidth || tmp.getY() > windowHeight)
+			return;
+
+		if (tmp.getX() + tmp.getImageWindow().getWidth() < 0
+		    || tmp.getY() + tmp.getImageWindow().getHeight() < 0)
+			return;
+
+		q.add(r.getGraphic());
 	}
 
 	public static void
