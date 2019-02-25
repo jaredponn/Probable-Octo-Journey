@@ -9,6 +9,8 @@ cd probable-octo-journey
 ./run.sh
 ```
 
+# Version number:
+-2019 February 24, Version 1.0 Pre-Alpha unstable release
 
 # Announcements:
 - The coordinate system is a little strange. The following diagram will illustrate:
