@@ -42,7 +42,7 @@ public class PlayGame extends World
 	private float EPSILON = 0.01f;
 	private Vector2f unitVecPlayerPosToMouseDelta;
 	private CardinalDirections prevDirection = CardinalDirections.N;
-	
+
 	// ASE
 	private double timeOfLastMobSpawn = 0.0;
 	private double timeOfLastCashSpawn = 0.0;
@@ -52,7 +52,7 @@ public class PlayGame extends World
 	private StringRenderObject cashDisplay = new StringRenderObject
 			( "Your Cash: "+this.cash , 5 , 20 , Color.WHITE);
 	// /ASE
-	
+
 	public PlayGame()
 	{
 		super();
@@ -181,7 +181,7 @@ public class PlayGame extends World
 	public void runGame()
 	{
 		this.processInputs();
-		
+
 		// ASE
 		this.mobSpawner();
 		// TODO: make mobs drop cash on death?
@@ -193,11 +193,8 @@ public class PlayGame extends World
 		
 		this.updateCashDisplay();
 		super.renderer.pushRenderObject( this.cashDisplay );
-		
-		
-		
 		// /ASE
-		
+
 		// SYSTEMS Go here
 		// this.setMovementVelocityFromMovementDirection();
 		// this.updateWorldAttribPositionFromMovement(this.dt);
@@ -221,6 +218,8 @@ public class PlayGame extends World
 			engineState, super.renderer, this.cam);
 		EngineTransforms.debugAabbCollisionRender(
 			engineState, super.renderer, this.cam);
+		EngineTransforms.debugMapAabbCollisionRender(
+			map, 0, super.renderer, this.cam);
 
 		// collision
 		/*
@@ -244,6 +243,7 @@ public class PlayGame extends World
 			EngineTransforms.updateEnemyPositionFromPlayer(
 				this.engineState, this.map, 0, this.player, i);
 		}
+
 		// this.generateDiffusionMap(0, 1f / 8f);
 		// this.updateEnemyPositionFromPlayer();
 
@@ -670,16 +670,18 @@ public class PlayGame extends World
 					 lastCoolDown.get(keyIndex) - val);
 		}
 	}
-	
+
 	// ASE
 	/** @return: current time the game has been running in seconds */
-	private double getPlayTime() {
+	private double getPlayTime()
+	{
 		double playTime = super.acct / 1000;
 		return playTime;
 	}
-	
-	private void updateGameTimer() {
-		this.gameTimer.setStr( ""+ getPlayTime() );
+
+	private void updateGameTimer()
+	{
+		this.gameTimer.setStr("" + getPlayTime());
 	}
 	
 	private void updateCashDisplay() {

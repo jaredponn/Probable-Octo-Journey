@@ -861,9 +861,28 @@ public class EngineTransforms
 		     Components.isValidEntity(i);
 		     i = engineState.getNextSetIndex(AabbCollisionBody.class,
 						     i)) {
+
 			Systems.aabbCollisionBodyDebugRender(
 				engineState.getComponentAt(
 					AabbCollisionBody.class, i),
+				r, cam);
+		}
+	}
+
+
+	public static void debugMapAabbCollisionRender(Map map, int layerNumber,
+						       Renderer r,
+						       final Camera cam)
+	{
+		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
+		for (int i = mapLayer.getInitialSetIndex(
+			     AabbCollisionBody.class);
+		     Components.isValidEntity(i);
+		     i = mapLayer.getNextSetIndex(AabbCollisionBody.class, i)) {
+
+			Systems.aabbCollisionBodyDebugRender(
+				mapLayer.getComponentAt(AabbCollisionBody.class,
+							i),
 				r, cam);
 		}
 	}
