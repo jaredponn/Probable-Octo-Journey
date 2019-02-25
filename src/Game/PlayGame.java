@@ -220,8 +220,10 @@ public class PlayGame extends World
 			engineState, super.renderer, this.cam);
 		EngineTransforms.debugAabbCollisionRender(
 			engineState, super.renderer, this.cam);
-		EngineTransforms.debugMapAabbCollisionRender(
-			map, 0, super.renderer, this.cam);
+		for (int i = 0; i < this.map.getLayerNumber(); ++i) {
+			EngineTransforms.debugMapAabbCollisionRender(
+				map, i, super.renderer, this.cam);
+		}
 
 		// collision
 		/*
