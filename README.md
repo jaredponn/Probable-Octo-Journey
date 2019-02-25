@@ -62,7 +62,7 @@ Coin: https://opengameart.org/content/spinning-pixel-coin-0
 
 
 
-Majority of the collision algorithms were from or built upon /*Real-Time Collision Detection*/ by Christer Ericson, published by Morgan Kaufmann Publishers, Copyright 2005 Elsevier Inc.
+Majority of the collision algorithms were from or built upon *Real-Time Collision Detection* by Christer Ericson, published by Morgan Kaufmann Publishers, Copyright 2005 Elsevier Inc.
 
 
 The game engine design came from various posts and contributions from: https://jaredponn.github.io/ and from the project https://github.com/jaredponn/improved-octo-waffle

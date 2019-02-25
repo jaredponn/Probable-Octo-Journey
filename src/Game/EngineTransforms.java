@@ -141,7 +141,7 @@ public class EngineTransforms
 		/*
 		int counter = 0;
 		for (int i = 0; i < tempDiffusionBuffer.size(); ++i) {
-			if (counter == this.map.mapWidth) {
+			if (counter == map.mapWidth) {
 				counter = 0;
 				System.out.println();
 			}

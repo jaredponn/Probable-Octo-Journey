@@ -4,6 +4,7 @@ import poj.linear.*;
 
 import java.util.ArrayList;
 
+// Algorthims from various authors
 // https://blog.hamaluik.ca/posts/swept-aabb-collision-using-minkowski-difference/
 // http://www.dyn4j.org/2010/04/gjk-gilbert-johnson-keerthi/
 // https://github.com/kroitor/gjk.c
