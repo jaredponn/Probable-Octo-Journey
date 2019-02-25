@@ -190,77 +190,72 @@ public class PlayGame extends World
 			// generateDiffusionMap.start();
 			// executor.execute(generateDiffusionMap);
 			// pool.execute(generateDiffusionMap);
-
-
 			generateDiffusionMap.setStart();
 
-
-			System.out.println("start in generateDiffusionMap is ="
-					   + generateDiffusionMap.start);
-			long startTime = System.nanoTime();
-			EngineTransforms
-				.setMovementVelocityFromMovementDirection(
-					this.engineState);
-
-			EngineTransforms
-				.updateCircleCollisionFromWorldAttributes(
-					engineState);
-			EngineTransforms.debugCircleCollisionRender(
-				engineState, super.renderer, this.cam);
-
-			EngineTransforms.updateWorldAttribPositionFromMovement(
-				this.engineState, this.dt);
-
-			long endTime = System.nanoTime();
-
-			// in milisecond
-			long duration = (endTime - startTime) / 1000000;
-			System.out.println("time took for before path finding: "
-					   + duration);
-
-
-			startTime = System.nanoTime();
-
-			// EngineTransforms.generateDiffusionMap(this.map, 0,
-			// 1f / 8f);
-			endTime = System.nanoTime();
-			duration = (endTime - startTime) / 1000000;
-			System.out.println("time took for the path finding..: "
-					   + duration);
-
-
-			while (generateDiffusionMap.start == true) {
-			}
-			EngineTransforms.updateEnemyPositionFromPlayer(
-				this.engineState, this.map, 0, this.player,
-				this.mob1);
-			System.out.println(
-				"start in generateDiffusionMap after updateEnemyPositionFromPlayer is ="
-				+ generateDiffusionMap.start);
-			// this.generateDiffusionMap(0, 1f / 8f);
-			// this.updateEnemyPositionFromPlayer();
-
-			// updating the camera
-			centerCamerasPositionToPlayer();
-			updateInverseCamera();
-			updateCoolDownKeys();
-
-
-			EngineTransforms.updateAnimationWindows(
-				this.engineState, this.dt);
-			EngineTransforms.cropSpriteSheetsFromAnimationWindows(
-				this.engineState);
-
-			EngineTransforms
-				.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
-					this.engineState, this.cam);
-
-
-			System.out.println(
-				"----------------------- end one loop");
 		} catch (Exception ex) {
 			System.out.println("an exception had occured: " + ex);
 		}
+
+
+		System.out.println("start in generateDiffusionMap is ="
+				   + generateDiffusionMap.start);
+		long startTime = System.nanoTime();
+		EngineTransforms.setMovementVelocityFromMovementDirection(
+			this.engineState);
+
+		EngineTransforms.updateCircleCollisionFromWorldAttributes(
+			engineState);
+		EngineTransforms.debugCircleCollisionRender(
+			engineState, super.renderer, this.cam);
+
+		EngineTransforms.updateWorldAttribPositionFromMovement(
+			this.engineState, this.dt);
+
+		long endTime = System.nanoTime();
+
+		// in milisecond
+		long duration = (endTime - startTime) / 1000000;
+		System.out.println("time took for before path finding: "
+				   + duration);
+
+
+		startTime = System.nanoTime();
+
+		// EngineTransforms.generateDiffusionMap(this.map, 0,
+		// 1f / 8f);
+		endTime = System.nanoTime();
+		duration = (endTime - startTime) / 1000000;
+		System.out.println("time took for the path finding..: "
+				   + duration);
+
+
+		// while (generateDiffusionMap.start == true) {
+		//}
+		EngineTransforms.updateEnemyPositionFromPlayer(
+			this.engineState, this.map, 0, this.player, this.mob1);
+		System.out.println(
+			"start in generateDiffusionMap after updateEnemyPositionFromPlayer is ="
+			+ generateDiffusionMap.start);
+		// this.generateDiffusionMap(0, 1f / 8f);
+		// this.updateEnemyPositionFromPlayer();
+
+		// updating the camera
+		centerCamerasPositionToPlayer();
+		updateInverseCamera();
+		updateCoolDownKeys();
+
+
+		EngineTransforms.updateAnimationWindows(this.engineState,
+							this.dt);
+		EngineTransforms.cropSpriteSheetsFromAnimationWindows(
+			this.engineState);
+
+		EngineTransforms
+			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
+				this.engineState, this.cam);
+
+
+		System.out.println("----------------------- end one loop");
 		// rendering is run after this is run
 	}
 
@@ -447,14 +442,6 @@ public class PlayGame extends World
 					.setOriginCoord(playerPosition);
 
 
-				this.map.getLayerEngineState(0)
-					.getComponentAt(
-						PathFindCord.class,
-						this.map.getEcsIndexFromWorldVector2f(
-							playerPosition))
-					.setDiffusionValue(
-						GameConfig
-							.TOWER_DIFFUSION_VALUE);
 				// reset the lastCooldown key to the max
 				// cooldown of that key
 				updateDtForKey(GameConfig.BUILD_TOWER,
