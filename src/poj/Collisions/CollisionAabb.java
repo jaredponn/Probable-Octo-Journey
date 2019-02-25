@@ -20,6 +20,16 @@ public class CollisionAabb
 
 	final public static int NUM_POINTS = 4;
 
+
+	/**
+	 * Constructor
+	 * Constructs circle from an x and y coordinate and heights and widths
+	 *
+	 * @param topleftx  x coord
+	 * @param toplefty  y coord
+	 * @param w  width
+	 * @param h  height
+	 */
 	public CollisionAabb(float topleftx, float toplefty, float w, float h)
 	{
 		points = new Vector2f[NUM_POINTS];
@@ -64,93 +74,6 @@ public class CollisionAabb
 	{
 		return CollisionAabb.isColliding(this, c);
 	}
-
-	// algorithim from page 232 of Real-Time Collision Detection by Christer
-	// Ericson
-	//
-	// a -- collision box a
-	// b -- collision box b
-	// va -- velocity of collision box a
-	// vb -- velocity of collision box b
-	// returns Optional of the time in the range of 0 <= t <= 1
-	public static Optional<Double>
-	intersectionTimeOfMoving(final CollisionAabb a, final CollisionAabb b,
-				 final Vector2f va, final Vector2f vb)
-	{
-		System.out.println("START--------------------------------");
-		va.log("VA");
-		System.out.println(a.toString());
-		vb.log("VB");
-		System.out.println(b.toString());
-		// first and last contact times
-		double ti = 0d;
-		double tf = 1d;
-
-		// check if initially interesecting
-		if (CollisionAabb.isColliding(a, b)) {
-			System.out.println("initially colliding");
-			return Optional.of(0d);
-		}
-
-		// relative velocity where a is not moving and b is moving
-		Vector2f rv = vb.pureSubtract(va);
-		rv.log("relative vector");
-
-		// iterating through each axis of the vector and determining the
-		// first and last contact times
-		for (int i = 0; i < Vector2f.MAX_LENGTH; ++i) {
-			if (rv.get(i) < 0f) {
-				// clang-format off
-				// non intersecting and moving apart
-				if (b.max().get(i) < a.min().get(i))
-					return Optional.empty();
-
-				// moving together
-				if (a.max().get(i) < b.min().get(i))
-					ti = Math.max((a.max().get(i) - b.min().get(i)) / rv.get(i), ti);
-
-				// moving apart
-				if (b.max().get(i) > a.min().get(i))
-					tf = Math.min((a.min().get(i) - b.max().get(i)) / rv.get(i), tf);
-				// clang-format on
-			}
-
-			else if (rv.get(i) > 0f) {
-				// clang-format off
-				// non intersecting and moving apart
-				if (b.min().get(i) > a.max().get(i))
-					return Optional.empty();
-
-				// moving together
-				if (b.max().get(i) < a.min().get(i))
-					ti = Math.max((a.min().get(i) - b.max().get(i)) / rv.get(i), ti);
-
-				// moving apart
-				if (a.max().get(i) > b.min().get(i))
-					tf = Math.min((a.max().get(i) - b.min().get(i)) / rv.get(i), tf);
-				// clang-format on
-			}
-		}
-
-		// no overlap possible if the initial contanct time happens
-		// after the last
-		if (ti > tf) {
-			System.out.println(
-				"initail contact before final contact");
-			return Optional.empty();
-		}
-
-
-		// if they were't going to touch at all
-		if (ti == 0) {
-			System.out.println("ti was 0 ");
-			return Optional.empty();
-		}
-		System.out.println("tifinal: " + ti);
-
-		return Optional.of(ti);
-	}
-
 
 	// setters
 	public void setTopLeftAndUpdateAllPoints(Vector2f topleftv)

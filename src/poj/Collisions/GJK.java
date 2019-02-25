@@ -3,6 +3,10 @@ package poj.Collisions;
 import poj.linear.*;
 import java.util.ArrayList;
 import poj.Logger.*;
+// Algorthim from various authors:
+// https://caseymuratori.com/blog_0003
+// http://www.dyn4j.org/2010/04/gjk-gilbert-johnson-keerthi/
+// //https://blog.hamaluik.ca/posts/building-a-collision-engine-part-1-2d-gjk-collision-detection/
 
 public class GJK
 {

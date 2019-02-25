@@ -11,7 +11,14 @@ public class EngineState extends Components
 
 	private static final int DEFAULT_MAX_ENTITIES = 1000000;
 
-	/* engine init */
+	/**
+	 * Constructor. Constructs an engine with the default max entites
+	 *
+	 * @param  url  an absolute URL giving the base location of the image
+	 * @param  name the location of the image, relative to the url argument
+	 * @return      the image at the specified URL
+	 * @see         Image
+	 */
 	public EngineState()
 	{
 		this(DEFAULT_MAX_ENTITIES);

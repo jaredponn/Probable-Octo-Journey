@@ -12,6 +12,12 @@ public class ComponentsArray
 			PackedVector<? extends Component>> m_component_list;
 	private int MAX_ENTITIES;
 
+	/**
+	 * Constructs the component array with all packed vectors having a given
+	 * capacity
+	 *
+	 * @param  n  capacity for the packed vectors
+	 */
 	public ComponentsArray(int n)
 	{
 		Logger.lassert(
@@ -22,6 +28,14 @@ public class ComponentsArray
 		MAX_ENTITIES = n;
 	}
 
+
+	/**
+	 * Registers a component in the ComponentsArray. Makes it available for
+	 * use later -- creates the key value pair and allocates the memoty for
+	 * the packed vector
+	 *
+	 * @param  c  type of the component to register
+	 */
 	public <T extends Component> void registerComponent(Class<T> c)
 	{
 		Logger.lassert(
@@ -31,6 +45,15 @@ public class ComponentsArray
 		m_component_list.put(c, new PackedVector<T>(MAX_ENTITIES));
 	}
 
+
+	/**
+	 * gets the packed vector of a given type
+	 *
+	 * @param  c  type of the component to get
+	 * @return  PackedVector<c> of type c -- program crashes if that type
+	 *         has not been registered yet
+	 */
+	@SuppressWarnings("unchecked")
 	protected <T extends Component> PackedVector<T>
 	getComponentPackedVector(Class<?> c)
 	{
@@ -39,7 +62,6 @@ public class ComponentsArray
 			"MAJOR ERROR in ComponentList - Accessing a component that does not exist. Trying to get component of type (if it is an enum it just won't work): "
 				+ c.toString());
 
-		// TODO surpress this warning somehow
 		PackedVector<T> tmp = (PackedVector<T>)m_component_list.get(c);
 		return tmp;
 	}

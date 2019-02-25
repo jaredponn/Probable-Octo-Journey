@@ -14,19 +14,25 @@ public class App
 	private Renderer renderer;
 
 
-	// is running
+	// boolean to keep track if the game is running
 	boolean isRunning;
 
 	private int width = 1024;
 	private int height = 768;
 
+	/**
+	 * Default constructor that acquires the rendering resources, and input
+	 * system for the map
+	 *
+	 * @param text  the string to display.  If the text is null,
+	 *              the tool tip is turned off for this component.
+	 */
 	public App()
 	{
 		this.gwindow = new GameWindow("Something just like this");
 		this.inputPoller = new InputPoller();
 
-		// makes it full screen
-		/*
+		/* -- this makes it full screen
 		GraphicsDevice gd =
 			GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getDefaultScreenDevice();
@@ -37,29 +43,32 @@ public class App
 		// windowed
 		this.gcanvas = new GameCanvas(width, height, inputPoller);
 
-
 		this.gwindow.defaultAddGameCanvasAndSetBufferStrat(gcanvas);
 
 		this.renderer = new Renderer(gcanvas);
 
+		// default clear color
 		this.renderer.setClearColor(Color.black);
-		// this.renderer.setClearColor(Color.darkGray);
 
+		// is running
 		this.isRunning = true;
 	}
 
+
+	/**
+	 * run the main app loop. Will load and intialize all the discrete game
+	 * states that will be run during the duration of the application.
+	 * TODO in the future add different game states like menu, and start
+	 */
 	public void runAppLoop()
 	{
 
+		// playgame
 		PlayGame playGame = new PlayGame();
 
 		playGame.setWindowWidth(width);
 		playGame.setWindowHeight(height);
 		playGame.loadRenderer(this.renderer);
-
-		// changes the renderer to use the sorted buffer
-		renderer.setRenderBuffer(
-			new MinYFirstSortedRenderObjectBuffer());
 
 		playGame.loadInputPoller(this.inputPoller);
 		playGame.registerComponents();
@@ -74,6 +83,9 @@ public class App
 		playGame.clearWorld();
 	}
 
+	/**
+	 * disposes the window acquired
+	 */
 	public void disposeWindow()
 	{
 		this.gwindow.disposeWindow();
