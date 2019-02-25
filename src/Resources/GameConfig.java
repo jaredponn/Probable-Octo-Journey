@@ -57,6 +57,12 @@ public class GameConfig
 	public static final float CONSTRUCT_HEIGHT = 64;
 	public static final float CONSTRUCT_WIDTH = 48;
 	public static final float CONSTRUCT_HP = 100;
+	
+	public static final int TOWER_BUILD_COST = 250;
+	
+	// pickup config
+	public static final int PICKUP_CASH_AMOUNT = 100;
+	public static final float PICKUP_CASH_SPAWN_TIME = 20.0f;
 
 	// input config
 	public static final int SWITCH_WEAPONS = KeyEvent.VK_X;

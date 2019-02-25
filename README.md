@@ -1,5 +1,4 @@
 # Probably Octo Journey: CPSC 233 Project
-This is super strange
 
 # Announcements:
 - The coordinate system is a little strange. The following diagram will illustrate:
@@ -41,7 +40,10 @@ else
 
 # Credits
 Tileset: https://opengameart.org/content/cave-tileset
-Turrent: https://opengameart.org/content/orange-defense-gun-isometric
+
+Turret: https://opengameart.org/content/orange-defense-gun-isometric
+
+Coin: https://opengameart.org/content/spinning-pixel-coin-0
 
 
 Majority of the collision algorithms were from or built upon /*Real-Time Collision Detection*/ by Christer Ericson, published by Morgan Kaufmann Publishers, Copyright 2005 Elsevier Inc.
