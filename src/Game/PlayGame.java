@@ -30,9 +30,9 @@ public class PlayGame extends World
 	private Queue<RenderObject> groundBuffer;
 	private MinYFirstSortedRenderObjectBuffer entityBuffer;
 	private Queue<RenderObject> guiBuffer;
+	private Queue<RenderObject> debugBuffer;
 
 	// private MapLayer mapLayer;
-
 	// Camera
 	private Camera cam;    // camera
 	private Camera invCam; // inverse camera
@@ -51,8 +51,9 @@ public class PlayGame extends World
 
 	// ASE
 	private double timeOfLastMobSpawn = 0.0;
-	private double timeOfLastCashSpawn = 0.0 - GameConfig.PICKUP_CASH_SPAWN_TIME;
-	private int cash = 0;
+	private double timeOfLastCashSpawn =
+		0.0 - GameConfig.PICKUP_CASH_SPAWN_TIME;
+	private int cash = 1000;
 
 	private StringRenderObject gameTimer =
 		new StringRenderObject("", 5, 10, Color.WHITE);
@@ -67,9 +68,9 @@ public class PlayGame extends World
 		// World loading
 		this.map = new Map(3);
 		this.map.addTileSet(GameResources.tileSet);
-		this.map.addMapConfig(GameResources.pathFindTest1Config);
-		this.map.addMapLayer(GameResources.pathFindTest1LayerGround);
-		this.map.addMapLayer(GameResources.pathFindTest1LayerWall);
+		this.map.addMapConfig(GameResources.demo1Config);
+		this.map.addMapLayer(GameResources.demo1LayerGround);
+		this.map.addMapLayer(GameResources.demo1LayerWall);
 		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
 
 
@@ -97,6 +98,7 @@ public class PlayGame extends World
 		this.groundBuffer = new LinkedList<RenderObject>();
 		this.entityBuffer = new MinYFirstSortedRenderObjectBuffer();
 		this.guiBuffer = new LinkedList<RenderObject>();
+		this.debugBuffer = new LinkedList<RenderObject>();
 
 		// camera initialization
 		resetCamera();
@@ -172,7 +174,8 @@ public class PlayGame extends World
 		// right now for testing it only have 1 layer
 
 
-		int tmp = super.engineState.spawnEntitySet(new Bullet( this.getPlayTime() ));
+		int tmp = super.engineState.spawnEntitySet(
+			new Bullet(this.getPlayTime()));
 		super.getComponentAt(WorldAttributes.class, tmp)
 			.setOriginCoord(new Vector2f(0f, 0f));
 		super.getComponentAt(Movement.class, tmp).setSpeed(0);
@@ -191,12 +194,12 @@ public class PlayGame extends World
 
 		// ASE
 		this.mobSpawner();
-		
+
 		this.cashDropDespawner();
 		this.bulletDespawner();
-		
+
 		// TODO: make mobs drop cash on death?
-		this.cashSpawner( true , 4f , 7f );
+		this.cashSpawner(true, 4f, 7f);
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
 
 		this.updateGameTimer();
@@ -224,12 +227,12 @@ public class PlayGame extends World
 
 		// debug renderers
 		EngineTransforms.debugCircleCollisionRender(
-			engineState, super.renderer, this.cam);
+			engineState, debugBuffer, this.cam);
 		EngineTransforms.debugAabbCollisionRender(
-			engineState, super.renderer, this.cam);
+			engineState, debugBuffer, this.cam);
 		for (int i = 0; i < this.map.getLayerNumber(); ++i) {
 			EngineTransforms.debugMapAabbCollisionRender(
-				map, i, super.renderer, this.cam);
+				map, i, debugBuffer, this.cam);
 		}
 
 		// collision
@@ -459,11 +462,13 @@ public class PlayGame extends World
 						     WorldAttributes.class,
 						     this.player)
 						.getOriginCoord();
+
 				int tmp = super.engineState.spawnEntitySet(
 					new TurretSet());
 				this.cash -= 250;
 				super.getComponentAt(WorldAttributes.class, tmp)
 					.setOriginCoord(playerPosition);
+
 				System.out.println(
 					"Built a tower. It cost $"
 					+ GameConfig.TOWER_BUILD_COST);
@@ -571,7 +576,7 @@ public class PlayGame extends World
 		guiBuffer.add(this.cashDisplay);
 
 		super.renderer.renderBuffers(groundBuffer, entityBuffer,
-					     guiBuffer);
+					     debugBuffer, guiBuffer);
 
 		// TODO FIX THE BADdebug render
 		// super.renderer.render();
@@ -626,7 +631,8 @@ public class PlayGame extends World
 
 	private void playerShootBullet()
 	{
-		int e = super.engineState.spawnEntitySet(new Bullet( this.getPlayTime()));
+		int e = super.engineState.spawnEntitySet(
+			new Bullet(this.getPlayTime()));
 		float bulletSpeed =
 			super.getComponentAt(Movement.class, e).getSpeed();
 		Vector2f tmp = new Vector2f(
@@ -702,53 +708,73 @@ public class PlayGame extends World
 	private void cashSpawner(boolean timed, float x, float y)
 	{
 		double currentPlayTime = this.getPlayTime();
-		if ( timed == true && currentPlayTime - this.timeOfLastCashSpawn > GameConfig.PICKUP_CASH_SPAWN_TIME) {
-			super.engineState.spawnEntitySet(new CollectibleSet( x , y , currentPlayTime ));
+		if (timed == true
+		    && currentPlayTime - this.timeOfLastCashSpawn
+			       > GameConfig.PICKUP_CASH_SPAWN_TIME) {
+			super.engineState.spawnEntitySet(
+				new CollectibleSet(x, y, currentPlayTime));
 			this.timeOfLastCashSpawn = currentPlayTime;
 			System.out.println("Spawning new timed cash drop.");
-		}
-		else if ( timed == false ){
-			super.engineState.spawnEntitySet(new CollectibleSet( x , y , currentPlayTime ));
+		} else if (timed == false) {
+			super.engineState.spawnEntitySet(
+				new CollectibleSet(x, y, currentPlayTime));
 			this.timeOfLastCashSpawn = currentPlayTime;
 			System.out.println("Spawning new cash drop.");
 		}
 	}
-	
-	private void cashDropDespawner() {
+
+	private void cashDropDespawner()
+	{
 		for (int i = this.engineState.getInitialSetIndex(
 			     CollectibleSet.class);
 		     this.engineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(CollectibleSet.class,
 							  i)) {
-			
-			double spawnTime = engineState.getComponentAt(Lifespan.class, i).getSpawnTime();
-			double lifespan = engineState.getComponentAt(Lifespan.class, i).getLifespan();
-			
-			if ( this.getPlayTime() - spawnTime >= lifespan ) {
-				this.engineState.deleteComponentAt(CollectibleSet.class, i);
-				this.engineState.deleteComponentAt(Render.class, i);
-				this.engineState.deleteComponentAt(WorldAttributes.class, i);
-				this.engineState.deleteComponentAt(Lifespan.class, i);
+
+			double spawnTime =
+				engineState.getComponentAt(Lifespan.class, i)
+					.getSpawnTime();
+			double lifespan =
+				engineState.getComponentAt(Lifespan.class, i)
+					.getLifespan();
+
+			if (this.getPlayTime() - spawnTime >= lifespan) {
+				this.engineState.deleteComponentAt(
+					CollectibleSet.class, i);
+				this.engineState.deleteComponentAt(Render.class,
+								   i);
+				this.engineState.deleteComponentAt(
+					WorldAttributes.class, i);
+				this.engineState.deleteComponentAt(
+					Lifespan.class, i);
 			}
 		}
 	}
-	
-	private void bulletDespawner() {
-		for (int i = this.engineState.getInitialSetIndex(
-			     Bullet.class);
+
+	private void bulletDespawner()
+	{
+		for (int i = this.engineState.getInitialSetIndex(Bullet.class);
 		     this.engineState.isValidEntity(i);
-		     i = this.engineState.getNextSetIndex(Bullet.class,
-							  i)) {
-			
-			double spawnTime = engineState.getComponentAt(Lifespan.class, i).getSpawnTime();
-			double lifespan = engineState.getComponentAt(Lifespan.class, i).getLifespan();
-			
-			if ( this.getPlayTime() - spawnTime >= lifespan ) {
-				this.engineState.deleteComponentAt(Bullet.class, i);
-				this.engineState.deleteComponentAt(Render.class, i);
-				this.engineState.deleteComponentAt(WorldAttributes.class, i);
-				this.engineState.deleteComponentAt(Movement.class, i);
-				this.engineState.deleteComponentAt(Lifespan.class, i);
+		     i = this.engineState.getNextSetIndex(Bullet.class, i)) {
+
+			double spawnTime =
+				engineState.getComponentAt(Lifespan.class, i)
+					.getSpawnTime();
+			double lifespan =
+				engineState.getComponentAt(Lifespan.class, i)
+					.getLifespan();
+
+			if (this.getPlayTime() - spawnTime >= lifespan) {
+				this.engineState.deleteComponentAt(Bullet.class,
+								   i);
+				this.engineState.deleteComponentAt(Render.class,
+								   i);
+				this.engineState.deleteComponentAt(
+					WorldAttributes.class, i);
+				this.engineState.deleteComponentAt(
+					Movement.class, i);
+				this.engineState.deleteComponentAt(
+					Lifespan.class, i);
 			}
 		}
 	}
@@ -786,7 +812,8 @@ public class PlayGame extends World
 								   i);
 				this.engineState.deleteComponentAt(
 					WorldAttributes.class, i);
-				this.engineState.deleteComponentAt(Lifespan.class, i);
+				this.engineState.deleteComponentAt(
+					Lifespan.class, i);
 			}
 		}
 	}
