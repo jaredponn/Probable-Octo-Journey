@@ -62,8 +62,9 @@ public class PlayGame extends World
 		this.map = new Map(3);
 		this.map.addTileSet(GameResources.tileSet);
 		this.map.addMapConfig(GameResources.pathFindTest1Config);
-		this.map.addMapLayer(GameResources.pathFindTest1Layer);
-		// adding the maximum cooldown for turret
+		this.map.addMapLayer(GameResources.pathFindTest1LayerGround);
+		this.map.addMapLayer(GameResources.pathFindTest1LayerWall);
+		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
 
 
 		// setting the build turret coolDown
@@ -186,7 +187,7 @@ public class PlayGame extends World
 		// ASE
 		this.mobSpawner();
 		// TODO: make mobs drop cash on death?
-		this.cashSpawner( true , 4f , 7f );
+		this.cashSpawner(true, 4f, 7f);
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
 
 		this.updateGameTimer();
@@ -546,8 +547,10 @@ public class PlayGame extends World
 	{
 
 
-		this.pushTileMapLayerToRenderer(
-			this.map.getLayerEngineState(0));
+		for (int i = 0; i < this.map.getLayerNumber(); ++i) {
+			this.pushTileMapLayerToRenderer(
+				this.map.getLayerEngineState(i));
+		}
 
 		for (Render r :
 		     super.getRawComponentArrayListPackedData(Render.class)) {
@@ -684,7 +687,7 @@ public class PlayGame extends World
 	/** @return: current time the game has been running in seconds */
 	private double getPlayTime()
 	{
-		double playTime = Math.floor( (super.acct / 1000) * 100 ) / 100 ;
+		double playTime = Math.floor((super.acct / 1000) * 100) / 100;
 		return playTime;
 	}
 
@@ -709,16 +712,20 @@ public class PlayGame extends World
 					   + this.timeOfLastMobSpawn);
 		}
 	}
-	
-	private void cashSpawner( boolean timed , float x , float y ) {
+
+	private void cashSpawner(boolean timed, float x, float y)
+	{
 		double currentPlayTime = this.getPlayTime();
-		if ( timed == true && currentPlayTime - this.timeOfLastCashSpawn > GameConfig.PICKUP_CASH_SPAWN_TIME) {
-			super.engineState.spawnEntitySet(new CollectibleSet( x , y ));
+		if (timed == true
+		    && currentPlayTime - this.timeOfLastCashSpawn
+			       > GameConfig.PICKUP_CASH_SPAWN_TIME) {
+			super.engineState.spawnEntitySet(
+				new CollectibleSet(x, y));
 			this.timeOfLastCashSpawn = currentPlayTime;
 			System.out.println("Spawning new timed cash drop.");
-		}
-		else if ( timed == false ){
-			super.engineState.spawnEntitySet(new CollectibleSet( x , y ));
+		} else if (timed == false) {
+			super.engineState.spawnEntitySet(
+				new CollectibleSet(x, y));
 			this.timeOfLastCashSpawn = currentPlayTime;
 			System.out.println("Spawning new cash drop.");
 		}
