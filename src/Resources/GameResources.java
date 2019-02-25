@@ -28,12 +28,19 @@ public class GameResources
 		mapConfig = "resources/newmap2/map.json",
 		tileSet = "resources/newmap2/caveTileSet128.json",
 		mapLayer0 = "resources/newmap2/map.csv",
-		pathFindTest1Config = "resources/newmap2/pathFindTest1.json",
 		pathFindTest1Layer = "resources/newmap2/pathFindTest1.csv",
+
+		pathFindTest1Config = "resources/newmap2/pathFindTest1.json",
 		pathFindTest1LayerGround =
 			"resources/newmap2/pathFindTest1_ground.csv",
 		pathFindTest1LayerWall =
 			"resources/newmap2/pathFindTest1_wall.csv",
+
+		// demo 1  resources
+		demo1Config = "resources/demo1map/demo1.json",
+		demo1LayerGround = "resources/demo1map/demo1_ground.csv",
+		demo1LayerWall = "resources/demo1map/demo1_wall.csv",
+
 		pathFindTest2Config = "resources/newmap2/pathFindTest2.json",
 		pathFindTest2Layer = "resources/newmap2/pathFindTest2.csv",
 		pathFindTest3Config = "resources/newmap2/pathFindTest3.json",
@@ -64,12 +71,12 @@ public class GameResources
 	public static final int BULLET_SPRITE_HEIGHT = 5;
 	public static BufferedImage bulletImage =
 		ImageLoader.load("resources/5x5bullet.png");
-	
+
 	// money resources
 	public static final int CASH_SPRITE_WIDTH = 16;
 	public static final int CASH_SPRITE_HEIGHT = 16;
-	public static BufferedImage cashImage = 
-			ImageLoader.load("resources/coin.png");
+	public static BufferedImage cashImage =
+		ImageLoader.load("resources/coin.png");
 
 	// player resources
 	public static BufferedImage playerSpriteSheet =
