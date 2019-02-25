@@ -301,12 +301,6 @@ public class Map
 				"In TileMap addMapLayer ,file not found exception!"
 				+ e.getMessage());
 		}
-		/*
-		System.out.println("map width = " + mapWidth);
-		System.out.println("map height = " + mapHeight);
-		System.out.println(getEcsCordFromWorldAttributes(
-			new WorldAttributes(1, 0, 1f, 1f)));
-		*/
 	}
 
 	public void printPathfindCord(int layerNumber)

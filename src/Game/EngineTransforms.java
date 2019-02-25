@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 
 import Components.*;
+import EntitySets.*;
 
 import poj.linear.Vector2f;
 import Resources.*;
@@ -107,78 +108,30 @@ public class EngineTransforms
 		// will allocate vector size of map size
 		ArrayList<Float> tempDiffusionBuffer =
 			new ArrayList<Float>(map.mapWidth * map.mapHeight);
-		// will not loop to the empty tiles inside the map, hopefull !!
+		// will not loop to the empty tiles inside the map
 		for (int i = mapLayer.getInitialComponentIndex(
 			     PathFindCord.class);
 		     Components.isValidEntity(i);
 		     i = mapLayer.getNextComponentIndex(PathFindCord.class,
 							i)) {
-			// Vector2f testVector=
-			//
-
 			PathFindCord center =
 				mapLayer.getComponentAt(PathFindCord.class, i);
-			/*
-			System.out.println(
-				"center's diffusion value: = "
-				+ center.getDiffusionValue());
-				*/
 			if (!center.getIsWall()) {
 				ArrayList<PathFindCord> tempNeighbours =
 					getEightNeighbourVector(map, i,
 								mapLayer);
 				float sum = 0f;
-				// System.out.println("size of
-				// tempNeighbours ="
-				//+ tempNeighbours.size());
-				/*
-				for (PathFindCord a : tempNeighbours) {
-					a.printCord();
-				}
-				*/
 				for (PathFindCord a : tempNeighbours) {
 					// if not a wall
 					if (!a.getIsWall()) {
 						sum += a.getDiffusionValue()
 						       - center.getDiffusionValue();
-					} else {
-						/*
-					System.out.println(
-						"I did not pass!!, the
-					Vector x  index is ="
-						+ a.getCord()
-							  .x);
-					System.out.println(
-						"I did not pass!!, the
-					Vector y  index is ="
-						+ a.getCord()
-							  .y);
-							  */
 					}
 				}
-				/*
-				System.out.println(
-					"sum before adding center
-				diffusion value = "
-					+ sum);
-				*/
 				sum = center.getDiffusionValue()
 				      + sum * difCoefficient;
 				sum = sum * 1 / 2;
-				/*
-				if (i != playerECSindex) {
-					sum = sum * 1 / 2;
-				}
-				*/
-
-
 				tempDiffusionBuffer.add(sum);
-				/*
-				System.out.println(
-					"sum after adding center
-				diffusion value = "
-					+ sum);
-				*/
 			} else {
 				tempDiffusionBuffer.add(0f);
 			}
@@ -253,28 +206,6 @@ public class EngineTransforms
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
 			engineState, map, layerNumber, player);
 		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
-		/*
-		System.out.println("mob position in world attribues: ");
-		System.out.println(
-			"mob ecs cord= "
-			+ this.map.getEcsCordFromWorldAttributes(
-				  super.getComponentAt(WorldAttributes.class,
-						       this.mob1)));
-		System.out.println(
-			"mob x dir="
-			+ super.getComponentAt(WorldAttributes.class, this.mob1)
-				  .getCenteredBottomQuarter()
-				  .x);
-
-		System.out.println(
-			"mob y dir="
-			+ super.getComponentAt(WorldAttributes.class, this.mob1)
-				  .getCenteredBottomQuarter()
-				  .y);
-		System.out.println(this.map.isValidCord(
-			super.getComponentAt(WorldAttributes.class, this.mob1)
-				.getCenteredBottomQuarter()));
-			*/
 		ArrayList<PathFindCord> mobNeighb = getEightNeighbourVector(
 			map,
 			map.getEcsIndexFromWorldVector2f(
@@ -293,52 +224,14 @@ public class EngineTransforms
 			engineState
 				.getComponentAt(WorldAttributes.class, player)
 				.getCenteredBottomQuarter();
-		/*
-		System.out.println("mob x position: " + mobPosition.x);
-		System.out.println("mob y position: " + mobPosition.y);
-		System.out.println("mob x floored position: "
-				   + (int)mobPosition.x);
-		System.out.println("mob y floored position: "
-				   + (int)mobPosition.y);
-		//System.out.println("player x position: " + playerPosition.x);
-		System.out.println("player y position: " + playerPosition.y);
-		System.out.println("player x floored position: "
-				   + (int)playerPosition.x);
-		System.out.println("player y floored position: "
-				   + (int)playerPosition.y);
-		System.out.println("player x position  floor ="
-				   + playerPosition.x);
-		System.out.println("player y position  floor ="
-				   + playerPosition.y);
-		System.out.println("mob x position before floor ="
-				   + mobPosition.x);
-		System.out.println("mob y position before floor ="
-				   + mobPosition.y);
-		System.out.println("mob x position after  floor ="
-				   + mobPosition.x);
-		System.out.println("mob y position after  floor ="
-				   + mobPosition.y);
-				   */
 
-		// else {
+		// get the mob's highest neighbour value
 		for (PathFindCord neib : mobNeighb) {
 			if (neib.getDiffusionValue() >= maxValue) {
 				maxValue = neib.getDiffusionValue();
 				maxPosition = neib.getCord();
 			}
 		}
-		/*
-		System.out.println(" the max value calculated for the enemy: "
-				   + maxValue);
-		System.out.println("maxPosition x =" + maxPosition.x);
-		System.out.println("maxPosition y =" + maxPosition.y);
-		System.out.println("cardinal inside enemy :");
-		CardinalDirections.print(
-			CardinalDirections
-				.getClosestDirectionFromDirectionVector(
-					maxPosition.subtractAndReturnVector(
-						mobPosition)));
-						*/
 		CardinalDirections.print(
 			CardinalDirections
 				.getClosestDirectionFromDirectionVector(
@@ -372,6 +265,8 @@ public class EngineTransforms
 			System.out.println(
 				"went inside where the player cord is equal to mob cord!");
 
+			// if the mob does not have the same position as the
+			// player
 			if (Math.abs(mobPosition.x - playerPosition.x)
 				    >= PlayGame.EPSILON
 			    && Math.abs(mobPosition.y - playerPosition.y)
@@ -385,7 +280,9 @@ public class EngineTransforms
 								mobPosition)));
 				engineState.getComponentAt(Movement.class, mob1)
 					.setSpeed(GameConfig.MOB_SPEED);
-			} else {
+			}
+			// mob have the same position as the player
+			else {
 				engineState.getComponentAt(Movement.class, mob1)
 					.setSpeed(0);
 			}
@@ -414,94 +311,10 @@ public class EngineTransforms
 				"set the mob speed equal to 0!!!!!!!");
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(0f);
-		} else {
-			// mobPosition.floor();
-			// maxPosition.floor();
-
-			/*
-			super.getComponentAt(MovementDirection.class, this.mob1)
-				.setDirection(
-					CardinalDirections.getClosestDirectionFromDirectionVector(
-						maxPosition
-							.subtractAndReturnVector(
-								mobPosition)));
-				*/
-
-
-			// if the mob is on a wall
-			// TODO: Please don't delete this!!!!! might be
-			// important when the player is moving aroudn the
-			// corners..
-			/*
-			if (mapLayer.getComponentAt(
-					    PathFindCord.class,
-					    this.map.getEcsIndexFromWorldVector2f(
-						    mobPosition))
-				    .getIsWall()) {
-				System.out.println("mob inside wall!!");
-
-				CardinalDirections curDir =
-					CardinalDirections.getClosestDirectionFromDirectionVector(
-						maxPosition
-							.subtractAndReturnVector(
-								mobPosition));
-				System.out.println(
-					"inside the wall, the new cardinal
-			position of the player is ");
-				CardinalDirections.print(curDir);
-				if (curDir == CardinalDirections.W
-				    || curDir == CardinalDirections.E
-				    || curDir == CardinalDirections.N
-				    || curDir == CardinalDirections.S) {
-					curDir =
-			CardinalDirections.getClosestDirectionFromDirectionVector(
-						playerPosition
-							.subtractAndReturnVector(
-								mobPosition));
-					System.out.println(
-						"went inside WENS!! The new
-			cardinal direction need to be checked it: ");
-					CardinalDirections.print(curDir);
-					System.out.println(
-						"finish went inside WENS!! ");
-				}
-
-
-				if (curDir == CardinalDirections.NW) {
-					super.getComponentAt(
-						     MovementDirection.class,
-						     this.mob1)
-						.setDirection(
-							CardinalDirections.NE);
-				} else if (curDir == CardinalDirections.SW) {
-					super.getComponentAt(
-						     MovementDirection.class,
-						     this.mob1)
-						.setDirection(
-							CardinalDirections.NW);
-				} else if (curDir == CardinalDirections.NE) {
-					super.getComponentAt(
-						     MovementDirection.class,
-						     this.mob1)
-						.setDirection(
-							CardinalDirections.SE);
-				} else if (curDir == CardinalDirections.SE) {
-					super.getComponentAt(
-						     MovementDirection.class,
-						     this.mob1)
-						.setDirection(
-							CardinalDirections.SW);
-				}
-
-				System.out.println(
-					"aftr changign the cardianl direction
-			inside the wall, the new cardinal position of the player
-			is "); CardinalDirections.print( super.getComponentAt(
-						     MovementDirection.class,
-						     this.mob1)
-						.getDirection());
-			} else {
-			*/
+		}
+		// the max neighbour value is bigger than the value of the tile
+		// that the mob is standing on
+		else {
 			mobPosition.floor();
 			maxPosition.floor();
 			engineState
@@ -526,6 +339,23 @@ public class EngineTransforms
 			engineState
 				.getComponentAt(WorldAttributes.class, player)
 				.getCenteredBottomQuarter();
+		for (int i = engineState.getInitialSetIndex(TurretSet.class);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
+			mapLayer.getComponentAt(
+					PathFindCord.class,
+					map.getEcsIndexFromWorldVector2f(
+						engineState
+							.getComponentAt(
+								WorldAttributes
+									.class,
+								i)
+							.getCenteredBottomQuarter()))
+				.setDiffusionValue(
+					GameConfig.TOWER_DIFFUSION_VALUE);
+		}
+
+
 		/*
 		System.out.println("player X=" + playerPosition.x);
 		System.out.println("player Y=" + playerPosition.y);
