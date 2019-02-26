@@ -7,6 +7,9 @@ import TileMap.MapLayer;
 
 import poj.Component.Components;
 import poj.linear.Vector2f;
+
+// https://docs.oracle.com/javase/tutorial/essential/concurrency/atomic.html
+// Note: all reads and writes of this system are atomic
 public class MapGeneration extends Thread
 {
 	private Map map;
