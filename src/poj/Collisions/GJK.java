@@ -52,8 +52,11 @@ public class GJK
 	// determiens the  closest point to the origin
 	public static boolean doSimplex(ArrayList<Vector2f> simplex, Vector2f d)
 	{
+
+		Vector2f newsearchdirecion;
 		switch (simplex.size()) {
-		case 2:
+		case 2: {
+
 			// simplex: [b, a]
 			Vector2f a = simplex.get(1); // point just added
 			Vector2f b = simplex.get(0);
@@ -61,8 +64,6 @@ public class GJK
 			Vector2f ab = b.pureSubtract(a);
 			Vector2f ao = a.pureNegate();
 
-
-			Vector2f newsearchdirecion;
 
 			if (Vector2f.dot(ab, ao) > 0) // if ab is the simplex
 			{
@@ -75,11 +76,16 @@ public class GJK
 
 				newsearchdirecion = ao;
 			}
+		}
 
 
-		case 3:
+		case 3: {
 
 			// simplex: [c, b, a]
+			Vector2f a = simplex.get(2);
+			Vector2f b = simplex.get(1);
+			Vector2f c = simplex.get(0);
+		}
 
 		default:
 			Logger.lassert(

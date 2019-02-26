@@ -8,6 +8,7 @@ git clone https://github.com/jaredponn/probable-octo-journey
 cd probable-octo-journey
 ./run.sh 
 ```
+
 Note: this script only works with bash.
 
 # Version number:
