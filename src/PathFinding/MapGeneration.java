@@ -15,6 +15,19 @@ public class MapGeneration extends Thread
 	private float difCoefficient;
 	public volatile boolean startGeneration = false;
 	public volatile boolean endGeneration = false;
+
+
+	/**
+	 * Constructs the MapGeneration thread with the Map, layerNumber, and
+	 * diffusion coefficient
+	 *
+	 * @param  map	the Map type of the map
+	 * @param  layerNumber	integer which tells the thread which map will it
+	 *         run the diffusion generation on
+	 * @param  difCoefficient	float which sets the diffusion
+	 *         coefficient of the algorithm
+	 * @return      void
+	 */
 	public MapGeneration(Map map, int layerNumber, float difCoefficient)
 	{
 		this.map = map;
@@ -23,24 +36,55 @@ public class MapGeneration extends Thread
 		this.difCoefficient = difCoefficient;
 		System.out.println("map generation thread generated!");
 	}
+	/**
+	 * set the Map layer number
+	 * *
+	 * @param  newLayerNum integer, will make the algorithm to search on the
+	 *         layer "newLayerNum"
+	 * @return      void
+	 */
 	public void setMapLayerNumber(int newLayerNum)
 	{
 		this.layerNumber = newLayerNum;
 		this.mapLayer = map.getLayerEngineState(layerNumber);
 	}
-	public void setDiffusionCoefficient(int newDifCoef)
+	/**
+	 * set the diffusion coefficient
+	 * *
+	 * @param  newDifCoef integer, will make the algorithm to search on the
+	 *         layer "newLayerNum"
+	 * @return      void
+	 */
+	public void setDiffusionCoefficient(float newDifCoef)
 	{
 		this.difCoefficient = newDifCoef;
 	}
+	/**
+	 * set the start boolean of the thread
+	 * *
+	 * @return      void
+	 */
 	public void setStart()
 	{
 		this.startGeneration = true;
 	}
+	/**
+	 * set the end boolean of the thread
+	 * *
+	 * @return      void
+	 */
 	public void setEnd()
 	{
 		this.endGeneration = true;
 	}
 
+	/**
+	 * run the thread continuously, until it is set to end (the pathfinding
+	 * diffusion map generation will start or end depending on the
+	 * startGeneration bool)
+	 * *
+	 * @return      void
+	 */
 	public void run()
 	{
 		// this thread will continue to run until we specify it to end
