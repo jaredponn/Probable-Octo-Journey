@@ -8,6 +8,12 @@ import poj.Logger.*;
 
 public class MatrixTransformations extends Matrix<Float>
 {
+	/**
+	 * Constructs the MatrixTransformations object of an identity matrix
+	 * with a matrix size
+	 * @param  size	integer, the size of the matrix
+	 *  @return      void
+	 */
 	public MatrixTransformations(int size)
 	{
 		super();
@@ -26,7 +32,12 @@ public class MatrixTransformations extends Matrix<Float>
 	}
 
 
-	/** this is literally matrix multiplication..*/
+	/**
+	 * perform matrix multiplication with the current matrix another matrix
+	 * (will return an error if the size of matrix A and B does not match)
+	 * @param  matrixB	Matrix<Float>
+	 *  @return      void
+	 */
 	public void compose(Matrix<Float> matrixB)
 	{
 
@@ -55,6 +66,10 @@ public class MatrixTransformations extends Matrix<Float>
 		this.m_matrix = tempMatrixC;
 	}
 
+	/**
+	 * will clear this matrix back to identity matrix
+	 *  @return      void
+	 */
 	public void clearBackToIdentity()
 	{
 		for (int i = 0; i < this.rows; ++i) {
@@ -70,6 +85,13 @@ public class MatrixTransformations extends Matrix<Float>
 		}
 	}
 
+	/**
+	 * Unsafe swap between two matrix indicies
+	 *  @param  a	integer, index a
+	 *  @param  b	integer, index b
+	 *    @return      void
+	 */
+
 	// swaps data at index a and b without bounds checking
 	public void unsafeSwap(int a, int b)
 	{
@@ -78,6 +100,15 @@ public class MatrixTransformations extends Matrix<Float>
 		m_matrix.set(b, tmp);
 	}
 
+	/**
+	 * test if two matrix are equal, which means if two matricies have the
+	 * same value for each index, and returns a boolean (will return a MAJOR
+	 * ERROR if two matricies does not have the same size)
+	 *  @param  A	Matrix<Float>, matrix A
+	 *  @param  B	Matrix<Float>, matrix B
+	 *  @param  EPSILON	float, the EPSILON for comparing two floats
+	 *    @return      boolean
+	 */
 	public static final boolean matrixEquality(Matrix<Float> A,
 						   Matrix<Float> B,
 						   float EPSILON)
@@ -94,6 +125,14 @@ public class MatrixTransformations extends Matrix<Float>
 		}
 		return true;
 	}
+
+	/**
+	 * test if two floats are equal and returns a boolean
+	 *   @param  A	float, float a
+	 *  @param  B	float, float b
+	 *  @param  EPSILON	float, the EPSILON for comparing two floats
+	 *    @return      boolean
+	 */
 
 	// TODO 	MAKE UNIT TEST FOR THISSSSSSSSS
 	public static final boolean AlmostEqualRelative(float A, float B,
