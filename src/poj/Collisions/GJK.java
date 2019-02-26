@@ -3,88 +3,139 @@ package poj.Collisions;
 import poj.linear.*;
 import java.util.ArrayList;
 import poj.Logger.*;
+
 // Algorthim from various authors:
 // https://caseymuratori.com/blog_0003
 // http://www.dyn4j.org/2010/04/gjk-gilbert-johnson-keerthi/
-// //https://blog.hamaluik.ca/posts/building-a-collision-engine-part-1-2d-gjk-collision-detection/
+// https://blog.hamaluik.ca/posts/building-a-collision-engine-part-1-2d-gjk-collision-detection/
+// https://github.com/hamaluik/headbutt/blob/3985a0a39c77a9539fad2383c84f5d448b4e87ae/src/headbutt/twod/Headbutt.hx
 
 public class GJK
 {
 
-	public static Vector2f support(CollisionShape a, CollisionShape b,
-				       Vector2f d)
+	public ArrayList<Vector2f> verticies = new ArrayList<Vector2f>(3);
+	public Vector2f direction;
+
+	public GJK()
 	{
-		final Vector2f pa = a.furthestPointInDirection(d);
-		final Vector2f pb = b.furthestPointInDirection(d.pureNegate());
-		return pa.pureSubtract(pb);
 	}
 
-
-	public static boolean areColliding(CollisionShape cola,
-					   CollisionShape colb)
+	public boolean areColliding(CollisionShape cola, CollisionShape colb)
 	{
-		ArrayList<Vector2f> simplex = new ArrayList<Vector2f>();
+		verticies.clear();
 
-		Vector2f s = GJK.support(cola, colb, new Vector2f(1, 0));
+		EvolveResult evl = EvolveResult.STILL_EVOLVING;
 
-		simplex.add(s); // first boundary added in a
-				// random riection
+		int i = 0;
 
-		Vector2f d =
-			s.pureNegate(); // change direction to the opposoite
+		while (evl == EvolveResult.STILL_EVOLVING
+		       && i < MAX_EVOLUTION) {
 
-		while (true) {
-			Vector2f a = GJK.support(cola, colb, d); // new support
-
-			if (Vector2f.dot(a, d) < 0) // no intersection
-			{
-			}
-
-			// else if it does cross the origin add it i th simplex
-			simplex.add(a);
-
-			if (doSimplex(simplex, d)) // intersection
-			{
-			}
+			evl = evolveSimplex();
+			verticies.add(support(cola, colb));
+			++i;
 		}
+
+		return evl == EvolveResult.FOUND_INTERSECTION;
 	}
+	private Vector2f support(CollisionShape a, CollisionShape b)
+	{
+		final Vector2f pa = a.furthestPointInDirection(direction);
+		final Vector2f pb =
+			b.furthestPointInDirection(direction.pureNegate());
+		Vector2f tmp = pa.pureSubtract(pb);
+		return tmp;
+	}
+
+	private final int MAX_EVOLUTION = 20;
+	private final float EPSILON = 0.000001f;
+
 
 	// determiens the  closest point to the origin
-	public static boolean doSimplex(ArrayList<Vector2f> simplex, Vector2f d)
+	private EvolveResult evolveSimplex()
 	{
+		switch (verticies.size()) {
+		case 0: {
+			direction = new Vector2f(1,
+						 0); // default search direction
+			break;
+		}
 
-		Vector2f newsearchdirecion;
-		switch (simplex.size()) {
+		case 1: {
+			// verticies: [a]
+			Vector2f a = verticies.get(0); // point just added
+			direction = a.pureNegate();
+			break;
+		}
+
 		case 2: {
 
-			// simplex: [b, a]
-			Vector2f a = simplex.get(1); // point just added
-			Vector2f b = simplex.get(0);
+			// verticies: [b, a]
+			Vector2f a = verticies.get(1); // point just added
+			Vector2f b = verticies.get(0);
+
+			if (Vector2f.dot(a,
+					 direction)
+			    < 0) // no intersection
+			{
+				return EvolveResult.NO_INTERSECTION;
+			}
 
 			Vector2f ab = b.pureSubtract(a);
 			Vector2f ao = a.pureNegate();
 
+			direction = Vector2f.pureTripleProduct(
+				ab, ao, ab); // perpendicular vector to ab
 
-			if (Vector2f.dot(ab, ao) > 0) // if ab is the simplex
-			{
-				// ab is the simplex
-				// the new normal perpendicular -- this is the
-				// new search direction
-				newsearchdirecion =
-					Vector2f.pureTripleProduct(ab, ao, ab);
-			} else {
+			/*
+			if (Math.abs(direction.sqMag() - 0f)
+			    <= EPSILON) { // if lines are parallell
+				if (ab.sqMag()
+				    >= ao.sqMag()) // if the originis contained
+						   // within the points
+					return EvolveResult.FOUND_INTERSECTION;
+				else
+					return EvolveResult.NO_INTERSECTION;
+			}*/
 
-				newsearchdirecion = ao;
-			}
+			break;
 		}
-
 
 		case 3: {
 
-			// simplex: [c, b, a]
-			Vector2f a = simplex.get(2);
-			Vector2f b = simplex.get(1);
-			Vector2f c = simplex.get(0);
+			// verticies: [c, b, a]
+			Vector2f a = verticies.get(2);
+			Vector2f b = verticies.get(1);
+			Vector2f c = verticies.get(0);
+
+			if (Vector2f.dot(a,
+					 direction)
+			    < 0) // no intersection
+			{
+				return EvolveResult.NO_INTERSECTION;
+			}
+
+			Vector2f ao = a.pureNegate();
+			Vector2f ac = c.pureSubtract(a);
+			Vector2f ab = b.pureSubtract(a);
+
+			Vector2f acnorm =
+				Vector2f.pureTripleProduct(ab, ac, ac);
+			Vector2f abnorm =
+				Vector2f.pureTripleProduct(ac, ab, ab);
+
+			if (Vector2f.dot(ao, acnorm) < 0) // outside ac
+			{
+				verticies.remove(0);
+				direction = acnorm;
+			} else if (Vector2f.dot(ao, abnorm) < 0) // outside ac
+			{
+				verticies.remove(0);
+				direction = abnorm;
+			} else {
+				return EvolveResult.FOUND_INTERSECTION;
+			}
+			break;
 		}
 
 		default:
@@ -93,6 +144,6 @@ public class GJK
 			break;
 		}
 
-		return true;
+		return EvolveResult.STILL_EVOLVING;
 	}
 }

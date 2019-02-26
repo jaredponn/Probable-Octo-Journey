@@ -52,7 +52,9 @@ public class Circle implements CollisionShape
 	 */
 	public Vector2f furthestPointInDirection(Vector2f d)
 	{
-		return center.pureAdd(d.pureNormalize().pureMul(this.r()));
+		Vector2f tmp =
+			center.pureAdd(d.pureNormalize().pureMul(this.r()));
+		return tmp;
 	}
 
 

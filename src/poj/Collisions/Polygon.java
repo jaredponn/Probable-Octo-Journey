@@ -101,8 +101,7 @@ public class Polygon implements CollisionShape
 	{
 		Vector2f d = dir;
 		int max = 0;
-		// scalar projectio upon d
-		float maxdist = Float.MIN_VALUE;
+		float maxdist = -Float.MAX_VALUE;
 
 		for (int i = 0; i < size; ++i) {
 			// scalar projection on d
@@ -113,7 +112,6 @@ public class Polygon implements CollisionShape
 				maxdist = tmp;
 			}
 		}
-
 		return max;
 	}
 	// returns the furthest point in shape in UNIT direction vector d.
