@@ -9,8 +9,14 @@ public class ImageWindow
 	private int width;
 	private int height;
 
-	// x, y - top left corner position
-	// w, h width and height of the window
+	/**
+	 * Image window Constructor
+	 *
+	 * @param  x  top left corner position
+	 * @param  y top left corner position
+	 * @param  w width of the window
+	 * @param  h height of the window
+	 */
 	public ImageWindow(int x, int y, int w, int h)
 	{
 		this.x = x;
@@ -19,6 +25,9 @@ public class ImageWindow
 		this.height = h;
 	}
 
+	/**
+	 * Image window copy constructor
+	 */
 	public ImageWindow(ImageWindow n)
 	{
 		this(n.getX(), n.getY(), n.getWidth(), n.getHeight());

@@ -15,8 +15,14 @@ public class ImageRenderObject extends RenderObject
 
 	private RescaleOp rescaleOp;
 
-	// x, y -- top left corner position
-	// img -> image
+	/**
+	 Constructs an ImageRenderObject -- an object with a bitmap image to
+	 render
+	 *
+	 * @param  x  top left corner position
+	 * @param  y  top left corner position
+	 * @param  img image to draw
+	 */
 	public ImageRenderObject(final int x, final int y,
 				 final BufferedImage img)
 	{
@@ -27,6 +33,15 @@ public class ImageRenderObject extends RenderObject
 		setDefaultRGBAScaleFactors();
 	}
 
+	/**
+	 Constructs an ImageRenderObject -- an object with a bitmap image to
+	 render
+	 *
+	 * @param  x  top left corner position
+	 * @param  y  top left corner position
+	 * @param  img image to draw
+	 * @param  dbgbordercolor debug border color
+	 */
 	public ImageRenderObject(final int x, final int y,
 				 final BufferedImage img,
 				 final Color dbgbordercolor)
@@ -38,6 +53,15 @@ public class ImageRenderObject extends RenderObject
 		setDefaultRGBAScaleFactors();
 	}
 
+	/**
+	 Constructs an ImageRenderObject -- an object with a bitmap image to
+	 render
+	 *
+	 * @param  x  top left corner position
+	 * @param  y  top left corner position
+	 * @param  img image to draw
+	 * @param  imgw image window to display
+	 */
 	public ImageRenderObject(final int x, final int y,
 				 final BufferedImage img,
 				 final ImageWindow imgw)
@@ -48,6 +72,16 @@ public class ImageRenderObject extends RenderObject
 		setDefaultRGBAScaleFactors();
 	}
 
+	/**
+	 Constructs an ImageRenderObject -- an object with a bitmap image to
+	 render
+	 *
+	 * @param  x  top left corner position
+	 * @param  y  top left corner position
+	 * @param  img image to draw
+	 * @param  imgw image window to display
+	 * @param  debugBorderColor debug color
+	 */
 	public ImageRenderObject(final int x, final int y,
 				 final BufferedImage img,
 				 final ImageWindow imgw,
@@ -62,37 +96,74 @@ public class ImageRenderObject extends RenderObject
 		setDefaultRGBAScaleFactors();
 	}
 
+	/**
+	 * Sets the image window
+	 *
+	 * @param  n imagewindow to set
+	 * @return  this -- for composition
+	 */
 	public ImageRenderObject setImageWindow(final ImageWindow n)
 	{
 		this.imageWindow = n;
 		return this;
 	}
 
+	/**
+	 * Sets the image window
+	 *
+	 * @param  n imagewindow to set
+	 * @return  this -- for composition
+	 */
 	final public ImageWindow getImageWindow()
 	{
 		return this.imageWindow;
 	}
 
+	/**
+	 * Sets the image
+	 *
+	 * @param  n image to set
+	 */
 	public void setImage(final BufferedImage n)
 	{
 		this.img = n;
 	}
 
+	/**
+	 * gets the image
+	 *
+	 * @return  this.img
+	 */
 	final public BufferedImage getImage()
 	{
 		return this.img;
 	}
 
+	/**
+	 * sets the image
+	 *
+	 * @param  n debug border color
+	 */
 	public void setDebugBorderColor(Color n)
 	{
 		this.debugBorderColor = n;
 	}
 
+	/**
+	 * gets the image
+	 *
+	 * @return  debugBorderColor
+	 */
 	final public Color getDebugBorderColor()
 	{
 		return this.debugBorderColor;
 	}
 
+	/**
+	 * gets the Rescale op
+	 *
+	 * @return  debugBorderColor
+	 */
 	final public RescaleOp getRescaleOp()
 	{
 		return this.rescaleOp;

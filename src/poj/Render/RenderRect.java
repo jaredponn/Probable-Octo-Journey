@@ -15,6 +15,15 @@ public class RenderRect extends RenderObject
 
 	private Color color;
 
+	/**
+	 * Render rect constructor
+	 *
+	 * @param  x top left coord
+	 * @param  y top left coord
+	 * @param  w width
+	 * @param  h height
+	 * @param  c color
+	 */
 	public RenderRect(int x, int y, int w, int h, Color c)
 	{
 		this.x = x;
@@ -26,29 +35,48 @@ public class RenderRect extends RenderObject
 		this.color = c;
 	}
 
+	/**
+	 * Render rect constructor
+	 *
+	 * @param  x top left coord
+	 * @param  y top left coord
+	 * @param  w width
+	 * @param  h height
+	 */
 	public RenderRect(int x, int y, int w, int h)
 	{
-		this.x = x;
-		this.y = y;
-
-		this.width = w;
-		this.height = h;
-
-		this.color = Color.RED;
+		this(x, y, w, h, Color.RED);
 	}
 
+	/**
+	 * Sets the position
+	 *
+	 * @param  v new position
+	 */
 	public void setPosition(Vector2f v)
 	{
 		this.x = Math.round(v.x);
 		this.y = Math.round(v.y);
 	}
 
+	/**
+	 * Sets the position
+	 *
+	 * @param  x new position
+	 * @param  y new position
+	 */
 	public void setPosition(int x, int y)
 	{
 		this.x = x;
 		this.y = y;
 	}
 
+	/**
+	 * Sets the lengths
+	 *
+	 * @param  w new length
+	 * @param  h new length
+	 */
 	public void setLengths(int w, int h)
 	{
 		this.width = w;
@@ -56,21 +84,41 @@ public class RenderRect extends RenderObject
 	}
 
 
+	/**
+	 * Sets the color
+	 *
+	 * @param  c new color
+	 */
 	public void setColor(Color c)
 	{
 		this.color = c;
 	}
 
+	/**
+	 * Gets the color
+	 *
+	 * @return  color
+	 */
 	final public Color getColor()
 	{
 		return this.color;
 	}
 
+	/**
+	 * Gets the width
+	 *
+	 * @return  width
+	 */
 	final public int getWidth()
 	{
 		return width;
 	}
 
+	/**
+	 * Gets the height
+	 *
+	 * @return  height
+	 */
 	final public int getHeight()
 	{
 		return height;
