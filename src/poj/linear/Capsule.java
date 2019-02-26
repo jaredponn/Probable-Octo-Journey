@@ -10,7 +10,6 @@ public class Capsule extends Segment
 	 * @param  a	Vector A
 	 * @param  b	Vector B
 	 * @param  r	float, radius
-	 * @return      void
 	 */
 	public Capsule(Vector2f a, Vector2f b, float r)
 	{

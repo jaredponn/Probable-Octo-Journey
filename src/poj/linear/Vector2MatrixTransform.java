@@ -6,23 +6,44 @@ public class Vector2MatrixTransform extends MatrixTransformations
 
 	public static final float EPSILON = 0.00000001f;
 
+	/**
+	 * Constructs the Vector2MatrixTransform object, which extends
+	 * MatrixTransformations, and calls the MatrixTransformations
+	 * constructor to initialize an 3x3 identity matrix.
+	 */
 	public Vector2MatrixTransform()
 	{
 		super(DIAGONAL_LENGTH);
 	}
 
+	/**
+	 * set the translation vector for the vector2f
+	 * @param  xt	float, x translation value
+	 * @param  yt	float, y translation value
+	 *  @return      void
+	 */
 	public void setTranslationForVector2(float xt, float yt)
 	{
 		this.m_matrix.set(2, xt);
 		this.m_matrix.set(5, yt);
 	}
 
+	/**
+	 * set the scaling vector for the vector2f
+	 * @param  xs	float, x scaling value
+	 * @param  ys	float, y scaling value
+	 *  @return      void
+	 */
 	public void setScalingForVector2(float xs, float ys)
 	{
 		this.m_matrix.set(0, xs);
 		this.m_matrix.set(4, ys);
 	}
 
+	/**
+	 * will swap the x and y values inside vector2f, with unsafeSwap.
+	 *  @return      void
+	 */
 	public void setSwapXAndY()
 	{
 		unsafeSwap(0, 3);
@@ -30,6 +51,11 @@ public class Vector2MatrixTransform extends MatrixTransformations
 		unsafeSwap(2, 5);
 	}
 
+	/**
+	 * Will make a temporary vector, swap x and y values inside it, and then
+	 * multiply it with the current vector2f
+	 *  @return      void
+	 */
 	public void composeSetSwapXAndY()
 	{
 		Vector2MatrixTransform tmp = new Vector2MatrixTransform();
@@ -37,6 +63,11 @@ public class Vector2MatrixTransform extends MatrixTransformations
 		this.compose(tmp);
 	}
 
+	/**
+	 * Will make a temporary vector, set the scaling value for it, and then
+	 * multiply it with the current vector2f
+	 *  @return      void
+	 */
 	public void composeSetScalingForVector2(float xs, float ys)
 	{
 		Vector2MatrixTransform tmp = new Vector2MatrixTransform();
@@ -45,7 +76,10 @@ public class Vector2MatrixTransform extends MatrixTransformations
 	}
 
 
-	/** rotation with respect to X axis:*/
+	/**
+	 * Will do a rotation of the vector2f with respect to X axis
+	 *   @return      void
+	 */
 	public void setRotationForVector2XaxisCC(float theta)
 	{
 		this.m_matrix.set(0, (float)Math.cos(theta));
@@ -54,13 +88,23 @@ public class Vector2MatrixTransform extends MatrixTransformations
 		this.m_matrix.set(4, (float)Math.cos(theta));
 	}
 
-	/** rotation with respect to X axis:*/
+	/**
+	 * Will do a shear of the vector2f with respect to X axis
+	 *   @return      void
+	 */
 	public void setShearForVector2XaxisCC(float xshear, float yshear)
 	{
 		this.m_matrix.set(1, xshear);
 		this.m_matrix.set(3, yshear);
 	}
 
+	/**
+	 * Will make a temporary vector, set the rotation  value for it, and
+	 then
+	 * multiply it with the current vector2f
+
+	 *   @return      void
+	 */
 	// composes the current vector with a rotation.
 	public void composeWithRotationForVector2XaxisCC(float theta)
 	{
@@ -69,6 +113,12 @@ public class Vector2MatrixTransform extends MatrixTransformations
 		this.compose(tmp);
 	}
 
+	/**
+	 * will calculate the inverse of a 3x3  matrix unsafely (does
+	 * not check for errors, and if the determinant is 0 it will throw a
+	 * random error)
+	 *   @return      Vector2MatrixTransform, the inverse matrix
+	 */
 	// refactor this in the future so it's generalized
 	// if the det is 0, will throw a random error
 	public Vector2MatrixTransform unsafePureInverse()
@@ -88,6 +138,10 @@ public class Vector2MatrixTransform extends MatrixTransformations
 	}
 
 
+	/**
+	 * will calculate the adjugate of a 3x3  matrix
+	 *    @return      Vector2MatrixTransform, the adjugate matrix
+	 */
 	// also bad someone please refactor this
 	private Vector2MatrixTransform pureGetMatrixOfAdjugate()
 	{
@@ -126,6 +180,10 @@ public class Vector2MatrixTransform extends MatrixTransformations
 		return tmp;
 	}
 
+	/**
+	 * will calculate the determinant of a 3x3  matrix
+	 *    @return      float, the determinant of the matrix
+	 */
 	// someone please refactor this
 	public float det()
 	{
@@ -144,6 +202,14 @@ public class Vector2MatrixTransform extends MatrixTransformations
 					    getDataWithIndex(7));
 	}
 
+	/**
+	 * will calculate the determinant of a specified 2x2  matrix
+	 * @param  a	float, cordinate (0,0) of the matrix
+	 * @param  b	float, cordinate (0,1) of the matrix
+	 * @param  c	float, cordinate (1,0) of the matrix
+	 * @param  d	float, cordinate (1,1) of the matrix
+	 *    @return      float, the determinant of the matrix
+	 */
 	// a,b
 	// c,d
 	public static float det2By2(float a, float b, float c, float d)
@@ -152,6 +218,11 @@ public class Vector2MatrixTransform extends MatrixTransformations
 		return a * d - b * c;
 	}
 
+	/**
+	 * return if the 3x3 matrix is isInvertible
+	 *    @return      boolean, true if the matrix is invertible, and false
+	 * otherwise
+	 */
 	// refactor this in the future it's generalized
 	public boolean isInvertible()
 	{

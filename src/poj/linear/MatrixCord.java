@@ -9,7 +9,6 @@ public class MatrixCord
 	 * Constructs the MatrixCord object with integer row and column
 	 * @param  row	integer, row of the matrixCordinate
 	 * @param  col	integer, column of the matrixCordinate
-	 *  @return      void
 	 */
 	public MatrixCord(int row, int col)
 	{

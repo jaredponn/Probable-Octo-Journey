@@ -8,7 +8,6 @@ public class Ray
 	 * Constructs the Ray object with Vector3f origin and Vector3f direction
 	 * @param  origin	Vector3f, origin vector
 	 *  @param  direction	Vector3f, direction vector
-	 *  @return      void
 	 */
 	public Ray(Vector3f origin, Vector3f direction)
 	{

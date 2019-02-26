@@ -12,7 +12,6 @@ public class MatrixTransformations extends Matrix<Float>
 	 * Constructs the MatrixTransformations object of an identity matrix
 	 * with a matrix size
 	 * @param  size	integer, the size of the matrix
-	 *  @return      void
 	 */
 	public MatrixTransformations(int size)
 	{

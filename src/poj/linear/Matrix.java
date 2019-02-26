@@ -14,7 +14,6 @@ public class Matrix<T>
 	/**
 	 * Constructs the Matrix object with type T, will create an empty matrix
 	 *
-	 * @return      void
 	 */
 	public Matrix()
 	{
@@ -28,7 +27,6 @@ public class Matrix<T>
 	 * @param  array	ArrayList<T>
 	 * @param  rowSize	integer, rowSize of the matrix
 	 * @param  colSize	integer, colSize of the matrix
-	 *  @return      void
 	 */
 	public Matrix(final ArrayList<T> array, int rowSize, int colSize)
 	{
@@ -49,7 +47,6 @@ public class Matrix<T>
 	 * or the row and column size does not match the array imported )
 	 * @param  array	ArrayList<T>
 	 * @param  rowSize	integer, rowSize of the matrix
-	 *  @return      void
 	 */
 	public Matrix(final ArrayList<T> array, int rowSize)
 	{

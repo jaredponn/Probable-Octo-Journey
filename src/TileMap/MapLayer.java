@@ -8,7 +8,6 @@ public class MapLayer extends poj.EngineState
 	 * specific map layer
 	 *
 	 * @param  CAPACITY	creates the map
-	 *  @return      void
 	 */
 	public MapLayer(int CAPACITY)
 	{

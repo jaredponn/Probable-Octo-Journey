@@ -26,7 +26,6 @@ public class MapGeneration extends Thread
 	 *         run the diffusion generation on
 	 * @param  difCoefficient	float which sets the diffusion
 	 *         coefficient of the algorithm
-	 * @return      void
 	 */
 	public MapGeneration(Map map, int layerNumber, float difCoefficient)
 	{

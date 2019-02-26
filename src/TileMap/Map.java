@@ -34,7 +34,6 @@ public class Map
 	 * containing the mapLayer will be allocate the same number of mapLayer
 	 *
 	 * @param  numLayers	the number of the map layers
-	 *  @return      void
 	 */
 	public Map(int numLayers)
 	{
@@ -42,7 +41,6 @@ public class Map
 	}
 	/**
 	 * 	Create map a vector of mapLayer
-	 *  @return      void
 	 */
 	public Map()
 	{
