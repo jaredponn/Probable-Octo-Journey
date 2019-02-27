@@ -224,7 +224,7 @@ public class GJKTests
 			assertTrue(gjk.areColliding(r2, r1));
 
 			// TODO FIXME
-			// assertTrue(gjk.areColliding(r1, r2));
+			assertTrue(gjk.areColliding(r1, r2));
 		}
 
 		{
@@ -237,6 +237,7 @@ public class GJKTests
 			GJK gjk = new GJK();
 
 			assertFalse(gjk.areColliding(r2, r1));
+			assertFalse(gjk.areColliding(r1, r2));
 		}
 	}
 }
