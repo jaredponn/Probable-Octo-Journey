@@ -126,4 +126,20 @@ public class GJK
 
 		return EvolveResult.STILL_EVOLVING;
 	}
+
+	// returns all points in the minkowski difference
+	public static ArrayList<Vector2f> minkowskiDiff(Polygon a, Polygon b)
+	{
+		ArrayList<Vector2f> arr = new ArrayList<Vector2f>();
+
+		Vector2f[] apts = a.pts();
+		Vector2f[] bpts = b.pts();
+
+		for (int i = 0; i < a.size(); ++i) {
+			for (int j = i; j < b.size(); ++j) {
+				arr.add(apts[i].pureSubtract(bpts[j]));
+			}
+		}
+		return arr;
+	}
 }

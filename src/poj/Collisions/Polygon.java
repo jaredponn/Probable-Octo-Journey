@@ -28,6 +28,11 @@ public class Polygon implements CollisionShape
 		}
 	}
 
+	public Polygon(Polygon p)
+	{
+		p.pts = this.purePts();
+		p.size = this.size;
+	}
 
 	public void shiftAllPoints(float x, float y)
 	{
@@ -80,23 +85,6 @@ public class Polygon implements CollisionShape
 		setFirstPositionAndShiftAll(new Vector2f(x, y));
 	}
 
-
-	// returns all points in the minkowski difference
-	public static ArrayList<Vector2f> minkowskiDiff(Polygon a, Polygon b)
-	{
-		ArrayList<Vector2f> arr = new ArrayList<Vector2f>();
-
-		Vector2f[] apts = a.pts();
-		Vector2f[] bpts = b.pts();
-
-		for (int i = 0; i < a.size(); ++i) {
-			for (int j = i; j < b.size(); ++j) {
-				arr.add(apts[i].pureSubtract(bpts[j]));
-			}
-		}
-		return arr;
-	}
-
 	public int indexOfFurthestPointInDirection(Vector2f dir)
 	{
 		Vector2f d = dir;
@@ -118,5 +106,17 @@ public class Polygon implements CollisionShape
 	public Vector2f furthestPointInDirection(Vector2f d)
 	{
 		return pts[indexOfFurthestPointInDirection(d)];
+	}
+
+	public String toString()
+	{
+
+		String str = "Polygon: size = " + size + ", pts: ";
+
+		for (Vector2f i : pts) {
+			str += i.toString() + ", ";
+		}
+
+		return str;
 	}
 }
