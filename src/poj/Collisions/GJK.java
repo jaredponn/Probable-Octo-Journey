@@ -26,14 +26,15 @@ public class GJK
 
 		EvolveResult evl = EvolveResult.STILL_EVOLVING;
 
-		int i = 0;
 
-		while (evl == EvolveResult.STILL_EVOLVING
-		       && i < MAX_EVOLUTION) {
+		while (evl == EvolveResult.STILL_EVOLVING) {
 
 			evl = evolveSimplex();
-			verticies.add(support(cola, colb));
-			++i;
+			Vector2f a = support(cola, colb);
+			verticies.add(a);
+
+			if (Vector2f.dot(a, direction) < 0)
+				return false;
 		}
 
 		return evl == EvolveResult.FOUND_INTERSECTION;
@@ -46,9 +47,6 @@ public class GJK
 		Vector2f tmp = pa.pureSubtract(pb);
 		return tmp;
 	}
-
-	private final int MAX_EVOLUTION = 20;
-	private final float EPSILON = 0.000001f;
 
 
 	// determiens the  closest point to the origin
@@ -74,29 +72,11 @@ public class GJK
 			Vector2f a = verticies.get(1); // point just added
 			Vector2f b = verticies.get(0);
 
-			if (Vector2f.dot(a,
-					 direction)
-			    < 0) // no intersection
-			{
-				return EvolveResult.NO_INTERSECTION;
-			}
-
 			Vector2f ab = b.pureSubtract(a);
 			Vector2f ao = a.pureNegate();
 
 			direction = Vector2f.pureTripleProduct(
 				ab, ao, ab); // perpendicular vector to ab
-
-			/*
-			if (Math.abs(direction.sqMag() - 0f)
-			    <= EPSILON) { // if lines are parallell
-				if (ab.sqMag()
-				    >= ao.sqMag()) // if the originis contained
-						   // within the points
-					return EvolveResult.FOUND_INTERSECTION;
-				else
-					return EvolveResult.NO_INTERSECTION;
-			}*/
 
 			break;
 		}

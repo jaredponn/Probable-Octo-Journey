@@ -119,49 +119,4 @@ public class Polygon implements CollisionShape
 	{
 		return pts[indexOfFurthestPointInDirection(d)];
 	}
-
-
-	// gjksupport function to build help build the simplex for gjk
-	// returns the distance from the
-	// origin of the boundary point
-	public static Vector2f gjkSupport(Polygon a, Polygon b, Vector2f d)
-	{
-		Vector2f pa = a.furthestPointInDirection(d);
-		Vector2f pb = b.furthestPointInDirection(d.pureNegate());
-
-		// minkowski diff
-		Vector2f c = pa.pureSubtract(pb);
-
-		return c;
-	}
-
-	// retursn true if point p is in triangle a,b,c
-	public static boolean isPointInTriangle(Vector2f p, Vector2f a,
-						Vector2f b, Vector2f c)
-	{
-		// abc area
-		float abc = areaOfTriangle(a, b, c);
-
-		// pbc area
-		float pbc = areaOfTriangle(p, b, c);
-
-		// pac area
-		float pac = areaOfTriangle(p, a, c);
-
-		// pab area
-		float pab = areaOfTriangle(p, a, b);
-
-		/// (pab + pac + pab) == abc;
-		return Math.abs((abc - (pbc + pac + pab))) <= EPSILON;
-	}
-
-	public static float areaOfTriangle(Vector2f t0, Vector2f t1,
-					   Vector2f t2)
-	{
-		return Math.abs((t0.x * (t1.y - t2.y) + t1.x * (t2.y - t0.y)
-				 + t2.x * (t0.y - t1.y))
-				/ 2.0f);
-	}
-
-	final public static float EPSILON = 0.000001f;
 }
