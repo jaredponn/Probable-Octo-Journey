@@ -21,6 +21,17 @@ public class PCollisionBody implements Component
 		p = new Polygon(pts);
 	}
 
+	public PCollisionBody(PCollisionBody pb)
+	{
+		displacement = pb.pureGetDisplacement();
+		p = pb.pureGetPolygon();
+	}
+
+	protected Vector2f pureGetDisplacement()
+	{
+		return new Vector2f(displacement);
+	}
+
 	/**
 	 * Sets the position point. Adds the displacement, then calls the
 	 * setFirstPointAndShiftAllPoints method of a polygon

@@ -17,6 +17,7 @@ import TileMap.*;
 
 import poj.Render.Renderer;
 import poj.Render.RenderObject;
+import poj.Collisions.*;
 
 public class EngineTransforms
 {
@@ -169,6 +170,7 @@ public class EngineTransforms
 				.getClosestDirectionFromDirectionVector(
 					playerPosition.subtractAndReturnVector(
 						mobPosition)));
+		/*
 		System.out.println(
 			" the diffusion value at mob is ="
 			+ map.getLayerEngineState(0)
@@ -190,12 +192,14 @@ public class EngineTransforms
 		System.out.println("mob x position before floor ="
 				   + mobPosition.x);
 		System.out.println("mob y position before floor ="
-				   + mobPosition.y);
+				   + mobPosition.y);*/
 		// if mob and player are at the same tile
 		if ((int)mobPosition.x == (int)playerPosition.x
 		    && (int)mobPosition.y == (int)playerPosition.y) {
+			/*
 			System.out.println(
-				"went inside where the player cord is equal to mob cord!");
+				"went inside where the player cord is equal to
+			mob cord!");*/
 
 			// if the mob does not have the same position as the
 			// player
@@ -295,13 +299,15 @@ public class EngineTransforms
 			"this.map.getEcsIndexFromWorldVector2f(playerPosition)"
 			+ this.map.getEcsIndexFromWorldVector2f(
 				  playerPosition));
-		*/
 		System.out.println(
-			"player x position inside addPlayerDiffusionValAtPlayerPos ="
+			"player x position inside
+		addPlayerDiffusionValAtPlayerPos ="
 			+ playerPosition.x);
 		System.out.println(
-			"player y position inside addPlayerDiffusionValAtPlayerPos ="
+			"player y position inside
+		addPlayerDiffusionValAtPlayerPos ="
 			+ playerPosition.y);
+		*/
 		if (map.getEcsIndexFromWorldVector2f(playerPosition) != -1) {
 			// map.printPathfindCord(0);
 
@@ -655,7 +661,6 @@ public class EngineTransforms
 							      // render the
 							      // tiles in
 							      // O(1) time
-							      //
 	public static void
 	pushTileMapLayerToQueue(final Map map, final MapLayer tileLayer,
 				final int windowWidth, final int windowHeight,
@@ -694,6 +699,61 @@ public class EngineTransforms
 					q);
 				tileMapRenderHelperSet.add(e);
 			}
+		}
+	}
+
+	public static void debugRenderPolygons(final EngineState e,
+					       Queue<RenderObject> q,
+					       final Camera cam)
+	{
+
+		for (int i = e.getInitialSetIndex(PCollisionBody.class);
+		     Components.isValidEntity(i);
+		     i = e.getNextSetIndex(PCollisionBody.class, i)) {
+			Systems.pCollisionBodyDebugRenderer(
+				e.getComponentAt(PCollisionBody.class, i), q,
+				cam);
+		}
+	}
+
+	public static void
+	arePCollisionBodiesColliding(EngineState engineState, GJK g,
+				     Class<? extends Component> set0,
+				     Class<? extends Component> set1)
+	{
+		for (int i = engineState.getInitialSetIndex(set0);
+		     Components.isValidEntity(i);
+		     i = engineState.getNextSetIndex(set0, i)) {
+
+			final PCollisionBody a = engineState.getComponentAt(
+				PCollisionBody.class, i);
+
+			for (int j = engineState.getInitialSetIndex(set1);
+			     Components.isValidEntity(j);
+			     j = engineState.getNextSetIndex(set1, j)) {
+
+				final PCollisionBody b =
+					engineState.getComponentAt(
+						PCollisionBody.class, j);
+
+				if (Systems.arePCollisionBodiesColliding(g, a,
+									 b)) {
+					System.out.println(
+						"PCOllision detected");
+					break;
+				}
+			}
+		}
+	}
+	public static void updatePCollisionFromWorldAttr(final EngineState e)
+	{
+
+		for (int i = e.getInitialSetIndex(PCollisionBody.class);
+		     Components.isValidEntity(i);
+		     i = e.getNextSetIndex(PCollisionBody.class, i)) {
+			Systems.updatePCollisionBodyPositionFromWorldAttr(
+				e.getComponentAt(PCollisionBody.class, i),
+				e.getComponentAt(WorldAttributes.class, i));
 		}
 	}
 }

@@ -20,12 +20,16 @@ public class GJK
 	{
 	}
 
-	public boolean areColliding(CollisionShape cola, CollisionShape colb)
+	public void clearVerticies()
 	{
 		verticies.clear();
+	}
 
+	public boolean areColliding(final CollisionShape cola,
+				    final CollisionShape colb)
+	{
+		// verticies.clear();
 		EvolveResult evl = EvolveResult.STILL_EVOLVING;
-
 
 		while (evl == EvolveResult.STILL_EVOLVING) {
 
@@ -39,7 +43,7 @@ public class GJK
 
 		return evl == EvolveResult.FOUND_INTERSECTION;
 	}
-	private Vector2f support(CollisionShape a, CollisionShape b)
+	private Vector2f support(final CollisionShape a, final CollisionShape b)
 	{
 		final Vector2f pa = a.furthestPointInDirection(direction);
 		final Vector2f pb =

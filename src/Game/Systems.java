@@ -13,6 +13,7 @@ import poj.Collisions.*;
 import poj.Render.ImageRenderObject;
 import poj.Render.Renderer;
 import poj.Render.RenderRect;
+import poj.Collisions.*;
 
 public class Systems
 {
@@ -270,7 +271,7 @@ public class Systems
 		if (Math.abs(dmag) <= 0.000001d)
 			return;
 
-		Vector2f d = m.getVelocity().pureMul(1f / dmag);
+		[] Vector2f d = m.getVelocity().pureMul(1f / dmag);
 
 		Optional<Double> tmp =
 			CollisionTests.intersectMovingCircleAabb(cs, d, cb);
@@ -288,5 +289,35 @@ public class Systems
 	{
 		w.add(CollisionTests.circleAabbNormal(s.getCollisionCircle(),
 						      b.getCollisionAabb()));
+	}
+
+
+	public static boolean
+	arePCollisionBodiesColliding(GJK g, PCollisionBody a, PCollisionBody b)
+	{
+		g.clearVerticies();
+		return g.areColliding(a.getPolygon(), b.getPolygon());
+	}
+
+	public static void pCollisionBodyDebugRenderer(final PCollisionBody pc,
+						       Queue<RenderObject> q,
+						       final Camera cam)
+	{
+		Polygon p = pc.getPolygon();
+		Vector2f[] pts = p.pts();
+
+		for (int i = 0; i < p.getSize(); ++i) {
+			final Vector2f sc = pts[i].pureMatrixMultiply(cam);
+			q.add(new RenderRect((int)sc.x, (int)sc.y, 2, 2,
+					     Color.RED));
+		}
+	}
+
+	public static void
+	updatePCollisionBodyPositionFromWorldAttr(PCollisionBody p,
+						  WorldAttributes w)
+	{
+		Vector2f tmp = w.getOriginCoord();
+		p.setPositionPoint(tmp);
 	}
 }

@@ -24,6 +24,7 @@ import poj.Render.MinYFirstSortedRenderObjectBuffer;
 import poj.Render.RenderObject;
 import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
+import poj.Collisions.*;
 import poj.Logger.*;
 
 public class PlayGame extends World
@@ -47,6 +48,7 @@ public class PlayGame extends World
 		Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
 	private ArrayList<Double> lastCoolDown = new ArrayList<Double>(
 		Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
+
 	// Higher level game logic
 	private int player;
 	// private int mob1;
@@ -66,10 +68,16 @@ public class PlayGame extends World
 		"Your Cash: " + this.cash, 5, 20, Color.WHITE);
 	// /ASE
 
+	// Collision detection and resolution
+	GJK gjk;
+
 	private MapGeneration generateDiffusionMap;
 	public PlayGame()
 	{
 		super();
+
+		gjk = new GJK();
+		gjk.clearVerticies();
 
 		// World loading
 		this.map = new Map(3);
@@ -128,6 +136,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(Movement.class);
 		super.engineState.registerComponent(CollisionAabbBodies.class);
 		super.engineState.registerComponent(AabbCollisionBody.class);
+		super.engineState.registerComponent(PCollisionBody.class);
 		super.engineState.registerComponent(CircleCollisionBody.class);
 		super.engineState.registerComponent(Lifespan.class);
 	}
@@ -206,30 +215,21 @@ public class PlayGame extends World
 		EngineTransforms.setMovementVelocityFromMovementDirection(
 			this.engineState);
 
-		EngineTransforms.updateCircleCollisionFromWorldAttributes(
-			engineState);
+		EngineTransforms.updatePCollisionFromWorldAttr(
+			this.engineState);
 
-		EngineTransforms.updateAabbCollisionFromWorldAttributes(
-			engineState);
 
 		// debug renderers
-		EngineTransforms.debugCircleCollisionRender(
-			engineState, debugBuffer, this.cam);
-		EngineTransforms.debugAabbCollisionRender(
-			engineState, debugBuffer, this.cam);
-		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
-			EngineTransforms.debugMapAabbCollisionRender(
-				map, i, debugBuffer, this.cam);
-		}
+		EngineTransforms.debugRenderPolygons(
+			this.engineState, this.debugBuffer, this.cam);
+		EngineTransforms.arePCollisionBodiesColliding(
+			this.engineState, this.gjk, PlayerSet.class,
+			MobSet.class);
 
-		// collision
-		/*
-	       EngineTransforms
-		       .resolveCircleCollisionBodyWithAabbCollisionBody(
-			       engineState, PlayerSet.class, MobSet.class,
-			       this.dt);*/
-		EngineTransforms.areCirclesCollidingAgainstAabb(
-			engineState, PlayerSet.class, MobSet.class);
+		// for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
+		//	EngineTransforms.debugMapAabbCollisionRender(
+		//		map, i, debugBuffer, this.cam);
+		//}
 
 
 		// changing world attrib position
@@ -238,7 +238,6 @@ public class PlayGame extends World
 
 
 		// EngineTransforms.generateDiffusionMap(this.map, 0, 1f / 8f);
-
 		for (int i = this.engineState.getInitialSetIndex(MobSet.class);
 		     this.engineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(MobSet.class, i)) {
@@ -523,8 +522,6 @@ public class PlayGame extends World
 		Vector2f mousePosition = super.inputPoller.getMousePosition();
 		mousePosition.matrixMultiply(this.invCam);
 
-		mousePosition.log("Mouse position in world coordinates");
-
 		Vector2f tmp = playerPosition.pureSubtract(mousePosition);
 		tmp.negate();
 		CardinalDirections facingDirection =
@@ -535,11 +532,6 @@ public class PlayGame extends World
 			.setDirection(facingDirection);
 
 		this.unitVecPlayerPosToMouseDelta = tmp.pureNormalize();
-
-		System.out.println("PLAYER INFROMATION: ");
-		super.getComponentAt(FacingDirection.class, player).print();
-		super.getComponentAt(WorldAttributes.class, this.player)
-			.print();
 	}
 
 	// Render function

@@ -30,8 +30,8 @@ public class Polygon implements CollisionShape
 
 	public Polygon(Polygon p)
 	{
-		p.pts = this.purePts();
-		p.size = this.size;
+		this.pts = p.purePts();
+		this.size = p.size;
 	}
 
 	public void shiftAllPoints(float x, float y)
