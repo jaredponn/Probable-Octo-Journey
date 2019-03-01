@@ -222,14 +222,18 @@ public class PlayGame extends World
 		// debug renderers
 		EngineTransforms.debugRenderPolygons(
 			this.engineState, this.debugBuffer, this.cam);
-		EngineTransforms.arePCollisionBodiesColliding(
-			this.engineState, this.gjk, PlayerSet.class,
-			MobSet.class);
+		// EngineTransforms.arePCollisionBodiesColliding(this.engineState,
+		// this.gjk, PlayerSet.class,MobSet.class);
 
-		// for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
-		//	EngineTransforms.debugMapAabbCollisionRender(
-		//		map, i, debugBuffer, this.cam);
-		//}
+		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
+			EngineTransforms.debugRenderPolygons(
+				this.map.getLayerEngineState(i), debugBuffer,
+				this.cam);
+
+			EngineTransforms.resolvePCollisionBodiesAgainstTileMap(
+				this.engineState, this.gjk, PlayerSet.class,
+				this.map.getLayerEngineState(i), this.dt);
+		}
 
 
 		// changing world attrib position

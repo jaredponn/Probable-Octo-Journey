@@ -119,12 +119,14 @@ public class Systems
 	{
 		for (CollisionAabb i : a.getCollisionBodies()) {
 			for (CollisionAabb j : b.getCollisionBodies()) {
+				/* TODO -- remove
 				final Optional<Double> tmp =
 					CollisionAabb.intersectionTimeOfMoving(
 						i, j, va, vb);
 				if (tmp.isPresent()) {
 					return tmp;
 				}
+				*/
 			}
 		}
 		return Optional.empty();
@@ -271,7 +273,7 @@ public class Systems
 		if (Math.abs(dmag) <= 0.000001d)
 			return;
 
-		[] Vector2f d = m.getVelocity().pureMul(1f / dmag);
+		Vector2f d = m.getVelocity().pureMul(1f / dmag);
 
 		Optional<Double> tmp =
 			CollisionTests.intersectMovingCircleAabb(cs, d, cb);
@@ -298,6 +300,16 @@ public class Systems
 		g.clearVerticies();
 		return g.areColliding(a.getPolygon(), b.getPolygon());
 	}
+
+	public static Optional<Double>
+	arePCollisionBodiesColliding(GJK g, PCollisionBody a, PCollisionBody b,
+				     Movement dv)
+	{
+		g.clearVerticies();
+		return g.timeOfPolygonCollision(a.getPolygon(), b.getPolygon(),
+						dv.getVelocity());
+	}
+
 
 	public static void pCollisionBodyDebugRenderer(final PCollisionBody pc,
 						       Queue<RenderObject> q,

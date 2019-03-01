@@ -26,12 +26,12 @@ public class GameConfig
 		GameResources.PLAYER_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final Vector2f PLAYER_SPAWNNING_POS =
-		new Vector2f(0f, 0f);
+		new Vector2f(3f, 3f);
 	public static final PCollisionBody PLAYER_COLLISION_BODY =
 		new PCollisionBody(new Vector2f(0, 0), // displacement
 						       // collision body:
-				   new Vector2f(0, 0), new Vector2f(1, 1),
-				   new Vector2f(0, 1), new Vector2f(1, 0));
+				   new Vector2f(0, 0), new Vector2f(0, 1),
+				   new Vector2f(1, 0), new Vector2f(1, 1));
 
 	// bullet config
 	public static final float BULLET_SPEED = 0.02f;

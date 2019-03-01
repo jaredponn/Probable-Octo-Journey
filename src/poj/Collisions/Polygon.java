@@ -2,8 +2,6 @@ package poj.Collisions;
 
 import poj.linear.*;
 
-import java.util.ArrayList;
-
 // Algorthims from various authors
 // https://blog.hamaluik.ca/posts/swept-aabb-collision-using-minkowski-difference/
 // http://www.dyn4j.org/2010/04/gjk-gilbert-johnson-keerthi/
@@ -102,10 +100,35 @@ public class Polygon implements CollisionShape
 		}
 		return max;
 	}
-	// returns the furthest point in shape in UNIT direction vector d.
+
+	public int indexOfClosestPointInDirection(Vector2f dir)
+	{
+		Vector2f d = dir;
+		int min = 0;
+		float mindist = Float.MAX_VALUE;
+
+		for (int i = 0; i < size; ++i) {
+			// scalar projection on d
+			final float tmp = Vector2f.dot(pts[i], d);
+
+			if (tmp < mindist) {
+				min = i;
+				mindist = tmp;
+			}
+		}
+		return min;
+	}
+
+	// returns the furthest point in shape in direction vector d.
 	public Vector2f furthestPointInDirection(Vector2f d)
 	{
 		return pts[indexOfFurthestPointInDirection(d)];
+	}
+
+	// returns the closestPointInDirection
+	public Vector2f closestPointInDirection(Vector2f d)
+	{
+		return pts[indexOfClosestPointInDirection(d)];
 	}
 
 	public String toString()

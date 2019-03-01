@@ -3,6 +3,7 @@ package poj.Collisions;
 import poj.linear.*;
 import java.util.ArrayList;
 import poj.Logger.*;
+import java.util.Optional;
 
 // Algorthim from various authors:
 // https://caseymuratori.com/blog_0003
@@ -18,6 +19,7 @@ public class GJK
 
 	public GJK()
 	{
+		this.clearVerticies();
 	}
 
 	public void clearVerticies()
@@ -25,13 +27,17 @@ public class GJK
 		verticies.clear();
 	}
 
+	private static int MAX_ITERATIONS = 10;
 	public boolean areColliding(final CollisionShape cola,
 				    final CollisionShape colb)
 	{
 		// verticies.clear();
 		EvolveResult evl = EvolveResult.STILL_EVOLVING;
 
-		while (evl == EvolveResult.STILL_EVOLVING) {
+		int i = 0;
+
+		while (evl == EvolveResult.STILL_EVOLVING
+		       && i < MAX_ITERATIONS) {
 
 			evl = evolveSimplex();
 			Vector2f a = support(cola, colb);
@@ -39,10 +45,98 @@ public class GJK
 
 			if (Vector2f.dot(a, direction) < 0)
 				return false;
+			++i;
 		}
 
 		return evl == EvolveResult.FOUND_INTERSECTION;
 	}
+
+	/*
+	public Optional<Double> timeOfPolygonCollision(final Polygon cola,
+						       final Vector2f dcola,
+						       final Polygon colb,
+						       final Vector2f dcolb)
+	{
+		// from the relative persepctive of a
+		Vector2f dv = dcolb.pureSubtract(dcola);
+
+		float ncolbpts[] = new float[cola.getSize() * 2];
+	}
+	*/
+
+	// where a is stationary
+	private static int TIME_OF_COLLISION_RESOLUTION = 15;
+	public Optional<Double> timeOfPolygonCollision(final Polygon cola,
+						       final Polygon colb,
+						       final Vector2f db)
+	{
+		float mint = 0.0000001f; // min t
+		float t = 0.5f;		 // middle t
+		float maxt = 1f;	 // max t
+
+		// first case where we go the entire distance of the  deltaof b
+		{
+			final Vector2f d = db.pureMul(maxt);
+			final Polygon p =
+				generateStretchedPolygonWithDirectionVector(
+					colb, d);
+
+			this.clearVerticies();
+
+			if (!this.areColliding(cola,
+					       p)) //  there was no collision
+				return Optional.empty();
+		}
+
+		for (int i = 0; i < TIME_OF_COLLISION_RESOLUTION; ++i) {
+			t = (mint + maxt) / 2f;
+
+			final Vector2f d = db.pureMul(t);
+			final Polygon p =
+				generateStretchedPolygonWithDirectionVector(
+					colb, d);
+
+			this.clearVerticies();
+
+			if (this.areColliding(cola,
+					      p)) //  there was no collision
+			{
+				mint = t;
+			} else {
+
+				maxt = t;
+			}
+		}
+		return Optional.of((double)t / mint);
+	}
+
+	private Polygon
+	generateStretchedPolygonWithDirectionVector(final Polygon p,
+						    final Vector2f d)
+	{
+		Vector2f[] npts = new Vector2f[p.size() * 2];
+
+		for (int i = 0; i < p.size(); ++i) {
+			npts[i] = new Vector2f(p.pts()[i]);
+		}
+
+		for (int i = p.size(); i < 2 * p.size(); ++i) {
+			npts[i] = (p.pts()[i - p.size()]).pureAdd(d);
+		}
+
+		Polygon np = new Polygon();
+		np.size = p.size() * 2;
+		np.pts = npts;
+		return np;
+	}
+
+	public Vector2f determineEdge(final CollisionShape cola,
+				      final CollisionShape colb)
+	{
+		// TODO
+		return new Vector2f(0, 0);
+	}
+
 	private Vector2f support(final CollisionShape a, final CollisionShape b)
 	{
 		final Vector2f pa = a.furthestPointInDirection(direction);
@@ -52,8 +146,7 @@ public class GJK
 		return tmp;
 	}
 
-
-	// determiens the  closest point to the origin
+	// Evolves the simplex to enclose the origin
 	private EvolveResult evolveSimplex()
 	{
 		switch (verticies.size()) {
@@ -92,13 +185,6 @@ public class GJK
 			Vector2f b = verticies.get(1);
 			Vector2f c = verticies.get(0);
 
-			if (Vector2f.dot(a,
-					 direction)
-			    < 0) // no intersection
-			{
-				return EvolveResult.NO_INTERSECTION;
-			}
-
 			Vector2f ao = a.pureNegate();
 			Vector2f ac = c.pureSubtract(a);
 			Vector2f ab = b.pureSubtract(a);
@@ -108,11 +194,18 @@ public class GJK
 			Vector2f abnorm =
 				Vector2f.pureTripleProduct(ac, ab, ab);
 
-			if (Vector2f.dot(ao, acnorm) < 0) // outside ac
+
+			if (Vector2f.dot(ao, acnorm) > 0
+			    && Vector2f.dot(ao, abnorm)
+				       > 0) // upper voronoi region
+			{
+				verticies.remove(0);
+				direction = ao;
+			} else if (Vector2f.dot(ao, acnorm) > 0) // outside ac
 			{
 				verticies.remove(0);
 				direction = acnorm;
-			} else if (Vector2f.dot(ao, abnorm) < 0) // outside ac
+			} else if (Vector2f.dot(ao, abnorm) > 0) // outside ac
 			{
 				verticies.remove(0);
 				direction = abnorm;
@@ -124,7 +217,7 @@ public class GJK
 
 		default:
 			Logger.lassert(
-				"ERROR in GJK -- simplexes of size 2 and 3 are only supported");
+				"ERROR in GJK -- simplexes of size 2 and 3 are only supported -- perhaps you forgot to run the clearVertices function inbetween areColliding");
 			break;
 		}
 

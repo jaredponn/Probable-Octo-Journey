@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import Components.AabbCollisionBody;
 import Components.PathFindCord;
+import Components.PCollisionBody;
 import Components.Render;
 import Components.WorldAttributes;
 import Resources.GameResources;
@@ -181,7 +182,7 @@ public class Map
 			mapLayers.get(mapLayers.size() - 1)
 				.registerComponent(PathFindCord.class);
 			mapLayers.get(mapLayers.size() - 1)
-				.registerComponent(AabbCollisionBody.class);
+				.registerComponent(PCollisionBody.class);
 
 			Scanner mapReader =
 				new Scanner(new File(mapLayerLocation));
@@ -257,19 +258,32 @@ public class Map
 										nextFreeIndex);
 							}
 
+
+							Vector2f cbwc = new Vector2f(
+								numRows - 1,
+								i % mapWidth);
 							mapLayers
 								.get(mapLayers
 									     .size()
 								     - 1)
 								.addComponentAt(
-									AabbCollisionBody
+									PCollisionBody
 										.class
 									,
-									new AabbCollisionBody(new CollisionAabb(
-										numRows - 1,
-										i % mapWidth,
-										64,
-										32)),
+									new PCollisionBody(
+										new Vector2f(
+											0f,
+											0f),
+										cbwc,
+										cbwc.pureAdd(
+											1,
+											0),
+										cbwc.pureAdd(
+											0,
+											1),
+										cbwc.pureAdd(
+											1,
+											1)),
 									nextFreeIndex);
 						} else {
 							mapLayers
