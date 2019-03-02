@@ -64,6 +64,17 @@ public class GJK
 	}
 	*/
 
+	public boolean areColliding(final Polygon cola, final Polygon colb,
+				    final Vector2f db)
+	{
+		final Polygon p =
+			generateStretchedPolygonWithDirectionVector(colb, db);
+
+		this.clearVerticies();
+
+		return this.areColliding(cola, p);
+	}
+
 	// where a is stationary
 	private static int TIME_OF_COLLISION_RESOLUTION = 15;
 	public Optional<Double> timeOfPolygonCollision(final Polygon cola,
@@ -74,40 +85,32 @@ public class GJK
 		float t = 0.5f;		 // middle t
 		float maxt = 1f;	 // max t
 
-		// first case where we go the entire distance of the  deltaof b
-		{
-			final Vector2f d = db.pureMul(maxt);
-			final Polygon p =
-				generateStretchedPolygonWithDirectionVector(
-					colb, d);
-
-			this.clearVerticies();
-
-			if (!this.areColliding(cola,
-					       p)) //  there was no collision
-				return Optional.empty();
+		// first case where we go the entire distance of the
+		// deltaof b
+		if (!this.areColliding(cola, colb, db)) {
+			return Optional.empty();
 		}
 
 		for (int i = 0; i < TIME_OF_COLLISION_RESOLUTION; ++i) {
 			t = (mint + maxt) / 2f;
-
 			final Vector2f d = db.pureMul(t);
+
 			final Polygon p =
 				generateStretchedPolygonWithDirectionVector(
 					colb, d);
 
 			this.clearVerticies();
-
-			if (this.areColliding(cola,
-					      p)) //  there was no collision
-			{
-				mint = t;
-			} else {
-
+			if (this.areColliding(cola, p)) {
 				maxt = t;
+
+
+			} else {
+				mint = t;
 			}
 		}
-		return Optional.of((double)t / mint);
+
+
+		return Optional.of((t + mint) / 2d);
 	}
 
 	private Polygon
@@ -123,7 +126,6 @@ public class GJK
 		for (int i = p.size(); i < 2 * p.size(); ++i) {
 			npts[i] = (p.pts()[i - p.size()]).pureAdd(d);
 		}
-
 		Polygon np = new Polygon();
 		np.size = p.size() * 2;
 		np.pts = npts;
@@ -173,7 +175,8 @@ public class GJK
 			Vector2f ao = a.pureNegate();
 
 			direction = Vector2f.pureTripleProduct(
-				ab, ao, ab); // perpendicular vector to ab
+				ab, ao,
+				ab); // perpendicular vector to ab
 
 			break;
 		}
