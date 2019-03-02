@@ -222,6 +222,7 @@ public class PlayGame extends World
 		// debug renderers
 		EngineTransforms.debugRenderPolygons(
 			this.engineState, this.debugBuffer, this.cam);
+
 		// EngineTransforms.arePCollisionBodiesColliding(this.engineState,
 		// this.gjk, PlayerSet.class,MobSet.class);
 

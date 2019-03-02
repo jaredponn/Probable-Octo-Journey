@@ -301,13 +301,25 @@ public class Systems
 		return g.areColliding(a.getPolygon(), b.getPolygon());
 	}
 
+	// faster form of just determining if collisions are colliding
+	public static boolean arePCollisionBodiesColliding(GJK g,
+							   PCollisionBody a,
+							   PCollisionBody b,
+							   Movement dv)
+	{
+		g.clearVerticies();
+		return g.areColliding(a.getPolygon(), b.getPolygon(),
+				      dv.getVelocity());
+	}
+
 	public static Optional<Double>
-	arePCollisionBodiesColliding(GJK g, PCollisionBody a, PCollisionBody b,
-				     Movement dv)
+	pCollisionBodiesTimeOfCollision(GJK g, PCollisionBody a,
+					PCollisionBody b, Movement dv,
+					double dt)
 	{
 		g.clearVerticies();
 		return g.timeOfPolygonCollision(a.getPolygon(), b.getPolygon(),
-						dv.getVelocity());
+						dv.getDistanceDelta((float)dt));
 	}
 
 

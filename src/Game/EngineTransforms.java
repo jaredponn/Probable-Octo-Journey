@@ -614,17 +614,15 @@ public class EngineTransforms
 				     PCollisionBody.class)) {
 
 				Optional<Double> tmp =
-					Systems.arePCollisionBodiesColliding(
-						g, a, b, va);
+					Systems.pCollisionBodiesTimeOfCollision(
+						g, b, a, va, dt);
 
 				if (tmp.isPresent()) {
-					final double t = tmp.get();
+					final double t = tmp.get() - 0.3d;
 
 					final double rt = t / dt;
-					System.out.println(t + " t");
-					System.out.println(rt + " rt");
-
 					va.getVelocity().mul((float)rt);
+					va.getVelocity().log();
 
 					//	System.out.println(
 					//		a.getPolygon().toString());
