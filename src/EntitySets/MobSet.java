@@ -26,6 +26,7 @@ public class MobSet extends EntitySet
 		addComponent(new MovementDirection(CardinalDirections.N));
 		addComponent(new FacingDirection(CardinalDirections.N));
 		addComponent(new PCollisionBody(GameConfig.MOB_COLLISION_BODY));
+		addComponent(new HitPoints(GameConfig.MOB_HP));
 
 
 		// TODO: mob sprite sheet

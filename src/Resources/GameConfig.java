@@ -20,6 +20,7 @@ public class GameConfig
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
+	public static final int PLAYER_HP = 100;
 	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
 	public static final int TOWER_DIFFUSION_VALUE = (int)Math.pow(2, 5);
 	public static final float PLAYER_HEIGHT =
@@ -55,13 +56,14 @@ public class GameConfig
 		GameResources.BULLET_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final double BULLET_LIFE_SPAN = 0.8;
+	public static final int BULLET_DAMAGE = 33;
 
 	// mob config
 	public static final float MOB_SPEED = 0.6f * PLAYER_SPEED;
 	// public static final float MOB_SPEED = 0f;
 	public static final float MOB_HEIGHT = PLAYER_HEIGHT;
 	public static final float MOB_WIDTH = PLAYER_WIDTH;
-	public static final float MOB_HP = 100;
+	public static final int MOB_HP = 100;
 	/*public static final CircleCollisionBody MOB_COLLISION_BODY =
 		new CircleCollisionBody(new CollisionCircle(0, 0, MOB_WIDTH));*/
 	public static final PCollisionBody MOB_COLLISION_BODY =
@@ -71,7 +73,7 @@ public class GameConfig
 	// construct config
 	public static final float CONSTRUCT_HEIGHT = 64;
 	public static final float CONSTRUCT_WIDTH = 48;
-	public static final float CONSTRUCT_HP = 100;
+	public static final int CONSTRUCT_HP = 100;
 
 	public static final int TOWER_BUILD_COST = 250;
 
