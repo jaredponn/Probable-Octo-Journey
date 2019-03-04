@@ -56,7 +56,7 @@ public class GameConfig
 		GameResources.BULLET_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final double BULLET_LIFE_SPAN = 0.8;
-	public static final int BULLET_DAMAGE = 33;
+	public static final int BULLET_DAMAGE = 10;
 
 	// mob config
 	public static final float MOB_SPEED = 0.6f * PLAYER_SPEED;
@@ -69,6 +69,8 @@ public class GameConfig
 	public static final PCollisionBody MOB_COLLISION_BODY =
 		new PCollisionBody(PLAYER_COLLISION_BODY);
 	public static final float MOB_SPAWN_TIMER = 10.0f;
+	// spawn points:
+	public static final Vector2f MOB_SPAWNER_1 = new Vector2f( 20f , 20f );
 
 	// construct config
 	public static final float CONSTRUCT_HEIGHT = 64;

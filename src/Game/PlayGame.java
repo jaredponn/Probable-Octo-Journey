@@ -671,7 +671,7 @@ public class PlayGame extends World
 		}
 	}
 
-	
+	// ASE
 	/** @return: current time the game has been running in seconds */
 	private double getPlayTime()
 	{
@@ -699,6 +699,7 @@ public class PlayGame extends World
 		if (currentPlayTime - this.timeOfLastMobSpawn
 		    > GameConfig.MOB_SPAWN_TIMER) {
 			super.engineState.spawnEntitySet(new MobSet());
+			super.engineState.spawnEntitySet(new MobSet( GameConfig.MOB_SPAWNER_1  ));
 			this.timeOfLastMobSpawn = currentPlayTime;
 			System.out.println("Spawning new mob at time: "
 					   + this.timeOfLastMobSpawn);
@@ -827,14 +828,22 @@ public class PlayGame extends World
 			}
 		}
 	}
-	
+	/**
+	 * checks a bullet to see if it is in the same place
+	 * as a mob, applies damage to hit mob, despawns the
+	 * mob if its health is at or below 0, then despawns
+	 * the bullet
+	 * @param bullet to check for hit
+	 */
 	private void findBulletHits( int bullet ) {
+		// TODO: delete bullets that collide with a wall
 		Vector2f bulletPosition =
 				engineState
 					.getComponentAt(WorldAttributes.class,
 							bullet)
 					.getCenteredBottomQuarter();
 		
+		// check against all mobs
 		for (int i = this.engineState.getInitialSetIndex(
 			     MobSet.class);
 		     this.engineState.isValidEntity(i);
@@ -847,12 +856,14 @@ public class PlayGame extends World
 							i)
 					.getCenteredBottomQuarter();
 
+			// check if bullet and mob are at same position
 			if ((int)bulletPosition.x == (int)mobPosition.x
 			    && (int)bulletPosition.y
 				       == (int)mobPosition.y) {
-				// TODO: apply damage to mob
 				System.out.println("A bullet hit a mob!");
 				engineState.getComponentAt(HitPoints.class, i).hurt(GameConfig.BULLET_DAMAGE);
+				
+				// kill mob if its health is at or below 0
 				if (engineState.getComponentAt(HitPoints.class, i).getHP() <= 0) {
 					engineState.deleteComponentAt(MobSet.class, i);
 					engineState.deleteComponentAt(Render.class, i);
@@ -865,6 +876,7 @@ public class PlayGame extends World
 					engineState.deleteComponentAt(HitPoints.class, i);
 					engineState.markIndexAsFree(i);
 				}
+				// remove bullet
 				this.engineState.deleteComponentAt(
 						Bullet.class, bullet);
 				this.engineState.deleteComponentAt(
