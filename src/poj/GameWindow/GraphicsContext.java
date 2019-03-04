@@ -1,9 +1,10 @@
 package poj.GameWindow;
 
 import java.awt.*;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
+/**
+ * POD data type to contain all the graphics related contexts
+ */
 public class GraphicsContext
 {
 	public GraphicsEnvironment graphicsEnv;

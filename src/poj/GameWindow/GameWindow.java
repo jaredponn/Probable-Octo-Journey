@@ -1,17 +1,16 @@
 package poj.GameWindow;
 
-import poj.GameWindow.*;
-import poj.Logger.Logger;
-
 import javax.swing.JFrame;
-import java.awt.*;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
 public class GameWindow extends JFrame
 {
 	static final long serialVersionUID = 0;
 
+	/**
+	 * Constructor for the game window
+	 *
+	 * @param  s  name of the window
+	 */
 	public GameWindow(String s)
 	{
 		super(s);
@@ -21,6 +20,12 @@ public class GameWindow extends JFrame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	/**
+	 * Default add of game canbas and setting buffer strategy to the game
+	 * window
+	 *
+	 * @param  gc  game canvas
+	 */
 	public void defaultAddGameCanvasAndSetBufferStrat(GameCanvas gc)
 	{
 		this.add(gc);
@@ -30,6 +35,9 @@ public class GameWindow extends JFrame
 	}
 
 
+	/**
+	 * Disposes the window
+	 */
 	public void disposeWindow()
 	{
 		this.setVisible(false);

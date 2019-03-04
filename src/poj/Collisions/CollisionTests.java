@@ -3,12 +3,18 @@ import java.util.Optional;
 import poj.linear.*;
 import poj.Pair;
 
+
+// Majority of the collision algorithms were from or built upon *Real-Time
+// Collision Detection* by Christer Ericson, published by Morgan Kaufmann
+// Publishers, Copyright 2005 Elsevier Inc.
+
+// All methods in this file are DEPRECATED and do not work.
+
 public class CollisionTests
 {
 	private static float EPSILON = 0.0000001f;
 
-	public static boolean areCirclesColliding(Circle a,
-						  Circle b)
+	public static boolean areCirclesColliding(Circle a, Circle b)
 	{
 		float sqdist = sqDistance(a.getCenter(), b.getCenter());
 		float squaredRad = (a.r() + b.r()) * (a.r() + b.r());
@@ -27,7 +33,78 @@ public class CollisionTests
 				      final CollisionAabb b, final Vector2f va,
 				      final Vector2f vb)
 	{
-		return CollisionAabb.intersectionTimeOfMoving(a, b, va, vb);
+		System.out.println("START--------------------------------");
+		va.log("VA");
+		System.out.println(a.toString());
+		vb.log("VB");
+		System.out.println(b.toString());
+		// first and last contact times
+		double ti = 0d;
+		double tf = 1d;
+
+		// check if initially interesecting
+		if (CollisionAabb.isColliding(a, b)) {
+			System.out.println("initially colliding");
+			return Optional.of(0d);
+		}
+
+		// relative velocity where a is not moving and b is moving
+		Vector2f rv = vb.pureSubtract(va);
+		rv.log("relative vector");
+
+		// iterating through each axis of the vector and determining the
+		// first and last contact times
+		for (int i = 0; i < Vector2f.MAX_LENGTH; ++i) {
+			if (rv.get(i) < 0f) {
+				// clang-format off
+				// non intersecting and moving apart
+				if (b.max().get(i) < a.min().get(i))
+					return Optional.empty();
+
+				// moving together
+				if (a.max().get(i) < b.min().get(i))
+					ti = Math.max((a.max().get(i) - b.min().get(i)) / rv.get(i), ti);
+
+				// moving apart
+				if (b.max().get(i) > a.min().get(i))
+					tf = Math.min((a.min().get(i) - b.max().get(i)) / rv.get(i), tf);
+				// clang-format on
+			}
+
+			else if (rv.get(i) > 0f) {
+				// clang-format off
+				// non intersecting and moving apart
+				if (b.min().get(i) > a.max().get(i))
+					return Optional.empty();
+
+				// moving together
+				if (b.max().get(i) < a.min().get(i))
+					ti = Math.max((a.min().get(i) - b.max().get(i)) / rv.get(i), ti);
+
+				// moving apart
+				if (a.max().get(i) > b.min().get(i))
+					tf = Math.min((a.max().get(i) - b.min().get(i)) / rv.get(i), tf);
+				// clang-format on
+			}
+		}
+
+		// no overlap possible if the initial contanct time happens
+		// after the last
+		if (ti > tf) {
+			System.out.println(
+				"initail contact before final contact");
+			return Optional.empty();
+		}
+
+
+		// if they were't going to touch at all
+		if (ti == 0) {
+			System.out.println("ti was 0 ");
+			return Optional.empty();
+		}
+		System.out.println("tifinal: " + ti);
+
+		return Optional.of(ti);
 	}
 
 
@@ -259,8 +336,7 @@ public class CollisionTests
 	}
 
 	// tests if a cricle and a capsulere colliding
-	public static boolean circleCapsuleTest(final Circle c,
-						Capsule cap)
+	public static boolean circleCapsuleTest(final Circle c, Capsule cap)
 	{
 		float sqdist = sqDistPointSegment(cap.a(), cap.b(), c.c());
 		float radius = c.r() + cap.r();
@@ -655,8 +731,7 @@ public class CollisionTests
 
 		System.out.println("Segmentcapsule --------------------------");
 
-		collisions[0] =
-			intersectSegmentCircle(a, b, new Circle(c, r));
+		collisions[0] = intersectSegmentCircle(a, b, new Circle(c, r));
 		if (collisions[0].isPresent()) {
 			System.out.println(collisions[0].get().fst()
 					   + "collision 0");
@@ -680,8 +755,7 @@ public class CollisionTests
 			System.out.println(collisions[1]);
 		}
 
-		collisions[2] =
-			intersectSegmentCircle(a, b, new Circle(d, r));
+		collisions[2] = intersectSegmentCircle(a, b, new Circle(d, r));
 
 		if (collisions[2].isPresent()) {
 			System.out.println(collisions[2].get().fst());
@@ -689,7 +763,6 @@ public class CollisionTests
 			System.out.println(collisions[2]);
 		}
 
-		System.out.println("fuckitall-------------------------");
 
 		boolean areCollisions = false;
 		Optional<Pair<Double, Vector2f>> closest =

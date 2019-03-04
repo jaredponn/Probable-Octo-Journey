@@ -11,6 +11,13 @@ import javax.imageio.*;
 public class ImageLoader
 {
 
+	/**
+	 * loads an image from the the file system with the string as the
+	 * filepath
+	 *
+	 * @param  str  filepath
+	 * @return      BufferedImage of the type
+	 */
 	public static BufferedImage load(String str)
 	{
 

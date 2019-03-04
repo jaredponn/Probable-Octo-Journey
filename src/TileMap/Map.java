@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import Components.AabbCollisionBody;
 import Components.PathFindCord;
+import Components.PCollisionBody;
 import Components.Render;
 import Components.WorldAttributes;
 import Resources.GameResources;
@@ -29,15 +30,30 @@ public class Map
 		tileCount, mapWidth = 0, mapHeight = 0;
 	private ArrayList<Boolean> wallState;
 
+	/**
+	 * Create map with specified number of mapLayer and the vector
+	 * containing the mapLayer will be allocate the same number of mapLayer
+	 *
+	 * @param  numLayers	the number of the map layers
+	 */
 	public Map(int numLayers)
 	{
 		mapLayers = new ArrayList<MapLayer>(numLayers);
 	}
+	/**
+	 * 	Create map a vector of mapLayer
+	 */
 	public Map()
 	{
 		mapLayers = new ArrayList<MapLayer>();
 	}
 
+	/**
+	 * add and parse the map config file (.json map config file)
+	 *
+	 * @param  mapConfigLocation	the location of the map config file
+	 *  @return      void
+	 */
 	public void addMapConfig(String mapConfigLocation)
 	{
 		try {
@@ -81,6 +97,12 @@ public class Map
 	}
 
 
+	/**
+	 * add and parse the tile set file (.json config file)
+	 *
+	 * @param  tileConfigLocation	the location of the tile config file
+	 *  @return      void
+	 */
 	public void addTileSet(String tileLocation)
 	{
 		try {
@@ -137,6 +159,14 @@ public class Map
 				+ e.getMessage());
 		}
 	}
+	/**
+	 * add, parse a map layer, add the WorldAttributes, Render, PathFinding,
+	 * and AabbCollisionBody components to the map layer (.csv config file)
+	 *
+	 * @param  mapLayerLocation	the location of the map layer config
+	 *         file
+	 *  @return      void
+	 */
 	public void addMapLayer(String mapLayerLocation)
 	{
 		// TODO HAIANG:
@@ -152,7 +182,7 @@ public class Map
 			mapLayers.get(mapLayers.size() - 1)
 				.registerComponent(PathFindCord.class);
 			mapLayers.get(mapLayers.size() - 1)
-				.registerComponent(AabbCollisionBody.class);
+				.registerComponent(PCollisionBody.class);
 
 			Scanner mapReader =
 				new Scanner(new File(mapLayerLocation));
@@ -228,19 +258,32 @@ public class Map
 										nextFreeIndex);
 							}
 
+
+							Vector2f cbwc = new Vector2f(
+								numRows - 1,
+								i % mapWidth);
 							mapLayers
 								.get(mapLayers
 									     .size()
 								     - 1)
 								.addComponentAt(
-									AabbCollisionBody
+									PCollisionBody
 										.class
 									,
-									new AabbCollisionBody(new CollisionAabb(
-										numRows - 1,
-										i % mapWidth,
-										64,
-										32)),
+									new PCollisionBody(
+										new Vector2f(
+											0f,
+											0f),
+										cbwc,
+										cbwc.pureAdd(
+											1,
+											0),
+										cbwc.pureAdd(
+											0,
+											1),
+										cbwc.pureAdd(
+											1,
+											1)),
 									nextFreeIndex);
 						} else {
 							mapLayers
@@ -303,6 +346,11 @@ public class Map
 		}
 	}
 
+	/**
+	 * print the PathFindCord of a particular map layer (for debugging)
+	 * @param  layerNumber	integer, the map layer number to print
+	 *  @return      void
+	 */
 	public void printPathfindCord(int layerNumber)
 	{
 
@@ -336,6 +384,10 @@ public class Map
 			}
 		}
 		*/
+	/**
+	 * create the tile render objects
+	 *  @return      void
+	 */
 	public void createTileRenderObjects()
 	{
 		// rendering tile maps loop
@@ -349,6 +401,12 @@ public class Map
 				curTilesetWidth, curTilesetHeight));
 		}
 	}
+	/**
+	 * render the tileMap to the screen
+	 *   @param  renderer	Renderer, the renderer class that will render
+	 * the tiles in all map layers
+	 *  @return      void
+	 */
 	public void renderTileMap(Renderer renderer)
 	{
 		ArrayList<Render> mapRenderLayer;
@@ -367,6 +425,10 @@ public class Map
 		}
 	}
 
+	/**
+	 * tells the wallState vector which index is a wall and which is not
+	 *  @return      void
+	 */
 	public void createWallState()
 	{
 		wallState = new ArrayList<Boolean>(
@@ -391,27 +453,54 @@ public class Map
 	// IMPORTANT: in world attributes  and PathFindCord, X is RowNum, and Y
 	// is ColNum!!!!!!
 	// Width is rows, height is cols
+	/**
+	 * test if a WorldAttributes is a valid map cordinate
+	 *    @param  tile the WorldAttributes object
+	 *  @return      void
+	 */
 	public boolean isValidCord(WorldAttributes tile)
 	{
 		return isValidCord(tile.getOriginCoord());
 	}
 
+	/**
+	 * test if a Vector2f is a valid map cordinate
+	 *    @param  cord the Vector2f object
+	 *  @return      void
+	 */
 	public boolean isValidCord(Vector2f cord)
 	{
 		return (cord.x < mapHeight && cord.y < mapWidth)
 			&& (cord.x >= 0 && cord.y >= 0);
 	}
+	/**
+	 * test if a PathFindCord is a valid map cordinate
+	 *    @param  tile the PathFindCord object
+	 *  @return      void
+	 */
 	public boolean isValidCord(PathFindCord tile)
 	{
 		Vector2f cord = tile.getCord();
 		return isValidCord(cord);
 	}
 
+	/**
+	 * get ECS cordinate from WorldAttributes, will return -1 if it does
+	 * not exist
+	 *    @param  cord the WorldAttributes object
+	 *  @return      void
+	 */
 	public int getEcsCordFromWorldAttributes(WorldAttributes cord)
 	{
 		return getEcsIndexFromWorldVector2f(cord.getOriginCoord());
 	}
 
+	/**
+	 * get ECS cordinate from Vector2f, will return -1 if it does
+	 * not exist
+	 *    @param  v the Vector2f object
+	 *  @return      void
+	 */
 	public int getEcsIndexFromWorldVector2f(Vector2f v)
 	{
 
@@ -422,11 +511,21 @@ public class Map
 			return -1;
 		}
 	}
+	/**
+	 * get vector2f from an ECS index, if it is invalid index it will just
+	 * crash the program
+	 *    @param  index the ECS index
+	 *  @return      Vector2f
+	 */
 	public Vector2f getVector2fFromEcsIndex(int index)
 	{
 		return new Vector2f(index / mapWidth, index % mapWidth);
 	}
-
+	/**
+	 * get tile layer for the renderer with a specific layerNumber
+	 *    @param  layerNumber integer, the layer number
+	 *  @return      ArrayList<Render>
+	 */
 	public ArrayList<Render> getTileLayerRender(int layerNumber)
 	{
 		return this.mapLayers.get(layerNumber)
@@ -434,17 +533,30 @@ public class Map
 			.getRawComponentArrayListPackedData(Render.class);
 	}
 
+	/**
+	 * get MapLayer object with a specific layerNumber
+	 *    @param  layerNumber integer, the layer number
+	 *  @return      MapLayer
+	 */
 	public MapLayer getLayerEngineState(int layerNumber)
 	{
 		return this.mapLayers.get(layerNumber);
 	}
 
-	public int getMapLength()
+	/**
+	 * get the map size (width * height)
+	 *  @return      integer, the size of the map
+	 */
+	public int getMapSize()
 	{
 		return this.mapWidth * this.mapHeight;
 	}
 
-	public int getLayerNumber()
+	/**
+	 * get the number of layers of the map
+	 *  @return      integer, number of layers in the map
+	 */
+	public int getNumberOfLayers()
 	{
 		return this.mapLayers.size();
 	}

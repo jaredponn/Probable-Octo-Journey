@@ -19,7 +19,6 @@ public class PackedVector<T>
 	 * Constructs the PackedVector with a specified capacity
 	 *
 	 * @param  capacity capacity
-	 * @return      void
 	 */
 	public PackedVector(int capacity)
 	{

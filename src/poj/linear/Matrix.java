@@ -11,10 +11,23 @@ public class Matrix<T>
 	public int rows;
 	public int cols;
 
+	/**
+	 * Constructs the Matrix object with type T, will create an empty matrix
+	 *
+	 */
 	public Matrix()
 	{
 		this.m_matrix = new ArrayList<T>();
 	}
+	/**
+	 * Constructs the Matrix object with type T, with an array, row size and
+	 * column size (will return MAJOR ERROR if the row and column size is
+	 * smaller than 0 or the row and column size does not match the array
+	 * imported )
+	 * @param  array	ArrayList<T>
+	 * @param  rowSize	integer, rowSize of the matrix
+	 * @param  colSize	integer, colSize of the matrix
+	 */
 	public Matrix(final ArrayList<T> array, int rowSize, int colSize)
 	{
 		Logger.lassert(
@@ -28,6 +41,13 @@ public class Matrix<T>
 		this.cols = colSize;
 	}
 
+	/**
+	 * Constructs the Matrix object with type T, with an array and row size
+	 * (will return MAJOR ERROR if the row and column size is smaller than 0
+	 * or the row and column size does not match the array imported )
+	 * @param  array	ArrayList<T>
+	 * @param  rowSize	integer, rowSize of the matrix
+	 */
 	public Matrix(final ArrayList<T> array, int rowSize)
 	{
 		Logger.lassert((array.size() <= 0 || rowSize <= 0),
@@ -40,6 +60,15 @@ public class Matrix<T>
 		this.cols = array.size() / rowSize;
 	}
 
+	/**
+	 * set the array/value of the matrixof the matrix with a new type T
+	 * array, the number of rows and column
+	 * *
+	 * @param  tmp	ArrayList<T>, the new array
+	 * @param  rows	integer, rowSize of the new matrix
+	 * @param  cols	integer, colSize of the new matrix
+	 * @return      void
+	 */
 	public void setArray(ArrayList<T> tmp, int rows, int cols)
 	{
 		this.rows = rows;
@@ -47,10 +76,26 @@ public class Matrix<T>
 		this.m_matrix = tmp;
 	}
 
-	public void setArray(ArrayList<T> tmp)
+	/**
+	 * set the array/value of the matrixof the matrix with a new type T
+	 * array, the number of rows
+	 * @param  tmp	ArrayList<T>, the new array
+	 * @param  rows	integer, rowSize of the new matrix
+	 * @return      void
+	 */
+	public void setArray(ArrayList<T> tmp, int rows)
 	{
 		this.m_matrix = tmp;
 	}
+
+	/**
+	 * get the index inside Matrix from a matrixCordinate object (will
+	 * return MAJOR ERROR if the matrixCord is out of bounds for the matrix)
+	 * @param  matrixCord	MatrixCord
+	 * * @return      integer, the location of the matrix cord inside the
+	 * matrix
+	 */
+
 	// 0 based indexing!!
 	public int getIndexFromMatrixCord(final MatrixCord matrixCord)
 	{
@@ -62,6 +107,12 @@ public class Matrix<T>
 		return matrixCord.row * cols + matrixCord.col;
 	}
 
+	/**
+	 * get the matrixCord inside Matrix from a matrix index (will
+	 * return MAJOR ERROR if the index is out of bounds for the matrix)
+	 * @param  index	integer, the matrix index
+	 * * @return      the MatrixCord object that represent the matrix index
+	 * */
 	public MatrixCord getMatrixCordFromIndex(int index)
 	{
 		Logger.lassert(
@@ -73,6 +124,14 @@ public class Matrix<T>
 		return matrixCord;
 	}
 
+	/**
+	 * set data with a matrixCordinate (will
+	 * return MAJOR ERROR if the matrixCord is out of bounds for the matrix)
+	 * @param  matrixCord	MatrixCord, the cordinate inside the matrix
+	 * @param  value	type T, the value that will be set in the matrix
+	 *         index
+	 * * @return      void
+	 * */
 	public void setWithMatrixCord(final MatrixCord matrixCord, T value)
 	{
 
@@ -84,6 +143,14 @@ public class Matrix<T>
 		m_matrix.set(matrixCord.row * cols + matrixCord.col, value);
 	}
 
+	/**
+	 * set data with index of the matrix(will
+	 * return MAJOR ERROR if the index is out of bounds for the matrix)
+	 * @param  index	integer, the matrix index of the matrix
+	 * @param  value	type T, the value that will be set in the matrix
+	 *         index
+	 * * @return      void
+	 * */
 	public void setWithIndex(int index, T value)
 	{
 		Logger.lassert(
@@ -92,6 +159,12 @@ public class Matrix<T>
 		m_matrix.set(index, value);
 	}
 
+	/**
+	 * get data with a matrixCordinate (will
+	 * return MAJOR ERROR if the index is out of bounds for the matrix)
+	 * @param  matrixCord	MatrixCord, the cordinate inside the matrix
+	 * * @return      type T of the value at the matrix cordinate
+	 * */
 	public T getDataWithMatrixCord(final MatrixCord matrixCord)
 	{
 		Logger.lassert(
@@ -102,10 +175,24 @@ public class Matrix<T>
 		return m_matrix.get(matrixCord.row * cols + matrixCord.col);
 	}
 
+	/**
+	 * get data with the integer representation (row and column) of
+	 * a matrixCordinate (will return MAJOR ERROR if the index is out of
+	 * bounds for the matrix)
+	 * @param  r	integer, the row cordinate of the matrixCord
+	 * @param  c	integer, the row cordinate of the matrixCord
+	 * * @return      type T of the value at the matrix cordinate
+	 * */
 	public T getDataWithMatrixCord(int r, int c)
 	{
 		return getDataWithMatrixCord(new MatrixCord(r, c));
 	}
+	/**
+	 * get data with matrix index (will return MAJOR ERROR if the index is
+	 * out of bounds for the matrix)
+	 * @param  index	integer, the index inside the matrix
+	 * * @return      type T of the value at the matrix cordinate
+	 * */
 	public T getDataWithIndex(int index)
 	{
 		Logger.lassert(
@@ -114,6 +201,10 @@ public class Matrix<T>
 		return m_matrix.get(index);
 	}
 
+	/**
+	 * will print the Matrix (for debugging)
+	 * * @return      type T of the value at the matrix cordinate
+	 * */
 	public void log()
 	{
 		Logger.logMessage(LogLevels.VERBOSE, "Matrix log: ");

@@ -4,8 +4,16 @@ import java.util.PriorityQueue;
 import java.util.Comparator;
 
 // docs: https://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html
+
 class RenderObjectComparator implements Comparator<RenderObject>
 {
+
+	/**
+	 * compare the render objects
+	 * @param a
+	 * @param b
+	 * @return int -- -1 less than, 0 equal to, 1 greater than
+	 */
 	public int compare(RenderObject a, RenderObject b)
 	{
 		int aypos = a.getY() + a.getHeight() / 2;
@@ -33,12 +41,23 @@ public class MinYFirstSortedRenderObjectBuffer
 	private static final Comparator<RenderObject> comparator =
 		new RenderObjectComparator();
 
+	/**
+	 * Constructor
+	 */
 	public MinYFirstSortedRenderObjectBuffer()
 	{
-		super(INIT_CAPACITY, comparator);
+		this(INIT_CAPACITY);
 	}
 
-	// push object should be used after the camera
+	public MinYFirstSortedRenderObjectBuffer(int capacity)
+	{
+		super(capacity, comparator);
+	}
+
+	/**
+	 * Pushes render object to the queue
+	 * @param r render boject to render
+	 */
 	public void pushObject(RenderObject r)
 	{
 		add(r);

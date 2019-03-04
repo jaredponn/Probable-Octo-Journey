@@ -6,6 +6,7 @@ import poj.linear.*;
 import Components.*;
 import poj.Collisions.*;
 import poj.PackedVector;
+import poj.Collisions.*;
 import poj.Pair;
 
 
@@ -15,9 +16,6 @@ public class GameConfig
 {
 
 	// player config
-	// They need to be switched because of how the tiles are viewed. Not
-	// going to lie, this is really strange and if someone wants to take the
-	// time to figure this out, please let me know
 	public static final float PLAYER_SPEED = 0.003f;
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
@@ -28,9 +26,25 @@ public class GameConfig
 		GameResources.PLAYER_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final Vector2f PLAYER_SPAWNNING_POS =
-		new Vector2f(0f, 0f);
-	public static final CircleCollisionBody PLAYER_COLLISION_BODY =
-		new CircleCollisionBody(new Circle(0, 0, PLAYER_WIDTH / 2f));
+		new Vector2f(3f, 3f);
+	/*
+	public static final PCollisionBody PLAYER_COLLISION_BODY =
+		new PCollisionBody(new Vector2f(0, 0), // displacement
+						       // collision body:
+				   new Vector2f(0, 0), new Vector2f(0, 1),
+				   new Vector2f(1, 0), new Vector2f(1, 1));
+				   */
+
+	public static final PCollisionBody PLAYER_COLLISION_BODY =
+		new PCollisionBody(
+			new Vector2f(0f, 0.6f), // displacement
+						// collision body:
+			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
+			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
+			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
+			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f)
+
+		);
 
 	// bullet config
 	public static final float BULLET_SPEED = 0.02f;
@@ -50,8 +64,8 @@ public class GameConfig
 	public static final float MOB_HP = 100;
 	/*public static final CircleCollisionBody MOB_COLLISION_BODY =
 		new CircleCollisionBody(new CollisionCircle(0, 0, MOB_WIDTH));*/
-	public static final AabbCollisionBody MOB_COLLISION_BODY =
-		new AabbCollisionBody(new CollisionAabb(MOB_WIDTH, MOB_HEIGHT));
+	public static final PCollisionBody MOB_COLLISION_BODY =
+		new PCollisionBody(PLAYER_COLLISION_BODY);
 	public static final float MOB_SPAWN_TIMER = 10.0f;
 
 	// construct config

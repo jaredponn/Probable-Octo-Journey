@@ -11,6 +11,13 @@ public class GameCanvas extends Canvas
 	private int height;
 
 
+	/**
+	 * Constructuct's the game window
+	 *
+	 * @param  w width of canvas
+	 * @param  h height of canvas
+	 * @param  pol Input poller
+	 */
 	public GameCanvas(int w, int h, InputPoller pol)
 	{
 		super();
@@ -26,11 +33,21 @@ public class GameCanvas extends Canvas
 		height = h;
 	}
 
+	/**
+	 * gets the width
+	 *
+	 * @return width
+	 */
 	public int getWidth()
 	{
 		return width;
 	}
 
+	/**
+	 * gets the height
+	 *
+	 * @return height
+	 */
 	public int getHeight()
 	{
 		return height;

@@ -13,6 +13,7 @@ import poj.Collisions.*;
 import poj.Render.ImageRenderObject;
 import poj.Render.Renderer;
 import poj.Render.RenderRect;
+import poj.Collisions.*;
 
 public class Systems
 {
@@ -118,12 +119,14 @@ public class Systems
 	{
 		for (CollisionAabb i : a.getCollisionBodies()) {
 			for (CollisionAabb j : b.getCollisionBodies()) {
+				/* TODO -- remove
 				final Optional<Double> tmp =
 					CollisionAabb.intersectionTimeOfMoving(
 						i, j, va, vb);
 				if (tmp.isPresent()) {
 					return tmp;
 				}
+				*/
 			}
 		}
 		return Optional.empty();
@@ -288,5 +291,57 @@ public class Systems
 	{
 		w.add(CollisionTests.circleAabbNormal(s.getCollisionCircle(),
 						      b.getCollisionAabb()));
+	}
+
+
+	public static boolean
+	arePCollisionBodiesColliding(GJK g, PCollisionBody a, PCollisionBody b)
+	{
+		g.clearVerticies();
+		return g.areColliding(a.getPolygon(), b.getPolygon());
+	}
+
+	// faster form of just determining if collisions are colliding
+	public static boolean arePCollisionBodiesColliding(GJK g,
+							   PCollisionBody a,
+							   PCollisionBody b,
+							   Movement dv)
+	{
+		g.clearVerticies();
+		return g.areColliding(a.getPolygon(), b.getPolygon(),
+				      dv.getVelocity());
+	}
+
+	public static Optional<Double>
+	pCollisionBodiesTimeOfCollision(GJK g, PCollisionBody a,
+					PCollisionBody b, Movement dv,
+					double dt)
+	{
+		g.clearVerticies();
+		return g.timeOfPolygonCollision(a.getPolygon(), b.getPolygon(),
+						dv.getDistanceDelta((float)dt));
+	}
+
+
+	public static void pCollisionBodyDebugRenderer(final PCollisionBody pc,
+						       Queue<RenderObject> q,
+						       final Camera cam)
+	{
+		Polygon p = pc.getPolygon();
+		Vector2f[] pts = p.pts();
+
+		for (int i = 0; i < p.getSize(); ++i) {
+			final Vector2f sc = pts[i].pureMatrixMultiply(cam);
+			q.add(new RenderRect((int)sc.x, (int)sc.y, 2, 2,
+					     Color.RED));
+		}
+	}
+
+	public static void
+	updatePCollisionBodyPositionFromWorldAttr(PCollisionBody p,
+						  WorldAttributes w)
+	{
+		Vector2f tmp = w.getOriginCoord();
+		p.setPositionPoint(tmp);
 	}
 }

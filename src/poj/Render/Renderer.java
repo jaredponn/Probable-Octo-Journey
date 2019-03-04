@@ -37,6 +37,11 @@ public class Renderer
 	private int width;
 	private int height;
 
+	/**
+	 * Renderer constructor
+	 *
+	 * @param  gc game canvas
+	 */
 	public Renderer(GameCanvas gc)
 	{
 		this.graphicsContext = new GraphicsContext();
@@ -48,6 +53,11 @@ public class Renderer
 		this.renderBuffer = new LinkedList<RenderObject>();
 	}
 
+	/**
+	 * Sets the buffered image for an off the screen drawing surface
+	 *
+	 * @param  gc game canvas
+	 */
 	public void setBufferedImageFromCanvas(GameCanvas gc)
 	{
 		bufferedImage =
@@ -57,31 +67,49 @@ public class Renderer
 		height = gc.getHeight();
 	}
 
+	/**
+	 * Push render object to the internal queue. WARNING DEPRECATED
+	 *
+	 * @param  r RenderObject
+	 */
 	public void pushRenderObject(RenderObject r)
 	{
 		renderBuffer.add(r);
 	}
 
+	/**
+	 * Sets the clear color
+	 *
+	 * @param  Color c
+	 */
 	public void setClearColor(Color c)
 	{
 		backgroundColor = c;
 	}
 
+	/**
+	 * Sets the render buffer
+	 *
+	 * @param  n render buffer
+	 */
 	public void setRenderBuffer(Queue<RenderObject> n)
 	{
 		renderBuffer = n;
 	}
 
-	public void clear()
-	{
-	}
 
+	/**
+	 * Renders its own render buffer
+	 */
 	public void render()
 	{
 		renderBuffers(this.renderBuffer);
 	}
 
 
+	/**
+	 * Renders an arbitrary render buffers
+	 */
 	public void renderBuffers(Queue<RenderObject>... renderBuffers)
 	{
 		Graphics g = null;
@@ -142,6 +170,9 @@ public class Renderer
 		} while (bufferStrat.contentsLost());
 	}
 
+	/**
+	 * Renders objects with dim. WARNING LONG DEPRECATED
+	 */
 	private void renderImageRenderObjectWithDim(ImageRenderObject n,
 						    Graphics2D g2d)
 	{
@@ -174,6 +205,11 @@ public class Renderer
 			null);
 	}
 
+	/**
+	 * Renders an Image Render object.
+	 * @param n Image to render
+	 * @param g2d graphics object
+	 */
 	private void renderImageRenderObject(ImageRenderObject n,
 					     Graphics2D g2d)
 	{
@@ -191,13 +227,22 @@ public class Renderer
 			null);
 	}
 
-	// deprecated
+	/**
+	 * Renders a renderrect
+	 * @param n render rect
+	 * @param g2d graphics object
+	 */
 	private void renderRect(RenderRect n, Graphics2D g2d)
 	{
 		g2d.setColor(n.getColor());
 		g2d.drawRect(n.getX(), n.getY(), n.getWidth(), n.getHeight());
 	}
 
+	/**
+	 * Renders a stringrenderobject
+	 * @param n stringrenderobject
+	 * @param g2d graphics object
+	 */
 	private void renderStringRenderObject(StringRenderObject n,
 					      Graphics2D g2d)
 	{
@@ -206,9 +251,11 @@ public class Renderer
 		g2d.drawString(n.getStr(), n.getX(), n.getY());
 	}
 
-	// --------------------------------- DEBUG RENDERER -- draws borders
-	// around everything
-	// remove this copy paste garbage soon
+	/**
+	 * Debug renderer --- DEPRECTATED
+	 * @param n stringrenderobject
+	 * @param g2d graphics object
+	 */
 	public void debugRender()
 	{
 		Graphics g = null;

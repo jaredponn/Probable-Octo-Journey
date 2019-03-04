@@ -108,23 +108,42 @@ public class Animation
 		return this.accTimems;
 	}
 
+	/**
+	 * get the frame duration in ms
+	 * @param
+	 * @return      frameDuration
+	 */
 	public double getFrameDurationms()
 	{
 		return this.frameDurationms;
 	}
 
+
+	/**
+	 * returns a pointer to the currently focused image window
+	 * @return      focused window
+	 */
 	final public ImageWindow getImageWindow()
 	{
 		return this.focusedWindow;
 	}
 
+
+	/**
+	 * adds time to the acctime. The value should be positive
+	 * @param  xms duration of ms to increase it by
+	 * @return      void
+	 */
 	private void addToAccTime(double xms)
 	{
 		this.accTimems += xms;
 	}
 
-	// will reset the image window iff the current focus is outside of the
-	// max (exclusive)
+	/**
+	 * slides the image window. Will reset the window window iff the current
+	 * focus is outside of the max (exclusive)
+	 * @return      void
+	 */
 	private void slideImageWindow()
 	{
 		if (this.focusedWindow.getX() + xstride >= this.xmax
@@ -138,29 +157,58 @@ public class Animation
 		}
 	}
 
+
+	/**
+	 * gets the XStride
+	 * @return      xstride
+	 */
 	public int getXStride()
 	{
 		return this.xstride;
 	}
+
+	/**
+	 * gets the YStride
+	 * @return      ystride
+	 */
 	public int getYStride()
 	{
 
 		return this.ystride;
 	}
 
+
+	/**
+	 * gets the xmin
+	 * @return      xmin
+	 */
 	public int getXMin()
 	{
 		return this.xmin;
 	}
+
+	/**
+	 * gets the ymin
+	 * @return      ymin
+	 */
 	public int getYMin()
 	{
 		return this.ymin;
 	}
 
+	/**
+	 * gets the xmax
+	 * @return      xmax
+	 */
 	public int getXMax()
 	{
 		return this.xmax;
 	}
+
+	/**
+	 * gets the ymax
+	 * @return      ymax
+	 */
 	public int getYMax()
 	{
 		return this.ymax;
