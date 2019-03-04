@@ -51,19 +51,16 @@ public class GJK
 		return evl == EvolveResult.FOUND_INTERSECTION;
 	}
 
-	/*
-	public Optional<Double> timeOfPolygonCollision(final Polygon cola,
-						       final Vector2f dcola,
-						       final Polygon colb,
-						       final Vector2f dcolb)
-	{
-		// from the relative persepctive of a
-		Vector2f dv = dcolb.pureSubtract(dcola);
 
-		float ncolbpts[] = new float[cola.getSize() * 2];
-	}
-	*/
-
+	/**
+	 * Tests if things are colliding.
+	 *
+	 * @param  cola first static collision box
+	 * @param  colb second collision box that is moving with the delta
+	 *         specified with db
+	 * @param  db delta of the second collision box
+	 * @return      boolean to see if they are colliding
+	 */
 	public boolean areColliding(final Polygon cola, final Polygon colb,
 				    final Vector2f db)
 	{
@@ -111,6 +108,24 @@ public class GJK
 
 
 		return Optional.of((t + mint) / 2d);
+	}
+
+	// ensure there is a simplex from the previous state
+	public void epa(final CollisionShape cola, final CollisionShape colb)
+	{
+
+		while (true) {
+			// obtain the edge closestst to the origin in the
+			// minkowski difference
+			Edge e = closestEdge();
+
+			Vector2f p = support(cola, colb, e.normal());
+		}
+	}
+
+	public Edge closestEdge()
+	{
+		return new Edge();
 	}
 
 	private Polygon
@@ -202,15 +217,18 @@ public class GJK
 			    && Vector2f.dot(ao, abnorm)
 				       > 0) // upper voronoi region
 			{
+				// removes c, b
 				verticies.remove(0);
+				verticies.remove(0);
+
 				direction = ao;
 			} else if (Vector2f.dot(ao, acnorm) > 0) // outside ac
 			{
-				verticies.remove(0);
+				verticies.remove(1); // removes b
 				direction = acnorm;
-			} else if (Vector2f.dot(ao, abnorm) > 0) // outside ac
+			} else if (Vector2f.dot(ao, abnorm) > 0) // outside ab
 			{
-				verticies.remove(0);
+				verticies.remove(0); // removes c
 				direction = abnorm;
 			} else {
 				return EvolveResult.FOUND_INTERSECTION;
