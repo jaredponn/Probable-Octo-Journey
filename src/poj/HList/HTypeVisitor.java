@@ -1,7 +1,13 @@
 package poj.HList;
 
-// The type visitor idea was taken from:
-// https://sourcemaking.com/design_patterns/visitor/java/1
+/**
+ * HTypeVisitor -- a type visitor for the HList. Used to recover type
+ * information
+ * Date: February 10, 2019
+ * @author  Jared, and parts of the code from the following sources:
+ * https://sourcemaking.com/design_patterns/visitor/java/1
+ * @version      1.0
+ */
 public class HTypeVisitor implements HVisitor
 {
 
