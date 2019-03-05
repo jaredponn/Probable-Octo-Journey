@@ -1,5 +1,11 @@
 package poj.Render;
 
+/**
+ * ImageRenderObject -- an image that is rednerable on the screen.
+ * Date: February 20, 2019
+ * @version 1.0
+ * @author Jared
+ */
 import java.awt.image.*;
 import java.awt.Color;
 

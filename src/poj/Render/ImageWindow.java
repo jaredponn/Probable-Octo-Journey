@@ -1,5 +1,11 @@
 package poj.Render;
 
+/**
+ * ImageWindow - a "window" to view a partial point of the image
+ * Date: February 20, 2019
+ * @version 1.0
+ * @author Jared
+ */
 import java.awt.image.*;
 
 public class ImageWindow

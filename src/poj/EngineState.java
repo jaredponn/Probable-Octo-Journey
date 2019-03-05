@@ -1,7 +1,9 @@
 /**
  * Engine State -- holds the engine state and a stack to keep track of the free
- * entities. Date: February 20, 2019
- * @author  Alex, Jared, Haiyang, Romiro
+ * entities.
+ * Date: February 20, 2019
+ * @author  Jared, and parts of the code were from:
+ * https://jaredponn.github.io/posts/2018-11-14-A-Better-Entity-Component-System-Part-1.html
  * @version  1.00
  */
 

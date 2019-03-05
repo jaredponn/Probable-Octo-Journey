@@ -1,9 +1,17 @@
 package poj.Render;
 
+/**
+ * MinYFirstSortedRenderObjectBuffer -- a priority queue to sort the insertions
+ * of render bojects so the lower part of the screen gets rendered first.
+ * Date: February 20, 2019
+ * @version 1.0
+ * @author Jared and code from:
+ * https://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html
+ */
+
 import java.util.PriorityQueue;
 import java.util.Comparator;
 
-// docs: https://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html
 
 class RenderObjectComparator implements Comparator<RenderObject>
 {

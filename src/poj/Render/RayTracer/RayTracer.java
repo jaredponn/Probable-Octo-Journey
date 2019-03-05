@@ -1,5 +1,13 @@
 package poj.Render.RayTracer;
 
+/**
+ * RayTracer for the raytracer -- LONG DEPRECATED MORE OR A LESS A TOY THAT WE
+ * STARTED WITH Date: February 10, 2019
+ * @author
+ * http://www.realtimerendering.com/raytracing/Ray%20Tracing%20in%20a%20Weekend.pdf
+ * @version      1.0
+ */
+
 import poj.linear.*;
 import poj.Logger.*;
 

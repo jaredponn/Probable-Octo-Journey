@@ -1,5 +1,12 @@
 package poj.Logger;
 
+/**
+ * Logger -- wrapper around Java's IO system for logging.
+ * Date: February 20, 2019
+ * @author: Jared
+ * @version: 1.0
+ */
+
 class LOG_LEVEL_CAST
 {
 	/**
@@ -86,4 +93,3 @@ public class Logger
 		lassert(true, str);
 	}
 }
-

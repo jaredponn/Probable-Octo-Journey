@@ -3,7 +3,10 @@ package poj.GameWindow;
 import java.awt.*;
 
 /**
- * POD data type to contain all the graphics related contexts
+ * GraphicsContext -- POD data type to contain all the graphics related
+ * contexts. Date: February 20, 2019
+ * @author  Jared
+ * @version  1.0
  */
 public class GraphicsContext
 {

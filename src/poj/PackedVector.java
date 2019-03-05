@@ -1,9 +1,17 @@
 package poj;
+
+/**
+ * Packed Vector data structure. O(1) insertion and deletion of indicies with
+ * pop and swap.
+ * Date: February 20, 2019
+ * @author  Haiyang He and constributions from:
+ https://github.com/jaredponn/improved-octo-waffle/blob/master/src/packedvector.h
+ * @version 1.0
+ */
 import java.util.ArrayList;
 import java.util.Collections;
 
 import poj.Logger.*;
-
 
 public class PackedVector<T>
 {

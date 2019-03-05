@@ -1,5 +1,15 @@
 package poj.GameWindow;
 
+/**
+ * GameWindow -- the window for the game
+ * Date: February 20, 2019
+ * @author  Jared and parts of the code were taken from:
+ * https://examples.javacodegeeks.com/desktop-java/swing/jframe/java-jframe-example/
+ * https://javatutorial.net/swing-jframe-basics-create-jframe
+ * https://www.javatpoint.com/java-awt-canvas
+ * @version  1.0
+ */
+
 import javax.swing.JFrame;
 
 public class GameWindow extends JFrame

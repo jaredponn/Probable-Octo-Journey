@@ -1,9 +1,17 @@
 package poj;
 
+/**
+ * Pair -- implementation of a generic Pair type.
+ * Date: February 10, 2019
+ * @author  Jared, Haiyang
+ * @version      1.0
+ */
+
 public class Pair<T, U>
 {
 	public T fst;
 	public U snd;
+
 	/**
 	 * Constructor
 	 * @param  t fst
@@ -33,6 +41,12 @@ public class Pair<T, U>
 		return snd;
 	}
 
+	/**
+	 * sets the pair
+	 * @param newT -- new T value
+	 * @param newU -- new U value
+	 * @return  snd
+	 */
 	public void setPair(T newT, U newU)
 	{
 		this.fst = newT;

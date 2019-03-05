@@ -1,7 +1,5 @@
 package poj.HList;
 
-import poj.HList.HCons;
-
 /**
  * HList -- implementation of a list that takes different types.
  * Date: February 10, 2019
@@ -10,6 +8,9 @@ import poj.HList.HCons;
  * Sandy Macgire *Thinking with Types*
  * @version      1.0
  */
+
+import poj.HList.HCons;
+
 public abstract class HList<T extends HList<T>>
 {
 
