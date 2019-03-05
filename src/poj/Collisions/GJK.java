@@ -1,15 +1,19 @@
+/**
+ * GJK -- implementation of the GJK algorthim
+ * Date: February 28, 2019
+ * @author  Jared Pon and code was borrowed / inspired by following various
+ * links: https://caseymuratori.com/blog_0003
+ * http://www.dyn4j.org/2010/04/gjk-gilbert-johnson-keerthi/
+ * https://blog.hamaluik.ca/posts/building-a-collision-engine-part-1-2d-gjk-collision-detection/
+ * https://github.com/hamaluik/headbutt/blob/3985a0a39c77a9539fad2383c84f5d448b4e87ae/src/headbutt/twod/Headbutt.hx
+ * @version  1.00
+ */
 package poj.Collisions;
 
 import poj.linear.*;
 import java.util.ArrayList;
 import poj.Logger.*;
 import java.util.Optional;
-
-// Algorthim from various authors:
-// https://caseymuratori.com/blog_0003
-// http://www.dyn4j.org/2010/04/gjk-gilbert-johnson-keerthi/
-// https://blog.hamaluik.ca/posts/building-a-collision-engine-part-1-2d-gjk-collision-detection/
-// https://github.com/hamaluik/headbutt/blob/3985a0a39c77a9539fad2383c84f5d448b4e87ae/src/headbutt/twod/Headbutt.hx
 
 public class GJK
 {
@@ -181,7 +185,6 @@ public class GJK
 		}
 
 		case 2: {
-
 			// verticies: [b, a]
 			Vector2f a = verticies.get(1); // point just added
 			Vector2f b = verticies.get(0);
