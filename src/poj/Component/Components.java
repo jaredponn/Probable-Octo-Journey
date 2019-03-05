@@ -1,4 +1,11 @@
 package poj.Component;
+/**
+ * Components -- wrapper around ComponentsArray to provide more high level /
+ * easier iteration through components.
+ * Date: February 20, 2019
+ * @author  Jared
+ * @version  1.00
+ */
 
 import poj.EntitySet.EntitySet;
 import poj.Component.Component;

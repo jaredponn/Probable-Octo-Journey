@@ -1,11 +1,17 @@
 package poj.Component;
 
+/**
+ * ComponentsArray -- a way to get components (packed vector) by their type.
+ * Date: February 20, 2019
+ * @author  Jared, and parts of the code were from:
+ * https://gerardnico.com/code/design_pattern/typesafe_heterogeneous_container
+ * @version  1.00
+ */
 import poj.PackedVector;
 import poj.Component.Component;
 import poj.Logger.Logger;
 
 import java.util.HashMap;
-
 public class ComponentsArray
 {
 	private HashMap<Class<? extends Component>,
