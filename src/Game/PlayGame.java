@@ -134,10 +134,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(MovementDirection.class);
 		super.engineState.registerComponent(FacingDirection.class);
 		super.engineState.registerComponent(Movement.class);
-		super.engineState.registerComponent(CollisionAabbBodies.class);
-		super.engineState.registerComponent(AabbCollisionBody.class);
 		super.engineState.registerComponent(PCollisionBody.class);
-		super.engineState.registerComponent(CircleCollisionBody.class);
 		super.engineState.registerComponent(Lifespan.class);
 		super.engineState.registerComponent(HitPoints.class);
 	}
@@ -194,16 +191,14 @@ public class PlayGame extends World
 		// Timed despawners
 		this.cashDropDespawner();
 		this.bulletDespawner();
-		
+
 		// detect bullet hits
 		// TODO: use actual collision detection for this
 		// TODO: currently just despawns bullet, does not do damage
-		for (int i = this.engineState.getInitialSetIndex(
-			     Bullet.class);
+		for (int i = this.engineState.getInitialSetIndex(Bullet.class);
 		     this.engineState.isValidEntity(i);
-		     i = this.engineState.getNextSetIndex(Bullet.class,
-							  i)) {
-				this.findBulletHits(i);
+		     i = this.engineState.getNextSetIndex(Bullet.class, i)) {
+			this.findBulletHits(i);
 		}
 
 		// TODO: make mobs drop cash on death?
@@ -691,23 +686,28 @@ public class PlayGame extends World
 		this.cashDisplay.setStr("Your Cash: $" + this.cash);
 	}
 
-	/** spawns a new mob entity if it has been at least 
-	 * MOB_SPAWN_TIMER seconds since the last spawn  */
+	/**
+	 * spawns a new mob entity if it has been at least
+	 * MOB_SPAWN_TIMER seconds since the last spawn
+	 */
 	private void mobSpawner()
 	{
 		double currentPlayTime = this.getPlayTime();
 		if (currentPlayTime - this.timeOfLastMobSpawn
 		    > GameConfig.MOB_SPAWN_TIMER) {
 			super.engineState.spawnEntitySet(new MobSet());
-			super.engineState.spawnEntitySet(new MobSet( GameConfig.MOB_SPAWNER_1  ));
+			super.engineState.spawnEntitySet(
+				new MobSet(GameConfig.MOB_SPAWNER_1));
 			this.timeOfLastMobSpawn = currentPlayTime;
 			System.out.println("Spawning new mob at time: "
 					   + this.timeOfLastMobSpawn);
 		}
 	}
 
-	/** spawns a new cash pick-up at a location
-	 * @param timed: only spawn if PICKUP_CASH_SPAWN_TIME seconds have passed since last spawn
+	/**
+	 * spawns a new cash pick-up at a location
+	 * @param timed: only spawn if PICKUP_CASH_SPAWN_TIME seconds have
+	 *         passed since last spawn
 	 * @param x: x-coordinate to spawn the drop at
 	 * @param y: y-coordinate to spawn the drop at
 	 *   */
@@ -729,8 +729,10 @@ public class PlayGame extends World
 		}
 	}
 
-	/** deletes cash drops older than the lifespan  
-	 * prevents drops that have not been collected from piling up*/
+	/**
+	 * deletes cash drops older than the lifespan
+	 * prevents drops that have not been collected from piling up
+	 */
 	private void cashDropDespawner()
 	{
 		for (int i = this.engineState.getInitialSetIndex(
@@ -843,20 +845,18 @@ public class PlayGame extends World
 	 * the bullet
 	 * @param bullet to check for hit
 	 */
-	private void findBulletHits( int bullet ) {
+	private void findBulletHits(int bullet)
+	{
 		// TODO: delete bullets that collide with a wall
 		Vector2f bulletPosition =
-				engineState
-					.getComponentAt(WorldAttributes.class,
-							bullet)
-					.getCenteredBottomQuarter();
-		
+			engineState
+				.getComponentAt(WorldAttributes.class, bullet)
+				.getCenteredBottomQuarter();
+
 		// check against all mobs
-		for (int i = this.engineState.getInitialSetIndex(
-			     MobSet.class);
+		for (int i = this.engineState.getInitialSetIndex(MobSet.class);
 		     this.engineState.isValidEntity(i);
-		     i = this.engineState.getNextSetIndex(MobSet.class,
-							  i)) {
+		     i = this.engineState.getNextSetIndex(MobSet.class, i)) {
 
 			Vector2f mobPosition =
 				engineState
@@ -866,38 +866,50 @@ public class PlayGame extends World
 
 			// check if bullet and mob are at same position
 			if ((int)bulletPosition.x == (int)mobPosition.x
-			    && (int)bulletPosition.y
-				       == (int)mobPosition.y) {
+			    && (int)bulletPosition.y == (int)mobPosition.y) {
 				System.out.println("A bullet hit a mob!");
-				engineState.getComponentAt(HitPoints.class, i).hurt(GameConfig.BULLET_DAMAGE);
-				
+				engineState.getComponentAt(HitPoints.class, i)
+					.hurt(GameConfig.BULLET_DAMAGE);
+
 				// kill mob if its health is at or below 0
-				if (engineState.getComponentAt(HitPoints.class, i).getHP() <= 0) {
-					engineState.deleteComponentAt(MobSet.class, i);
-					engineState.deleteComponentAt(Render.class, i);
-					engineState.deleteComponentAt(WorldAttributes.class, i);
-					engineState.deleteComponentAt(HasAnimation.class, i);
-					engineState.deleteComponentAt(Movement.class, i);
-					engineState.deleteComponentAt(MovementDirection.class, i);
-					engineState.deleteComponentAt(FacingDirection.class, i);
-					engineState.deleteComponentAt(PCollisionBody.class, i);
-					engineState.deleteComponentAt(HitPoints.class, i);
+				if (engineState
+					    .getComponentAt(HitPoints.class, i)
+					    .getHP()
+				    <= 0) {
+					engineState.deleteComponentAt(
+						MobSet.class, i);
+					engineState.deleteComponentAt(
+						Render.class, i);
+					engineState.deleteComponentAt(
+						WorldAttributes.class, i);
+					engineState.deleteComponentAt(
+						HasAnimation.class, i);
+					engineState.deleteComponentAt(
+						Movement.class, i);
+					engineState.deleteComponentAt(
+						MovementDirection.class, i);
+					engineState.deleteComponentAt(
+						FacingDirection.class, i);
+					engineState.deleteComponentAt(
+						PCollisionBody.class, i);
+					engineState.deleteComponentAt(
+						HitPoints.class, i);
 					engineState.markIndexAsFree(i);
 				}
 				// remove bullet
+				this.engineState.deleteComponentAt(Bullet.class,
+								   bullet);
+				this.engineState.deleteComponentAt(Render.class,
+								   bullet);
 				this.engineState.deleteComponentAt(
-						Bullet.class, bullet);
+					WorldAttributes.class, bullet);
 				this.engineState.deleteComponentAt(
-						Render.class, bullet);
+					Movement.class, bullet);
 				this.engineState.deleteComponentAt(
-						WorldAttributes.class, bullet);
-				this.engineState.deleteComponentAt(
-						Movement.class, bullet);
-				this.engineState.deleteComponentAt(
-						Lifespan.class, bullet);
+					Lifespan.class, bullet);
 				this.engineState.markIndexAsFree(bullet);
 			}
-		} 
+		}
 	}
 	// /ASE
 }
