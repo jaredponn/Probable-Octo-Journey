@@ -1,7 +1,12 @@
 package poj.GameWindow;
+/**
+ * GameCanvas -- a canvas to draw stuff on the game.
+ * Date: February 20, 2019
+ * @author  Jared
+ * @version  1.0
+ */
 
 import java.awt.*;
-
 
 public class GameCanvas extends Canvas
 {
@@ -9,7 +14,6 @@ public class GameCanvas extends Canvas
 	static final long serialVersionUID = 0;
 	private int width;
 	private int height;
-
 
 	/**
 	 * Constructuct's the game window

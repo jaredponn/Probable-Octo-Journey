@@ -4,7 +4,12 @@ import poj.Component.Component;
 
 
 /**
- * Please see src/EntitySets/ExamplePlayerSet.java for a usage example.
+ * EntitySet -- a way to contain an entity set for easy insertion of new
+ * entities in the game engine. Please see src/EntitySets/ExamplePlayerSet.java
+ * for a usage example.
+ * Date: February 20, 2019
+ * @author Jared
+ * @version 1.0
  */
 public class EntitySet implements Component
 {

@@ -1,5 +1,12 @@
 package poj.Time;
 
+/**
+ *  Timer -- a way to get the time.
+ * Date: February 20, 2019
+ * @author      Jared
+ * @version      1.0
+ */
+
 public class Timer
 {
 	private Timer()

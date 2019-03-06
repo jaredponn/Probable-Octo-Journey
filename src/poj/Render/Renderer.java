@@ -1,5 +1,15 @@
 package poj.Render;
 
+/**
+ * Renderer -- a way to render render objects (simliar to SDL's renderer).
+ * Date: February 20, 2019
+ * @version 1.0
+ * @author Jared and code from:
+ * https://docs.oracle.com/javase/7/docs/api/java/awt/image/BufferStrategy.html
+ * https://docs.oracle.com/javase/tutorial/extra/fullscreen/bufferstrategy.html
+ * https://www.gamedev.net/articles/programming/general-and-gameplay-programming/java-games-active-rendering-r2418/
+ */
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -15,10 +25,6 @@ import poj.GameWindow.GraphicsContext;
 import poj.Logger.LogLevels;
 import poj.Logger.Logger;
 
-// Most of the code here was driven by the following articles:
-// https://docs.oracle.com/javase/7/docs/api/java/awt/image/BufferStrategy.html
-// https://docs.oracle.com/javase/tutorial/extra/fullscreen/bufferstrategy.html
-// https://www.gamedev.net/articles/programming/general-and-gameplay-programming/java-games-active-rendering-r2418/
 
 public class Renderer
 {
@@ -252,7 +258,7 @@ public class Renderer
 	}
 
 	/**
-	 * Debug renderer --- DEPRECTATED
+	 * Debug renderer --- DEPRECATED
 	 * @param n stringrenderobject
 	 * @param g2d graphics object
 	 */

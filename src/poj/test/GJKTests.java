@@ -3,6 +3,7 @@ package poj.test;
 import poj.linear.Vector2f;
 import poj.Collisions.*;
 import org.junit.Test;
+import java.util.Optional;
 import static org.junit.Assert.*;
 
 public class GJKTests
@@ -189,6 +190,47 @@ public class GJKTests
 			assertFalse(gjk.areColliding(r2, r1));
 		}
 	}
+
+	@Test public void pointsWithinTest()
+	{
+		{
+
+			Polygon r1 = new Polygon(
+				new Vector2f(0, 1), new Vector2f(0, 0),
+				new Vector2f(0.5f, 1), new Vector2f(0.5f, 0),
+				new Vector2f(1, 1), new Vector2f(1, 0));
+
+
+			Polygon r2 = new Polygon(
+				new Vector2f(1, 1), new Vector2f(1, 0),
+				new Vector2f(2, 1), new Vector2f(2, 0));
+
+			GJK gjk = new GJK();
+
+			assertTrue(gjk.areColliding(r1, r2));
+			gjk.clearVerticies();
+			assertTrue(gjk.areColliding(r2, r1));
+		}
+
+		{
+
+			Polygon r1 = new Polygon(
+				new Vector2f(0, 1), new Vector2f(0, 0),
+				new Vector2f(0.5f, 1), new Vector2f(0.5f, 0),
+				new Vector2f(1, 1), new Vector2f(1, 0));
+
+
+			Polygon r2 = new Polygon(
+				new Vector2f(2, 1), new Vector2f(2, 0),
+				new Vector2f(3, 1), new Vector2f(3, 0));
+
+			GJK gjk = new GJK();
+
+			assertFalse(gjk.areColliding(r1, r2));
+			gjk.clearVerticies();
+			assertFalse(gjk.areColliding(r2, r1));
+		}
+	}
 	@Test public void fancyShape()
 	{
 
@@ -276,7 +318,29 @@ public class GJKTests
 		}
 	}
 
-	@Test public void timeOfPolygonCollisionTest()
+	@Test public void timeOfPolygonCollisionTrue()
+	{ // oops this is objectively wrong
+		Polygon r1 =
+			new Polygon(new Vector2f(0, 1), new Vector2f(0, 0),
+				    new Vector2f(1, 1), new Vector2f(1, 0));
+
+		Polygon r2 =
+			new Polygon(new Vector2f(1, 1), new Vector2f(1, 0),
+				    new Vector2f(2, 1), new Vector2f(2, 0));
+
+		Vector2f d = new Vector2f(1, 0);
+
+
+		GJK gjk = new GJK();
+
+		gjk.clearVerticies();
+		assertEquals(0d, gjk.timeOfPolygonCollision(r1, r2, d).get(),
+			     0.0001d);
+
+		System.out.println(gjk.timeOfPolygonCollision(r1, r2, d).get());
+	}
+
+	@Test public void assortedTimeOfPolygonCollisionTest()
 	{
 
 		{
@@ -285,22 +349,26 @@ public class GJKTests
 				new Vector2f(1, 1), new Vector2f(1, 0));
 
 			Polygon r2 = new Polygon(
-				new Vector2f(1, 1), new Vector2f(1, 0),
-				new Vector2f(2, 1), new Vector2f(2, 0));
+				new Vector2f(10f, 1), new Vector2f(10f, 0),
+				new Vector2f(11f, 1), new Vector2f(11, 0));
 
-			Vector2f d = new Vector2f(1, 0);
 
+			Vector2f d = new Vector2f(1000f, 0.1f);
 
 			GJK gjk = new GJK();
 
 			gjk.clearVerticies();
-			assertEquals(
-				1d, gjk.timeOfPolygonCollision(r1, r2, d).get(),
-				0.0001d);
 
-			System.out.println(
-				gjk.timeOfPolygonCollision(r1, r2, d).get());
+			Optional<Double> tmp =
+				gjk.timeOfPolygonCollision(r2, r1, d);
+			assertTrue(gjk.timeOfPolygonCollision(r2, r1, d)
+					   .isPresent());
+			System.out.println("to tmp " + tmp.get());
 		}
+	}
+
+	@Test public void extraCollisionTimeTests()
+	{
 
 		{
 			Polygon r1 = new Polygon(
@@ -308,40 +376,20 @@ public class GJKTests
 				new Vector2f(1, 1), new Vector2f(1, 0));
 
 			Polygon r2 = new Polygon(
-				new Vector2f(0, 2), new Vector2f(0, 1),
-				new Vector2f(1, 2), new Vector2f(1, 1));
-
-			Vector2f d = new Vector2f(0, 1);
+				new Vector2f(0.5f, 1), new Vector2f(0.5f, 0),
+				new Vector2f(1.5f, 1), new Vector2f(1.5f, 0));
 
 
-			GJK gjk = new GJK();
-
-			gjk.clearVerticies();
-			assertEquals(
-				1d, gjk.timeOfPolygonCollision(r1, r2, d).get(),
-				0.0001d);
-
-			System.out.println(
-				gjk.timeOfPolygonCollision(r1, r2, d).get());
-		}
-
-		{
-			Polygon r1 = new Polygon(
-				new Vector2f(0, 1), new Vector2f(0, 0),
-				new Vector2f(1, 1), new Vector2f(1, 0));
-
-			Polygon r2 = new Polygon(
-				new Vector2f(0, 3), new Vector2f(0, 2),
-				new Vector2f(1, 3), new Vector2f(1, 2));
-
-			Vector2f d = new Vector2f(0, 1);
+			Vector2f d = new Vector2f(1f, 0);
 
 
 			GJK gjk = new GJK();
 
 			gjk.clearVerticies();
-			assertTrue(!gjk.timeOfPolygonCollision(r1, r2, d)
-					    .isPresent());
+
+			Optional<Double> tmp =
+				gjk.timeOfPolygonCollision(r1, r2, d);
+			System.out.println("to tmp " + tmp.get());
 		}
 	}
 }

@@ -1,3 +1,12 @@
+/**
+ * Engine State -- holds the engine state and a stack to keep track of the free
+ * entities.
+ * Date: February 20, 2019
+ * @author  Jared, and parts of the code were from:
+ * https://jaredponn.github.io/posts/2018-11-14-A-Better-Entity-Component-System-Part-1.html
+ * @version  1.00
+ */
+
 package poj;
 
 import poj.EntitySet.*;
@@ -22,10 +31,7 @@ public class EngineState extends Components
 	/**
 	 * Constructs the engine with a specified amount of max entities
 	 *
-	 * @param  url  an absolute URL giving the base location of the image
-	 * @param  name the location of the image, relative to the url argument
-	 * @return      the image at the specified URL
-	 * @see         Image
+	 * @param  max_entities  max entity number
 	 */
 	public EngineState(int max_entities)
 	{

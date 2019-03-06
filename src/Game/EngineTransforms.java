@@ -337,171 +337,6 @@ public class EngineTransforms
 		}
 	}
 
-
-	public static void
-	updateCollisionAabbBoxBodiesTopLeftFromWorldAttributes(
-		EngineState engineState)
-	{
-
-		for (int i = engineState.getInitialComponentIndex(
-			     CollisionAabbBodies.class);
-		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(CollisionAabbBodies.class,
-						     i)) {
-			Systems.updateAabbCollisionBodiesTopLeftFromWorldAttributes(
-				engineState.getComponentAt(
-					CollisionAabbBodies.class, i),
-				engineState.getComponentAt(
-					WorldAttributes.class, i));
-		}
-	}
-
-	public static void
-	aabbCollisionBodiesResolve(EngineState engineState,
-				   Class<? extends Component> set0,
-				   Class<? extends Component> set1, double dt)
-	{
-		for (int i = engineState.getInitialSetIndex(set0);
-		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(set0, i)) {
-
-			final CollisionAabbBodies a =
-				engineState.getComponentAt(
-					CollisionAabbBodies.class, i);
-			Movement va =
-				engineState.getComponentAt(Movement.class, i);
-
-			for (int j = engineState.getInitialSetIndex(set1);
-			     Components.isValidEntity(j);
-			     j = engineState.getNextSetIndex(set1, j)) {
-
-				final CollisionAabbBodies b =
-					engineState.getComponentAt(
-						CollisionAabbBodies.class, j);
-				Movement vb = engineState.getComponentAt(
-					Movement.class, j);
-
-
-				final Optional<Double> tmp =
-					Systems.calcTimeForCollisionForAabbBodies(
-						a, b, va.getVelocity(),
-						vb.getVelocity());
-
-				if (tmp.isPresent()) {
-					double timestep;
-					if (tmp.get() == 0d) {
-						timestep = -dt;
-					} else {
-						timestep =
-							(tmp.get().doubleValue()
-							 - 0.01f)
-							/ dt;
-					}
-					va.getVelocity().mul((float)timestep);
-					vb.getVelocity().mul((float)timestep);
-					System.out.println("collisions?");
-					break;
-				}
-			}
-		}
-	}
-
-	public static void
-	aabbCollisionBodiesCheckCollision(EngineState engineState,
-					  Class<? extends Component> set0,
-					  Class<? extends Component> set1)
-	{
-		for (int i = engineState.getInitialSetIndex(set0);
-		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(set0, i)) {
-
-			final CollisionAabbBodies a =
-				engineState.getComponentAt(
-					CollisionAabbBodies.class, i);
-
-			for (int j = engineState.getInitialSetIndex(set1);
-			     Components.isValidEntity(j);
-			     j = engineState.getNextSetIndex(set1, j)) {
-
-				final CollisionAabbBodies b =
-					engineState.getComponentAt(
-						CollisionAabbBodies.class, j);
-				if (Systems.areAabbCollisionBodiesColliding(
-					    a, b)) {
-					System.out.println("Are colliding");
-					break;
-				}
-			}
-		}
-	}
-
-	public static void
-	debugAabbCollisionBodiesRender(EngineState engineState,
-				       Queue<RenderObject> q, final Camera cam)
-	{
-		for (int i = engineState.getInitialSetIndex(
-			     CollisionAabbBodies.class);
-		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(CollisionAabbBodies.class,
-						     i)) {
-			Systems.aabbCollisionBodiesDebugRender(
-				engineState.getComponentAt(
-					CollisionAabbBodies.class, i),
-				q, cam);
-		}
-	}
-
-	public static void
-	updateCircleCollisionFromWorldAttributes(EngineState engineState)
-	{
-		for (int i = engineState.getInitialSetIndex(
-			     CircleCollisionBody.class);
-		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(CircleCollisionBody.class,
-						     i)) {
-			Systems.updateCircleCollisionFromWorldAttributes(
-				engineState.getComponentAt(
-					CircleCollisionBody.class, i),
-				engineState.getComponentAt(
-					WorldAttributes.class, i));
-		}
-	}
-
-	public static void
-	updateAabbCollisionFromWorldAttributes(EngineState engineState)
-	{
-		for (int i = engineState.getInitialSetIndex(
-			     AabbCollisionBody.class);
-		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(AabbCollisionBody.class,
-						     i)) {
-			Systems.updateAabbCollisionBodyFromWorldAttributes(
-				engineState.getComponentAt(
-					AabbCollisionBody.class, i),
-				engineState.getComponentAt(
-					WorldAttributes.class, i));
-		}
-	}
-
-
-	public static void debugMapAabbCollisionRender(Map map, int layerNumber,
-						       Queue<RenderObject> q,
-						       final Camera cam)
-	{
-		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
-		for (int i = mapLayer.getInitialSetIndex(
-			     AabbCollisionBody.class);
-		     Components.isValidEntity(i);
-		     i = mapLayer.getNextSetIndex(AabbCollisionBody.class, i)) {
-
-			Systems.aabbCollisionBodyDebugRender(
-				mapLayer.getComponentAt(AabbCollisionBody.class,
-							i),
-				q, cam);
-		}
-	}
-
-
 	private static int TILE_MAP_RENDER_HELPER_SET_CAPACITY = 5000;
 	private static HashSet<Integer> tileMapRenderHelperSet =
 		new HashSet<Integer>(
@@ -618,17 +453,15 @@ public class EngineTransforms
 				     PCollisionBody.class)) {
 
 				Optional<Double> tmp =
-					Systems.arePCollisionBodiesColliding(
-						g, a, b, va);
+					Systems.pCollisionBodiesTimeOfCollision(
+						g, b, a, va, dt);
 
 				if (tmp.isPresent()) {
-					final double t = tmp.get();
+					final double t = tmp.get() - 0.3d;
 
 					final double rt = t / dt;
-					System.out.println(t + " t");
-					System.out.println(rt + " rt");
-
 					va.getVelocity().mul((float)rt);
+					va.getVelocity().log();
 
 					//	System.out.println(
 					//		a.getPolygon().toString());

@@ -3,7 +3,10 @@ package poj.EntitySet;
 import poj.Component.Component;
 
 /**
- * Wrapper for Java's run time rep of the types
+ * EntitySetType -- wrapper for Java's run time rep of the types. Should not be
+ * used externally. Date: February 20, 2019
+ * @author Jared
+ * @version 1.0
  */
 
 public class EntitySetType implements Component

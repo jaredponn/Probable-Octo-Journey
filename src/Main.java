@@ -1,3 +1,9 @@
+/**
+ * Main -- main class of the game.
+ * Date: February 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
 public class Main
 {
 	/**

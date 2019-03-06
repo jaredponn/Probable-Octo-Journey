@@ -1,5 +1,14 @@
 package poj.Render;
 
+/**
+ * ImageLoader -- loads an image from the the file system with the string as the
+ * filepath.
+ * Date: February 20, 2019
+ * @version 1.0
+ * @author Jared and code from:
+ * https://docs.oracle.com/javase/tutorial/2d/images/loadimage.html
+ */
+
 import poj.Logger.LogLevels;
 import poj.Logger.Logger;
 

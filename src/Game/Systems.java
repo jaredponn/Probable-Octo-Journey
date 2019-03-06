@@ -111,189 +111,6 @@ public class Systems
 		w.add(vel);
 	}
 
-
-	public static Optional<Double>
-	calcTimeForCollisionForAabbBodies(final CollisionAabbBodies a,
-					  final CollisionAabbBodies b,
-					  Vector2f va, Vector2f vb)
-	{
-		for (CollisionAabb i : a.getCollisionBodies()) {
-			for (CollisionAabb j : b.getCollisionBodies()) {
-				/* TODO -- remove
-				final Optional<Double> tmp =
-					CollisionAabb.intersectionTimeOfMoving(
-						i, j, va, vb);
-				if (tmp.isPresent()) {
-					return tmp;
-				}
-				*/
-			}
-		}
-		return Optional.empty();
-	}
-
-	public static boolean
-	areAabbCollisionBodiesColliding(final CollisionAabbBodies a,
-					final CollisionAabbBodies b)
-	{
-		for (CollisionAabb i : a.getCollisionBodies()) {
-			for (CollisionAabb j : b.getCollisionBodies()) {
-				if (CollisionAabb.isColliding(i, j)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	public static void updateAabbCollisionBodiesTopLeftFromWorldAttributes(
-		CollisionAabbBodies a, WorldAttributes w)
-	{
-		a.setCollisionBodyPositionFromTopLeft(
-			w.getBottomRightCoordFromOrigin());
-	}
-
-	public static void
-	aabbCollisionBodiesDebugRender(final CollisionAabbBodies c,
-				       Queue<RenderObject> q, final Camera cam)
-	{
-
-		ArrayList<CollisionAabb> arr = c.pureGetCollisionBodies();
-
-
-		for (int i = 0; i < arr.size(); ++i) {
-			final CollisionAabb cb = arr.get(i);
-			aabbCollisionBodyDebugRender(cb, q, cam);
-		}
-	}
-
-
-	public static void
-	updateAabbCollisionBodyFromWorldAttributes(AabbCollisionBody a,
-						   WorldAttributes w)
-	{
-		a.setCollisionAabbTopLeft(w.getBottomRightCoordFromOrigin());
-	}
-
-	public static void
-	aabbCollisionBodyDebugRender(final AabbCollisionBody c,
-				     Queue<RenderObject> q, final Camera cam)
-	{
-		aabbCollisionBodyDebugRender(c.getCollisionAabb(), q, cam);
-	}
-
-	private static void aabbCollisionBodyDebugRender(final CollisionAabb c,
-							 Queue<RenderObject> q,
-							 final Camera cam)
-	{
-
-		for (int j = 0; j < CollisionAabb.NUM_POINTS; ++j) {
-			Vector2f tmp =
-				c.pureGetPoints()[j].pureMatrixMultiply(cam);
-			q.add(new RenderRect((int)tmp.x, (int)tmp.y, 1, 1));
-		}
-
-		Vector2f smin = c.min().pureMatrixMultiply(cam);
-		q.add(new RenderRect((int)smin.x, (int)smin.y, 2, 2,
-				     Color.YELLOW));
-
-
-		Vector2f smax = c.max().pureMatrixMultiply(cam);
-		q.add(new RenderRect((int)smax.x, (int)smax.y, 2, 2,
-				     Color.pink));
-	}
-
-
-	public static void
-	updateCircleCollisionFromWorldAttributes(CircleCollisionBody c,
-						 final WorldAttributes w)
-	{
-		c.setCollisionCircleCenter(w.getOriginCoord());
-	}
-
-	public static boolean
-	areCollisionCirclesColliding(CircleCollisionBody a,
-				     CircleCollisionBody b)
-	{
-		return CollisionTests.areCirclesColliding(
-			a.getCollisionCircle(), b.getCollisionCircle());
-	}
-
-	public static boolean
-	areCollisionCirclesCollidingAgainstAabb(CircleCollisionBody a,
-						AabbCollisionBody b)
-	{
-		return CollisionTests.areCircleAndAabbColliding(
-			a.getCollisionCircle(), b.getCollisionAabb());
-	}
-
-	public static void
-	circleCollisionDebugRenderer(final CircleCollisionBody a,
-				     Queue<RenderObject> q, final Camera cam)
-	{
-
-		Circle cc = a.getCollisionCircle();
-		Vector2f center = cc.c();
-		Vector2f perimeters[] = new Vector2f[12];
-
-		for (int i = 0; i < 12; ++i) {
-			final float j = (float)i * (float)Math.PI / 4f;
-			perimeters[i] =
-				new Vector2f((float)(cc.r() * Math.cos(j)
-						     + center.x),
-					     (float)(cc.r() * Math.sin(j)
-						     + center.y))
-					.pureMatrixMultiply(cam);
-		}
-
-		Vector2f centerScreenCoord = center.pureMatrixMultiply(cam);
-
-		q.add(new RenderRect((int)centerScreenCoord.x,
-				     (int)centerScreenCoord.y, 2, 2,
-				     Color.YELLOW));
-		for (int i = 0; i < 12; ++i) {
-			q.add(new RenderRect((int)perimeters[i].x,
-					     (int)perimeters[i].y,
-
-					     2, 2, Color.RED));
-		}
-	}
-
-	// modifies the velocity of the Movement component of the Circle
-	// colllision body so that it never goes inside ofthe aabb collision
-	// body
-	public static void resolveCircleCollisionBodyWithAabbCollisionBody(
-		Movement m, final CircleCollisionBody s,
-		final AabbCollisionBody b, final double dt)
-	{
-		Circle cs = s.getCollisionCircle();
-		CollisionAabb cb = b.getCollisionAabb();
-		float dmag = m.getVelocity().mag();
-
-		if (Math.abs(dmag) <= 0.000001d)
-			return;
-
-		Vector2f d = m.getVelocity().pureMul(1f / dmag);
-
-		Optional<Double> tmp =
-			CollisionTests.intersectMovingCircleAabb(cs, d, cb);
-
-
-		if (tmp.isPresent()) {
-			double ttmp = (tmp.get() - 0.1d) / dt;
-			m.setVelocity(m.getVelocity().pureMul((float)ttmp));
-		}
-	}
-
-	public static void pushCircleCollisionBodyOutOfAabbCollisionBody(
-		WorldAttributes w, final CircleCollisionBody s,
-		final AabbCollisionBody b)
-	{
-		w.add(CollisionTests.circleAabbNormal(s.getCollisionCircle(),
-						      b.getCollisionAabb()));
-	}
-
-
 	public static boolean
 	arePCollisionBodiesColliding(GJK g, PCollisionBody a, PCollisionBody b)
 	{
@@ -301,13 +118,25 @@ public class Systems
 		return g.areColliding(a.getPolygon(), b.getPolygon());
 	}
 
+	// faster form of just determining if collisions are colliding
+	public static boolean arePCollisionBodiesColliding(GJK g,
+							   PCollisionBody a,
+							   PCollisionBody b,
+							   Movement dv)
+	{
+		g.clearVerticies();
+		return g.areColliding(a.getPolygon(), b.getPolygon(),
+				      dv.getVelocity());
+	}
+
 	public static Optional<Double>
-	arePCollisionBodiesColliding(GJK g, PCollisionBody a, PCollisionBody b,
-				     Movement dv)
+	pCollisionBodiesTimeOfCollision(GJK g, PCollisionBody a,
+					PCollisionBody b, Movement dv,
+					double dt)
 	{
 		g.clearVerticies();
 		return g.timeOfPolygonCollision(a.getPolygon(), b.getPolygon(),
-						dv.getVelocity());
+						dv.getDistanceDelta((float)dt));
 	}
 
 

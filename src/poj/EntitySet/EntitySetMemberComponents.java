@@ -3,7 +3,12 @@ import poj.HList.*;
 import poj.Component.*;
 
 /**
- * Abstraction like member variables to add them to the Components
+ * EntitySetMemberComponents -- abstraction like member variables for the
+ * Components. This class should not be used directly and should be accessed
+ * with the Entityset interface.
+ * Date: February 20, 2019
+ * @author Jared
+ * @version 1.0
  */
 public class EntitySetMemberComponents
 {

@@ -1,5 +1,11 @@
 package poj;
-
+/**
+ * Animation -- for maintaining the state of the image window upon an image.
+ * Date: February 10, 2019
+ * @author  Jared, and parts of the code from the following sources:
+ * https://jaredponn.github.io/posts/2018-06-07-Write-Me-A-FlappyBird-In-Haskell.html
+ * @version      1.0
+ */
 import poj.Render.ImageWindow;
 
 public class Animation

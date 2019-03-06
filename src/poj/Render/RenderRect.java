@@ -1,10 +1,13 @@
 package poj.Render;
+/**
+ * RenderRect -- a data type to render a rectangle. DEPRECATED
+ * Date: February 20, 2019
+ * @version 1.0
+ * @author Jared
+ */
 
 import java.awt.Color;
 import poj.linear.*;
-
-
-// DEPRECATED
 
 public class RenderRect extends RenderObject
 {

@@ -30,6 +30,11 @@ public class Movement implements Component
 		return this.vel;
 	}
 
+	public Vector2f getDistanceDelta(double dt)
+	{
+		return this.vel.pureMul((float)dt);
+	}
+
 	public void setVelocity(Vector2f n)
 	{
 		this.vel = n;

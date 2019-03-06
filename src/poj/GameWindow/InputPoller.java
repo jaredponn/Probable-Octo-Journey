@@ -1,5 +1,13 @@
 package poj.GameWindow;
 
+/**
+ * InputPoller  -- a way to poll the input events.
+ * Date: February 20, 2019
+ * @author  Jared and code from:
+ * https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html
+ * @version  1.0
+ */
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -11,13 +19,14 @@ import java.awt.event.MouseWheelEvent;
 
 import poj.linear.Vector2f;
 
-// https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html
-
 public class InputPoller implements KeyListener, MouseListener,
 				    MouseMotionListener, MouseWheelListener
 {
 
-	// for some reason KeyEvent.KEY_LAST isn't really the last key.
+	// for some reason KeyEvent.KEY_LAST isn't really the last key and this
+	// constant seems to work well. This constant is from this StackOverflow
+	// post:
+	// https://stackoverflow.com/questions/31357664/java-get-maximum-keyid-from-keyevent
 	public static int MAX_KEY = 65535;
 
 	private boolean[] key_input_buffer;

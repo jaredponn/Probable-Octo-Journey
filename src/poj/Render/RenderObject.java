@@ -1,5 +1,12 @@
 package poj.Render;
 
+/**
+ * RenderObject -- Generic object for the Renderer
+ * Date: February 20, 2019
+ * @version 1.0
+ * @author Jared
+ */
+
 import poj.linear.Vector2f;
 
 public class RenderObject

@@ -1,15 +1,19 @@
+/**
+ * GJK -- implementation of the GJK algorthim
+ * Date: February 28, 2019
+ * @author  Jared Pon and code was borrowed / inspired by following various
+ * links: https://caseymuratori.com/blog_0003
+ * http://www.dyn4j.org/2010/04/gjk-gilbert-johnson-keerthi/
+ * https://blog.hamaluik.ca/posts/building-a-collision-engine-part-1-2d-gjk-collision-detection/
+ * https://github.com/hamaluik/headbutt/blob/3985a0a39c77a9539fad2383c84f5d448b4e87ae/src/headbutt/twod/Headbutt.hx
+ * @version  1.00
+ */
 package poj.Collisions;
 
 import poj.linear.*;
 import java.util.ArrayList;
 import poj.Logger.*;
 import java.util.Optional;
-
-// Algorthim from various authors:
-// https://caseymuratori.com/blog_0003
-// http://www.dyn4j.org/2010/04/gjk-gilbert-johnson-keerthi/
-// https://blog.hamaluik.ca/posts/building-a-collision-engine-part-1-2d-gjk-collision-detection/
-// https://github.com/hamaluik/headbutt/blob/3985a0a39c77a9539fad2383c84f5d448b4e87ae/src/headbutt/twod/Headbutt.hx
 
 public class GJK
 {
@@ -51,18 +55,26 @@ public class GJK
 		return evl == EvolveResult.FOUND_INTERSECTION;
 	}
 
-	/*
-	public Optional<Double> timeOfPolygonCollision(final Polygon cola,
-						       final Vector2f dcola,
-						       final Polygon colb,
-						       final Vector2f dcolb)
-	{
-		// from the relative persepctive of a
-		Vector2f dv = dcolb.pureSubtract(dcola);
 
-		float ncolbpts[] = new float[cola.getSize() * 2];
+	/**
+	 * Tests if things are colliding.
+	 *
+	 * @param  cola first static collision box
+	 * @param  colb second collision box that is moving with the delta
+	 *         specified with db
+	 * @param  db delta of the second collision box
+	 * @return      boolean to see if they are colliding
+	 */
+	public boolean areColliding(final Polygon cola, final Polygon colb,
+				    final Vector2f db)
+	{
+		final Polygon p =
+			generateStretchedPolygonWithDirectionVector(colb, db);
+
+		this.clearVerticies();
+
+		return this.areColliding(cola, p);
 	}
-	*/
 
 	// where a is stationary
 	private static int TIME_OF_COLLISION_RESOLUTION = 15;
@@ -74,40 +86,50 @@ public class GJK
 		float t = 0.5f;		 // middle t
 		float maxt = 1f;	 // max t
 
-		// first case where we go the entire distance of the  deltaof b
-		{
-			final Vector2f d = db.pureMul(maxt);
-			final Polygon p =
-				generateStretchedPolygonWithDirectionVector(
-					colb, d);
-
-			this.clearVerticies();
-
-			if (!this.areColliding(cola,
-					       p)) //  there was no collision
-				return Optional.empty();
+		// first case where we go the entire distance of the
+		// deltaof b
+		if (!this.areColliding(cola, colb, db)) {
+			return Optional.empty();
 		}
 
 		for (int i = 0; i < TIME_OF_COLLISION_RESOLUTION; ++i) {
 			t = (mint + maxt) / 2f;
-
 			final Vector2f d = db.pureMul(t);
+
 			final Polygon p =
 				generateStretchedPolygonWithDirectionVector(
 					colb, d);
 
 			this.clearVerticies();
-
-			if (this.areColliding(cola,
-					      p)) //  there was no collision
-			{
-				mint = t;
-			} else {
-
+			if (this.areColliding(cola, p)) {
 				maxt = t;
+
+
+			} else {
+				mint = t;
 			}
 		}
-		return Optional.of((double)t / mint);
+
+
+		return Optional.of((t + mint) / 2d);
+	}
+
+	// ensure there is a simplex from the previous state
+	public void epa(final CollisionShape cola, final CollisionShape colb)
+	{
+
+		while (true) {
+			// obtain the edge closestst to the origin in the
+			// minkowski difference
+			Edge e = closestEdge();
+
+			Vector2f p = support(cola, colb, e.normal());
+		}
+	}
+
+	public Edge closestEdge()
+	{
+		return new Edge();
 	}
 
 	private Polygon
@@ -123,7 +145,6 @@ public class GJK
 		for (int i = p.size(); i < 2 * p.size(); ++i) {
 			npts[i] = (p.pts()[i - p.size()]).pureAdd(d);
 		}
-
 		Polygon np = new Polygon();
 		np.size = p.size() * 2;
 		np.pts = npts;
@@ -164,7 +185,6 @@ public class GJK
 		}
 
 		case 2: {
-
 			// verticies: [b, a]
 			Vector2f a = verticies.get(1); // point just added
 			Vector2f b = verticies.get(0);
@@ -173,7 +193,8 @@ public class GJK
 			Vector2f ao = a.pureNegate();
 
 			direction = Vector2f.pureTripleProduct(
-				ab, ao, ab); // perpendicular vector to ab
+				ab, ao,
+				ab); // perpendicular vector to ab
 
 			break;
 		}
@@ -199,15 +220,18 @@ public class GJK
 			    && Vector2f.dot(ao, abnorm)
 				       > 0) // upper voronoi region
 			{
+				// removes c, b
 				verticies.remove(0);
+				verticies.remove(0);
+
 				direction = ao;
 			} else if (Vector2f.dot(ao, acnorm) > 0) // outside ac
 			{
-				verticies.remove(0);
+				verticies.remove(1); // removes b
 				direction = acnorm;
-			} else if (Vector2f.dot(ao, abnorm) > 0) // outside ac
+			} else if (Vector2f.dot(ao, abnorm) > 0) // outside ab
 			{
-				verticies.remove(0);
+				verticies.remove(0); // removes c
 				direction = abnorm;
 			} else {
 				return EvolveResult.FOUND_INTERSECTION;

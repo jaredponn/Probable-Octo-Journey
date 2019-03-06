@@ -1,5 +1,12 @@
 package poj.Render;
 
+/**
+ * StringRenderObject -- a data type to render a string to the screen.
+ * Date: February 20, 2019
+ * @version 1.0
+ * @author Jared
+ */
+
 import java.awt.*;
 
 public class StringRenderObject extends RenderObject
