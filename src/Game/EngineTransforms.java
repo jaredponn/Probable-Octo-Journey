@@ -588,6 +588,10 @@ public class EngineTransforms
 									 b)) {
 					System.out.println(
 						"PCOllision detected");
+					if (set1 instanceof TurretSet) {
+						System.out.println(
+							"Collision with turrets detected");
+					}
 					break;
 				}
 			}

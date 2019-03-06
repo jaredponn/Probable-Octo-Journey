@@ -94,7 +94,6 @@ public class PlayGame extends World
 			coolDownMax.set(GameConfig.COOL_DOWN_KEYS.get(i).fst,
 					GameConfig.COOL_DOWN_KEYS.get(i).snd);
 		}
-		// lastCoolDown.set(GameConfig.BUILD_TOWER, 0d);
 		// this.map.addMapConfig(GameResources.pathFindTest1Config);
 		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
 
@@ -224,6 +223,11 @@ public class PlayGame extends World
 			this.engineState, this.debugBuffer, this.cam);
 		// EngineTransforms.arePCollisionBodiesColliding(this.engineState,
 		// this.gjk, PlayerSet.class,MobSet.class);
+
+		// testing collision with turrets
+		EngineTransforms.arePCollisionBodiesColliding(
+			this.engineState, this.gjk, MobSet.class,
+			TurretSet.class);
 
 		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
 			EngineTransforms.debugRenderPolygons(
@@ -446,6 +450,8 @@ public class PlayGame extends World
 			if (Math.abs(lastCoolDown.get(GameConfig.BUILD_TOWER))
 				    == 0d
 			    && this.cash >= GameConfig.TOWER_BUILD_COST) {
+				// player position is also the top left of the
+				// polygon !
 				Vector2f playerPosition =
 					super.getComponentAt(
 						     WorldAttributes.class,
