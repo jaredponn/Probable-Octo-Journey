@@ -2,12 +2,18 @@ package Game;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
-import Components.*;
+import Components.CardinalDirections;
+import Components.FacingDirection;
+import Components.HasAnimation;
+import Components.HitPoints;
+import Components.Lifespan;
+import Components.Movement;
+import Components.MovementDirection;
+import Components.PCollisionBody;
+import Components.Render;
+import Components.WorldAttributes;
 import EntitySets.Bullet;
 import EntitySets.CollectibleSet;
 import EntitySets.ConstructSet;
@@ -20,12 +26,13 @@ import Resources.GameResources;
 import TileMap.Map;
 import TileMap.MapLayer;
 
+import poj.Pair;
+import poj.Collisions.GJK;
+import poj.Logger.Logger;
 import poj.Render.MinYFirstSortedRenderObjectBuffer;
 import poj.Render.RenderObject;
 import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
-import poj.Collisions.*;
-import poj.Logger.*;
 
 public class PlayGame extends World
 {
@@ -66,6 +73,13 @@ public class PlayGame extends World
 		new StringRenderObject("", 5, 10, Color.WHITE);
 	private StringRenderObject cashDisplay = new StringRenderObject(
 		"Your Cash: " + this.cash, 5, 20, Color.WHITE);
+
+
+	private Pair<Integer, Integer> hi = new Pair<Integer, Integer>(0, 0);
+	// private Pair<Integer, shootingBulletInterface> =
+	// new Pair<Integer, shootingBulletInterface>(0, shootBullet);
+
+
 	// /ASE
 
 	// Collision detection and resolution
@@ -76,6 +90,7 @@ public class PlayGame extends World
 	{
 		super();
 
+		GameConfig.shootBullet.playerShootBullet();
 		gjk = new GJK();
 		gjk.clearVerticies();
 
@@ -233,9 +248,6 @@ public class PlayGame extends World
 		// this.gjk, PlayerSet.class,MobSet.class);
 
 		// testing collision with turrets
-		EngineTransforms.arePCollisionBodiesColliding(
-			this.engineState, this.gjk, MobSet.class,
-			TurretSet.class);
 
 		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
 			EngineTransforms.debugRenderPolygons(
@@ -259,7 +271,21 @@ public class PlayGame extends World
 		     i = this.engineState.getNextSetIndex(MobSet.class, i)) {
 
 			EngineTransforms.updateEnemyPositionFromPlayer(
-				this.engineState, this.map, 0, this.player, i);
+				this.engineState, this.map, 0, this.player, i,
+				gjk);
+
+			// TODO: detect mob with turret but MOB CANNOT BE MOVED
+			// after collision
+			/*
+			for (int j = engineState.getInitialSetIndex(
+				     TurretSet.class);
+			     engineState.isValidEntity(j);
+			     j = engineState.getNextSetIndex(TurretSet.class,
+							     j)) {
+				EngineTransforms.checkTurretCollisionWithMob(
+					this.engineState, j, i, this.gjk);
+			}
+			*/
 		}
 
 		// updating the camera
