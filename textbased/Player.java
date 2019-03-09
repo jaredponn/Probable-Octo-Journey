@@ -1,3 +1,8 @@
+/**
+ * A sub-class of ActiveEntity for the player character
+ * @author Alex
+ * @version 1.0
+ */
 public class Player extends ActiveEntity {
     
     public Player( int defIndex ) {

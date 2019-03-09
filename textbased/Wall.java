@@ -1,3 +1,8 @@
+/**
+ * Collidable sub-class of Entity
+ * @author Alex
+ * @version 1.0
+ */
 public class Wall extends Entity {
     
     public Wall( int defIndex ) {

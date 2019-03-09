@@ -1,3 +1,8 @@
+/**
+ * Sub-class of Entity that gives movement and health
+ * @author Alex
+ * @version 1.0
+ */
 public class ActiveEntity extends Entity {
     
     private int health;
@@ -32,18 +37,46 @@ public class ActiveEntity extends Entity {
     }
     
     ///// Movement /////
+    /**
+     * Moves entity north by input amount.
+     * WARNING: movement only looks at start and end positions so
+     * it is possible to move through obstacles and off the world
+     * if amount > 1
+     * @param amount: the number of spaces to move
+     */
     public void moveNorth( int amount ) {
         setYPosition( getYPosition() - amount );
     }
     
+    /**
+     * Moves entity south by input amount.
+     * WARNING: movement only looks at start and end positions so
+     * it is possible to move through obstacles and off the world
+     * if amount > 1
+     * @param amount: the number of spaces to move
+     */
     public void moveSouth( int amount ) {
         setYPosition( getYPosition() + amount );
     }
     
+    /**
+     * Moves entity west by input amount.
+     * WARNING: movement only looks at start and end positions so
+     * it is possible to move through obstacles and off the world
+     * if amount > 1
+     * @param amount: the number of spaces to move
+     */
     public void moveWest( int amount ) {
         setXPosition( getXPosition() - amount );
     }
     
+    /**
+     * Moves entity east by input amount.
+     * WARNING: movement only looks at start and end positions so
+     * it is possible to move through obstacles and off the world
+     * if amount > 1
+     * @param amount: the number of spaces to move
+     */
     public void moveEast( int amount ) {
         setXPosition( getXPosition() + amount );
     }

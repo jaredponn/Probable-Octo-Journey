@@ -1,9 +1,15 @@
 import java.util.Scanner;
 
+/**
+ * User Interface that handles game logic based on user input
+ * @author Alex
+ * @version 1.0
+ */
 public class UserInterface {
     
     private World gameWorld;
     private int numEnemies;
+    private Scanner scanner = new Scanner(System.in);
     
     public UserInterface() {
         gameWorld = new World();
@@ -11,12 +17,13 @@ public class UserInterface {
         numEnemies = gameWorld.countEnemies();
         gameWorld.print();
         
+        // Game will end when no enemies remain
         while (numEnemies > 0) {
             System.out.print("\n---------------------\n");
             System.out.println("Your Health: " + gameWorld.getPlayer().getHealth() );
-            System.out.print("Please choose a direction to move:");
+            System.out.print("Please choose a direction to move:");// prompt user for input
             String input = this.getInput().toUpperCase();
-            gameWorld.doMove( gameWorld.getPlayer() , input , 1);
+            gameWorld.doMove( gameWorld.getPlayer() , input , 1);// moves player based on input
             
             // the enemies will move every other turn
             if (enemyTurn) {
@@ -26,12 +33,12 @@ public class UserInterface {
                         gameWorld.doMove(thisEnemy , thisEnemy.moveToPlayer( gameWorld.getPlayer().getPosition() ) , 1 );
                     }
                 }
-                // System.out.println("The enemies should move now");
                 enemyTurn = false;
             }
             else
                 enemyTurn = true;
             
+            // make sure that there is no ActiveEntity with <= 0 health
             for (Entity thisEntity : gameWorld.getEntities() ) {
                 if (thisEntity instanceof ActiveEntity) {
                     ActiveEntity thisActiveEntity = (ActiveEntity) thisEntity;
@@ -50,8 +57,10 @@ public class UserInterface {
         System.out.println("**** THE GAME HAS ENDED! ****");
     }
     
-    private Scanner scanner = new Scanner(System.in);
-    
+    /**
+     * Get user input
+     * @return a string of the user input
+     */
     public String getInput() {
         String input = scanner.nextLine();
         return input;
