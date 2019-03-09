@@ -23,6 +23,6 @@ public class PlayerSet extends EntitySet
 		addComponent(new FacingDirection(CardinalDirections.N));
 		addComponent(
 			new PCollisionBody(GameConfig.PLAYER_COLLISION_BODY));
-		addComponent( new HitPoints(GameConfig.PLAYER_HP));
+		addComponent(new HitPoints(GameConfig.PLAYER_HP));
 	}
 }
