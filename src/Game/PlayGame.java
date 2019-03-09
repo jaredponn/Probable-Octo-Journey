@@ -74,12 +74,6 @@ public class PlayGame extends World
 	private StringRenderObject cashDisplay = new StringRenderObject(
 		"Your Cash: " + this.cash, 5, 20, Color.WHITE);
 
-
-	private Pair<Integer, Integer> hi = new Pair<Integer, Integer>(0, 0);
-	// private Pair<Integer, shootingBulletInterface> =
-	// new Pair<Integer, shootingBulletInterface>(0, shootBullet);
-
-
 	// /ASE
 
 	// Collision detection and resolution
