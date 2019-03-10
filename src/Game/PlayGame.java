@@ -976,6 +976,8 @@ public class PlayGame extends World
 				this.engineState.deleteComponentAt(
 					PCollisionBody.class, bullet);
 				this.engineState.markIndexAsFree(bullet);
+
+				break;
 			}
 		}
 	}

@@ -64,7 +64,7 @@ public class GameResources
 		new ImageWindow(0, 0, 60, 30), 30, 60, 0, 0, 0, 120, 0);
 
 	// global
-	public static double animationDurationms = 30;
+	public static double animationDurationms = 90; // 30
 
 	// bullet resources
 	public static final int BULLET_SPRITE_WIDTH = 5;
@@ -80,17 +80,68 @@ public class GameResources
 
 	// player resources
 	public static BufferedImage playerSpriteSheet =
-		ImageLoader.load("resources/playerspritesheet.png");
+		ImageLoader.load("resources/Player.png");
 
 	public static BufferedImage enemySpriteSheet =
 		ImageLoader.load("resources/enemyspritesheet.png");
-	public static final int PLAYER_SPRITE_WIDTH = 48;
-	public static final int PLAYER_SPRITE_HEIGHT = 64;
 
 	/*
 	 * animation is in columns
 	 * last 3 rows are idle animation (breath and not breath)
+	 * each animation is 126 x 150
 	 */
+	public static final int PLAYER_SPRITE_WIDTH = 125;
+	public static final int PLAYER_SPRITE_HEIGHT = 152;
+	// movement animation
+	public static Animation playerNMoveAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, 0, 0, 0, PLAYER_SPRITE_HEIGHT * 4);
+
+	public static Animation playerEMoveAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH, 0,
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT * 4);
+
+	public static Animation playerSMoveAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 2, 0,
+		PLAYER_SPRITE_WIDTH * 2, PLAYER_SPRITE_HEIGHT * 4);
+
+	public static Animation playerWMoveAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 3, 0,
+		PLAYER_SPRITE_WIDTH * 3, PLAYER_SPRITE_HEIGHT * 4);
+
+	// idle animation
+	public static Animation playerNIdleAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, 0, PLAYER_SPRITE_HEIGHT * 4, 0,
+		PLAYER_SPRITE_HEIGHT * 7);
+
+	public static Animation playerEIdleAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 1,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 1,
+		PLAYER_SPRITE_HEIGHT * 7);
+
+	public static Animation playerSIdleAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 2,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 2,
+		PLAYER_SPRITE_HEIGHT * 7);
+
+	public static Animation playerWIdleAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 3,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 3,
+		PLAYER_SPRITE_HEIGHT * 7);
+
+	/*
+	public static BufferedImage playerSpriteSheet =
+		ImageLoader.load("resources/playerspritesheet.png");
+	public static final int PLAYER_SPRITE_WIDTH = 48;
+	public static final int PLAYER_SPRITE_HEIGHT = 64;
+
 
 	public static Animation playerNMoveAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
@@ -127,8 +178,12 @@ public class GameResources
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 3,
 		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 3,
 		PLAYER_SPRITE_HEIGHT * 7);
+		*/
+
+	public static final int ENEMY_SPRITE_WIDTH = 48;
+	public static final int ENEMY_SPRITE_HEIGHT = 64;
 
 	public static Animation enemyNMoveAnimation = new Animation(
-		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
-		0, PLAYER_SPRITE_HEIGHT, 0, 0, 0, PLAYER_SPRITE_HEIGHT * 4);
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, 0, 0, 0, ENEMY_SPRITE_HEIGHT * 4);
 }
