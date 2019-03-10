@@ -919,13 +919,6 @@ public class PlayGame extends World
 	{
 		// TODO: delete bullets that collide with a wall
 
-		/*
-		Vector2f bulletPosition =
-			engineState
-				.getComponentAt(WorldAttributes.class, bullet)
-				.getCenteredBottomQuarter();
-				*/
-
 		final PCollisionBody bulletPosition =
 			engineState.getComponentAt(PCollisionBody.class,
 						   bullet);
@@ -933,14 +926,6 @@ public class PlayGame extends World
 		for (int i = this.engineState.getInitialSetIndex(MobSet.class);
 		     poj.EngineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(MobSet.class, i)) {
-
-			/*
-		Vector2f mobPosition =
-			engineState
-				.getComponentAt(WorldAttributes.class,
-						i)
-				.getCenteredBottomQuarter();
-				*/
 
 			final PCollisionBody anotherMob =
 				engineState.getComponentAt(PCollisionBody.class,

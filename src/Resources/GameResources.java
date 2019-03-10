@@ -87,6 +87,11 @@ public class GameResources
 	public static final int PLAYER_SPRITE_WIDTH = 48;
 	public static final int PLAYER_SPRITE_HEIGHT = 64;
 
+	/*
+	 * animation is in columns
+	 * last 3 rows are idle animation (breath and not breath)
+	 */
+
 	public static Animation playerNMoveAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, 0, 0, 0, PLAYER_SPRITE_HEIGHT * 4);
