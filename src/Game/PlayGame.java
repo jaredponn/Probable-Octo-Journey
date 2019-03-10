@@ -918,25 +918,36 @@ public class PlayGame extends World
 	private void findBulletHits(int bullet)
 	{
 		// TODO: delete bullets that collide with a wall
+
+		/*
 		Vector2f bulletPosition =
 			engineState
 				.getComponentAt(WorldAttributes.class, bullet)
 				.getCenteredBottomQuarter();
+				*/
 
+		final PCollisionBody bulletPosition =
+			engineState.getComponentAt(PCollisionBody.class,
+						   bullet);
 		// check against all mobs
 		for (int i = this.engineState.getInitialSetIndex(MobSet.class);
 		     poj.EngineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(MobSet.class, i)) {
 
-			Vector2f mobPosition =
-				engineState
-					.getComponentAt(WorldAttributes.class,
-							i)
-					.getCenteredBottomQuarter();
+			/*
+		Vector2f mobPosition =
+			engineState
+				.getComponentAt(WorldAttributes.class,
+						i)
+				.getCenteredBottomQuarter();
+				*/
 
+			final PCollisionBody anotherMob =
+				engineState.getComponentAt(PCollisionBody.class,
+							   i);
 			// check if bullet and mob are at same position
-			if ((int)bulletPosition.x == (int)mobPosition.x
-			    && (int)bulletPosition.y == (int)mobPosition.y) {
+			if (Systems.arePCollisionBodiesColliding(
+				    gjk, bulletPosition, anotherMob)) {
 				System.out.println("A bullet hit a mob!");
 				engineState.getComponentAt(HitPoints.class, i)
 					.hurt(GameConfig.BULLET_DAMAGE);
