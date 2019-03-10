@@ -199,10 +199,13 @@ public class EngineTransforms
 
 		// if mob and player are at the same tile
 
-		if (arePCollisionBodiesCollidingWithECScords(
-			    engineState, gjk, MobSet.class, PlayerSet.class,
-			    mob1, player)) {
+		final PCollisionBody a =
+			engineState.getComponentAt(PCollisionBody.class, mob1);
 
+		final PCollisionBody b = engineState.getComponentAt(
+			PCollisionBody.class, player);
+
+		if (Systems.arePCollisionBodiesColliding(gjk, a, b)) {
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(0);
 			return;
@@ -292,9 +295,14 @@ public class EngineTransforms
 				    // Map map, int layerNumber,
 				    int turretPosition, int mob1, GJK gjk)
 	{
-		if (arePCollisionBodiesCollidingWithECScords(
-			    engineState, gjk, TurretSet.class, MobSet.class,
-			    turretPosition, mob1)) {
+
+		final PCollisionBody a = engineState.getComponentAt(
+			PCollisionBody.class, turretPosition);
+
+		final PCollisionBody b =
+			engineState.getComponentAt(PCollisionBody.class, mob1);
+
+		if (Systems.arePCollisionBodiesColliding(gjk, a, b)) {
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(0);
 		}
@@ -433,24 +441,6 @@ public class EngineTransforms
 	}
 
 
-	public static boolean arePCollisionBodiesCollidingWithECScords(
-		EngineState engineState, GJK g, Class<? extends Component> set0,
-		Class<? extends Component> set1, int indexOfSet0,
-		int indexOfSet1)
-	{
-		final PCollisionBody a = engineState.getComponentAt(
-			PCollisionBody.class, indexOfSet0);
-
-		final PCollisionBody b = engineState.getComponentAt(
-			PCollisionBody.class, indexOfSet1);
-
-		if (Systems.arePCollisionBodiesColliding(g, a, b)) {
-			System.out.println("PCOllision detected");
-			return true;
-		}
-		return false;
-	}
-
 	public static void
 	arePCollisionBodiesColliding(EngineState engineState, GJK g,
 				     Class<? extends Component> set0,
@@ -475,9 +465,10 @@ public class EngineTransforms
 									 b)) {
 					System.out.println(
 						"PCOllision detected");
-					//if (set1 instanceof TurretSet) {
+					// if (set1 instanceof TurretSet) {
 					//	System.out.println(
-					// 		"Collision with turrets detected");
+					// 		"Collision with turrets
+					// detected");
 					//}
 					break;
 				}
