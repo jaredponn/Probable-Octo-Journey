@@ -175,6 +175,17 @@ public class PlayGame extends World
 
 		// start the path finding thread
 		generateDiffusionMap.start();
+		int e = super.engineState.spawnEntitySet(
+			new Bullet(this.getPlayTime()));
+		Vector2f tmp = new Vector2f(
+			super.getComponentAt(WorldAttributes.class, this.player)
+				.getOriginCoord());
+
+		super.getComponentAt(WorldAttributes.class, e)
+			.setOriginCoord(tmp);
+
+		super.getComponentAt(Movement.class, e)
+			.setVelocity(new Vector2f(0f, 0f));
 	}
 	public void clearWorld()
 	{
@@ -204,8 +215,9 @@ public class PlayGame extends World
 		// TODO: use actual collision detection for this
 		// TODO: currently just despawns bullet, does not do damage
 		for (int i = this.engineState.getInitialSetIndex(Bullet.class);
-		     this.engineState.isValidEntity(i);
+		     poj.EngineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(Bullet.class, i)) {
+
 			this.findBulletHits(i);
 		}
 
@@ -846,6 +858,8 @@ public class PlayGame extends World
 					Movement.class, i);
 				this.engineState.deleteComponentAt(
 					Lifespan.class, i);
+				this.engineState.deleteComponentAt(
+					PCollisionBody.class, i);
 				this.engineState.markIndexAsFree(i);
 			}
 		}
@@ -911,7 +925,7 @@ public class PlayGame extends World
 
 		// check against all mobs
 		for (int i = this.engineState.getInitialSetIndex(MobSet.class);
-		     this.engineState.isValidEntity(i);
+		     poj.EngineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(MobSet.class, i)) {
 
 			Vector2f mobPosition =
@@ -963,6 +977,8 @@ public class PlayGame extends World
 					Movement.class, bullet);
 				this.engineState.deleteComponentAt(
 					Lifespan.class, bullet);
+				this.engineState.deleteComponentAt(
+					PCollisionBody.class, bullet);
 				this.engineState.markIndexAsFree(bullet);
 			}
 		}

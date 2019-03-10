@@ -43,9 +43,8 @@ public class GameConfig
 			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
 			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
-			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f)
+			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
 
-		);
 	public static final PCollisionBody TURRET_COLLISION_BODY =
 		new PCollisionBody(
 			new Vector2f(0f, 0.8f), // displacement
@@ -53,10 +52,7 @@ public class GameConfig
 			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
 			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
-			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f)
-
-		);
-
+			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
 
 	// bullet config
 	public static final float BULLET_SPEED = 0.02f;
@@ -68,6 +64,26 @@ public class GameConfig
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final double BULLET_LIFE_SPAN = 0.8;
 	public static final int BULLET_DAMAGE = 10;
+
+	public static final PCollisionBody BULLET_COLLISION_BODY =
+		new PCollisionBody(new Vector2f(0.0f, 0.0f), // displacement
+							     // collision body:
+				   new Vector2f(BULLET_WIDTH, BULLET_HEIGHT));
+	/*
+	public static final PCollisionBody BULLET_COLLISION_BODY =
+		new PCollisionBody(
+			new Vector2f(-0.1f, 0.1f), // displacement
+						   // collision body:
+			new Vector2f(0.0f, BULLET_HEIGHT),
+			new Vector2f(BULLET_WIDTH / 2f, BULLET_HEIGHT),
+			new Vector2f(BULLET_WIDTH, BULLET_HEIGHT),
+			new Vector2f(0.0f, BULLET_HEIGHT / 2f),
+			new Vector2f(BULLET_WIDTH / 2f, BULLET_HEIGHT / 2f),
+			new Vector2f(BULLET_WIDTH, BULLET_HEIGHT / 2f),
+			new Vector2f(0.0f, 0.0f),
+			new Vector2f(BULLET_WIDTH / 2f, 0.0f),
+			new Vector2f(BULLET_WIDTH, 0.0f));
+			*/
 
 	// mob config
 	public static final float MOB_SPEED = 0.6f * PLAYER_SPEED;
