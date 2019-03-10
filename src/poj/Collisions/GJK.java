@@ -1,19 +1,39 @@
+package poj.Collisions;
 /**
- * GJK -- implementation of the GJK algorthim
- * Date: February 28, 2019
- * @author  Jared Pon and code was borrowed / inspired by following various
- * links: https://caseymuratori.com/blog_0003
+ * GJK -- implementation of the GJK algorthim with penetration vector
+ * calculations using EPA.
+ *
+ * Stateful compution to determine if convex polygons are colliding. Supports
+ * moving convex polygons, time of collision of moving convex polygons, and
+ * calculating the penetration vector of 2 colliding convex polygons.
+ *
+ * Also, my apologies this API is a little messy -- my first collision engine
+ *i've written so I did not really know the architecture or algorthims going in
+ * so feel free to ask me questions with regards of how to use it.
+ *
+ * Other useful readings on collision resolution:
+ * https://stackoverflow.com/questions/36232613/how-can-one-have-right-movement-into-diagonal-collision-boxes-giving-diagonal-mo
+ *
+ * Date: March 10, 2019
+ * @author  Jared Pon and code was taken / translated from / heavily influenced
+ * by the following links:
+ * https://caseymuratori.com/blog_0003
  * http://www.dyn4j.org/2010/04/gjk-gilbert-johnson-keerthi/
  * https://blog.hamaluik.ca/posts/building-a-collision-engine-part-1-2d-gjk-collision-detection/
+ *https://blog.hamaluik.ca/posts/building-a-collision-engine-part-2-2d-penetration-vectors/
+ * http://www.dyn4j.org/2010/05/epa-expanding-polytope-algorithm/
  * https://github.com/hamaluik/headbutt/blob/3985a0a39c77a9539fad2383c84f5d448b4e87ae/src/headbutt/twod/Headbutt.hx
+ * https://github.com/hamaluik/headbutt/blob/master/src/headbutt/twod/Headbutt.hx
  * @version  1.00
  */
-package poj.Collisions;
 
 import poj.linear.*;
-import java.util.ArrayList;
+import poj.Pair;
 import poj.Logger.*;
+
+import java.util.ArrayList;
 import java.util.Optional;
+
 
 public class GJK
 {
@@ -31,6 +51,15 @@ public class GJK
 		verticies.clear();
 	}
 
+	/**
+	 * Tests if things are colliding. Ensure "clearVerticies" is run before
+	 * using this function
+	 *
+	 * @param  cola first static (stationary)collision box
+	 * @param  colb second collision box that is moving with the delta
+	 *         specified with db
+	 * @return      boolean to see if they are colliding
+	 */
 	private static int MAX_ITERATIONS = 10;
 	public boolean areColliding(final CollisionShape cola,
 				    final CollisionShape colb)
@@ -57,9 +86,10 @@ public class GJK
 
 
 	/**
-	 * Tests if things are colliding.
+	 * Tests if things are colliding, where colb's movement is given by db .
+	 * Ensure "clearVerticies" is run before using this function.
 	 *
-	 * @param  cola first static collision box
+	 * @param  cola first static (stationary)collision box
 	 * @param  colb second collision box that is moving with the delta
 	 *         specified with db
 	 * @param  db delta of the second collision box
@@ -76,7 +106,19 @@ public class GJK
 		return this.areColliding(cola, p);
 	}
 
-	// where a is stationary
+
+	/**
+	 * Calcluates the time of polygon collision. If you are just trying to
+	 * calculate if the collision occured over a distance, use the
+	 * overloaded "areColliding" function with the third parameter "db".
+	 * That will be significantly faster.
+	 *
+	 * @param  cola first static (stationary) collision box
+	 * @param  colb second collision box that is moving with the delta
+	 *         specified with db
+	 * @param  db delta of the second collision box
+	 * @return      Optional of the time of collision
+	 */
 	private static int TIME_OF_COLLISION_RESOLUTION = 15;
 	public Optional<Double> timeOfPolygonCollision(final Polygon cola,
 						       final Polygon colb,
@@ -104,7 +146,6 @@ public class GJK
 			if (this.areColliding(cola, p)) {
 				maxt = t;
 
-
 			} else {
 				mint = t;
 			}
@@ -114,22 +155,124 @@ public class GJK
 		return Optional.of((t + mint) / 2d);
 	}
 
-	// ensure there is a simplex from the previous state
-	public void epa(final CollisionShape cola, final CollisionShape colb)
+	/**
+	 * Calculates the pentration vector of 2 colliding CollisionShapes --
+	 * the penetration vector returned is the how much to shift "colb" --
+	 * ensure that areColliding is run before this so that there is a
+	 * simplex generated.
+	 *
+	 * @param  cola first static (stationary) collision box
+	 * @param  colb second collision box that is moving with the delta
+	 *         specified with db
+	 * @return      Vector2f -- shortest shift of colb out of cola
+	 */
+
+	private static final int MAX_PENETRATION_VEC_ITERATIONS = 10;
+	public Vector2f calculatePenetrationVector(final CollisionShape cola,
+						   final CollisionShape colb)
 	{
 
-		while (true) {
-			// obtain the edge closestst to the origin in the
-			// minkowski difference
-			Edge e = closestEdge();
+		Vector2f penVector = new Vector2f(0, 0);
 
-			Vector2f p = support(cola, colb, e.normal());
+		// while true
+		for (int i = 0; i < MAX_PENETRATION_VEC_ITERATIONS; ++i) {
+			Edge e = findClosestEdgeToOriginOnSimplex(
+				PolygonWinding.CW);
+
+			Vector2f support =
+				calculateSupport(cola, colb, e.normal);
+
+			float dist = support.dot(e.normal);
+
+			penVector = e.normal.pureMul(dist);
+
+			if (Math.abs(dist - e.distance) <= EPSILON) {
+				// found edge closest to origin
+				break;
+			} else {
+				// there is an edge closer to origin
+				verticies.add(e.index, support);
+			}
 		}
+
+		return penVector;
 	}
 
-	public Edge closestEdge()
+	/**
+	 * Calculates the pentration depth and normal of 2 colliding
+	 * CollisionShapes -- the penetration vector returned is the how much to
+	 * shift "colb" -- ensure that areColliding is run before this so that
+	 * there is a simplex generated.
+	 *
+	 * @param  cola first static (stationary) collision box
+	 * @param  colb second collision box that is moving with the delta
+	 *         specified with db
+	 * @return      Pair -- depth and direction how much to shift colb out
+	 *         of cola
+	 */
+	public Pair<Float, Vector2f>
+	calculatePenetrationDepthAndCollisionNormal(final CollisionShape cola,
+						    final CollisionShape colb)
 	{
-		return new Edge();
+		// TODO
+		return new Pair<Float, Vector2f>(new Float(0f),
+						 new Vector2f(0, 0));
+	}
+
+	private Edge findClosestEdgeToOriginOnSimplex(PolygonWinding winding)
+	{
+
+		Edge edge = new Edge();
+
+		edge.distance = Float.MAX_VALUE;
+
+		// iterate through simplex edges i -> j wise
+		for (int i = 0; i < this.verticies.size(); ++i) {
+
+			int j = (i + 1 >= verticies.size())
+					? 0
+					: i + 1; // wind j back to 0
+			final Vector2f a = verticies.get(i);
+			final Vector2f b = verticies.get(j);
+
+			// edge vector
+			final Vector2f ab = b.pureSubtract(a);
+			// origin to a
+			final Vector2f oa = a;
+
+			// edge normal towards origin
+			// final Vector2f n = Vector2f.pureTripleProduct(ab, oa,
+			// ab);
+			final Vector2f n;
+			switch (winding) {
+			case CW:
+				n = new Vector2f(ab.y, -ab.x);
+				break;
+
+			case CCW:
+				n = new Vector2f(-ab.y, ab.x);
+				break;
+			default:
+				n = new Vector2f(-ab.y, ab.x);
+				Logger.lassert(
+					"Error in findClosestEdgeToOriginOnSimplex -- Java is such a bad language that it doesn't understand that all enum values are the domain of the type.");
+				break;
+			}
+
+			n.normalize();
+
+			// distance from origin to edge (via projection)
+			float dist = n.dot(oa);
+
+			if (dist < edge.distance) {
+				edge.distance = dist;
+				edge.normal = n;
+				edge.index = j;
+			}
+		}
+
+
+		return edge;
 	}
 
 	private Polygon
@@ -151,18 +294,18 @@ public class GJK
 		return np;
 	}
 
-	public Vector2f determineEdge(final CollisionShape cola,
-				      final CollisionShape colb)
-	{
-		// TODO
-		return new Vector2f(0, 0);
-	}
 
 	private Vector2f support(final CollisionShape a, final CollisionShape b)
 	{
-		final Vector2f pa = a.furthestPointInDirection(direction);
-		final Vector2f pb =
-			b.furthestPointInDirection(direction.pureNegate());
+		return GJK.calculateSupport(a, b, direction);
+	}
+
+	public static Vector2f calculateSupport(final CollisionShape a,
+						final CollisionShape b,
+						Vector2f d)
+	{
+		final Vector2f pa = a.furthestPointInDirection(d);
+		final Vector2f pb = b.furthestPointInDirection(d.pureNegate());
 		Vector2f tmp = pa.pureSubtract(pb);
 		return tmp;
 	}
@@ -263,4 +406,27 @@ public class GJK
 		}
 		return arr;
 	}
+
+	private static final float EPSILON = 0.000001f;
 }
+
+class Edge
+{
+	public float distance;
+	public Vector2f normal;
+	public int index;
+
+	public Edge()
+	{
+	}
+
+	public Edge(final float dist, final Vector2f n, final int ind)
+	{
+
+		distance = dist;
+		normal = n;
+		index = ind;
+	}
+}
+
+enum PolygonWinding { CW, CCW }

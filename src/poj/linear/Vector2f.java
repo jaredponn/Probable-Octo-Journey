@@ -247,7 +247,18 @@ public class Vector2f
 	}
 
 	/**
-	 * get the normal of this vector and returns it
+	 * normalizes the vector
+	 *   @return      void
+	 */
+	public void normalize()
+	{
+		final float mag = scalarValueOfVector(this);
+		setX(getX() / mag);
+		setY(getY() / mag);
+	}
+
+	/**
+	 * normalizes the vector
 	 *   @return      Vector2f
 	 */
 	public Vector2f pureNormalize()
