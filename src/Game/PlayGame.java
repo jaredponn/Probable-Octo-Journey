@@ -2,12 +2,18 @@ package Game;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
-import Components.*;
+import Components.CardinalDirections;
+import Components.FacingDirection;
+import Components.HasAnimation;
+import Components.HitPoints;
+import Components.Lifespan;
+import Components.Movement;
+import Components.MovementDirection;
+import Components.PCollisionBody;
+import Components.Render;
+import Components.WorldAttributes;
 import EntitySets.Bullet;
 import EntitySets.CollectibleSet;
 import EntitySets.ConstructSet;
@@ -20,12 +26,13 @@ import Resources.GameResources;
 import TileMap.Map;
 import TileMap.MapLayer;
 
+import poj.Pair;
+import poj.Collisions.GJK;
+import poj.Logger.Logger;
 import poj.Render.MinYFirstSortedRenderObjectBuffer;
 import poj.Render.RenderObject;
 import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
-import poj.Collisions.*;
-import poj.Logger.*;
 
 public class PlayGame extends World
 {
@@ -51,10 +58,10 @@ public class PlayGame extends World
 
 	// Higher level game logic
 	private int player;
-	// private int mob1;
 	public static double EPSILON = 0.0001d;
 	private Vector2f unitVecPlayerPosToMouseDelta;
 	private CardinalDirections prevDirection = CardinalDirections.N;
+	private WeaponState curWeaponState = WeaponState.Gun;
 
 	// ASE
 	private double timeOfLastMobSpawn = 0.0;
@@ -66,6 +73,8 @@ public class PlayGame extends World
 		new StringRenderObject("", 5, 10, Color.WHITE);
 	private StringRenderObject cashDisplay = new StringRenderObject(
 		"Your Cash: " + this.cash, 5, 20, Color.WHITE);
+
+
 	// /ASE
 
 	// Collision detection and resolution
@@ -94,7 +103,6 @@ public class PlayGame extends World
 			coolDownMax.set(GameConfig.COOL_DOWN_KEYS.get(i).fst,
 					GameConfig.COOL_DOWN_KEYS.get(i).snd);
 		}
-		// lastCoolDown.set(GameConfig.BUILD_TOWER, 0d);
 		// this.map.addMapConfig(GameResources.pathFindTest1Config);
 		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
 
@@ -233,6 +241,8 @@ public class PlayGame extends World
 		// EngineTransforms.arePCollisionBodiesColliding(this.engineState,
 		// this.gjk, PlayerSet.class,MobSet.class);
 
+		// testing collision with turrets
+
 		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
 			EngineTransforms.debugRenderPolygons(
 				this.map.getLayerEngineState(i), debugBuffer,
@@ -255,7 +265,21 @@ public class PlayGame extends World
 		     i = this.engineState.getNextSetIndex(MobSet.class, i)) {
 
 			EngineTransforms.updateEnemyPositionFromPlayer(
-				this.engineState, this.map, 0, this.player, i);
+				this.engineState, this.map, 0, this.player, i,
+				gjk);
+
+			// TODO: detect mob with turret but MOB CANNOT BE MOVED
+			// after collision
+			/*
+			for (int j = engineState.getInitialSetIndex(
+				     TurretSet.class);
+			     engineState.isValidEntity(j);
+			     j = engineState.getNextSetIndex(TurretSet.class,
+							     j)) {
+				EngineTransforms.checkTurretCollisionWithMob(
+					this.engineState, j, i, this.gjk);
+			}
+			*/
 		}
 
 		// updating the camera
@@ -454,6 +478,8 @@ public class PlayGame extends World
 			if (Math.abs(lastCoolDown.get(GameConfig.BUILD_TOWER))
 				    == 0d
 			    && this.cash >= GameConfig.TOWER_BUILD_COST) {
+				// player position is also the top left of the
+				// polygon !
 				Vector2f playerPosition =
 					super.getComponentAt(
 						     WorldAttributes.class,
@@ -507,7 +533,7 @@ public class PlayGame extends World
 				updateDtForKey(GameConfig.ATTACK_KEY,
 					       -coolDownMax.get(
 						       GameConfig.ATTACK_KEY));
-				this.playerShootBullet();
+				this.weaponAttack();
 				// lastCoolDown.set(GameConfig.BUILD_TOWER,
 				//-coolDownMax.get(
 				// GameConfig.BUILD_TOWER));
@@ -519,8 +545,29 @@ public class PlayGame extends World
 			// TODO: attack on mouse click instead?
 		}
 		if (super.inputPoller.isKeyDown(GameConfig.SWITCH_WEAPONS)) {
-			System.out.print(
-				"x key is down. Player character should be changing weapons\n");
+
+			if (Math.abs(
+				    lastCoolDown.get(GameConfig.SWITCH_WEAPONS))
+			    == 0d) {
+				updateDtForKey(
+					GameConfig.SWITCH_WEAPONS,
+					-coolDownMax.get(
+						GameConfig.SWITCH_WEAPONS));
+				System.out.print(
+					"x key is down. Player character should be changing weapons\n");
+				System.out.println(
+					"old weapon state = "
+					+ curWeaponState.currentWeaponState());
+				curWeaponState = curWeaponState.next();
+				System.out.println(
+					"new weapon state = "
+					+ curWeaponState.currentWeaponState());
+				// lastCoolDown.set(GameConfig.BUILD_TOWER,
+				//-coolDownMax.get(
+				// GameConfig.BUILD_TOWER));
+			}
+
+
 			// TODO: implement different weapons
 			// TODO: switch between weapons
 			// player.switchWeapon();
@@ -620,22 +667,31 @@ public class PlayGame extends World
 			-tmp.y + super.windowHeight / 2f);
 	}
 
-	private void playerShootBullet()
+	private void weaponAttack()
 	{
-		int e = super.engineState.spawnEntitySet(
-			new Bullet(this.getPlayTime()));
-		float bulletSpeed =
-			super.getComponentAt(Movement.class, e).getSpeed();
-		Vector2f tmp = new Vector2f(
-			super.getComponentAt(WorldAttributes.class, this.player)
-				.getOriginCoord());
+		switch (curWeaponState) {
+		case Gun:
+			int e = super.engineState.spawnEntitySet(
+				new Bullet(this.getPlayTime()));
+			float bulletSpeed =
+				super.getComponentAt(Movement.class, e)
+					.getSpeed();
+			Vector2f tmp = new Vector2f(
+				super.getComponentAt(WorldAttributes.class,
+						     this.player)
+					.getOriginCoord());
 
-		super.getComponentAt(WorldAttributes.class, e)
-			.setOriginCoord(tmp);
+			super.getComponentAt(WorldAttributes.class, e)
+				.setOriginCoord(tmp);
 
-		super.getComponentAt(Movement.class, e)
-			.setVelocity(this.unitVecPlayerPosToMouseDelta.pureMul(
-				bulletSpeed));
+			super.getComponentAt(Movement.class, e)
+				.setVelocity(this.unitVecPlayerPosToMouseDelta
+						     .pureMul(bulletSpeed));
+			break;
+		case Melee:
+			System.out.println("melee weapon was attacked");
+			break;
+		}
 	}
 
 

@@ -1,3 +1,8 @@
+/**
+ * Sub-class of ActiveEntity that has basic pathfinding
+ * @author Alex
+ * @version 1.0
+ */
 public class Enemy extends ActiveEntity {
     
     public Enemy( int defIndex ) {

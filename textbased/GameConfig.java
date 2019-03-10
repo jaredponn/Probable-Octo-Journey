@@ -1,3 +1,8 @@
+/**
+ * A collection of constants
+ * @author Alex
+ * @version 1.0
+ */
 public class GameConfig {
     
     // Map Config

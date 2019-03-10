@@ -134,7 +134,8 @@ public class EngineTransforms
 
 	public static void
 	updateEnemyPositionFromPlayer(EngineState engineState, Map map,
-				      int layerNumber, int player, int mob1)
+				      int layerNumber, int player, int mob1,
+				      GJK gjk)
 	{
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
 			engineState, map, layerNumber, player);
@@ -195,14 +196,32 @@ public class EngineTransforms
 				   + mobPosition.x);
 		System.out.println("mob y position before floor ="
 				   + mobPosition.y);*/
+
 		// if mob and player are at the same tile
+
+		if (arePCollisionBodiesCollidingWithECScords(
+			    engineState, gjk, MobSet.class, PlayerSet.class,
+			    mob1, player)) {
+
+			engineState.getComponentAt(Movement.class, mob1)
+				.setSpeed(0);
+			return;
+		}
+
 		if ((int)mobPosition.x == (int)playerPosition.x
 		    && (int)mobPosition.y == (int)playerPosition.y) {
-			/*
-			System.out.println(
-				"went inside where the player cord is equal to
-			mob cord!");*/
+			// TODO: NEED TO INTEGRATE THIS WITH COLLISION!!
 
+			engineState
+				.getComponentAt(MovementDirection.class, mob1)
+				.setDirection(
+					CardinalDirections.getClosestDirectionFromDirectionVector(
+						playerPosition
+							.subtractAndReturnVector(
+								mobPosition)));
+			engineState.getComponentAt(Movement.class, mob1)
+				.setSpeed(GameConfig.MOB_SPEED);
+			/*
 			// if the mob does not have the same position as the
 			// player
 			if (Math.abs(mobPosition.x - playerPosition.x)
@@ -224,6 +243,7 @@ public class EngineTransforms
 				engineState.getComponentAt(Movement.class, mob1)
 					.setSpeed(0);
 			}
+			*/
 		}
 		// test if the current tile the mob is at is bigger than the max
 		// value
@@ -264,6 +284,19 @@ public class EngineTransforms
 								mobPosition)));
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(GameConfig.MOB_SPEED);
+		}
+	}
+
+	public static void
+	checkTurretCollisionWithMob(EngineState engineState,
+				    // Map map, int layerNumber,
+				    int turretPosition, int mob1, GJK gjk)
+	{
+		if (arePCollisionBodiesCollidingWithECScords(
+			    engineState, gjk, TurretSet.class, MobSet.class,
+			    turretPosition, mob1)) {
+			engineState.getComponentAt(Movement.class, mob1)
+				.setSpeed(0);
 		}
 	}
 
@@ -399,6 +432,25 @@ public class EngineTransforms
 		}
 	}
 
+
+	public static boolean arePCollisionBodiesCollidingWithECScords(
+		EngineState engineState, GJK g, Class<? extends Component> set0,
+		Class<? extends Component> set1, int indexOfSet0,
+		int indexOfSet1)
+	{
+		final PCollisionBody a = engineState.getComponentAt(
+			PCollisionBody.class, indexOfSet0);
+
+		final PCollisionBody b = engineState.getComponentAt(
+			PCollisionBody.class, indexOfSet1);
+
+		if (Systems.arePCollisionBodiesColliding(g, a, b)) {
+			System.out.println("PCOllision detected");
+			return true;
+		}
+		return false;
+	}
+
 	public static void
 	arePCollisionBodiesColliding(EngineState engineState, GJK g,
 				     Class<? extends Component> set0,
@@ -423,6 +475,10 @@ public class EngineTransforms
 									 b)) {
 					System.out.println(
 						"PCOllision detected");
+					//if (set1 instanceof TurretSet) {
+					//	System.out.println(
+					// 		"Collision with turrets detected");
+					//}
 					break;
 				}
 			}

@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+/**
+ * Contains and controls info about the current state of the game
+ * @author Alex
+ * @version 1.0
+ */
 public class World {
     
     private ArrayList<Entity> entities = new ArrayList<Entity>();
@@ -7,6 +12,9 @@ public class World {
     private int playerIndex;
     private int lastIndex = 0;
     
+    /**
+     * Initializes the game world
+     */
     public World() {
         createMap();
         spawnWalls();
@@ -15,9 +23,12 @@ public class World {
         putFloorsOnMap();
         spawnPlayer( GameConfig.PLAYER_SPAWN_X , GameConfig.PLAYER_SPAWN_Y );
         spawnEnemies();
-        spawnPickup();
+        spawnPickup( 10 , 10 );
     }
     
+    /**
+     * Fills a 2D ArrayList to the size defined in GameConfig
+     */
     private void createMap() {
         for ( int x = 0 ; x < GameConfig.MAP_WIDTH ; x++ ) {
             map.add(new ArrayList<Entity>(  ));
@@ -26,6 +37,9 @@ public class World {
         }
     }
     
+    /**
+     * Creates Walls to go around the game world
+     */
     private void spawnWalls() {
         // North Wall
         for ( int i = 0 ; i < GameConfig.MAP_WIDTH ; i++ ) {
@@ -49,6 +63,9 @@ public class World {
         }
     }
     
+    /**
+     * Creates Floors to fill the game world
+     */
     private void spawnFloors() {
         for ( int x = 1 ; x < GameConfig.MAP_WIDTH - 1 ; x++ ) {
             for ( int y = 1 ; y < GameConfig.MAP_HEIGHT - 1 ; y++ ) {
@@ -58,6 +75,9 @@ public class World {
         }
     }
     
+    /**
+     * Adds the Walls to the game map
+     */
     private void putWallsOnMap() {
         for (Entity thisEntity : entities) {
             if (thisEntity instanceof Wall) {
@@ -67,6 +87,9 @@ public class World {
         }
     }
     
+    /**
+     * Adds the Floors to the game map
+     */
     private void putFloorsOnMap() {
         for (Entity thisEntity : entities) {
             if (thisEntity instanceof Floor) {
@@ -76,6 +99,11 @@ public class World {
         }
     }
     
+    /**
+     * Spawns the player character at the specified coordinates
+     * @param x-coordinate of the player spawn point
+     * @param y-coordinate of the player spawn point
+     */
     public void spawnPlayer( int x , int y) {
         Player player = new Player( GameConfig.PLAYER_HEALTH , x , y , this.lastIndex );
         entities.add( player );
@@ -85,8 +113,13 @@ public class World {
         playerSpawnPoint.setContents(player);
     }
     
-    public void spawnPickup() {
-        PickUp pickup = new PickUp( GameConfig.HEALTH_PICKUP_AMOUNT , 10 , 10 , this.lastIndex );
+    /**
+     * Spawns a pick-up at the specified coordinates
+     * @param x-coordinate of the pick-up spawn point
+     * @param y-coordinate of the pick-up spawn point
+     */
+    public void spawnPickup( int x , int y ) {
+        PickUp pickup = new PickUp( GameConfig.HEALTH_PICKUP_AMOUNT , x , y , this.lastIndex );
         entities.add( pickup );
         this.lastIndex += 1;
         
@@ -95,6 +128,9 @@ public class World {
         
     }
     
+    /**
+     * Spawns five enemies around the map
+     */
     public void spawnEnemies() {
         entities.add( new Enemy( 1 , 3 , this.lastIndex ) );
         this.lastIndex += 1;
@@ -116,6 +152,9 @@ public class World {
         
     }
     
+    /**
+     * Displays the current game world in the console
+     */
     public void print() {
         for ( int x = 0 ; x < GameConfig.MAP_WIDTH ; x++ ) {
             for (int y = 0 ; y < GameConfig.MAP_HEIGHT ; y++ ) {
@@ -129,6 +168,7 @@ public class World {
         }
     }
     
+    ///// Getters /////
     public Player getPlayer() {
         Player player = (Player) entities.get(this.playerIndex);
         return player;
@@ -159,6 +199,12 @@ public class World {
         return count;
     }
     
+    ///// Setters /////
+    /**
+     * Removes an entity from the list of entities and
+     * ends the game if it was the player that was removed
+     * @param index of the entity to be removed
+     */
     public void removeEntity( int index ) {
         entities.set( index , new Entity( -1 ) );
         System.out.println("Entity Removed!");
@@ -168,14 +214,22 @@ public class World {
         }
     }
     
+    /**
+     * Checks if a move is valid and moves the entity back if
+     * it was not a valid move. Also applies damage if applicable
+     * @param entity: What entity is moving
+     * @param startPosition: Where the entity was when it started moving
+     * @return false if the move was invalid
+     */
     private boolean doMoveHelper(Entity entity , Floor startPosition) {
         Entity endPosition = this.getEntityAt( entity.getPosition() );
         if (endPosition instanceof Floor) {
             Floor endFloor = (Floor) endPosition;
             if (endFloor.hasContents()){
+            	// player moving into an enemy
                 if (entity instanceof Player && endFloor.getContents() instanceof Enemy) {
                     Enemy thisEnemy = (Enemy) endFloor.getContents();
-                    thisEnemy.hurt( 33 );
+                    thisEnemy.hurt( 33 ); //TODO: not hardcode damage
                     System.out.println("Enemy health now at " + thisEnemy.getHealth() );
                     if (thisEnemy.getHealth() <= 0) {
                         removeEntity( thisEnemy.getIndex() );
@@ -183,11 +237,13 @@ public class World {
                     }
                     return false;
                 }
+                // enemy moving into the player
                 else if (entity instanceof Enemy && endFloor.getContents() instanceof Player) {
                     Player player = (Player) endFloor.getContents();
-                    player.hurt( 33 );
+                    player.hurt( 33 ); //TODO: not hardcode damage
                     return false;
                 }
+                // player moving into a pick-up
                 else if (entity instanceof Player && endFloor.getContents() instanceof PickUp) {
                     Player player = (Player) entity;
                     PickUp pickup = (PickUp) endFloor.getContents();
@@ -195,9 +251,12 @@ public class World {
                     removeEntity( pickup.getIndex() );
                     endFloor.clearContents();
                 }
+                // should never get here
                 else
+                	System.out.println("Something tried to move into an spot occupied by something strange");
                     return false;
             }
+            // move entity into the end position
             endFloor.setContents(entity);
             startPosition.clearContents();
             return true;
@@ -206,9 +265,16 @@ public class World {
             return false;
     }
     
+    /**
+     * Moves an entity to a new location
+     * @param entity to move
+     * @param direction in which to move
+     * @param amount of spaces to move
+     */
     public void doMove( ActiveEntity entity , String direction , int amount ) {
         Floor startPosition = (Floor) this.getEntityAt(entity.getPosition());
         
+        // Move North
         if ( direction.equals( GameConfig.NORTH_KEY ) ) {
             entity.moveNorth(amount);
             boolean canMove = doMoveHelper( entity  , startPosition );
@@ -217,6 +283,7 @@ public class World {
                 System.out.println("Cannot move that direction");
             }
         }
+        // Move South
         else if ( direction.equals( GameConfig.SOUTH_KEY ) ) {
             entity.moveSouth(amount);
             boolean canMove = doMoveHelper( entity , startPosition);
@@ -225,6 +292,7 @@ public class World {
                 System.out.println("Cannot move that direction");
             }
         }
+        // Move East
         else if ( direction.equals( GameConfig.EAST_KEY ) ) {
             entity.moveEast(amount);
             boolean canMove = doMoveHelper( entity , startPosition);
@@ -233,6 +301,7 @@ public class World {
                 System.out.println("Cannot move that direction");
             }
         }
+        // Move West
         else if ( direction.equals( GameConfig.WEST_KEY ) ) {
             entity.moveWest(amount);
             boolean canMove = doMoveHelper( entity , startPosition);
