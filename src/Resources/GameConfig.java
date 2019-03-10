@@ -109,31 +109,9 @@ public class GameConfig
 				add(new Pair<Integer, Double>(ATTACK_KEY,
 							      0.08d));
 				add(new Pair<Integer, Double>(BUILD_TOWER, 1d));
+				add(new Pair<Integer, Double>(SWITCH_WEAPONS,
+							      1d));
 				add(new Pair<Integer, Double>(BUILD_TRAP, 1d));
 			}
 		};
-
-	public static final ShootingBulletInterface shootBullet =
-		() -> System.out.println("hihiragaerghraei a");
-
-	/*
-	shootingBulletInterface shootBullet = () ->
-	{
-		int e = super.engineState.spawnEntitySet(
-			new Bullet(this.getPlayTime()));
-		float bulletSpeed =
-			super.getComponentAt(Movement.class, e).getSpeed();
-		Vector2f tmp = new Vector2f(
-			super.getComponentAt(WorldAttributes.class, this.player)
-				.getOriginCoord());
-
-		super.getComponentAt(WorldAttributes.class, e)
-			.setOriginCoord(tmp);
-
-		super.getComponentAt(Movement.class, e)
-			.setVelocity(this.unitVecPlayerPosToMouseDelta.pureMul(
-				bulletSpeed));
-	};
-	*/
 }
-

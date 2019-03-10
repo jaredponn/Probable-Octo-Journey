@@ -58,10 +58,10 @@ public class PlayGame extends World
 
 	// Higher level game logic
 	private int player;
-	// private int mob1;
 	public static double EPSILON = 0.0001d;
 	private Vector2f unitVecPlayerPosToMouseDelta;
 	private CardinalDirections prevDirection = CardinalDirections.N;
+	private WeaponState curWeaponState = WeaponState.Gun;
 
 	// ASE
 	private double timeOfLastMobSpawn = 0.0;
@@ -74,6 +74,7 @@ public class PlayGame extends World
 	private StringRenderObject cashDisplay = new StringRenderObject(
 		"Your Cash: " + this.cash, 5, 20, Color.WHITE);
 
+
 	// /ASE
 
 	// Collision detection and resolution
@@ -84,7 +85,6 @@ public class PlayGame extends World
 	{
 		super();
 
-		GameConfig.shootBullet.playerShootBullet();
 		gjk = new GJK();
 		gjk.clearVerticies();
 
@@ -533,7 +533,7 @@ public class PlayGame extends World
 				updateDtForKey(GameConfig.ATTACK_KEY,
 					       -coolDownMax.get(
 						       GameConfig.ATTACK_KEY));
-				this.playerShootBullet();
+				this.weaponAttack();
 				// lastCoolDown.set(GameConfig.BUILD_TOWER,
 				//-coolDownMax.get(
 				// GameConfig.BUILD_TOWER));
@@ -545,8 +545,29 @@ public class PlayGame extends World
 			// TODO: attack on mouse click instead?
 		}
 		if (super.inputPoller.isKeyDown(GameConfig.SWITCH_WEAPONS)) {
-			System.out.print(
-				"x key is down. Player character should be changing weapons\n");
+
+			if (Math.abs(
+				    lastCoolDown.get(GameConfig.SWITCH_WEAPONS))
+			    == 0d) {
+				updateDtForKey(
+					GameConfig.SWITCH_WEAPONS,
+					-coolDownMax.get(
+						GameConfig.SWITCH_WEAPONS));
+				System.out.print(
+					"x key is down. Player character should be changing weapons\n");
+				System.out.println(
+					"old weapon state = "
+					+ curWeaponState.currentWeaponState());
+				curWeaponState = curWeaponState.next();
+				System.out.println(
+					"new weapon state = "
+					+ curWeaponState.currentWeaponState());
+				// lastCoolDown.set(GameConfig.BUILD_TOWER,
+				//-coolDownMax.get(
+				// GameConfig.BUILD_TOWER));
+			}
+
+
 			// TODO: implement different weapons
 			// TODO: switch between weapons
 			// player.switchWeapon();
@@ -646,22 +667,31 @@ public class PlayGame extends World
 			-tmp.y + super.windowHeight / 2f);
 	}
 
-	private void playerShootBullet()
+	private void weaponAttack()
 	{
-		int e = super.engineState.spawnEntitySet(
-			new Bullet(this.getPlayTime()));
-		float bulletSpeed =
-			super.getComponentAt(Movement.class, e).getSpeed();
-		Vector2f tmp = new Vector2f(
-			super.getComponentAt(WorldAttributes.class, this.player)
-				.getOriginCoord());
+		switch (curWeaponState) {
+		case Gun:
+			int e = super.engineState.spawnEntitySet(
+				new Bullet(this.getPlayTime()));
+			float bulletSpeed =
+				super.getComponentAt(Movement.class, e)
+					.getSpeed();
+			Vector2f tmp = new Vector2f(
+				super.getComponentAt(WorldAttributes.class,
+						     this.player)
+					.getOriginCoord());
 
-		super.getComponentAt(WorldAttributes.class, e)
-			.setOriginCoord(tmp);
+			super.getComponentAt(WorldAttributes.class, e)
+				.setOriginCoord(tmp);
 
-		super.getComponentAt(Movement.class, e)
-			.setVelocity(this.unitVecPlayerPosToMouseDelta.pureMul(
-				bulletSpeed));
+			super.getComponentAt(Movement.class, e)
+				.setVelocity(this.unitVecPlayerPosToMouseDelta
+						     .pureMul(bulletSpeed));
+			break;
+		case Melee:
+			System.out.println("melee weapon was attacked");
+			break;
+		}
 	}
 
 
