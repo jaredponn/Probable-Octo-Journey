@@ -392,4 +392,40 @@ public class GJKTests
 			System.out.println("to tmp " + tmp.get());
 		}
 	}
+
+
+	@Test public void rectEpaTests()
+	{
+
+		{
+
+			Polygon r1 = new Polygon(
+				new Vector2f(0, 0), new Vector2f(0, 1),
+				new Vector2f(1, 1), new Vector2f(1, 0));
+
+
+			Polygon r2 = new Polygon(
+				new Vector2f(0.5f, 0), new Vector2f(0.5f, 1),
+				new Vector2f(1.5f, 1), new Vector2f(1.5f, 0));
+
+
+			GJK gjk = new GJK();
+			gjk.clearVerticies();
+
+			assertTrue(gjk.areColliding(r1, r2));
+
+			Vector2f tmp = gjk.calculatePenetrationVector(r1, r2);
+
+			assertEquals(0.5f, tmp.x, 0.0001f);
+			assertEquals(0.0f, tmp.y, 0.0001f);
+		}
+	}
+
+	@Test public void fancyShapeEpaTest()
+	{
+
+		{
+			// no tests yet
+		}
+	}
 }
