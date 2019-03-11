@@ -1,4 +1,10 @@
 package EntitySets;
+/**
+ * PlayerSet. The Player entity set
+ * Date: February 10, 2019
+ * @author Jared Pon, Haiyang He, Alex Stark, Romiro Piquer
+ * @version 1.0
+ */
 import poj.EntitySet.*;
 import Resources.GameResources;
 import Resources.GameConfig;

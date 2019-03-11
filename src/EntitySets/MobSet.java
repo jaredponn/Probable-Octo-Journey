@@ -1,5 +1,12 @@
 package EntitySets;
 
+/**
+ * MobSet. Enemies and zombies.
+ * Date: February 10, 2019
+ * @author Alex Stark
+ * @version 1.0
+ */
+
 import poj.EntitySet.*;
 import Resources.GameResources;
 import Resources.GameConfig;
@@ -25,7 +32,8 @@ public class MobSet extends EntitySet
 		addComponent(new Movement(GameConfig.MOB_SPEED));
 		addComponent(new MovementDirection(CardinalDirections.N));
 		addComponent(new FacingDirection(CardinalDirections.N));
-		addComponent(new PhysicsPCollisionBody(GameConfig.MOB_COLLISION_BODY));
+		addComponent(new PhysicsPCollisionBody(
+			GameConfig.MOB_COLLISION_BODY));
 		addComponent(new HitPoints(GameConfig.MOB_HP));
 
 
@@ -54,7 +62,8 @@ public class MobSet extends EntitySet
 		addComponent(new Movement(GameConfig.MOB_SPEED));
 		addComponent(new MovementDirection(CardinalDirections.N));
 		addComponent(new FacingDirection(CardinalDirections.N));
-		addComponent(new PhysicsPCollisionBody(GameConfig.MOB_COLLISION_BODY));
+		addComponent(new PhysicsPCollisionBody(
+			GameConfig.MOB_COLLISION_BODY));
 		addComponent(new HitPoints(GameConfig.MOB_HP));
 	}
 
@@ -77,7 +86,8 @@ public class MobSet extends EntitySet
 		addComponent(new Movement(GameConfig.MOB_SPEED));
 		addComponent(new MovementDirection(CardinalDirections.N));
 		addComponent(new FacingDirection(CardinalDirections.N));
-		addComponent(new PhysicsPCollisionBody(GameConfig.MOB_COLLISION_BODY));
+		addComponent(new PhysicsPCollisionBody(
+			GameConfig.MOB_COLLISION_BODY));
 		addComponent(new HitPoints(GameConfig.MOB_HP));
 	}
 }
