@@ -34,7 +34,6 @@ import poj.Render.RenderObject;
 import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
 
-import poj.Combat.CombatFunctions;
 import poj.Component.Components;
 
 public class PlayGame extends World
@@ -298,7 +297,7 @@ public class PlayGame extends World
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 				this.engineState, this.cam);
 
-		System.out.println("----------------------- end one loop");
+		//System.out.println("----------------------- end one loop");
 		// rendering is run after this is run
 	}
 
@@ -681,10 +680,16 @@ public class PlayGame extends World
 				tmp1.pureNormalize();
 
 			int e = super.engineState.spawnEntitySet(
-				new Bullet(this.getPlayTime()));
+				new Bullet(this.getPlayTime(),new Vector2f(
+						super.getComponentAt(WorldAttributes.class, this.player).
+							getCenteredBottomQuarter())));
+			super.engineState.getComponentAt(PCollisionBody.class, e).setPositionPoint(
+					super.getComponentAt(WorldAttributes.class, this.player ).
+						getCenteredBottomQuarter());
 			float bulletSpeed =
 				super.getComponentAt(Movement.class, e)
 					.getSpeed();
+			/*
 			Vector2f tmp = new Vector2f(
 				super.getComponentAt(WorldAttributes.class,
 						     this.player)
@@ -692,6 +697,7 @@ public class PlayGame extends World
 
 			super.getComponentAt(WorldAttributes.class, e)
 				.setOriginCoord(tmp);
+				*/
 
 			super.getComponentAt(Movement.class, e)
 				.setVelocity(
@@ -846,8 +852,7 @@ public class PlayGame extends World
 					.getLifespan();
 
 			if (this.getPlayTime() - spawnTime >= lifespan) {
-				poj.Combat.CombatFunctions.removeBullet(
-					engineState, i);
+				CombatFunctions.removeBullet( engineState , i );
 			}
 		}
 	}
@@ -929,17 +934,14 @@ public class PlayGame extends World
 					    .getComponentAt(HitPoints.class, i)
 					    .getHP()
 				    <= 0) {
-					poj.Combat.CombatFunctions.removeMob(
-						engineState, i);
+					CombatFunctions.removeMob( engineState , i );
 				}
 				// remove bullet
-				poj.Combat.CombatFunctions.removeBullet(
-					engineState, bullet);
+				CombatFunctions.removeBullet( engineState , bullet );
 
 				break;
 			}
 		}
-		// map.getLayerEngineState(1)
 		for (PCollisionBody b :
 		     map.getLayerEngineState(1)
 			     .getRawComponentArrayListPackedData(
@@ -947,12 +949,13 @@ public class PlayGame extends World
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, bulletPosition, b)) {
 
-				poj.Combat.CombatFunctions.removeBullet(
+				bulletPosition.print();
+				b.print();
+				CombatFunctions.removeBullet(
 					engineState, bullet);
-				System.out.println("ENGINE STATE");
+				break;
 			}
 		}
 	}
-
 	// /ASE
 }
