@@ -1,5 +1,11 @@
 package Game;
-
+/**
+ * World. Abstract way to create different worlds of the game.
+ * Date: February 10, 2019
+ * @author Jared and the game loop code came from:
+ * https://gafferongames.com/post/fix_your_timestep/
+ * @version 1.0
+ */
 import poj.EngineState;
 import poj.Time.*;
 import poj.Component.*;
