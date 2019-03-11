@@ -14,6 +14,17 @@ Note: this script only works with bash.
 # Version number:
 -2019 February 24, Version 1.0 Pre-Alpha unstable release
 
+# Directory structure
+```bash
+src/    # source files
+src/poj # game engine
+src/*   # game
+```
+
+# Architecture
+The architecture uses and entity component system. More information on the architecture can be found here from https://jaredponn.github.io/.
+
+
 # Announcements:
 - The coordinate system is a little strange. The following diagram will illustrate:
 ```
