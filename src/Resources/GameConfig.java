@@ -39,13 +39,17 @@ public class GameConfig
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
 
+	// hitbox by inspection
 	public static final PCollisionBody PLAYER_HITBOX_BODY =
-		new PCollisionBody(new Vector2f(0f, 0f), // displacement
-							 // collision body:
-				   new Vector2f(0f, 0f),
-				   new Vector2f(PLAYER_WIDTH, 0f),
-				   new Vector2f(0f, PLAYER_HEIGHT),
-				   new Vector2f(PLAYER_WIDTH, PLAYER_HEIGHT));
+		new PCollisionBody(
+			new Vector2f(-0.5f, 0f), // displacement
+						 // collision body:
+			new Vector2f(1, 1f), new Vector2f(1.5f, 1.1f),
+			new Vector2f(3f, 3.5f), new Vector2f(3.5f, 3.5f));
+
+
+	public static final PCollisionBody ENEMY_HITBOX_BODY =
+		PLAYER_HITBOX_BODY;
 
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(100, 100);
