@@ -16,19 +16,26 @@ Note: this script only works with bash.
 
 -2019 March 11, Version 1.1 Pre-Alpha half-stable release
 
-# Directory structure
+# Architecture / UML diagrams
+The architecture uses and entity component system. 
+
+There are 2 UML diagrams provided, which can be found in the following locations:
+```
+./simplifiedumldiagram.png # simplified UML diagram without all the classes
+./demo2umldiagram.png      # actual UML diagram with all the classes in it
+```
+
+# Announcements -- for Contributors:
+## Directory Hierarchy
+The directory hierarchy is as follows:
 ```bash
 src/    # source files
 src/poj # game engine
 src/*   # game
 ```
 
-# Architecture
-The architecture uses and entity component system. More information on the architecture can be found here from https://jaredponn.github.io/.
-
-
-# Announcements:
-- The coordinate system is a little strange. The following diagram will illustrate:
+## Coordinate System
+The coordinate system is a little strange. The following diagram will illustrate:
 ```
      (-y / S)      (-x / W)
              \      /
@@ -47,7 +54,8 @@ The architecture uses and entity component system. More information on the archi
 
 ```
 
-- Using Optional in Java (should be used for all values that may or may not exist):
+## Using Optional in Java
+Using Optional in Java (should be used for all values that may or may not exist):
 ```Java
 Optional<Double> a = Optional.of(3d); // initilizes with value of 3
                 // = Optional.empty(); // initlizes with no value
