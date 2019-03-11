@@ -45,6 +45,7 @@ public class Logger
 		if (LOG_LEVEL_CAST.castToInt(lvl)
 		    >= LOG_LEVEL_CAST.castToInt(m_logging_level)) {
 			System.out.println(str);
+			return;
 		}
 
 		if (LOG_LEVEL_CAST.castToInt(lvl)
