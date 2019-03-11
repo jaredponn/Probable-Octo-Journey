@@ -14,6 +14,11 @@ import Components.HitPoints;
 import Components.Lifespan;
 import poj.EngineState;
 
+/**
+ * A collection of methods to help handle combat and entity removal
+ * @author Alex
+ *
+ */
 public class CombatFunctions {
 
 	public static void removeMob( EngineState engineState , int mob ) {
