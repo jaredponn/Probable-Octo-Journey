@@ -14,9 +14,9 @@ import poj.Logger.Logger;
 import java.util.HashMap;
 public class ComponentsArray
 {
-	private HashMap<Class<? extends Component>,
-			PackedVector<? extends Component>> m_component_list;
-	private int MAX_ENTITIES;
+	protected HashMap<Class<? extends Component>,
+			  PackedVector<? extends Component>> m_component_list;
+	protected int MAX_ENTITIES;
 
 	/**
 	 * Constructs the component array with all packed vectors having a given
