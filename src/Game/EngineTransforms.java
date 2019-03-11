@@ -1,23 +1,32 @@
 package Game;
-import poj.EngineState;
-import poj.Component.*;
-import poj.Logger.Logger;
-
-import java.util.Optional;
-import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Queue;
 
-import Components.*;
-import EntitySets.*;
+import Components.CardinalDirections;
+import Components.HasAnimation;
+import Components.Movement;
+import Components.MovementDirection;
+import Components.PCollisionBody;
+import Components.PathFindCord;
+import Components.Render;
+import Components.WorldAttributes;
+import EntitySets.TurretSet;
+import Resources.GameConfig;
+import Resources.GameResources;
+import TileMap.Map;
+import TileMap.MapLayer;
 
-import poj.linear.Vector2f;
-import Resources.*;
-import TileMap.*;
-
-import poj.Render.Renderer;
+import poj.Animation;
+import poj.EngineState;
+import poj.Collisions.GJK;
+import poj.Component.Component;
+import poj.Component.Components;
+import poj.Logger.LogLevels;
+import poj.Logger.Logger;
 import poj.Render.RenderObject;
-import poj.Collisions.*;
+import poj.linear.Vector2f;
 
 public class EngineTransforms
 {
@@ -208,6 +217,17 @@ public class EngineTransforms
 		if (Systems.arePCollisionBodiesColliding(gjk, a, b)) {
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(0);
+
+			CardinalDirections tempDir =
+				engineState
+					.getComponentAt(MovementDirection.class,
+							mob1)
+					.getDirection();
+
+			// idle position
+			engineState.getComponentAt(HasAnimation.class, mob1)
+				.setAnimation(
+					findEnemyFacingSprite(tempDir, 0));
 			return;
 		}
 
@@ -272,19 +292,34 @@ public class EngineTransforms
 				"set the mob speed equal to 0!!!!!!!");
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(0f);
+			// zombie will be in idle
+			CardinalDirections tempDir =
+				engineState
+					.getComponentAt(MovementDirection.class,
+							mob1)
+					.getDirection();
+			engineState.getComponentAt(HasAnimation.class, mob1)
+				.setAnimation(
+					findEnemyFacingSprite(tempDir, 0));
 		}
 		// the max neighbour value is bigger than the value of the tile
 		// that the mob is standing on
 		else {
 			mobPosition.floor();
 			maxPosition.floor();
-			engineState
-				.getComponentAt(MovementDirection.class, mob1)
-				.setDirection(
-					CardinalDirections.getClosestDirectionFromDirectionVector(
+			CardinalDirections tempDir =
+				CardinalDirections
+					.getClosestDirectionFromDirectionVector(
 						maxPosition
 							.subtractAndReturnVector(
-								mobPosition)));
+								mobPosition));
+			engineState
+				.getComponentAt(MovementDirection.class, mob1)
+				.setDirection(tempDir);
+
+			engineState.getComponentAt(HasAnimation.class, mob1)
+				.setAnimation(
+					findEnemyFacingSprite(tempDir, 1));
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(GameConfig.MOB_SPEED);
 		}
@@ -525,6 +560,67 @@ public class EngineTransforms
 			Systems.updatePCollisionBodyPositionFromWorldAttr(
 				e.getComponentAt(PCollisionBody.class, i),
 				e.getComponentAt(WorldAttributes.class, i));
+		}
+	}
+
+
+	public static Animation findEnemyFacingSprite(CardinalDirections dir,
+						      int flag)
+	{
+		// flag =0, will return idle position, if flag =1, will return
+		// move direction
+
+		switch (dir) {
+		case N:
+			if (flag == 0) {
+				return GameResources.enemyNIdleAnimation;
+			} else {
+				return GameResources.enemyNMoveAnimation;
+			}
+		case NE:
+			if (flag == 0) {
+				return GameResources.enemyNIdleAnimation;
+			} else {
+				return GameResources.enemyNMoveAnimation;
+			}
+		case NW:
+			if (flag == 0) {
+				return GameResources.enemyNIdleAnimation;
+			} else {
+				return GameResources.enemyNMoveAnimation;
+			}
+		case S:
+			if (flag == 0) {
+				return GameResources.enemySIdleAnimation;
+			} else {
+				return GameResources.enemySMoveAnimation;
+			}
+		case SE:
+			if (flag == 0) {
+				return GameResources.enemySIdleAnimation;
+			} else {
+				return GameResources.enemySMoveAnimation;
+			}
+		case SW:
+			if (flag == 0) {
+				return GameResources.enemySIdleAnimation;
+			} else {
+				return GameResources.enemySMoveAnimation;
+			}
+		case W:
+			if (flag == 0) {
+				return GameResources.enemyWIdleAnimation;
+			} else {
+				return GameResources.enemyWMoveAnimation;
+			}
+		case E:
+			if (flag == 0) {
+				return GameResources.enemyEIdleAnimation;
+			} else {
+				return GameResources.enemyEMoveAnimation;
+			}
+		default:
+			return GameResources.enemyNMoveAnimation;
 		}
 	}
 }
