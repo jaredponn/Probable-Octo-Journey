@@ -1,4 +1,11 @@
 package Components;
+/**
+ * HasAnimation. Animation component
+ *
+ * Date: March 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
 
 import poj.Animation;
 import poj.Render.ImageWindow;

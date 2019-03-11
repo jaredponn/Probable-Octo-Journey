@@ -3,6 +3,16 @@ import poj.Component.Component;
 import poj.linear.Vector2f;
 import poj.linear.Rectanglef;
 
+/**
+ * WorldAttributes. WorldAttributes component. the width and height should no
+ * longer be used and are deprectaed. however, the coord is still useful and
+ * very relevant
+ *
+ * Date: March 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
+
 public class WorldAttributes implements Component
 {
 	private Vector2f coord; // origin coordinate

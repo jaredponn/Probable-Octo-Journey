@@ -3,6 +3,14 @@ import poj.linear.*;
 import poj.Component.*;
 import poj.Collisions.*;
 
+/**
+ * PHitBox. PHitBox
+ *
+ * Date: March 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
+
 public class PHitBox extends PhysicsPCollisionBody
 {
 	/**

@@ -1,4 +1,11 @@
 package Components;
+/**
+ * ExampleComponent. ExampleComponent to show how to make a component
+ *
+ * Date: March 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
 
 import poj.Component.Component; //must include this import
 import poj.Logger.*;		//must include this import

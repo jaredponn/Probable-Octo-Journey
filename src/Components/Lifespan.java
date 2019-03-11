@@ -1,26 +1,38 @@
 package Components;
+/**
+ * LifeSpan.
+ *
+ * Date: March 10, 2019
+ * @author Alex Stark
+ * @version 1.0
+ */
 
 import poj.Component.Component;
 
-public class Lifespan implements Component {
+public class Lifespan implements Component
+{
 
 	private double lifespan;
 	private double spawnTime;
-	
-	public Lifespan( double totalTime , double initialTime ) {
+
+	public Lifespan(double totalTime, double initialTime)
+	{
 		this.lifespan = totalTime;
 		this.spawnTime = initialTime;
 	}
-	
-	public double getLifespan() {
+
+	public double getLifespan()
+	{
 		return this.lifespan;
 	}
-	
-	public double getSpawnTime() {
+
+	public double getSpawnTime()
+	{
 		return this.spawnTime;
 	}
-	
-	public void print() {
-		System.out.println("Lifespan is "+ this.lifespan );
+
+	public void print()
+	{
+		System.out.println("Lifespan is " + this.lifespan);
 	}
 }
