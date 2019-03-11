@@ -1,4 +1,11 @@
 package Components;
+/**
+ * Cardinal Direcions. Cardinal directions: N, NE, NW, S, SE, SW, W, E;
+ *
+ * Date: March 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
 
 import poj.Logger.*;
 import poj.linear.Vector2f;

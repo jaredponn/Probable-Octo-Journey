@@ -12,23 +12,31 @@ cd probable-octo-journey
 Note: this script only works with bash.
 
 # Version number:
--2019 February 24, Version 1.0 Pre-Alpha unstable release
+- 2019 February 24, Version 1.0 Pre-Alpha unstable release
 
--2019 March 11, Version 1.1 Pre-Alpha half-stable release
+- 2019 March 11, Version 1.1 Pre-Alpha half-stable release. Debug renderer is enabled and the red dots indicate collision box points.
 
-# Directory structure
+
+# Architecture / UML diagrams
+The architecture uses and entity component system. 
+
+There are 2 UML diagrams provided, which can be found in the following locations:
+```
+./simplifiedumldiagram.png # simplified UML diagram without all the classes
+./demo2umldiagram.png      # actual UML diagram with all the classes in it
+```
+
+# Announcements -- for Contributors:
+## Directory Hierarchy
+The directory hierarchy is as follows:
 ```bash
 src/    # source files
 src/poj # game engine
 src/*   # game
 ```
 
-# Architecture
-The architecture uses and entity component system. More information on the architecture can be found here from https://jaredponn.github.io/.
-
-
-# Announcements:
-- The coordinate system is a little strange. The following diagram will illustrate:
+## Coordinate System
+The coordinate system is a little strange. The following diagram will illustrate:
 ```
      (-y / S)      (-x / W)
              \      /
@@ -47,7 +55,8 @@ The architecture uses and entity component system. More information on the archi
 
 ```
 
-- Using Optional in Java (should be used for all values that may or may not exist):
+## Using Optional in Java
+Using Optional in Java (should be used for all values that may or may not exist):
 ```Java
 Optional<Double> a = Optional.of(3d); // initilizes with value of 3
                 // = Optional.empty(); // initlizes with no value

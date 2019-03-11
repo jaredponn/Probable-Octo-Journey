@@ -1,10 +1,18 @@
 package Components;
 
+/**
+ * Render. Render Component
+ *
+ * Date: March 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
 import poj.Component.Component;
 import poj.Render.*;
 import poj.linear.Vector2f;
 import java.awt.image.*;
 import poj.Render.ImageRenderObject;
+
 
 public class Render implements Component
 {

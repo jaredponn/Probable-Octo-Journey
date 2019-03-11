@@ -1,5 +1,12 @@
 package Game;
 
+/**
+ * CardinalDirectionAnimationBuffer. DEPREACTED AND UNUSED
+ * Date: February 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
+
 import poj.Animation;
 import Components.CardinalDirections;
 import poj.Logger.*;

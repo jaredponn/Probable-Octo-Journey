@@ -1,4 +1,12 @@
 package Components;
+/**
+ * PHitBox. PHitBox
+ *
+ * Date: March 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
+
 import poj.linear.*;
 import poj.Component.*;
 import poj.Collisions.*;

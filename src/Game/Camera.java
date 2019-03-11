@@ -1,4 +1,10 @@
 package Game;
+/**
+ * Camera. Alias of the Vector2Matrix transform
+ * Date: February 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
 
 import poj.linear.Vector2MatrixTransform;
 

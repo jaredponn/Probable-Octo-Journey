@@ -1,5 +1,12 @@
 package EntitySets;
 
+/**
+ * Bullet.  Bulley entity set
+ * Date: February 10, 2019
+ * @author Alex Stark, Haiyang He
+ * @version 1.0
+ */
+
 import poj.EntitySet.EntitySet;
 import Components.*;
 import poj.linear.*;
@@ -21,21 +28,22 @@ public class Bullet extends EntitySet
 		addComponent(new Movement(GameConfig.BULLET_SPEED));
 		addComponent(
 			new Lifespan(GameConfig.BULLET_LIFE_SPAN, spawnTime));
-		addComponent(
-			new PhysicsPCollisionBody(GameConfig.BULLET_COLLISION_BODY));
+		addComponent(new PhysicsPCollisionBody(
+			GameConfig.BULLET_COLLISION_BODY));
 	}
-	
-	public Bullet(double spawnTime , Vector2f posVector)
+
+	public Bullet(double spawnTime, Vector2f posVector)
 	{
 		super();
 		addComponent(new Render(GameResources.bulletImage));
-		addComponent(new WorldAttributes(posVector , GameConfig.BULLET_WIDTH,
+		addComponent(new WorldAttributes(posVector,
+						 GameConfig.BULLET_WIDTH,
 						 GameConfig.BULLET_HEIGHT));
-		System.out.println("Bullet spawned at "+ posVector.toString());
+		System.out.println("Bullet spawned at " + posVector.toString());
 		addComponent(new Movement(GameConfig.BULLET_SPEED));
 		addComponent(
 			new Lifespan(GameConfig.BULLET_LIFE_SPAN, spawnTime));
-		addComponent(
-			new PhysicsPCollisionBody(GameConfig.BULLET_COLLISION_BODY));
+		addComponent(new PhysicsPCollisionBody(
+			GameConfig.BULLET_COLLISION_BODY));
 	}
 }

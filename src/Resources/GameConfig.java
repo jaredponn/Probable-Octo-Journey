@@ -117,6 +117,7 @@ public class GameConfig
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final float MOB_WIDTH = GameResources.ENEMY_SPRITE_WIDTH
 					      / GameResources.TILE_SCREEN_WIDTH;
+	public static final int MOB_ATTACK_DAMAGE = 10;
 
 	public static final int MOB_HP = 100;
 	/*public static final CircleCollisionBody MOB_COLLISION_BODY =

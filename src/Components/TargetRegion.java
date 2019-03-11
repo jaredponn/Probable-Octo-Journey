@@ -1,11 +1,15 @@
 package Components;
+/**
+ * TargetRegion. UNUSED
+ *
+ * Date: March 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
 
 import poj.linear.*;
 
 
-/**
- * Alias for PCollisionBody -- a regions of collisions for the turret
- */
 public class TargetRegion extends PhysicsPCollisionBody
 {
 	public TargetRegion(Vector2f d, Vector2f... pts)

@@ -1,5 +1,13 @@
 package Game;
 import java.awt.Color;
+
+/**
+ * Engine Transforms. Mutations to the PlayGame engineState.
+ * Date: February 10, 2019
+ * @author Jared, Haiyang He, Romiro Piquer, Alex Stark
+ * @version 1.0
+ */
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
@@ -29,6 +37,7 @@ import poj.Component.Component;
 import poj.Component.Components;
 import poj.GameWindow.InputPoller;
 import poj.Render.RenderObject;
+import poj.Time.Timer;
 import poj.linear.Vector2f;
 
 public class EngineTransforms
@@ -238,6 +247,10 @@ public class EngineTransforms
 			engineState.getComponentAt(HasAnimation.class, mob1)
 				.setAnimation(
 					findEnemyFacingSprite(tempDir, 0));
+			// TODO REMOVE THIS
+			System.out.println(
+				"GAME OVER -- PLAYER TOUCHED ZOMBIE");
+			System.exit(0);
 			return;
 		}
 
