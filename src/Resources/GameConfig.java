@@ -50,17 +50,10 @@ public class GameConfig
 	public static final PCollisionBody PLAYER_HITBOX_BODY =
 		new PCollisionBody(new Vector2f(0f, 0f), // displacement
 							 // collision body:
-				   new Vector2f(0f, 0f), new Vector2f(1f, 0f),
-				   new Vector2f(0f, 1f), new Vector2f(1f, 1f));
-	/*
-	public static final PCollisionBody PLAYER_HITBOX_BODY =
-		new PCollisionBody(new Vector2f(0f, 0f), // displacement
-							 // collision body:
 				   new Vector2f(0f, 0f),
 				   new Vector2f(PLAYER_WIDTH, 0f),
 				   new Vector2f(0f, PLAYER_HEIGHT),
 				   new Vector2f(PLAYER_WIDTH, PLAYER_HEIGHT));
-				   */
 
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(100, 100);

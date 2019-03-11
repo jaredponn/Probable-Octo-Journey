@@ -67,8 +67,7 @@ public class PlayGame extends World
 	private WeaponState curWeaponState = WeaponState.Gun;
 
 	// ASE
-	private double timeOfLastMobSpawn = 
-		0.0 - GameConfig.MOB_SPAWN_TIMER;
+	private double timeOfLastMobSpawn = 0.0 - GameConfig.MOB_SPAWN_TIMER;
 	private double timeOfLastCashSpawn =
 		0.0 - GameConfig.PICKUP_CASH_SPAWN_TIME;
 	private int cash = 1000;
@@ -77,8 +76,8 @@ public class PlayGame extends World
 		new StringRenderObject("", 5, 10, Color.WHITE);
 	private StringRenderObject cashDisplay = new StringRenderObject(
 		"Your Cash: " + this.cash, 5, 20, Color.WHITE);
-	private StringRenderObject healthDisplay = 
-		new StringRenderObject("", 5, 30 , Color.WHITE);
+	private StringRenderObject healthDisplay =
+		new StringRenderObject("", 5, 30, Color.WHITE);
 
 
 	// /ASE
@@ -181,9 +180,9 @@ public class PlayGame extends World
 
 		// start the path finding thread
 		generateDiffusionMap.start();
-		
-		EngineTransforms.updatePhysicsPCollisionFromWorldAttr(
-				this.engineState);
+
+		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
+			this.engineState);
 	}
 	public void clearWorld()
 	{
@@ -207,20 +206,21 @@ public class PlayGame extends World
 
 		// Timed despawners
 		this.cashDropDespawner();
-		
+
 		for (int i = this.engineState.getInitialSetIndex(Bullet.class);
 		     poj.EngineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(Bullet.class, i)) {
 
 			this.findBulletHits(i);
 		}
-		
+
 		// Handle mob hitting a player
 		// TODO: balance mob damage?
 		for (int i = engineState.getInitialSetIndex(MobSet.class);
-			poj.EngineState.isValidEntity(i);
-				i = engineState.getNextSetIndex(MobSet.class, i )) {
-			CombatFunctions.handleMobHitPlayer(engineState, gjk, i, this.player );
+		     poj.EngineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(MobSet.class, i)) {
+			CombatFunctions.handleMobHitPlayer(engineState, gjk, i,
+							   this.player);
 		}
 
 		// TODO: make mobs drop cash on death?
@@ -651,12 +651,15 @@ public class PlayGame extends World
 	{
 		this.cashDisplay.setStr("Your Cash: $" + this.cash);
 	}
-	
+
 	/** update healthDisplay */
 	private void updateHealthDisplay()
 	{
 		this.healthDisplay.setStr(
-				"Your HP: "+ engineState.getComponentAt(HitPoints.class, this.player).getHP());
+			"Your HP: "
+			+ engineState
+				  .getComponentAt(HitPoints.class, this.player)
+				  .getHP());
 	}
 
 	/**
@@ -790,8 +793,8 @@ public class PlayGame extends World
 	private void findBulletHits(int bullet)
 	{
 		EngineState mapState = map.getLayerEngineState(1);
-		CombatFunctions.bulletHitHandler(engineState, mapState, gjk, bullet);
-		
+		CombatFunctions.bulletHitHandler(engineState, mapState, gjk,
+						 bullet);
 	}
 	// /ASE
 }
