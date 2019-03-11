@@ -741,7 +741,7 @@ public class PlayGame extends World
 	private void cashSpawner(boolean timed, float x, float y)
 	{
 		double currentPlayTime = this.getPlayTime();
-		if (timed == true
+		if (timed
 		    && currentPlayTime - this.timeOfLastCashSpawn
 			       > GameConfig.PICKUP_CASH_SPAWN_TIME) {
 			super.engineState.spawnEntitySet(
@@ -776,15 +776,7 @@ public class PlayGame extends World
 					.getLifespan();
 
 			if (this.getPlayTime() - spawnTime >= lifespan) {
-				this.engineState.deleteComponentAt(
-					CollectibleSet.class, i);
-				this.engineState.deleteComponentAt(Render.class,
-								   i);
-				this.engineState.deleteComponentAt(
-					WorldAttributes.class, i);
-				this.engineState.deleteComponentAt(
-					Lifespan.class, i);
-				this.engineState.markIndexAsFree(i);
+				CombatFunctions.removePickUp(engineState, i);
 			}
 		}
 	}

@@ -42,13 +42,12 @@ public class Logger
 	public static final void logMessage(String str, LogLevels lvl)
 	{
 
-		if (LOG_LEVEL_CAST.castToInt(lvl)
-		    >= LOG_LEVEL_CAST.castToInt(m_logging_level)) {
+		if (lvl.ordinal() >= m_logging_level.ordinal()) {
 			System.out.println(str);
+			return;
 		}
 
-		if (LOG_LEVEL_CAST.castToInt(lvl)
-		    == LOG_LEVEL_CAST.castToInt(LogLevels.MAJOR_CRITICAL)) {
+		if (lvl.ordinal() == LogLevels.MAJOR_CRITICAL.ordinal()) {
 			System.exit(0);
 			return;
 		}

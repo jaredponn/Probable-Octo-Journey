@@ -43,6 +43,15 @@ public class EngineState extends Components
 		}
 	}
 
+	/**
+	 * clears the engine state completely
+	 *
+	 */
+	public void clearEngineState()
+	{
+		m_component_list.clear();
+	}
+
 
 	/**
 	 * registers the component -- alias for registerComponent of Components.
