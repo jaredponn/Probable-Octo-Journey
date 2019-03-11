@@ -34,6 +34,9 @@ import poj.Render.RenderObject;
 import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
 
+import poj.Combat.CombatFunctions;
+import poj.Component.Components;
+
 public class PlayGame extends World
 {
 	// Render
@@ -838,19 +841,7 @@ public class PlayGame extends World
 					.getLifespan();
 
 			if (this.getPlayTime() - spawnTime >= lifespan) {
-				this.engineState.deleteComponentAt(Bullet.class,
-								   i);
-				this.engineState.deleteComponentAt(Render.class,
-								   i);
-				this.engineState.deleteComponentAt(
-					WorldAttributes.class, i);
-				this.engineState.deleteComponentAt(
-					Movement.class, i);
-				this.engineState.deleteComponentAt(
-					Lifespan.class, i);
-				this.engineState.deleteComponentAt(
-					PCollisionBody.class, i);
-				this.engineState.markIndexAsFree(i);
+				poj.Combat.CombatFunctions.removeBullet( engineState , i );
 			}
 		}
 	}
@@ -932,44 +923,23 @@ public class PlayGame extends World
 					    .getComponentAt(HitPoints.class, i)
 					    .getHP()
 				    <= 0) {
-					engineState.deleteComponentAt(
-						MobSet.class, i);
-					engineState.deleteComponentAt(
-						Render.class, i);
-					engineState.deleteComponentAt(
-						WorldAttributes.class, i);
-					engineState.deleteComponentAt(
-						HasAnimation.class, i);
-					engineState.deleteComponentAt(
-						Movement.class, i);
-					engineState.deleteComponentAt(
-						MovementDirection.class, i);
-					engineState.deleteComponentAt(
-						FacingDirection.class, i);
-					engineState.deleteComponentAt(
-						PCollisionBody.class, i);
-					engineState.deleteComponentAt(
-						HitPoints.class, i);
-					engineState.markIndexAsFree(i);
+					poj.Combat.CombatFunctions.removeMob( engineState , i );
 				}
 				// remove bullet
-				this.engineState.deleteComponentAt(Bullet.class,
-								   bullet);
-				this.engineState.deleteComponentAt(Render.class,
-								   bullet);
-				this.engineState.deleteComponentAt(
-					WorldAttributes.class, bullet);
-				this.engineState.deleteComponentAt(
-					Movement.class, bullet);
-				this.engineState.deleteComponentAt(
-					Lifespan.class, bullet);
-				this.engineState.deleteComponentAt(
-					PCollisionBody.class, bullet);
-				this.engineState.markIndexAsFree(bullet);
+				poj.Combat.CombatFunctions.removeBullet( engineState , bullet );
 
 				break;
 			}
 		}
+		//map.getLayerEngineState(1)
+		for (int i = map.getLayerEngineState(1).getInitialSetIndex(PCollisionBody.class);
+				Components.isValidEntity(i);
+				i = map.getLayerEngineState(1).getNextSetIndex(PCollisionBody.class, i)) {
+			if (Systems.arePCollisionBodiesColliding(gjk, bulletPosition, 
+					map.getLayerEngineState(1).getComponentAt(PCollisionBody.class, i)))
+				poj.Combat.CombatFunctions.removeBullet(engineState, bullet);
+		}
 	}
+		
 	// /ASE
 }

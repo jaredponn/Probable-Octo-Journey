@@ -14,6 +14,7 @@ public class Bullet extends EntitySet
 	public Bullet(double spawnTime)
 	{
 		super();
+		System.out.println("Bullet Spawned");
 		addComponent(new Render(GameResources.bulletImage));
 		addComponent(new WorldAttributes(GameConfig.BULLET_WIDTH,
 						 GameConfig.BULLET_HEIGHT));
