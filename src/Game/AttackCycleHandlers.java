@@ -23,8 +23,7 @@ public class AttackCycleHandlers
 
 	/**
 	 * Player's attack handler.
-	 * Variable names should be inutuitive.
-	 * @return      void
+	 * Variable names should be intuitive.
 	 */
 	public static void playerAttackHandler(EngineState engineState,
 					       int player,
