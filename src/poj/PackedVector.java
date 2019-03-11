@@ -67,11 +67,16 @@ public class PackedVector<T>
 	 */
 	public void delete_element_at_sparse_vector(final int index)
 	{
-		Logger.lassert(
-			(m_sparse_vector.get(index) == INVALID_INDEX),
-			"MINOR error in packedvector. You are deleting an entity that had already been deleted. The program should continue to work normally.");
+
 		int toBeDeletedIndexInPackedIndicies =
 			m_sparse_vector.get(index);
+
+		if (toBeDeletedIndexInPackedIndicies == INVALID_INDEX) {
+			Logger.logMessage(
+				"Deleting an entity that has already been deleted.");
+			return;
+		}
+
 		int lastElementInPackedIndicies =
 			m_packed_indices.get(m_packed_data.size() - 1);
 
