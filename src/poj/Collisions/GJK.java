@@ -14,6 +14,9 @@ package poj.Collisions;
  * Other useful readings on collision resolution:
  * https://stackoverflow.com/questions/36232613/how-can-one-have-right-movement-into-diagonal-collision-boxes-giving-diagonal-mo
  *
+ * Other notes on the implementing the full collision engine:
+ * n cross dv cross n == perpendicular vector
+ *
  * Date: March 10, 2019
  * @author  Jared Pon and code was taken / translated from / heavily influenced
  * by the following links:
@@ -120,9 +123,46 @@ public class GJK
 	 * @return      Optional of the time of collision
 	 */
 	private static int TIME_OF_COLLISION_RESOLUTION = 15;
-	public Optional<Double> timeOfPolygonCollision(final Polygon cola,
-						       final Polygon colb,
-						       final Vector2f db)
+	public Optional<Double>
+	upperBoundTimeOfPolygonCollision(final Polygon cola, final Polygon colb,
+					 final Vector2f db)
+	{
+		float mint = 0.0000001f; // min t
+		float t = 0.5f;		 // middle t
+		float maxt = 1f;	 // max t
+
+		// first case where we go the entire distance of the
+		// deltaof b
+		if (!this.areColliding(cola, colb, db)) {
+			return Optional.empty();
+		}
+
+		for (int i = 0; i < TIME_OF_COLLISION_RESOLUTION; ++i) {
+			t = (mint + maxt) / 2f;
+			final Vector2f d = db.pureMul(t);
+
+			final Polygon p =
+				generateStretchedPolygonWithDirectionVector(
+					colb, d);
+
+			this.clearVerticies();
+			if (this.areColliding(cola, p)) {
+				maxt = t;
+
+			} else {
+				mint = t;
+			}
+		}
+
+
+		return Optional.of((t + maxt) / 2d);
+	}
+
+	// alias for the upper bound except it calcluates and gives the lower
+	// bound. TODO clean up this code
+	public Optional<Double>
+	lowerBoundTimeOfPolygonCollision(final Polygon cola, final Polygon colb,
+					 final Vector2f db)
 	{
 		float mint = 0.0000001f; // min t
 		float t = 0.5f;		 // middle t
@@ -154,6 +194,7 @@ public class GJK
 
 		return Optional.of((t + mint) / 2d);
 	}
+
 
 	/**
 	 * Calculates the pentration vector of 2 colliding CollisionShapes --

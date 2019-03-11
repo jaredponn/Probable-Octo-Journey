@@ -334,10 +334,10 @@ public class GJKTests
 		GJK gjk = new GJK();
 
 		gjk.clearVerticies();
-		assertEquals(0d, gjk.timeOfPolygonCollision(r1, r2, d).get(),
+		assertEquals(0d, gjk.upperBoundTimeOfPolygonCollision(r1, r2, d).get(),
 			     0.0001d);
 
-		System.out.println(gjk.timeOfPolygonCollision(r1, r2, d).get());
+		System.out.println(gjk.upperBoundTimeOfPolygonCollision(r1, r2, d).get());
 	}
 
 	@Test public void assortedTimeOfPolygonCollisionTest()
@@ -360,8 +360,8 @@ public class GJKTests
 			gjk.clearVerticies();
 
 			Optional<Double> tmp =
-				gjk.timeOfPolygonCollision(r2, r1, d);
-			assertTrue(gjk.timeOfPolygonCollision(r2, r1, d)
+				gjk.upperBoundTimeOfPolygonCollision(r2, r1, d);
+			assertTrue(gjk.upperBoundTimeOfPolygonCollision(r2, r1, d)
 					   .isPresent());
 			System.out.println("to tmp " + tmp.get());
 		}
@@ -408,7 +408,7 @@ public class GJKTests
 			gjk.clearVerticies();
 
 			Optional<Double> tmp =
-				gjk.timeOfPolygonCollision(r1, r2, d);
+				gjk.upperBoundTimeOfPolygonCollision(r1, r2, d);
 			System.out.println("to tmp " + tmp.get());
 		}
 	}
