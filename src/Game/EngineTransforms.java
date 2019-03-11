@@ -247,7 +247,6 @@ public class EngineTransforms
 			engineState.getComponentAt(HasAnimation.class, mob1)
 				.setAnimation(
 					findEnemyFacingSprite(tempDir, 0));
-
 			return;
 		}
 

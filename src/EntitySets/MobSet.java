@@ -35,6 +35,7 @@ public class MobSet extends EntitySet
 		addComponent(new PhysicsPCollisionBody(
 			GameConfig.MOB_COLLISION_BODY));
 		addComponent(new HitPoints(GameConfig.MOB_HP));
+		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
 
 
 		// TODO: mob sprite sheet
@@ -65,6 +66,7 @@ public class MobSet extends EntitySet
 		addComponent(new PhysicsPCollisionBody(
 			GameConfig.MOB_COLLISION_BODY));
 		addComponent(new HitPoints(GameConfig.MOB_HP));
+		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
 	}
 
 	/**
@@ -89,5 +91,6 @@ public class MobSet extends EntitySet
 		addComponent(new PhysicsPCollisionBody(
 			GameConfig.MOB_COLLISION_BODY));
 		addComponent(new HitPoints(GameConfig.MOB_HP));
+		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
 	}
 }
