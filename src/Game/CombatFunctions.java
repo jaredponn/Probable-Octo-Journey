@@ -1,4 +1,4 @@
-package poj.Combat;
+package Game;
 
 import EntitySets.Bullet;
 import EntitySets.MobSet;
@@ -12,10 +12,6 @@ import Components.PCollisionBody;
 import Components.HitPoints;
 import Components.Lifespan;
 import poj.EngineState;
-import poj.Collisions.*;
-import poj.Component.Components;
-import Game.Systems;
-import Resources.GameConfig;
 
 public class CombatFunctions {
 
@@ -33,6 +29,7 @@ public class CombatFunctions {
 	}
 	
 	public static void removeBullet( EngineState engineState , int bullet ) {
+		System.out.println("Bullet Deleted");
 		engineState.deleteComponentAt( Bullet.class  , bullet );
 		engineState.deleteComponentAt( Render.class , bullet );
 		engineState.deleteComponentAt( WorldAttributes.class , bullet );
@@ -42,3 +39,4 @@ public class CombatFunctions {
 		engineState.markIndexAsFree( bullet );
 	}
 }
+
