@@ -262,7 +262,7 @@ public class PlayGame extends World
 
 		// EngineTransforms.generateDiffusionMap(this.map, 0, 1f / 8f);
 		for (int i = this.engineState.getInitialSetIndex(MobSet.class);
-		     this.engineState.isValidEntity(i);
+		     poj.EngineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(MobSet.class, i)) {
 
 			EngineTransforms.updateEnemyPositionFromPlayer(
@@ -297,7 +297,7 @@ public class PlayGame extends World
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 				this.engineState, this.cam);
 
-		System.out.println("----------------------- end one loop");
+		// System.out.println("----------------------- end one loop");
 		// rendering is run after this is run
 	}
 
@@ -679,11 +679,24 @@ public class PlayGame extends World
 			Vector2f unitVecPlayerPosToMouseDelta =
 				tmp1.pureNormalize();
 
-			int e = super.engineState.spawnEntitySet(
-				new Bullet(this.getPlayTime()));
+			int e = super.engineState.spawnEntitySet(new Bullet(
+				this.getPlayTime(),
+				new Vector2f(
+					super.getComponentAt(
+						     WorldAttributes.class,
+						     this.player)
+						.getCenteredBottomQuarter())));
+			super.engineState
+				.getComponentAt(PCollisionBody.class, e)
+				.setPositionPoint(
+					super.getComponentAt(
+						     WorldAttributes.class,
+						     this.player)
+						.getCenteredBottomQuarter());
 			float bulletSpeed =
 				super.getComponentAt(Movement.class, e)
 					.getSpeed();
+			/*
 			Vector2f tmp = new Vector2f(
 				super.getComponentAt(WorldAttributes.class,
 						     this.player)
@@ -691,6 +704,7 @@ public class PlayGame extends World
 
 			super.getComponentAt(WorldAttributes.class, e)
 				.setOriginCoord(tmp);
+				*/
 
 			super.getComponentAt(Movement.class, e)
 				.setVelocity(
@@ -944,8 +958,11 @@ public class PlayGame extends World
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, bulletPosition, b)) {
 
+				bulletPosition.print();
+				b.print();
 				CombatFunctions.removeBullet(engineState,
 							     bullet);
+				break;
 			}
 		}
 	}
