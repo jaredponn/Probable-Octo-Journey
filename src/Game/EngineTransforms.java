@@ -170,10 +170,6 @@ public class EngineTransforms
 						mob1)
 				.getPolygon()
 				.pureGetAPointInPolygon(0);
-		/*
-	engineState.getComponentAt(WorldAttributes.class, mob1)
-		.getCenteredBottomQuarter();
-		*/
 
 		Vector2f playerPosition =
 			engineState
