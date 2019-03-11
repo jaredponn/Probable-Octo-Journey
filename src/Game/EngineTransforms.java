@@ -215,9 +215,19 @@ public class EngineTransforms
 			PCollisionBody.class, player);
 
 		if (Systems.arePCollisionBodiesColliding(gjk, a, b)) {
-			// idle position
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(0);
+
+			CardinalDirections tempDir =
+				engineState
+					.getComponentAt(MovementDirection.class,
+							mob1)
+					.getDirection();
+
+			// idle position
+			engineState.getComponentAt(HasAnimation.class, mob1)
+				.setAnimation(
+					findEnemyFacingSprite(tempDir, 0));
 			return;
 		}
 
@@ -280,9 +290,17 @@ public class EngineTransforms
 				" went inside this cord is bigger than all neightbours!!");
 			System.out.println(
 				"set the mob speed equal to 0!!!!!!!");
-			// zombie will be in idle
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(0f);
+			// zombie will be in idle
+			CardinalDirections tempDir =
+				engineState
+					.getComponentAt(MovementDirection.class,
+							mob1)
+					.getDirection();
+			engineState.getComponentAt(HasAnimation.class, mob1)
+				.setAnimation(
+					findEnemyFacingSprite(tempDir, 0));
 		}
 		// the max neighbour value is bigger than the value of the tile
 		// that the mob is standing on
