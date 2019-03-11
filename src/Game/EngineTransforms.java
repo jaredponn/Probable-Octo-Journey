@@ -1,4 +1,5 @@
 package Game;
+import java.awt.Color;
 
 /**
  * Engine Transforms. Mutations to the PlayGame engineState.
@@ -17,8 +18,9 @@ import Components.CardinalDirections;
 import Components.HasAnimation;
 import Components.Movement;
 import Components.MovementDirection;
-import Components.PhysicsPCollisionBody;
+import Components.PHitBox;
 import Components.PathFindCord;
+import Components.PhysicsPCollisionBody;
 import Components.Render;
 import Components.WorldAttributes;
 import EntitySets.PlayerSet;
@@ -30,12 +32,10 @@ import TileMap.MapLayer;
 
 import poj.Animation;
 import poj.EngineState;
-import poj.GameWindow.InputPoller;
 import poj.Collisions.GJK;
 import poj.Component.Component;
 import poj.Component.Components;
-import poj.Logger.LogLevels;
-import poj.Logger.Logger;
+import poj.GameWindow.InputPoller;
 import poj.Render.RenderObject;
 import poj.Time.Timer;
 import poj.linear.Vector2f;
@@ -500,6 +500,23 @@ public class EngineTransforms
 	}
 
 
+	public static void debugRenderPHitBox(final EngineState e,
+					      Queue<RenderObject> q,
+					      final Camera cam)
+	{
+
+		for (int i = e.getInitialSetIndex(PHitBox.class);
+		     Components.isValidEntity(i);
+		     i = e.getNextSetIndex(PHitBox.class, i)) {
+			System.out.println("i = " + i);
+			Systems.pCollisionBodyDebugRenderer(
+				e.getComponentAt(PHitBox.class, i), q, cam,
+				Color.BLUE);
+		}
+		System.out.println("end of debugRenderPHitBox");
+	}
+
+
 	public static void
 	arePhysicsPCollisionBodiesColliding(EngineState engineState, GJK g,
 					    Class<? extends Component> set0,
@@ -574,7 +591,7 @@ public class EngineTransforms
 	}
 
 	public static void
-	updatePhysicsPCollisionFromWorldAttr(final EngineState e)
+	updatePCollisionBodiesFromWorldAttr(final EngineState e)
 	{
 
 		for (int i = e.getInitialSetIndex(PhysicsPCollisionBody.class);
@@ -583,6 +600,14 @@ public class EngineTransforms
 			Systems.updatePCollisionBodyPositionFromWorldAttr(
 				e.getComponentAt(PhysicsPCollisionBody.class,
 						 i),
+				e.getComponentAt(WorldAttributes.class, i));
+		}
+
+		for (int i = e.getInitialSetIndex(PHitBox.class);
+		     Components.isValidEntity(i);
+		     i = e.getNextSetIndex(PHitBox.class, i)) {
+			Systems.updatePCollisionBodyPositionFromWorldAttr(
+				e.getComponentAt(PHitBox.class, i),
 				e.getComponentAt(WorldAttributes.class, i));
 		}
 	}

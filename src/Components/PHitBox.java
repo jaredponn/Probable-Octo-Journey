@@ -1,8 +1,4 @@
 package Components;
-import poj.linear.*;
-import poj.Component.*;
-import poj.Collisions.*;
-
 /**
  * PHitBox. PHitBox
  *
@@ -11,7 +7,11 @@ import poj.Collisions.*;
  * @version 1.0
  */
 
-public class PHitBox extends PhysicsPCollisionBody
+import poj.linear.*;
+import poj.Component.*;
+import poj.Collisions.*;
+
+public class PHitBox extends PCollisionBody
 {
 	/**
 	 * Constructs a PHitBox object that is used for collision
@@ -25,5 +25,10 @@ public class PHitBox extends PhysicsPCollisionBody
 	public PHitBox(Vector2f d, Vector2f... pts)
 	{
 		super(d, pts);
+	}
+
+	public PHitBox(PCollisionBody pb)
+	{
+		super(pb);
 	}
 }
