@@ -247,10 +247,7 @@ public class EngineTransforms
 			engineState.getComponentAt(HasAnimation.class, mob1)
 				.setAnimation(
 					findEnemyFacingSprite(tempDir, 0));
-			// TODO REMOVE THIS
-			System.out.println(
-				"GAME OVER -- PLAYER TOUCHED ZOMBIE");
-			// System.exit(0);
+
 			return;
 		}
 
