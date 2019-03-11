@@ -19,11 +19,11 @@ package poj.Collisions;
  *
  * Date: March 10, 2019
  * @author  Jared Pon and code was taken / translated from / heavily influenced
- * by the following links:
+ * from the following links:
  * https://caseymuratori.com/blog_0003
  * http://www.dyn4j.org/2010/04/gjk-gilbert-johnson-keerthi/
  * https://blog.hamaluik.ca/posts/building-a-collision-engine-part-1-2d-gjk-collision-detection/
- *https://blog.hamaluik.ca/posts/building-a-collision-engine-part-2-2d-penetration-vectors/
+ * https://blog.hamaluik.ca/posts/building-a-collision-engine-part-2-2d-penetration-vectors/
  * http://www.dyn4j.org/2010/05/epa-expanding-polytope-algorithm/
  * https://github.com/hamaluik/headbutt/blob/3985a0a39c77a9539fad2383c84f5d448b4e87ae/src/headbutt/twod/Headbutt.hx
  * https://github.com/hamaluik/headbutt/blob/master/src/headbutt/twod/Headbutt.hx

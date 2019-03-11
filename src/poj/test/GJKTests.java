@@ -334,10 +334,13 @@ public class GJKTests
 		GJK gjk = new GJK();
 
 		gjk.clearVerticies();
-		assertEquals(0d, gjk.upperBoundTimeOfPolygonCollision(r1, r2, d).get(),
-			     0.0001d);
+		assertEquals(
+			0d,
+			gjk.upperBoundTimeOfPolygonCollision(r1, r2, d).get(),
+			0.0001d);
 
-		System.out.println(gjk.upperBoundTimeOfPolygonCollision(r1, r2, d).get());
+		System.out.println(
+			gjk.upperBoundTimeOfPolygonCollision(r1, r2, d).get());
 	}
 
 	@Test public void assortedTimeOfPolygonCollisionTest()
@@ -361,8 +364,9 @@ public class GJKTests
 
 			Optional<Double> tmp =
 				gjk.upperBoundTimeOfPolygonCollision(r2, r1, d);
-			assertTrue(gjk.upperBoundTimeOfPolygonCollision(r2, r1, d)
-					   .isPresent());
+			assertTrue(
+				gjk.upperBoundTimeOfPolygonCollision(r2, r1, d)
+					.isPresent());
 			System.out.println("to tmp " + tmp.get());
 		}
 	}
@@ -421,6 +425,43 @@ public class GJKTests
 
 			Polygon r1 = new Polygon(
 				new Vector2f(0, 0), new Vector2f(0, 1),
+				new Vector2f(1, 1), new Vector2f(1, 0));
+
+
+			Polygon r2 = new Polygon(
+				new Vector2f(0.5f, 0), new Vector2f(0.5f, 1),
+				new Vector2f(1.5f, 1), new Vector2f(1.5f, 0));
+
+
+			GJK gjk = new GJK();
+			gjk.clearVerticies();
+
+			assertTrue(gjk.areColliding(r1, r2));
+
+			Vector2f tmp = gjk.calculatePenetrationVector(r1, r2);
+
+			assertEquals(0.5f, tmp.x, 0.0001f);
+			assertEquals(0.0f, tmp.y, 0.0001f);
+		}
+	}
+
+	@Test public void multiplePointsRectEpaTests()
+	{
+
+		{
+
+			Polygon r1 = new Polygon(
+				new Vector2f(0, 0), new Vector2f(0, 1),
+				new Vector2f(1, 1), new Vector2f(1, 0),
+				new Vector2f(0, 0), new Vector2f(0, 1),
+				new Vector2f(0, 0), new Vector2f(0, 1),
+				new Vector2f(0, 0), new Vector2f(0, 1),
+				new Vector2f(0, 0), new Vector2f(0, 1),
+				new Vector2f(0, 0), new Vector2f(0, 1),
+				new Vector2f(1, 1), new Vector2f(1, 0),
+				new Vector2f(1, 1), new Vector2f(1, 0),
+				new Vector2f(1, 1), new Vector2f(1, 0),
+				new Vector2f(1, 1), new Vector2f(1, 0),
 				new Vector2f(1, 1), new Vector2f(1, 0));
 
 
