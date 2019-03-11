@@ -623,4 +623,64 @@ public class EngineTransforms
 			return GameResources.enemyNMoveAnimation;
 		}
 	}
+
+	public static Animation findPlayerFacingSprite(CardinalDirections dir,
+						       int flag)
+	{
+
+		// flag =0, will return idle position, if flag =1, will return
+		// move direction
+		switch (dir) {
+		case N:
+			if (flag == 0) {
+				return GameResources.playerNIdleAnimation;
+			} else {
+				return GameResources.playerNMoveAnimation;
+			}
+		case NE:
+			if (flag == 0) {
+				return GameResources.playerNIdleAnimation;
+			} else {
+				return GameResources.playerNMoveAnimation;
+			}
+		case NW:
+			if (flag == 0) {
+				return GameResources.playerNIdleAnimation;
+			} else {
+				return GameResources.playerNMoveAnimation;
+			}
+		case S:
+			if (flag == 0) {
+				return GameResources.playerSIdleAnimation;
+			} else {
+				return GameResources.playerSMoveAnimation;
+			}
+		case SE:
+			if (flag == 0) {
+				return GameResources.playerSIdleAnimation;
+			} else {
+				return GameResources.playerSMoveAnimation;
+			}
+		case SW:
+			if (flag == 0) {
+				return GameResources.playerSIdleAnimation;
+			} else {
+				return GameResources.playerSMoveAnimation;
+			}
+		case W:
+			if (flag == 0) {
+				return GameResources.playerWIdleAnimation;
+			} else {
+				return GameResources.playerWMoveAnimation;
+			}
+		case E:
+			if (flag == 0) {
+				return GameResources.playerEIdleAnimation;
+			} else {
+				return GameResources.playerEMoveAnimation;
+			}
+		default:
+			return GameResources.playerNIdleAnimation;
+		}
+	}
 }

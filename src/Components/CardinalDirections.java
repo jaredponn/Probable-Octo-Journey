@@ -123,37 +123,4 @@ public enum CardinalDirections {
 			return CardinalDirections.N;
 		}
 	}
-
-
-	public static CardinalDirections
-	getClosestDirectionFromDirectionVectorPathFinding(Vector2f mobPosition,
-							  Vector2f maxPosition)
-	{
-		// slightly magical function from:
-		// https://stackoverflow.com/questions/1437790/how-to-snap-a-directional-2d-vector-to-a-compass-n-ne-e-se-s-sw-w-nw
-		mobPosition.floorOfValues();
-		maxPosition.floorOfValues();
-		Vector2f difference =
-			maxPosition.subtractAndReturnVector(mobPosition);
-		if (difference.equals(new Vector2f(-1f, -1f))) {
-			return CardinalDirections.SW;
-		} else if (difference.equals(new Vector2f(-1f, 0f))) {
-			return CardinalDirections.W;
-		} else if (difference.equals(new Vector2f(-1f, 1f))) {
-			return CardinalDirections.NW;
-		} else if (difference.equals(new Vector2f(0f, -1f))) {
-			return CardinalDirections.S;
-		} else if (difference.equals(new Vector2f(0f, 1f))) {
-			return CardinalDirections.N;
-		} else if (difference.equals(new Vector2f(1f, -1f))) {
-			return CardinalDirections.SE;
-		} else if (difference.equals(new Vector2f(1f, 0f))) {
-			return CardinalDirections.E;
-		} else if (difference.equals(new Vector2f(1f, 1f))) {
-			return CardinalDirections.NE;
-		} else {
-			// TODO this should return the no-movement one
-			return CardinalDirections.N;
-		}
-	}
 }
