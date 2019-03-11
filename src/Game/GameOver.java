@@ -1,5 +1,5 @@
 package Game;
 
-public class GameOver extends World
+public class GameOver
 {
 }
