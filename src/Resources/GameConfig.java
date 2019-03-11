@@ -71,6 +71,9 @@ public class GameConfig
 	public static final PCollisionBody BULLET_COLLISION_BODY =
 		new PCollisionBody(new Vector2f(0.0f, 0.0f), // displacement
 							     // collision body:
+				   new Vector2f(0, 0),
+				   new Vector2f(0, BULLET_HEIGHT),
+				   new Vector2f(BULLET_WIDTH, 0),
 				   new Vector2f(BULLET_WIDTH, BULLET_HEIGHT));
 	/*
 	public static final PCollisionBody BULLET_COLLISION_BODY =

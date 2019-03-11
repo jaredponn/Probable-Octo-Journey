@@ -34,7 +34,6 @@ import poj.Render.RenderObject;
 import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
 
-import poj.Combat.CombatFunctions;
 import poj.Component.Components;
 
 public class PlayGame extends World
@@ -846,7 +845,7 @@ public class PlayGame extends World
 					.getLifespan();
 
 			if (this.getPlayTime() - spawnTime >= lifespan) {
-				poj.Combat.CombatFunctions.removeBullet( engineState , i );
+				CombatFunctions.removeBullet( engineState , i );
 			}
 		}
 	}
@@ -928,23 +927,25 @@ public class PlayGame extends World
 					    .getComponentAt(HitPoints.class, i)
 					    .getHP()
 				    <= 0) {
-					poj.Combat.CombatFunctions.removeMob( engineState , i );
+					CombatFunctions.removeMob( engineState , i );
 				}
 				// remove bullet
-				poj.Combat.CombatFunctions.removeBullet( engineState , bullet );
+				CombatFunctions.removeBullet( engineState , bullet );
 
 				break;
 			}
 		}
-		//map.getLayerEngineState(1)
-		for (int i = map.getLayerEngineState(1).getInitialSetIndex(PCollisionBody.class);
-				Components.isValidEntity(i);
-				i = map.getLayerEngineState(1).getNextSetIndex(PCollisionBody.class, i)) {
-			if (Systems.arePCollisionBodiesColliding(gjk, bulletPosition, 
-					map.getLayerEngineState(1).getComponentAt(PCollisionBody.class, i)))
-				poj.Combat.CombatFunctions.removeBullet(engineState, bullet);
+		for (PCollisionBody b :
+		     map.getLayerEngineState(1)
+			     .getRawComponentArrayListPackedData(
+				     PCollisionBody.class)) {
+			if (Systems.arePCollisionBodiesColliding(
+				    gjk, bulletPosition, b)) {
+
+				CombatFunctions.removeBullet(
+					engineState, bullet);
+			}
 		}
 	}
-		
 	// /ASE
 }

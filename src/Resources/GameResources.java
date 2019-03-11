@@ -91,7 +91,7 @@ public class GameResources
 	 * each animation is 126 x 150
 	 */
 	public static final int PLAYER_SPRITE_WIDTH = 125;
-	public static final int PLAYER_SPRITE_HEIGHT = 152;
+	public static final int PLAYER_SPRITE_HEIGHT = 155;
 	// movement animation
 	public static Animation playerNMoveAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
