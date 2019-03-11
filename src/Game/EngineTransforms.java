@@ -250,7 +250,7 @@ public class EngineTransforms
 			// TODO REMOVE THIS
 			System.out.println(
 				"GAME OVER -- PLAYER TOUCHED ZOMBIE");
-			System.exit(0);
+			// System.exit(0);
 			return;
 		}
 
