@@ -62,7 +62,6 @@ public class PlayGame extends World
 	// Higher level game logic
 	private int player;
 	public static double EPSILON = 0.0001d;
-	private Vector2f unitVecPlayerPosToMouseDelta;
 	private CardinalDirections prevDirection = CardinalDirections.N;
 	private WeaponState curWeaponState = WeaponState.Gun;
 
@@ -119,7 +118,6 @@ public class PlayGame extends World
 		// this.map.addMapLayer(GameResources.mapLayer2);
 
 		this.cam = new Camera();
-		this.unitVecPlayerPosToMouseDelta = new Vector2f();
 
 		this.groundBuffer = new LinkedList<RenderObject>();
 		this.entityBuffer = new MinYFirstSortedRenderObjectBuffer();
@@ -578,23 +576,14 @@ public class PlayGame extends World
 		}
 
 		////// Mouse handling  //////
-		Vector2f playerPosition =
-			super.getComponentAt(WorldAttributes.class, this.player)
-				.getCenteredBottomQuarter();
 
-		Vector2f mousePosition = super.inputPoller.getMousePosition();
-		mousePosition.matrixMultiply(this.invCam);
-
-		Vector2f tmp = playerPosition.pureSubtract(mousePosition);
-		tmp.negate();
+		/*
 		CardinalDirections facingDirection =
 			CardinalDirections
 				.getClosestDirectionFromDirectionVector(tmp);
-
 		super.getComponentAt(FacingDirection.class, player)
 			.setDirection(facingDirection);
-
-		this.unitVecPlayerPosToMouseDelta = tmp.pureNormalize();
+			*/
 	}
 
 	// Render function
@@ -675,6 +664,22 @@ public class PlayGame extends World
 	{
 		switch (curWeaponState) {
 		case Gun:
+
+			Vector2f playerPosition =
+				super.getComponentAt(WorldAttributes.class,
+						     this.player)
+					.getCenteredBottomQuarter();
+
+			Vector2f mousePosition =
+				super.inputPoller.getMousePosition();
+			mousePosition.matrixMultiply(this.invCam);
+
+			Vector2f tmp1 =
+				playerPosition.pureSubtract(mousePosition);
+			tmp1.negate();
+			Vector2f unitVecPlayerPosToMouseDelta =
+				tmp1.pureNormalize();
+
 			int e = super.engineState.spawnEntitySet(
 				new Bullet(this.getPlayTime()));
 			float bulletSpeed =
@@ -683,15 +688,15 @@ public class PlayGame extends World
 			Vector2f tmp = new Vector2f(
 				super.getComponentAt(WorldAttributes.class,
 						     this.player)
-					.getOriginCoord());
-			tmp.add(1f, 2f);
+					.getCenteredBottomQuarter());
 
 			super.getComponentAt(WorldAttributes.class, e)
 				.setOriginCoord(tmp);
 
 			super.getComponentAt(Movement.class, e)
-				.setVelocity(this.unitVecPlayerPosToMouseDelta
-						     .pureMul(bulletSpeed));
+				.setVelocity(
+					unitVecPlayerPosToMouseDelta.pureMul(
+						bulletSpeed));
 			break;
 		case Melee:
 			System.out.println("melee weapon was attacked");
