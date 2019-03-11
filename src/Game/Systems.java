@@ -112,17 +112,17 @@ public class Systems
 	}
 
 	public static boolean
-	arePCollisionBodiesColliding(GJK g, PCollisionBody a, PCollisionBody b)
+	arePCollisionBodiesColliding(GJK g, PhysicsPCollisionBody a,
+				     PhysicsPCollisionBody b)
 	{
 		g.clearVerticies();
 		return g.areColliding(a.getPolygon(), b.getPolygon());
 	}
 
 	// faster form of just determining if collisions are colliding
-	public static boolean arePCollisionBodiesColliding(GJK g,
-							   PCollisionBody a,
-							   PCollisionBody b,
-							   Movement dv)
+	public static boolean
+	arePCollisionBodiesColliding(GJK g, PhysicsPCollisionBody a,
+				     PhysicsPCollisionBody b, Movement dv)
 	{
 		g.clearVerticies();
 		return g.areColliding(a.getPolygon(), b.getPolygon(),
@@ -130,8 +130,8 @@ public class Systems
 	}
 
 	public static Optional<Double>
-	pCollisionBodiesTimeOfCollision(GJK g, PCollisionBody a,
-					PCollisionBody b, Movement dv,
+	pCollisionBodiesTimeOfCollision(GJK g, PhysicsPCollisionBody a,
+					PhysicsPCollisionBody b, Movement dv,
 					double dt)
 	{
 		g.clearVerticies();
@@ -140,22 +140,29 @@ public class Systems
 	}
 
 
-	public static void pCollisionBodyDebugRenderer(final PCollisionBody pc,
-						       Queue<RenderObject> q,
-						       final Camera cam)
+	public static void
+	pCollisionBodyDebugRenderer(final PhysicsPCollisionBody pc,
+				    Queue<RenderObject> q, final Camera cam)
+	{
+		pCollisionBodyDebugRenderer(pc, q, cam, Color.RED);
+	}
+
+	public static void
+	pCollisionBodyDebugRenderer(final PhysicsPCollisionBody pc,
+				    Queue<RenderObject> q, final Camera cam,
+				    Color r)
 	{
 		Polygon p = pc.getPolygon();
 		Vector2f[] pts = p.pts();
 
 		for (int i = 0; i < p.getSize(); ++i) {
 			final Vector2f sc = pts[i].pureMatrixMultiply(cam);
-			q.add(new RenderRect((int)sc.x, (int)sc.y, 2, 2,
-					     Color.RED));
+			q.add(new RenderRect((int)sc.x, (int)sc.y, 2, 2, r));
 		}
 	}
 
 	public static void
-	updatePCollisionBodyPositionFromWorldAttr(PCollisionBody p,
+	updatePCollisionBodyPositionFromWorldAttr(PhysicsPCollisionBody p,
 						  WorldAttributes w)
 	{
 		Vector2f tmp = w.getOriginCoord();

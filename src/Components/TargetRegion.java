@@ -6,7 +6,7 @@ import poj.linear.*;
 /**
  * Alias for PCollisionBody -- a regions of collisions for the turret
  */
-public class TargetRegion extends PCollisionBody
+public class TargetRegion extends PhysicsPCollisionBody
 {
 	public TargetRegion(Vector2f d, Vector2f... pts)
 	{

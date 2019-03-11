@@ -9,7 +9,7 @@ import Components.CardinalDirections;
 import Components.HasAnimation;
 import Components.Movement;
 import Components.MovementDirection;
-import Components.PCollisionBody;
+import Components.PhysicsPCollisionBody;
 import Components.PathFindCord;
 import Components.Render;
 import Components.WorldAttributes;
@@ -211,11 +211,11 @@ public class EngineTransforms
 
 		// if mob and player are at the same tile
 
-		final PCollisionBody a =
-			engineState.getComponentAt(PCollisionBody.class, mob1);
+		final PhysicsPCollisionBody a = engineState.getComponentAt(
+			PhysicsPCollisionBody.class, mob1);
 
-		final PCollisionBody b = engineState.getComponentAt(
-			PCollisionBody.class, player);
+		final PhysicsPCollisionBody b = engineState.getComponentAt(
+			PhysicsPCollisionBody.class, player);
 
 		if (Systems.arePCollisionBodiesColliding(gjk, a, b)) {
 			engineState.getComponentAt(Movement.class, mob1)
@@ -334,11 +334,11 @@ public class EngineTransforms
 				    int turretPosition, int mob1, GJK gjk)
 	{
 
-		final PCollisionBody a = engineState.getComponentAt(
-			PCollisionBody.class, turretPosition);
+		final PhysicsPCollisionBody a = engineState.getComponentAt(
+			PhysicsPCollisionBody.class, turretPosition);
 
-		final PCollisionBody b =
-			engineState.getComponentAt(PCollisionBody.class, mob1);
+		final PhysicsPCollisionBody b = engineState.getComponentAt(
+			PhysicsPCollisionBody.class, mob1);
 
 		if (Systems.arePCollisionBodiesColliding(gjk, a, b)) {
 			engineState.getComponentAt(Movement.class, mob1)
@@ -464,40 +464,41 @@ public class EngineTransforms
 		}
 	}
 
-	public static void debugRenderPolygons(final EngineState e,
-					       Queue<RenderObject> q,
-					       final Camera cam)
+	public static void debugRenderPhysicsPCollisionBodies(
+		final EngineState e, Queue<RenderObject> q, final Camera cam)
 	{
 
-		for (int i = e.getInitialSetIndex(PCollisionBody.class);
+		for (int i = e.getInitialSetIndex(PhysicsPCollisionBody.class);
 		     Components.isValidEntity(i);
-		     i = e.getNextSetIndex(PCollisionBody.class, i)) {
+		     i = e.getNextSetIndex(PhysicsPCollisionBody.class, i)) {
 			Systems.pCollisionBodyDebugRenderer(
-				e.getComponentAt(PCollisionBody.class, i), q,
-				cam);
+				e.getComponentAt(PhysicsPCollisionBody.class,
+						 i),
+				q, cam);
 		}
 	}
 
 
 	public static void
-	arePCollisionBodiesColliding(EngineState engineState, GJK g,
-				     Class<? extends Component> set0,
-				     Class<? extends Component> set1)
+	arePhysicsPCollisionBodiesColliding(EngineState engineState, GJK g,
+					    Class<? extends Component> set0,
+					    Class<? extends Component> set1)
 	{
 		for (int i = engineState.getInitialSetIndex(set0);
 		     Components.isValidEntity(i);
 		     i = engineState.getNextSetIndex(set0, i)) {
 
-			final PCollisionBody a = engineState.getComponentAt(
-				PCollisionBody.class, i);
+			final PhysicsPCollisionBody a =
+				engineState.getComponentAt(
+					PhysicsPCollisionBody.class, i);
 
 			for (int j = engineState.getInitialSetIndex(set1);
 			     Components.isValidEntity(j);
 			     j = engineState.getNextSetIndex(set1, j)) {
 
-				final PCollisionBody b =
+				final PhysicsPCollisionBody b =
 					engineState.getComponentAt(
-						PCollisionBody.class, j);
+						PhysicsPCollisionBody.class, j);
 
 				if (Systems.arePCollisionBodiesColliding(g, a,
 									 b)) {
@@ -514,7 +515,7 @@ public class EngineTransforms
 		}
 	}
 
-	public static void resolvePCollisionBodiesAgainstTileMap(
+	public static void resolvePhysicsPCollisionBodiesAgainstTileMap(
 		EngineState engineState, GJK g,
 		final Class<? extends Component> set0, final MapLayer map,
 		final double dt)
@@ -523,15 +524,16 @@ public class EngineTransforms
 		     Components.isValidEntity(i);
 		     i = engineState.getNextSetIndex(set0, i)) {
 
-			final PCollisionBody a = engineState.getComponentAt(
-				PCollisionBody.class, i);
+			final PhysicsPCollisionBody a =
+				engineState.getComponentAt(
+					PhysicsPCollisionBody.class, i);
 
 			Movement va =
 				engineState.getComponentAt(Movement.class, i);
 
-			for (PCollisionBody b :
+			for (PhysicsPCollisionBody b :
 			     map.getRawComponentArrayListPackedData(
-				     PCollisionBody.class)) {
+				     PhysicsPCollisionBody.class)) {
 
 				Optional<Double> tmp =
 					Systems.pCollisionBodiesTimeOfCollision(
@@ -544,24 +546,22 @@ public class EngineTransforms
 					va.getVelocity().mul((float)rt);
 					va.getVelocity().log();
 
-					//	System.out.println(
-					//		a.getPolygon().toString());
-					//	System.out.println(
-					//		b.getPolygon().toString());
 					break;
 				}
 			}
 		}
 	}
 
-	public static void updatePCollisionFromWorldAttr(final EngineState e)
+	public static void
+	updatePhysicsPCollisionFromWorldAttr(final EngineState e)
 	{
 
-		for (int i = e.getInitialSetIndex(PCollisionBody.class);
+		for (int i = e.getInitialSetIndex(PhysicsPCollisionBody.class);
 		     Components.isValidEntity(i);
-		     i = e.getNextSetIndex(PCollisionBody.class, i)) {
+		     i = e.getNextSetIndex(PhysicsPCollisionBody.class, i)) {
 			Systems.updatePCollisionBodyPositionFromWorldAttr(
-				e.getComponentAt(PCollisionBody.class, i),
+				e.getComponentAt(PhysicsPCollisionBody.class,
+						 i),
 				e.getComponentAt(WorldAttributes.class, i));
 		}
 	}

@@ -12,7 +12,7 @@ import Components.HitPoints;
 import Components.Lifespan;
 import Components.Movement;
 import Components.MovementDirection;
-import Components.PCollisionBody;
+import Components.PhysicsPCollisionBody;
 import Components.Render;
 import Components.WorldAttributes;
 import EntitySets.Bullet;
@@ -144,7 +144,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(FacingDirection.class);
 		super.engineState.registerComponent(AttackCycle.class);
 		super.engineState.registerComponent(Movement.class);
-		super.engineState.registerComponent(PCollisionBody.class);
+		super.engineState.registerComponent(PhysicsPCollisionBody.class);
 		super.engineState.registerComponent(Lifespan.class);
 		super.engineState.registerComponent(HitPoints.class);
 	}
@@ -225,21 +225,21 @@ public class PlayGame extends World
 		EngineTransforms.setMovementVelocityFromMovementDirection(
 			this.engineState);
 
-		EngineTransforms.updatePCollisionFromWorldAttr(
+		EngineTransforms.updatePhysicsPCollisionFromWorldAttr(
 			this.engineState);
 
 
 		// debug renderers
-		EngineTransforms.debugRenderPolygons(
+		EngineTransforms.debugRenderPhysicsPCollisionBodies(
 			this.engineState, this.debugBuffer, this.cam);
 
 		// testing collision with turrets
 		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
-			EngineTransforms.debugRenderPolygons(
+			EngineTransforms.debugRenderPhysicsPCollisionBodies(
 				this.map.getLayerEngineState(i), debugBuffer,
 				this.cam);
 
-			EngineTransforms.resolvePCollisionBodiesAgainstTileMap(
+			EngineTransforms.resolvePhysicsPCollisionBodiesAgainstTileMap(
 				this.engineState, this.gjk, PlayerSet.class,
 				this.map.getLayerEngineState(i), this.dt);
 		}
@@ -730,8 +730,8 @@ public class PlayGame extends World
 	 */
 	private void collectCash(int amount)
 	{
-		PCollisionBody playerPosition = engineState.getComponentAt(
-			PCollisionBody.class, this.player);
+		PhysicsPCollisionBody playerPosition = engineState.getComponentAt(
+			PhysicsPCollisionBody.class, this.player);
 
 		for (int i = this.engineState.getInitialSetIndex(
 			     CollectibleSet.class);
@@ -739,8 +739,8 @@ public class PlayGame extends World
 		     i = this.engineState.getNextSetIndex(CollectibleSet.class,
 							  i)) {
 
-			PCollisionBody collectiblePosition =
-				engineState.getComponentAt(PCollisionBody.class,
+			PhysicsPCollisionBody collectiblePosition =
+				engineState.getComponentAt(PhysicsPCollisionBody.class,
 							   i);
 
 			if (Systems.arePCollisionBodiesColliding(
@@ -764,16 +764,16 @@ public class PlayGame extends World
 	{
 		// TODO: delete bullets that collide with a wall
 
-		final PCollisionBody bulletPosition =
-			engineState.getComponentAt(PCollisionBody.class,
+		final PhysicsPCollisionBody bulletPosition =
+			engineState.getComponentAt(PhysicsPCollisionBody.class,
 						   bullet);
 		// check against all mobs
 		for (int i = this.engineState.getInitialSetIndex(MobSet.class);
 		     poj.EngineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(MobSet.class, i)) {
 
-			final PCollisionBody anotherMob =
-				engineState.getComponentAt(PCollisionBody.class,
+			final PhysicsPCollisionBody anotherMob =
+				engineState.getComponentAt(PhysicsPCollisionBody.class,
 							   i);
 			// check if bullet and mob are at same position
 			if (Systems.arePCollisionBodiesColliding(
@@ -797,10 +797,10 @@ public class PlayGame extends World
 				break;
 			}
 		}
-		for (PCollisionBody b :
+		for (PhysicsPCollisionBody b :
 		     map.getLayerEngineState(1)
 			     .getRawComponentArrayListPackedData(
-				     PCollisionBody.class)) {
+				     PhysicsPCollisionBody.class)) {
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, bulletPosition, b)) {
 

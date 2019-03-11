@@ -3,7 +3,7 @@ import poj.Component.*;
 import poj.linear.*;
 import poj.Collisions.*;
 
-public class PCollisionBody implements Component
+public class PhysicsPCollisionBody implements Component
 {
 	private Polygon p;
 	private Vector2f displacement;
@@ -16,13 +16,13 @@ public class PCollisionBody implements Component
 	 *         before setting its position
 	 * @param  pts ... the collision body
 	 */
-	public PCollisionBody(Vector2f d, Vector2f... pts)
+	public PhysicsPCollisionBody(Vector2f d, Vector2f... pts)
 	{
 		displacement = d;
 		p = new Polygon(pts);
 	}
 
-	public PCollisionBody(PCollisionBody pb)
+	public PhysicsPCollisionBody(PhysicsPCollisionBody pb)
 	{
 		displacement = pb.pureGetDisplacement();
 		p = pb.pureGetPolygon();

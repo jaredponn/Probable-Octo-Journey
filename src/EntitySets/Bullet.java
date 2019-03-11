@@ -22,7 +22,7 @@ public class Bullet extends EntitySet
 		addComponent(
 			new Lifespan(GameConfig.BULLET_LIFE_SPAN, spawnTime));
 		addComponent(
-			new PCollisionBody(GameConfig.BULLET_COLLISION_BODY));
+			new PhysicsPCollisionBody(GameConfig.BULLET_COLLISION_BODY));
 	}
 	
 	public Bullet(double spawnTime , Vector2f posVector)
@@ -36,6 +36,6 @@ public class Bullet extends EntitySet
 		addComponent(
 			new Lifespan(GameConfig.BULLET_LIFE_SPAN, spawnTime));
 		addComponent(
-			new PCollisionBody(GameConfig.BULLET_COLLISION_BODY));
+			new PhysicsPCollisionBody(GameConfig.BULLET_COLLISION_BODY));
 	}
 }

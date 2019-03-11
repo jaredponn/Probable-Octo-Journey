@@ -9,7 +9,7 @@ import Components.HasAnimation;
 import Components.Movement;
 import Components.MovementDirection;
 import Components.FacingDirection;
-import Components.PCollisionBody;
+import Components.PhysicsPCollisionBody;
 import Components.HitPoints;
 import Components.Lifespan;
 import poj.EngineState;
@@ -24,7 +24,7 @@ public class CombatFunctions {
 		engineState.deleteComponentAt( Movement.class, mob );
 		engineState.deleteComponentAt( MovementDirection.class, mob );
 		engineState.deleteComponentAt( FacingDirection.class, mob );
-		engineState.deleteComponentAt( PCollisionBody.class, mob );
+		engineState.deleteComponentAt( PhysicsPCollisionBody.class, mob );
 		engineState.deleteComponentAt( HitPoints.class, mob );
 		engineState.markIndexAsFree( mob );
 	}
@@ -35,7 +35,7 @@ public class CombatFunctions {
 		engineState.deleteComponentAt( WorldAttributes.class , bullet );
 		engineState.deleteComponentAt( Movement.class , bullet );
 		engineState.deleteComponentAt( Lifespan.class , bullet );
-		engineState.deleteComponentAt( PCollisionBody.class , bullet );
+		engineState.deleteComponentAt( PhysicsPCollisionBody.class , bullet );
 		engineState.markIndexAsFree( bullet );
 	}
 	
@@ -44,7 +44,7 @@ public class CombatFunctions {
 		engineState.deleteComponentAt(Render.class, p);
 		engineState.deleteComponentAt(WorldAttributes.class, p);
 		engineState.deleteComponentAt(Lifespan.class, p);
-		engineState.deleteComponentAt(PCollisionBody.class, p);
+		engineState.deleteComponentAt(PhysicsPCollisionBody.class, p);
 		engineState.markIndexAsFree(p);
 	}
 	

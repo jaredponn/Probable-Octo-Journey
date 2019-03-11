@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.Scanner;
 
 import Components.PathFindCord;
-import Components.PCollisionBody;
+import Components.PhysicsPCollisionBody;
 import Components.Render;
 import Components.WorldAttributes;
 import Resources.GameResources;
@@ -180,7 +180,7 @@ public class Map
 			mapLayers.get(mapLayers.size() - 1)
 				.registerComponent(PathFindCord.class);
 			mapLayers.get(mapLayers.size() - 1)
-				.registerComponent(PCollisionBody.class);
+				.registerComponent(PhysicsPCollisionBody.class);
 
 			Scanner mapReader =
 				new Scanner(new File(mapLayerLocation));
@@ -265,10 +265,10 @@ public class Map
 									     .size()
 								     - 1)
 								.addComponentAt(
-									PCollisionBody
+									PhysicsPCollisionBody
 										.class
 									,
-									new PCollisionBody(
+									new PhysicsPCollisionBody(
 										new Vector2f(
 											0f,
 											0f),

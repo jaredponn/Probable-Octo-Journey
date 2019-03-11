@@ -20,7 +20,7 @@ public class CollectibleSet extends EntitySet{
 				 GameConfig.MOB_HEIGHT));
 		
 		addComponent(new Lifespan( GameConfig.PICKUP_CASH_SPAWN_TIME , spawnTime));
-		addComponent(new PCollisionBody(GameConfig.PICKUP_COLLISION_BODY));
+		addComponent(new PhysicsPCollisionBody(GameConfig.PICKUP_COLLISION_BODY));
 	}
 	
 	public CollectibleSet( float x , float y , double spawnTime ) {
@@ -34,6 +34,6 @@ public class CollectibleSet extends EntitySet{
 				 GameConfig.MOB_HEIGHT));
 		
 		addComponent(new Lifespan( GameConfig.PICKUP_CASH_SPAWN_TIME , spawnTime ));
-		addComponent(new PCollisionBody(GameConfig.PICKUP_COLLISION_BODY));
+		addComponent(new PhysicsPCollisionBody(GameConfig.PICKUP_COLLISION_BODY));
 	}
 }

@@ -3,11 +3,12 @@ import poj.linear.*;
 import poj.Component.*;
 import poj.Collisions.*;
 
-public class PHitBox extends PCollisionBody
+public class PHitBox extends PhysicsPCollisionBody
 {
 	/**
 	 * Constructs a PHitBox object that is used for collision
-	 * detection ONLY
+	 * detection ONLY. Alias of the PhysicsPCollisionBody type -- same
+	 * functionality but different higher level type.
 	 *
 	 * @param  d the displacemnt added to the object just
 	 *         before setting its position
