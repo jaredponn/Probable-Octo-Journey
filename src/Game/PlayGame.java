@@ -34,6 +34,7 @@ import poj.Render.MinYFirstSortedRenderObjectBuffer;
 import poj.Render.RenderObject;
 import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
+import poj.EngineState;
 
 import poj.Component.Components;
 
@@ -66,7 +67,8 @@ public class PlayGame extends World
 	private WeaponState curWeaponState = WeaponState.Gun;
 
 	// ASE
-	private double timeOfLastMobSpawn = 0.0;
+	private double timeOfLastMobSpawn = 
+		0.0 - GameConfig.MOB_SPAWN_TIMER;
 	private double timeOfLastCashSpawn =
 		0.0 - GameConfig.PICKUP_CASH_SPAWN_TIME;
 	private int cash = 1000;
@@ -75,6 +77,8 @@ public class PlayGame extends World
 		new StringRenderObject("", 5, 10, Color.WHITE);
 	private StringRenderObject cashDisplay = new StringRenderObject(
 		"Your Cash: " + this.cash, 5, 20, Color.WHITE);
+	private StringRenderObject healthDisplay = 
+		new StringRenderObject("", 5, 30 , Color.WHITE);
 
 
 	// /ASE
@@ -165,9 +169,7 @@ public class PlayGame extends World
 	{
 		// Player
 		this.player = super.engineState.spawnEntitySet(new PlayerSet());
-		for (int i = 0; i < 1; ++i) {
-			super.engineState.spawnEntitySet(new MobSet());
-		}
+		mobSpawner();
 
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
 			this.engineState, this.map, 0, this.player);
@@ -178,6 +180,9 @@ public class PlayGame extends World
 
 		// start the path finding thread
 		generateDiffusionMap.start();
+		
+		EngineTransforms.updatePhysicsPCollisionFromWorldAttr(
+				this.engineState);
 	}
 	public void clearWorld()
 	{
@@ -201,16 +206,20 @@ public class PlayGame extends World
 
 		// Timed despawners
 		this.cashDropDespawner();
-		this.bulletDespawner();
-
-		// detect bullet hits
-		// TODO: use actual collision detection for this
-		// TODO: currently just despawns bullet, does not do damage
+		
 		for (int i = this.engineState.getInitialSetIndex(Bullet.class);
 		     poj.EngineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(Bullet.class, i)) {
 
 			this.findBulletHits(i);
+		}
+		
+		// Handle mob hitting a player
+		// TODO: balance mob damage?
+		for (int i = engineState.getInitialSetIndex(MobSet.class);
+			poj.EngineState.isValidEntity(i);
+				i = engineState.getNextSetIndex(MobSet.class, i )) {
+			CombatFunctions.handleMobHitPlayer(engineState, gjk, i, this.player );
 		}
 
 		// TODO: make mobs drop cash on death?
@@ -219,6 +228,7 @@ public class PlayGame extends World
 
 		this.updateGameTimer();
 		this.updateCashDisplay();
+		this.updateHealthDisplay();
 
 		// /ASE
 
@@ -538,6 +548,7 @@ public class PlayGame extends World
 
 		guiBuffer.add(this.gameTimer);
 		guiBuffer.add(this.cashDisplay);
+		guiBuffer.add(this.healthDisplay);
 
 		super.renderer.renderBuffers(groundBuffer, entityBuffer,
 					     debugBuffer, guiBuffer);
@@ -636,6 +647,13 @@ public class PlayGame extends World
 	{
 		this.cashDisplay.setStr("Your Cash: $" + this.cash);
 	}
+	
+	/** update healthDisplay */
+	private void updateHealthDisplay()
+	{
+		this.healthDisplay.setStr(
+				"Your HP: "+ engineState.getComponentAt(HitPoints.class, this.player).getHP());
+	}
 
 	/**
 	 * spawns a new mob entity if it has been at least
@@ -645,7 +663,7 @@ public class PlayGame extends World
 	{
 		double currentPlayTime = this.getPlayTime();
 		if (currentPlayTime - this.timeOfLastMobSpawn
-		    > GameConfig.MOB_SPAWN_TIMER) {
+		    >= GameConfig.MOB_SPAWN_TIMER) {
 			super.engineState.spawnEntitySet(new MobSet());
 			super.engineState.spawnEntitySet(
 				new MobSet(GameConfig.MOB_SPAWNER_1));
@@ -759,63 +777,17 @@ public class PlayGame extends World
 		}
 	}
 	/**
-	 * checks a bullet to see if it is in the same place
-	 * as a mob, applies damage to hit mob, despawns the
-	 * mob if its health is at or below 0, then despawns
+	 * checks a bullet to see if it has collided with
+	 * a mob, applies damage to hit mob, despawns the
+	 * mob if its health is at or below 0, and despawns
 	 * the bullet
 	 * @param bullet to check for hit
 	 */
 	private void findBulletHits(int bullet)
 	{
-		// TODO: delete bullets that collide with a wall
-
-		final PhysicsPCollisionBody bulletPosition =
-			engineState.getComponentAt(PhysicsPCollisionBody.class,
-						   bullet);
-		// check against all mobs
-		for (int i = this.engineState.getInitialSetIndex(MobSet.class);
-		     poj.EngineState.isValidEntity(i);
-		     i = this.engineState.getNextSetIndex(MobSet.class, i)) {
-
-			final PhysicsPCollisionBody anotherMob =
-				engineState.getComponentAt(
-					PhysicsPCollisionBody.class, i);
-			// check if bullet and mob are at same position
-			if (Systems.arePCollisionBodiesColliding(
-				    gjk, bulletPosition, anotherMob)) {
-				System.out.println("A bullet hit a mob!");
-				engineState.getComponentAt(HitPoints.class, i)
-					.hurt(GameConfig.BULLET_DAMAGE);
-
-				// kill mob if its health is at or below 0
-				if (engineState
-					    .getComponentAt(HitPoints.class, i)
-					    .getHP()
-				    <= 0) {
-					CombatFunctions.removeMob(engineState,
-								  i);
-				}
-				// remove bullet
-				CombatFunctions.removeBullet(engineState,
-							     bullet);
-
-				break;
-			}
-		}
-		for (PhysicsPCollisionBody b :
-		     map.getLayerEngineState(1)
-			     .getRawComponentArrayListPackedData(
-				     PhysicsPCollisionBody.class)) {
-			if (Systems.arePCollisionBodiesColliding(
-				    gjk, bulletPosition, b)) {
-
-				bulletPosition.print();
-				b.print();
-				CombatFunctions.removeBullet(engineState,
-							     bullet);
-				break;
-			}
-		}
+		EngineState mapState = map.getLayerEngineState(1);
+		CombatFunctions.bulletHitHandler(engineState, mapState, gjk, bullet);
+		
 	}
 	// /ASE
 }
