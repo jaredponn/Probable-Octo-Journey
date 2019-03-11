@@ -846,7 +846,8 @@ public class PlayGame extends World
 					.getLifespan();
 
 			if (this.getPlayTime() - spawnTime >= lifespan) {
-				poj.Combat.CombatFunctions.removeBullet( engineState , i );
+				poj.Combat.CombatFunctions.removeBullet(
+					engineState, i);
 			}
 		}
 	}
@@ -928,23 +929,30 @@ public class PlayGame extends World
 					    .getComponentAt(HitPoints.class, i)
 					    .getHP()
 				    <= 0) {
-					poj.Combat.CombatFunctions.removeMob( engineState , i );
+					poj.Combat.CombatFunctions.removeMob(
+						engineState, i);
 				}
 				// remove bullet
-				poj.Combat.CombatFunctions.removeBullet( engineState , bullet );
+				poj.Combat.CombatFunctions.removeBullet(
+					engineState, bullet);
 
 				break;
 			}
 		}
-		//map.getLayerEngineState(1)
-		for (int i = map.getLayerEngineState(1).getInitialSetIndex(PCollisionBody.class);
-				Components.isValidEntity(i);
-				i = map.getLayerEngineState(1).getNextSetIndex(PCollisionBody.class, i)) {
-			if (Systems.arePCollisionBodiesColliding(gjk, bulletPosition, 
-					map.getLayerEngineState(1).getComponentAt(PCollisionBody.class, i)))
-				poj.Combat.CombatFunctions.removeBullet(engineState, bullet);
+		// map.getLayerEngineState(1)
+		for (PCollisionBody b :
+		     map.getLayerEngineState(1)
+			     .getRawComponentArrayListPackedData(
+				     PCollisionBody.class)) {
+			if (Systems.arePCollisionBodiesColliding(
+				    gjk, bulletPosition, b)) {
+
+				poj.Combat.CombatFunctions.removeBullet(
+					engineState, bullet);
+				System.out.println("ENGINE STATE");
+			}
 		}
 	}
-		
+
 	// /ASE
 }
