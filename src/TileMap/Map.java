@@ -6,14 +6,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-import Components.AabbCollisionBody;
 import Components.PathFindCord;
 import Components.PCollisionBody;
 import Components.Render;
 import Components.WorldAttributes;
 import Resources.GameResources;
 
-import poj.Collisions.CollisionAabb;
 import poj.Logger.Logger;
 import poj.Render.ImageRenderObject;
 import poj.Render.ImageWindow;

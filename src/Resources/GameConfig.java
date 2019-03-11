@@ -48,6 +48,10 @@ public class GameConfig
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
 
+	public static final AttackCycle PLAYER_ATTACK_CYCLE =
+		new AttackCycle(100, 100);
+
+	// turret config
 	public static final PCollisionBody TURRET_COLLISION_BODY =
 		new PCollisionBody(
 			new Vector2f(0f, 0.8f), // displacement

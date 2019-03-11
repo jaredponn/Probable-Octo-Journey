@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.*;
 
+import Components.AttackCycle;
 import Components.CardinalDirections;
 import Components.FacingDirection;
 import Components.HasAnimation;
@@ -141,6 +142,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(WorldAttributes.class);
 		super.engineState.registerComponent(MovementDirection.class);
 		super.engineState.registerComponent(FacingDirection.class);
+		super.engineState.registerComponent(AttackCycle.class);
 		super.engineState.registerComponent(Movement.class);
 		super.engineState.registerComponent(PCollisionBody.class);
 		super.engineState.registerComponent(Lifespan.class);
@@ -219,14 +221,6 @@ public class PlayGame extends World
 
 		// /ASE
 
-		// SYSTEMS Go here
-		// this.setMovementVelocityFromMovementDirection();
-		// this.updateWorldAttribPositionFromMovement(this.dt);
-
-		// will set the enemy direction and speed, then will render them
-		// next frame
-
-
 		// updating positions
 		EngineTransforms.setMovementVelocityFromMovementDirection(
 			this.engineState);
@@ -239,11 +233,7 @@ public class PlayGame extends World
 		EngineTransforms.debugRenderPolygons(
 			this.engineState, this.debugBuffer, this.cam);
 
-		// EngineTransforms.arePCollisionBodiesColliding(this.engineState,
-		// this.gjk, PlayerSet.class,MobSet.class);
-
 		// testing collision with turrets
-
 		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
 			EngineTransforms.debugRenderPolygons(
 				this.map.getLayerEngineState(i), debugBuffer,
@@ -254,11 +244,14 @@ public class PlayGame extends World
 				this.map.getLayerEngineState(i), this.dt);
 		}
 
+		//  attack cycles
+		EngineTransforms.runAttackCycleHandlersAndFreezeMovement(
+			this.engineState, this.player, this.curWeaponState,
+			super.inputPoller, this.invCam, this.getPlayTime());
 
 		// changing world attrib position
 		EngineTransforms.updateWorldAttribPositionFromMovement(
 			this.engineState, this.dt);
-
 
 		// EngineTransforms.generateDiffusionMap(this.map, 0, 1f / 8f);
 		for (int i = this.engineState.getInitialSetIndex(MobSet.class);
@@ -290,6 +283,8 @@ public class PlayGame extends World
 
 		EngineTransforms.updateAnimationWindows(this.engineState,
 							this.dt);
+		EngineTransforms.updateTriggeredAttackCycles(this.engineState,
+							     this.dt);
 		EngineTransforms.cropSpriteSheetsFromAnimationWindows(
 			this.engineState);
 
@@ -301,6 +296,16 @@ public class PlayGame extends World
 		// rendering is run after this is run
 	}
 
+	protected Vector2f getPositionToMouseDelta(Vector2f v)
+	{
+		Vector2f mousePosition = super.inputPoller.getMousePosition();
+		mousePosition.matrixMultiply(this.invCam);
+		Vector2f tmp = v.pureSubtract(mousePosition);
+
+		tmp.negate();
+
+		return tmp;
+	}
 
 	protected void processInputs()
 	{
@@ -319,7 +324,11 @@ public class PlayGame extends World
 				updateDtForKey(GameConfig.ATTACK_KEY,
 					       -coolDownMax.get(
 						       GameConfig.ATTACK_KEY));
-				this.weaponAttack();
+
+				engineState
+					.getComponentAt(AttackCycle.class,
+							this.player)
+					.startAttackCycle();
 				return;
 				// lastCoolDown.set(GameConfig.BUILD_TOWER,
 				//-coolDownMax.get(
@@ -355,6 +364,8 @@ public class PlayGame extends World
 			}
 		}
 
+		boolean hasMovementKeyBeenPressed = true;
+
 		////// Movement Commands //////
 		if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
 		    && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
@@ -365,9 +376,6 @@ public class PlayGame extends World
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			prevDirection = CardinalDirections.NW;
-			super.getComponentAt(HasAnimation.class, this.player)
-				.setAnimation(
-					GameResources.playerNMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
 			System.out.println("wa key is down");
@@ -377,9 +385,6 @@ public class PlayGame extends World
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			prevDirection = CardinalDirections.SW;
-			super.getComponentAt(HasAnimation.class, this.player)
-				.setAnimation(
-					GameResources.playerNMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
 			System.out.println("sa key is down");
@@ -389,9 +394,6 @@ public class PlayGame extends World
 			prevDirection = CardinalDirections.SE;
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
-			super.getComponentAt(HasAnimation.class, this.player)
-				.setAnimation(
-					GameResources.playerSMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
 
@@ -402,9 +404,6 @@ public class PlayGame extends World
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			prevDirection = CardinalDirections.NE;
-			super.getComponentAt(HasAnimation.class, this.player)
-				.setAnimation(
-					GameResources.playerSMoveAnimation);
 
 		} else if (super.inputPoller.isKeyDown(
 				   KeyEvent.VK_W)) { // single Key movements
@@ -415,9 +414,6 @@ public class PlayGame extends World
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			prevDirection = CardinalDirections.W;
-			super.getComponentAt(HasAnimation.class, this.player)
-				.setAnimation(
-					GameResources.playerWMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
 			System.out.println("d key is down");
 			super.getComponentAt(MovementDirection.class,
@@ -426,9 +422,6 @@ public class PlayGame extends World
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			prevDirection = CardinalDirections.N;
-			super.getComponentAt(HasAnimation.class, this.player)
-				.setAnimation(
-					GameResources.playerNMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
 			System.out.println("a key is down");
 			super.getComponentAt(MovementDirection.class,
@@ -437,9 +430,6 @@ public class PlayGame extends World
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			prevDirection = CardinalDirections.S;
-			super.getComponentAt(HasAnimation.class, this.player)
-				.setAnimation(
-					GameResources.playerSMoveAnimation);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)) {
 			System.out.println("s key is down");
 			super.getComponentAt(MovementDirection.class,
@@ -448,23 +438,30 @@ public class PlayGame extends World
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 			prevDirection = CardinalDirections.E;
-			super.getComponentAt(HasAnimation.class, this.player)
-				.setAnimation(
-					GameResources.playerEMoveAnimation);
 		} else // no movement key is pressed
 		{
+			hasMovementKeyBeenPressed = false;
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(0);
 			// TODO idle direction!!!!!
 			super.getComponentAt(FacingDirection.class,
 					     this.player);
+		}
 
+		if (!this.engineState.getComponentAt(AttackCycle.class, player)
+			     .isAttacking()) {
+			int flag = hasMovementKeyBeenPressed ? 1 : 0;
 			super.getComponentAt(HasAnimation.class, this.player)
 				.setAnimation(
 					EngineTransforms.findPlayerFacingSprite(
-						prevDirection, 0));
+						this.engineState
+							.getComponentAt(
+								MovementDirection
+									.class,
+								this.player)
+							.getDirection(),
+						flag));
 		}
-
 
 		////// Build Commands //////
 		if (super.inputPoller.isKeyDown(GameConfig.BUILD_TOWER)) {
@@ -516,15 +513,6 @@ public class PlayGame extends World
 			// constant spawning if key down for more than 1
 			// frame)
 		}
-
-
-		/*
-		CardinalDirections facingDirection =
-			CardinalDirections
-				.getClosestDirectionFromDirectionVector(tmp);
-		super.getComponentAt(FacingDirection.class, player)
-			.setDirection(facingDirection);
-			*/
 	}
 
 	// Render function
@@ -549,9 +537,6 @@ public class PlayGame extends World
 
 		super.renderer.renderBuffers(groundBuffer, entityBuffer,
 					     debugBuffer, guiBuffer);
-
-		// TODO FIX THE BADdebug render
-		// super.renderer.render();
 	}
 
 	protected void pushTileMapLayerToQueue(MapLayer n,
@@ -600,71 +585,6 @@ public class PlayGame extends World
 			-tmp.x + super.windowWidth / 2f,
 			-tmp.y + super.windowHeight / 2f);
 	}
-
-	private void weaponAttack()
-	{
-		switch (curWeaponState) {
-		case Gun:
-
-			////// Mouse handling  //////
-			Vector2f playerPosition =
-				super.getComponentAt(WorldAttributes.class,
-						     this.player)
-					.getCenteredBottomQuarter();
-
-			Vector2f mousePosition =
-				super.inputPoller.getMousePosition();
-			mousePosition.matrixMultiply(this.invCam);
-
-			Vector2f tmp1 =
-				playerPosition.pureSubtract(mousePosition);
-			tmp1.negate();
-			Vector2f unitVecPlayerPosToMouseDelta =
-				tmp1.pureNormalize();
-			// make the player stop and shoot
-			engineState.getComponentAt(Movement.class, this.player)
-				.setSpeed(0);
-			this.prevDirection =
-				CardinalDirections
-					.getClosestDirectionFromDirectionVector(
-						unitVecPlayerPosToMouseDelta);
-			super.getComponentAt(HasAnimation.class, this.player)
-				.setAnimation(
-					EngineTransforms.findPlayerFacingSprite(
-						prevDirection, 1));
-			// add a delay for the animation
-			//
-
-			// generation of the bullet
-			int e = super.engineState.spawnEntitySet(new Bullet(
-				this.getPlayTime(),
-				new Vector2f(
-					super.getComponentAt(
-						     WorldAttributes.class,
-						     this.player)
-						.getCenteredBottomQuarter())));
-			super.engineState
-				.getComponentAt(PCollisionBody.class, e)
-				.setPositionPoint(
-					super.getComponentAt(
-						     WorldAttributes.class,
-						     this.player)
-						.getCenteredBottomQuarter());
-			float bulletSpeed =
-				super.getComponentAt(Movement.class, e)
-					.getSpeed();
-
-			super.getComponentAt(Movement.class, e)
-				.setVelocity(
-					unitVecPlayerPosToMouseDelta.pureMul(
-						bulletSpeed));
-			break;
-		case Melee:
-			System.out.println("melee weapon was attacked");
-			break;
-		}
-	}
-
 
 	private void centerCamerasPositionToPlayer()
 	{

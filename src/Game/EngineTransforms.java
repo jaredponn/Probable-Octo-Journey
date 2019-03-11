@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Queue;
 
+import Components.AttackCycle;
 import Components.CardinalDirections;
 import Components.HasAnimation;
 import Components.Movement;
@@ -12,6 +13,7 @@ import Components.PCollisionBody;
 import Components.PathFindCord;
 import Components.Render;
 import Components.WorldAttributes;
+import EntitySets.PlayerSet;
 import EntitySets.TurretSet;
 import Resources.GameConfig;
 import Resources.GameResources;
@@ -20,6 +22,7 @@ import TileMap.MapLayer;
 
 import poj.Animation;
 import poj.EngineState;
+import poj.GameWindow.InputPoller;
 import poj.Collisions.GJK;
 import poj.Component.Component;
 import poj.Component.Components;
@@ -563,6 +566,60 @@ public class EngineTransforms
 		}
 	}
 
+	public static void runAttackCycleHandlersAndFreezeMovement(
+		EngineState engineState, int player,
+		WeaponState playerCurWPState, InputPoller ip, Camera invCam,
+		double gameElapsedTime)
+	{
+
+		// players attacking
+		for (int i = engineState.getInitialSetIndex(PlayerSet.class);
+		     Components.isValidEntity(i);
+		     i = engineState.getNextSetIndex(PlayerSet.class, i)) {
+			AttackCycle a = engineState.getComponentAt(
+				AttackCycle.class, i);
+
+			if (a.isAttacking()) {
+				switch (a.getAttackState()) {
+				case 0:
+					break;
+
+				case 1:
+					AttackCycleHandlers.playerAttackHandler(
+						engineState, player,
+						playerCurWPState, ip, invCam,
+						gameElapsedTime);
+					break;
+				case 2:
+					break;
+				case 3:
+					a.endAttackCycle();
+					a.resetCycle();
+					break;
+				}
+
+				// setting velocity to 0
+				engineState.getComponentAt(Movement.class, i)
+					.setVelocity(new Vector2f(0, 0));
+			}
+		}
+	}
+
+	public static void updateTriggeredAttackCycles(final EngineState e,
+						       double dt)
+	{
+		ArrayList<AttackCycle> atkCycle =
+			e.getRawComponentArrayListPackedData(AttackCycle.class);
+
+		for (int i = 0; i < atkCycle.size(); ++i) {
+			AttackCycle a = atkCycle.get(i);
+
+			if (a.isAttacking()) {
+				a.updateAccTime(dt);
+			}
+		}
+	}
+
 
 	public static Animation findEnemyFacingSprite(CardinalDirections dir,
 						      int flag)
@@ -573,50 +630,42 @@ public class EngineTransforms
 		switch (dir) {
 		case N:
 			if (flag == 0) {
-				return GameResources.enemyNIdleAnimation;
-			} else {
+			} else if (flag == 1) {
 				return GameResources.enemyNMoveAnimation;
 			}
 		case NE:
 			if (flag == 0) {
-				return GameResources.enemyNIdleAnimation;
-			} else {
-				return GameResources.enemyNMoveAnimation;
+			} else if (flag == 1) {
+				return GameResources.enemyNEMoveAnimation;
 			}
 		case NW:
 			if (flag == 0) {
-				return GameResources.enemyNIdleAnimation;
-			} else {
-				return GameResources.enemyNMoveAnimation;
+			} else if (flag == 1) {
+				return GameResources.enemyNWMoveAnimation;
 			}
 		case S:
 			if (flag == 0) {
-				return GameResources.enemySIdleAnimation;
-			} else {
+			} else if (flag == 1) {
 				return GameResources.enemySMoveAnimation;
 			}
 		case SE:
 			if (flag == 0) {
-				return GameResources.enemySIdleAnimation;
-			} else {
-				return GameResources.enemySMoveAnimation;
+			} else if (flag == 1) {
+				return GameResources.enemySEMoveAnimation;
 			}
 		case SW:
 			if (flag == 0) {
-				return GameResources.enemySIdleAnimation;
-			} else {
-				return GameResources.enemySMoveAnimation;
+			} else if (flag == 1) {
+				return GameResources.enemySWMoveAnimation;
 			}
 		case W:
 			if (flag == 0) {
-				return GameResources.enemyWIdleAnimation;
-			} else {
+			} else if (flag == 1) {
 				return GameResources.enemyWMoveAnimation;
 			}
 		case E:
 			if (flag == 0) {
-				return GameResources.enemyEIdleAnimation;
-			} else {
+			} else if (flag == 1) {
 				return GameResources.enemyEMoveAnimation;
 			}
 		default:
@@ -639,15 +688,15 @@ public class EngineTransforms
 			}
 		case NE:
 			if (flag == 0) {
-				return GameResources.playerNIdleAnimation;
+				return GameResources.playerNEIdleAnimation;
 			} else {
-				return GameResources.playerNMoveAnimation;
+				return GameResources.playerNEMoveAnimation;
 			}
 		case NW:
 			if (flag == 0) {
-				return GameResources.playerNIdleAnimation;
+				return GameResources.playerNWIdleAnimation;
 			} else {
-				return GameResources.playerNMoveAnimation;
+				return GameResources.playerNWMoveAnimation;
 			}
 		case S:
 			if (flag == 0) {
@@ -657,15 +706,15 @@ public class EngineTransforms
 			}
 		case SE:
 			if (flag == 0) {
-				return GameResources.playerSIdleAnimation;
+				return GameResources.playerSEIdleAnimation;
 			} else {
-				return GameResources.playerSMoveAnimation;
+				return GameResources.playerSEMoveAnimation;
 			}
 		case SW:
 			if (flag == 0) {
-				return GameResources.playerSIdleAnimation;
+				return GameResources.playerSWIdleAnimation;
 			} else {
-				return GameResources.playerSMoveAnimation;
+				return GameResources.playerSWMoveAnimation;
 			}
 		case W:
 			if (flag == 0) {
