@@ -161,8 +161,6 @@ public class GameConfig
 	public static final ArrayList<Pair<Integer, Double>> COOL_DOWN_KEYS =
 		new ArrayList<Pair<Integer, Double>>() {
 			{
-				add(new Pair<Integer, Double>(SWITCH_WEAPONS,
-							      0.3d));
 				add(new Pair<Integer, Double>(ATTACK_KEY,
 							      0.3d));
 				add(new Pair<Integer, Double>(BUILD_TOWER, 1d));

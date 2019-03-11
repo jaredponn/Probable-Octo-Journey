@@ -168,7 +168,8 @@ public class CombatFunctions
 
 		if (playerHP.getHP() <= 0) {
 			System.out.println(
-				"The player has been killed!!!\n---GAME OVER---");
+				"---------------\n"
+				+ "The player has been killed!!!\n---GAME OVER---");
 			// System.exit(0);
 		}
 	}
