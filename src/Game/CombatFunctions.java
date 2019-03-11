@@ -126,7 +126,23 @@ public class CombatFunctions {
 				engineState.getComponentAt(PhysicsPCollisionBody.class, mob );
 		
 		if ( Systems.arePCollisionBodiesColliding(gjk, playerBody, mobBody) ) {
-			engineState.getComponentAt(HitPoints.class, player ).hurt(GameConfig.MOB_ATTACK_DAMAGE);
+			handlePlayerDamage(engineState,player,GameConfig.MOB_ATTACK_DAMAGE);
+		}
+	}
+	
+	/**
+	 * Applies damage to player, and handles player death
+	 * @param engineState: the main game state
+	 * @param player: reference to the player
+	 * @param amount: amount of damage applied to the player
+	 */
+	public static void handlePlayerDamage( EngineState engineState , int player , int amount ) {
+		HitPoints playerHP = engineState.getComponentAt(HitPoints.class, player);
+		playerHP.hurt(amount);
+		
+		if ( playerHP.getHP() <= 0 ) {
+			System.out.println("The player has been killed!!!\n---GAME OVER---");
+			System.exit(0);
 		}
 	}
 }

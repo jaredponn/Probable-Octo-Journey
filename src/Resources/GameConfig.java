@@ -14,8 +14,9 @@ import poj.Pair;
 // is, the height and width of things are expressed as ratios of the tile size.
 public class GameConfig
 {
-
-	// player config
+	/////////////////////////
+	///// player config /////
+	/////////////////////////
 	public static final float PLAYER_SPEED = 0.003f;
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
@@ -28,19 +29,8 @@ public class GameConfig
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final Vector2f PLAYER_SPAWNNING_POS =
 		new Vector2f(3f, 3f);
-	/*
-	public static final PCollisionBody PLAYER_COLLISION_BODY =
-		new PCollisionBody(
-			new Vector2f(0f, 0.6f), // displacement
-						// collision body:
-			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
-			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
-			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
-			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
-			*/
 	public static final PhysicsPCollisionBody PLAYER_COLLISION_BODY =
 		new PhysicsPCollisionBody(
-			// new Vector2f(0f, 0f),
 			new Vector2f(1.5f, 2.7f), // displacement
 			// collision body:
 			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
@@ -50,8 +40,10 @@ public class GameConfig
 
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(100, 100);
-
-	// turret config
+	
+	//////////////////////////
+	////// turret config /////
+	//////////////////////////
 	public static final PhysicsPCollisionBody TURRET_COLLISION_BODY =
 		new PhysicsPCollisionBody(
 			new Vector2f(0f, 0.8f), // displacement
@@ -61,7 +53,9 @@ public class GameConfig
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
 
-	// bullet config
+	//////////////////////////
+	////// bullet config /////
+	//////////////////////////
 	public static final float BULLET_SPEED = 0.02f;
 	public static final float BULLET_WIDTH =
 		GameResources.BULLET_SPRITE_WIDTH
@@ -79,35 +73,19 @@ public class GameConfig
 			new Vector2f(0, 0), new Vector2f(0, BULLET_HEIGHT),
 			new Vector2f(BULLET_WIDTH, 0),
 			new Vector2f(BULLET_WIDTH, BULLET_HEIGHT));
-	/*
-	public static final PCollisionBody BULLET_COLLISION_BODY =
-		new PCollisionBody(
-			new Vector2f(-0.1f, 0.1f), // displacement
-						   // collision body:
-			new Vector2f(0.0f, BULLET_HEIGHT),
-			new Vector2f(BULLET_WIDTH / 2f, BULLET_HEIGHT),
-			new Vector2f(BULLET_WIDTH, BULLET_HEIGHT),
-			new Vector2f(0.0f, BULLET_HEIGHT / 2f),
-			new Vector2f(BULLET_WIDTH / 2f, BULLET_HEIGHT / 2f),
-			new Vector2f(BULLET_WIDTH, BULLET_HEIGHT / 2f),
-			new Vector2f(0.0f, 0.0f),
-			new Vector2f(BULLET_WIDTH / 2f, 0.0f),
-			new Vector2f(BULLET_WIDTH, 0.0f));
-			*/
 
-	// mob config
+	///////////////////////
+	////// mob config /////
+	///////////////////////
 	public static final float MOB_SPEED = 0.6f * PLAYER_SPEED;
-	// public static final float MOB_SPEED = 0f;
 	public static final float MOB_HEIGHT =
 		GameResources.ENEMY_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final float MOB_WIDTH = GameResources.ENEMY_SPRITE_WIDTH
 					      / GameResources.TILE_SCREEN_WIDTH;
-	public static final int MOB_ATTACK_DAMAGE = 10;
+	public static final int MOB_ATTACK_DAMAGE = 1;
 
 	public static final int MOB_HP = 100;
-	/*public static final CircleCollisionBody MOB_COLLISION_BODY =
-		new CircleCollisionBody(new CollisionCircle(0, 0, MOB_WIDTH));*/
 	public static final PhysicsPCollisionBody MOB_COLLISION_BODY =
 		new PhysicsPCollisionBody(
 			new Vector2f(1.5f, 2.7f), // displacement
@@ -121,14 +99,18 @@ public class GameConfig
 	// spawn points:
 	public static final Vector2f MOB_SPAWNER_1 = new Vector2f(20f, 20f);
 
-	// construct config
+	////////////////////////////
+	///// construct config /////
+	////////////////////////////
 	public static final float CONSTRUCT_HEIGHT = 64;
 	public static final float CONSTRUCT_WIDTH = 48;
 	public static final int CONSTRUCT_HP = 100;
 
 	public static final int TOWER_BUILD_COST = 250;
 
-	// pickup config
+	////////////////////////
+	//// pickup config /////
+	////////////////////////
 	public static final int PICKUP_CASH_AMOUNT = 100;
 	public static final float PICKUP_CASH_SPAWN_TIME = 20.0f;
 	public static final float PICKUP_WIDTH =
@@ -144,12 +126,10 @@ public class GameConfig
 			new Vector2f(0, 0), new Vector2f(0, PICKUP_HEIGHT),
 			new Vector2f(PICKUP_WIDTH, 0),
 			new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT));
-	// new Vector2f(0, 0),
-	// new Vector2f(0, 16),
-	// new Vector2f(16, 0),
-	// new Vector2f(16, 16));
 
-	// input config
+	////////////////////////
+	///// input config /////
+	////////////////////////
 	public static final int SWITCH_WEAPONS = KeyEvent.VK_X;
 	public static final int ATTACK_KEY = KeyEvent.VK_SPACE;
 	public static final int BUILD_TOWER = KeyEvent.VK_Q;
