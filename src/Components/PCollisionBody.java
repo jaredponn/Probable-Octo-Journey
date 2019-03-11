@@ -9,7 +9,8 @@ public class PCollisionBody implements Component
 	private Vector2f displacement;
 
 	/**
-	 * Constructs a PCollisionBody object
+	 * Constructs a PCollisionBody object that is used for collision
+	 * resolution
 	 *
 	 * @param  d the displacemnt added to the object just
 	 *         before setting its position

@@ -247,7 +247,7 @@ public class Vector2f
 	}
 
 	/**
-	 * normalizes the vector
+	 * Get the unit vector
 	 *   @return      void
 	 */
 	public void normalize()
@@ -258,7 +258,7 @@ public class Vector2f
 	}
 
 	/**
-	 * normalizes the vector
+	 * Get the unit vector
 	 *   @return      Vector2f
 	 */
 	public Vector2f pureNormalize()
@@ -271,8 +271,8 @@ public class Vector2f
 	}
 
 	/**
-	 * get the safe normal of this vector (will return Float.MAX_VALUE if
-	 * its magnitude is 0) and returns it
+	 * get the safe unit vector of this vector (will return Float.MAX_VALUE
+	 * if its magnitude is 0) and returns it
 	 *   @return      Vector2f
 	 */
 	public Vector2f safePureNormalize()
