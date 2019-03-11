@@ -83,7 +83,7 @@ public class GameResources
 		ImageLoader.load("resources/Player.png");
 
 	public static BufferedImage enemySpriteSheet =
-		ImageLoader.load("resources/enemyspritesheet.png");
+		ImageLoader.load("resources/ZombiesMovementAndDeath.png");
 
 	/*
 	 * animation is in columns
@@ -180,10 +180,67 @@ public class GameResources
 		PLAYER_SPRITE_HEIGHT * 7);
 		*/
 
-	public static final int ENEMY_SPRITE_WIDTH = 48;
-	public static final int ENEMY_SPRITE_HEIGHT = 64;
+	public static final int ENEMY_SPRITE_WIDTH = 126;
+	public static final int ENEMY_SPRITE_HEIGHT = 154;
 
+	// move direction
 	public static Animation enemyNMoveAnimation = new Animation(
 		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
 		ENEMY_SPRITE_HEIGHT, 0, 0, 0, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyEMoveAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH, 0, ENEMY_SPRITE_WIDTH,
+		ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemySMoveAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 2, 0,
+		ENEMY_SPRITE_WIDTH * 2, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyWMoveAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 3, 0,
+		ENEMY_SPRITE_WIDTH * 3, ENEMY_SPRITE_HEIGHT * 4);
+
+	// idle animatoin
+	public static Animation enemyNIdleAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		0, 0, 0, 0, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyEIdleAnimation =
+		new Animation(ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT,
+			      animationDurationms, 0, 0, ENEMY_SPRITE_WIDTH, 0,
+			      ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemySIdleAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		0, ENEMY_SPRITE_WIDTH * 2, 0, ENEMY_SPRITE_WIDTH * 2,
+		ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyWIdleAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		0, ENEMY_SPRITE_WIDTH * 3, 0, ENEMY_SPRITE_WIDTH * 3,
+		ENEMY_SPRITE_HEIGHT * 4);
+
+
+	// death animatoin
+	public static Animation enemyNDeathAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		0, 0, ENEMY_SPRITE_HEIGHT * 4, 0, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyEDeathAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		0, ENEMY_SPRITE_WIDTH * 1, ENEMY_SPRITE_HEIGHT * 4,
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemySDeathAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		0, ENEMY_SPRITE_WIDTH * 2, ENEMY_SPRITE_HEIGHT * 4,
+		ENEMY_SPRITE_WIDTH * 2, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyWDeathAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		0, ENEMY_SPRITE_WIDTH * 3, ENEMY_SPRITE_HEIGHT * 4,
+		ENEMY_SPRITE_WIDTH * 3, ENEMY_SPRITE_HEIGHT * 4);
 }
