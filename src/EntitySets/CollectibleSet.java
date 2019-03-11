@@ -1,5 +1,12 @@
 package EntitySets;
 
+/**
+ * CollectibleSet. Colletible entities
+ * Date: February 10, 2019
+ * @author Alex Stark
+ * @version 1.0
+ */
+
 import poj.EntitySet.*;
 import Resources.GameResources;
 import Resources.GameConfig;

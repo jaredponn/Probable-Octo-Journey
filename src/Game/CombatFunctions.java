@@ -18,8 +18,8 @@ import poj.Collisions.GJK;
 
 /**
  * A collection of methods to help handle combat and entity removal
- * @author Alex
- * 03/09/19 v1.0
+ * @author Alex Stark
+ * @version 03/09/19 v1.0
  */
 public class CombatFunctions {
 
@@ -69,6 +69,8 @@ public class CombatFunctions {
 		engineState.deleteComponentAt(PhysicsPCollisionBody.class, p);
 		engineState.markIndexAsFree(p);
 	}
+
+
 	
 	/**
 	 * Handler for bullet collisions
@@ -127,6 +129,4 @@ public class CombatFunctions {
 			engineState.getComponentAt(HitPoints.class, player ).hurt(GameConfig.MOB_ATTACK_DAMAGE);
 		}
 	}
-	
 }
-

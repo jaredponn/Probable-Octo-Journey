@@ -1,5 +1,13 @@
 package Components;
 
+/**
+ * Movement. MovementComponent with speed and velocity(mutuable)
+ *
+ * Date: March 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
+
 import poj.Component.Component;
 import poj.linear.Vector2f;
 

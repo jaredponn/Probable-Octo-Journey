@@ -1,3 +1,10 @@
+/**
+ * App. Application running loop
+ * Date: February 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
+
 import poj.GameWindow.*;
 import poj.Render.*;
 import Game.PlayGame;
@@ -17,8 +24,8 @@ public class App
 	// boolean to keep track if the game is running
 	boolean isRunning;
 
-	private int width = 1024;
-	private int height = 768;
+	private int width;
+	private int height;
 
 	/**
 	 * Default constructor that acquires the rendering resources, and input
@@ -39,6 +46,9 @@ public class App
 		this.gcanvas = new GameCanvas(gd.getDisplayMode().getWidth(),
 					      gd.getDisplayMode().getHeight(),
 					      inputPoller);*/
+
+		this.width = 1024;
+		this.height = 768;
 
 		// windowed
 		this.gcanvas = new GameCanvas(width, height, inputPoller);

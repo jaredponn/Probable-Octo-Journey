@@ -1,5 +1,13 @@
 package Components;
 
+/**
+ * PathFindingCoordinate. PathFindingCoordiante component
+ *
+ * Date: March 10, 2019
+ * @author Haiyang He
+ * @version 1.0
+ */
+
 import poj.Component.Component;
 import poj.linear.Vector2f;
 
