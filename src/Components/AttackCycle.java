@@ -41,8 +41,6 @@ public class AttackCycle implements Component
 	 * Constructor.
 	 *
 	 * @param ptms -- priming time in milliseconds
-	 * @param atkbox -- array of the attack hit boxes for all 8 cardinal
-	 *         directions in order N, E, S, W, NE, NW, SE, SW
 	 * @param rtms -- recoil time in milliseconds
 	 */
 	public AttackCycle(double ptms, double rtms)
