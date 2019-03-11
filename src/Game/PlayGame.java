@@ -845,7 +845,7 @@ public class PlayGame extends World
 					.getLifespan();
 
 			if (this.getPlayTime() - spawnTime >= lifespan) {
-				CombatFunctions.removeBullet( engineState , i );
+				CombatFunctions.removeBullet(engineState, i);
 			}
 		}
 	}
@@ -927,10 +927,12 @@ public class PlayGame extends World
 					    .getComponentAt(HitPoints.class, i)
 					    .getHP()
 				    <= 0) {
-					CombatFunctions.removeMob( engineState , i );
+					CombatFunctions.removeMob(engineState,
+								  i);
 				}
 				// remove bullet
-				CombatFunctions.removeBullet( engineState , bullet );
+				CombatFunctions.removeBullet(engineState,
+							     bullet);
 
 				break;
 			}
@@ -942,8 +944,8 @@ public class PlayGame extends World
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, bulletPosition, b)) {
 
-				CombatFunctions.removeBullet(
-					engineState, bullet);
+				CombatFunctions.removeBullet(engineState,
+							     bullet);
 			}
 		}
 	}
