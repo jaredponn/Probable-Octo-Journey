@@ -144,7 +144,8 @@ public class PlayGame extends World
 		super.engineState.registerComponent(FacingDirection.class);
 		super.engineState.registerComponent(AttackCycle.class);
 		super.engineState.registerComponent(Movement.class);
-		super.engineState.registerComponent(PhysicsPCollisionBody.class);
+		super.engineState.registerComponent(
+			PhysicsPCollisionBody.class);
 		super.engineState.registerComponent(Lifespan.class);
 		super.engineState.registerComponent(HitPoints.class);
 	}
@@ -239,9 +240,12 @@ public class PlayGame extends World
 				this.map.getLayerEngineState(i), debugBuffer,
 				this.cam);
 
-			EngineTransforms.resolvePhysicsPCollisionBodiesAgainstTileMap(
-				this.engineState, this.gjk, PlayerSet.class,
-				this.map.getLayerEngineState(i), this.dt);
+			EngineTransforms
+				.resolvePhysicsPCollisionBodiesAgainstTileMap(
+					this.engineState, this.gjk,
+					PlayerSet.class,
+					this.map.getLayerEngineState(i),
+					this.dt);
 		}
 
 		//  attack cycles
@@ -730,8 +734,9 @@ public class PlayGame extends World
 	 */
 	private void collectCash(int amount)
 	{
-		PhysicsPCollisionBody playerPosition = engineState.getComponentAt(
-			PhysicsPCollisionBody.class, this.player);
+		PhysicsPCollisionBody playerPosition =
+			engineState.getComponentAt(PhysicsPCollisionBody.class,
+						   this.player);
 
 		for (int i = this.engineState.getInitialSetIndex(
 			     CollectibleSet.class);
@@ -740,8 +745,8 @@ public class PlayGame extends World
 							  i)) {
 
 			PhysicsPCollisionBody collectiblePosition =
-				engineState.getComponentAt(PhysicsPCollisionBody.class,
-							   i);
+				engineState.getComponentAt(
+					PhysicsPCollisionBody.class, i);
 
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, playerPosition, collectiblePosition)) {
@@ -773,8 +778,8 @@ public class PlayGame extends World
 		     i = this.engineState.getNextSetIndex(MobSet.class, i)) {
 
 			final PhysicsPCollisionBody anotherMob =
-				engineState.getComponentAt(PhysicsPCollisionBody.class,
-							   i);
+				engineState.getComponentAt(
+					PhysicsPCollisionBody.class, i);
 			// check if bullet and mob are at same position
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, bulletPosition, anotherMob)) {

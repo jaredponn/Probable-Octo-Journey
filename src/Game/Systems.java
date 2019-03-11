@@ -135,7 +135,7 @@ public class Systems
 					double dt)
 	{
 		g.clearVerticies();
-		return g.timeOfPolygonCollision(a.getPolygon(), b.getPolygon(),
+		return g.upperBoundTimeOfPolygonCollision(a.getPolygon(), b.getPolygon(),
 						dv.getDistanceDelta((float)dt));
 	}
 

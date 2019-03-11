@@ -14,6 +14,8 @@ Note: this script only works with bash.
 # Version number:
 -2019 February 24, Version 1.0 Pre-Alpha unstable release
 
+-2019 March 11, Version 1.1 Pre-Alpha half-stable release
+
 # Directory structure
 ```bash
 src/    # source files

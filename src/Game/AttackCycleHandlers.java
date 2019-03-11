@@ -1,7 +1,12 @@
 package Game;
 
-import Components.*;
-import EntitySets.*;
+import Components.CardinalDirections;
+import Components.HasAnimation;
+import Components.Movement;
+import Components.PhysicsPCollisionBody;
+import Components.WorldAttributes;
+import EntitySets.Bullet;
+import Resources.GameConfig;
 
 import poj.EngineState;
 import poj.GameWindow.InputPoller;
@@ -18,12 +23,15 @@ public class AttackCycleHandlers
 	{
 		Vector2f playerPosition =
 			engineState
-				.getComponentAt(WorldAttributes.class, player)
-				.getCenteredBottomQuarter();
+				.getComponentAt(PhysicsPCollisionBody.class,
+						player)
+				.getPolygon()
+				.pureGetAPointInPolygon(0);
 
 		switch (playerCurWPState) {
 		case Gun:
-
+			playerPosition.add(-GameConfig.PLAYER_WIDTH / 3,
+					   -GameConfig.PLAYER_HEIGHT / 3);
 			Vector2f mousePosition = ip.getMousePosition();
 			mousePosition.matrixMultiply(invCam);
 
@@ -41,15 +49,10 @@ public class AttackCycleHandlers
 					0));
 
 			// generation of the bullet
-			int e = engineState.spawnEntitySet(new Bullet(
-				gameElapsedTime,
-				new Vector2f(
-					engineState
-						.getComponentAt(
-							WorldAttributes.class,
-							player)
-						.getCenteredBottomQuarter())));
-			engineState.getComponentAt(PhysicsPCollisionBody.class, e)
+			int e = engineState.spawnEntitySet(
+				new Bullet(gameElapsedTime, playerPosition));
+			engineState
+				.getComponentAt(PhysicsPCollisionBody.class, e)
 				.setPositionPoint(
 					engineState
 						.getComponentAt(
