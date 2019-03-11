@@ -12,9 +12,10 @@ cd probable-octo-journey
 Note: this script only works with bash.
 
 # Version number:
--2019 February 24, Version 1.0 Pre-Alpha unstable release
+- 2019 February 24, Version 1.0 Pre-Alpha unstable release
 
--2019 March 11, Version 1.1 Pre-Alpha half-stable release
+- 2019 March 11, Version 1.1 Pre-Alpha half-stable release. Debug renderer is enabled and the red dots indicate collision box points.
+
 
 # Architecture / UML diagrams
 The architecture uses and entity component system. 
