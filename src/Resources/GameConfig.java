@@ -40,6 +40,7 @@ public class GameConfig
 			*/
 	public static final PhysicsPCollisionBody PLAYER_COLLISION_BODY =
 		new PhysicsPCollisionBody(
+			// new Vector2f(0f, 0f),
 			new Vector2f(1.5f, 2.7f), // displacement
 			// collision body:
 			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),

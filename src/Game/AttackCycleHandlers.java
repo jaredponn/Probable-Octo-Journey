@@ -49,7 +49,8 @@ public class AttackCycleHandlers
 							WorldAttributes.class,
 							player)
 						.getCenteredBottomQuarter())));
-			engineState.getComponentAt(PhysicsPCollisionBody.class, e)
+			engineState
+				.getComponentAt(PhysicsPCollisionBody.class, e)
 				.setPositionPoint(
 					engineState
 						.getComponentAt(
