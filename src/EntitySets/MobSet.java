@@ -33,13 +33,13 @@ public class MobSet extends EntitySet
 		// TODO: make mobs a different size than the player?
 		// TODO: mob animations (walking, idle, attacking, dying)
 	}
-	
+
 	/**
 	 * Spawn Mob at coordinates x , y
 	 * @param x-coord
 	 * @param y-coord
 	 */
-	public MobSet( float x , float y )
+	public MobSet(float x, float y)
 	{
 		super();
 
@@ -57,12 +57,12 @@ public class MobSet extends EntitySet
 		addComponent(new PCollisionBody(GameConfig.MOB_COLLISION_BODY));
 		addComponent(new HitPoints(GameConfig.MOB_HP));
 	}
-	
+
 	/**
 	 * Spawn mob at coordinates defined by a vector
 	 * @param posVector to spawn mob at
 	 */
-	public MobSet( Vector2f posVector )
+	public MobSet(Vector2f posVector)
 	{
 		super();
 

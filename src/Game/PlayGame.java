@@ -175,17 +175,6 @@ public class PlayGame extends World
 
 		// start the path finding thread
 		generateDiffusionMap.start();
-		int e = super.engineState.spawnEntitySet(
-			new Bullet(this.getPlayTime()));
-		Vector2f tmp = new Vector2f(
-			super.getComponentAt(WorldAttributes.class, this.player)
-				.getOriginCoord());
-
-		super.getComponentAt(WorldAttributes.class, e)
-			.setOriginCoord(tmp);
-
-		super.getComponentAt(Movement.class, e)
-			.setVelocity(new Vector2f(0f, 0f));
 	}
 	public void clearWorld()
 	{
@@ -692,6 +681,7 @@ public class PlayGame extends World
 				super.getComponentAt(WorldAttributes.class,
 						     this.player)
 					.getOriginCoord());
+			tmp.add(1f, 2f);
 
 			super.getComponentAt(WorldAttributes.class, e)
 				.setOriginCoord(tmp);

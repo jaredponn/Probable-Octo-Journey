@@ -38,7 +38,7 @@ public class GameConfig
 
 	public static final PCollisionBody PLAYER_COLLISION_BODY =
 		new PCollisionBody(
-			new Vector2f(0f, 0.6f), // displacement
+			new Vector2f(1.2f, 3f), // displacement
 						// collision body:
 			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
 			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
@@ -88,13 +88,25 @@ public class GameConfig
 	// mob config
 	public static final float MOB_SPEED = 0.6f * PLAYER_SPEED;
 	// public static final float MOB_SPEED = 0f;
-	public static final float MOB_HEIGHT = PLAYER_HEIGHT;
-	public static final float MOB_WIDTH = PLAYER_WIDTH;
+	public static final float MOB_HEIGHT =
+		GameResources.ENEMY_SPRITE_HEIGHT
+		/ GameResources.TILE_SCREEN_HEIGHT;
+	public static final float MOB_WIDTH = GameResources.ENEMY_SPRITE_WIDTH
+					      / GameResources.TILE_SCREEN_WIDTH;
+
 	public static final int MOB_HP = 100;
 	/*public static final CircleCollisionBody MOB_COLLISION_BODY =
 		new CircleCollisionBody(new CollisionCircle(0, 0, MOB_WIDTH));*/
 	public static final PCollisionBody MOB_COLLISION_BODY =
-		new PCollisionBody(PLAYER_COLLISION_BODY);
+
+		new PCollisionBody(
+			new Vector2f(0f, 0.6f), // displacement
+						// collision body:
+			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
+			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
+			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
+			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
+
 	public static final float MOB_SPAWN_TIMER = 10.0f;
 	// spawn points:
 	public static final Vector2f MOB_SPAWNER_1 = new Vector2f(20f, 20f);
