@@ -30,7 +30,8 @@ public class AttackCycleHandlers
 
 		switch (playerCurWPState) {
 		case Gun:
-
+			playerPosition.add(-GameConfig.PLAYER_WIDTH / 3,
+					   -GameConfig.PLAYER_HEIGHT / 3);
 			Vector2f mousePosition = ip.getMousePosition();
 			mousePosition.matrixMultiply(invCam);
 
@@ -48,11 +49,8 @@ public class AttackCycleHandlers
 					0));
 
 			// generation of the bullet
-			int e = engineState.spawnEntitySet(new Bullet(
-				gameElapsedTime,
-				playerPosition.pureAdd(
-					-GameConfig.PLAYER_WIDTH / 3,
-					-GameConfig.PLAYER_HEIGHT / 3)));
+			int e = engineState.spawnEntitySet(
+				new Bullet(gameElapsedTime, playerPosition));
 			engineState
 				.getComponentAt(PhysicsPCollisionBody.class, e)
 				.setPositionPoint(
