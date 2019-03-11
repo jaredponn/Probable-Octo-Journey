@@ -696,15 +696,6 @@ public class PlayGame extends World
 			float bulletSpeed =
 				super.getComponentAt(Movement.class, e)
 					.getSpeed();
-			/*
-			Vector2f tmp = new Vector2f(
-				super.getComponentAt(WorldAttributes.class,
-						     this.player)
-					.getCenteredBottomQuarter());
-
-			super.getComponentAt(WorldAttributes.class, e)
-				.setOriginCoord(tmp);
-				*/
 
 			super.getComponentAt(Movement.class, e)
 				.setVelocity(
@@ -870,11 +861,10 @@ public class PlayGame extends World
 	 */
 	private void collectCash(int amount)
 	{
-		Vector2f playerPosition =
+		PCollisionBody playerPosition =
 			engineState
-				.getComponentAt(WorldAttributes.class,
-						this.player)
-				.getCenteredBottomQuarter();
+				.getComponentAt( PCollisionBody.class,
+						this.player);
 
 		for (int i = this.engineState.getInitialSetIndex(
 			     CollectibleSet.class);
@@ -882,28 +872,16 @@ public class PlayGame extends World
 		     i = this.engineState.getNextSetIndex(CollectibleSet.class,
 							  i)) {
 
-			Vector2f collectiblePosition =
+			PCollisionBody collectiblePosition =
 				engineState
-					.getComponentAt(WorldAttributes.class,
-							i)
-					.getCenteredBottomQuarter();
+					.getComponentAt(PCollisionBody.class,i);
 
-			if ((int)playerPosition.x == (int)collectiblePosition.x
-			    && (int)playerPosition.y
-				       == (int)collectiblePosition.y) {
+			if ( Systems.arePCollisionBodiesColliding(gjk, playerPosition, collectiblePosition )) {
 				this.cash += amount;
 				System.out.println("Picked up $" + amount
 						   + ". You now have $"
 						   + this.cash);
-				this.engineState.deleteComponentAt(
-					CollectibleSet.class, i);
-				this.engineState.deleteComponentAt(Render.class,
-								   i);
-				this.engineState.deleteComponentAt(
-					WorldAttributes.class, i);
-				this.engineState.deleteComponentAt(
-					Lifespan.class, i);
-				this.engineState.markIndexAsFree(i);
+				CombatFunctions.removePickUp(engineState, i);
 			}
 		}
 	}

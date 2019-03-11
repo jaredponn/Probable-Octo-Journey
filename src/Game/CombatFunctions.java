@@ -1,6 +1,7 @@
 package Game;
 
 import EntitySets.Bullet;
+import EntitySets.CollectibleSet;
 import EntitySets.MobSet;
 import Components.Render;
 import Components.WorldAttributes;
@@ -29,7 +30,6 @@ public class CombatFunctions {
 	}
 	
 	public static void removeBullet( EngineState engineState , int bullet ) {
-		System.out.println("Bullet Deleted");
 		engineState.deleteComponentAt( Bullet.class  , bullet );
 		engineState.deleteComponentAt( Render.class , bullet );
 		engineState.deleteComponentAt( WorldAttributes.class , bullet );
@@ -38,5 +38,15 @@ public class CombatFunctions {
 		engineState.deleteComponentAt( PCollisionBody.class , bullet );
 		engineState.markIndexAsFree( bullet );
 	}
+	
+	public static void removePickUp( EngineState engineState , int p ) {
+		engineState.deleteComponentAt(CollectibleSet.class, p);
+		engineState.deleteComponentAt(Render.class, p);
+		engineState.deleteComponentAt(WorldAttributes.class, p);
+		engineState.deleteComponentAt(Lifespan.class, p);
+		engineState.deleteComponentAt(PCollisionBody.class, p);
+		engineState.markIndexAsFree(p);
+	}
+	
 }
 

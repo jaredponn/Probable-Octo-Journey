@@ -186,7 +186,7 @@ public class GameResources
 		*/
 
 	public static final int ENEMY_SPRITE_WIDTH = 125;
-	public static final int ENEMY_SPRITE_HEIGHT = 154;
+	public static final int ENEMY_SPRITE_HEIGHT = 155;
 
 	// move direction
 	public static Animation enemyNMoveAnimation = new Animation(
