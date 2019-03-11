@@ -135,22 +135,23 @@ public class Systems
 					double dt)
 	{
 		g.clearVerticies();
-		return g.upperBoundTimeOfPolygonCollision(a.getPolygon(), b.getPolygon(),
-						dv.getDistanceDelta((float)dt));
+		return g.upperBoundTimeOfPolygonCollision(
+			a.getPolygon(), b.getPolygon(),
+			dv.getDistanceDelta((float)dt));
 	}
 
 
-	public static void
-	pCollisionBodyDebugRenderer(final PhysicsPCollisionBody pc,
-				    Queue<RenderObject> q, final Camera cam)
+	public static void pCollisionBodyDebugRenderer(final PCollisionBody pc,
+						       Queue<RenderObject> q,
+						       final Camera cam)
 	{
 		pCollisionBodyDebugRenderer(pc, q, cam, Color.RED);
 	}
 
-	public static void
-	pCollisionBodyDebugRenderer(final PhysicsPCollisionBody pc,
-				    Queue<RenderObject> q, final Camera cam,
-				    Color r)
+	public static void pCollisionBodyDebugRenderer(final PCollisionBody pc,
+						       Queue<RenderObject> q,
+						       final Camera cam,
+						       Color r)
 	{
 		Polygon p = pc.getPolygon();
 		Vector2f[] pts = p.pts();
@@ -162,7 +163,7 @@ public class Systems
 	}
 
 	public static void
-	updatePCollisionBodyPositionFromWorldAttr(PhysicsPCollisionBody p,
+	updatePCollisionBodyPositionFromWorldAttr(PCollisionBody p,
 						  WorldAttributes w)
 	{
 		Vector2f tmp = w.getOriginCoord();

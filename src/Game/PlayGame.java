@@ -4,17 +4,7 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.*;
 
-import Components.AttackCycle;
-import Components.CardinalDirections;
-import Components.FacingDirection;
-import Components.HasAnimation;
-import Components.HitPoints;
-import Components.Lifespan;
-import Components.Movement;
-import Components.MovementDirection;
-import Components.PhysicsPCollisionBody;
-import Components.Render;
-import Components.WorldAttributes;
+import Components.*;
 import EntitySets.Bullet;
 import EntitySets.CollectibleSet;
 import EntitySets.ConstructSet;
@@ -146,6 +136,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(Movement.class);
 		super.engineState.registerComponent(
 			PhysicsPCollisionBody.class);
+		super.engineState.registerComponent(PHitBox.class);
 		super.engineState.registerComponent(Lifespan.class);
 		super.engineState.registerComponent(HitPoints.class);
 	}
@@ -226,13 +217,16 @@ public class PlayGame extends World
 		EngineTransforms.setMovementVelocityFromMovementDirection(
 			this.engineState);
 
-		EngineTransforms.updatePhysicsPCollisionFromWorldAttr(
+		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 
 
 		// debug renderers
 		EngineTransforms.debugRenderPhysicsPCollisionBodies(
 			this.engineState, this.debugBuffer, this.cam);
+
+		EngineTransforms.debugRenderPHitBox(this.engineState,
+						    this.debugBuffer, this.cam);
 
 		// testing collision with turrets
 		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {

@@ -2,12 +2,11 @@ package Resources;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import poj.linear.*;
+
 import Components.*;
-import poj.Collisions.*;
-import poj.PackedVector;
-import poj.Collisions.*;
+
 import poj.Pair;
+import poj.linear.Vector2f;
 
 
 // IMPORTANT: Everything in this document should be in screen coordinates. That
@@ -38,8 +37,8 @@ public class GameConfig
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
 			*/
-	public static final PhysicsPCollisionBody PLAYER_COLLISION_BODY =
-		new PhysicsPCollisionBody(
+	public static final PCollisionBody PLAYER_COLLISION_BODY =
+		new PCollisionBody(
 			// new Vector2f(0f, 0f),
 			new Vector2f(1.5f, 2.7f), // displacement
 			// collision body:
@@ -48,12 +47,27 @@ public class GameConfig
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
 
+	public static final PCollisionBody PLAYER_HITBOX_BODY =
+		new PCollisionBody(new Vector2f(0f, 0f), // displacement
+							 // collision body:
+				   new Vector2f(0f, 0f), new Vector2f(1f, 0f),
+				   new Vector2f(0f, 1f), new Vector2f(1f, 1f));
+	/*
+	public static final PCollisionBody PLAYER_HITBOX_BODY =
+		new PCollisionBody(new Vector2f(0f, 0f), // displacement
+							 // collision body:
+				   new Vector2f(0f, 0f),
+				   new Vector2f(PLAYER_WIDTH, 0f),
+				   new Vector2f(0f, PLAYER_HEIGHT),
+				   new Vector2f(PLAYER_WIDTH, PLAYER_HEIGHT));
+				   */
+
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(100, 100);
 
 	// turret config
-	public static final PhysicsPCollisionBody TURRET_COLLISION_BODY =
-		new PhysicsPCollisionBody(
+	public static final PCollisionBody TURRET_COLLISION_BODY =
+		new PCollisionBody(
 			new Vector2f(0f, 0.8f), // displacement
 						// collision body:
 			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
@@ -72,13 +86,13 @@ public class GameConfig
 	public static final double BULLET_LIFE_SPAN = 0.8;
 	public static final int BULLET_DAMAGE = 10;
 
-	public static final PhysicsPCollisionBody BULLET_COLLISION_BODY =
-		new PhysicsPCollisionBody(
-			new Vector2f(0.0f, 0.0f), // displacement
-						  // collision body:
-			new Vector2f(0, 0), new Vector2f(0, BULLET_HEIGHT),
-			new Vector2f(BULLET_WIDTH, 0),
-			new Vector2f(BULLET_WIDTH, BULLET_HEIGHT));
+	public static final PCollisionBody BULLET_COLLISION_BODY =
+		new PCollisionBody(new Vector2f(0.0f, 0.0f), // displacement
+							     // collision body:
+				   new Vector2f(0, 0),
+				   new Vector2f(0, BULLET_HEIGHT),
+				   new Vector2f(BULLET_WIDTH, 0),
+				   new Vector2f(BULLET_WIDTH, BULLET_HEIGHT));
 	/*
 	public static final PCollisionBody BULLET_COLLISION_BODY =
 		new PCollisionBody(
@@ -107,14 +121,23 @@ public class GameConfig
 	public static final int MOB_HP = 100;
 	/*public static final CircleCollisionBody MOB_COLLISION_BODY =
 		new CircleCollisionBody(new CollisionCircle(0, 0, MOB_WIDTH));*/
-	public static final PhysicsPCollisionBody MOB_COLLISION_BODY =
-		new PhysicsPCollisionBody(
+	public static final PCollisionBody MOB_COLLISION_BODY =
+		new PCollisionBody(
 			new Vector2f(1.5f, 2.7f), // displacement
 						  // collision body:
 			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
 			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
+
+	// mob hitbox body
+	public static final PCollisionBody MOB_HITBOX_BODY = new PCollisionBody(
+		new Vector2f(1.5f, 2.7f), // displacement
+					  // collision body:
+		new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
+		new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
+		new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
+		new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
 
 	public static final float MOB_SPAWN_TIMER = 10.0f;
 	// spawn points:
@@ -136,13 +159,13 @@ public class GameConfig
 	public static final float PICKUP_HEIGHT =
 		GameResources.CASH_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
-	public static final PhysicsPCollisionBody PICKUP_COLLISION_BODY =
-		new PhysicsPCollisionBody(
-			new Vector2f(0.0f, 0.0f), // displacement
-						  // collision body:
-			new Vector2f(0, 0), new Vector2f(0, PICKUP_HEIGHT),
-			new Vector2f(PICKUP_WIDTH, 0),
-			new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT));
+	public static final PCollisionBody PICKUP_COLLISION_BODY =
+		new PCollisionBody(new Vector2f(0.0f, 0.0f), // displacement
+							     // collision body:
+				   new Vector2f(0, 0),
+				   new Vector2f(0, PICKUP_HEIGHT),
+				   new Vector2f(PICKUP_WIDTH, 0),
+				   new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT));
 	// new Vector2f(0, 0),
 	// new Vector2f(0, 16),
 	// new Vector2f(16, 0),
