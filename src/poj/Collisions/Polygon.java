@@ -51,6 +51,11 @@ public class Polygon implements CollisionShape
 		return pts;
 	}
 
+	public Vector2f pureGetAPointInPolygon(int index)
+	{
+		return new Vector2f(pts[index]);
+	}
+
 	public Vector2f[] purePts()
 	{
 		Vector2f tmp[] = new Vector2f[size];

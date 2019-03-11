@@ -156,20 +156,31 @@ public class EngineTransforms
 			map,
 			map.getEcsIndexFromWorldVector2f(
 				engineState
-					.getComponentAt(WorldAttributes.class,
-							mob1)
-					.getCenteredBottomQuarter()),
+					.getComponentAt(
+						PhysicsPCollisionBody.class,
+						mob1)
+					.getPolygon()
+					.pureGetAPointInPolygon(0)),
 			mapLayer);
 		float maxValue = 0;
 		Vector2f maxPosition = new Vector2f();
 		Vector2f mobPosition =
-			engineState.getComponentAt(WorldAttributes.class, mob1)
-				.getCenteredBottomQuarter();
+			engineState
+				.getComponentAt(PhysicsPCollisionBody.class,
+						mob1)
+				.getPolygon()
+				.pureGetAPointInPolygon(0);
+		/*
+	engineState.getComponentAt(WorldAttributes.class, mob1)
+		.getCenteredBottomQuarter();
+		*/
 
 		Vector2f playerPosition =
 			engineState
-				.getComponentAt(WorldAttributes.class, player)
-				.getCenteredBottomQuarter();
+				.getComponentAt(PhysicsPCollisionBody.class,
+						player)
+				.getPolygon()
+				.pureGetAPointInPolygon(0);
 
 		// get the mob's highest neighbour value
 		for (PathFindCord neib : mobNeighb) {
@@ -273,20 +284,13 @@ public class EngineTransforms
 		}
 		// test if the current tile the mob is at is bigger than the max
 		// value
-		else if (
-			maxValue
-			<= map.getLayerEngineState(0)
-				   .getComponentAt(
-					   PathFindCord.class,
-					   map.getEcsIndexFromWorldVector2f(
-						   engineState
-							   .getComponentAt(
-								   WorldAttributes
-									   .class
-								   ,
-								   mob1)
-							   .getCenteredBottomQuarter()))
-				   .getDiffusionValue()
+		else if (maxValue
+			 <= map.getLayerEngineState(0)
+				    .getComponentAt(
+					    PathFindCord.class,
+					    map.getEcsIndexFromWorldVector2f(
+						    mobPosition))
+				    .getDiffusionValue()
 
 		) {
 			System.out.println(
@@ -352,12 +356,24 @@ public class EngineTransforms
 	{
 
 		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
+		/*
 		Vector2f playerPosition =
 			engineState
 				.getComponentAt(WorldAttributes.class, player)
 				.getCenteredBottomQuarter();
+				*/
+		Vector2f playerPosition =
+			engineState
+				.getComponentAt(PhysicsPCollisionBody.class,
+						player)
+				.getPolygon()
+				.pureGetAPointInPolygon(0);
+
+
+		// TODO: turret diffusion value.. NEED TO BE CHANGED LATER TO
+		// MATCH THE PHYSICS COLLISION BODY!
 		for (int i = engineState.getInitialSetIndex(TurretSet.class);
-		     engineState.isValidEntity(i);
+		     poj.EngineState.isValidEntity(i);
 		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
 			mapLayer.getComponentAt(
 					PathFindCord.class,

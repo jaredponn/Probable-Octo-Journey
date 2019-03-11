@@ -108,10 +108,9 @@ public class GameConfig
 	/*public static final CircleCollisionBody MOB_COLLISION_BODY =
 		new CircleCollisionBody(new CollisionCircle(0, 0, MOB_WIDTH));*/
 	public static final PhysicsPCollisionBody MOB_COLLISION_BODY =
-
 		new PhysicsPCollisionBody(
-			new Vector2f(0f, 0.6f), // displacement
-						// collision body:
+			new Vector2f(1.5f, 2.7f), // displacement
+						  // collision body:
 			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
 			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
