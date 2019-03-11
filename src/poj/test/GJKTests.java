@@ -367,6 +367,26 @@ public class GJKTests
 		}
 	}
 
+
+	@Test public void moreRealWorldTests()
+	{
+
+		Polygon r1 = new Polygon(new Vector2f(0.0f, 0.0f),
+					 new Vector2f(0.0f, 0.15625f),
+					 new Vector2f(0.078125f, 0.0f),
+					 new Vector2f(0.078125f, 0.15625f));
+		Polygon r2 = new Polygon(
+			new Vector2f(49.0f, 49.0f), new Vector2f(50.0f, 49.0f),
+			new Vector2f(49.0f, 50.0f), new Vector2f(50.0f, 50.0f));
+
+		GJK gjk = new GJK();
+
+		assertFalse(gjk.areColliding(r1, r2));
+		gjk.clearVerticies();
+		assertFalse(gjk.areColliding(r2, r1));
+	}
+
+
 	@Test public void extraCollisionTimeTests()
 	{
 

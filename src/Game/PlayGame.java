@@ -34,7 +34,6 @@ import poj.Render.RenderObject;
 import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
 
-import poj.Combat.CombatFunctions;
 import poj.Component.Components;
 
 public class PlayGame extends World
@@ -936,16 +935,17 @@ public class PlayGame extends World
 				break;
 			}
 		}
-		for (int i = map.getLayerEngineState(1).getInitialSetIndex(PCollisionBody.class);
-				Components.isValidEntity(i);
-				i = map.getLayerEngineState(1).getNextSetIndex(PCollisionBody.class, i)) {
-			final PCollisionBody thisCollisionBody = map.getLayerEngineState(1)
-					.getComponentAt(PCollisionBody.class, i);
-			if (Systems.arePCollisionBodiesColliding(gjk, bulletPosition, thisCollisionBody ))
-				CombatFunctions.removeBullet(engineState, bullet);
+		for (PCollisionBody b :
+		     map.getLayerEngineState(1)
+			     .getRawComponentArrayListPackedData(
+				     PCollisionBody.class)) {
+			if (Systems.arePCollisionBodiesColliding(
+				    gjk, bulletPosition, b)) {
+
+				CombatFunctions.removeBullet(
+					engineState, bullet);
+			}
 		}
 	}
-
-		
 	// /ASE
 }
