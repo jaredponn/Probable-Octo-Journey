@@ -128,22 +128,22 @@ public class GameConfig
 	public static final int PICKUP_CASH_AMOUNT = 100;
 	public static final float PICKUP_CASH_SPAWN_TIME = 20.0f;
 	public static final float PICKUP_WIDTH =
-			GameResources.CASH_SPRITE_WIDTH
-			/ GameResources.TILE_SCREEN_WIDTH;
-		public static final float PICKUP_HEIGHT =
-			GameResources.CASH_SPRITE_HEIGHT
-			/ GameResources.TILE_SCREEN_HEIGHT;
+		GameResources.CASH_SPRITE_WIDTH
+		/ GameResources.TILE_SCREEN_WIDTH;
+	public static final float PICKUP_HEIGHT =
+		GameResources.CASH_SPRITE_HEIGHT
+		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final PCollisionBody PICKUP_COLLISION_BODY =
-			new PCollisionBody(new Vector2f(0.0f, 0.0f), // displacement
-								     // collision body:
-					new Vector2f(0, 0),
-					new Vector2f(0, PICKUP_HEIGHT),
-					new Vector2f(PICKUP_WIDTH, 0),
-					new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT));
-					//new Vector2f(0, 0),
-					//new Vector2f(0, 16),
-					//new Vector2f(16, 0),
-					//new Vector2f(16, 16));
+		new PCollisionBody(new Vector2f(0.0f, 0.0f), // displacement
+							     // collision body:
+				   new Vector2f(0, 0),
+				   new Vector2f(0, PICKUP_HEIGHT),
+				   new Vector2f(PICKUP_WIDTH, 0),
+				   new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT));
+	// new Vector2f(0, 0),
+	// new Vector2f(0, 16),
+	// new Vector2f(16, 0),
+	// new Vector2f(16, 16));
 
 	// input config
 	public static final int SWITCH_WEAPONS = KeyEvent.VK_X;
@@ -158,7 +158,7 @@ public class GameConfig
 				add(new Pair<Integer, Double>(SWITCH_WEAPONS,
 							      0.3d));
 				add(new Pair<Integer, Double>(ATTACK_KEY,
-							      0.08d));
+							      0.3d));
 				add(new Pair<Integer, Double>(BUILD_TOWER, 1d));
 				add(new Pair<Integer, Double>(SWITCH_WEAPONS,
 							      1d));

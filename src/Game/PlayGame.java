@@ -305,6 +305,56 @@ public class PlayGame extends World
 	protected void processInputs()
 	{
 
+		////// Combat Commands //////
+		if (super.inputPoller.isKeyDown(GameConfig.ATTACK_KEY)
+		    || super.inputPoller.isLeftMouseButtonDown()) {
+			System.out.print(
+				"space key is down. Player character should be attacking\n");
+
+			System.out.println("the cd value of attack key = "
+					   + Math.abs(lastCoolDown.get(
+						     GameConfig.ATTACK_KEY)));
+			if (Math.abs(lastCoolDown.get(GameConfig.ATTACK_KEY))
+			    == 0d) {
+				updateDtForKey(GameConfig.ATTACK_KEY,
+					       -coolDownMax.get(
+						       GameConfig.ATTACK_KEY));
+				this.weaponAttack();
+				return;
+				// lastCoolDown.set(GameConfig.BUILD_TOWER,
+				//-coolDownMax.get(
+				// GameConfig.BUILD_TOWER));
+			}
+
+			// TODO: find adjacent tiles (and any enemies on
+			// them)
+			// TODO: apply damage to enemies
+			// TODO: attack on mouse click instead?
+		}
+		if (super.inputPoller.isKeyDown(GameConfig.SWITCH_WEAPONS)) {
+
+			if (Math.abs(
+				    lastCoolDown.get(GameConfig.SWITCH_WEAPONS))
+			    == 0d) {
+				updateDtForKey(
+					GameConfig.SWITCH_WEAPONS,
+					-coolDownMax.get(
+						GameConfig.SWITCH_WEAPONS));
+				System.out.print(
+					"x key is down. Player character should be changing weapons\n");
+				System.out.println(
+					"old weapon state = "
+					+ curWeaponState.currentWeaponState());
+				curWeaponState = curWeaponState.next();
+				System.out.println(
+					"new weapon state = "
+					+ curWeaponState.currentWeaponState());
+				// lastCoolDown.set(GameConfig.BUILD_TOWER,
+				//-coolDownMax.get(
+				// GameConfig.BUILD_TOWER));
+			}
+		}
+
 		////// Movement Commands //////
 		if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
 		    && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
@@ -408,64 +458,11 @@ public class PlayGame extends World
 			// TODO idle direction!!!!!
 			super.getComponentAt(FacingDirection.class,
 					     this.player);
-			switch (prevDirection) {
-			case N:
-				super.getComponentAt(HasAnimation.class,
-						     this.player)
-					.setAnimation(
-						GameResources
-							.playerNIdleAnimation);
-				break;
-			case NE:
-				super.getComponentAt(HasAnimation.class,
-						     this.player)
-					.setAnimation(
-						GameResources
-							.playerNIdleAnimation);
-				break;
-			case NW:
-				super.getComponentAt(HasAnimation.class,
-						     this.player)
-					.setAnimation(
-						GameResources
-							.playerNIdleAnimation);
-				break;
-			case S:
-				super.getComponentAt(HasAnimation.class,
-						     this.player)
-					.setAnimation(
-						GameResources
-							.playerSIdleAnimation);
-				break;
-			case SE:
-				super.getComponentAt(HasAnimation.class,
-						     this.player)
-					.setAnimation(
-						GameResources
-							.playerSIdleAnimation);
-				break;
-			case SW:
-				super.getComponentAt(HasAnimation.class,
-						     this.player)
-					.setAnimation(
-						GameResources
-							.playerSIdleAnimation);
-				break;
-			case W:
-				super.getComponentAt(HasAnimation.class,
-						     this.player)
-					.setAnimation(
-						GameResources
-							.playerWIdleAnimation);
-				break;
-			case E:
-				super.getComponentAt(HasAnimation.class,
-						     this.player)
-					.setAnimation(
-						GameResources
-							.playerEIdleAnimation);
-				break;
-			}
+
+			super.getComponentAt(HasAnimation.class, this.player)
+				.setAnimation(
+					EngineTransforms.findPlayerFacingSprite(
+						prevDirection, 0));
 		}
 
 
@@ -520,61 +517,6 @@ public class PlayGame extends World
 			// frame)
 		}
 
-		////// Combat Commands //////
-		if (super.inputPoller.isKeyDown(GameConfig.ATTACK_KEY)
-		    || super.inputPoller.isLeftMouseButtonDown()) {
-			System.out.print(
-				"space key is down. Player character should be attacking\n");
-
-			System.out.println("the cd value of attack key = "
-					   + Math.abs(lastCoolDown.get(
-						     GameConfig.ATTACK_KEY)));
-			if (Math.abs(lastCoolDown.get(GameConfig.ATTACK_KEY))
-			    == 0d) {
-				updateDtForKey(GameConfig.ATTACK_KEY,
-					       -coolDownMax.get(
-						       GameConfig.ATTACK_KEY));
-				this.weaponAttack();
-				// lastCoolDown.set(GameConfig.BUILD_TOWER,
-				//-coolDownMax.get(
-				// GameConfig.BUILD_TOWER));
-			}
-
-			// TODO: find adjacent tiles (and any enemies on
-			// them)
-			// TODO: apply damage to enemies
-			// TODO: attack on mouse click instead?
-		}
-		if (super.inputPoller.isKeyDown(GameConfig.SWITCH_WEAPONS)) {
-
-			if (Math.abs(
-				    lastCoolDown.get(GameConfig.SWITCH_WEAPONS))
-			    == 0d) {
-				updateDtForKey(
-					GameConfig.SWITCH_WEAPONS,
-					-coolDownMax.get(
-						GameConfig.SWITCH_WEAPONS));
-				System.out.print(
-					"x key is down. Player character should be changing weapons\n");
-				System.out.println(
-					"old weapon state = "
-					+ curWeaponState.currentWeaponState());
-				curWeaponState = curWeaponState.next();
-				System.out.println(
-					"new weapon state = "
-					+ curWeaponState.currentWeaponState());
-				// lastCoolDown.set(GameConfig.BUILD_TOWER,
-				//-coolDownMax.get(
-				// GameConfig.BUILD_TOWER));
-			}
-
-
-			// TODO: implement different weapons
-			// TODO: switch between weapons
-			// player.switchWeapon();
-		}
-
-		////// Mouse handling  //////
 
 		/*
 		CardinalDirections facingDirection =
@@ -664,6 +606,7 @@ public class PlayGame extends World
 		switch (curWeaponState) {
 		case Gun:
 
+			////// Mouse handling  //////
 			Vector2f playerPosition =
 				super.getComponentAt(WorldAttributes.class,
 						     this.player)
@@ -678,7 +621,21 @@ public class PlayGame extends World
 			tmp1.negate();
 			Vector2f unitVecPlayerPosToMouseDelta =
 				tmp1.pureNormalize();
+			// make the player stop and shoot
+			engineState.getComponentAt(Movement.class, this.player)
+				.setSpeed(0);
+			this.prevDirection =
+				CardinalDirections
+					.getClosestDirectionFromDirectionVector(
+						unitVecPlayerPosToMouseDelta);
+			super.getComponentAt(HasAnimation.class, this.player)
+				.setAnimation(
+					EngineTransforms.findPlayerFacingSprite(
+						prevDirection, 1));
+			// add a delay for the animation
+			//
 
+			// generation of the bullet
 			int e = super.engineState.spawnEntitySet(new Bullet(
 				this.getPlayTime(),
 				new Vector2f(
@@ -861,10 +818,8 @@ public class PlayGame extends World
 	 */
 	private void collectCash(int amount)
 	{
-		PCollisionBody playerPosition =
-			engineState
-				.getComponentAt( PCollisionBody.class,
-						this.player);
+		PCollisionBody playerPosition = engineState.getComponentAt(
+			PCollisionBody.class, this.player);
 
 		for (int i = this.engineState.getInitialSetIndex(
 			     CollectibleSet.class);
@@ -873,10 +828,11 @@ public class PlayGame extends World
 							  i)) {
 
 			PCollisionBody collectiblePosition =
-				engineState
-					.getComponentAt(PCollisionBody.class,i);
+				engineState.getComponentAt(PCollisionBody.class,
+							   i);
 
-			if ( Systems.arePCollisionBodiesColliding(gjk, playerPosition, collectiblePosition )) {
+			if (Systems.arePCollisionBodiesColliding(
+				    gjk, playerPosition, collectiblePosition)) {
 				this.cash += amount;
 				System.out.println("Picked up $" + amount
 						   + ". You now have $"
