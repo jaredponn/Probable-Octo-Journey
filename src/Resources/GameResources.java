@@ -136,6 +136,11 @@ public class GameResources
 		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 3,
 		PLAYER_SPRITE_HEIGHT * 7);
 
+
+	/*
+	 * size for player melee attack animation: 185 x 182
+	 */
+
 	/*
 	public static BufferedImage playerSpriteSheet =
 		ImageLoader.load("resources/playerspritesheet.png");
@@ -180,7 +185,7 @@ public class GameResources
 		PLAYER_SPRITE_HEIGHT * 7);
 		*/
 
-	public static final int ENEMY_SPRITE_WIDTH = 126;
+	public static final int ENEMY_SPRITE_WIDTH = 125;
 	public static final int ENEMY_SPRITE_HEIGHT = 154;
 
 	// move direction
