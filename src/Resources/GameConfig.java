@@ -44,8 +44,8 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(-0.5f, 0f), // displacement
 						 // collision body:
-			new Vector2f(1, 1f), new Vector2f(1.5f, 1.1f),
-			new Vector2f(3f, 3.5f), new Vector2f(3.5f, 3.5f));
+			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
+			new Vector2f(2.7f, 2.5f), new Vector2f(2.95f, 2.2f));
 
 
 	public static final PCollisionBody ENEMY_HITBOX_BODY =
@@ -79,7 +79,7 @@ public class GameConfig
 		GameResources.BULLET_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final double BULLET_LIFE_SPAN = 0.8;
-	public static final int BULLET_DAMAGE = 10;
+	public static final int BULLET_DAMAGE = 100;
 
 	public static final PCollisionBody BULLET_COLLISION_BODY =
 		new PCollisionBody(new Vector2f(0.0f, 0.0f), // displacement

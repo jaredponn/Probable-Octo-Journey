@@ -79,8 +79,8 @@ public class GameResources
 		ImageLoader.load("resources/coin.png");
 
 	// player resources
-	public static BufferedImage playerSpriteSheet =
-		ImageLoader.load("resources/RomiroGraphics/PlayerSheetNew.png");
+	public static BufferedImage playerSpriteSheet = ImageLoader.load(
+		"resources/RomiroGraphics/PlayerSheetReduced20.png");
 
 	public static BufferedImage enemySpriteSheet =
 		ImageLoader.load("resources/RomiroGraphics/ZombieSheet.png");
@@ -90,8 +90,8 @@ public class GameResources
 	 * last 3 rows are idle animation (breath and not breath)
 	 * each animation is 126 x 150
 	 */
-	public static final int PLAYER_SPRITE_WIDTH = 125;
-	public static final int PLAYER_SPRITE_HEIGHT = 155;
+	public static final int PLAYER_SPRITE_WIDTH = (int)(125 * 0.8);
+	public static final int PLAYER_SPRITE_HEIGHT = (int)(155 * 0.8);
 	// movement animation
 	public static Animation playerNMoveAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,

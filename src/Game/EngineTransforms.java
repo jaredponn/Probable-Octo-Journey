@@ -508,12 +508,10 @@ public class EngineTransforms
 		for (int i = e.getInitialSetIndex(PHitBox.class);
 		     Components.isValidEntity(i);
 		     i = e.getNextSetIndex(PHitBox.class, i)) {
-			System.out.println("i = " + i);
 			Systems.pCollisionBodyDebugRenderer(
 				e.getComponentAt(PHitBox.class, i), q, cam,
 				Color.BLUE);
 		}
-		System.out.println("end of debugRenderPHitBox");
 	}
 
 

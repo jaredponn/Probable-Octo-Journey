@@ -166,12 +166,12 @@ public class CombatFunctions
 		HitPoints playerHP =
 			engineState.getComponentAt(HitPoints.class, player);
 		playerHP.hurt(amount);
-		
-		if ( playerHP.getHP() <= 0 ) {
-			System.out.println("---------------\n"
-					+ "The player has been killed!!!\n---GAME OVER---");
 
-			System.exit(0);
+		if (playerHP.getHP() <= 0) {
+			System.out.println(
+				"---------------\n"
+				+ "The player has been killed!!!\n---GAME OVER---");
+			// System.exit(0);
 		}
 	}
 	
