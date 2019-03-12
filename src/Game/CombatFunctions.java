@@ -17,6 +17,7 @@ import Resources.GameConfig;
 
 import poj.EngineState;
 import poj.Collisions.GJK;
+import poj.linear.Vector2f;
 
 /**
  * A collection of methods to help handle combat and entity removal
@@ -172,5 +173,27 @@ public class CombatFunctions
 
 			System.exit(0);
 		}
+	}
+	
+	/**
+	 * Handler for turrets shooting at mobs
+	 * @param engineState: the main game state
+	 * @param turret: the turret the is shooting
+	 * @param target: the mob that is being shot at
+	 */
+	public static void shootTurret(EngineState engineState , int turret , int target ) {
+		Vector2f turretPosition = engineState.getComponentAt(
+				PhysicsPCollisionBody.class,turret)
+				.getPolygon().pureGetAPointInPolygon(0);
+		
+		Vector2f targetPosition = engineState.getComponentAt(
+				PhysicsPCollisionBody.class,target)
+				.getPolygon().pureGetAPointInPolygon(0);
+		
+		Vector2f tmp =
+				turretPosition.pureSubtract(targetPosition);
+			tmp.negate();
+			Vector2f unitVecturretPosTotargetDelta =
+				tmp.pureNormalize();
 	}
 }

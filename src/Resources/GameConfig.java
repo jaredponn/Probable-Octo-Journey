@@ -65,6 +65,8 @@ public class GameConfig
 			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
+	public static final int CONSTRUCT_HP = 100;
+	public static final float SHELL_SPEED = 0.04f;
 
 	//////////////////////////
 	////// bullet config /////
@@ -126,7 +128,6 @@ public class GameConfig
 	////////////////////////////
 	public static final float CONSTRUCT_HEIGHT = 64;
 	public static final float CONSTRUCT_WIDTH = 48;
-	public static final int CONSTRUCT_HP = 100;
 
 	public static final int TOWER_BUILD_COST = 250;
 
