@@ -291,27 +291,6 @@ public class GJK
 		return penVector;
 	}
 
-	/**
-	 * Calculates the pentration depth and normal of 2 colliding
-	 * CollisionShapes -- the penetration vector returned is the how much to
-	 * shift "colb" -- ensure that areColliding is run before this so that
-	 * there is a simplex generated.
-	 *
-	 * @param  cola first static (stationary) collision box
-	 * @param  colb second collision box that is moving with the delta
-	 *         specified with db
-	 * @return      Pair -- depth and direction how much to shift colb out
-	 *         of cola
-	 */
-	public Pair<Float, Vector2f>
-	calculatePenetrationDepthAndCollisionNormal(final CollisionShape cola,
-						    final CollisionShape colb)
-	{
-		// TODO
-		return new Pair<Float, Vector2f>(new Float(0f),
-						 new Vector2f(0, 0));
-	}
-
 	private Edge findClosestEdgeToOriginOnSimplex(PolygonWinding winding)
 	{
 

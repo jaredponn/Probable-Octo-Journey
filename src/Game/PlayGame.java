@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.util.*;
 
 import Components.*;
+import Game.PlayGameEventHandlers.*;
 import EntitySets.Bullet;
 import EntitySets.CollectibleSet;
 import EntitySets.ConstructSet;
@@ -42,19 +43,21 @@ public class PlayGame extends World
 {
 	// Render
 	private Map map;
-
 	// buffers for the renderer
 	private Queue<RenderObject> groundBuffer;
 	private MinYFirstSortedRenderObjectBuffer entityBuffer;
 	private Queue<RenderObject> guiBuffer;
 	private Queue<RenderObject> debugBuffer;
 
-	// private MapLayer mapLayer;
+
 	// Camera
 	private Camera cam;    // camera
 	private Camera invCam; // inverse camera
 
+	// game event stack
+	PlayGameEventStack gameEventStack;
 
+	// Cooldown for keys
 	private static ArrayList<Double> coolDownMax = new ArrayList<Double>(
 		Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
 	private ArrayList<Double> lastCoolDown = new ArrayList<Double>(
@@ -63,7 +66,6 @@ public class PlayGame extends World
 	// Higher level game logic
 	private int player;
 	public static double EPSILON = 0.0001d;
-	private CardinalDirections prevDirection = CardinalDirections.N;
 	private WeaponState curWeaponState = WeaponState.Gun;
 
 	// ASE
@@ -80,8 +82,6 @@ public class PlayGame extends World
 		new StringRenderObject("", 5, 30, Color.WHITE);
 
 
-	// /ASE
-
 	// Collision detection and resolution
 	GJK gjk;
 
@@ -92,6 +92,8 @@ public class PlayGame extends World
 
 		gjk = new GJK();
 		gjk.clearVerticies();
+
+		this.gameEventStack = new PlayGameEventStack();
 
 		// World loading
 		this.map = new Map(3);
@@ -275,7 +277,7 @@ public class PlayGame extends World
 
 		//  attack cycles
 		EngineTransforms.runAttackCycleHandlersAndFreezeMovement(
-			this.engineState, this.player, this.curWeaponState,
+			this.engineState, this.curWeaponState,
 			super.inputPoller, this.invCam, this.getPlayTime());
 
 		// changing world attrib position
@@ -321,7 +323,7 @@ public class PlayGame extends World
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 				this.engineState, this.cam);
 
-		// System.out.println("----------------------- end one loop");
+		gameEventStack.runGameEventStack(this);
 		// rendering is run after this is run
 	}
 
@@ -398,75 +400,58 @@ public class PlayGame extends World
 		////// Movement Commands //////
 		if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
 		    && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
-			System.out.println("wd key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.NW);
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
-			prevDirection = CardinalDirections.NW;
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-			System.out.println("wa key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.SW);
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
-			prevDirection = CardinalDirections.SW;
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-			System.out.println("sa key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.SE);
-			prevDirection = CardinalDirections.SE;
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
 			   && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
-
-			System.out.println("sd key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.NE);
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
-			prevDirection = CardinalDirections.NE;
 
 		} else if (super.inputPoller.isKeyDown(
 				   KeyEvent.VK_W)) { // single Key movements
-			System.out.println("w key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.W);
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
-			prevDirection = CardinalDirections.W;
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
-			System.out.println("d key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.N);
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
-			prevDirection = CardinalDirections.N;
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-			System.out.println("a key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.S);
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
-			prevDirection = CardinalDirections.S;
 		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)) {
-			System.out.println("s key is down");
 			super.getComponentAt(MovementDirection.class,
 					     this.player)
 				.setDirection(CardinalDirections.E);
 			super.getComponentAt(Movement.class, this.player)
 				.setSpeed(GameConfig.PLAYER_SPEED);
-			prevDirection = CardinalDirections.E;
 		} else // no movement key is pressed
 		{
 			hasMovementKeyBeenPressed = false;
@@ -481,15 +466,13 @@ public class PlayGame extends World
 			     .isAttacking()) {
 			int flag = hasMovementKeyBeenPressed ? 1 : 0;
 			super.getComponentAt(HasAnimation.class, this.player)
-				.setAnimation(
-					EngineTransforms.findPlayerFacingSprite(
-						this.engineState
-							.getComponentAt(
-								MovementDirection
-									.class,
-								this.player)
-							.getDirection(),
-						flag));
+				.setAnimation(AnimationGetter.queryPlayerSprite(
+					this.engineState
+						.getComponentAt(
+							MovementDirection.class,
+							this.player)
+						.getDirection(),
+					flag));
 		}
 
 		////// Build Commands //////

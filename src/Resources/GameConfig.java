@@ -100,14 +100,20 @@ public class GameConfig
 	public static final int MOB_ATTACK_DAMAGE = 1;
 
 	public static final int MOB_HP = 100;
+
+	public static final AttackCycle MOB_ATTACK_CYCLE =
+		new AttackCycle(100, 100);
+
 	public static final PCollisionBody MOB_COLLISION_BODY =
+		// clang-format off
 		new PCollisionBody(
-			new Vector2f(1.5f, 2.7f), // displacement
+			new Vector2f(1.6f ,2.3f), // displacement
 						  // collision body:
-			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
-			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
-			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
-			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
+			new Vector2f(0.25f/2f,   1    /2f), new Vector2f(0.75f /2f, 1    /2f),
+			new Vector2f(0    /2f,   0.75f/2f), new Vector2f(1     /2f, 0.75f/2f),
+			new Vector2f(0    /2f, 0.25f  /2f), new Vector2f(0.25f /2f, 0    /2f),
+			new Vector2f(0.75f/2f, 0      /2f), new Vector2f(1     /2f, 0.25f/2f));
+	// clang-format on
 
 	// mob hitbox body
 	public static final PCollisionBody MOB_HITBOX_BODY = new PCollisionBody(

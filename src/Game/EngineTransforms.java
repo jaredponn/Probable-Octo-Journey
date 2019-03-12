@@ -24,6 +24,7 @@ import Components.PhysicsPCollisionBody;
 import Components.Render;
 import Components.WorldAttributes;
 import EntitySets.PlayerSet;
+import EntitySets.MobSet;
 import EntitySets.TurretSet;
 import Resources.GameConfig;
 import Resources.GameResources;
@@ -260,7 +261,8 @@ public class EngineTransforms
 		// idle position
 		engineState.getComponentAt(HasAnimation.class, mob1)
 			.setAnimation(
-				findEnemyFacingSprite(tempDir, 0));
+				AnimationGetter.findEnemyFacingSprite(tempDir,
+		0));
 				*/
 			return;
 		}
@@ -328,8 +330,8 @@ public class EngineTransforms
 							mob1)
 					.getDirection();
 			engineState.getComponentAt(HasAnimation.class, mob1)
-				.setAnimation(
-					findEnemyFacingSprite(tempDir, 0));
+				.setAnimation(AnimationGetter.queryEnemySprite(
+					tempDir, 0));
 		}
 		// the max neighbour value is bigger than the value of the tile
 		// that the mob is standing on
@@ -347,8 +349,8 @@ public class EngineTransforms
 				.setDirection(tempDir);
 
 			engineState.getComponentAt(HasAnimation.class, mob1)
-				.setAnimation(
-					findEnemyFacingSprite(tempDir, 1));
+				.setAnimation(AnimationGetter.queryEnemySprite(
+					tempDir, 1));
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(GameConfig.MOB_SPEED);
 		}
@@ -651,9 +653,8 @@ public class EngineTransforms
 	}
 
 	public static void runAttackCycleHandlersAndFreezeMovement(
-		EngineState engineState, int player,
-		WeaponState playerCurWPState, InputPoller ip, Camera invCam,
-		double gameElapsedTime)
+		EngineState engineState, WeaponState playerCurWPState,
+		InputPoller ip, Camera invCam, double gameElapsedTime)
 	{
 
 		// players attacking
@@ -670,9 +671,39 @@ public class EngineTransforms
 
 				case 1:
 					AttackCycleHandlers.playerAttackHandler(
-						engineState, player,
-						playerCurWPState, ip, invCam,
-						gameElapsedTime);
+						engineState, playerCurWPState,
+						ip, invCam, gameElapsedTime);
+					break;
+				case 2:
+					break;
+				case 3:
+					a.endAttackCycle();
+					a.resetCycle();
+					break;
+				}
+
+				// setting velocity to 0
+				engineState.getComponentAt(Movement.class, i)
+					.setVelocity(new Vector2f(0, 0));
+			}
+		}
+
+		// mobs attacking
+		for (int i = engineState.getInitialSetIndex(MobSet.class);
+		     Components.isValidEntity(i);
+		     i = engineState.getNextSetIndex(MobSet.class, i)) {
+			AttackCycle a = engineState.getComponentAt(
+				AttackCycle.class, i);
+
+			if (a.isAttacking()) {
+				switch (a.getAttackState()) {
+				case 0:
+					break;
+
+				case 1:
+					AttackCycleHandlers
+						.mobMeleeAttackHandler(
+							engineState, i);
 					break;
 				case 2:
 					break;
@@ -701,119 +732,6 @@ public class EngineTransforms
 			if (a.isAttacking()) {
 				a.updateAccTime(dt);
 			}
-		}
-	}
-
-
-	public static Animation findEnemyFacingSprite(CardinalDirections dir,
-						      int flag)
-	{
-		// flag =0, will return idle position, if flag =1, will return
-		// move direction
-
-		switch (dir) {
-		case N:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemyNMoveAnimation;
-			}
-		case NE:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemyNEMoveAnimation;
-			}
-		case NW:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemyNWMoveAnimation;
-			}
-		case S:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemySMoveAnimation;
-			}
-		case SE:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemySEMoveAnimation;
-			}
-		case SW:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemySWMoveAnimation;
-			}
-		case W:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemyWMoveAnimation;
-			}
-		case E:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemyEMoveAnimation;
-			}
-		default:
-			return GameResources.enemyNMoveAnimation;
-		}
-	}
-
-	public static Animation findPlayerFacingSprite(CardinalDirections dir,
-						       int flag)
-	{
-
-		// flag =0, will return idle position, if flag =1, will return
-		// move direction
-		switch (dir) {
-		case N:
-			if (flag == 0) {
-				return GameResources.playerNIdleAnimation;
-			} else {
-				return GameResources.playerNMoveAnimation;
-			}
-		case NE:
-			if (flag == 0) {
-				return GameResources.playerNEIdleAnimation;
-			} else {
-				return GameResources.playerNEMoveAnimation;
-			}
-		case NW:
-			if (flag == 0) {
-				return GameResources.playerNWIdleAnimation;
-			} else {
-				return GameResources.playerNWMoveAnimation;
-			}
-		case S:
-			if (flag == 0) {
-				return GameResources.playerSIdleAnimation;
-			} else {
-				return GameResources.playerSMoveAnimation;
-			}
-		case SE:
-			if (flag == 0) {
-				return GameResources.playerSEIdleAnimation;
-			} else {
-				return GameResources.playerSEMoveAnimation;
-			}
-		case SW:
-			if (flag == 0) {
-				return GameResources.playerSWIdleAnimation;
-			} else {
-				return GameResources.playerSWMoveAnimation;
-			}
-		case W:
-			if (flag == 0) {
-				return GameResources.playerWIdleAnimation;
-			} else {
-				return GameResources.playerWMoveAnimation;
-			}
-		case E:
-			if (flag == 0) {
-				return GameResources.playerEIdleAnimation;
-			} else {
-				return GameResources.playerEMoveAnimation;
-			}
-		default:
-			return GameResources.playerNIdleAnimation;
 		}
 	}
 }

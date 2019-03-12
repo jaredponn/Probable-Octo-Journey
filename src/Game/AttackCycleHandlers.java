@@ -9,9 +9,11 @@ package Game;
 import Components.CardinalDirections;
 import Components.HasAnimation;
 import Components.Movement;
+import Components.MovementDirection;
 import Components.PhysicsPCollisionBody;
 import Components.WorldAttributes;
 import EntitySets.Bullet;
+import EntitySets.PlayerSet;
 import Resources.GameConfig;
 
 import poj.EngineState;
@@ -26,11 +28,12 @@ public class AttackCycleHandlers
 	 * Variable names should be intuitive.
 	 */
 	public static void playerAttackHandler(EngineState engineState,
-					       int player,
 					       WeaponState playerCurWPState,
 					       InputPoller ip, Camera invCam,
 					       double gameElapsedTime)
 	{
+
+		int player = engineState.getInitialSetIndex(PlayerSet.class);
 		Vector2f playerPosition =
 			engineState
 				.getComponentAt(PhysicsPCollisionBody.class,
@@ -52,7 +55,7 @@ public class AttackCycleHandlers
 				tmp.pureNormalize();
 
 			engineState.getComponentAt(HasAnimation.class, player)
-				.setAnimation(EngineTransforms.findPlayerFacingSprite(
+				.setAnimation(AnimationGetter.queryPlayerSprite(
 					CardinalDirections
 						.getClosestDirectionFromDirectionVector(
 							tmp),
@@ -82,5 +85,11 @@ public class AttackCycleHandlers
 			System.out.println("melee weapon was attacked");
 			break;
 		}
+	}
+
+	public static void mobMeleeAttackHandler(EngineState engineState, int i)
+	{
+		engineState.getComponentAt(MovementDirection.class, i).print();
+		System.out.println("direction");
 	}
 }

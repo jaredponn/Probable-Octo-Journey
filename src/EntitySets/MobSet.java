@@ -19,28 +19,7 @@ public class MobSet extends EntitySet
 
 	public MobSet()
 	{
-		super();
-
-		addComponent(new Render(new ImageRenderObject(
-			0, 0, GameResources.enemySpriteSheet)));
-		addComponent(new WorldAttributes(new Vector2f(4f, 11f),
-						 GameConfig.MOB_WIDTH,
-						 GameConfig.MOB_HEIGHT));
-
-		addComponent(
-			new HasAnimation(GameResources.enemyNMoveAnimation));
-		addComponent(new Movement(GameConfig.MOB_SPEED));
-		addComponent(new MovementDirection(CardinalDirections.N));
-		addComponent(new FacingDirection(CardinalDirections.N));
-		addComponent(new PhysicsPCollisionBody(
-			GameConfig.MOB_COLLISION_BODY));
-		addComponent(new HitPoints(GameConfig.MOB_HP));
-		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
-
-
-		// TODO: mob sprite sheet
-		// TODO: make mobs a different size than the player?
-		// TODO: mob animations (walking, idle, attacking, dying)
+		this(14, 7);
 	}
 
 	/**
@@ -67,30 +46,15 @@ public class MobSet extends EntitySet
 			GameConfig.MOB_COLLISION_BODY));
 		addComponent(new HitPoints(GameConfig.MOB_HP));
 		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
+		addComponent(new AttackCycle(GameConfig.MOB_ATTACK_CYCLE));
 	}
 
 	/**
 	 * Spawn mob at coordinates defined by a vector
 	 * @param posVector to spawn mob at
 	 */
-	public MobSet(Vector2f posVector)
+	public MobSet(Vector2f n)
 	{
-		super();
-
-		addComponent(new Render(new ImageRenderObject(
-			0, 0, GameResources.enemySpriteSheet)));
-		addComponent(new WorldAttributes(new Vector2f(posVector),
-						 GameConfig.MOB_WIDTH,
-						 GameConfig.MOB_HEIGHT));
-
-		addComponent(
-			new HasAnimation(GameResources.enemyNMoveAnimation));
-		addComponent(new Movement(GameConfig.MOB_SPEED));
-		addComponent(new MovementDirection(CardinalDirections.N));
-		addComponent(new FacingDirection(CardinalDirections.N));
-		addComponent(new PhysicsPCollisionBody(
-			GameConfig.MOB_COLLISION_BODY));
-		addComponent(new HitPoints(GameConfig.MOB_HP));
-		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
+		this(n.x, n.y);
 	}
 }
