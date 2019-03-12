@@ -573,18 +573,41 @@ public class EngineTransforms
 			     map.getRawComponentArrayListPackedData(
 				     PhysicsPCollisionBody.class)) {
 
-				Optional<Double> tmp =
-					Systems.pCollisionBodiesTimeOfCollision(
+				// sets velocity so that it never enters the
+				// wall
+				Vector2f tmp =
+					Systems.pCollisionBodiesGetCollisionBodyBDisplacementDelta(
 						g, b, a, va, dt);
+				tmp.mul(1 / ((float)dt));
+				va.setVelocity(tmp);
+			}
+		}
+	}
 
-				if (tmp.isPresent()) {
-					final double t = tmp.get() - 0.3d;
+	public static void nudgePhysicsPCollisionBodiesOutsideTileMap(
+		EngineState engineState, GJK g,
+		final Class<? extends Component> set0, final MapLayer map,
+		final double dt)
+	{
+		for (int i = engineState.getInitialSetIndex(set0);
+		     Components.isValidEntity(i);
+		     i = engineState.getNextSetIndex(set0, i)) {
 
-					final double rt = t / dt;
-					va.getVelocity().mul((float)rt);
-					va.getVelocity().log();
+			final PhysicsPCollisionBody a =
+				engineState.getComponentAt(
+					PhysicsPCollisionBody.class, i);
 
-					break;
+			WorldAttributes aw = engineState.getComponentAt(
+				WorldAttributes.class, i);
+
+			for (PhysicsPCollisionBody b :
+			     map.getRawComponentArrayListPackedData(
+				     PhysicsPCollisionBody.class)) {
+				g.clearVerticies();
+				if (g.areColliding(b.getPolygon(),
+						   a.getPolygon())) {
+					Systems.nudgeCollisionBodyBOutOfA(
+						b, a, aw, g);
 				}
 			}
 		}

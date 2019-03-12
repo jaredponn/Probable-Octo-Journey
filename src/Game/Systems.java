@@ -147,6 +147,17 @@ public class Systems
 			dv.getDistanceDelta((float)dt));
 	}
 
+	public static Vector2f
+	pCollisionBodiesGetCollisionBodyBDisplacementDelta(
+		GJK g, PhysicsPCollisionBody a, PhysicsPCollisionBody b,
+		Movement dv, double dt)
+	{
+		g.clearVerticies();
+		return g.determineCollisionBodyBVector(
+			a.getPolygon(), b.getPolygon(),
+			dv.getDistanceDelta((float)dt));
+	}
+
 
 	public static void pCollisionBodyDebugRenderer(final PCollisionBody pc,
 						       Queue<RenderObject> q,
@@ -175,5 +186,21 @@ public class Systems
 	{
 		Vector2f tmp = w.getOriginCoord();
 		p.setPositionPoint(tmp);
+	}
+
+
+	public static void nudgeCollisionBodyBOutOfA(PCollisionBody a,
+						     PCollisionBody b,
+						     WorldAttributes bw, GJK g)
+	{
+		final Vector2f tmp = g.calculatePenetrationVector(
+			a.getPolygon(), b.getPolygon());
+		tmp.mul(1.3f); // nudge a little
+			       // further so it easily
+			       // goes outside of the
+			       // box
+		bw.add(tmp);
+
+		Systems.updatePCollisionBodyPositionFromWorldAttr(b, bw);
 	}
 }

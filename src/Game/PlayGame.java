@@ -248,18 +248,25 @@ public class PlayGame extends World
 		EngineTransforms.debugRenderPHitBox(this.engineState,
 						    this.debugBuffer, this.cam);
 
-		// testing collision with turrets
-		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
-			EngineTransforms.debugRenderPhysicsPCollisionBodies(
-				this.map.getLayerEngineState(i), debugBuffer,
-				this.cam);
+		// Resolving  collisions against tilemap
 
+		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
 			EngineTransforms
-				.resolvePhysicsPCollisionBodiesAgainstTileMap(
+				.nudgePhysicsPCollisionBodiesOutsideTileMap(
 					this.engineState, this.gjk,
 					PlayerSet.class,
 					this.map.getLayerEngineState(i),
 					this.dt);
+			EngineTransforms
+				.nudgePhysicsPCollisionBodiesOutsideTileMap(
+					this.engineState, this.gjk,
+					MobSet.class,
+					this.map.getLayerEngineState(i),
+					this.dt);
+
+			EngineTransforms.debugRenderPhysicsPCollisionBodies(
+				this.map.getLayerEngineState(i), debugBuffer,
+				this.cam);
 		}
 
 		//  attack cycles
