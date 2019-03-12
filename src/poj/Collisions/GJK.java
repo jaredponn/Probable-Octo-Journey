@@ -123,6 +123,7 @@ public class GJK
 	 * @return      Optional of the time of collision
 	 */
 	private static int TIME_OF_COLLISION_RESOLUTION = 15;
+	private Polygon LAST_STRETCHED_POLY_B_MEMO;
 	public Optional<Double>
 	upperBoundTimeOfPolygonCollision(final Polygon cola, final Polygon colb,
 					 final Vector2f db)
@@ -152,11 +153,62 @@ public class GJK
 			} else {
 				mint = t;
 			}
-		}
 
+			// memoization for determinCollisionBodyBVector
+			LAST_STRETCHED_POLY_B_MEMO = p;
+		}
 
 		return Optional.of((t + maxt) / 2d);
 	}
+
+
+	public Vector2f determineCollisionBodyBVector(final Polygon cola,
+						      final Polygon colb,
+						      final Vector2f db)
+	{
+		Optional<Double> optt =
+			upperBoundTimeOfPolygonCollision(cola, colb, db);
+
+		// if there is no collision just return the original vector
+		if (!optt.isPresent()) {
+			return db;
+		}
+
+		Vector2f ndb = new Vector2f(0, 0); // new vector for db
+
+		final double t = optt.get(); // time of collision
+		final double s = 1d - t;     // extra time of t
+
+		this.clearVerticies();
+		this.areColliding(cola,
+				  LAST_STRETCHED_POLY_B_MEMO); // generates the
+							       // simplex
+		Vector2f n = calculatePenetrationVector(
+			cola,
+			LAST_STRETCHED_POLY_B_MEMO); // collision normal
+
+		Vector2f pn = Vector2f.pureTripleProduct(
+			n, db,
+			n); // perpendicular to normal in the direction of db
+
+		Vector2f tmp;
+		final float pnsqmag = pn.sqMag();
+		// projection of vb * s onto pn
+		if (Math.abs(pnsqmag) == 0) {
+			tmp = new Vector2f(0, 0);
+		} else {
+			final float k = pn.dot(db.pureMul((float)s)) / pnsqmag;
+			tmp = pn.pureMul(k);
+		}
+
+
+		// building the new collision vector
+		ndb.add(db.pureMul((float)t));
+		ndb.add(tmp);
+
+		return ndb;
+	}
+
 
 	// alias for the upper bound except it calcluates and gives the lower
 	// bound. TODO clean up this code
