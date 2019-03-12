@@ -109,6 +109,21 @@ public class Systems
 		m.setVelocity(tmp);
 	}
 
+	public static void steerMovementVelocityFromMovementDirection(
+		Movement m, MovementDirection d, float steerRatio)
+	{
+		Vector2f a = d.getUnitVector();
+		a.mul(m.getSpeed() * steerRatio);
+
+
+		Vector2f b = m.getVelocity();
+
+		Vector2f finalVel =
+			a.pureAdd(b).safePureNormalize().pureMul(m.getSpeed());
+
+		m.setVelocity(finalVel);
+	}
+
 	public static void
 	updateWorldAttribPositionFromMovement(WorldAttributes w, Movement m,
 					      double dtms)

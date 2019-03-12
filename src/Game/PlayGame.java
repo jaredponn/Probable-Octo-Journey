@@ -231,11 +231,14 @@ public class PlayGame extends World
 		this.updateCashDisplay();
 		this.updateHealthDisplay();
 
-		// /ASE
 
 		// updating positions
-		EngineTransforms.setMovementVelocityFromMovementDirection(
-			this.engineState);
+		EngineTransforms.setMovementVelocityFromMovementDirectionForSet(
+			this.engineState, PlayerSet.class);
+
+		EngineTransforms
+			.steerMovementVelocityFromMovementDirectionForSet(
+				this.engineState, MobSet.class, 1 / 32f);
 
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
@@ -257,6 +260,7 @@ public class PlayGame extends World
 					PlayerSet.class,
 					this.map.getLayerEngineState(i),
 					this.dt);
+
 			EngineTransforms
 				.nudgePhysicsPCollisionBodiesOutsideTileMap(
 					this.engineState, this.gjk,

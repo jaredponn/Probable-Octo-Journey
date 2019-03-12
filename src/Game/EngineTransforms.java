@@ -103,18 +103,31 @@ public class EngineTransforms
 	}
 
 
-	public static void
-	setMovementVelocityFromMovementDirection(EngineState engineState)
+	public static void setMovementVelocityFromMovementDirectionForSet(
+		EngineState engineState, Class<? extends Component> c)
 	{
-		for (int i = engineState.getInitialSetIndex(
-			     MovementDirection.class);
+		for (int i = engineState.getInitialSetIndex(c);
 		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(MovementDirection.class,
-						     i)) {
+		     i = engineState.getNextSetIndex(c, i)) {
 			Systems.setMovementVelocityFromMovementDirection(
 				engineState.getComponentAt(Movement.class, i),
 				engineState.getComponentAt(
 					MovementDirection.class, i));
+		}
+	}
+
+	public static void steerMovementVelocityFromMovementDirectionForSet(
+		EngineState engineState, Class<? extends Component> c,
+		float steerRatio)
+	{
+		for (int i = engineState.getInitialSetIndex(c);
+		     Components.isValidEntity(i);
+		     i = engineState.getNextSetIndex(c, i)) {
+			Systems.steerMovementVelocityFromMovementDirection(
+				engineState.getComponentAt(Movement.class, i),
+				engineState.getComponentAt(
+					MovementDirection.class, i),
+				steerRatio);
 		}
 	}
 
