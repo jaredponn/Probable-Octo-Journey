@@ -82,8 +82,8 @@ public class GameResources
 	public static BufferedImage playerSpriteSheet = ImageLoader.load(
 		"resources/RomiroGraphics/PlayerSheetReduced20.png");
 
-	public static BufferedImage enemySpriteSheet =
-		ImageLoader.load("resources/RomiroGraphics/ZombieSheet.png");
+	public static BufferedImage enemySpriteSheet = ImageLoader.load(
+		"resources/RomiroGraphics/ZombieSheetReduced20.png");
 
 	/*
 	 * animation is in columns
@@ -188,8 +188,8 @@ public class GameResources
 	 */
 
 
-	public static final int ENEMY_SPRITE_WIDTH = 125;
-	public static final int ENEMY_SPRITE_HEIGHT = 155;
+	public static final int ENEMY_SPRITE_WIDTH = (int)(125 * 0.8);
+	public static final int ENEMY_SPRITE_HEIGHT = (int)(155 * 0.8);
 
 	// move direction
 	public static Animation enemyNMoveAnimation = new Animation(
