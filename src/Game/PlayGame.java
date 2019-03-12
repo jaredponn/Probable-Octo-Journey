@@ -204,7 +204,7 @@ public class PlayGame extends World
 		// ASE
 		this.mobSpawner();
 
-		// Timed despawners
+		// Timed de-spawner
 		this.cashDropDespawner();
 
 		for (int i = this.engineState.getInitialSetIndex(Bullet.class);

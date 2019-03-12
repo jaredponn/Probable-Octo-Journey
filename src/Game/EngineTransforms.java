@@ -237,19 +237,22 @@ public class EngineTransforms
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(0);
 
-			CardinalDirections tempDir =
-				engineState
-					.getComponentAt(MovementDirection.class,
-							mob1)
-					.getDirection();
+			/*
+		CardinalDirections tempDir =
+			engineState
+				.getComponentAt(MovementDirection.class,
+						mob1)
+				.getDirection();
 
-			// idle position
-			engineState.getComponentAt(HasAnimation.class, mob1)
-				.setAnimation(
-					findEnemyFacingSprite(tempDir, 0));
+		// idle position
+		engineState.getComponentAt(HasAnimation.class, mob1)
+			.setAnimation(
+				findEnemyFacingSprite(tempDir, 0));
+				*/
 			return;
 		}
 
+		// in the same world cord
 		if ((int)mobPosition.x == (int)playerPosition.x
 		    && (int)mobPosition.y == (int)playerPosition.y) {
 			// TODO: NEED TO INTEGRATE THIS WITH COLLISION!!
@@ -305,6 +308,7 @@ public class EngineTransforms
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(0f);
 			// zombie will be in idle
+
 			CardinalDirections tempDir =
 				engineState
 					.getComponentAt(MovementDirection.class,
@@ -508,12 +512,10 @@ public class EngineTransforms
 		for (int i = e.getInitialSetIndex(PHitBox.class);
 		     Components.isValidEntity(i);
 		     i = e.getNextSetIndex(PHitBox.class, i)) {
-			System.out.println("i = " + i);
 			Systems.pCollisionBodyDebugRenderer(
 				e.getComponentAt(PHitBox.class, i), q, cam,
 				Color.BLUE);
 		}
-		System.out.println("end of debugRenderPHitBox");
 	}
 
 

@@ -119,17 +119,17 @@ public class Systems
 	}
 
 	public static boolean
-	arePCollisionBodiesColliding(GJK g, PhysicsPCollisionBody a,
-				     PhysicsPCollisionBody b)
+	arePCollisionBodiesColliding(GJK g, PCollisionBody a, PCollisionBody b)
 	{
 		g.clearVerticies();
 		return g.areColliding(a.getPolygon(), b.getPolygon());
 	}
 
 	// faster form of just determining if collisions are colliding
-	public static boolean
-	arePCollisionBodiesColliding(GJK g, PhysicsPCollisionBody a,
-				     PhysicsPCollisionBody b, Movement dv)
+	public static boolean arePCollisionBodiesColliding(GJK g,
+							   PCollisionBody a,
+							   PCollisionBody b,
+							   Movement dv)
 	{
 		g.clearVerticies();
 		return g.areColliding(a.getPolygon(), b.getPolygon(),

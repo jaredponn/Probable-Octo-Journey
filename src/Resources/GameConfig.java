@@ -40,13 +40,17 @@ public class GameConfig
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
 
+	// hitbox by inspection
 	public static final PCollisionBody PLAYER_HITBOX_BODY =
-		new PCollisionBody(new Vector2f(0f, 0f), // displacement
-							 // collision body:
-				   new Vector2f(0f, 0f),
-				   new Vector2f(PLAYER_WIDTH, 0f),
-				   new Vector2f(0f, PLAYER_HEIGHT),
-				   new Vector2f(PLAYER_WIDTH, PLAYER_HEIGHT));
+		new PCollisionBody(
+			new Vector2f(-0.5f, 0f), // displacement
+						 // collision body:
+			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
+			new Vector2f(2.7f, 2.5f), new Vector2f(2.95f, 2.2f));
+
+
+	public static final PCollisionBody ENEMY_HITBOX_BODY =
+		PLAYER_HITBOX_BODY;
 
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(100, 100);
@@ -74,7 +78,7 @@ public class GameConfig
 		GameResources.BULLET_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final double BULLET_LIFE_SPAN = 0.8;
-	public static final int BULLET_DAMAGE = 10;
+	public static final int BULLET_DAMAGE = 100;
 
 	public static final PCollisionBody BULLET_COLLISION_BODY =
 		new PCollisionBody(new Vector2f(0.0f, 0.0f), // displacement
@@ -158,8 +162,6 @@ public class GameConfig
 	public static final ArrayList<Pair<Integer, Double>> COOL_DOWN_KEYS =
 		new ArrayList<Pair<Integer, Double>>() {
 			{
-				add(new Pair<Integer, Double>(SWITCH_WEAPONS,
-							      0.3d));
 				add(new Pair<Integer, Double>(ATTACK_KEY,
 							      0.3d));
 				add(new Pair<Integer, Double>(BUILD_TOWER, 1d));
