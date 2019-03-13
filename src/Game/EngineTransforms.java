@@ -329,9 +329,14 @@ public class EngineTransforms
 					.getComponentAt(MovementDirection.class,
 							mob1)
 					.getDirection();
-			engineState.getComponentAt(HasAnimation.class, mob1)
-				.setAnimation(AnimationGetter.queryEnemySprite(
-					tempDir, 0));
+
+			// when the current tile the enemy/mob is standing on is
+			// HIGHER than all other values, it will display the
+			// previous walking animation!!
+
+			// engineState.getComponentAt(HasAnimation.class, mob1)
+			//.setAnimation(AnimationGetter.queryEnemySprite(
+			// tempDir, 0));
 		}
 		// the max neighbour value is bigger than the value of the tile
 		// that the mob is standing on
@@ -559,11 +564,6 @@ public class EngineTransforms
 									 b)) {
 					System.out.println(
 						"PCOllision detected");
-					// if (set1 instanceof TurretSet) {
-					//	System.out.println(
-					// 		"Collision with turrets
-					// detected");
-					//}
 					break;
 				}
 			}
