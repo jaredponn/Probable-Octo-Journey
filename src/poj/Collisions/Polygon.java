@@ -124,7 +124,7 @@ public class Polygon implements CollisionShape
 		return min;
 	}
 
-	// returns the furthest point in shape in direction vector d.
+	// returns the farthest point in shape in direction vector d.
 	public Vector2f furthestPointInDirection(Vector2f d)
 	{
 		return pts[indexOfFurthestPointInDirection(d)];

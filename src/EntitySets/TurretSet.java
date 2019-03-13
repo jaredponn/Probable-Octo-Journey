@@ -26,5 +26,6 @@ public class TurretSet extends EntitySet
 		addComponent(new PhysicsPCollisionBody(
 			GameConfig.TURRET_COLLISION_BODY));
 		addComponent(new HitPoints(GameConfig.CONSTRUCT_HP));
+		addComponent(new PHitBox(GameConfig.TURRET_HITBOX_BODY));
 	}
 }

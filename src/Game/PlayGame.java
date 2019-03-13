@@ -16,6 +16,7 @@ import java.util.*;
 
 import Components.*;
 import EntitySets.Bullet;
+import EntitySets.CannonShell;
 import EntitySets.CollectibleSet;
 import EntitySets.ConstructSet;
 import EntitySets.MobSet;
@@ -159,6 +160,7 @@ public class PlayGame extends World
 		super.engineState.registerSet(MobSet.class);
 		super.engineState.registerSet(ConstructSet.class);
 		super.engineState.registerSet(Bullet.class);
+		super.engineState.registerSet(CannonShell.class);
 		super.engineState.registerSet(TurretSet.class);
 		super.engineState.registerSet(CollectibleSet.class);
 	}
@@ -207,12 +209,21 @@ public class PlayGame extends World
 		// Timed de-spawner
 		this.cashDropDespawner();
 
+		// Handle bullets hitting things
+		// player bullets:
 		for (int i = this.engineState.getInitialSetIndex(Bullet.class);
 		     poj.EngineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(Bullet.class, i)) {
 
 			this.findBulletHits(i);
 		}
+		// turret bullets:
+		for (int i = this.engineState.getInitialSetIndex(CannonShell.class);
+			     poj.EngineState.isValidEntity(i);
+			     i = this.engineState.getNextSetIndex(CannonShell.class, i)) {
+
+				this.findBulletHits(i);
+			}
 
 		// Handle mob hitting a player
 		// TODO: balance mob damage?
@@ -221,8 +232,10 @@ public class PlayGame extends World
 		     i = engineState.getNextSetIndex(MobSet.class, i)) {
 			CombatFunctions.handleMobHitPlayer(engineState, gjk, i,
 							   this.player);
+			this.handleTurrets(i);
 		}
 
+		
 		// TODO: make mobs drop cash on death?
 		this.cashSpawner(true, 13f, 7f);
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
@@ -352,11 +365,6 @@ public class PlayGame extends World
 				//-coolDownMax.get(
 				// GameConfig.BUILD_TOWER));
 			}
-
-			// TODO: find adjacent tiles (and any enemies on
-			// them)
-			// TODO: apply damage to enemies
-			// TODO: attack on mouse click instead?
 		}
 		if (super.inputPoller.isKeyDown(GameConfig.SWITCH_WEAPONS)) {
 
@@ -495,9 +503,8 @@ public class PlayGame extends World
 				// polygon !
 				Vector2f playerPosition =
 					super.getComponentAt(
-						     WorldAttributes.class,
-						     this.player)
-						.getOriginCoord();
+						     PhysicsPCollisionBody.class,
+						     this.player).getPolygon().pureGetAPointInPolygon(0);
 
 				int tmp = super.engineState.spawnEntitySet(
 					new TurretSet());
@@ -795,6 +802,15 @@ public class PlayGame extends World
 		EngineState mapState = map.getLayerEngineState(1);
 		CombatFunctions.bulletHitHandler(engineState, mapState, gjk,
 						 bullet);
+	}
+	
+	private void handleTurrets( int mobIndex ) {
+		for (int i = engineState.getInitialSetIndex(TurretSet.class);
+				poj.EngineState.isValidEntity(i);
+				i = engineState.getNextSetIndex(TurretSet.class, i)) {
+			CombatFunctions.turretTargeting(engineState, i, this.getPlayTime() );
+			CombatFunctions.handleMobHitTurret(engineState, gjk, mobIndex, i);
+		}
 	}
 	// /ASE
 }

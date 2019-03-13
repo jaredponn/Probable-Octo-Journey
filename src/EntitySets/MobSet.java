@@ -37,10 +37,6 @@ public class MobSet extends EntitySet
 		addComponent(new HitPoints(GameConfig.MOB_HP));
 		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
 
-
-		// TODO: mob sprite sheet
-		// TODO: make mobs a different size than the player?
-		// TODO: mob animations (walking, idle, attacking, dying)
 	}
 
 	/**
