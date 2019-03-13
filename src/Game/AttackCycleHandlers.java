@@ -6,12 +6,8 @@ package Game;
  * @version 1.0
  */
 
-import Components.CardinalDirections;
-import Components.HasAnimation;
-import Components.Movement;
-import Components.PhysicsPCollisionBody;
-import Components.WorldAttributes;
-import EntitySets.Bullet;
+import Components.*;
+import EntitySets.*;
 import Resources.GameConfig;
 
 import poj.EngineState;
@@ -21,16 +17,88 @@ import poj.linear.Vector2f;
 public class AttackCycleHandlers
 {
 
+	public static void runAttackCycleHandlersAndFreezeMovement(
+		EngineState engineState, WeaponState playerCurWPState,
+		InputPoller ip, Camera invCam, double gameElapsedTime)
+	{
+
+		// players attacking
+		for (int i = engineState.getInitialSetIndex(PlayerSet.class);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(PlayerSet.class, i)) {
+			AttackCycle a = engineState.getComponentAt(
+				AttackCycle.class, i);
+
+			if (a.isAttacking()) {
+				switch (a.getAttackState()) {
+				case 0:
+					break;
+
+				case 1:
+					AttackCycleHandlers.playerAttackHandler(
+						engineState, playerCurWPState,
+						ip, invCam, gameElapsedTime);
+					break;
+				case 2:
+					break;
+				case 3:
+					a.endAttackCycle();
+					a.resetCycle();
+					break;
+				}
+
+				// setting velocity to 0
+				engineState.getComponentAt(Movement.class, i)
+					.setVelocity(new Vector2f(0, 0));
+			}
+		}
+
+		// mobs attacking
+		for (int i = engineState.getInitialSetIndex(MobSet.class);
+		     EngineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(MobSet.class, i)) {
+			AttackCycle a = engineState.getComponentAt(
+				AttackCycle.class, i);
+
+			if (a.isAttacking()) {
+				switch (a.getAttackState()) {
+				case 0:
+					AttackCycleHandlers
+						.mobMeleeAttackPrimerHandler(
+							engineState, i);
+					break;
+
+				case 1:
+					AttackCycleHandlers
+						.mobMeleeAttackHandler(
+							engineState, i);
+					break;
+				case 2:
+					break;
+				case 3:
+					a.endAttackCycle();
+					a.resetCycle();
+					break;
+				}
+
+				// setting velocity to 0
+				engineState.getComponentAt(Movement.class, i)
+					.setVelocity(new Vector2f(0, 0));
+			}
+		}
+	}
+
 	/**
 	 * Player's attack handler.
 	 * Variable names should be intuitive.
 	 */
 	public static void playerAttackHandler(EngineState engineState,
-					       int player,
 					       WeaponState playerCurWPState,
 					       InputPoller ip, Camera invCam,
 					       double gameElapsedTime)
 	{
+
+		int player = engineState.getInitialSetIndex(PlayerSet.class);
 		Vector2f playerPosition =
 			engineState
 				.getComponentAt(PhysicsPCollisionBody.class,
@@ -52,7 +120,7 @@ public class AttackCycleHandlers
 				tmp.pureNormalize();
 
 			engineState.getComponentAt(HasAnimation.class, player)
-				.setAnimation(EngineTransforms.findPlayerFacingSprite(
+				.setAnimation(AnimationGetter.queryPlayerSprite(
 					CardinalDirections
 						.getClosestDirectionFromDirectionVector(
 							tmp),
@@ -82,5 +150,20 @@ public class AttackCycleHandlers
 			System.out.println("melee weapon was attacked");
 			break;
 		}
+	}
+
+
+	public static void mobMeleeAttackPrimerHandler(EngineState engineState,
+						       int i)
+	{
+		final MovementDirection n =
+			engineState.getComponentAt(MovementDirection.class, i);
+		engineState.getComponentAt(HasAnimation.class, i)
+			.setAnimation(AnimationGetter.queryEnemySprite(
+				n.getDirection(), 2));
+	}
+	public static void mobMeleeAttackHandler(EngineState engineState, int i)
+	{
+		System.out.println("direction");
 	}
 }

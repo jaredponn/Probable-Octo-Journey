@@ -271,8 +271,8 @@ public class Vector2f
 	}
 
 	/**
-	 * get the safe unit vector of this vector (will return Float.MAX_VALUE
-	 * if its magnitude is 0) and returns it
+	 * get the safe unit vector of this vector.. Will return original vector
+	 * if the magnitude is 0
 	 *   @return      Vector2f
 	 */
 	public Vector2f safePureNormalize()

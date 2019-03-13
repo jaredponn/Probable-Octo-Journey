@@ -443,6 +443,32 @@ public class GJKTests
 			assertEquals(0.5f, tmp.x, 0.0001f);
 			assertEquals(0.0f, tmp.y, 0.0001f);
 		}
+
+		{
+
+			Polygon r1 = new Polygon(
+				new Vector2f(0, 0), new Vector2f(0, 1),
+				new Vector2f(1, 1), new Vector2f(1, 0));
+
+
+			Polygon r2 = new Polygon(new Vector2f(0.75f, 0.75f),
+						 new Vector2f(0.75f, 1.75f),
+						 new Vector2f(1.75f, 1.75f),
+						 new Vector2f(1.75f, 0.75f));
+
+
+			GJK gjk = new GJK();
+			gjk.clearVerticies();
+
+			assertTrue(gjk.areColliding(r1, r2));
+
+			Vector2f tmp = gjk.calculatePenetrationVector(r1, r2);
+
+			tmp.log();
+
+			// assertEquals(0.5f, tmp.x, 0.0001f);
+			// assertEquals(0.0f, tmp.y, 0.0001f);
+		}
 	}
 
 	@Test public void multiplePointsRectEpaTests()
@@ -482,11 +508,17 @@ public class GJKTests
 		}
 	}
 
-	@Test public void fancyShapeEpaTest()
+	@Test public void determineCOllisionBodyBVectorTest()
 	{
+		Polygon r1 =
+			new Polygon(new Vector2f(0, 1), new Vector2f(0, 0),
+				    new Vector2f(1, 1), new Vector2f(1, 0));
 
-		{
-			// no tests yet
-		}
+		Polygon r2 =
+			new Polygon(new Vector2f(0, 1), new Vector2f(0, 0),
+				    new Vector2f(1, 1), new Vector2f(1, 0));
+
+		GJK gjk = new GJK();
+		gjk.clearVerticies();
 	}
 }

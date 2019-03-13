@@ -109,6 +109,21 @@ public class Systems
 		m.setVelocity(tmp);
 	}
 
+	public static void steerMovementVelocityFromMovementDirection(
+		Movement m, MovementDirection d, float steerRatio)
+	{
+		Vector2f a = d.getUnitVector();
+		a.mul(m.getSpeed() * steerRatio);
+
+
+		Vector2f b = m.getVelocity();
+
+		Vector2f finalVel =
+			a.pureAdd(b).safePureNormalize().pureMul(m.getSpeed());
+
+		m.setVelocity(finalVel);
+	}
+
 	public static void
 	updateWorldAttribPositionFromMovement(WorldAttributes w, Movement m,
 					      double dtms)
@@ -147,6 +162,17 @@ public class Systems
 			dv.getDistanceDelta((float)dt));
 	}
 
+	public static Vector2f
+	pCollisionBodiesGetCollisionBodyBDisplacementDelta(
+		GJK g, PhysicsPCollisionBody a, PhysicsPCollisionBody b,
+		Movement dv, double dt)
+	{
+		g.clearVerticies();
+		return g.determineCollisionBodyBVector(
+			a.getPolygon(), b.getPolygon(),
+			dv.getDistanceDelta((float)dt));
+	}
+
 
 	public static void pCollisionBodyDebugRenderer(final PCollisionBody pc,
 						       Queue<RenderObject> q,
@@ -175,5 +201,21 @@ public class Systems
 	{
 		Vector2f tmp = w.getOriginCoord();
 		p.setPositionPoint(tmp);
+	}
+
+
+	public static void nudgeCollisionBodyBOutOfA(PCollisionBody a,
+						     PCollisionBody b,
+						     WorldAttributes bw, GJK g)
+	{
+		final Vector2f tmp = g.calculatePenetrationVector(
+			a.getPolygon(), b.getPolygon());
+		tmp.mul(1.3f); // nudge a little
+			       // further so it easily
+			       // goes outside of the
+			       // box
+		bw.add(tmp);
+
+		Systems.updatePCollisionBodyPositionFromWorldAttr(b, bw);
 	}
 }

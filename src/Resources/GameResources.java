@@ -81,9 +81,14 @@ public class GameResources
 	// player resources
 	public static BufferedImage playerSpriteSheet = ImageLoader.load(
 		"resources/RomiroGraphics/PlayerSheetReduced20.png");
+	public static BufferedImage enemySpriteSheet = ImageLoader.load(
+		"resources/RomiroGraphics/ZombieSheetReduced20.png");
 
+	/*
+	public static BufferedImage playerSpriteSheet =
+		ImageLoader.load("resources/RomiroGraphics/playerReduce5.png");
 	public static BufferedImage enemySpriteSheet =
-		ImageLoader.load("resources/RomiroGraphics/ZombieSheet.png");
+		ImageLoader.load("resources/RomiroGraphics/zombieReduce5.png");*/
 
 	/*
 	 * animation is in columns
@@ -92,6 +97,7 @@ public class GameResources
 	 */
 	public static final int PLAYER_SPRITE_WIDTH = (int)(125 * 0.8);
 	public static final int PLAYER_SPRITE_HEIGHT = (int)(155 * 0.8);
+
 	// movement animation
 	public static Animation playerNMoveAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
@@ -188,8 +194,11 @@ public class GameResources
 	 */
 
 
-	public static final int ENEMY_SPRITE_WIDTH = 125;
-	public static final int ENEMY_SPRITE_HEIGHT = 155;
+	public static final int ENEMY_SPRITE_WIDTH = PLAYER_SPRITE_WIDTH;
+	public static final int ENEMY_SPRITE_HEIGHT = PLAYER_SPRITE_HEIGHT;
+
+	// public static final int ENEMY_SPRITE_WIDTH = (int)(125 * 0.8);
+	// public static final int ENEMY_SPRITE_HEIGHT = (int)(155 * 0.8);
 
 	// move direction
 	public static Animation enemyNMoveAnimation = new Animation(
@@ -201,6 +210,7 @@ public class GameResources
 		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
 		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 13, 0,
 		ENEMY_SPRITE_WIDTH * 13, ENEMY_SPRITE_HEIGHT * 4);
+
 
 	public static Animation enemySMoveAnimation = new Animation(
 		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
@@ -231,6 +241,48 @@ public class GameResources
 		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
 		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 7, 0,
 		ENEMY_SPRITE_WIDTH * 7, ENEMY_SPRITE_HEIGHT * 4);
+
+	// attack animation
+	public static Animation enemyNAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 8, 0,
+		ENEMY_SPRITE_WIDTH * 8, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyEAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 9, 0,
+		ENEMY_SPRITE_WIDTH * 9, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemySAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 10, 0,
+		ENEMY_SPRITE_WIDTH * 10, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyWAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 11, 0,
+		ENEMY_SPRITE_WIDTH * 11, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyNEAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 0, 0,
+		ENEMY_SPRITE_WIDTH * 0, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemySEAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 1, 0,
+		ENEMY_SPRITE_WIDTH * 1, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemySWAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 2, 0,
+		ENEMY_SPRITE_WIDTH * 2, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyNWAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 3, 0,
+		ENEMY_SPRITE_WIDTH * 3, ENEMY_SPRITE_HEIGHT * 4);
+
 
 	// death animatoin
 	public static Animation enemyNDeathAnimation = new Animation(

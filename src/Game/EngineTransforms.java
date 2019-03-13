@@ -24,6 +24,7 @@ import Components.PhysicsPCollisionBody;
 import Components.Render;
 import Components.WorldAttributes;
 import EntitySets.PlayerSet;
+import EntitySets.MobSet;
 import EntitySets.TurretSet;
 import Resources.GameConfig;
 import Resources.GameResources;
@@ -103,18 +104,31 @@ public class EngineTransforms
 	}
 
 
-	public static void
-	setMovementVelocityFromMovementDirection(EngineState engineState)
+	public static void setMovementVelocityFromMovementDirectionForSet(
+		EngineState engineState, Class<? extends Component> c)
 	{
-		for (int i = engineState.getInitialSetIndex(
-			     MovementDirection.class);
+		for (int i = engineState.getInitialSetIndex(c);
 		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(MovementDirection.class,
-						     i)) {
+		     i = engineState.getNextSetIndex(c, i)) {
 			Systems.setMovementVelocityFromMovementDirection(
 				engineState.getComponentAt(Movement.class, i),
 				engineState.getComponentAt(
 					MovementDirection.class, i));
+		}
+	}
+
+	public static void steerMovementVelocityFromMovementDirectionForSet(
+		EngineState engineState, Class<? extends Component> c,
+		float steerRatio)
+	{
+		for (int i = engineState.getInitialSetIndex(c);
+		     Components.isValidEntity(i);
+		     i = engineState.getNextSetIndex(c, i)) {
+			Systems.steerMovementVelocityFromMovementDirection(
+				engineState.getComponentAt(Movement.class, i),
+				engineState.getComponentAt(
+					MovementDirection.class, i),
+				steerRatio);
 		}
 	}
 
@@ -237,19 +251,23 @@ public class EngineTransforms
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(0);
 
-			CardinalDirections tempDir =
-				engineState
-					.getComponentAt(MovementDirection.class,
-							mob1)
-					.getDirection();
+			/*
+		CardinalDirections tempDir =
+			engineState
+				.getComponentAt(MovementDirection.class,
+						mob1)
+				.getDirection();
 
-			// idle position
-			engineState.getComponentAt(HasAnimation.class, mob1)
-				.setAnimation(
-					findEnemyFacingSprite(tempDir, 0));
+		// idle position
+		engineState.getComponentAt(HasAnimation.class, mob1)
+			.setAnimation(
+				AnimationGetter.findEnemyFacingSprite(tempDir,
+		0));
+				*/
 			return;
 		}
 
+		// in the same world cord
 		if ((int)mobPosition.x == (int)playerPosition.x
 		    && (int)mobPosition.y == (int)playerPosition.y) {
 			// TODO: NEED TO INTEGRATE THIS WITH COLLISION!!
@@ -261,6 +279,7 @@ public class EngineTransforms
 						playerPosition
 							.subtractAndReturnVector(
 								mobPosition)));
+
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(GameConfig.MOB_SPEED);
 			/*
@@ -305,14 +324,20 @@ public class EngineTransforms
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(0f);
 			// zombie will be in idle
+
 			CardinalDirections tempDir =
 				engineState
 					.getComponentAt(MovementDirection.class,
 							mob1)
 					.getDirection();
-			engineState.getComponentAt(HasAnimation.class, mob1)
-				.setAnimation(
-					findEnemyFacingSprite(tempDir, 0));
+
+			// when the current tile the enemy/mob is standing on is
+			// HIGHER than all other values, it will display the
+			// previous walking animation!!
+
+			// engineState.getComponentAt(HasAnimation.class, mob1)
+			//.setAnimation(AnimationGetter.queryEnemySprite(
+			// tempDir, 0));
 		}
 		// the max neighbour value is bigger than the value of the tile
 		// that the mob is standing on
@@ -330,8 +355,8 @@ public class EngineTransforms
 				.setDirection(tempDir);
 
 			engineState.getComponentAt(HasAnimation.class, mob1)
-				.setAnimation(
-					findEnemyFacingSprite(tempDir, 1));
+				.setAnimation(AnimationGetter.queryEnemySprite(
+					tempDir, 1));
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(GameConfig.MOB_SPEED);
 		}
@@ -540,11 +565,6 @@ public class EngineTransforms
 									 b)) {
 					System.out.println(
 						"PCOllision detected");
-					// if (set1 instanceof TurretSet) {
-					//	System.out.println(
-					// 		"Collision with turrets
-					// detected");
-					//}
 					break;
 				}
 			}
@@ -571,18 +591,41 @@ public class EngineTransforms
 			     map.getRawComponentArrayListPackedData(
 				     PhysicsPCollisionBody.class)) {
 
-				Optional<Double> tmp =
-					Systems.pCollisionBodiesTimeOfCollision(
+				// sets velocity so that it never enters the
+				// wall
+				Vector2f tmp =
+					Systems.pCollisionBodiesGetCollisionBodyBDisplacementDelta(
 						g, b, a, va, dt);
+				tmp.mul(1 / ((float)dt));
+				va.setVelocity(tmp);
+			}
+		}
+	}
 
-				if (tmp.isPresent()) {
-					final double t = tmp.get() - 0.3d;
+	public static void nudgePhysicsPCollisionBodiesOutsideTileMap(
+		EngineState engineState, GJK g,
+		final Class<? extends Component> set0, final MapLayer map,
+		final double dt)
+	{
+		for (int i = engineState.getInitialSetIndex(set0);
+		     Components.isValidEntity(i);
+		     i = engineState.getNextSetIndex(set0, i)) {
 
-					final double rt = t / dt;
-					va.getVelocity().mul((float)rt);
-					va.getVelocity().log();
+			final PhysicsPCollisionBody a =
+				engineState.getComponentAt(
+					PhysicsPCollisionBody.class, i);
 
-					break;
+			WorldAttributes aw = engineState.getComponentAt(
+				WorldAttributes.class, i);
+
+			for (PhysicsPCollisionBody b :
+			     map.getRawComponentArrayListPackedData(
+				     PhysicsPCollisionBody.class)) {
+				g.clearVerticies();
+				if (g.areColliding(b.getPolygon(),
+						   a.getPolygon())) {
+					Systems.nudgeCollisionBodyBOutOfA(
+						b, a, aw, g);
 				}
 			}
 		}
@@ -610,44 +653,6 @@ public class EngineTransforms
 		}
 	}
 
-	public static void runAttackCycleHandlersAndFreezeMovement(
-		EngineState engineState, int player,
-		WeaponState playerCurWPState, InputPoller ip, Camera invCam,
-		double gameElapsedTime)
-	{
-
-		// players attacking
-		for (int i = engineState.getInitialSetIndex(PlayerSet.class);
-		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(PlayerSet.class, i)) {
-			AttackCycle a = engineState.getComponentAt(
-				AttackCycle.class, i);
-
-			if (a.isAttacking()) {
-				switch (a.getAttackState()) {
-				case 0:
-					break;
-
-				case 1:
-					AttackCycleHandlers.playerAttackHandler(
-						engineState, player,
-						playerCurWPState, ip, invCam,
-						gameElapsedTime);
-					break;
-				case 2:
-					break;
-				case 3:
-					a.endAttackCycle();
-					a.resetCycle();
-					break;
-				}
-
-				// setting velocity to 0
-				engineState.getComponentAt(Movement.class, i)
-					.setVelocity(new Vector2f(0, 0));
-			}
-		}
-	}
 
 	public static void updateTriggeredAttackCycles(final EngineState e,
 						       double dt)
@@ -661,119 +666,6 @@ public class EngineTransforms
 			if (a.isAttacking()) {
 				a.updateAccTime(dt);
 			}
-		}
-	}
-
-
-	public static Animation findEnemyFacingSprite(CardinalDirections dir,
-						      int flag)
-	{
-		// flag =0, will return idle position, if flag =1, will return
-		// move direction
-
-		switch (dir) {
-		case N:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemyNMoveAnimation;
-			}
-		case NE:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemyNEMoveAnimation;
-			}
-		case NW:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemyNWMoveAnimation;
-			}
-		case S:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemySMoveAnimation;
-			}
-		case SE:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemySEMoveAnimation;
-			}
-		case SW:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemySWMoveAnimation;
-			}
-		case W:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemyWMoveAnimation;
-			}
-		case E:
-			if (flag == 0) {
-			} else if (flag == 1) {
-				return GameResources.enemyEMoveAnimation;
-			}
-		default:
-			return GameResources.enemyNMoveAnimation;
-		}
-	}
-
-	public static Animation findPlayerFacingSprite(CardinalDirections dir,
-						       int flag)
-	{
-
-		// flag =0, will return idle position, if flag =1, will return
-		// move direction
-		switch (dir) {
-		case N:
-			if (flag == 0) {
-				return GameResources.playerNIdleAnimation;
-			} else {
-				return GameResources.playerNMoveAnimation;
-			}
-		case NE:
-			if (flag == 0) {
-				return GameResources.playerNEIdleAnimation;
-			} else {
-				return GameResources.playerNEMoveAnimation;
-			}
-		case NW:
-			if (flag == 0) {
-				return GameResources.playerNWIdleAnimation;
-			} else {
-				return GameResources.playerNWMoveAnimation;
-			}
-		case S:
-			if (flag == 0) {
-				return GameResources.playerSIdleAnimation;
-			} else {
-				return GameResources.playerSMoveAnimation;
-			}
-		case SE:
-			if (flag == 0) {
-				return GameResources.playerSEIdleAnimation;
-			} else {
-				return GameResources.playerSEMoveAnimation;
-			}
-		case SW:
-			if (flag == 0) {
-				return GameResources.playerSWIdleAnimation;
-			} else {
-				return GameResources.playerSWMoveAnimation;
-			}
-		case W:
-			if (flag == 0) {
-				return GameResources.playerWIdleAnimation;
-			} else {
-				return GameResources.playerWMoveAnimation;
-			}
-		case E:
-			if (flag == 0) {
-				return GameResources.playerEIdleAnimation;
-			} else {
-				return GameResources.playerEMoveAnimation;
-			}
-		default:
-			return GameResources.playerNIdleAnimation;
 		}
 	}
 }

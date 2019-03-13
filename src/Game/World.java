@@ -168,4 +168,26 @@ public abstract class World
 
 	// use super.acct for the accumlated time, use this.dt for the time step
 	protected abstract void runGame();
+
+
+	public EngineState getEngineState()
+	{
+		return this.engineState;
+	}
+
+	public InputPoller getInputPoller()
+	{
+		return this.inputPoller;
+	}
+
+	public double getDt()
+	{
+		return this.dt;
+	}
+
+
+	public double getAcct()
+	{
+		return this.acct;
+	}
 }

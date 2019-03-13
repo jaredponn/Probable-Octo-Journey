@@ -2,6 +2,7 @@ package Game;
 
 import Components.FacingDirection;
 import Components.HasAnimation;
+import Components.AttackCycle;
 import Components.HitPoints;
 import Components.Lifespan;
 import Components.Movement;
@@ -169,6 +170,8 @@ public class CombatFunctions
 
 		if (Systems.arePCollisionBodiesColliding(gjk, playerBody,
 							 mobBody)) {
+			engineState.getComponentAt(AttackCycle.class, mob)
+				.startAttackCycle();
 			handlePlayerDamage(engineState, player,
 					   GameConfig.MOB_ATTACK_DAMAGE);
 		}
