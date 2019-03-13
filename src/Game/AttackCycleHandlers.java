@@ -6,6 +6,8 @@ package Game;
  * @version 1.0
  */
 
+import java.awt.Color;
+
 import Components.*;
 import EntitySets.*;
 import Resources.GameConfig;
@@ -14,14 +16,17 @@ import poj.EngineState;
 import poj.GameWindow.InputPoller;
 import poj.linear.Vector2f;
 import poj.Animation;
+import poj.Collisions.*;
 
 public class AttackCycleHandlers
 {
 
-	public static void runAttackCycleHandlersAndFreezeMovement(
-		EngineState engineState, WeaponState playerCurWPState,
-		InputPoller ip, Camera invCam, double gameElapsedTime)
+	public static void
+	runAttackCycleHandlersAndFreezeMovement(PlayGame playGame)
 	{
+		EngineState engineState = playGame.getEngineState();
+
+		double gameElapsedTime = playGame.getPlayTime();
 
 		// players attacking
 		for (int i = engineState.getInitialSetIndex(PlayerSet.class);
@@ -37,8 +42,7 @@ public class AttackCycleHandlers
 
 				case 1:
 					AttackCycleHandlers.playerAttackHandler(
-						engineState, playerCurWPState,
-						ip, invCam, gameElapsedTime);
+						playGame);
 					break;
 				case 2:
 					break;
@@ -71,8 +75,8 @@ public class AttackCycleHandlers
 
 				case 1:
 					AttackCycleHandlers
-						.mobMeleeAttackHandler(
-							engineState, i);
+						.mobMeleeAttackHandler(playGame,
+								       i);
 					break;
 				case 2:
 					break;
@@ -89,42 +93,46 @@ public class AttackCycleHandlers
 					.setVelocity(new Vector2f(0, 0));
 			}
 		}
-		
+
 		// turret attack
 		for (int i = engineState.getInitialSetIndex(TurretSet.class);
-			     EngineState.isValidEntity(i);
-			     i = engineState.getNextSetIndex(TurretSet.class, i)) {
-				AttackCycle a = engineState.getComponentAt(
-					AttackCycle.class, i);
+		     EngineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
+			AttackCycle a = engineState.getComponentAt(
+				AttackCycle.class, i);
 
-				if (a.isAttacking()) {
-					switch (a.getAttackState()) {
-					case 0:
-						break;
-					case 1:
-						AttackCycleHandlers
-							.turretAttackHandler(engineState, i, gameElapsedTime);
-						break;
-					case 2:
-						break;
-					case 3:
-						a.endAttackCycle();
-						a.resetCycle();
-						break;
-					}
+			if (a.isAttacking()) {
+				switch (a.getAttackState()) {
+				case 0:
+					break;
+				case 1:
+					AttackCycleHandlers.turretAttackHandler(
+						engineState, i,
+						gameElapsedTime);
+					break;
+				case 2:
+					break;
+				case 3:
+					a.endAttackCycle();
+					a.resetCycle();
+					break;
 				}
 			}
+		}
 	}
 
 	/**
 	 * Player's attack handler.
 	 * Variable names should be intuitive.
 	 */
-	public static void playerAttackHandler(EngineState engineState,
-					       WeaponState playerCurWPState,
-					       InputPoller ip, Camera invCam,
-					       double gameElapsedTime)
+	public static void playerAttackHandler(PlayGame playGame)
 	{
+
+		EngineState engineState = playGame.getEngineState();
+		WeaponState playerCurWPState = playGame.curWeaponState;
+		InputPoller ip = playGame.getInputPoller();
+		Camera invCam = playGame.invCam;
+		double gameElapsedTime = playGame.getPlayTime();
 
 		int player = engineState.getInitialSetIndex(PlayerSet.class);
 		Vector2f playerPosition =
@@ -182,24 +190,68 @@ public class AttackCycleHandlers
 
 
 	public static void mobMeleeAttackPrimerHandler(EngineState engineState,
-						       int i)
+						       int focus)
 	{
-		final MovementDirection n =
-			engineState.getComponentAt(MovementDirection.class, i);
-		engineState.getComponentAt(HasAnimation.class, i)
+		final MovementDirection n = engineState.getComponentAt(
+			MovementDirection.class, focus);
+		engineState.getComponentAt(HasAnimation.class, focus)
 			.setAnimation(AnimationGetter.queryEnemySprite(
 				n.getDirection(), 2));
 	}
-	public static void mobMeleeAttackHandler(EngineState engineState, int i)
+	public static void mobMeleeAttackHandler(PlayGame playGame, int focus)
 	{
-		final MovementDirection n =
-			engineState.getComponentAt(MovementDirection.class, i);
+		EngineState engineState = playGame.getEngineState();
+		GJK gjk = playGame.gjk;
+
+		// in the future make the hit boxes attack forward and just
+		// witch upon them
+		final MovementDirection n = engineState.getComponentAt(
+			MovementDirection.class, focus);
 
 		// Spawn the hitbox in the correct location and check against
 		// all enemies
+		PCollisionBody pmob =
+			new PCollisionBody(GameConfig.MOB_MELEE_ATTACK_BODY);
+		Systems.updatePCollisionBodyPositionFromWorldAttr(
+			pmob, engineState.getComponentAt(WorldAttributes.class,
+							 focus));
+
+		// debug rendering
+		Systems.pCollisionBodyDebugRenderer(pmob, playGame.debugBuffer,
+						    playGame.cam, Color.orange);
+
+		// testing for hits against  the player
+		for (int i = engineState.getInitialSetIndex(PlayerSet.class);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(PlayerSet.class, i)) {
+
+			PHitBox pplayer =
+				engineState.getComponentAt(PHitBox.class, i);
+
+			if (Systems.arePCollisionBodiesColliding(gjk, pplayer,
+								 pmob)) {
+				CombatFunctions.handlePlayerDamage(
+					engineState, i,
+					GameConfig.MOB_ATTACK_DAMAGE);
+			}
+		}
+
+		// testing for hits against towers
+		for (int i = engineState.getInitialSetIndex(TurretSet.class);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
+
+			// PHitBox pplayer =
+			// engineState.getComponentAt(PHitBox.class, i); if
+			// (Systems.arePCollisionBodiesColliding(gjk, pplayer,
+			// pmob)) { CombatFunctions.handlePlayerDamage(
+			// engineState, i, GameConfig.MOB_ATTACK_DAMAGE);}
+		}
 	}
-	
-	public static void turretAttackHandler(EngineState engineState , int turret , double gameTime) {
+
+	public static void turretAttackHandler(EngineState engineState,
+					       int turret, double gameTime)
+	{
 		CombatFunctions.turretTargeting(engineState, turret, gameTime);
 	}
 }

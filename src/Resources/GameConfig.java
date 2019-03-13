@@ -101,7 +101,7 @@ public class GameConfig
 	///////////////////////
 	////// mob config /////
 	///////////////////////
-	public static final float MOB_SPEED = 0.6f * PLAYER_SPEED;
+	public static final float MOB_SPEED = 0.8f * PLAYER_SPEED;
 	public static final float MOB_HEIGHT =
 		GameResources.ENEMY_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
@@ -128,16 +128,15 @@ public class GameConfig
 			new Vector2f(0.75f/2f, 0      /2f), new Vector2f(1     /2f, 0.25f/2f));
 	// clang-format on
 
-	// mob hitbox body
-	public static final PCollisionBody MOB_HITBOX_BODY = new PCollisionBody(
-		new Vector2f(1.5f, 2.7f), // displacement
-					  // collision body:
-		new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
-		new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
-		new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
-		new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
+	public static final PCollisionBody MOB_MELEE_ATTACK_BODY =
+		new PCollisionBody(new Vector2f(-0.5f, 0),   // displacement
+				   new Vector2f(0.5f, 0.5f), // center
+							     // collision body:
+				   new Vector2f(0, 0), new Vector2f(2, 0),
+				   new Vector2f(0, 2), new Vector2f(2, 2));
 
 	public static final float MOB_SPAWN_TIMER = 10.0f;
+
 	// spawn points:
 	public static final Vector2f MOB_SPAWNER_1 = new Vector2f(20f, 20f);
 
