@@ -175,6 +175,11 @@ public abstract class World
 		return this.engineState;
 	}
 
+	public InputPoller getInputPoller()
+	{
+		return this.inputPoller;
+	}
+
 	public double getDt()
 	{
 		return this.dt;

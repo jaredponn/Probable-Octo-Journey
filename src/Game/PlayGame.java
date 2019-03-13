@@ -37,48 +37,49 @@ import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
 import poj.EngineState;
 
-import poj.Component.Components;
-
 public class PlayGame extends World
 {
 	// Render
-	private Map map;
+	protected Map map;
 	// buffers for the renderer
-	private Queue<RenderObject> groundBuffer;
-	private MinYFirstSortedRenderObjectBuffer entityBuffer;
-	private Queue<RenderObject> guiBuffer;
-	private Queue<RenderObject> debugBuffer;
+	protected Queue<RenderObject> groundBuffer;
+	protected MinYFirstSortedRenderObjectBuffer entityBuffer;
+	protected Queue<RenderObject> guiBuffer;
+	public static Queue<RenderObject> debugBuffer =
+		new LinkedList<RenderObject>(); // all debugging should be
+						// global (fight me) if java had
+						// Monads I would be happy
 
 
 	// Camera
-	private Camera cam;    // camera
-	private Camera invCam; // inverse camera
+	protected Camera cam;    // camera
+	protected Camera invCam; // inverse camera
 
 	// game event stack
 	PlayGameEventStack gameEventStack;
 
 	// Cooldown for keys
-	private static ArrayList<Double> coolDownMax = new ArrayList<Double>(
+	protected static ArrayList<Double> coolDownMax = new ArrayList<Double>(
 		Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
-	private ArrayList<Double> lastCoolDown = new ArrayList<Double>(
+	protected ArrayList<Double> lastCoolDown = new ArrayList<Double>(
 		Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
 
 	// Higher level game logic
-	private int player;
-	public static double EPSILON = 0.0001d;
-	private WeaponState curWeaponState = WeaponState.Gun;
+	protected int player;
+	protected static double EPSILON = 0.0001d;
+	protected WeaponState curWeaponState = WeaponState.Gun;
 
 	// ASE
-	private double timeOfLastMobSpawn = 0.0 - GameConfig.MOB_SPAWN_TIMER;
-	private double timeOfLastCashSpawn =
+	protected double timeOfLastMobSpawn = 0.0 - GameConfig.MOB_SPAWN_TIMER;
+	protected double timeOfLastCashSpawn =
 		0.0 - GameConfig.PICKUP_CASH_SPAWN_TIME;
-	private int cash = 1000;
+	protected int cash = 1000;
 
-	private StringRenderObject gameTimer =
+	protected StringRenderObject gameTimer =
 		new StringRenderObject("", 5, 10, Color.WHITE);
-	private StringRenderObject cashDisplay = new StringRenderObject(
+	protected StringRenderObject cashDisplay = new StringRenderObject(
 		"Your Cash: " + this.cash, 5, 20, Color.WHITE);
-	private StringRenderObject healthDisplay =
+	protected StringRenderObject healthDisplay =
 		new StringRenderObject("", 5, 30, Color.WHITE);
 
 
@@ -127,7 +128,6 @@ public class PlayGame extends World
 		this.groundBuffer = new LinkedList<RenderObject>();
 		this.entityBuffer = new MinYFirstSortedRenderObjectBuffer();
 		this.guiBuffer = new LinkedList<RenderObject>();
-		this.debugBuffer = new LinkedList<RenderObject>();
 
 		// camera initialization
 		resetCamera();
@@ -276,7 +276,7 @@ public class PlayGame extends World
 		}
 
 		//  attack cycles
-		EngineTransforms.runAttackCycleHandlersAndFreezeMovement(
+		AttackCycleHandlers.runAttackCycleHandlersAndFreezeMovement(
 			this.engineState, this.curWeaponState,
 			super.inputPoller, this.invCam, this.getPlayTime());
 

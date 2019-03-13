@@ -279,6 +279,7 @@ public class EngineTransforms
 						playerPosition
 							.subtractAndReturnVector(
 								mobPosition)));
+
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(GameConfig.MOB_SPEED);
 			/*
@@ -652,73 +653,6 @@ public class EngineTransforms
 		}
 	}
 
-	public static void runAttackCycleHandlersAndFreezeMovement(
-		EngineState engineState, WeaponState playerCurWPState,
-		InputPoller ip, Camera invCam, double gameElapsedTime)
-	{
-
-		// players attacking
-		for (int i = engineState.getInitialSetIndex(PlayerSet.class);
-		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(PlayerSet.class, i)) {
-			AttackCycle a = engineState.getComponentAt(
-				AttackCycle.class, i);
-
-			if (a.isAttacking()) {
-				switch (a.getAttackState()) {
-				case 0:
-					break;
-
-				case 1:
-					AttackCycleHandlers.playerAttackHandler(
-						engineState, playerCurWPState,
-						ip, invCam, gameElapsedTime);
-					break;
-				case 2:
-					break;
-				case 3:
-					a.endAttackCycle();
-					a.resetCycle();
-					break;
-				}
-
-				// setting velocity to 0
-				engineState.getComponentAt(Movement.class, i)
-					.setVelocity(new Vector2f(0, 0));
-			}
-		}
-
-		// mobs attacking
-		for (int i = engineState.getInitialSetIndex(MobSet.class);
-		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(MobSet.class, i)) {
-			AttackCycle a = engineState.getComponentAt(
-				AttackCycle.class, i);
-
-			if (a.isAttacking()) {
-				switch (a.getAttackState()) {
-				case 0:
-					break;
-
-				case 1:
-					AttackCycleHandlers
-						.mobMeleeAttackHandler(
-							engineState, i);
-					break;
-				case 2:
-					break;
-				case 3:
-					a.endAttackCycle();
-					a.resetCycle();
-					break;
-				}
-
-				// setting velocity to 0
-				engineState.getComponentAt(Movement.class, i)
-					.setVelocity(new Vector2f(0, 0));
-			}
-		}
-	}
 
 	public static void updateTriggeredAttackCycles(final EngineState e,
 						       double dt)

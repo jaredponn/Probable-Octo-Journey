@@ -53,7 +53,7 @@ public class GameConfig
 		PLAYER_HITBOX_BODY;
 
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
-		new AttackCycle(100, 100);
+		new AttackCycle(45, 45);
 
 	/////////////////////////
 	///// turret config /////
