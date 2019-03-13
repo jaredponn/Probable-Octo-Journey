@@ -9,20 +9,17 @@ import poj.linear.*;
 // http://entropyinteractive.com/2011/04/gjk-algorithm/
 // https://www.haroldserrano.com/blog/visualizing-the-gjk-collision-algorithm
 
-public class Polygon extends CollisionShape
+public class Polygon implements CollisionShape
 {
 	public Vector2f pts[];
 	public int size;
 
-	public Polygon(Vector2f c, Vector2f... pts)
+	public Polygon(Vector2f... pts)
 	{
 		this.size = pts.length;
 		this.pts = new Vector2f[this.size];
 
 		int i = 0;
-
-		super.setCenter(c);
-
 		for (Vector2f p : pts) {
 			this.pts[i] = new Vector2f(p);
 			++i;
@@ -33,7 +30,6 @@ public class Polygon extends CollisionShape
 	{
 		this.pts = p.purePts();
 		this.size = p.size;
-		super.setCenter(p.center);
 	}
 
 	public void shiftAllPoints(float x, float y)
