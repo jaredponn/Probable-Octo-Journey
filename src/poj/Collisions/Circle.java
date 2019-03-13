@@ -3,9 +3,8 @@ package poj.Collisions;
 import poj.linear.*;
 
 
-public class Circle implements CollisionShape
+public class Circle extends CollisionShape
 {
-	private Vector2f center;
 	private float radius;
 
 	/**
