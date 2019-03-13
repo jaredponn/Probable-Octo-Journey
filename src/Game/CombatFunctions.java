@@ -97,6 +97,7 @@ public class CombatFunctions
 		engineState.deleteComponentAt(PhysicsPCollisionBody.class, t);
 		engineState.deleteComponentAt(HitPoints.class, t);
 		engineState.deleteComponentAt(PHitBox.class, t);
+		engineState.deleteComponentAt(AttackCycle.class, t);
 		engineState.markIndexAsFree(t);
 	}
 
@@ -168,6 +169,8 @@ public class CombatFunctions
 			engineState.getComponentAt(PhysicsPCollisionBody.class,
 						   mob);
 
+		// temporarily just cause damage on collision
+		// TODO: make mobs attack
 		if (Systems.arePCollisionBodiesColliding(gjk, playerBody,
 							 mobBody)) {
 			engineState.getComponentAt(AttackCycle.class, mob)
@@ -191,6 +194,8 @@ public class CombatFunctions
 		final PhysicsPCollisionBody mobBody =
 			engineState.getComponentAt(PhysicsPCollisionBody.class,
 						   mob);
+		
+		// TODO: make mobs attack
 		if (Systems.arePCollisionBodiesColliding(gjk, turretBody, mobBody)) {
 			HitPoints turretHP = engineState.getComponentAt(HitPoints.class, turret);
 			System.out.println("A mob is hitting a turret! Turret HP: "+ turretHP.getHP());
@@ -234,6 +239,8 @@ public class CombatFunctions
 				.getPolygon().pureGetAPointInPolygon(0);
 		int currentTarget;
 		
+		// TODO: refine targeting (often misses target)
+		
 		// cycle through all mobs and find the closest one.
 		for (int i = engineState.getInitialSetIndex(MobSet.class);
 			     poj.EngineState.isValidEntity(i);
@@ -269,6 +276,8 @@ public class CombatFunctions
 				}
 			}
 			
+			// TODO: limit turrets range/make them only fire
+			//		 at targets within that range
 			shootTurret(engineState , turret , currentTarget , gameTime );
 		}
 	}

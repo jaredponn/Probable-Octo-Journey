@@ -802,7 +802,8 @@ public class PlayGame extends World
 		for (int i = engineState.getInitialSetIndex(TurretSet.class);
 				poj.EngineState.isValidEntity(i);
 				i = engineState.getNextSetIndex(TurretSet.class, i)) {
-			CombatFunctions.turretTargeting(engineState, i, this.getPlayTime() );
+			engineState.getComponentAt(AttackCycle.class, i).startAttackCycle();
+			//CombatFunctions.turretTargeting(engineState, i, this.getPlayTime() );
 			CombatFunctions.handleMobHitTurret(engineState, gjk, mobIndex, i);
 		}
 	}

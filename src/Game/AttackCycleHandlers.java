@@ -86,6 +86,31 @@ public class AttackCycleHandlers
 					.setVelocity(new Vector2f(0, 0));
 			}
 		}
+		
+		// turret attack
+		for (int i = engineState.getInitialSetIndex(TurretSet.class);
+			     EngineState.isValidEntity(i);
+			     i = engineState.getNextSetIndex(TurretSet.class, i)) {
+				AttackCycle a = engineState.getComponentAt(
+					AttackCycle.class, i);
+
+				if (a.isAttacking()) {
+					switch (a.getAttackState()) {
+					case 0:
+						break;
+					case 1:
+						AttackCycleHandlers
+							.turretAttackHandler(engineState, i, gameElapsedTime);
+						break;
+					case 2:
+						break;
+					case 3:
+						a.endAttackCycle();
+						a.resetCycle();
+						break;
+					}
+				}
+			}
 	}
 
 	/**
@@ -165,5 +190,9 @@ public class AttackCycleHandlers
 	public static void mobMeleeAttackHandler(EngineState engineState, int i)
 	{
 		System.out.println("direction");
+	}
+	
+	public static void turretAttackHandler(EngineState engineState , int turret , double gameTime) {
+		CombatFunctions.turretTargeting(engineState, turret, gameTime);
 	}
 }
