@@ -510,8 +510,11 @@ public class EngineTransforms
 		}
 	}
 
-	public static void debugRenderPhysicsPCollisionBodies(
-		final EngineState e, Queue<RenderObject> q, final Camera cam)
+
+	public static void
+	debugRenderPhysicsPCollisionBodies(final EngineState e,
+					   Queue<RenderObject> q,
+					   final Camera cam, Color c)
 	{
 
 		for (int i = e.getInitialSetIndex(PhysicsPCollisionBody.class);
@@ -520,7 +523,7 @@ public class EngineTransforms
 			Systems.pCollisionBodyDebugRenderer(
 				e.getComponentAt(PhysicsPCollisionBody.class,
 						 i),
-				q, cam);
+				q, cam, c);
 		}
 	}
 

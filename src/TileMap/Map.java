@@ -272,6 +272,9 @@ public class Map
 										new Vector2f(
 											0f,
 											0f),
+										cbwc.pureAdd(
+											0.5f,
+											0.5f), // center
 										cbwc,
 										cbwc.pureAdd(
 											1,

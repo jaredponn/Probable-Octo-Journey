@@ -34,6 +34,7 @@ public class GameConfig
 		new PCollisionBody(
 			// new Vector2f(0f, 0f),
 			new Vector2f(1.5f, 2.7f), // displacement
+			new Vector2f(0.5f, 0.5f), // center
 			// collision body:
 			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
 			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
@@ -43,8 +44,9 @@ public class GameConfig
 	// hitbox by inspection
 	public static final PCollisionBody PLAYER_HITBOX_BODY =
 		new PCollisionBody(
-			new Vector2f(-0.5f, 0f), // displacement
-						 // collision body:
+			new Vector2f(-0.5f, 0f),  // displacement
+			new Vector2f(0.5f, 0.5f), // center
+						  // collision body:
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
 			new Vector2f(2.7f, 2.5f), new Vector2f(2.95f, 2.2f));
 
@@ -58,7 +60,8 @@ public class GameConfig
 	public static final PCollisionBody TURRET_COLLISION_BODY =
 		new PCollisionBody(
 			new Vector2f(-1f, -0.85f), // displacement
-						// collision body:
+			new Vector2f(0.5f, 0.5f),  // center
+						   // collision body:
 			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
 			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
@@ -67,9 +70,10 @@ public class GameConfig
 	public static final float SHELL_SPEED = 0.04f;
 	public static final int SHELL_DAMAGE = 100;
 	// TODO: turret hitbox
-	public static final PCollisionBody TURRET_HITBOX_BODY = PLAYER_HITBOX_BODY;
-	public static final AttackCycle TURRET_ATTACK_CYCLE = 
-		new AttackCycle( 1000 , 1000 );
+	public static final PCollisionBody TURRET_HITBOX_BODY =
+		PLAYER_HITBOX_BODY;
+	public static final AttackCycle TURRET_ATTACK_CYCLE =
+		new AttackCycle(1000, 1000);
 
 	//////////////////////////
 	////// bullet config /////
@@ -85,12 +89,14 @@ public class GameConfig
 	public static final int BULLET_DAMAGE = 100;
 
 	public static final PCollisionBody BULLET_COLLISION_BODY =
-		new PCollisionBody(new Vector2f(0.0f, 0.0f), // displacement
-							     // collision body:
-				   new Vector2f(0, 0),
-				   new Vector2f(0, BULLET_HEIGHT),
-				   new Vector2f(BULLET_WIDTH, 0),
-				   new Vector2f(BULLET_WIDTH, BULLET_HEIGHT));
+		new PCollisionBody(
+			new Vector2f(0.0f, 0.0f), // displacement
+			new Vector2f(BULLET_WIDTH / 2,
+				     BULLET_HEIGHT / 2), // center
+							 // collision body:
+			new Vector2f(0, 0), new Vector2f(0, BULLET_HEIGHT),
+			new Vector2f(BULLET_WIDTH, 0),
+			new Vector2f(BULLET_WIDTH, BULLET_HEIGHT));
 
 	///////////////////////
 	////// mob config /////
@@ -108,12 +114,13 @@ public class GameConfig
 	public static final AttackCycle MOB_ATTACK_CYCLE =
 		new AttackCycle(100, 100);
 	public static final PCollisionBody ENEMY_HITBOX_BODY =
-			PLAYER_HITBOX_BODY;
+		PLAYER_HITBOX_BODY;
 
 	public static final PCollisionBody MOB_COLLISION_BODY =
 		// clang-format off
 		new PCollisionBody(
 			new Vector2f(1.6f ,2.3f), // displacement
+			new Vector2f(0.5f ,0.5f), // center
 						  // collision body:
 			new Vector2f(0.25f/2f,   1    /2f), new Vector2f(0.75f /2f, 1    /2f),
 			new Vector2f(0    /2f,   0.75f/2f), new Vector2f(1     /2f, 0.75f/2f),
@@ -152,12 +159,14 @@ public class GameConfig
 		GameResources.CASH_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final PCollisionBody PICKUP_COLLISION_BODY =
-		new PCollisionBody(new Vector2f(0.0f, 0.0f), // displacement
-							     // collision body:
-				   new Vector2f(0, 0),
-				   new Vector2f(0, PICKUP_HEIGHT),
-				   new Vector2f(PICKUP_WIDTH, 0),
-				   new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT));
+		new PCollisionBody(
+			new Vector2f(0.0f, 0.0f), // displacement
+			new Vector2f(PICKUP_WIDTH / 2,
+				     PICKUP_HEIGHT / 2), // center
+							 // collision body:
+			new Vector2f(0, 0), new Vector2f(0, PICKUP_HEIGHT),
+			new Vector2f(PICKUP_WIDTH, 0),
+			new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT));
 
 	////////////////////////
 	///// input config /////

@@ -221,12 +221,14 @@ public class PlayGame extends World
 			this.findBulletHits(i);
 		}
 		// turret bullets:
-		for (int i = this.engineState.getInitialSetIndex(CannonShell.class);
-			     poj.EngineState.isValidEntity(i);
-			     i = this.engineState.getNextSetIndex(CannonShell.class, i)) {
+		for (int i = this.engineState.getInitialSetIndex(
+			     CannonShell.class);
+		     poj.EngineState.isValidEntity(i);
+		     i = this.engineState.getNextSetIndex(CannonShell.class,
+							  i)) {
 
-				this.findBulletHits(i);
-			}
+			this.findBulletHits(i);
+		}
 
 		// Handle mob hitting a player
 		// TODO: balance mob damage?
@@ -238,7 +240,7 @@ public class PlayGame extends World
 			this.handleTurrets(i);
 		}
 
-		
+
 		// TODO: make mobs drop cash on death?
 		this.cashSpawner(true, 13f, 7f);
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
@@ -262,7 +264,8 @@ public class PlayGame extends World
 
 		// debug renderers
 		EngineTransforms.debugRenderPhysicsPCollisionBodies(
-			this.engineState, this.debugBuffer, this.cam);
+			this.engineState, this.debugBuffer, this.cam,
+			Color.red);
 
 		EngineTransforms.debugRenderPHitBox(this.engineState,
 						    this.debugBuffer, this.cam);
@@ -286,7 +289,7 @@ public class PlayGame extends World
 
 			EngineTransforms.debugRenderPhysicsPCollisionBodies(
 				this.map.getLayerEngineState(i), debugBuffer,
-				this.cam);
+				this.cam, Color.RED);
 		}
 
 		//  attack cycles
@@ -492,8 +495,11 @@ public class PlayGame extends World
 				// polygon !
 				Vector2f playerPosition =
 					super.getComponentAt(
-						     PhysicsPCollisionBody.class,
-						     this.player).getPolygon().pureGetAPointInPolygon(0);
+						     PhysicsPCollisionBody
+							     .class,
+						     this.player)
+						.getPolygon()
+						.pureGetAPointInPolygon(0);
 
 				int tmp = super.engineState.spawnEntitySet(
 					new TurretSet());
@@ -792,17 +798,20 @@ public class PlayGame extends World
 		CombatFunctions.bulletHitHandler(engineState, mapState, gjk,
 						 bullet);
 	}
-	
+
 	/**
 	 * handles turrets shooting at mobs and mobs attacking turrets
 	 * @param mobIndex: the mob attacking a turret
 	 */
-	private void handleTurrets( int mobIndex ) {
+	private void handleTurrets(int mobIndex)
+	{
 		for (int i = engineState.getInitialSetIndex(TurretSet.class);
-				poj.EngineState.isValidEntity(i);
-				i = engineState.getNextSetIndex(TurretSet.class, i)) {
-			engineState.getComponentAt(AttackCycle.class, i).startAttackCycle();
-			CombatFunctions.handleMobHitTurret(engineState, gjk, mobIndex, i);
+		     poj.EngineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
+			engineState.getComponentAt(AttackCycle.class, i)
+				.startAttackCycle();
+			CombatFunctions.handleMobHitTurret(engineState, gjk,
+							   mobIndex, i);
 		}
 	}
 	// /ASE

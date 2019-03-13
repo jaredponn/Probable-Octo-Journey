@@ -76,16 +76,23 @@ public class Polygon implements CollisionShape
 		return getSize();
 	}
 
-	// set of the first point and shifts all the other points accordingly
-	public void setFirstPositionAndShiftAll(Vector2f n)
+	/**
+	 * Sets the first position point and shifts the rest of the points
+	 * accordingly. Returns the vector that it shifted all the points by
+	 *
+	 * @param  n the new point
+	 * @return   vector all points shifted by
+	 */
+	public Vector2f setFirstPositionAndShiftAll(Vector2f n)
 	{
 		Vector2f d = n.pureSubtract(pts[0]);
 		shiftAllPoints(d);
+		return d;
 	}
 
-	public void setFirstPositionAndShiftAll(float x, float y)
+	public Vector2f setFirstPositionAndShiftAll(float x, float y)
 	{
-		setFirstPositionAndShiftAll(new Vector2f(x, y));
+		return setFirstPositionAndShiftAll(new Vector2f(x, y));
 	}
 
 	public int indexOfFurthestPointInDirection(Vector2f dir)

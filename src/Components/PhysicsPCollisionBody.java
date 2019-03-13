@@ -14,9 +14,9 @@ import poj.Collisions.*;
 public class PhysicsPCollisionBody extends PCollisionBody
 {
 
-	public PhysicsPCollisionBody(Vector2f d, Vector2f... pts)
+	public PhysicsPCollisionBody(Vector2f d, Vector2f c, Vector2f... pts)
 	{
-		super(d, pts);
+		super(d, c, pts);
 	}
 
 	public PhysicsPCollisionBody(PCollisionBody pb)

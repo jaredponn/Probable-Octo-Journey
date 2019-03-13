@@ -22,9 +22,9 @@ public class PHitBox extends PCollisionBody
 	 *         before setting its position
 	 * @param  pts ... the collision body
 	 */
-	public PHitBox(Vector2f d, Vector2f... pts)
+	public PHitBox(Vector2f d, Vector2f c, Vector2f... pts)
 	{
-		super(d, pts);
+		super(d, c, pts);
 	}
 
 	public PHitBox(PCollisionBody pb)
