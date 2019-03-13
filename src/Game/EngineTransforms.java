@@ -316,13 +316,13 @@ public class EngineTransforms
 						    mobPosition))
 				    .getDiffusionValue()
 
-		) {
-			System.out.println(
-				" went inside this cord is bigger than all neightbours!!");
-			System.out.println(
-				"set the mob speed equal to 0!!!!!!!");
-			engineState.getComponentAt(Movement.class, mob1)
-				.setSpeed(0f);
+		) { /*
+			 System.out.println(
+				 " went inside this cord is bigger than all
+		       neightbours!!"); System.out.println( "set the mob speed
+		       equal to 0!!!!!!!");
+			 engineState.getComponentAt(Movement.class, mob1)
+				 .setSpeed(0f);*/
 			// zombie will be in idle
 
 			CardinalDirections tempDir =

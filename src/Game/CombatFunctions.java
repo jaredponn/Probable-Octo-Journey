@@ -44,6 +44,7 @@ public class CombatFunctions
 		engineState.deleteComponentAt(PhysicsPCollisionBody.class, mob);
 		engineState.deleteComponentAt(PHitBox.class, mob);
 		engineState.deleteComponentAt(HitPoints.class, mob);
+		engineState.deleteComponentAt(AttackCycle.class, mob);
 		engineState.markIndexAsFree(mob);
 	}
 

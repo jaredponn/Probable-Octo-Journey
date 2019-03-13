@@ -13,6 +13,7 @@ import Resources.GameConfig;
 import poj.EngineState;
 import poj.GameWindow.InputPoller;
 import poj.linear.Vector2f;
+import poj.Animation;
 
 public class AttackCycleHandlers
 {
@@ -76,8 +77,10 @@ public class AttackCycleHandlers
 				case 2:
 					break;
 				case 3:
+
 					a.endAttackCycle();
 					a.resetCycle();
+
 					break;
 				}
 
@@ -164,6 +167,10 @@ public class AttackCycleHandlers
 	}
 	public static void mobMeleeAttackHandler(EngineState engineState, int i)
 	{
-		System.out.println("direction");
+		final MovementDirection n =
+			engineState.getComponentAt(MovementDirection.class, i);
+
+		// Spawn the hitbox in the correct location and check against
+		// all enemies
 	}
 }

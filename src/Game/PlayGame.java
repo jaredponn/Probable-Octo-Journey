@@ -344,12 +344,6 @@ public class PlayGame extends World
 		////// Combat Commands //////
 		if (super.inputPoller.isKeyDown(GameConfig.ATTACK_KEY)
 		    || super.inputPoller.isLeftMouseButtonDown()) {
-			System.out.print(
-				"space key is down. Player character should be attacking\n");
-
-			System.out.println("the cd value of attack key = "
-					   + Math.abs(lastCoolDown.get(
-						     GameConfig.ATTACK_KEY)));
 			if (Math.abs(lastCoolDown.get(GameConfig.ATTACK_KEY))
 			    == 0d) {
 				updateDtForKey(GameConfig.ATTACK_KEY,
