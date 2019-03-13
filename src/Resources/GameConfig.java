@@ -65,6 +65,7 @@ public class GameConfig
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
 	public static final int CONSTRUCT_HP = 100;
 	public static final float SHELL_SPEED = 0.04f;
+	public static final int SHELL_DAMAGE = 100;
 	// TODO: turret hitbox
 	public static final PCollisionBody TURRET_HITBOX_BODY = PLAYER_HITBOX_BODY;
 	public static final AttackCycle TURRET_ATTACK_CYCLE = 

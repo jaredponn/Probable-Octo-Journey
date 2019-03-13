@@ -1,16 +1,6 @@
 package Game;
 
-import Components.FacingDirection;
-import Components.HasAnimation;
-import Components.AttackCycle;
-import Components.HitPoints;
-import Components.Lifespan;
-import Components.Movement;
-import Components.MovementDirection;
-import Components.PHitBox;
-import Components.PhysicsPCollisionBody;
-import Components.Render;
-import Components.WorldAttributes;
+import Components.*;
 import EntitySets.Bullet;
 import EntitySets.CollectibleSet;
 import EntitySets.MobSet;
@@ -65,6 +55,7 @@ public class CombatFunctions
 		engineState.deleteComponentAt(Lifespan.class, bullet);
 		engineState.deleteComponentAt(PhysicsPCollisionBody.class,
 					      bullet);
+		engineState.deleteComponentAt(Damage.class, bullet);
 		engineState.markIndexAsFree(bullet);
 	}
 
@@ -129,9 +120,9 @@ public class CombatFunctions
 			// if collision detected
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, bulletBody, mobBody)) {
-				removeBullet(mainState, bullet);
 				mainState.getComponentAt(HitPoints.class, i)
-					.hurt(GameConfig.BULLET_DAMAGE);
+					.hurt(mainState.getComponentAt(Damage.class, bullet).getDamage());
+				removeBullet(mainState, bullet);
 				if (mainState.getComponentAt(HitPoints.class, i)
 					    .getHP()
 				    <= 0)
@@ -237,7 +228,7 @@ public class CombatFunctions
 	public static void turretTargeting(EngineState engineState , int turret , double gameTime ) {
 		Vector2f turretPosition = engineState.getComponentAt(PHitBox.class,turret)
 				.getPolygon().pureGetAPointInPolygon(0);
-		int currentTarget;
+		int currentTarget = 0;
 		
 		// TODO: refine targeting (often misses target)
 		
@@ -278,8 +269,9 @@ public class CombatFunctions
 			
 			// TODO: limit turrets range/make them only fire
 			//		 at targets within that range
-			shootTurret(engineState , turret , currentTarget , gameTime );
+			//shootTurret(engineState , turret , currentTarget , gameTime );
 		}
+		shootTurret(engineState , turret , currentTarget , gameTime );
 	}
 	
 	/**

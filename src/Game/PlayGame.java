@@ -155,6 +155,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(PHitBox.class);
 		super.engineState.registerComponent(Lifespan.class);
 		super.engineState.registerComponent(HitPoints.class);
+		super.engineState.registerComponent(Damage.class);
 	}
 	public void registerEntitySets()
 	{
@@ -798,12 +799,15 @@ public class PlayGame extends World
 						 bullet);
 	}
 	
+	/**
+	 * handles turrets shooting at mobs and mobs attacking turrets
+	 * @param mobIndex: the mob attacking a turret
+	 */
 	private void handleTurrets( int mobIndex ) {
 		for (int i = engineState.getInitialSetIndex(TurretSet.class);
 				poj.EngineState.isValidEntity(i);
 				i = engineState.getNextSetIndex(TurretSet.class, i)) {
 			engineState.getComponentAt(AttackCycle.class, i).startAttackCycle();
-			//CombatFunctions.turretTargeting(engineState, i, this.getPlayTime() );
 			CombatFunctions.handleMobHitTurret(engineState, gjk, mobIndex, i);
 		}
 	}
