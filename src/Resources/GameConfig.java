@@ -48,24 +48,28 @@ public class GameConfig
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
 			new Vector2f(2.7f, 2.5f), new Vector2f(2.95f, 2.2f));
 
-
-	public static final PCollisionBody ENEMY_HITBOX_BODY =
-		PLAYER_HITBOX_BODY;
-
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(45, 45);
 
 	/////////////////////////
 	///// turret config /////
 	/////////////////////////
+	public static final int TOWER_BUILD_COST = 250;
 	public static final PCollisionBody TURRET_COLLISION_BODY =
 		new PCollisionBody(
-			new Vector2f(0f, 0.8f), // displacement
+			new Vector2f(-1f, -0.85f), // displacement
 						// collision body:
 			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
 			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
+	public static final int CONSTRUCT_HP = 100;
+	public static final float SHELL_SPEED = 0.04f;
+	public static final int SHELL_DAMAGE = 100;
+	// TODO: turret hitbox
+	public static final PCollisionBody TURRET_HITBOX_BODY = PLAYER_HITBOX_BODY;
+	public static final AttackCycle TURRET_ATTACK_CYCLE = 
+		new AttackCycle( 1000 , 1000 );
 
 	//////////////////////////
 	////// bullet config /////
@@ -103,6 +107,8 @@ public class GameConfig
 
 	public static final AttackCycle MOB_ATTACK_CYCLE =
 		new AttackCycle(100, 100);
+	public static final PCollisionBody ENEMY_HITBOX_BODY =
+			PLAYER_HITBOX_BODY;
 
 	public static final PCollisionBody MOB_COLLISION_BODY =
 		// clang-format off
@@ -133,9 +139,6 @@ public class GameConfig
 	////////////////////////////
 	public static final float CONSTRUCT_HEIGHT = 64;
 	public static final float CONSTRUCT_WIDTH = 48;
-	public static final int CONSTRUCT_HP = 100;
-
-	public static final int TOWER_BUILD_COST = 250;
 
 	/////////////////////////
 	///// pickup config /////
