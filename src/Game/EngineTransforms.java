@@ -244,12 +244,23 @@ public class EngineTransforms
 		final PhysicsPCollisionBody a = engineState.getComponentAt(
 			PhysicsPCollisionBody.class, mob1);
 
+
+		for (int j = engineState.getInitialSetIndex(TurretSet.class);
+		     poj.EngineState.isValidEntity(j);
+		     j = engineState.getNextSetIndex(TurretSet.class, j)) {
+
+			if (checkTurretCollisionWithMob(engineState, j, mob1,
+							gjk)) {
+				return;
+			}
+		}
+
 		final PhysicsPCollisionBody b = engineState.getComponentAt(
 			PhysicsPCollisionBody.class, player);
 
 		if (Systems.arePCollisionBodiesColliding(gjk, a, b)) {
-			engineState.getComponentAt(Movement.class, mob1)
-				.setSpeed(0);
+			// engineState.getComponentAt(Movement.class, mob1)
+			//.setSpeed(0);
 
 			/*
 		CardinalDirections tempDir =
@@ -268,6 +279,7 @@ public class EngineTransforms
 		}
 
 		// in the same world cord
+		/*
 		if ((int)mobPosition.x == (int)playerPosition.x
 		    && (int)mobPosition.y == (int)playerPosition.y) {
 			// TODO: NEED TO INTEGRATE THIS WITH COLLISION!!
@@ -282,7 +294,6 @@ public class EngineTransforms
 
 			engineState.getComponentAt(Movement.class, mob1)
 				.setSpeed(GameConfig.MOB_SPEED);
-			/*
 			// if the mob does not have the same position as the
 			// player
 			if (Math.abs(mobPosition.x - playerPosition.x)
@@ -304,25 +315,28 @@ public class EngineTransforms
 				engineState.getComponentAt(Movement.class, mob1)
 					.setSpeed(0);
 			}
-			*/
-		}
+		}*/
 		// test if the current tile the mob is at is bigger than the max
 		// value
-		else if (maxValue
-			 <= map.getLayerEngineState(0)
-				    .getComponentAt(
-					    PathFindCord.class,
-					    map.getEcsIndexFromWorldVector2f(
-						    mobPosition))
-				    .getDiffusionValue()
+		if (maxValue
+		    <= map.getLayerEngineState(0)
+			       .getComponentAt(PathFindCord.class,
+					       map.getEcsIndexFromWorldVector2f(
+						       mobPosition))
+			       .getDiffusionValue()
 
-		) { /*
-			 System.out.println(
-				 " went inside this cord is bigger than all
-		       neightbours!!"); System.out.println( "set the mob speed
-		       equal to 0!!!!!!!");
-			 engineState.getComponentAt(Movement.class, mob1)
-				 .setSpeed(0f);*/
+		) {
+			/*
+		System.out.println(
+			" went inside this cord is bigger than all
+		neightbours!!"); System.out.println( "set the mob speed equal to
+		0!!!!!!!");
+			*/
+
+			/*
+			engineState.getComponentAt(Movement.class, mob1)
+				.setSpeed(0f);
+				*/
 			// zombie will be in idle
 
 			CardinalDirections tempDir =
@@ -331,8 +345,8 @@ public class EngineTransforms
 							mob1)
 					.getDirection();
 
-			// when the current tile the enemy/mob is standing on is
-			// HIGHER than all other values, it will display the
+			// when the current tile the enemy/mob is standing on
+			// is HIGHER than all other values, it will display the
 			// previous walking animation!!
 
 			// engineState.getComponentAt(HasAnimation.class, mob1)
@@ -362,7 +376,7 @@ public class EngineTransforms
 		}
 	}
 
-	public static void
+	public static boolean
 	checkTurretCollisionWithMob(EngineState engineState,
 				    // Map map, int layerNumber,
 				    int turretPosition, int mob1, GJK gjk)
@@ -374,10 +388,7 @@ public class EngineTransforms
 		final PhysicsPCollisionBody b = engineState.getComponentAt(
 			PhysicsPCollisionBody.class, mob1);
 
-		if (Systems.arePCollisionBodiesColliding(gjk, a, b)) {
-			engineState.getComponentAt(Movement.class, mob1)
-				.setSpeed(0);
-		}
+		return Systems.arePCollisionBodiesColliding(gjk, a, b);
 	}
 
 	public static void
