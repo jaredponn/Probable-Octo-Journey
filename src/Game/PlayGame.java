@@ -4,6 +4,7 @@ package Game;
  * PlayGame -- main class that plays the game (input, render, engine transforms,
  * etc) - giant conglomeration of all the state and the seat and tears and blood
  * of our team put togtether to put together this project.
+ *
  * Date: March 12, 2019
  * 2019
  * @author Jared Pon, Haiyang He, Romirio Piqer, Alex Stark
@@ -85,9 +86,9 @@ public class PlayGame extends World
 
 
 	// Collision detection and resolution
-	GJK gjk;
+	protected GJK gjk;
 
-	private MapGeneration generateDiffusionMap;
+	protected MapGeneration generateDiffusionMap;
 	public PlayGame()
 	{
 		super();
@@ -208,6 +209,7 @@ public class PlayGame extends World
 
 		// ASE
 		this.mobSpawner();
+		this.handleTurrets();
 
 		// Timed de-spawner
 		this.cashDropDespawner();
@@ -221,24 +223,26 @@ public class PlayGame extends World
 			this.findBulletHits(i);
 		}
 		// turret bullets:
-		for (int i = this.engineState.getInitialSetIndex(CannonShell.class);
-			     poj.EngineState.isValidEntity(i);
-			     i = this.engineState.getNextSetIndex(CannonShell.class, i)) {
-
-				this.findBulletHits(i);
-			}
-
-		// Handle mob hitting a player
-		// TODO: balance mob damage?
-		for (int i = engineState.getInitialSetIndex(MobSet.class);
+		for (int i = this.engineState.getInitialSetIndex(
+			     CannonShell.class);
 		     poj.EngineState.isValidEntity(i);
-		     i = engineState.getNextSetIndex(MobSet.class, i)) {
-			CombatFunctions.handleMobHitPlayer(engineState, gjk, i,
-							   this.player);
-			this.handleTurrets(i);
+		     i = this.engineState.getNextSetIndex(CannonShell.class,
+							  i)) {
+
+			this.findBulletHits(i);
 		}
 
-		
+		// mobs touching players
+		CombatFunctions
+			.startAttackCycleOfSetAIfPhysicsCollisionBodiesAreCollidingWithSetB(
+				engineState, gjk, MobSet.class,
+				PlayerSet.class);
+		CombatFunctions
+			.startAttackCycleOfSetAIfPhysicsCollisionBodiesAreCollidingWithSetB(
+				engineState, gjk, MobSet.class,
+				TurretSet.class);
+
+
 		// TODO: make mobs drop cash on death?
 		this.cashSpawner(true, 13f, 7f);
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
@@ -254,7 +258,7 @@ public class PlayGame extends World
 
 		EngineTransforms
 			.steerMovementVelocityFromMovementDirectionForSet(
-				this.engineState, MobSet.class, 1 / 32f);
+				this.engineState, MobSet.class, 1 / 16f);
 
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
@@ -262,7 +266,8 @@ public class PlayGame extends World
 
 		// debug renderers
 		EngineTransforms.debugRenderPhysicsPCollisionBodies(
-			this.engineState, this.debugBuffer, this.cam);
+			this.engineState, this.debugBuffer, this.cam,
+			Color.red);
 
 		EngineTransforms.debugRenderPHitBox(this.engineState,
 						    this.debugBuffer, this.cam);
@@ -286,13 +291,12 @@ public class PlayGame extends World
 
 			EngineTransforms.debugRenderPhysicsPCollisionBodies(
 				this.map.getLayerEngineState(i), debugBuffer,
-				this.cam);
+				this.cam, Color.RED);
 		}
 
 		//  attack cycles
 		AttackCycleHandlers.runAttackCycleHandlersAndFreezeMovement(
-			this.engineState, this.curWeaponState,
-			super.inputPoller, this.invCam, this.getPlayTime());
+			this);
 
 		// changing world attrib position
 		EngineTransforms.updateWorldAttribPositionFromMovement(
@@ -492,8 +496,11 @@ public class PlayGame extends World
 				// polygon !
 				Vector2f playerPosition =
 					super.getComponentAt(
-						     PhysicsPCollisionBody.class,
-						     this.player).getPolygon().pureGetAPointInPolygon(0);
+						     PhysicsPCollisionBody
+							     .class,
+						     this.player)
+						.getPolygon()
+						.pureGetAPointInPolygon(0);
 
 				int tmp = super.engineState.spawnEntitySet(
 					new TurretSet());
@@ -565,7 +572,7 @@ public class PlayGame extends World
 	}
 
 
-	private void updateInverseCamera()
+	protected void updateInverseCamera()
 	{
 		if (this.cam.isInvertible()) {
 			this.invCam =
@@ -573,7 +580,7 @@ public class PlayGame extends World
 		}
 	}
 
-	private void resetCamera()
+	protected void resetCamera()
 	{
 		this.cam.clearBackToIdentity();
 		this.cam.setScalingForVector2(-GameResources.TILE_SCREEN_WIDTH,
@@ -590,7 +597,7 @@ public class PlayGame extends World
 			GameResources.TILE_SCREEN_ROTATION);*/
 	}
 
-	private void centerCamerasPositionsToWorldAttribute(WorldAttributes n)
+	protected void centerCamerasPositionsToWorldAttribute(WorldAttributes n)
 	{
 		this.resetCamera();
 		Vector2f tmp = n.getOriginCoord();
@@ -601,13 +608,13 @@ public class PlayGame extends World
 			-tmp.y + super.windowHeight / 2f);
 	}
 
-	private void centerCamerasPositionToPlayer()
+	protected void centerCamerasPositionToPlayer()
 	{
 		this.centerCamerasPositionsToWorldAttribute(
 			engineState.getComponentAt(WorldAttributes.class,
 						   this.player));
 	}
-	private void updateCoolDownKeys()
+	protected void updateCoolDownKeys()
 	{
 		for (int i = 0; i < Resources.GameConfig.COOL_DOWN_KEYS.size();
 		     ++i) {
@@ -616,7 +623,7 @@ public class PlayGame extends World
 				this.dt / 1000);
 		}
 	}
-	private void updateDtForKey(int keyIndex, double val)
+	protected void updateDtForKey(int keyIndex, double val)
 	{
 		// if the key cooldown is not 0.. i put a if statement here
 		// because i don't want to subtract it to neg infinity..
@@ -630,26 +637,26 @@ public class PlayGame extends World
 
 	// ASE
 	/** @return: current time the game has been running in seconds */
-	private double getPlayTime()
+	protected double getPlayTime()
 	{
 		double playTime = Math.floor((super.acct / 1000) * 100) / 100;
 		return playTime;
 	}
 
 	/** updates the gameTimer string with the current play time */
-	private void updateGameTimer()
+	protected void updateGameTimer()
 	{
 		this.gameTimer.setStr("" + getPlayTime());
 	}
 
 	/**  updates the cashDisplay string with the players current cash */
-	private void updateCashDisplay()
+	protected void updateCashDisplay()
 	{
 		this.cashDisplay.setStr("Your Cash: $" + this.cash);
 	}
 
 	/** update healthDisplay */
-	private void updateHealthDisplay()
+	protected void updateHealthDisplay()
 	{
 		this.healthDisplay.setStr(
 			"Your HP: "
@@ -662,7 +669,7 @@ public class PlayGame extends World
 	 * spawns a new mob entity if it has been at least
 	 * MOB_SPAWN_TIMER seconds since the last spawn
 	 */
-	private void mobSpawner()
+	protected void mobSpawner()
 	{
 		double currentPlayTime = this.getPlayTime();
 		if (currentPlayTime - this.timeOfLastMobSpawn
@@ -683,7 +690,7 @@ public class PlayGame extends World
 	 * @param x: x-coordinate to spawn the drop at
 	 * @param y: y-coordinate to spawn the drop at
 	 *   */
-	private void cashSpawner(boolean timed, float x, float y)
+	protected void cashSpawner(boolean timed, float x, float y)
 	{
 		double currentPlayTime = this.getPlayTime();
 		if (timed
@@ -705,7 +712,7 @@ public class PlayGame extends World
 	 * deletes cash drops older than the lifespan
 	 * prevents drops that have not been collected from piling up
 	 */
-	private void cashDropDespawner()
+	protected void cashDropDespawner()
 	{
 		for (int i = this.engineState.getInitialSetIndex(
 			     CollectibleSet.class);
@@ -730,7 +737,7 @@ public class PlayGame extends World
 	 * Removes bullets that have been alive longer than their lifespan
 	 * Makes bullets have limited range
 	 */
-	private void bulletDespawner()
+	protected void bulletDespawner()
 	{
 		for (int i = this.engineState.getInitialSetIndex(Bullet.class);
 		     this.engineState.isValidEntity(i);
@@ -753,7 +760,7 @@ public class PlayGame extends World
 	 * Add the money in a cash pick-up to the player
 	 * @param amount of money in the pick-up
 	 */
-	private void collectCash(int amount)
+	protected void collectCash(int amount)
 	{
 		PhysicsPCollisionBody playerPosition =
 			engineState.getComponentAt(PhysicsPCollisionBody.class,
@@ -786,23 +793,24 @@ public class PlayGame extends World
 	 * the bullet
 	 * @param bullet to check for hit
 	 */
-	private void findBulletHits(int bullet)
+	protected void findBulletHits(int bullet)
 	{
 		EngineState mapState = map.getLayerEngineState(1);
 		CombatFunctions.bulletHitHandler(engineState, mapState, gjk,
 						 bullet);
 	}
-	
+
 	/**
 	 * handles turrets shooting at mobs and mobs attacking turrets
 	 * @param mobIndex: the mob attacking a turret
 	 */
-	private void handleTurrets( int mobIndex ) {
+	protected void handleTurrets()
+	{
 		for (int i = engineState.getInitialSetIndex(TurretSet.class);
-				poj.EngineState.isValidEntity(i);
-				i = engineState.getNextSetIndex(TurretSet.class, i)) {
-			engineState.getComponentAt(AttackCycle.class, i).startAttackCycle();
-			CombatFunctions.handleMobHitTurret(engineState, gjk, mobIndex, i);
+		     poj.EngineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
+			engineState.getComponentAt(AttackCycle.class, i)
+				.startAttackCycle();
 		}
 	}
 	// /ASE

@@ -181,6 +181,7 @@ public class Systems
 		pCollisionBodyDebugRenderer(pc, q, cam, Color.RED);
 	}
 
+	private static Color CENTER_DEBUG_COLOR = Color.GREEN;
 	public static void pCollisionBodyDebugRenderer(final PCollisionBody pc,
 						       Queue<RenderObject> q,
 						       final Camera cam,
@@ -191,8 +192,13 @@ public class Systems
 
 		for (int i = 0; i < p.getSize(); ++i) {
 			final Vector2f sc = pts[i].pureMatrixMultiply(cam);
-			q.add(new RenderRect((int)sc.x, (int)sc.y, 2, 2, r));
+			q.add(new RenderRect((int)sc.x, (int)sc.y, 1, 1, r));
 		}
+		Vector2f center = pc.pureGetCenter().pureMatrixMultiply(cam);
+
+
+		q.add(new RenderRect((int)center.x, (int)center.y, 1, 1,
+				     CENTER_DEBUG_COLOR));
 	}
 
 	public static void

@@ -23,7 +23,7 @@ public class PlayerSet extends EntitySet
 			new Vector2f(GameConfig.PLAYER_SPAWNNING_POS),
 			GameConfig.PLAYER_WIDTH, GameConfig.PLAYER_HEIGHT));
 		addComponent(
-			new HasAnimation(GameResources.playerNIdleAnimation));
+			new HasAnimation(GameResources.playerNGunIdleAnimation));
 		addComponent(new Movement(GameConfig.PLAYER_SPEED));
 		addComponent(new MovementDirection(CardinalDirections.N));
 		addComponent(new FacingDirection(CardinalDirections.N));
