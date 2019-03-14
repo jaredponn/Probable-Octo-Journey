@@ -267,11 +267,9 @@ public class CombatFunctions
 					currentTarget = j;
 				}
 			}
-			
+		}
 			// TODO: limit turrets range/make them only fire
 			//		 at targets within that range
-			//shootTurret(engineState , turret , currentTarget , gameTime );
-		}
 		shootTurret(engineState , turret , currentTarget , gameTime );
 	}
 	
