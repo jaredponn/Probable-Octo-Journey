@@ -1,6 +1,7 @@
 package Game;
 
 import Components.*;
+import EntitySets.*;
 import EntitySets.Bullet;
 import EntitySets.CollectibleSet;
 import EntitySets.MobSet;
@@ -9,6 +10,7 @@ import EntitySets.TurretSet;
 import Resources.GameConfig;
 
 import poj.EngineState;
+import poj.Component.*;
 import poj.Collisions.GJK;
 import poj.linear.Vector2f;
 
@@ -151,36 +153,68 @@ public class CombatFunctions
 	}
 
 	/**
-	 * Handler for mobs hitting the player
+	 * Handler for mobs touching the player
 	 * @param engineState: the main game state
 	 * @param gjk: GJK needed to handle collisions
-	 * @param mob: the mob that is attacking the player
-	 * @param player: reference to the player
+	 * @param a: entity set to start the attack cycle if touching
+	 * @param b: entity set to check against
 	 */
-	public static void handleMobHitPlayer(EngineState engineState, GJK gjk,
-					      int mob, int player)
+	public static void
+	startAttackCycleOfSetAIfPhysicsCollisionBodiesAreCollidingWithSetB(
+		EngineState engineState, GJK gjk, Class<? extends Component> a,
+		Class<? extends Component> b)
 	{
-		final PhysicsPCollisionBody playerBody =
-			engineState.getComponentAt(PhysicsPCollisionBody.class,
-						   player);
+		for (int i = engineState.getInitialSetIndex(a);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(a, i)) {
+
+			final PCollisionBody abody = engineState.getComponentAt(
+				PhysicsPCollisionBody.class, i);
+
+			for (int j = engineState.getInitialSetIndex(b);
+			     engineState.isValidEntity(j);
+			     j = engineState.getNextSetIndex(b, j)) {
+
+				final PCollisionBody bbody =
+					engineState.getComponentAt(
+						PhysicsPCollisionBody.class, j);
+				if (Systems.arePCollisionBodiesColliding(
+					    gjk, bbody, abody)) {
+					engineState
+						.getComponentAt(
+							AttackCycle.class, i)
+						.startAttackCycle();
+					break;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Handler for mobs touching turret
+	 * @param engineState: the main game state
+	 * @param gjk: GJK needed to handle collisions
+	 * @param mob: the mob that is attacking the turret
+	 * @param player: reference to the turret
+	 */
+	public static void handleMobTouchTurret(EngineState engineState,
+						GJK gjk, int mob, int turret)
+	{
 		final PhysicsPCollisionBody mobBody =
 			engineState.getComponentAt(PhysicsPCollisionBody.class,
 						   mob);
 
-		// temporarily just cause damage on collision
-		// TODO: make mobs attack
-		if (Systems.arePCollisionBodiesColliding(gjk, playerBody,
-							 mobBody)) {
+		final PhysicsPCollisionBody turretBody =
+			engineState.getComponentAt(PhysicsPCollisionBody.class,
+						   turret);
+
+		if (Systems.arePCollisionBodiesColliding(gjk, mobBody,
+							 turretBody)) {
 			engineState.getComponentAt(AttackCycle.class, mob)
-				.startAttackCycle(); // actually handling the
-						     // player damage is
-						     // deffered to the attack
-						     // cycles which keep track
-						     // of when / what hitboes
-						     // to spawn for t heplayer
-						     // damage
+				.startAttackCycle();
 		}
 	}
+
 
 	/**
 	 * Handler for mobs hitting a turret
@@ -189,29 +223,19 @@ public class CombatFunctions
 	 * @param mob: the mob that is attacking the turret
 	 * @param player: reference to the turret
 	 */
-	public static void handleMobHitTurret(EngineState engineState, GJK gjk,
-					      int mob, int turret)
+	public static void handleMobDamageTurret(EngineState engineState,
+						 int turret)
 	{
-		final PHitBox turretBody =
-			engineState.getComponentAt(PHitBox.class, turret);
-		final PhysicsPCollisionBody mobBody =
-			engineState.getComponentAt(PhysicsPCollisionBody.class,
-						   mob);
+		HitPoints turretHP =
+			engineState.getComponentAt(HitPoints.class, turret);
+		System.out.println("A mob is hitting a turret! Turret HP: "
+				   + turretHP.getHP());
 
-		// TODO: make mobs attack
-		if (Systems.arePCollisionBodiesColliding(gjk, turretBody,
-							 mobBody)) {
-			HitPoints turretHP = engineState.getComponentAt(
-				HitPoints.class, turret);
-			System.out.println(
-				"A mob is hitting a turret! Turret HP: "
-				+ turretHP.getHP());
 
-			turretHP.hurt(GameConfig.MOB_ATTACK_DAMAGE);
+		turretHP.hurt(GameConfig.MOB_ATTACK_DAMAGE);
 
-			if (turretHP.getHP() <= 0)
-				removeTurret(engineState, turret);
-		}
+		if (turretHP.getHP() <= 0)
+			removeTurret(engineState, turret);
 	}
 
 	/**

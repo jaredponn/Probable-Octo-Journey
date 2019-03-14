@@ -101,7 +101,7 @@ public class GameConfig
 	///////////////////////
 	////// mob config /////
 	///////////////////////
-	public static final float MOB_SPEED = 0.8f * PLAYER_SPEED;
+	public static final float MOB_SPEED = 0.6f * PLAYER_SPEED;
 	public static final float MOB_HEIGHT =
 		GameResources.ENEMY_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;

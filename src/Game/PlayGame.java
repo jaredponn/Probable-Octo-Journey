@@ -230,15 +230,15 @@ public class PlayGame extends World
 			this.findBulletHits(i);
 		}
 
-		// Handle mob hitting a player
-		// TODO: balance mob damage?
-		for (int i = engineState.getInitialSetIndex(MobSet.class);
-		     poj.EngineState.isValidEntity(i);
-		     i = engineState.getNextSetIndex(MobSet.class, i)) {
-			CombatFunctions.handleMobHitPlayer(engineState, gjk, i,
-							   this.player);
-			this.handleTurrets(i);
-		}
+		// mobs touching players
+		CombatFunctions
+			.startAttackCycleOfSetAIfPhysicsCollisionBodiesAreCollidingWithSetB(
+				engineState, gjk, MobSet.class,
+				PlayerSet.class);
+		CombatFunctions
+			.startAttackCycleOfSetAIfPhysicsCollisionBodiesAreCollidingWithSetB(
+				engineState, gjk, MobSet.class,
+				TurretSet.class);
 
 
 		// TODO: make mobs drop cash on death?
@@ -256,7 +256,7 @@ public class PlayGame extends World
 
 		EngineTransforms
 			.steerMovementVelocityFromMovementDirectionForSet(
-				this.engineState, MobSet.class, 1 / 32f);
+				this.engineState, MobSet.class, 1 / 16f);
 
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
@@ -809,8 +809,6 @@ public class PlayGame extends World
 		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
 			engineState.getComponentAt(AttackCycle.class, i)
 				.startAttackCycle();
-			CombatFunctions.handleMobHitTurret(engineState, gjk,
-							   mobIndex, i);
 		}
 	}
 	// /ASE

@@ -233,6 +233,8 @@ public class AttackCycleHandlers
 				CombatFunctions.handlePlayerDamage(
 					engineState, i,
 					GameConfig.MOB_ATTACK_DAMAGE);
+				return; // shouldn't do damage to multiple
+					// things
 			}
 		}
 
@@ -240,12 +242,15 @@ public class AttackCycleHandlers
 		for (int i = engineState.getInitialSetIndex(TurretSet.class);
 		     engineState.isValidEntity(i);
 		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
+			PHitBox pturret =
+				engineState.getComponentAt(PHitBox.class, i);
 
-			// PHitBox pplayer =
-			// engineState.getComponentAt(PHitBox.class, i); if
-			// (Systems.arePCollisionBodiesColliding(gjk, pplayer,
-			// pmob)) { CombatFunctions.handlePlayerDamage(
-			// engineState, i, GameConfig.MOB_ATTACK_DAMAGE);}
+			if (Systems.arePCollisionBodiesColliding(gjk, pturret,
+								 pmob)) {
+				CombatFunctions.handleMobDamageTurret(
+					engineState, i);
+				return;
+			}
 		}
 	}
 
