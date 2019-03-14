@@ -99,101 +99,188 @@ public class GameResources
 	public static final int PLAYER_SPRITE_HEIGHT = (int)(155 * 0.8);
 
 	// movement animation
-	public static Animation playerNMoveAnimation = new Animation(
+	public static Animation playerNGunMoveAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 20, 0,
 		PLAYER_SPRITE_WIDTH * 20, PLAYER_SPRITE_HEIGHT * 4);
 
-	public static Animation playerEMoveAnimation = new Animation(
+	public static Animation playerNMeleeMoveAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 12, 0,
+		PLAYER_SPRITE_WIDTH * 12, PLAYER_SPRITE_HEIGHT * 4);
+
+	public static Animation playerEGunMoveAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 21, 0,
 		PLAYER_SPRITE_WIDTH * 21, PLAYER_SPRITE_HEIGHT * 4);
 
-	public static Animation playerSMoveAnimation = new Animation(
+	public static Animation playerEMeleeMoveAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 13, 0,
+		PLAYER_SPRITE_WIDTH * 13, PLAYER_SPRITE_HEIGHT * 4);
+
+	public static Animation playerSGunMoveAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 22, 0,
 		PLAYER_SPRITE_WIDTH * 22, PLAYER_SPRITE_HEIGHT * 4);
 
-	public static Animation playerWMoveAnimation = new Animation(
+	public static Animation playerSMeleeMoveAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 14, 0,
+		PLAYER_SPRITE_WIDTH * 14, PLAYER_SPRITE_HEIGHT * 4);
+
+	public static Animation playerWGunMoveAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 23, 0,
 		PLAYER_SPRITE_WIDTH * 23, PLAYER_SPRITE_HEIGHT * 4);
 
-	public static Animation playerNEMoveAnimation = new Animation(
+	public static Animation playerWMeleeMoveAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 15, 0,
+		PLAYER_SPRITE_WIDTH * 15, PLAYER_SPRITE_HEIGHT * 4);
+
+	public static Animation playerNEGunMoveAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 4, 0,
 		PLAYER_SPRITE_WIDTH * 4, PLAYER_SPRITE_HEIGHT * 4);
 
-	public static Animation playerSEMoveAnimation = new Animation(
+	public static Animation playerNEMeleeMoveAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 8, 0,
+		PLAYER_SPRITE_WIDTH * 8, PLAYER_SPRITE_HEIGHT * 4);
+
+	public static Animation playerSEGunMoveAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 5, 0,
 		PLAYER_SPRITE_WIDTH * 5, PLAYER_SPRITE_HEIGHT * 4);
 
-	public static Animation playerSWMoveAnimation = new Animation(
+	public static Animation playerSEMeleeMoveAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 9, 0,
+		PLAYER_SPRITE_WIDTH * 9, PLAYER_SPRITE_HEIGHT * 4);
+
+	public static Animation playerSWGunMoveAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 6, 0,
 		PLAYER_SPRITE_WIDTH * 6, PLAYER_SPRITE_HEIGHT * 4);
 
-	public static Animation playerNWMoveAnimation = new Animation(
+	public static Animation playerSWMeleeMoveAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 10, 0,
+		PLAYER_SPRITE_WIDTH * 10, PLAYER_SPRITE_HEIGHT * 4);
+
+	public static Animation playerNWGunMoveAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 7, 0,
 		PLAYER_SPRITE_WIDTH * 7, PLAYER_SPRITE_HEIGHT * 4);
 
+	public static Animation playerNWMeleeMoveAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 11, 0,
+		PLAYER_SPRITE_WIDTH * 11, PLAYER_SPRITE_HEIGHT * 4);
+
 
 	// idle animation
-	public static Animation playerNIdleAnimation = new Animation(
+	public static Animation playerNGunIdleAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 20,
 		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 20,
 		PLAYER_SPRITE_HEIGHT * 7);
 
-	public static Animation playerEIdleAnimation = new Animation(
+	public static Animation playerNMeleeIdleAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 12,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 12,
+		PLAYER_SPRITE_HEIGHT * 7);
+
+
+	public static Animation playerEGunIdleAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 21,
 		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 21,
 		PLAYER_SPRITE_HEIGHT * 7);
 
-	public static Animation playerSIdleAnimation = new Animation(
+	public static Animation playerEMeleeIdleAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 13,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 13,
+		PLAYER_SPRITE_HEIGHT * 7);
+
+	public static Animation playerSGunIdleAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 22,
 		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 22,
 		PLAYER_SPRITE_HEIGHT * 7);
 
-	public static Animation playerWIdleAnimation = new Animation(
+	public static Animation playerSMeleeIdleAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 14,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 14,
+		PLAYER_SPRITE_HEIGHT * 7);
+
+	public static Animation playerWGunIdleAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 23,
 		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 23,
 		PLAYER_SPRITE_HEIGHT * 7);
 
-	public static Animation playerNEIdleAnimation = new Animation(
+	public static Animation playerWMeleeIdleAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 15,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 15,
+		PLAYER_SPRITE_HEIGHT * 7);
+
+	public static Animation playerNEGunIdleAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 4,
 		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 4,
 		PLAYER_SPRITE_HEIGHT * 7);
 
-	public static Animation playerSEIdleAnimation = new Animation(
+	public static Animation playerNEMeleeIdleAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 4,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 4,
+		PLAYER_SPRITE_HEIGHT * 7);
+
+	public static Animation playerSEGunIdleAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 5,
 		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 5,
 		PLAYER_SPRITE_HEIGHT * 7);
 
-	public static Animation playerSWIdleAnimation = new Animation(
+	public static Animation playerSEMeleeIdleAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 9,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 9,
+		PLAYER_SPRITE_HEIGHT * 7);
+
+	public static Animation playerSWGunIdleAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 6,
 		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 6,
 		PLAYER_SPRITE_HEIGHT * 7);
 
-	public static Animation playerNWIdleAnimation = new Animation(
+	public static Animation playerSWMeleeIdleAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 10,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 10,
+		PLAYER_SPRITE_HEIGHT * 7);
+
+	public static Animation playerNWGunIdleAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 7,
 		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 7,
 		PLAYER_SPRITE_HEIGHT * 7);
 
+	public static Animation playerNWMeleeIdleAnimation = new Animation(
+		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 11,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 11,
+		PLAYER_SPRITE_HEIGHT * 7);
+
 	/*
 	 * size for player melee attack animation: 185 x 182
 	 */
-
-
 	public static final int ENEMY_SPRITE_WIDTH = PLAYER_SPRITE_WIDTH;
 	public static final int ENEMY_SPRITE_HEIGHT = PLAYER_SPRITE_HEIGHT;
 

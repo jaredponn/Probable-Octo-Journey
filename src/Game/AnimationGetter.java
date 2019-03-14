@@ -76,64 +76,96 @@ public class AnimationGetter
 		}
 	}
 
-	public static Animation queryPlayerSprite(CardinalDirections dir,
-						  int flag)
+	public static Animation queryPlayerSprite(CardinalDirections dir, int f)
 	{
-
-		// flag = 0, idle position,
-		// flag = 1, move direction
-		// flag = 2, melee attack
+		int flag = f + 1;
+		// flag = 0, gun idle position,
+		// flag = 1, gun move direction
+		// flag = 2, melee attack move
 		switch (dir) {
 		case N:
 			if (flag == 0) {
-				return GameResources.playerNIdleAnimation;
+				return GameResources.playerNGunIdleAnimation;
 			} else if (flag == 1) {
-				return GameResources.playerNMoveAnimation;
+				return GameResources.playerNGunMoveAnimation;
+			} else if (flag == 2) {
+				return GameResources.playerNMeleeIdleAnimation;
+			} else if (flag == 3) {
+				return GameResources.playerNMeleeMoveAnimation;
 			}
 		case NE:
 			if (flag == 0) {
-				return GameResources.playerNEIdleAnimation;
+				return GameResources.playerNEGunIdleAnimation;
 			} else if (flag == 1) {
-				return GameResources.playerNEMoveAnimation;
+				return GameResources.playerNEGunMoveAnimation;
+			} else if (flag == 2) {
+				return GameResources.playerNEMeleeIdleAnimation;
+			} else if (flag == 3) {
+				return GameResources.playerNEMeleeMoveAnimation;
 			}
 		case NW:
 			if (flag == 0) {
-				return GameResources.playerNWIdleAnimation;
+				return GameResources.playerNWGunIdleAnimation;
 			} else if (flag == 1) {
-				return GameResources.playerNWMoveAnimation;
+				return GameResources.playerNWGunMoveAnimation;
+			} else if (flag == 2) {
+				return GameResources.playerNWMeleeIdleAnimation;
+			} else if (flag == 3) {
+				return GameResources.playerNWMeleeMoveAnimation;
 			}
 		case S:
 			if (flag == 0) {
-				return GameResources.playerSIdleAnimation;
+				return GameResources.playerSGunIdleAnimation;
 			} else if (flag == 1) {
-				return GameResources.playerSMoveAnimation;
+				return GameResources.playerSGunMoveAnimation;
+			} else if (flag == 2) {
+				return GameResources.playerSMeleeIdleAnimation;
+			} else if (flag == 3) {
+				return GameResources.playerSMeleeMoveAnimation;
 			}
 		case SE:
 			if (flag == 0) {
-				return GameResources.playerSEIdleAnimation;
+				return GameResources.playerSEGunIdleAnimation;
 			} else if (flag == 1) {
-				return GameResources.playerSEMoveAnimation;
+				return GameResources.playerSEGunMoveAnimation;
+			} else if (flag == 2) {
+				return GameResources.playerSEMeleeIdleAnimation;
+			} else if (flag == 3) {
+				return GameResources.playerSEMeleeMoveAnimation;
 			}
 		case SW:
 			if (flag == 0) {
-				return GameResources.playerSWIdleAnimation;
+				return GameResources.playerSWGunIdleAnimation;
 			} else if (flag == 1) {
-				return GameResources.playerSWMoveAnimation;
+				return GameResources.playerSWGunMoveAnimation;
+			} else if (flag == 2) {
+				return GameResources.playerSWMeleeIdleAnimation;
+			} else if (flag == 3) {
+				return GameResources.playerSWMeleeMoveAnimation;
 			}
 		case W:
 			if (flag == 0) {
-				return GameResources.playerWIdleAnimation;
+				return GameResources.playerWGunIdleAnimation;
 			} else if (flag == 1) {
-				return GameResources.playerWMoveAnimation;
+				return GameResources.playerWGunMoveAnimation;
+
+			} else if (flag == 2) {
+				return GameResources.playerWMeleeIdleAnimation;
+			} else if (flag == 3) {
+				return GameResources.playerWMeleeMoveAnimation;
 			}
 		case E:
 			if (flag == 0) {
-				return GameResources.playerEIdleAnimation;
+				return GameResources.playerEGunIdleAnimation;
 			} else if (flag == 1) {
-				return GameResources.playerEMoveAnimation;
+				return GameResources.playerEGunMoveAnimation;
+			} else if (flag == 2) {
+				return GameResources.playerEMeleeIdleAnimation;
+			} else if (flag == 3) {
+				return GameResources.playerEMeleeMoveAnimation;
 			}
 		default:
-			return GameResources.playerNIdleAnimation;
+			return GameResources.playerNGunIdleAnimation;
 		}
 	}
 }
