@@ -182,24 +182,23 @@ public class EngineTransforms
 					.getComponentAt(
 						PhysicsPCollisionBody.class,
 						mob1)
-					.getPolygon()
-					.pureGetAPointInPolygon(0)),
+					.pureGetCenter()),
 			mapLayer);
+
 		float maxValue = 0;
+
 		Vector2f maxPosition = new Vector2f();
 		Vector2f mobPosition =
 			engineState
 				.getComponentAt(PhysicsPCollisionBody.class,
 						mob1)
-				.getPolygon()
-				.pureGetAPointInPolygon(0);
+				.pureGetCenter();
 
 		Vector2f playerPosition =
 			engineState
 				.getComponentAt(PhysicsPCollisionBody.class,
 						player)
-				.getPolygon()
-				.pureGetAPointInPolygon(0);
+				.pureGetCenter();
 
 		// get the mob's highest neighbour value
 		for (PathFindCord neib : mobNeighb) {
@@ -407,9 +406,7 @@ public class EngineTransforms
 			engineState
 				.getComponentAt(PhysicsPCollisionBody.class,
 						player)
-				.getPolygon()
-				.pureGetAPointInPolygon(0);
-
+				.pureGetCenter();
 
 		// TODO: turret diffusion value.. NEED TO BE CHANGED LATER TO
 		// MATCH THE PHYSICS COLLISION BODY!

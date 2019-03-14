@@ -71,7 +71,8 @@ public class GameConfig
 	public static final int SHELL_DAMAGE = 100;
 	// TODO: turret hitbox
 	public static final PCollisionBody TURRET_HITBOX_BODY =
-		PLAYER_HITBOX_BODY;
+		TURRET_COLLISION_BODY;
+
 	public static final AttackCycle TURRET_ATTACK_CYCLE =
 		new AttackCycle(1000, 1000);
 
