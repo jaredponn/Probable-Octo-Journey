@@ -45,7 +45,7 @@ public class GameConfig
 	public static final PCollisionBody PLAYER_HITBOX_BODY =
 		new PCollisionBody(
 			new Vector2f(-0.5f, 0f),  // displacement
-			new Vector2f(0.5f, 0.5f), // center
+			new Vector2f(2.1f, 1.5f), // center
 						  // collision body:
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
 			new Vector2f(2.7f, 2.5f), new Vector2f(2.95f, 2.2f));

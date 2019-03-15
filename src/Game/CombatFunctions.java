@@ -292,13 +292,12 @@ public class CombatFunctions
 				.getPolygon()
 				.pureGetAPointInPolygon(0);
 		int currentTarget = 0;
-
-		// TODO: refine targeting (often misses target)
+		
+		// TODO: fix target acquisition 
 
 		// cycle through all mobs and find the closest one.
-		for (int i = engineState.getInitialSetIndex(MobSet.class);
-		     poj.EngineState.isValidEntity(i);
-		     i = engineState.getNextSetIndex(MobSet.class, i)) {
+		int i = engineState.getInitialSetIndex(MobSet.class);
+		if (poj.EngineState.isValidEntity(i) ) {
 			currentTarget = i;
 
 			Vector2f mob1Position =
@@ -314,8 +313,7 @@ public class CombatFunctions
 
 			// compare distance to this mob with distance to other
 			// mobs
-			for (int j = engineState.getInitialSetIndex(
-				     MobSet.class);
+			for (int j = engineState.getNextSetIndex(MobSet.class , i);
 			     poj.EngineState.isValidEntity(j);
 			     j = engineState.getNextSetIndex(MobSet.class, j)) {
 
@@ -339,13 +337,11 @@ public class CombatFunctions
 					currentTarget = j;
 				}
 			}
-
+		}
 			// TODO: limit turrets range/make them only fire
 			//		 at targets within that range
-			// shootTurret(engineState , turret , currentTarget ,
-			// gameTime );
-		}
-		shootTurret(engineState, turret, currentTarget, gameTime);
+		if (currentTarget > 0 )
+			shootTurret(engineState , turret , currentTarget , gameTime );
 	}
 
 	/**
@@ -365,8 +361,8 @@ public class CombatFunctions
 
 		Vector2f targetPosition =
 			engineState.getComponentAt(PHitBox.class, target)
-				.getPolygon()
-				.pureGetAPointInPolygon(0);
+				.getCenter();
+				//.pureGetAPointInPolygon(0);
 
 		Vector2f tmp = turretPosition.pureSubtract(targetPosition);
 		tmp.negate();

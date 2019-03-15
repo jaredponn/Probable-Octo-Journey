@@ -209,6 +209,7 @@ public class PlayGame extends World
 
 		// ASE
 		this.mobSpawner();
+		this.handleTurrets();
 
 		// Timed de-spawner
 		this.cashDropDespawner();
@@ -803,7 +804,7 @@ public class PlayGame extends World
 	 * handles turrets shooting at mobs and mobs attacking turrets
 	 * @param mobIndex: the mob attacking a turret
 	 */
-	protected void handleTurrets(int mobIndex)
+	protected void handleTurrets()
 	{
 		for (int i = engineState.getInitialSetIndex(TurretSet.class);
 		     poj.EngineState.isValidEntity(i);
