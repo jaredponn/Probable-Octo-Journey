@@ -44,6 +44,25 @@ public class CombatFunctions
 	}
 
 	/**
+	 * partial mob removal when it dies so we can show the death sprite --
+	 * deletes everything but the render and animation.
+	 * @param engineState: that the mob is in
+	 * @param mob: to be removed
+	 */
+	public static void partialRemoveMob(EngineState engineState, int mob)
+	{
+		engineState.deleteComponentAt(MobSet.class, mob);
+		engineState.deleteComponentAt(WorldAttributes.class, mob);
+		engineState.deleteComponentAt(Movement.class, mob);
+		engineState.deleteComponentAt(MovementDirection.class, mob);
+		engineState.deleteComponentAt(FacingDirection.class, mob);
+		engineState.deleteComponentAt(PhysicsPCollisionBody.class, mob);
+		engineState.deleteComponentAt(PHitBox.class, mob);
+		engineState.deleteComponentAt(HitPoints.class, mob);
+		engineState.deleteComponentAt(AttackCycle.class, mob);
+	}
+
+	/**
 	 * Removes a bullet from an engine state
 	 * @param engineState: that the bullet is in
 	 * @param bullet: to be removed
