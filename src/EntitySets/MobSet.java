@@ -19,7 +19,7 @@ public class MobSet extends EntitySet
 
 	public MobSet()
 	{
-		this(14, 7);
+		this( GameConfig.MOB_SPAWNER_0 );
 	}
 
 	/**
