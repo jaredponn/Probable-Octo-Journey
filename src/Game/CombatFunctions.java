@@ -76,7 +76,7 @@ public class CombatFunctions
 		engineState.deleteComponentAt(Render.class, bullet);
 		engineState.deleteComponentAt(WorldAttributes.class, bullet);
 		engineState.deleteComponentAt(Movement.class, bullet);
-		engineState.deleteComponentAt(Lifespan.class, bullet);
+		//engineState.deleteComponentAt(Lifespan.class, bullet);
 		engineState.deleteComponentAt(PhysicsPCollisionBody.class,
 					      bullet);
 		engineState.deleteComponentAt(Damage.class, bullet);
@@ -289,51 +289,53 @@ public class CombatFunctions
 	{
 		Vector2f turretPosition =
 			engineState.getComponentAt(PHitBox.class, turret)
-				.getPolygon()
-				.pureGetAPointInPolygon(0);
+				.getCenter();
 		int currentTarget = 0;
 		
 		// TODO: fix target acquisition 
 
-		// cycle through all mobs and find the closest one.
+		// find the first mob
 		int i = engineState.getInitialSetIndex(MobSet.class);
 		if (poj.EngineState.isValidEntity(i) ) {
+			// set the mob as curretTarget
 			currentTarget = i;
 
+			// find the centre of the mob's hit box
 			Vector2f mob1Position =
 				engineState.getComponentAt(PHitBox.class, i)
-					.getPolygon()
-					.pureGetAPointInPolygon(1);
+					.getCenter();
 
+			// find the vector from turret to target
 			Vector2f tmp =
 				turretPosition.pureSubtract(mob1Position);
 			tmp.negate();
 			Vector2f unitVecturretPosTomob1Delta =
 				tmp.pureNormalize();
 
-			// compare distance to this mob with distance to other
-			// mobs
-			for (int j = engineState.getNextSetIndex(MobSet.class , i);
+			// find next mob and compare range
+			for (int j = engineState.getNextSetIndex(MobSet.class , currentTarget);
 			     poj.EngineState.isValidEntity(j);
 			     j = engineState.getNextSetIndex(MobSet.class, j)) {
 
+				// find centre of next mob's hit box
 				Vector2f mob2Position =
 					engineState
-						.getComponentAt(PHitBox.class,
-								j)
-						.getPolygon()
-						.pureGetAPointInPolygon(1);
+						.getComponentAt(PHitBox.class, j)
+						.getCenter();
 
+				// find the vector from turret to this mob
 				Vector2f tmp2 = turretPosition.pureSubtract(
 					mob2Position);
 				tmp2.negate();
 				Vector2f unitVecturretPosTomob2Delta =
 					tmp2.pureNormalize();
 
+				// if vector from turret to next mob is smaller
+				// than turret to currentTarget, target next mob
 				if (unitVecturretPosTomob2Delta.lessThan(
 					    unitVecturretPosTomob1Delta)) {
 					unitVecturretPosTomob1Delta =
-						unitVecturretPosTomob2Delta;
+						new Vector2f( unitVecturretPosTomob2Delta );
 					currentTarget = j;
 				}
 			}
@@ -362,14 +364,13 @@ public class CombatFunctions
 		Vector2f targetPosition =
 			engineState.getComponentAt(PHitBox.class, target)
 				.getCenter();
-				//.pureGetAPointInPolygon(0);
 
 		Vector2f tmp = turretPosition.pureSubtract(targetPosition);
 		tmp.negate();
 		Vector2f unitVecturretPosTotargetDelta = tmp.pureNormalize();
 
 		int e = engineState.spawnEntitySet(
-			new CannonShell(gameTime, turretPosition));
+			new CannonShell(turretPosition));
 		engineState.getComponentAt(PhysicsPCollisionBody.class, e)
 			.setPositionPoint(
 				engineState

@@ -19,12 +19,12 @@ import Resources.GameResources;
 
 public class CannonShell extends EntitySet
 {
-	public CannonShell(double spawnTime)
+	public CannonShell()
 	{
-		this( spawnTime , new Vector2f() );
+		this( new Vector2f() );
 	}
 
-	public CannonShell(double spawnTime, Vector2f posVector)
+	public CannonShell(Vector2f posVector)
 	{
 		super();
 		addComponent(new Render(GameResources.bulletImage));
@@ -32,8 +32,8 @@ public class CannonShell extends EntitySet
 						 GameConfig.BULLET_WIDTH,
 						 GameConfig.BULLET_HEIGHT));
 		addComponent(new Movement(GameConfig.SHELL_SPEED));
-		addComponent(
-			new Lifespan(GameConfig.BULLET_LIFE_SPAN, spawnTime));
+		//addComponent(
+		//	new Lifespan(GameConfig.BULLET_LIFE_SPAN, spawnTime));
 		addComponent(new PhysicsPCollisionBody(
 			GameConfig.BULLET_COLLISION_BODY));
 		addComponent(new Damage(GameConfig.SHELL_DAMAGE));

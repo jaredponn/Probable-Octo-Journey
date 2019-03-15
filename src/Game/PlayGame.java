@@ -736,7 +736,9 @@ public class PlayGame extends World
 	/**
 	 * Removes bullets that have been alive longer than their lifespan
 	 * Makes bullets have limited range
+	 * Depreciated. Bullets now just removed on collision
 	 */
+	/*
 	protected void bulletDespawner()
 	{
 		for (int i = this.engineState.getInitialSetIndex(Bullet.class);
@@ -755,6 +757,7 @@ public class PlayGame extends World
 			}
 		}
 	}
+	*/
 
 	/**
 	 * Add the money in a cash pick-up to the player
