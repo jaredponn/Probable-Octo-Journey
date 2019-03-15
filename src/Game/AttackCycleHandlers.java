@@ -132,7 +132,6 @@ public class AttackCycleHandlers
 		WeaponState playerCurWPState = playGame.curWeaponState;
 		InputPoller ip = playGame.getInputPoller();
 		Camera invCam = playGame.invCam;
-		double gameElapsedTime = playGame.getPlayTime();
 
 		int player = engineState.getInitialSetIndex(PlayerSet.class);
 		Vector2f playerPosition =
@@ -164,7 +163,7 @@ public class AttackCycleHandlers
 
 			// generation of the bullet
 			int e = engineState.spawnEntitySet(
-				new Bullet(gameElapsedTime, playerPosition));
+				new Bullet(playerPosition));
 			engineState
 				.getComponentAt(PhysicsPCollisionBody.class, e)
 				.setPositionPoint(
