@@ -310,7 +310,8 @@ public class CombatFunctions
 				turretPosition.pureSubtract(mob1Position);
 			tmp.negate();
 			Vector2f unitVecturretPosTomob1Delta =
-				tmp.pureNormalize();
+				tmp;
+			System.out.println(Vector2f.scalarValueOfVector(unitVecturretPosTomob1Delta));
 
 			// find next mob and compare range
 			for (int j = engineState.getNextSetIndex(MobSet.class , currentTarget);
@@ -328,22 +329,22 @@ public class CombatFunctions
 					mob2Position);
 				tmp2.negate();
 				Vector2f unitVecturretPosTomob2Delta =
-					tmp2.pureNormalize();
+					tmp2;
 
 				// if vector from turret to next mob is smaller
 				// than turret to currentTarget, target next mob
-				if (unitVecturretPosTomob2Delta.lessThan(
-					    unitVecturretPosTomob1Delta)) {
+				if (Vector2f.scalarValueOfVector(unitVecturretPosTomob2Delta) 
+						< Vector2f.scalarValueOfVector(unitVecturretPosTomob1Delta)) {
 					unitVecturretPosTomob1Delta =
 						new Vector2f( unitVecturretPosTomob2Delta );
 					currentTarget = j;
 				}
 			}
-		}
 			// TODO: limit turrets range/make them only fire
 			//		 at targets within that range
-		if (currentTarget > 0 )
-			shootTurret(engineState , turret , currentTarget , gameTime );
+			if (currentTarget > 0 && Vector2f.scalarValueOfVector(unitVecturretPosTomob1Delta) < 20)
+				shootTurret(engineState , turret , currentTarget , gameTime );
+		}
 	}
 
 	/**
