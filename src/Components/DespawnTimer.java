@@ -6,11 +6,14 @@ public class DespawnTimer implements Component
 {
 	private double timeLeft;
 
+	// t is in ms
 	public DespawnTimer(double t)
 	{
 		timeLeft = t;
 	}
 
+
+	// t is in ms
 	public void decrementTimerBy(double t)
 	{
 		timeLeft -= t;

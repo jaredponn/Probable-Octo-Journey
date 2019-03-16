@@ -53,6 +53,8 @@ public class GameConfig
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(45, 45);
 
+	public static final int PLAYER_STARTING_CASH = Integer.MAX_VALUE;
+
 	/////////////////////////
 	///// turret config /////
 	/////////////////////////
@@ -138,6 +140,7 @@ public class GameConfig
 
 	// public static final float MOB_SPAWN_TIMER = 10.0f;
 	public static final float MOB_SPAWN_TIMER = 0.5f;
+	public static final double MOB_DESPAWN_TIMER = 5000d; // in ms
 
 	// spawn points:
 	public static final Vector2f MOB_SPAWNER_0 = new Vector2f(14f, 7f);

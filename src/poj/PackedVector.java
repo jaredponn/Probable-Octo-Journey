@@ -72,8 +72,8 @@ public class PackedVector<T>
 			m_sparse_vector.get(index);
 
 		if (toBeDeletedIndexInPackedIndicies == INVALID_INDEX) {
-			Logger.logMessage(
-				"Deleting an entity that has already been deleted.");
+			// Logger.logMessage( "Deleting an entity that has
+			// already been deleted.");
 			return;
 		}
 

@@ -1,8 +1,11 @@
 package Game;
 
 import poj.EngineState;
+import poj.Logger.Logger;
+
 import Components.*;
 import EntitySets.*;
+import Resources.GameConfig;
 
 
 public class ZombieOutOfHPEvent extends PlayGameEvent
@@ -27,21 +30,46 @@ public class ZombieOutOfHPEvent extends PlayGameEvent
 	{
 		EngineState engineState = gameState.getEngineState();
 
+		// for some reason sometimes zombies that do not have the
+		// MovementDirection Component and this crashes everything. This
+		// is needed to prevent the crashing
+		if (!engineState.hasComponent(MovementDirection.class, focus)) {
+			Logger.logMessage(
+				"Error in ZombieOutOfHPEvent -- trying to delete an entity that was already deleted. This entity has the following components:");
+			engineState.printAllComponentsAt(focus);
+			return;
+		}
+
 		MovementDirection mv = engineState.getComponentAt(
 			MovementDirection.class, focus);
 
-		// deletes everything but the  render and animation components
-		engineState.deleteComponentAt(MobSet.class, focus);
-		engineState.deleteComponentAt(WorldAttributes.class, focus);
-		engineState.deleteComponentAt(Movement.class, focus);
-		engineState.deleteComponentAt(MovementDirection.class, focus);
-		engineState.deleteComponentAt(FacingDirection.class, focus);
-		engineState.deleteComponentAt(PhysicsPCollisionBody.class,
-					      focus);
-		engineState.deleteComponentAt(PHitBox.class, focus);
-		engineState.deleteComponentAt(HitPoints.class, focus);
-		engineState.deleteComponentAt(AttackCycle.class, focus);
+		// deletes everything but the  render, animation, and
+		// worldattributes components so we can show the death animation
+		// for a bit
+		engineState.deleteAllComponentsAtExcept(focus, Render.class,
+							HasAnimation.class,
+							WorldAttributes.class);
 
-		engineState.addComponentAt(focus, new DespawnTimer());
+
+		if (engineState.hasComponent(MovementDirection.class, focus)) {
+			Logger.logMessage(
+				"Error in ZombieOutOfHPEvent -- trying to delete an entity that was already deleted. This entity has the following components:");
+			engineState.printAllComponentsAt(focus);
+			return;
+		}
+		engineState.addComponentAt(
+			DespawnTimer.class,
+			new DespawnTimer(GameConfig.MOB_DESPAWN_TIMER), focus);
+
+
+		if (!engineState.hasComponent(HasAnimation.class, focus)) {
+			Logger.logMessage(
+				"Error in ZombieOutOfHPEvent -- trying to delete an entity that was already deleted. This entity has the following components:");
+			engineState.printAllComponentsAt(focus);
+			return;
+		}
+		engineState.getComponentAt(HasAnimation.class, focus)
+			.setAnimation(AnimationGetter.queryEnemySprite(
+				mv.getDirection(), 3));
 	}
 }

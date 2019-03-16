@@ -23,27 +23,6 @@ public class CombatFunctions
 {
 
 	/**
-	 * Removes a mob from an engine state
-	 * @param engineState: that the mob is in
-	 * @param mob: to be removed
-	 */
-	public static void removeMob(EngineState engineState, int mob)
-	{
-		engineState.deleteComponentAt(MobSet.class, mob);
-		engineState.deleteComponentAt(WorldAttributes.class, mob);
-		engineState.deleteComponentAt(Render.class, mob);
-		engineState.deleteComponentAt(HasAnimation.class, mob);
-		engineState.deleteComponentAt(Movement.class, mob);
-		engineState.deleteComponentAt(MovementDirection.class, mob);
-		engineState.deleteComponentAt(FacingDirection.class, mob);
-		engineState.deleteComponentAt(PhysicsPCollisionBody.class, mob);
-		engineState.deleteComponentAt(PHitBox.class, mob);
-		engineState.deleteComponentAt(HitPoints.class, mob);
-		engineState.deleteComponentAt(AttackCycle.class, mob);
-		engineState.markIndexAsFree(mob);
-	}
-
-	/**
 	 * Removes a bullet from an engine state
 	 * @param engineState: that the bullet is in
 	 * @param bullet: to be removed
