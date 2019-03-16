@@ -17,6 +17,11 @@ public class GameResources
 
 	public static BufferedImage turret =
 		ImageLoader.load("resources/turret1Crop.png");
+
+	public static BufferedImage octoTitle =
+		ImageLoader.load("resources/menu/octo_journey_title.png");
+	public static BufferedImage playButton =
+		ImageLoader.load("resources/menu/playButton.png");
 	/*
 	public static BufferedImage testTile =
 		ImageLoader.load("resources/iso-64x64-building.png");
