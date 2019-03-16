@@ -138,10 +138,12 @@ public class GameConfig
 
 	// public static final float MOB_SPAWN_TIMER = 10.0f;
 	public static final float MOB_SPAWN_TIMER = 0.5f;
+	public static final double MOB_DESPAWN_TIMER = 5000d; // in ms
 
 	// spawn points:
 	public static final Vector2f MOB_SPAWNER_0 = new Vector2f(14f, 7f);
 	public static final Vector2f MOB_SPAWNER_1 = new Vector2f(20f, 20f);
+
 
 	////////////////////////////
 	///// construct config /////

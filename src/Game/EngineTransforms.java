@@ -15,6 +15,7 @@ import java.util.Queue;
 
 import Components.AttackCycle;
 import Components.CardinalDirections;
+import Components.DespawnTimer;
 import Components.HasAnimation;
 import Components.Movement;
 import Components.MovementDirection;
@@ -676,6 +677,26 @@ public class EngineTransforms
 
 			if (a.isAttacking()) {
 				a.updateAccTime(dt);
+			}
+		}
+	}
+
+	public static void
+	deleteAllComponentsAtIfDespawnTimerIsFinishedAndUpdateDespawnTimerTime(
+		EngineState engineState, double dt)
+	{
+
+		for (int i = engineState.getInitialSetIndex(DespawnTimer.class);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextComponentIndex(DespawnTimer.class,
+							   i)) {
+			DespawnTimer n = engineState.getComponentAt(
+				DespawnTimer.class, i);
+
+			n.decrementTimerBy(dt);
+
+			if (n.isOutOfTime()) {
+				engineState.deleteAllComponentsAt(i);
 			}
 		}
 	}

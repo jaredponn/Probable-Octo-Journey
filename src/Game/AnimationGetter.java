@@ -13,6 +13,7 @@ public class AnimationGetter
 		// flag = 0, idle position,
 		// flag = 1, move direction
 		// flag = 2, melee attack
+		// flag = 3, death animation
 
 		switch (dir) {
 		case N:
@@ -21,6 +22,9 @@ public class AnimationGetter
 				return GameResources.enemyNMoveAnimation;
 			} else if (flag == 2) {
 				return GameResources.enemyNAttackAnimation;
+
+			} else if (flag == 3) {
+				return GameResources.enemyNDeathAnimation;
 			}
 		case NE:
 			if (flag == 0) {
@@ -28,6 +32,8 @@ public class AnimationGetter
 				return GameResources.enemyNEMoveAnimation;
 			} else if (flag == 2) {
 				return GameResources.enemyNEAttackAnimation;
+			} else if (flag == 3) {
+				return GameResources.enemyNDeathAnimation;
 			}
 		case NW:
 			if (flag == 0) {
@@ -35,6 +41,8 @@ public class AnimationGetter
 				return GameResources.enemyNWMoveAnimation;
 			} else if (flag == 2) {
 				return GameResources.enemyNWAttackAnimation;
+			} else if (flag == 3) {
+				return GameResources.enemyWDeathAnimation;
 			}
 		case S:
 			if (flag == 0) {
@@ -42,6 +50,8 @@ public class AnimationGetter
 				return GameResources.enemySMoveAnimation;
 			} else if (flag == 2) {
 				return GameResources.enemySAttackAnimation;
+			} else if (flag == 3) {
+				return GameResources.enemySDeathAnimation;
 			}
 		case SE:
 			if (flag == 0) {
@@ -49,6 +59,8 @@ public class AnimationGetter
 				return GameResources.enemySEMoveAnimation;
 			} else if (flag == 2) {
 				return GameResources.enemySEAttackAnimation;
+			} else if (flag == 3) {
+				return GameResources.enemyEDeathAnimation;
 			}
 		case SW:
 			if (flag == 0) {
@@ -56,6 +68,8 @@ public class AnimationGetter
 				return GameResources.enemySWMoveAnimation;
 			} else if (flag == 2) {
 				return GameResources.enemySWAttackAnimation;
+			} else if (flag == 3) {
+				return GameResources.enemySDeathAnimation;
 			}
 		case W:
 			if (flag == 0) {
@@ -63,6 +77,8 @@ public class AnimationGetter
 				return GameResources.enemyWMoveAnimation;
 			} else if (flag == 2) {
 				return GameResources.enemyWAttackAnimation;
+			} else if (flag == 3) {
+				return GameResources.enemyWDeathAnimation;
 			}
 		case E:
 			if (flag == 0) {
@@ -70,6 +86,8 @@ public class AnimationGetter
 				return GameResources.enemyEMoveAnimation;
 			} else if (flag == 2) {
 				return GameResources.enemyEAttackAnimation;
+			} else if (flag == 3) {
+				return GameResources.enemyEDeathAnimation;
 			}
 		default:
 			return GameResources.enemyNMoveAnimation;

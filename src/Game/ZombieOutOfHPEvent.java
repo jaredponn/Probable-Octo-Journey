@@ -3,6 +3,7 @@ package Game;
 import poj.EngineState;
 import Components.*;
 import EntitySets.*;
+import Resources.GameConfig;
 
 
 public class ZombieOutOfHPEvent extends PlayGameEvent
@@ -30,18 +31,20 @@ public class ZombieOutOfHPEvent extends PlayGameEvent
 		MovementDirection mv = engineState.getComponentAt(
 			MovementDirection.class, focus);
 
-		// deletes everything but the  render and animation components
-		engineState.deleteComponentAt(MobSet.class, focus);
-		engineState.deleteComponentAt(WorldAttributes.class, focus);
-		engineState.deleteComponentAt(Movement.class, focus);
-		engineState.deleteComponentAt(MovementDirection.class, focus);
-		engineState.deleteComponentAt(FacingDirection.class, focus);
-		engineState.deleteComponentAt(PhysicsPCollisionBody.class,
-					      focus);
-		engineState.deleteComponentAt(PHitBox.class, focus);
-		engineState.deleteComponentAt(HitPoints.class, focus);
-		engineState.deleteComponentAt(AttackCycle.class, focus);
+		// deletes everything but the  render, animation, and
+		// worldattributes components so we can show the death animation
+		// for a bit
+		engineState.deleteAllComponentsAtExcept(focus, Render.class,
+							HasAnimation.class,
+							WorldAttributes.class);
 
-		engineState.addComponentAt(focus, new DespawnTimer());
+		engineState.addComponentAt(
+			DespawnTimer.class,
+			new DespawnTimer(GameConfig.MOB_DESPAWN_TIMER), focus);
+
+
+		engineState.getComponentAt(HasAnimation.class, focus)
+			.setAnimation(AnimationGetter.queryEnemySprite(
+				mv.getDirection(), 3));
 	}
 }

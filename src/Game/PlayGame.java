@@ -16,7 +16,6 @@ import java.awt.event.KeyEvent;
 import java.util.*;
 
 import Components.*;
-import Game.PlayGameEventHandlers.*;
 import EntitySets.Bullet;
 import EntitySets.CannonShell;
 import EntitySets.CollectibleSet;
@@ -148,6 +147,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(Render.class);
 		super.engineState.registerComponent(WorldAttributes.class);
 		super.engineState.registerComponent(MovementDirection.class);
+		super.engineState.registerComponent(DespawnTimer.class);
 		super.engineState.registerComponent(FacingDirection.class);
 		super.engineState.registerComponent(AttackCycle.class);
 		super.engineState.registerComponent(Movement.class);
@@ -338,10 +338,14 @@ public class PlayGame extends World
 			this.engineState);
 
 		EngineTransforms
+			.deleteAllComponentsAtIfDespawnTimerIsFinishedAndUpdateDespawnTimerTime(
+				this.engineState, this.dt);
+
+		EngineTransforms
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 				this.engineState, this.cam);
 
-		gameEventStack.runGameEventStack(this);
+		gameEventStack.runGameEventStack();
 		// rendering is run after this is run
 	}
 
