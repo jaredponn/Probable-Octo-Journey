@@ -32,6 +32,7 @@ public class GameResources
 	public static BufferedImage testTile =
 		ImageLoader.load("resources/newmap/tiled_cave_1.png");
 
+
 	public static String
 		mapConfig = "resources/newmap2/map.json",
 		tileSet = "resources/newmap2/caveTileSet128.json",
@@ -61,14 +62,32 @@ public class GameResources
 		renderPerformanceLayer =
 			"resources/renderperformancemap/massivemap.csv";
 
+	// clang-format off
+
+	public static BufferedImage officialTileSet =
+		ImageLoader.load("resources/RomiroGraphics/officialTileSet/TILEMAPDONETEST.png");
+
+	public static String officialMapGround1="resources/RomiroGraphics/officialTileSet/TileMap_floor.csv",
+		   		officialMapMisc2="resources/RomiroGraphics/officialTileSet/TileMap_any misc items.csv",
+				officialMapEverythingElse3="resources/RomiroGraphics/officialTileSet/TileMap_everything else.csv",
+				officialMapCars4="resources/RomiroGraphics/officialTileSet/TileMap_cars.csv",
+				officialMapRocks5="resources/RomiroGraphics/officialTileSet/TileMap_rocks.csv",
+				officialMapTrees6="resources/RomiroGraphics/officialTileSet/TileMap_trees.csv",
+				officialTileSetConfig="resources/RomiroGraphics/officialTileSet/MapSprite.json",
+				officialMapConfig="resources/RomiroGraphics/officialTileSet/TileMap.json";
+
+	// clang-format on
 	public static final float MAGIC_CONSTANT =
 		(float)Math.sqrt(2)
 		/ 2f; // this constant is important and
-		      // makes things "just work" -- rotations by 45 degrees
-		      // sqaush the size of things bit -- this scales it back
+		      // makes things "just work" -- rotations
+		      // by 45 degrees sqaush the size of things
+		      // bit -- this scales it back
 	public static final float TILE_SCREEN_ROTATION = (float)Math.PI / 4;
+
+	// TILE DEPENDENT!!
 	public static final float TILE_SCREEN_WIDTH = 64;
-	public static final float TILE_SCREEN_HEIGHT = 32;
+	public static final float TILE_SCREEN_HEIGHT = 42;
 
 	public static Animation testImageAnimation = new Animation(
 		new ImageWindow(0, 0, 60, 30), 30, 60, 0, 0, 0, 120, 0);

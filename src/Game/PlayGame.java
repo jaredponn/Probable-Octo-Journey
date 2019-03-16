@@ -98,6 +98,18 @@ public class PlayGame extends World
 		this.gameEventStack = new PlayGameEventStack();
 
 		// World loading
+		this.map = new Map(6);
+		this.map.addTileSet(GameResources.officialTileSetConfig);
+		this.map.addMapConfig(GameResources.officialMapConfig);
+		this.map.addMapLayer(GameResources.officialMapGround1);
+		this.map.addMapLayer(GameResources.officialMapMisc2);
+		this.map.addMapLayer(GameResources.officialMapEverythingElse3);
+		this.map.addMapLayer(GameResources.officialMapCars4);
+		this.map.addMapLayer(GameResources.officialMapRocks5);
+		this.map.addMapLayer(GameResources.officialMapTrees6);
+		// this.map.addMapLayer(GameResources.demo1LayerWall);
+		/*
+		// World loading
 		this.map = new Map(3);
 		this.map.addTileSet(GameResources.tileSet);
 		this.map.addMapConfig(GameResources.demo1Config);
@@ -105,6 +117,7 @@ public class PlayGame extends World
 		this.map.addMapLayer(GameResources.demo1LayerWall);
 		// this.map.addMapConfig(GameResources.pathFindTest3Config);
 		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
+		// */
 
 
 		// setting the build turret coolDown
@@ -367,11 +380,16 @@ public class PlayGame extends World
 	protected void render()
 	{
 
+		// TODO: refactor this later..
 		pushTileMapLayerToQueue(map.getLayerEngineState(0),
 					groundBuffer);
 
 		pushTileMapLayerToQueue(map.getLayerEngineState(1),
 					entityBuffer);
+		pushTileMapLayerToQueue(map.getLayerEngineState(2), guiBuffer);
+		pushTileMapLayerToQueue(map.getLayerEngineState(3), guiBuffer);
+		pushTileMapLayerToQueue(map.getLayerEngineState(4), guiBuffer);
+		pushTileMapLayerToQueue(map.getLayerEngineState(5), guiBuffer);
 
 		for (Render r :
 		     super.getRawComponentArrayListPackedData(Render.class)) {
