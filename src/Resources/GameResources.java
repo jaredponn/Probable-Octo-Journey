@@ -22,10 +22,13 @@ public class GameResources
 		ImageLoader.load("resources/menu/octo_journey_title.png");
 	public static BufferedImage playButton =
 		ImageLoader.load("resources/menu/playButton.png");
-	/*
-	public static BufferedImage testTile =
-		ImageLoader.load("resources/iso-64x64-building.png");
-	*/
+	public static int playButtonWidth = 180, playButtonHeight = 100;
+
+	public static BufferedImage howToPlayButton =
+		ImageLoader.load("resources/menu/howToPlay.png");
+	public static int howToPlayButtonWidth = 200, howToPlayButtonHeight =
+							      120;
+
 	public static BufferedImage testTile =
 		ImageLoader.load("resources/newmap/tiled_cave_1.png");
 

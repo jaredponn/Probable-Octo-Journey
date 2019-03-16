@@ -4,6 +4,7 @@
  * @author Jared
  * @version 1.0
  */
+import App.App;
 public class Main
 {
 	/**

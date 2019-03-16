@@ -1,3 +1,5 @@
+package App;
+
 /**
  * App. Application running loop
  * Date: February 10, 2019
@@ -24,7 +26,7 @@ public class App
 
 	// boolean to keep track if the game is running
 	boolean isRunning;
-
+	public static boolean runMenu = true;
 	private int width;
 	private int height;
 
@@ -86,14 +88,12 @@ public class App
 		playGame.registerEntitySets();
 		playGame.spawnWorld();
 
-		/*
 		Menu menu = new Menu(width, height, this.renderer,
 				     this.inputPoller);
 
-		while (true) {
+		while (runMenu) {
 			menu.runGame();
 		}
-		*/
 
 		while (isRunning) {
 			playGame.runGameLoop();
