@@ -1,7 +1,6 @@
-package Game.PlayGameEventHandlers;
+package Game;
 
 import java.util.Stack;
-import Game.PlayGame;
 
 public class PlayGameEventStack extends Stack<PlayGameEvent>
 {

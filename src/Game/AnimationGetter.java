@@ -76,12 +76,13 @@ public class AnimationGetter
 		}
 	}
 
-	public static Animation queryPlayerSprite(CardinalDirections dir, int f)
+	public static Animation queryPlayerSprite(CardinalDirections dir,
+						  int flag)
 	{
-		int flag = f + 1;
 		// flag = 0, gun idle position,
 		// flag = 1, gun move direction
-		// flag = 2, melee attack move
+		// flag = 2, melee attack idle
+		// flag = 3, melee attack move
 		switch (dir) {
 		case N:
 			if (flag == 0) {

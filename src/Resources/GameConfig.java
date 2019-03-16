@@ -136,9 +136,11 @@ public class GameConfig
 				   new Vector2f(0, 0), new Vector2f(2, 0),
 				   new Vector2f(0, 2), new Vector2f(2, 2));
 
-	public static final float MOB_SPAWN_TIMER = 10.0f;
+	// public static final float MOB_SPAWN_TIMER = 10.0f;
+	public static final float MOB_SPAWN_TIMER = 0.5f;
 
 	// spawn points:
+	public static final Vector2f MOB_SPAWNER_0 = new Vector2f(14f, 7f);
 	public static final Vector2f MOB_SPAWNER_1 = new Vector2f(20f, 20f);
 
 	////////////////////////////

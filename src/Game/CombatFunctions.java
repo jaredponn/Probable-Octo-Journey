@@ -57,7 +57,7 @@ public class CombatFunctions
 		engineState.deleteComponentAt(Render.class, bullet);
 		engineState.deleteComponentAt(WorldAttributes.class, bullet);
 		engineState.deleteComponentAt(Movement.class, bullet);
-		//engineState.deleteComponentAt(Lifespan.class, bullet);
+		// engineState.deleteComponentAt(Lifespan.class, bullet);
 		engineState.deleteComponentAt(PhysicsPCollisionBody.class,
 					      bullet);
 		engineState.deleteComponentAt(Damage.class, bullet);
@@ -100,16 +100,15 @@ public class CombatFunctions
 
 	/**
 	 * Handler for bullet collisions
-	 * @param mainState: The main game state
-	 * @param mapState: The map layer that contains objects that should
-	 *         block projectiles
-	 * @param gjk: must pass the GJK to handle collisions
+	 * @param g: godly game state
 	 * @param bullet: the bullet that you are checking for collisions
 	 */
-	public static void bulletHitHandler(EngineState mainState,
-					    EngineState mapState, GJK gjk,
-					    int bullet)
+	public static void bulletHitHandler(PlayGame g, int bullet)
 	{
+		EngineState mainState = g.getEngineState();
+		EngineState mapState = g.getMap().getLayerEngineState(1);
+		GJK gjk = g.getGJK();
+
 		final PhysicsPCollisionBody bulletBody =
 			mainState.getComponentAt(PhysicsPCollisionBody.class,
 						 bullet);
@@ -132,11 +131,18 @@ public class CombatFunctions
 							      bullet)
 						      .getDamage());
 				removeBullet(mainState, bullet);
+
+
 				if (mainState.getComponentAt(HitPoints.class, i)
 					    .getHP()
 				    <= 0)
-					removeMob(mainState, i);
-				break;
+					g.pushEventToEventHandler(
+						new ZombieOutOfHPEvent(g, i));
+
+				return; // If it does hit something, it should
+					// just delete the bullet (as seen here)
+					// and just exit and not check if is
+					// colliding with other things.
 			}
 		}
 
@@ -147,7 +153,7 @@ public class CombatFunctions
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, bulletBody, wall)) {
 				removeBullet(mainState, bullet);
-				break;
+				return;
 			}
 		}
 	}
@@ -272,12 +278,12 @@ public class CombatFunctions
 			engineState.getComponentAt(PHitBox.class, turret)
 				.getCenter();
 		int currentTarget = 0;
-		
-		// TODO: fix target acquisition 
+
+		// TODO: fix target acquisition
 
 		// find the first mob
 		int i = engineState.getInitialSetIndex(MobSet.class);
-		if (poj.EngineState.isValidEntity(i) ) {
+		if (poj.EngineState.isValidEntity(i)) {
 			// set the mob as curretTarget
 			currentTarget = i;
 
@@ -290,41 +296,49 @@ public class CombatFunctions
 			Vector2f tmp =
 				turretPosition.pureSubtract(mob1Position);
 			tmp.negate();
-			Vector2f unitVecturretPosTomob1Delta =
-				tmp.pureNormalize();
+			Vector2f unitVecturretPosTomob1Delta = tmp;
+			System.out.println(Vector2f.scalarValueOfVector(
+				unitVecturretPosTomob1Delta));
 
 			// find next mob and compare range
-			for (int j = engineState.getNextSetIndex(MobSet.class , currentTarget);
+			for (int j = engineState.getNextSetIndex(MobSet.class,
+								 currentTarget);
 			     poj.EngineState.isValidEntity(j);
 			     j = engineState.getNextSetIndex(MobSet.class, j)) {
 
 				// find centre of next mob's hit box
 				Vector2f mob2Position =
 					engineState
-						.getComponentAt(PHitBox.class, j)
+						.getComponentAt(PHitBox.class,
+								j)
 						.getCenter();
 
 				// find the vector from turret to this mob
 				Vector2f tmp2 = turretPosition.pureSubtract(
 					mob2Position);
 				tmp2.negate();
-				Vector2f unitVecturretPosTomob2Delta =
-					tmp2.pureNormalize();
+				Vector2f unitVecturretPosTomob2Delta = tmp2;
 
 				// if vector from turret to next mob is smaller
 				// than turret to currentTarget, target next mob
-				if (unitVecturretPosTomob2Delta.lessThan(
-					    unitVecturretPosTomob1Delta)) {
-					unitVecturretPosTomob1Delta =
-						new Vector2f( unitVecturretPosTomob2Delta );
+				if (Vector2f.scalarValueOfVector(
+					    unitVecturretPosTomob2Delta)
+				    < Vector2f.scalarValueOfVector(
+					      unitVecturretPosTomob1Delta)) {
+					unitVecturretPosTomob1Delta = new Vector2f(
+						unitVecturretPosTomob2Delta);
 					currentTarget = j;
 				}
 			}
-		}
 			// TODO: limit turrets range/make them only fire
 			//		 at targets within that range
-		if (currentTarget > 0 )
-			shootTurret(engineState , turret , currentTarget , gameTime );
+			if (currentTarget > 0
+			    && Vector2f.scalarValueOfVector(
+				       unitVecturretPosTomob1Delta)
+				       < 20)
+				shootTurret(engineState, turret, currentTarget,
+					    gameTime);
+		}
 	}
 
 	/**
