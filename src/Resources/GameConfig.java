@@ -143,6 +143,43 @@ public class GameConfig
 	public static final Vector2f MOB_SPAWNER_0 = new Vector2f(14f, 7f);
 	public static final Vector2f MOB_SPAWNER_1 = new Vector2f(20f, 20f);
 
+
+	////////////////////////////
+	///// menu config /////
+	////////////////////////////
+
+	// clang-format off
+	/*
+	public static final PCollisionBody PLAY_BUTTON_COLLISION_BODY =
+		new PCollisionBody(
+			new Vector2f(0f, 0f), // displacement
+			new Vector2f(10f, 10f),
+			new Vector2f(10f, 10f),
+			new Vector2f(10f,20f),
+			new Vector2f(20f,10f),
+			new Vector2f(20f,20f));
+	*/
+
+	///*
+	public static final PCollisionBody PLAY_BUTTON_COLLISION_BODY =
+		new PCollisionBody(
+			new Vector2f(0f, 0f), // displacement
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 + 150)), 
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 + 150)), 
+			new Vector2f((float)(1024 / 2 - 70+ GameResources.playButtonWidth),(float)(768 / 2 + 150) ), 
+			new Vector2f((float)(1024 / 2 - 70) ,(float) (768 / 2 + 150+ GameResources.playButtonHeight)), 
+			new Vector2f((float)(1024 / 2 - 70 +GameResources.playButtonWidth),(float)(768 / 2 + 150 + GameResources.playButtonHeight)));
+	//*/
+	public static final PCollisionBody HOW_TO_PLAY_BUTTON_COLLISION_BODY =
+		new PCollisionBody(
+			new Vector2f(0f, 0f), // displacement
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 -50)), 
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 -50)), 
+			new Vector2f((float)(1024 / 2 - 70+ GameResources.howToPlayButtonWidth),(float)(768 / 2 -50) ), 
+			new Vector2f((float)(1024 / 2 - 70) ,(float) (768 / 2 -50+ GameResources.howToPlayButtonHeight)), 
+			new Vector2f((float)(1024 / 2 - 70 +GameResources.howToPlayButtonWidth),(float)(768 / 2 -50 + GameResources.howToPlayButtonHeight)));
+	// clang-format on
+
 	////////////////////////////
 	///// construct config /////
 	////////////////////////////
