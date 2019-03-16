@@ -53,6 +53,8 @@ public class GameConfig
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(45, 45);
 
+	public static final int PLAYER_STARTING_CASH = Integer.MAX_VALUE;
+
 	/////////////////////////
 	///// turret config /////
 	/////////////////////////
