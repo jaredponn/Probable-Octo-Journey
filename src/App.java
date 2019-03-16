@@ -8,6 +8,7 @@
 import poj.GameWindow.*;
 import poj.Render.*;
 import Game.PlayGame;
+import Game.Menu;
 
 import java.awt.*;
 
@@ -36,7 +37,7 @@ public class App
 	 */
 	public App()
 	{
-		this.gwindow = new GameWindow("Something just like this");
+		this.gwindow = new GameWindow("Probably Octo Journey");
 		this.inputPoller = new InputPoller();
 
 		/* -- this makes it full screen
@@ -85,8 +86,16 @@ public class App
 		playGame.registerEntitySets();
 		playGame.spawnWorld();
 
-		while (isRunning) {
+		/*
+		Menu menu = new Menu(width, height, this.renderer,
+				     this.inputPoller);
 
+		while (true) {
+			menu.runGame();
+		}
+		*/
+
+		while (isRunning) {
 			playGame.runGameLoop();
 		}
 
