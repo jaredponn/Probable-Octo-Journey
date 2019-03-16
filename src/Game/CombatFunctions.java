@@ -272,8 +272,6 @@ public class CombatFunctions
 			engineState.getComponentAt(PHitBox.class, turret)
 				.getCenter();
 		int currentTarget = 0;
-		
-		// TODO: fix target acquisition 
 
 		// find the first mob
 		int i = engineState.getInitialSetIndex(MobSet.class);
@@ -292,7 +290,6 @@ public class CombatFunctions
 			tmp.negate();
 			Vector2f unitVecturretPosTomob1Delta =
 				tmp;
-			System.out.println(Vector2f.scalarValueOfVector(unitVecturretPosTomob1Delta));
 
 			// find next mob and compare range
 			for (int j = engineState.getNextSetIndex(MobSet.class , currentTarget);
@@ -321,8 +318,6 @@ public class CombatFunctions
 					currentTarget = j;
 				}
 			}
-			// TODO: limit turrets range/make them only fire
-			//		 at targets within that range
 			if (currentTarget > 0 && Vector2f.scalarValueOfVector(unitVecturretPosTomob1Delta) < 20)
 				shootTurret(engineState , turret , currentTarget , gameTime );
 		}
