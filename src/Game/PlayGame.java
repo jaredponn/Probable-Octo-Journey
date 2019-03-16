@@ -74,7 +74,7 @@ public class PlayGame extends World
 	protected double timeOfLastMobSpawn = 0.0 - GameConfig.MOB_SPAWN_TIMER;
 	protected double timeOfLastCashSpawn =
 		0.0 - GameConfig.PICKUP_CASH_SPAWN_TIME;
-	protected int cash = 1000;
+	protected int cash = GameConfig.PLAYER_STARTING_CASH;
 
 	protected StringRenderObject gameTimer =
 		new StringRenderObject("", 5, 10, Color.WHITE);
@@ -255,11 +255,9 @@ public class PlayGame extends World
 		// updating positions
 		EngineTransforms.setMovementVelocityFromMovementDirectionForSet(
 			this.engineState, PlayerSet.class);
-
 		EngineTransforms
 			.steerMovementVelocityFromMovementDirectionForSet(
 				this.engineState, MobSet.class, 1 / 16f);
-
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 
