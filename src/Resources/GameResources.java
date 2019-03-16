@@ -20,6 +20,9 @@ public class GameResources
 
 	public static BufferedImage octoTitle =
 		ImageLoader.load("resources/menu/octo_journey_title.png");
+	public static BufferedImage instructionTitle =
+		ImageLoader.load("resources/menu/instructions.png");
+
 	public static BufferedImage playButton =
 		ImageLoader.load("resources/menu/playButton.png");
 	public static int playButtonWidth = 180, playButtonHeight = 100;
@@ -28,6 +31,14 @@ public class GameResources
 		ImageLoader.load("resources/menu/howToPlay.png");
 	public static int howToPlayButtonWidth = 200, howToPlayButtonHeight =
 							      120;
+
+	public static BufferedImage exitButton =
+		ImageLoader.load("resources/menu/exitButton.png");
+	public static int exitButtonWidth = 150, exitButtonHeight = 80;
+	public static BufferedImage backButton =
+		ImageLoader.load("resources/menu/backButton.png");
+	public static int backButtonWidth = 150, backButtonHeight = 80;
+
 
 	public static BufferedImage testTile =
 		ImageLoader.load("resources/newmap/tiled_cave_1.png");
