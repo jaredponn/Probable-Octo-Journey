@@ -12,6 +12,7 @@ import poj.Component.Component;
 import poj.PackedVector;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Components extends ComponentsArray
 {
@@ -48,6 +49,41 @@ public class Components extends ComponentsArray
 	public <T extends Component> void deleteComponentAt(Class<T> c, int i)
 	{
 		getComponentPackedVector(c).delete_element_at_sparse_vector(i);
+	}
+
+	/**
+	 * deletes all components at the given index
+	 * @param  i index to delete at
+	 */
+	public <T extends Component> void deleteAllComponentsAt(int i)
+	{
+		for (PackedVector<?> pkdvec : m_component_list.values()) {
+			pkdvec.delete_element_at_sparse_vector(i);
+		}
+	}
+
+	/**
+	 * deletes all components except the ones specified by the va args
+	 * @param  i index to delete at
+	 * @param  ns components to not delete
+	 */
+	public <T extends Component> void
+	deleteAllComponentsAtExcept(int i, Class<? extends Component>... ns)
+	{
+		for (Map.Entry<Class<? extends Component>,
+			       PackedVector<? extends Component>> pair :
+		     m_component_list.entrySet()) {
+
+			boolean tmp = true;
+			for (Class<? extends Component> n : ns) {
+				if (pair.getKey() == n)
+					tmp = false;
+			}
+			if (tmp) {
+				pair.getValue().delete_element_at_sparse_vector(
+					i);
+			}
+		}
 	}
 
 
