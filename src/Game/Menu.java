@@ -18,6 +18,7 @@ import poj.Render.RenderObject;
 import poj.Render.RenderRect;
 import poj.Render.Renderer;
 import poj.linear.Vector2f;
+import poj.Time.*;
 
 public class Menu
 {
@@ -91,6 +92,7 @@ public class Menu
 
 	public void runGame()
 	{
+		Timer.sleepNMilliseconds(100);
 		switch (curMenuState) {
 		case mainMenu:
 			setMainMenu();
