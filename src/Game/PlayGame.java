@@ -798,9 +798,7 @@ public class PlayGame extends World
 	 */
 	protected void findBulletHits(int bullet)
 	{
-		EngineState mapState = map.getLayerEngineState(1);
-		CombatFunctions.bulletHitHandler(engineState, mapState, gjk,
-						 bullet);
+		CombatFunctions.bulletHitHandler(this, bullet);
 	}
 
 	/**
@@ -817,4 +815,19 @@ public class PlayGame extends World
 		}
 	}
 	// /ASE
+	//
+	protected Map getMap()
+	{
+		return this.map;
+	}
+
+	protected GJK getGJK()
+	{
+		return this.gjk;
+	}
+
+	protected void pushEventToEventHandler(PlayGameEvent event)
+	{
+		this.gameEventStack.push(event);
+	}
 }

@@ -1,11 +1,21 @@
 package Game;
+/**
+ * PlayGameEvent. Sum type of the game events.
+ * @author Jared Pon. March 14, 2019
+ * @version 1.0
+ */
 
-public interface PlayGameEvent {
+public abstract class PlayGameEvent
+{
+	protected PlayGame gameState;
+
+	public PlayGameEvent(PlayGame g)
+	{
+		gameState = g;
+	}
 
 	/**
-	 * Interface for a game event
-	 * @param g: godly game state
-	 * @param es: VA args fo entites to do transforms on
+	 * Mutation to the game state
 	 */
-	public void f(PlayGame g, int... es);
+	public abstract void f();
 }

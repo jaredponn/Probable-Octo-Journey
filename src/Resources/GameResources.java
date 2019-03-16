@@ -54,8 +54,10 @@ public class GameResources
 			"resources/renderperformancemap/massivemap.csv";
 
 	public static final float MAGIC_CONSTANT =
-		(float)Math.sqrt(2) / 2f; // this constant is important and
-					  // makes things "just work"
+		(float)Math.sqrt(2)
+		/ 2f; // this constant is important and
+		      // makes things "just work" -- rotations by 45 degrees
+		      // sqaush the size of things bit -- this scales it back
 	public static final float TILE_SCREEN_ROTATION = (float)Math.PI / 4;
 	public static final float TILE_SCREEN_WIDTH = 64;
 	public static final float TILE_SCREEN_HEIGHT = 32;
@@ -79,10 +81,10 @@ public class GameResources
 		ImageLoader.load("resources/coin.png");
 
 	// player resources
-	public static BufferedImage playerSpriteSheet = ImageLoader.load(
-		"resources/RomiroGraphics/PlayerSheetReduced20.png");
-	public static BufferedImage enemySpriteSheet = ImageLoader.load(
-		"resources/RomiroGraphics/ZombieSheetReduced20.png");
+	public static BufferedImage playerSpriteSheet =
+		ImageLoader.load("resources/RomiroGraphics/playerReduce5.png");
+	public static BufferedImage enemySpriteSheet =
+		ImageLoader.load("resources/RomiroGraphics/zombieReduce5.png");
 
 	/*
 	public static BufferedImage playerSpriteSheet =
@@ -95,8 +97,8 @@ public class GameResources
 	 * last 3 rows are idle animation (breath and not breath)
 	 * each animation is 126 x 150
 	 */
-	public static final int PLAYER_SPRITE_WIDTH = (int)(125 * 0.8);
-	public static final int PLAYER_SPRITE_HEIGHT = (int)(155 * 0.8);
+	public static final int PLAYER_SPRITE_WIDTH = (int)(125 * 0.2);
+	public static final int PLAYER_SPRITE_HEIGHT = (int)(155 * 0.2);
 
 	// movement animation
 	public static Animation playerNGunMoveAnimation = new Animation(
@@ -290,85 +292,85 @@ public class GameResources
 	// move direction
 	public static Animation enemyNMoveAnimation = new Animation(
 		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
-		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 12, 0,
-		ENEMY_SPRITE_WIDTH * 12, ENEMY_SPRITE_HEIGHT * 4);
-
-	public static Animation enemyEMoveAnimation = new Animation(
-		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
-		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 13, 0,
-		ENEMY_SPRITE_WIDTH * 13, ENEMY_SPRITE_HEIGHT * 4);
-
-
-	public static Animation enemySMoveAnimation = new Animation(
-		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
-		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 14, 0,
-		ENEMY_SPRITE_WIDTH * 14, ENEMY_SPRITE_HEIGHT * 4);
-
-	public static Animation enemyWMoveAnimation = new Animation(
-		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
-		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 15, 0,
-		ENEMY_SPRITE_WIDTH * 15, ENEMY_SPRITE_HEIGHT * 4);
-
-	public static Animation enemyNEMoveAnimation = new Animation(
-		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
-		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 4, 0,
-		ENEMY_SPRITE_WIDTH * 4, ENEMY_SPRITE_HEIGHT * 4);
-
-	public static Animation enemySEMoveAnimation = new Animation(
-		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
-		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 5, 0,
-		ENEMY_SPRITE_WIDTH * 5, ENEMY_SPRITE_HEIGHT * 4);
-
-	public static Animation enemySWMoveAnimation = new Animation(
-		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
-		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 6, 0,
-		ENEMY_SPRITE_WIDTH * 6, ENEMY_SPRITE_HEIGHT * 4);
-
-	public static Animation enemyNWMoveAnimation = new Animation(
-		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
-		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 7, 0,
-		ENEMY_SPRITE_WIDTH * 7, ENEMY_SPRITE_HEIGHT * 4);
-
-	// attack animation
-	public static Animation enemyNAttackAnimation = new Animation(
-		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
-		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 8, 0,
-		ENEMY_SPRITE_WIDTH * 8, ENEMY_SPRITE_HEIGHT * 4);
-
-	public static Animation enemyEAttackAnimation = new Animation(
-		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
-		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 9, 0,
-		ENEMY_SPRITE_WIDTH * 9, ENEMY_SPRITE_HEIGHT * 4);
-
-	public static Animation enemySAttackAnimation = new Animation(
-		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
-		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 10, 0,
-		ENEMY_SPRITE_WIDTH * 10, ENEMY_SPRITE_HEIGHT * 4);
-
-	public static Animation enemyWAttackAnimation = new Animation(
-		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
-		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 11, 0,
-		ENEMY_SPRITE_WIDTH * 11, ENEMY_SPRITE_HEIGHT * 4);
-
-	public static Animation enemyNEAttackAnimation = new Animation(
-		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
 		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 0, 0,
 		ENEMY_SPRITE_WIDTH * 0, ENEMY_SPRITE_HEIGHT * 4);
 
-	public static Animation enemySEAttackAnimation = new Animation(
+	public static Animation enemyEMoveAnimation = new Animation(
 		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
 		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 1, 0,
 		ENEMY_SPRITE_WIDTH * 1, ENEMY_SPRITE_HEIGHT * 4);
 
-	public static Animation enemySWAttackAnimation = new Animation(
+
+	public static Animation enemySMoveAnimation = new Animation(
 		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
 		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 2, 0,
 		ENEMY_SPRITE_WIDTH * 2, ENEMY_SPRITE_HEIGHT * 4);
 
-	public static Animation enemyNWAttackAnimation = new Animation(
+	public static Animation enemyWMoveAnimation = new Animation(
 		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
 		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 3, 0,
 		ENEMY_SPRITE_WIDTH * 3, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyNEMoveAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 8, 0,
+		ENEMY_SPRITE_WIDTH * 8, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemySEMoveAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 9, 0,
+		ENEMY_SPRITE_WIDTH * 9, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemySWMoveAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 10, 0,
+		ENEMY_SPRITE_WIDTH * 10, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyNWMoveAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 11, 0,
+		ENEMY_SPRITE_WIDTH * 11, ENEMY_SPRITE_HEIGHT * 4);
+
+	// attack animation
+	public static Animation enemyNAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 12, 0,
+		ENEMY_SPRITE_WIDTH * 12, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyEAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 13, 0,
+		ENEMY_SPRITE_WIDTH * 13, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemySAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 14, 0,
+		ENEMY_SPRITE_WIDTH * 14, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyWAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 15, 0,
+		ENEMY_SPRITE_WIDTH * 15, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyNEAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 4, 0,
+		ENEMY_SPRITE_WIDTH * 4, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemySEAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 5, 0,
+		ENEMY_SPRITE_WIDTH * 5, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemySWAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 6, 0,
+		ENEMY_SPRITE_WIDTH * 6, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static Animation enemyNWAttackAnimation = new Animation(
+		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
+		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 7, 0,
+		ENEMY_SPRITE_WIDTH * 7, ENEMY_SPRITE_HEIGHT * 4);
 
 
 	// death animatoin
