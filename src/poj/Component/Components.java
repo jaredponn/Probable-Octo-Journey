@@ -87,6 +87,25 @@ public class Components extends ComponentsArray
 	}
 
 
+	/**
+	 * prints all the components that that index contains
+	 * @param  i index to check which copeontns it has
+	 */
+	public void printAllComponentsAt(int i)
+	{
+		System.out.println("All components at " + i + ": ");
+		for (Map.Entry<Class<? extends Component>,
+			       PackedVector<? extends Component>> pair :
+		     m_component_list.entrySet()) {
+			Class<? extends Component> c = pair.getKey();
+			if (this.hasComponent(c, i)) {
+				System.out.println(c);
+			}
+		}
+		System.out.println("End printing components");
+	}
+
+
 	/* component getters / setters for the sparse vector*/
 	/**
 	 * returns a pointer to the component of a certain type.
