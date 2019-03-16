@@ -326,7 +326,7 @@ public class PlayGame extends World
 		// updating the camera
 		centerCamerasPositionToPlayer();
 		updateInverseCamera();
-		updateCoolDownKeys();
+		PlayGameProcessInputs.updateCoolDownKeys(this);
 
 		EngineTransforms.updateAnimationWindows(this.engineState,
 							this.dt);
