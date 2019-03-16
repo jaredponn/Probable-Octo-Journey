@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="isometric" renderorder="left-down" width="70" height="70" tilewidth="64" tileheight="42" infinite="0" nextlayerid="7" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.1" orientation="isometric" renderorder="left-down" width="70" height="70" tilewidth="64" tileheight="42" infinite="0" nextlayerid="7" nextobjectid="1">
  <tileset firstgid="1" source="MapSprite.tsx"/>
  <tileset firstgid="721" source="Trythisone1.tsx"/>
  <tileset firstgid="1441" source="treesdark.tsx"/>

@@ -1,0 +1,15 @@
+{ "columns":16,
+ "image":"TILEMAPDONETEST.png",
+ "imageheight":1920,
+ "imagewidth":1024,
+ "margin":0,
+ "name":"MapSprite",
+ "spacing":0,
+ "tilecount":720,
+ "tiledversion":"1.2.1",
+ "tileheight":42,
+ "tilewidth":64,
+ "transparentcolor":"#5555ff",
+ "type":"tileset",
+ "version":1.2
+}
