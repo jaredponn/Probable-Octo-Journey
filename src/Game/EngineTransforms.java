@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.Queue;
 
 import Components.AttackCycle;
+import Components.*;
 import Components.CardinalDirections;
 import Components.DespawnTimer;
 import Components.HasAnimation;
@@ -548,6 +549,20 @@ public class EngineTransforms
 			Systems.pCollisionBodyDebugRenderer(
 				e.getComponentAt(PHitBox.class, i), q, cam,
 				Color.BLUE);
+		}
+	}
+
+	public static void debugRenderAggro(final EngineState e,
+					    Queue<RenderObject> q,
+					    final Camera cam)
+	{
+
+		for (int i = e.getInitialSetIndex(AggroRange.class);
+		     Components.isValidEntity(i);
+		     i = e.getNextSetIndex(AggroRange.class, i)) {
+			Systems.pCollisionBodyDebugRenderer(
+				e.getComponentAt(PHitBox.class, i), q, cam,
+				Color.magenta);
 		}
 	}
 
