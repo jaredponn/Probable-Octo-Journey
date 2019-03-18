@@ -1,5 +1,7 @@
 package Game;
 
+import java.math.*;
+
 import Components.*;
 import EntitySets.*;
 import EntitySets.Bullet;
@@ -29,17 +31,7 @@ public class CombatFunctions
 	 */
 	public static void removeBullet(EngineState engineState, int bullet)
 	{
-		engineState.deleteComponentAt(Bullet.class, bullet);
-		engineState.deleteComponentAt(
-			CannonShell.class,
-			bullet); // TODO: separate deleteShell method?
-		engineState.deleteComponentAt(Render.class, bullet);
-		engineState.deleteComponentAt(WorldAttributes.class, bullet);
-		engineState.deleteComponentAt(Movement.class, bullet);
-		// engineState.deleteComponentAt(Lifespan.class, bullet);
-		engineState.deleteComponentAt(PhysicsPCollisionBody.class,
-					      bullet);
-		engineState.deleteComponentAt(Damage.class, bullet);
+		engineState.deleteAllComponentsAt(bullet);
 		engineState.markIndexAsFree(bullet);
 	}
 
@@ -50,11 +42,7 @@ public class CombatFunctions
 	 */
 	public static void removePickUp(EngineState engineState, int p)
 	{
-		engineState.deleteComponentAt(CollectibleSet.class, p);
-		engineState.deleteComponentAt(Render.class, p);
-		engineState.deleteComponentAt(WorldAttributes.class, p);
-		engineState.deleteComponentAt(Lifespan.class, p);
-		engineState.deleteComponentAt(PhysicsPCollisionBody.class, p);
+		engineState.deleteAllComponentsAt(p);
 		engineState.markIndexAsFree(p);
 	}
 
@@ -65,14 +53,7 @@ public class CombatFunctions
 	 */
 	public static void removeTurret(EngineState engineState, int t)
 	{
-		engineState.deleteComponentAt(TurretSet.class, t);
-		engineState.deleteComponentAt(Render.class, t);
-		engineState.deleteComponentAt(WorldAttributes.class, t);
-		engineState.deleteComponentAt(Lifespan.class, t);
-		engineState.deleteComponentAt(PhysicsPCollisionBody.class, t);
-		engineState.deleteComponentAt(HitPoints.class, t);
-		engineState.deleteComponentAt(PHitBox.class, t);
-		engineState.deleteComponentAt(AttackCycle.class, t);
+		engineState.deleteAllComponentsAt(t);
 		engineState.markIndexAsFree(t);
 	}
 
@@ -111,11 +92,11 @@ public class CombatFunctions
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, bulletBody, mobBody)) {
 				mainState.getComponentAt(HitPoints.class, i)
-					.hurt(mainState
+					.hurt((int) (Math.floor(mainState
 						      .getComponentAt(
 							      Damage.class,
 							      bullet)
-						      .getDamage());
+						      .getDamage() * g.playerDamageBonus)));
 				removeBullet(mainState, bullet);
 
 

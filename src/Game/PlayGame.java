@@ -19,6 +19,7 @@ import Components.*;
 import EntitySets.Bullet;
 import EntitySets.CannonShell;
 import EntitySets.CollectibleSet;
+import EntitySets.PowerUp;
 import EntitySets.ConstructSet;
 import EntitySets.MobSet;
 import EntitySets.PlayerSet;
@@ -70,7 +71,8 @@ public class PlayGame extends World
 	protected static double EPSILON = 0.0001d;
 	protected WeaponState curWeaponState = WeaponState.Gun;
 
-	// ASE
+	protected double playerDamageBonus = 1d;
+	
 	protected double timeOfLastMobSpawn = 0.0 - GameConfig.MOB_SPAWN_TIMER;
 	protected double timeOfLastCashSpawn =
 		0.0 - GameConfig.PICKUP_CASH_SPAWN_TIME;
@@ -181,6 +183,7 @@ public class PlayGame extends World
 		super.engineState.registerSet(CannonShell.class);
 		super.engineState.registerSet(TurretSet.class);
 		super.engineState.registerSet(CollectibleSet.class);
+		super.engineState.registerSet(PowerUp.class);
 	}
 
 	// higher game logic functions
@@ -223,6 +226,8 @@ public class PlayGame extends World
 
 		// ASE
 		this.mobSpawner();
+		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
+				this.engineState);
 		this.handleTurrets();
 
 		// Timed de-spawner
@@ -614,6 +619,34 @@ public class PlayGame extends World
 				System.out.println("Picked up $" + amount
 						   + ". You now have $"
 						   + this.cash);
+				CombatFunctions.removePickUp(engineState, i);
+			}
+		}
+	}
+	
+	/**
+	 * Increase player bullet damage
+	 * @param amount to increase the damage bonus by
+	 */
+	protected void collectPowerUp(double amount)
+	{
+		PhysicsPCollisionBody playerPosition =
+			engineState.getComponentAt(PhysicsPCollisionBody.class,
+						   this.player);
+
+		for (int i = this.engineState.getInitialSetIndex(
+			     PowerUp.class);
+		     this.engineState.isValidEntity(i);
+		     i = this.engineState.getNextSetIndex(PowerUp.class,
+							  i)) {
+
+			PhysicsPCollisionBody collectiblePosition =
+				engineState.getComponentAt(
+					PhysicsPCollisionBody.class, i);
+
+			if (Systems.arePCollisionBodiesColliding(
+				    gjk, playerPosition, collectiblePosition)) {
+				this.playerDamageBonus += amount;
 				CombatFunctions.removePickUp(engineState, i);
 			}
 		}

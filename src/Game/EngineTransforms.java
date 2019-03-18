@@ -561,7 +561,7 @@ public class EngineTransforms
 		     Components.isValidEntity(i);
 		     i = e.getNextSetIndex(AggroRange.class, i)) {
 			Systems.pCollisionBodyDebugRenderer(
-				e.getComponentAt(PHitBox.class, i), q, cam,
+				e.getComponentAt(AggroRange.class, i), q, cam,
 				Color.magenta);
 		}
 	}
@@ -678,6 +678,14 @@ public class EngineTransforms
 				e.getComponentAt(PHitBox.class, i),
 				e.getComponentAt(WorldAttributes.class, i));
 		}
+		
+		for (int i = e.getInitialSetIndex(AggroRange.class);
+			     Components.isValidEntity(i);
+			     i = e.getNextSetIndex(AggroRange.class, i)) {
+				Systems.updatePCollisionBodyPositionFromWorldAttr(
+					e.getComponentAt(AggroRange.class, i),
+					e.getComponentAt(WorldAttributes.class, i));
+			}
 	}
 
 
@@ -711,7 +719,7 @@ public class EngineTransforms
 			n.decrementTimerBy(dt);
 
 			if (n.isOutOfTime()) {
-				engineState.deleteAllComponentsAt(i);
+				Systems.deleteAllComponentsAt(engineState, i);
 			}
 		}
 	}

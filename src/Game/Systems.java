@@ -229,5 +229,6 @@ public class Systems
 	public static void deleteAllComponentsAt(EngineState e, int i)
 	{
 		e.deleteAllComponentsAt(i);
+		e.markIndexAsFree(i);
 	}
 }

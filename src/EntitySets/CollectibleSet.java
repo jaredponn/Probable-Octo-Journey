@@ -28,19 +28,7 @@ public class CollectibleSet extends EntitySet
 	 */
 	public CollectibleSet(double spawnTime)
 	{
-		super();
-
-		addComponent(new Render(
-			new ImageRenderObject(0, 0, GameResources.cashImage)));
-
-		addComponent(new WorldAttributes(new Vector2f(1f, 1f),
-						 GameConfig.PICKUP_WIDTH,
-						 GameConfig.PLAYER_HEIGHT));
-
-		addComponent(new Lifespan(GameConfig.PICKUP_CASH_SPAWN_TIME,
-					  spawnTime));
-		addComponent(new PhysicsPCollisionBody(
-			GameConfig.PICKUP_COLLISION_BODY));
+		this( 1 , 1 , spawnTime );
 	}
 
 	/**

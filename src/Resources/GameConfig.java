@@ -139,14 +139,13 @@ public class GameConfig
 	
 	public static final AggroRange MOB_AGGRO_RANGE =
 			new AggroRange(
-				new Vector2f(-0.5f, 0f),  // displacement
-				new Vector2f(2.1f, 1.5f), // center
+				new Vector2f(-0.4f, 0f),  // displacement
+				new Vector2f(0.5f, 0.5f), // center
 							  // collision body:
-				new Vector2f(2, 1.5f), new Vector2f(2.25f, 1.2f),
-				new Vector2f(3.7f, 3.5f), new Vector2f(3.95f, 3.2f));
+				new Vector2f(0f, 0f), new Vector2f(1f, 1f),
+				new Vector2f(1f, 0f), new Vector2f(0f, 1f));
 
 	public static final float MOB_SPAWN_TIMER = 10.0f;
-	// public static final float MOB_SPAWN_TIMER = 0.5f;
 	public static final double MOB_DESPAWN_TIMER = 5000d; // in ms
 
 	// spawn points:
