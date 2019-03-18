@@ -160,35 +160,42 @@ public class GameConfig
 	///////////////////////
 
 	// clang-format off
-	/*
 	public static final PCollisionBody PLAY_BUTTON_COLLISION_BODY =
 		new PCollisionBody(
 			new Vector2f(0f, 0f), // displacement
-			new Vector2f(10f, 10f),
-			new Vector2f(10f, 10f),
-			new Vector2f(10f,20f),
-			new Vector2f(20f,10f),
-			new Vector2f(20f,20f));
-	*/
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 + 90)), 
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 + 90)), 
+			new Vector2f((float)(1024 / 2 - 70+ GameResources.playButtonWidth),(float)(768 / 2 + 90) ), 
+			new Vector2f((float)(1024 / 2 - 70) ,(float) (768 / 2 + 90+ GameResources.playButtonHeight)), 
+			new Vector2f((float)(1024 / 2 - 70 +GameResources.playButtonWidth),(float)(768 / 2 + 90 + GameResources.playButtonHeight)));
 
-	///*
-	public static final PCollisionBody PLAY_BUTTON_COLLISION_BODY =
-		new PCollisionBody(
-			new Vector2f(0f, 0f), // displacement
-			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 + 150)), 
-			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 + 150)), 
-			new Vector2f((float)(1024 / 2 - 70+ GameResources.playButtonWidth),(float)(768 / 2 + 150) ), 
-			new Vector2f((float)(1024 / 2 - 70) ,(float) (768 / 2 + 150+ GameResources.playButtonHeight)), 
-			new Vector2f((float)(1024 / 2 - 70 +GameResources.playButtonWidth),(float)(768 / 2 + 150 + GameResources.playButtonHeight)));
-	//*/
 	public static final PCollisionBody HOW_TO_PLAY_BUTTON_COLLISION_BODY =
 		new PCollisionBody(
 			new Vector2f(0f, 0f), // displacement
-			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 -50)), 
-			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 -50)), 
-			new Vector2f((float)(1024 / 2 - 70+ GameResources.howToPlayButtonWidth),(float)(768 / 2 -50) ), 
-			new Vector2f((float)(1024 / 2 - 70) ,(float) (768 / 2 -50+ GameResources.howToPlayButtonHeight)), 
-			new Vector2f((float)(1024 / 2 - 70 +GameResources.howToPlayButtonWidth),(float)(768 / 2 -50 + GameResources.howToPlayButtonHeight)));
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 -90)), 
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 -90)), 
+			new Vector2f((float)(1024 / 2 - 70+ GameResources.howToPlayButtonWidth),(float)(768 / 2 -90) ), 
+			new Vector2f((float)(1024 / 2 - 70) ,(float) (768 / 2 -90+ GameResources.howToPlayButtonHeight)), 
+			new Vector2f((float)(1024 / 2 - 70 +GameResources.howToPlayButtonWidth),(float)(768 / 2 -90 + GameResources.howToPlayButtonHeight)));
+
+
+	public static final PCollisionBody EXIT_BUTTON_COLLISION_BODY =
+		new PCollisionBody(
+			new Vector2f(0f, 0f), // displacement
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 +290)), 
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 +290)), 
+			new Vector2f((float)(1024 / 2 - 70+ GameResources.exitButtonWidth),(float)(768 / 2 +290) ), 
+			new Vector2f((float)(1024 / 2 - 70) ,(float) (768 / 2 +290+ GameResources.exitButtonHeight)), 
+			new Vector2f((float)(1024 / 2 - 70 +GameResources.exitButtonWidth),(float)(768 / 2 +290 + GameResources.exitButtonHeight)));
+
+	public static final PCollisionBody BACK_BUTTON_COLLISION_BODY =
+		new PCollisionBody(
+			new Vector2f(0f, 0f), // displacement
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 +190)), 
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 +190)), 
+			new Vector2f((float)(1024 / 2 - 70+ GameResources.backButtonWidth),(float)(768 / 2 +190) ), 
+			new Vector2f((float)(1024 / 2 - 70) ,(float) (768 / 2 +190+ GameResources.backButtonHeight)), 
+			new Vector2f((float)(1024 / 2 - 70 +GameResources.backButtonWidth),(float)(768 / 2 +190 + GameResources.backButtonHeight)));
 	// clang-format on
 
 	////////////////////////////
