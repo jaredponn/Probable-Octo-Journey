@@ -284,6 +284,9 @@ public class PlayGame extends World
 		EngineTransforms.debugRenderPHitBox(this.engineState,
 						    this.debugBuffer, this.cam);
 
+		EngineTransforms.debugRenderAggro(this.engineState,
+						  this.debugBuffer, this.cam);
+
 		// Resolving  collisions against tilemap
 
 		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {

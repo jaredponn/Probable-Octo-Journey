@@ -191,6 +191,10 @@ public class PlayGameProcessInputs
 				     .getComponentAt(AttackCycle.class, player)
 				     .isAttacking()) {
 				int flag = hasMovementKeyBeenPressed ? 1 : 0;
+
+				if (g.curWeaponState == WeaponState.Melee) {
+					flag += 2;
+				}
 				engineState
 					.getComponentAt(HasAnimation.class,
 							player)
