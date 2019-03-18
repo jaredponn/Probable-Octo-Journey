@@ -85,7 +85,14 @@ public class CombatFunctions
 	public static void bulletHitHandler(PlayGame g, int bullet)
 	{
 		EngineState mainState = g.getEngineState();
-		EngineState mapState = g.getMap().getLayerEngineState(1);
+		EngineState mapState2 = g.getMap().getLayerEngineState(2);
+		EngineState mapState3 = g.getMap().getLayerEngineState(3);
+		EngineState mapState4 = g.getMap().getLayerEngineState(4);
+		// map layer 0: ???
+		//			 1: ???
+		//			 2: map edge
+		//			 3: cars
+		//			 4: buildings
 		GJK gjk = g.getGJK();
 
 		final PhysicsPCollisionBody bulletBody =
@@ -127,7 +134,25 @@ public class CombatFunctions
 
 		// check for bullet collision with wall
 		for (PhysicsPCollisionBody wall :
-		     mapState.getRawComponentArrayListPackedData(
+		     mapState2.getRawComponentArrayListPackedData(
+			     PhysicsPCollisionBody.class)) {
+			if (Systems.arePCollisionBodiesColliding(
+				    gjk, bulletBody, wall)) {
+				removeBullet(mainState, bullet);
+				return;
+			}
+		}
+		for (PhysicsPCollisionBody wall :
+		     mapState3.getRawComponentArrayListPackedData(
+			     PhysicsPCollisionBody.class)) {
+			if (Systems.arePCollisionBodiesColliding(
+				    gjk, bulletBody, wall)) {
+				removeBullet(mainState, bullet);
+				return;
+			}
+		}
+		for (PhysicsPCollisionBody wall :
+		     mapState4.getRawComponentArrayListPackedData(
 			     PhysicsPCollisionBody.class)) {
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, bulletBody, wall)) {

@@ -71,7 +71,6 @@ public class GameConfig
 	public static final int CONSTRUCT_HP = 100;
 	public static final float SHELL_SPEED = 0.04f;
 	public static final int SHELL_DAMAGE = 100;
-	// TODO: turret hitbox
 	public static final PCollisionBody TURRET_HITBOX_BODY =
 		TURRET_COLLISION_BODY;
 
