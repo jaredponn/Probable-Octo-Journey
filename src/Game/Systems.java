@@ -16,6 +16,7 @@ import Components.*;
 
 import poj.linear.*;
 import poj.Render.RenderObject;
+import poj.EngineState;
 import poj.Collisions.*;
 import poj.Render.ImageRenderObject;
 import poj.Render.Renderer;
@@ -223,5 +224,10 @@ public class Systems
 		bw.add(tmp);
 
 		Systems.updatePCollisionBodyPositionFromWorldAttr(b, bw);
+	}
+
+	public static void deleteAllComponentsAt(EngineState e, int i)
+	{
+		e.deleteAllComponentsAt(i);
 	}
 }

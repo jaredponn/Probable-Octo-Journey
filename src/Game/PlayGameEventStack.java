@@ -1,18 +1,17 @@
-package Game.PlayGameEventHandlers;
+package Game;
 
 import java.util.Stack;
-import Game.PlayGame;
 
 public class PlayGameEventStack extends Stack<PlayGameEvent>
 {
 	private static final long serialVersionUID = 0l;
 
-	public void runGameEventStack(PlayGame g)
+	public void runGameEventStack()
 	{
 
 		while (!this.isEmpty()) {
 			PlayGameEvent tmp = this.pop();
-			tmp.f(g);
+			tmp.f();
 		}
 	}
 }

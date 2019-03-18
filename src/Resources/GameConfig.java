@@ -53,6 +53,8 @@ public class GameConfig
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(45, 45);
 
+	public static final int PLAYER_STARTING_CASH = Integer.MAX_VALUE;
+
 	/////////////////////////
 	///// turret config /////
 	/////////////////////////
@@ -135,12 +137,59 @@ public class GameConfig
 							     // collision body:
 				   new Vector2f(0, 0), new Vector2f(2, 0),
 				   new Vector2f(0, 2), new Vector2f(2, 2));
+	
+	public static final AggroRange MOB_AGGRO_RANGE =
+			new AggroRange(
+				new Vector2f(-0.5f, 0f),  // displacement
+				new Vector2f(2.1f, 1.5f), // center
+							  // collision body:
+				new Vector2f(2, 1.5f), new Vector2f(2.25f, 1.2f),
+				new Vector2f(3.7f, 3.5f), new Vector2f(3.95f, 3.2f));
 
 	public static final float MOB_SPAWN_TIMER = 10.0f;
+	// public static final float MOB_SPAWN_TIMER = 0.5f;
+	public static final double MOB_DESPAWN_TIMER = 5000d; // in ms
 
 	// spawn points:
 	public static final Vector2f MOB_SPAWNER_0 = new Vector2f(14f, 7f);
 	public static final Vector2f MOB_SPAWNER_1 = new Vector2f(20f, 20f);
+
+
+	///////////////////////
+	///// menu config /////
+	///////////////////////
+
+	// clang-format off
+	/*
+	public static final PCollisionBody PLAY_BUTTON_COLLISION_BODY =
+		new PCollisionBody(
+			new Vector2f(0f, 0f), // displacement
+			new Vector2f(10f, 10f),
+			new Vector2f(10f, 10f),
+			new Vector2f(10f,20f),
+			new Vector2f(20f,10f),
+			new Vector2f(20f,20f));
+	*/
+
+	///*
+	public static final PCollisionBody PLAY_BUTTON_COLLISION_BODY =
+		new PCollisionBody(
+			new Vector2f(0f, 0f), // displacement
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 + 150)), 
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 + 150)), 
+			new Vector2f((float)(1024 / 2 - 70+ GameResources.playButtonWidth),(float)(768 / 2 + 150) ), 
+			new Vector2f((float)(1024 / 2 - 70) ,(float) (768 / 2 + 150+ GameResources.playButtonHeight)), 
+			new Vector2f((float)(1024 / 2 - 70 +GameResources.playButtonWidth),(float)(768 / 2 + 150 + GameResources.playButtonHeight)));
+	//*/
+	public static final PCollisionBody HOW_TO_PLAY_BUTTON_COLLISION_BODY =
+		new PCollisionBody(
+			new Vector2f(0f, 0f), // displacement
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 -50)), 
+			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 -50)), 
+			new Vector2f((float)(1024 / 2 - 70+ GameResources.howToPlayButtonWidth),(float)(768 / 2 -50) ), 
+			new Vector2f((float)(1024 / 2 - 70) ,(float) (768 / 2 -50+ GameResources.howToPlayButtonHeight)), 
+			new Vector2f((float)(1024 / 2 - 70 +GameResources.howToPlayButtonWidth),(float)(768 / 2 -50 + GameResources.howToPlayButtonHeight)));
+	// clang-format on
 
 	////////////////////////////
 	///// construct config /////

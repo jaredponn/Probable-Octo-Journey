@@ -47,6 +47,7 @@ public class MobSet extends EntitySet
 		addComponent(new HitPoints(GameConfig.MOB_HP));
 		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
 		addComponent(new AttackCycle(GameConfig.MOB_ATTACK_CYCLE));
+		addComponent(new AggroRange(GameConfig.MOB_AGGRO_RANGE));
 	}
 
 	/**

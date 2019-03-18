@@ -16,7 +16,6 @@ import java.awt.event.KeyEvent;
 import java.util.*;
 
 import Components.*;
-import Game.PlayGameEventHandlers.*;
 import EntitySets.Bullet;
 import EntitySets.CannonShell;
 import EntitySets.CollectibleSet;
@@ -75,7 +74,7 @@ public class PlayGame extends World
 	protected double timeOfLastMobSpawn = 0.0 - GameConfig.MOB_SPAWN_TIMER;
 	protected double timeOfLastCashSpawn =
 		0.0 - GameConfig.PICKUP_CASH_SPAWN_TIME;
-	protected int cash = 1000;
+	protected int cash = GameConfig.PLAYER_STARTING_CASH;
 
 	protected StringRenderObject gameTimer =
 		new StringRenderObject("", 5, 10, Color.WHITE);
@@ -99,6 +98,18 @@ public class PlayGame extends World
 		this.gameEventStack = new PlayGameEventStack();
 
 		// World loading
+		this.map = new Map(6);
+		this.map.addTileSet(GameResources.officialTileSetConfig);
+		this.map.addMapConfig(GameResources.officialMapConfig);
+		this.map.addMapLayer(GameResources.officialMapGround1);
+		this.map.addMapLayer(GameResources.officialMapMisc2);
+		this.map.addMapLayer(GameResources.officialMapEverythingElse3);
+		this.map.addMapLayer(GameResources.officialMapCars4);
+		this.map.addMapLayer(GameResources.officialMapRocks5);
+		this.map.addMapLayer(GameResources.officialMapTrees6);
+		// this.map.addMapLayer(GameResources.demo1LayerWall);
+		/*
+		// World loading
 		this.map = new Map(3);
 		this.map.addTileSet(GameResources.tileSet);
 		this.map.addMapConfig(GameResources.demo1Config);
@@ -106,6 +117,7 @@ public class PlayGame extends World
 		this.map.addMapLayer(GameResources.demo1LayerWall);
 		// this.map.addMapConfig(GameResources.pathFindTest3Config);
 		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
+		// */
 
 
 		// setting the build turret coolDown
@@ -148,6 +160,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(Render.class);
 		super.engineState.registerComponent(WorldAttributes.class);
 		super.engineState.registerComponent(MovementDirection.class);
+		super.engineState.registerComponent(DespawnTimer.class);
 		super.engineState.registerComponent(FacingDirection.class);
 		super.engineState.registerComponent(AttackCycle.class);
 		super.engineState.registerComponent(Movement.class);
@@ -157,6 +170,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(Lifespan.class);
 		super.engineState.registerComponent(HitPoints.class);
 		super.engineState.registerComponent(Damage.class);
+		super.engineState.registerComponent(AggroRange.class);
 	}
 	public void registerEntitySets()
 	{
@@ -255,11 +269,9 @@ public class PlayGame extends World
 		// updating positions
 		EngineTransforms.setMovementVelocityFromMovementDirectionForSet(
 			this.engineState, PlayerSet.class);
-
 		EngineTransforms
 			.steerMovementVelocityFromMovementDirectionForSet(
 				this.engineState, MobSet.class, 1 / 16f);
-
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 
@@ -328,7 +340,7 @@ public class PlayGame extends World
 		// updating the camera
 		centerCamerasPositionToPlayer();
 		updateInverseCamera();
-		updateCoolDownKeys();
+		PlayGameProcessInputs.updateCoolDownKeys(this);
 
 		EngineTransforms.updateAnimationWindows(this.engineState,
 							this.dt);
@@ -338,10 +350,14 @@ public class PlayGame extends World
 			this.engineState);
 
 		EngineTransforms
+			.deleteAllComponentsAtIfDespawnTimerIsFinishedAndUpdateDespawnTimerTime(
+				this.engineState, this.dt);
+
+		EngineTransforms
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 				this.engineState, this.cam);
 
-		gameEventStack.runGameEventStack(this);
+		gameEventStack.runGameEventStack();
 		// rendering is run after this is run
 	}
 
@@ -358,193 +374,23 @@ public class PlayGame extends World
 
 	protected void processInputs()
 	{
-
-		////// Combat Commands //////
-		if (super.inputPoller.isKeyDown(GameConfig.ATTACK_KEY)
-		    || super.inputPoller.isLeftMouseButtonDown()) {
-			if (Math.abs(lastCoolDown.get(GameConfig.ATTACK_KEY))
-			    == 0d) {
-				updateDtForKey(GameConfig.ATTACK_KEY,
-					       -coolDownMax.get(
-						       GameConfig.ATTACK_KEY));
-
-				engineState
-					.getComponentAt(AttackCycle.class,
-							this.player)
-					.startAttackCycle();
-				return;
-				// lastCoolDown.set(GameConfig.BUILD_TOWER,
-				//-coolDownMax.get(
-				// GameConfig.BUILD_TOWER));
-			}
-		}
-		if (super.inputPoller.isKeyDown(GameConfig.SWITCH_WEAPONS)) {
-
-			if (Math.abs(
-				    lastCoolDown.get(GameConfig.SWITCH_WEAPONS))
-			    == 0d) {
-				updateDtForKey(
-					GameConfig.SWITCH_WEAPONS,
-					-coolDownMax.get(
-						GameConfig.SWITCH_WEAPONS));
-				System.out.print(
-					"x key is down. Player character should be changing weapons\n");
-				System.out.println(
-					"old weapon state = "
-					+ curWeaponState.currentWeaponState());
-				curWeaponState = curWeaponState.next();
-				System.out.println(
-					"new weapon state = "
-					+ curWeaponState.currentWeaponState());
-				// lastCoolDown.set(GameConfig.BUILD_TOWER,
-				//-coolDownMax.get(
-				// GameConfig.BUILD_TOWER));
-			}
-		}
-
-		boolean hasMovementKeyBeenPressed = true;
-
-		////// Movement Commands //////
-		if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
-		    && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
-			super.getComponentAt(MovementDirection.class,
-					     this.player)
-				.setDirection(CardinalDirections.NW);
-			super.getComponentAt(Movement.class, this.player)
-				.setSpeed(GameConfig.PLAYER_SPEED);
-		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_W)
-			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-			super.getComponentAt(MovementDirection.class,
-					     this.player)
-				.setDirection(CardinalDirections.SW);
-			super.getComponentAt(Movement.class, this.player)
-				.setSpeed(GameConfig.PLAYER_SPEED);
-		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
-			   && super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-			super.getComponentAt(MovementDirection.class,
-					     this.player)
-				.setDirection(CardinalDirections.SE);
-			super.getComponentAt(Movement.class, this.player)
-				.setSpeed(GameConfig.PLAYER_SPEED);
-		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)
-			   && super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
-			super.getComponentAt(MovementDirection.class,
-					     this.player)
-				.setDirection(CardinalDirections.NE);
-			super.getComponentAt(Movement.class, this.player)
-				.setSpeed(GameConfig.PLAYER_SPEED);
-
-		} else if (super.inputPoller.isKeyDown(
-				   KeyEvent.VK_W)) { // single Key movements
-			super.getComponentAt(MovementDirection.class,
-					     this.player)
-				.setDirection(CardinalDirections.W);
-			super.getComponentAt(Movement.class, this.player)
-				.setSpeed(GameConfig.PLAYER_SPEED);
-		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_D)) {
-			super.getComponentAt(MovementDirection.class,
-					     this.player)
-				.setDirection(CardinalDirections.N);
-			super.getComponentAt(Movement.class, this.player)
-				.setSpeed(GameConfig.PLAYER_SPEED);
-		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_A)) {
-			super.getComponentAt(MovementDirection.class,
-					     this.player)
-				.setDirection(CardinalDirections.S);
-			super.getComponentAt(Movement.class, this.player)
-				.setSpeed(GameConfig.PLAYER_SPEED);
-		} else if (super.inputPoller.isKeyDown(KeyEvent.VK_S)) {
-			super.getComponentAt(MovementDirection.class,
-					     this.player)
-				.setDirection(CardinalDirections.E);
-			super.getComponentAt(Movement.class, this.player)
-				.setSpeed(GameConfig.PLAYER_SPEED);
-		} else // no movement key is pressed
-		{
-			hasMovementKeyBeenPressed = false;
-			super.getComponentAt(Movement.class, this.player)
-				.setSpeed(0);
-			// TODO idle direction!!!!!
-			super.getComponentAt(FacingDirection.class,
-					     this.player);
-		}
-
-		if (!this.engineState.getComponentAt(AttackCycle.class, player)
-			     .isAttacking()) {
-			int flag = hasMovementKeyBeenPressed ? 1 : 0;
-			super.getComponentAt(HasAnimation.class, this.player)
-				.setAnimation(AnimationGetter.queryPlayerSprite(
-					this.engineState
-						.getComponentAt(
-							MovementDirection.class,
-							this.player)
-						.getDirection(),
-					flag));
-		}
-
-		////// Build Commands //////
-		if (super.inputPoller.isKeyDown(GameConfig.BUILD_TOWER)) {
-
-			System.out.println("will build turret!!!!");
-			System.out.println(
-				" last cooldown = "
-				+ lastCoolDown.get(GameConfig.BUILD_TOWER));
-			if (Math.abs(lastCoolDown.get(GameConfig.BUILD_TOWER))
-				    == 0d
-			    && this.cash >= GameConfig.TOWER_BUILD_COST) {
-				// player position is also the top left of the
-				// polygon !
-				Vector2f playerPosition =
-					super.getComponentAt(
-						     PhysicsPCollisionBody
-							     .class,
-						     this.player)
-						.getPolygon()
-						.pureGetAPointInPolygon(0);
-
-				int tmp = super.engineState.spawnEntitySet(
-					new TurretSet());
-				this.cash -= 250;
-				super.getComponentAt(WorldAttributes.class, tmp)
-					.setOriginCoord(playerPosition);
-
-				System.out.println(
-					"Built a tower. It cost $"
-					+ GameConfig.TOWER_BUILD_COST);
-				// reset the lastCooldown key to the max
-				// cooldown of that key
-				updateDtForKey(GameConfig.BUILD_TOWER,
-					       -coolDownMax.get(
-						       GameConfig.BUILD_TOWER));
-				// lastCoolDown.set(GameConfig.BUILD_TOWER,
-				//-coolDownMax.get(
-				// GameConfig.BUILD_TOWER));
-			} else if (this.cash < GameConfig.TOWER_BUILD_COST)
-				System.out.print(
-					"Not enough cash to build a turret\nYou need at least $"
-					+ GameConfig.TOWER_BUILD_COST + "\n");
-		}
-		if (super.inputPoller.isKeyDown(GameConfig.BUILD_TRAP)) {
-			System.out.print(
-				"e key is down. Should spawn trap at player location\n");
-			// TODO: get tile player is stood on
-			// TODO: highlight that tile?
-			// TODO: spawn new trap entity on tile
-			// TODO: make trap spawn on key up? (to prevent
-			// constant spawning if key down for more than 1
-			// frame)
-		}
+		PlayGameProcessInputs.playGameProcessInputs(this);
 	}
 
 	// Render function
 	protected void render()
 	{
 
+		// TODO: refactor this later..
 		pushTileMapLayerToQueue(map.getLayerEngineState(0),
 					groundBuffer);
 
 		pushTileMapLayerToQueue(map.getLayerEngineState(1),
 					entityBuffer);
+		pushTileMapLayerToQueue(map.getLayerEngineState(2), guiBuffer);
+		pushTileMapLayerToQueue(map.getLayerEngineState(3), guiBuffer);
+		pushTileMapLayerToQueue(map.getLayerEngineState(4), guiBuffer);
+		pushTileMapLayerToQueue(map.getLayerEngineState(5), guiBuffer);
 
 		for (Render r :
 		     super.getRawComponentArrayListPackedData(Render.class)) {
@@ -613,26 +459,6 @@ public class PlayGame extends World
 		this.centerCamerasPositionsToWorldAttribute(
 			engineState.getComponentAt(WorldAttributes.class,
 						   this.player));
-	}
-	protected void updateCoolDownKeys()
-	{
-		for (int i = 0; i < Resources.GameConfig.COOL_DOWN_KEYS.size();
-		     ++i) {
-			updateDtForKey(
-				Resources.GameConfig.COOL_DOWN_KEYS.get(i).fst,
-				this.dt / 1000);
-		}
-	}
-	protected void updateDtForKey(int keyIndex, double val)
-	{
-		// if the key cooldown is not 0.. i put a if statement here
-		// because i don't want to subtract it to neg infinity..
-		if (lastCoolDown.get(keyIndex) - val > EPSILON) {
-			lastCoolDown.set(keyIndex,
-					 lastCoolDown.get(keyIndex) - val);
-		} else {
-			lastCoolDown.set(keyIndex, 0d);
-		}
 	}
 
 	// ASE
@@ -798,9 +624,7 @@ public class PlayGame extends World
 	 */
 	protected void findBulletHits(int bullet)
 	{
-		EngineState mapState = map.getLayerEngineState(1);
-		CombatFunctions.bulletHitHandler(engineState, mapState, gjk,
-						 bullet);
+		CombatFunctions.bulletHitHandler(this, bullet);
 	}
 
 	/**
@@ -817,4 +641,19 @@ public class PlayGame extends World
 		}
 	}
 	// /ASE
+	//
+	protected Map getMap()
+	{
+		return this.map;
+	}
+
+	protected GJK getGJK()
+	{
+		return this.gjk;
+	}
+
+	protected void pushEventToEventHandler(PlayGameEvent event)
+	{
+		this.gameEventStack.push(event);
+	}
 }

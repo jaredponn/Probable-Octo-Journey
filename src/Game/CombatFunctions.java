@@ -23,27 +23,6 @@ public class CombatFunctions
 {
 
 	/**
-	 * Removes a mob from an engine state
-	 * @param engineState: that the mob is in
-	 * @param mob: to be removed
-	 */
-	public static void removeMob(EngineState engineState, int mob)
-	{
-		engineState.deleteComponentAt(MobSet.class, mob);
-		engineState.deleteComponentAt(WorldAttributes.class, mob);
-		engineState.deleteComponentAt(Render.class, mob);
-		engineState.deleteComponentAt(HasAnimation.class, mob);
-		engineState.deleteComponentAt(Movement.class, mob);
-		engineState.deleteComponentAt(MovementDirection.class, mob);
-		engineState.deleteComponentAt(FacingDirection.class, mob);
-		engineState.deleteComponentAt(PhysicsPCollisionBody.class, mob);
-		engineState.deleteComponentAt(PHitBox.class, mob);
-		engineState.deleteComponentAt(HitPoints.class, mob);
-		engineState.deleteComponentAt(AttackCycle.class, mob);
-		engineState.markIndexAsFree(mob);
-	}
-
-	/**
 	 * Removes a bullet from an engine state
 	 * @param engineState: that the bullet is in
 	 * @param bullet: to be removed
@@ -57,7 +36,7 @@ public class CombatFunctions
 		engineState.deleteComponentAt(Render.class, bullet);
 		engineState.deleteComponentAt(WorldAttributes.class, bullet);
 		engineState.deleteComponentAt(Movement.class, bullet);
-		//engineState.deleteComponentAt(Lifespan.class, bullet);
+		// engineState.deleteComponentAt(Lifespan.class, bullet);
 		engineState.deleteComponentAt(PhysicsPCollisionBody.class,
 					      bullet);
 		engineState.deleteComponentAt(Damage.class, bullet);
@@ -100,16 +79,15 @@ public class CombatFunctions
 
 	/**
 	 * Handler for bullet collisions
-	 * @param mainState: The main game state
-	 * @param mapState: The map layer that contains objects that should
-	 *         block projectiles
-	 * @param gjk: must pass the GJK to handle collisions
+	 * @param g: godly game state
 	 * @param bullet: the bullet that you are checking for collisions
 	 */
-	public static void bulletHitHandler(EngineState mainState,
-					    EngineState mapState, GJK gjk,
-					    int bullet)
+	public static void bulletHitHandler(PlayGame g, int bullet)
 	{
+		EngineState mainState = g.getEngineState();
+		EngineState mapState = g.getMap().getLayerEngineState(1);
+		GJK gjk = g.getGJK();
+
 		final PhysicsPCollisionBody bulletBody =
 			mainState.getComponentAt(PhysicsPCollisionBody.class,
 						 bullet);
@@ -132,11 +110,18 @@ public class CombatFunctions
 							      bullet)
 						      .getDamage());
 				removeBullet(mainState, bullet);
+
+
 				if (mainState.getComponentAt(HitPoints.class, i)
 					    .getHP()
 				    <= 0)
-					removeMob(mainState, i);
-				break;
+					g.pushEventToEventHandler(
+						new ZombieOutOfHPEvent(g, i));
+
+				return; // If it does hit something, it should
+					// just delete the bullet (as seen here)
+					// and just exit and not check if is
+					// colliding with other things.
 			}
 		}
 
@@ -147,7 +132,7 @@ public class CombatFunctions
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, bulletBody, wall)) {
 				removeBullet(mainState, bullet);
-				break;
+				return;
 			}
 		}
 	}
@@ -265,8 +250,7 @@ public class CombatFunctions
 	 * @param turret: the turret that will be targeting something
 	 * @param gameTime: the time the game has been running
 	 */
-	public static void turretTargeting(EngineState engineState, int turret,
-					   double gameTime)
+	public static void turretTargeting(EngineState engineState, int turret)
 	{
 		Vector2f turretPosition =
 			engineState.getComponentAt(PHitBox.class, turret)
@@ -275,7 +259,7 @@ public class CombatFunctions
 
 		// find the first mob
 		int i = engineState.getInitialSetIndex(MobSet.class);
-		if (poj.EngineState.isValidEntity(i) ) {
+		if (poj.EngineState.isValidEntity(i)) {
 			// set the mob as curretTarget
 			currentTarget = i;
 
@@ -292,34 +276,41 @@ public class CombatFunctions
 				tmp;
 
 			// find next mob and compare range
-			for (int j = engineState.getNextSetIndex(MobSet.class , currentTarget);
+			for (int j = engineState.getNextSetIndex(MobSet.class,
+								 currentTarget);
 			     poj.EngineState.isValidEntity(j);
 			     j = engineState.getNextSetIndex(MobSet.class, j)) {
 
 				// find centre of next mob's hit box
 				Vector2f mob2Position =
 					engineState
-						.getComponentAt(PHitBox.class, j)
+						.getComponentAt(PHitBox.class,
+								j)
 						.getCenter();
 
 				// find the vector from turret to this mob
 				Vector2f tmp2 = turretPosition.pureSubtract(
 					mob2Position);
 				tmp2.negate();
-				Vector2f unitVecturretPosTomob2Delta =
-					tmp2;
+				Vector2f unitVecturretPosTomob2Delta = tmp2;
 
 				// if vector from turret to next mob is smaller
 				// than turret to currentTarget, target next mob
-				if (Vector2f.scalarValueOfVector(unitVecturretPosTomob2Delta) 
-						< Vector2f.scalarValueOfVector(unitVecturretPosTomob1Delta)) {
-					unitVecturretPosTomob1Delta =
-						new Vector2f( unitVecturretPosTomob2Delta );
+				if (Vector2f.scalarValueOfVector(
+					    unitVecturretPosTomob2Delta)
+				    < Vector2f.scalarValueOfVector(
+					      unitVecturretPosTomob1Delta)) {
+					unitVecturretPosTomob1Delta = new Vector2f(
+						unitVecturretPosTomob2Delta);
 					currentTarget = j;
 				}
 			}
-			if (currentTarget > 0 && Vector2f.scalarValueOfVector(unitVecturretPosTomob1Delta) < 20)
-				shootTurret(engineState , turret , currentTarget , gameTime );
+			// Limit turret range
+			if (currentTarget > 0
+			    && Vector2f.scalarValueOfVector(
+				       unitVecturretPosTomob1Delta)
+				       < 20)
+				shootTurret(engineState, turret, currentTarget);
 		}
 	}
 
@@ -331,7 +322,7 @@ public class CombatFunctions
 	 * @param gameTime: the time that the game has been running
 	 */
 	public static void shootTurret(EngineState engineState, int turret,
-				       int target, double gameTime)
+				       int target)
 	{
 		Vector2f turretPosition =
 			engineState.getComponentAt(PHitBox.class, turret)

@@ -256,6 +256,6 @@ public class AttackCycleHandlers
 	public static void turretAttackHandler(EngineState engineState,
 					       int turret, double gameTime)
 	{
-		CombatFunctions.turretTargeting(engineState, turret, gameTime);
+		CombatFunctions.turretTargeting(engineState, turret );
 	}
 }

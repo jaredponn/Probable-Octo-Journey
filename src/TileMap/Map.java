@@ -149,6 +149,7 @@ public class Map
 			}
 			mapReader.close();
 			createTileRenderObjects();
+			// TODO: create new wall states!!
 			createWallState();
 
 		} catch (FileNotFoundException e) {
@@ -304,7 +305,8 @@ public class Map
 									nextFreeIndex);
 						}
 
-
+						// here will pick the tile image
+						// and render it
 						mapLayers
 							.get(mapLayers.size()
 							     - 1)
@@ -326,7 +328,7 @@ public class Map
 											/ 4,
 										/// 8,
 										GameResources
-											.testTile,
+											.officialTileSet,
 										tilesRenderPart
 											.get(Integer.parseInt(
 												tempList[i]))),
