@@ -33,22 +33,22 @@ public class GameConfig
 	public static final PCollisionBody PLAYER_COLLISION_BODY =
 		new PCollisionBody(
 			// new Vector2f(0f, 0f),
-			new Vector2f(1.5f, 2.7f), // displacement
-			new Vector2f(0.5f, 0.5f), // center
+			new Vector2f(0f, 0.7f), // displacement
+			new Vector2f(0.25f, 0.25f), // center
 			// collision body:
-			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
-			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
-			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
-			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
+			new Vector2f(0.125f, 0.5f), new Vector2f(0.375f, 0.5f),
+			new Vector2f(0, 0.375f), new Vector2f(0.5f, 0.375f),
+			new Vector2f(0, 0.125f), new Vector2f(0.125f, 0),
+			new Vector2f(0.375f, 0), new Vector2f(0.5f, 0.125f));
 
 	// hitbox by inspection
 	public static final PCollisionBody PLAYER_HITBOX_BODY =
 		new PCollisionBody(
 			new Vector2f(-0.5f, 0f),  // displacement
-			new Vector2f(2.1f, 1.5f), // center
+			new Vector2f(1.5f, 0.75f), // center
 						  // collision body:
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
-			new Vector2f(2.7f, 2.5f), new Vector2f(2.95f, 2.2f));
+			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(45, 45);
@@ -61,7 +61,7 @@ public class GameConfig
 	public static final int TOWER_BUILD_COST = 250;
 	public static final PCollisionBody TURRET_COLLISION_BODY =
 		new PCollisionBody(
-			new Vector2f(-1f, -0.85f), // displacement
+			new Vector2f(-0.25f, 1f), // displacement
 			new Vector2f(0.5f, 0.5f),  // center
 						   // collision body:
 			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
@@ -122,8 +122,8 @@ public class GameConfig
 	public static final PCollisionBody MOB_COLLISION_BODY =
 		// clang-format off
 		new PCollisionBody(
-			new Vector2f(1.6f ,2.3f), // displacement
-			new Vector2f(0.5f ,0.5f), // center
+			new Vector2f(0f , 0.7f), // displacement
+			new Vector2f(0.25f ,0.25f), // center
 						  // collision body:
 			new Vector2f(0.25f/2f,   1    /2f), new Vector2f(0.75f /2f, 1    /2f),
 			new Vector2f(0    /2f,   0.75f/2f), new Vector2f(1     /2f, 0.75f/2f),
