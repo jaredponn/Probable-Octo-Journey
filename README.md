@@ -51,7 +51,7 @@ The directory hierarchy is as follows:
 ```bash
 src/    # source files
 src/poj/ # game engine
-## Directory Hierarchy
+```
 
 ## Coordinate System
 The coordinate system is a little strange. The following diagram will illustrate:
