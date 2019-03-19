@@ -61,7 +61,7 @@ public class App
 		this.renderer = new Renderer(gcanvas);
 
 		// default clear color
-		this.renderer.setClearColor(Color.black);
+		this.renderer.setClearColor(new Color(131, 173, 239));
 
 		// is running
 		this.isRunning = true;
