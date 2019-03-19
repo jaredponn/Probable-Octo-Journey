@@ -39,12 +39,23 @@ There are 2 UML diagrams provided, which can be found in the following locations
 - Polishing zombie spawn points (perhaps 5 or 6 spawn points around the map. Also, for api design, consider lookingat the COOL_DOWN_KEYS variable in GameConfig.java for how to load the spawn points in.)
 - Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
 
-- Boss zombies
+
+- Boss zombies (may need more graphics from Ramiro for this)
+
+
 
 - Melee attack
 - Aligning hit boxes with the map
 
+
 - Game over screen (restart / play again, go back to menu)
+
+
+- Turrets
+- Bullet sprite
+- Melee sprites with a more visible sword
+- Slower zombie attacks
+
 
 ## Directory Hierarchy
 The directory hierarchy is as follows:
