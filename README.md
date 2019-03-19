@@ -51,6 +51,9 @@ There are 2 UML diagrams provided, which can be found in the following locations
 - Game over screen (restart / play again, go back to menu)
 
 
+- Audio
+
+
 - Turrets
 - Bullet sprite
 - Melee sprites with a more visible sword
