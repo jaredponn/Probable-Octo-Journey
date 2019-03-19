@@ -11,6 +11,7 @@ import poj.GameWindow.*;
 import poj.Render.*;
 import Game.PlayGame;
 import Game.Menu;
+import Resources.GameConfig;
 
 import java.awt.*;
 
@@ -61,7 +62,7 @@ public class App
 		this.renderer = new Renderer(gcanvas);
 
 		// default clear color
-		this.renderer.setClearColor(new Color(131, 173, 239));
+		this.renderer.setClearColor(GameConfig.APP_CLEAR_COLOR);
 
 		// is running
 		this.isRunning = true;
