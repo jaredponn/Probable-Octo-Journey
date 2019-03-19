@@ -18,22 +18,40 @@ Note: this script only works with bash.
 
 
 # Architecture / UML diagrams
-The architecture uses and entity component system. 
+The architecture uses an entity component system that favors composition.
 
 There are 2 UML diagrams provided, which can be found in the following locations:
-```
+```bash
 ./simplifiedumldiagram.png # simplified UML diagram without all the classes
 ./demo2umldiagram.png      # actual UML diagram with all the classes in it
 ```
 
 # Announcements -- for Contributors:
+
+## TODO List
+- Powerups (more damage)
+- Collectibles (HP refill, ammo refill, money)
+- Finite ammo
+- Buying ammo
+- Aligning the aggro hit box properly 
+- Actually using the aggro hit box
+- Shrinking the PPhysicsHitBox of zombies and players
+- Polishing zombie spawn points (perhaps 5 or 6 spawn points around the map. Also, for api design, consider lookingat the COOL_DOWN_KEYS variable in GameConfig.java for how to load the spawn points in.)
+- Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
+
+- Boss zombies
+
+- Melee attack
+- Aligning hit boxes with the map
+
+- Game over screen (restart / play again, go back to menu)
+
 ## Directory Hierarchy
 The directory hierarchy is as follows:
 ```bash
 src/    # source files
-src/poj # game engine
-src/*   # game
-```
+src/poj/ # game engine
+## Directory Hierarchy
 
 ## Coordinate System
 The coordinate system is a little strange. The following diagram will illustrate:
