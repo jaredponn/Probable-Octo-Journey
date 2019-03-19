@@ -76,6 +76,8 @@ public class PlayGame extends World
 	protected double timeOfLastMobSpawn = 0.0 - GameConfig.MOB_SPAWN_TIMER;
 	protected double timeOfLastCashSpawn =
 		0.0 - GameConfig.PICKUP_CASH_SPAWN_TIME;
+	protected double timeOfLastPowerUpSpawn =
+			0.0 - GameConfig.PICKUP_POWERUP_SPAWN_TIME;
 	protected int cash = GameConfig.PLAYER_STARTING_CASH;
 
 	protected StringRenderObject gameTimer =
@@ -261,10 +263,10 @@ public class PlayGame extends World
 				engineState, gjk, MobSet.class,
 				TurretSet.class);
 
-
-		// TODO: make mobs drop cash on death?
 		this.cashSpawner(true, 13f, 7f);
+		this.powerUpSpawner(true, 13f, 8f);
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
+		this.collectPowerUp();
 
 		this.updateGameTimer();
 		this.updateCashDisplay();
@@ -537,8 +539,25 @@ public class PlayGame extends World
 		} else if (timed == false) {
 			super.engineState.spawnEntitySet(
 				new CollectibleSet(x, y, currentPlayTime));
-			this.timeOfLastCashSpawn = currentPlayTime;
 			System.out.println("Spawning new cash drop.");
+		}
+	}
+	
+	// TODO: powerup spawn times
+	protected void powerUpSpawner(boolean timed, float x, float y)
+	{
+		double currentPlayTime = this.getPlayTime();
+		if (timed
+		    && currentPlayTime - this.timeOfLastPowerUpSpawn
+			       > GameConfig.PICKUP_POWERUP_SPAWN_TIME) {
+			super.engineState.spawnEntitySet(
+				new PowerUp(x, y, currentPlayTime));
+			this.timeOfLastPowerUpSpawn = currentPlayTime;
+			System.out.println("Spawning new timed power-up drop.");
+		} else if (timed == false) {
+			super.engineState.spawnEntitySet(
+				new PowerUp(x, y, currentPlayTime));
+			System.out.println("Spawning new power-up drop.");
 		}
 	}
 
@@ -628,7 +647,7 @@ public class PlayGame extends World
 	 * Increase player bullet damage
 	 * @param amount to increase the damage bonus by
 	 */
-	protected void collectPowerUp(double amount)
+	protected void collectPowerUp()
 	{
 		PhysicsPCollisionBody playerPosition =
 			engineState.getComponentAt(PhysicsPCollisionBody.class,
@@ -646,7 +665,8 @@ public class PlayGame extends World
 
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, playerPosition, collectiblePosition)) {
-				this.playerDamageBonus += amount;
+				this.playerDamageBonus += GameConfig.PICKUP_POWERUP_AMOUNT;
+				System.out.println("The player now has an attack bonus of "+this.playerDamageBonus);
 				CombatFunctions.removePickUp(engineState, i);
 			}
 		}

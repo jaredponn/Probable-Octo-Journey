@@ -89,7 +89,7 @@ public class GameConfig
 		GameResources.BULLET_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final double BULLET_LIFE_SPAN = 0.8;
-	public static final int BULLET_DAMAGE = 100;
+	public static final int BULLET_DAMAGE = 30;
 
 	public static final PCollisionBody BULLET_COLLISION_BODY =
 		new PCollisionBody(
@@ -205,8 +205,6 @@ public class GameConfig
 	/////////////////////////
 	///// pickup config /////
 	/////////////////////////
-	public static final int PICKUP_CASH_AMOUNT = 100;
-	public static final float PICKUP_CASH_SPAWN_TIME = 20.0f;
 	public static final float PICKUP_WIDTH =
 		GameResources.CASH_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
@@ -222,6 +220,17 @@ public class GameConfig
 			new Vector2f(0, 0), new Vector2f(0, PICKUP_HEIGHT),
 			new Vector2f(PICKUP_WIDTH, 0),
 			new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT));
+
+	// money:
+	public static final int PICKUP_CASH_AMOUNT = 100;
+	public static final float PICKUP_CASH_SPAWN_TIME = 20.0f;
+	// power-up:
+	public static final double PICKUP_POWERUP_AMOUNT = 0.05;
+	public static final float PICKUP_POWERUP_SPAWN_TIME = 20.0f;
+	// health:
+	// TODO: health pick-up
+	// ammo:
+	// TODO: ammo pick-up
 
 	////////////////////////
 	///// input config /////
