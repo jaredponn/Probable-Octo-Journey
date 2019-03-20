@@ -1,6 +1,7 @@
 package Resources;
 
 import java.awt.event.KeyEvent;
+import java.awt.*;
 import java.util.ArrayList;
 
 import Components.*;
@@ -33,7 +34,7 @@ public class GameConfig
 	public static final PCollisionBody PLAYER_COLLISION_BODY =
 		new PCollisionBody(
 			// new Vector2f(0f, 0f),
-			new Vector2f(0f, 0.7f), // displacement
+			new Vector2f(0f, 0.7f),     // displacement
 			new Vector2f(0.25f, 0.25f), // center
 			// collision body:
 			new Vector2f(0.125f, 0.5f), new Vector2f(0.375f, 0.5f),
@@ -44,9 +45,9 @@ public class GameConfig
 	// hitbox by inspection
 	public static final PCollisionBody PLAYER_HITBOX_BODY =
 		new PCollisionBody(
-			new Vector2f(-0.5f, 0f),  // displacement
+			new Vector2f(-0.5f, 0f),   // displacement
 			new Vector2f(1.5f, 0.75f), // center
-						  // collision body:
+						   // collision body:
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
 			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
@@ -63,8 +64,8 @@ public class GameConfig
 	public static final PCollisionBody TURRET_COLLISION_BODY =
 		new PCollisionBody(
 			new Vector2f(-0.25f, 1f), // displacement
-			new Vector2f(0.5f, 0.5f),  // center
-						   // collision body:
+			new Vector2f(0.5f, 0.5f), // center
+						  // collision body:
 			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
 			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
@@ -137,7 +138,7 @@ public class GameConfig
 							     // collision body:
 				   new Vector2f(0, 0), new Vector2f(2, 0),
 				   new Vector2f(0, 2), new Vector2f(2, 2));
-	
+
 	public static final AggroRange MOB_AGGRO_RANGE =
 			new AggroRange(
 				new Vector2f(-0.4f, 0f),  // displacement
@@ -257,4 +258,6 @@ public class GameConfig
 				add(new Pair<Integer, Double>(BUILD_TRAP, 1d));
 			}
 		};
+
+	public static final Color APP_CLEAR_COLOR = new Color(131, 173, 239);
 }

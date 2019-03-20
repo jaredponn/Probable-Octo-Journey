@@ -13,7 +13,7 @@ public class AggroRange extends PCollisionBody
 {
 	/**
 	 * Constructs an AggroRange object that is used to start
-	 * attack animations only. Alias of the PhysicsPCollisionBody type -- same
+	 * attack animations only. Alias of the PCollisionBody type -- same
 	 * functionality but different higher level type.
 	 *
 	 * @param  d the displacement added to the object just
