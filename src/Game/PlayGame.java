@@ -89,6 +89,8 @@ public class PlayGame extends World
 		"Your Cash: " + this.cash, 5, 20, Color.WHITE);
 	protected StringRenderObject healthDisplay =
 		new StringRenderObject("", 5, 30, Color.WHITE);
+	protected StringRenderObject ammoDisplay =
+			new StringRenderObject("", 5, 40, Color.WHITE);
 
 
 	// Collision detection and resolution
@@ -237,8 +239,8 @@ public class PlayGame extends World
 				this.engineState);
 		this.handleTurrets();
 
-		// Timed de-spawner
-		this.cashDropDespawner();
+		// de-spawn entities with lifespans
+		this.timedDespawner();
 
 		// Handle bullets hitting things
 		// player bullets:
@@ -276,6 +278,7 @@ public class PlayGame extends World
 		this.updateGameTimer();
 		this.updateCashDisplay();
 		this.updateHealthDisplay();
+		this.updateAmmoDisplay();
 
 
 		// updating positions
@@ -417,6 +420,7 @@ public class PlayGame extends World
 		guiBuffer.add(this.gameTimer);
 		guiBuffer.add(this.cashDisplay);
 		guiBuffer.add(this.healthDisplay);
+		guiBuffer.add(this.ammoDisplay);
 
 		super.renderer.renderBuffers(groundBuffer, entityBuffer,
 					     debugBuffer, guiBuffer);
@@ -505,6 +509,13 @@ public class PlayGame extends World
 				  .getComponentAt(HitPoints.class, this.player)
 				  .getHP());
 	}
+	
+	/** update ammoDisplay */
+	protected void updateAmmoDisplay()
+	{
+		this.ammoDisplay.setStr(
+			"Your Ammo: "+this.playerAmmo);
+	}
 
 	/**
 	 * spawns a new mob entity if it has been at least
@@ -570,7 +581,7 @@ public class PlayGame extends World
 	 * deletes cash drops older than the lifespan
 	 * prevents drops that have not been collected from piling up
 	 */
-	protected void cashDropDespawner()
+	protected void timedDespawner()
 	{
 		for (int i = this.engineState.getInitialSetIndex(
 			     CollectibleSet.class);
@@ -578,16 +589,34 @@ public class PlayGame extends World
 		     i = this.engineState.getNextSetIndex(CollectibleSet.class,
 							  i)) {
 
-			double spawnTime =
-				engineState.getComponentAt(Lifespan.class, i)
-					.getSpawnTime();
-			double lifespan =
-				engineState.getComponentAt(Lifespan.class, i)
-					.getLifespan();
+			CombatFunctions.removeEntityWithLifeSpan(this, i);
+		}
+		
+		for (int i = this.engineState.getInitialSetIndex(
+			     PowerUp.class);
+		     this.engineState.isValidEntity(i);
+		     i = this.engineState.getNextSetIndex(PowerUp.class,
+							  i)) {
 
-			if (this.getPlayTime() - spawnTime >= lifespan) {
-				CombatFunctions.removePickUp(engineState, i);
-			}
+			CombatFunctions.removeEntityWithLifeSpan(this, i);
+		}
+		
+		for (int i = this.engineState.getInitialSetIndex(
+			     HealthPack.class);
+		     this.engineState.isValidEntity(i);
+		     i = this.engineState.getNextSetIndex(HealthPack.class,
+							  i)) {
+
+			CombatFunctions.removeEntityWithLifeSpan(this, i);
+		}
+		
+		for (int i = this.engineState.getInitialSetIndex(
+			     AmmoPack.class);
+		     this.engineState.isValidEntity(i);
+		     i = this.engineState.getNextSetIndex(AmmoPack.class,
+							  i)) {
+
+			CombatFunctions.removeEntityWithLifeSpan(this, i);
 		}
 	}
 

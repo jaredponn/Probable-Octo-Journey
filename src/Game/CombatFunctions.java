@@ -56,6 +56,25 @@ public class CombatFunctions
 		engineState.deleteAllComponentsAt(t);
 		engineState.markIndexAsFree(t);
 	}
+	
+	/**
+	 * Removes an entity with a lifespan component 
+	 * if it has reached the end of its lifespan
+	 * @param g: the main game
+	 * @param entity: the entity to be deleted
+	 */
+	public static void removeEntityWithLifeSpan(PlayGame g , int entity)
+	{
+		EngineState engineState = g.getEngineState();
+		
+		double spawnTime = engineState.getComponentAt(Lifespan.class, entity).getSpawnTime();
+		double lifespan = engineState.getComponentAt(Lifespan.class, entity).getLifespan();
+		
+		if (g.getPlayTime() - spawnTime >= lifespan ) {
+			engineState.deleteAllComponentsAt(entity);
+			engineState.markIndexAsFree(entity);
+		}
+	}
 
 
 	/**
