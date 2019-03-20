@@ -29,9 +29,9 @@ There are 2 UML diagrams provided, which can be found in the following locations
 # Announcements -- for Contributors:
 
 ## TODO List
-- Powerups (more damage)
-- Collectibles (HP refill, ammo refill, money)
-- Finite ammo
+- Powerups (more damage) - just need to handle spawning now (alex 03/20/19)
+- Collectibles (HP refill, ammo refill, money) - just need to handle spawning now (alex 03/20/19)
+- Finite ammo - DONE (alex 03/20/19)
 - Buying ammo
 - Aligning the aggro hit box properly 
 - Actually using the aggro hit box
