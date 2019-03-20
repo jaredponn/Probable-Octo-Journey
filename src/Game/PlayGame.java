@@ -16,11 +16,13 @@ import java.awt.event.KeyEvent;
 import java.util.*;
 
 import Components.*;
+import EntitySets.AmmoPack;
 import EntitySets.Bullet;
 import EntitySets.CannonShell;
 import EntitySets.CollectibleSet;
 import EntitySets.PowerUp;
 import EntitySets.ConstructSet;
+import EntitySets.HealthPack;
 import EntitySets.MobSet;
 import EntitySets.PlayerSet;
 import EntitySets.TurretSet;
@@ -72,13 +74,14 @@ public class PlayGame extends World
 	protected WeaponState curWeaponState = WeaponState.Gun;
 
 	protected double playerDamageBonus = 1d;
+	protected int playerAmmo = GameConfig.PLAYER_STARTING_AMMO;
+	protected int cash = GameConfig.PLAYER_STARTING_CASH;
 	
 	protected double timeOfLastMobSpawn = 0.0 - GameConfig.MOB_SPAWN_TIMER;
 	protected double timeOfLastCashSpawn =
 		0.0 - GameConfig.PICKUP_CASH_SPAWN_TIME;
 	protected double timeOfLastPowerUpSpawn =
 			0.0 - GameConfig.PICKUP_POWERUP_SPAWN_TIME;
-	protected int cash = GameConfig.PLAYER_STARTING_CASH;
 
 	protected StringRenderObject gameTimer =
 		new StringRenderObject("", 5, 10, Color.WHITE);
@@ -186,6 +189,8 @@ public class PlayGame extends World
 		super.engineState.registerSet(TurretSet.class);
 		super.engineState.registerSet(CollectibleSet.class);
 		super.engineState.registerSet(PowerUp.class);
+		super.engineState.registerSet(HealthPack.class);
+		super.engineState.registerSet(AmmoPack.class);
 	}
 
 	// higher game logic functions
@@ -645,7 +650,6 @@ public class PlayGame extends World
 	
 	/**
 	 * Increase player bullet damage
-	 * @param amount to increase the damage bonus by
 	 */
 	protected void collectPowerUp()
 	{
@@ -671,6 +675,62 @@ public class PlayGame extends World
 			}
 		}
 	}
+	
+	/**
+	 * Increase player hit points
+	 */
+	protected void collectHealthPack()
+	{
+		PhysicsPCollisionBody playerPosition =
+			engineState.getComponentAt(PhysicsPCollisionBody.class,
+						   this.player);
+
+		for (int i = this.engineState.getInitialSetIndex(
+			     HealthPack.class);
+		     this.engineState.isValidEntity(i);
+		     i = this.engineState.getNextSetIndex(HealthPack.class,
+							  i)) {
+
+			PhysicsPCollisionBody collectiblePosition =
+				engineState.getComponentAt(
+					PhysicsPCollisionBody.class, i);
+
+			if (Systems.arePCollisionBodiesColliding(
+				    gjk, playerPosition, collectiblePosition)) {
+				engineState.getComponentAt(HitPoints.class, player)
+					.heal(GameConfig.PICKUP_HEALTHPACK_AMOUNT);
+				CombatFunctions.removePickUp(engineState, i);
+			}
+		}
+	}
+	
+	/**
+	 * Increase player ammo
+	 */
+	protected void collectAmmoPack()
+	{
+		PhysicsPCollisionBody playerPosition =
+			engineState.getComponentAt(PhysicsPCollisionBody.class,
+						   this.player);
+
+		for (int i = this.engineState.getInitialSetIndex(
+			     AmmoPack.class);
+		     this.engineState.isValidEntity(i);
+		     i = this.engineState.getNextSetIndex(AmmoPack.class,
+							  i)) {
+
+			PhysicsPCollisionBody collectiblePosition =
+				engineState.getComponentAt(
+					PhysicsPCollisionBody.class, i);
+
+			if (Systems.arePCollisionBodiesColliding(
+				    gjk, playerPosition, collectiblePosition)) {
+				this.playerAmmo += GameConfig.PICKUP_AMMOPACK_AMOUNT;
+				CombatFunctions.removePickUp(engineState, i);
+			}
+		}
+	}
+	
 	/**
 	 * checks a bullet to see if it has collided with
 	 * a mob, applies damage to hit mob, despawns the

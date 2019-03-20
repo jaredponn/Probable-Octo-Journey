@@ -8,18 +8,18 @@ import poj.Render.ImageRenderObject;
 import Components.*;
 
 /**
- * Power-up to allow the player to do more damage
+ * Ammo pack that gives the player more bullets to shoot
  * @author Alex
  * @version 1.0 - 03/18/19
  */
-public class PowerUp extends EntitySet {
+public class AmmoPack extends EntitySet {
 
-	public PowerUp( double spawnTime ) {
+	public AmmoPack( double spawnTime ) {
 		
 		this( 1f , 1f , spawnTime );
 	}
 	
-	public PowerUp( float x , float y , double spawnTime ) {
+	public AmmoPack( float x , float y , double spawnTime ) {
 		
 		super();
 		
@@ -30,13 +30,13 @@ public class PowerUp extends EntitySet {
 						 GameConfig.PICKUP_WIDTH,
 						 GameConfig.PICKUP_HEIGHT));
 
-		addComponent(new Lifespan(GameConfig.PICKUP_POWERUP_SPAWN_TIME,
+		addComponent(new Lifespan(GameConfig.PICKUP_AMMOPACK_SPAWN_TIME,
 					  spawnTime));
 		addComponent(new PhysicsPCollisionBody(
 			GameConfig.PICKUP_COLLISION_BODY));
 	}
 	
-	public PowerUp(Vector2f posVector , double spawnTime ) {
+	public AmmoPack(Vector2f posVector , double spawnTime ) {
 		
 		this( posVector.x , posVector.y , spawnTime );
 	}

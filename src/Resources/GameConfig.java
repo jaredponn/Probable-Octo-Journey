@@ -54,6 +54,7 @@ public class GameConfig
 		new AttackCycle(45, 45);
 
 	public static final int PLAYER_STARTING_CASH = Integer.MAX_VALUE;
+	public static final int PLAYER_STARTING_AMMO = 20;
 
 	/////////////////////////
 	///// turret config /////
@@ -143,7 +144,9 @@ public class GameConfig
 				new Vector2f(0.5f, 0.5f), // center
 							  // collision body:
 				new Vector2f(0f, 0f), new Vector2f(1f, 1f),
-				new Vector2f(1f, 0f), new Vector2f(0f, 1f));
+				new Vector2f(1f, 0f), new Vector2f(0f, 1f),
+				new Vector2f(0.5f, -0.25f), new Vector2f(-0.2f, 0.5f),
+				new Vector2f(1.2f, 0.5f), new Vector2f(0.5f, 1.25f));
 
 	public static final float MOB_SPAWN_TIMER = 10.0f;
 	public static final double MOB_DESPAWN_TIMER = 5000d; // in ms
@@ -228,9 +231,11 @@ public class GameConfig
 	public static final double PICKUP_POWERUP_AMOUNT = 0.05;
 	public static final float PICKUP_POWERUP_SPAWN_TIME = 20.0f;
 	// health:
-	// TODO: health pick-up
+	public static final int PICKUP_HEALTHPACK_AMOUNT = 50;
+	public static final float PICKUP_HEALTHPACK_SPAWN_TIME = 20.0f;
 	// ammo:
-	// TODO: ammo pick-up
+	public static final int PICKUP_AMMOPACK_AMOUNT = 20;
+	public static final float PICKUP_AMMOPACK_SPAWN_TIME = 20.0f;
 
 	////////////////////////
 	///// input config /////
