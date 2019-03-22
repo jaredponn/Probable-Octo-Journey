@@ -2,8 +2,9 @@
 
 
 # Running the demo
+Execute the following commands in the command line
 
-```
+```bash
 git clone https://github.com/jaredponn/probable-octo-journey
 cd probable-octo-journey
 ./run.sh 
