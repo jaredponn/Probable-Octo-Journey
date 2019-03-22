@@ -526,9 +526,9 @@ public class PlayGame extends World
 		double currentPlayTime = this.getPlayTime();
 		if (currentPlayTime - this.timeOfLastMobSpawn
 		    >= GameConfig.MOB_SPAWN_TIMER) {
-			super.engineState.spawnEntitySet(new MobSet());
-			super.engineState.spawnEntitySet(
-				new MobSet(GameConfig.MOB_SPAWNER_1));
+			for (int i = 0 ; i < GameConfig.MOB_SPAWN_POINTS.size(); i++) {
+				engineState.spawnEntitySet(new MobSet(GameConfig.MOB_SPAWN_POINTS.get(i)));
+			}
 			this.timeOfLastMobSpawn = currentPlayTime;
 			System.out.println("Spawning new mob at time: "
 					   + this.timeOfLastMobSpawn);

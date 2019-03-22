@@ -153,8 +153,13 @@ public class GameConfig
 	public static final double MOB_DESPAWN_TIMER = 5000d; // in ms
 
 	// spawn points:
-	public static final Vector2f MOB_SPAWNER_0 = new Vector2f(14f, 7f);
-	public static final Vector2f MOB_SPAWNER_1 = new Vector2f(20f, 20f);
+	public static final ArrayList<Vector2f> MOB_SPAWN_POINTS = 
+			new ArrayList<Vector2f>() {
+				{
+					add(new Vector2f(14f, 7f ));
+					add(new Vector2f(20f, 20f));
+				}
+	};
 
 
 	///////////////////////
@@ -257,6 +262,8 @@ public class GameConfig
 				add(new Pair<Integer, Double>(SWITCH_WEAPONS,
 							      1d));
 				add(new Pair<Integer, Double>(BUILD_TRAP, 1d));
+				add(new Pair<Integer, Double>(BUY_AMMO,
+					      0.3d));
 			}
 		};
 

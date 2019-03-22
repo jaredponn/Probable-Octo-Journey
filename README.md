@@ -37,7 +37,7 @@ There are 2 UML diagrams provided, which can be found in the following locations
 - Actually using the aggro hit box - DONE (alex 03/22/19)
 - Make mobs slowly move towards player when in aggro range 
 - Shrinking the PPhysicsHitBox of zombies and players - DONE (alex 03/22/19)
-- Polishing zombie spawn points (perhaps 5 or 6 spawn points around the map. Also, for api design, consider looking at the COOL_DOWN_KEYS variable in GameConfig.java for how to load the spawn points in.)
+- Polishing zombie spawn points (perhaps 5 or 6 spawn points around the map)
 - Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
 
 
