@@ -16,6 +16,7 @@ import java.util.Map;
 
 public class Components extends ComponentsArray
 {
+	protected Class<? extends Component> typeFocus; // focused type
 
 	/**
 	 * Constructs a Components Array with the specified buffer size
@@ -184,6 +185,7 @@ public class Components extends ComponentsArray
 	public final <T extends Component> int
 	getInitialSetIndex(Class<T> setType)
 	{
+		this.typeFocus = setType;
 		ArrayList<Integer> tmp =
 			getComponentPackedVector(setType).get_packed_indicies();
 		if (tmp.size() == 0)
@@ -222,6 +224,30 @@ public class Components extends ComponentsArray
 			getComponentPackedVector(setType).get_sparse_vector();
 		ArrayList<Integer> ptmp =
 			getComponentPackedVector(setType).get_packed_indicies();
+
+		final int nextpkdfocus = stmp.get(focus) + 1;
+
+		if (ptmp.size() <= nextpkdfocus)
+			return INVALID_ENTITY_INDEX;
+		else
+			return ptmp.get(nextpkdfocus);
+	}
+
+	/**
+	 * gets the next set index given a set index.
+	 *
+	 * @param  ct component type
+	 * @param  focus the current "focused" entity
+	 * @return  int -- either the next index or an invalid set index
+	 */
+	final public <T extends Component> int getNextSetIndex(int focus)
+	{
+		ArrayList<Integer> stmp =
+			getComponentPackedVector(this.typeFocus)
+				.get_sparse_vector();
+		ArrayList<Integer> ptmp =
+			getComponentPackedVector(this.typeFocus)
+				.get_packed_indicies();
 
 		final int nextpkdfocus = stmp.get(focus) + 1;
 
