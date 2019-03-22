@@ -162,27 +162,32 @@ public class AttackCycleHandlers
 					0));
 
 			// generation of the bullet
-			int e = engineState.spawnEntitySet(
-				new Bullet(playerPosition));
-			engineState
-				.getComponentAt(PhysicsPCollisionBody.class, e)
-				.setPositionPoint(
-					engineState
-						.getComponentAt(
-							WorldAttributes.class,
-							player)
-						.getCenteredBottomQuarter());
-			float bulletSpeed =
-				engineState.getComponentAt(Movement.class, e)
-					.getSpeed();
+			if ( playGame.playerAmmo > 0 )
+			{
+				int e = engineState.spawnEntitySet(
+					new Bullet(playerPosition));
+				engineState
+					.getComponentAt(PhysicsPCollisionBody.class, e)
+					.setPositionPoint(
+						engineState
+							.getComponentAt(
+								WorldAttributes.class,
+								player)
+							.getCenteredBottomQuarter());
+				float bulletSpeed =
+					engineState.getComponentAt(Movement.class, e)
+						.getSpeed();
 
-			engineState.getComponentAt(Movement.class, e)
-				.setVelocity(
-					unitVecPlayerPosToMouseDelta.pureMul(
-						bulletSpeed));
+				engineState.getComponentAt(Movement.class, e)
+					.setVelocity(
+						unitVecPlayerPosToMouseDelta.pureMul(
+							bulletSpeed));
+			
+				playGame.playerAmmo -= 1;
+			}
 			break;
 		case Melee:
-			System.out.println("melee weapon was attacked");
+			System.out.println("attacked with melee weapon");
 			break;
 		}
 	}

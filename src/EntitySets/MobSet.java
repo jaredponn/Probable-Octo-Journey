@@ -19,7 +19,7 @@ public class MobSet extends EntitySet
 
 	public MobSet()
 	{
-		this( GameConfig.MOB_SPAWNER_0 );
+		this( GameConfig.MOB_SPAWN_POINTS.get(0) );
 	}
 
 	/**

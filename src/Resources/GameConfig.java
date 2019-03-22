@@ -33,14 +33,13 @@ public class GameConfig
 		new Vector2f(3f, 3f);
 	public static final PCollisionBody PLAYER_COLLISION_BODY =
 		new PCollisionBody(
-			// new Vector2f(0f, 0f),
-			new Vector2f(0f, 0.7f),     // displacement
-			new Vector2f(0.25f, 0.25f), // center
-			// collision body:
-			new Vector2f(0.125f, 0.5f), new Vector2f(0.375f, 0.5f),
-			new Vector2f(0, 0.375f), new Vector2f(0.5f, 0.375f),
-			new Vector2f(0, 0.125f), new Vector2f(0.125f, 0),
-			new Vector2f(0.375f, 0), new Vector2f(0.5f, 0.125f));
+			new Vector2f(0.2f , 0.55f), // displacement
+			new Vector2f(0.25f ,0.25f), // center
+						// collision body:
+			new Vector2f(0.25f/4f,   1    /4f), new Vector2f(0.75f /4f, 1    /4f),
+			new Vector2f(0    /4f,   0.75f/4f), new Vector2f(1     /4f, 0.75f/4f),
+			new Vector2f(0    /4f, 0.25f  /4f), new Vector2f(0.25f /4f, 0    /4f),
+			new Vector2f(0.75f/4f, 0      /4f), new Vector2f(1     /4f, 0.25f/4f));
 
 	// hitbox by inspection
 	public static final PCollisionBody PLAYER_HITBOX_BODY =
@@ -55,6 +54,7 @@ public class GameConfig
 		new AttackCycle(45, 45);
 
 	public static final int PLAYER_STARTING_CASH = Integer.MAX_VALUE;
+	public static final int PLAYER_STARTING_AMMO = 20;
 
 	/////////////////////////
 	///// turret config /////
@@ -90,6 +90,7 @@ public class GameConfig
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final double BULLET_LIFE_SPAN = 0.8;
 	public static final int BULLET_DAMAGE = 30;
+	public static final int BULLET_COST = 5;
 
 	public static final PCollisionBody BULLET_COLLISION_BODY =
 		new PCollisionBody(
@@ -122,13 +123,13 @@ public class GameConfig
 	public static final PCollisionBody MOB_COLLISION_BODY =
 		// clang-format off
 		new PCollisionBody(
-			new Vector2f(0f , 0.7f), // displacement
+			new Vector2f(0.2f , 0.55f), // displacement
 			new Vector2f(0.25f ,0.25f), // center
 						  // collision body:
-			new Vector2f(0.25f/2f,   1    /2f), new Vector2f(0.75f /2f, 1    /2f),
-			new Vector2f(0    /2f,   0.75f/2f), new Vector2f(1     /2f, 0.75f/2f),
-			new Vector2f(0    /2f, 0.25f  /2f), new Vector2f(0.25f /2f, 0    /2f),
-			new Vector2f(0.75f/2f, 0      /2f), new Vector2f(1     /2f, 0.25f/2f));
+			new Vector2f(0.25f/4f,   1    /4f), new Vector2f(0.75f /4f, 1    /4f),
+			new Vector2f(0    /4f,   0.75f/4f), new Vector2f(1     /4f, 0.75f/4f),
+			new Vector2f(0    /4f, 0.25f  /4f), new Vector2f(0.25f /4f, 0    /4f),
+			new Vector2f(0.75f/4f, 0      /4f), new Vector2f(1     /4f, 0.25f/4f));
 	// clang-format on
 
 	public static final PCollisionBody MOB_MELEE_ATTACK_BODY =
@@ -139,18 +140,26 @@ public class GameConfig
 				   new Vector2f(0, 2), new Vector2f(2, 2));
 
 	public static final AggroRange MOB_AGGRO_RANGE =
-		new AggroRange(new Vector2f(-0.4f, 0f),  // displacement
-			       new Vector2f(0.5f, 0.5f), // center
-							 // collision body:
-			       new Vector2f(0f, 0f), new Vector2f(1f, 1f),
-			       new Vector2f(1f, 0f), new Vector2f(0f, 1f));
+			new AggroRange(
+				new Vector2f(-0.3f, 0f),  // displacement
+				new Vector2f(0.5f, 0.5f), // center
+							  // collision body:
+				new Vector2f(0f, 0f), new Vector2f(1f, 1f),
+				new Vector2f(1f, 0f), new Vector2f(0f, 1f),
+				new Vector2f(0.5f, -0.25f), new Vector2f(-0.2f, 0.5f),
+				new Vector2f(1.2f, 0.5f), new Vector2f(0.5f, 1.25f));
 
 	public static final float MOB_SPAWN_TIMER = 10.0f;
 	public static final double MOB_DESPAWN_TIMER = 5000d; // in ms
 
 	// spawn points:
-	public static final Vector2f MOB_SPAWNER_0 = new Vector2f(14f, 7f);
-	public static final Vector2f MOB_SPAWNER_1 = new Vector2f(20f, 20f);
+	public static final ArrayList<Vector2f> MOB_SPAWN_POINTS = 
+			new ArrayList<Vector2f>() {
+				{
+					add(new Vector2f(14f, 7f ));
+					add(new Vector2f(20f, 20f));
+				}
+	};
 
 
 	///////////////////////
@@ -228,9 +237,11 @@ public class GameConfig
 	public static final double PICKUP_POWERUP_AMOUNT = 0.05;
 	public static final float PICKUP_POWERUP_SPAWN_TIME = 20.0f;
 	// health:
-	// TODO: health pick-up
+	public static final int PICKUP_HEALTHPACK_AMOUNT = 50;
+	public static final float PICKUP_HEALTHPACK_SPAWN_TIME = 20.0f;
 	// ammo:
-	// TODO: ammo pick-up
+	public static final int PICKUP_AMMOPACK_AMOUNT = 20;
+	public static final float PICKUP_AMMOPACK_SPAWN_TIME = 20.0f;
 
 	////////////////////////
 	///// input config /////
@@ -239,6 +250,7 @@ public class GameConfig
 	public static final int ATTACK_KEY = KeyEvent.VK_SPACE;
 	public static final int BUILD_TOWER = KeyEvent.VK_Q;
 	public static final int BUILD_TRAP = KeyEvent.VK_E;
+	public static final int BUY_AMMO = KeyEvent.VK_B;
 
 	// key, cooldown (ms)
 	public static final ArrayList<Pair<Integer, Double>> COOL_DOWN_KEYS =
@@ -250,6 +262,8 @@ public class GameConfig
 				add(new Pair<Integer, Double>(SWITCH_WEAPONS,
 							      1d));
 				add(new Pair<Integer, Double>(BUILD_TRAP, 1d));
+				add(new Pair<Integer, Double>(BUY_AMMO,
+					      0.3d));
 			}
 		};
 

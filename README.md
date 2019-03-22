@@ -2,8 +2,9 @@
 
 
 # Running the demo
+Execute the following commands in the command line
 
-```
+```bash
 git clone https://github.com/jaredponn/probable-octo-journey
 cd probable-octo-journey
 ./run.sh 
@@ -29,29 +30,44 @@ There are 2 UML diagrams provided, which can be found in the following locations
 # Announcements -- for Contributors:
 
 ## TODO List
-- Powerups (more damage)
-- Collectibles (HP refill, ammo refill, money)
-- Finite ammo
-- Buying ammo
-- Aligning the aggro hit box properly 
-- Actually using the aggro hit box
-- Shrinking the PPhysicsHitBox of zombies and players
-- Polishing zombie spawn points (perhaps 5 or 6 spawn points around the map. Also, for api design, consider lookingat the COOL_DOWN_KEYS variable in GameConfig.java for how to load the spawn points in.)
+- Powerups (more damage) - just need to handle spawning now (alex 03/20/19)
+- Collectibles (HP refill, ammo refill, money) - just need to handle spawning now (alex 03/20/19)
+- Finite ammo - DONE (alex 03/20/19)
+- Buying ammo - just need to implement cooldown for key press (alex 03/22/19)
+- Aligning the aggro hit box properly - DONE (alex 03/20/19) 
+- Actually using the aggro hit box - DONE (alex 03/22/19)
+- Make mobs slowly move towards player when in aggro range 
+- Shrinking the PPhysicsHitBox of zombies and players - DONE (alex 03/22/19)
+- Polishing zombie spawn points (perhaps 5 or 6 spawn points around the map)
 - Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
 
-- Boss zombies
+
+- Boss zombies (may need more graphics from Ramiro for this)
+
+
 
 - Melee attack
 - Aligning hit boxes with the map
 
+
 - Game over screen (restart / play again, go back to menu)
+
+
+- Audio
+
+
+- Turrets
+- Bullet sprite
+- Melee sprites with a more visible sword
+- Slower zombie attacks
+
 
 ## Directory Hierarchy
 The directory hierarchy is as follows:
 ```bash
 src/    # source files
 src/poj/ # game engine
-## Directory Hierarchy
+```
 
 ## Coordinate System
 The coordinate system is a little strange. The following diagram will illustrate:
