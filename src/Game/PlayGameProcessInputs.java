@@ -69,9 +69,6 @@ public class PlayGameProcessInputs
 							player)
 						.startAttackCycle();
 					return;
-					// lastCoolDown.set(GameConfig.BUILD_TOWER,
-					//-coolDownMax.get(
-					// GameConfig.BUILD_TOWER));
 				}
 			}
 			if (inputPoller.isKeyDown(GameConfig.SWITCH_WEAPONS)) {
@@ -96,9 +93,6 @@ public class PlayGameProcessInputs
 						"new weapon state = "
 						+ g.curWeaponState
 							  .currentWeaponState());
-					// lastCoolDown.set(GameConfig.BUILD_TOWER,
-					//-coolDownMax.get(
-					// GameConfig.BUILD_TOWER));
 				}
 			}
 
@@ -266,9 +260,18 @@ public class PlayGameProcessInputs
 				// TODO: get tile player is stood on
 				// TODO: highlight that tile?
 				// TODO: spawn new trap entity on tile
-				// TODO: make trap spawn on key up? (to prevent
-				// constant spawning if key down for more than 1
-				// frame)
+			}
+			
+			// buy ammo
+			if (inputPoller.isKeyDown(GameConfig.BUY_AMMO)) {
+				// TODO: cooldown for key press
+				if ( g.cash >= 20 * GameConfig.BULLET_COST) {
+					g.playerAmmo += 20;
+					g.cash -= 20 * GameConfig.BULLET_COST;
+					System.out.println("Bought some ammo");
+				}
+				else
+					System.out.println("Not enough money to buy more ammo");
 			}
 		}
 	}

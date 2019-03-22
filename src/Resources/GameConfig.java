@@ -91,6 +91,7 @@ public class GameConfig
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final double BULLET_LIFE_SPAN = 0.8;
 	public static final int BULLET_DAMAGE = 30;
+	public static final int BULLET_COST = 5;
 
 	public static final PCollisionBody BULLET_COLLISION_BODY =
 		new PCollisionBody(
@@ -141,7 +142,7 @@ public class GameConfig
 
 	public static final AggroRange MOB_AGGRO_RANGE =
 			new AggroRange(
-				new Vector2f(-0.4f, 0f),  // displacement
+				new Vector2f(-0.3f, 0f),  // displacement
 				new Vector2f(0.5f, 0.5f), // center
 							  // collision body:
 				new Vector2f(0f, 0f), new Vector2f(1f, 1f),
@@ -245,6 +246,7 @@ public class GameConfig
 	public static final int ATTACK_KEY = KeyEvent.VK_SPACE;
 	public static final int BUILD_TOWER = KeyEvent.VK_Q;
 	public static final int BUILD_TRAP = KeyEvent.VK_E;
+	public static final int BUY_AMMO = KeyEvent.VK_B;
 
 	// key, cooldown (ms)
 	public static final ArrayList<Pair<Integer, Double>> COOL_DOWN_KEYS =
