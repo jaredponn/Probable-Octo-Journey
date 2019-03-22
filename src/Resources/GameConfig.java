@@ -33,14 +33,13 @@ public class GameConfig
 		new Vector2f(3f, 3f);
 	public static final PCollisionBody PLAYER_COLLISION_BODY =
 		new PCollisionBody(
-			// new Vector2f(0f, 0f),
-			new Vector2f(0f, 0.7f),     // displacement
-			new Vector2f(0.25f, 0.25f), // center
-			// collision body:
-			new Vector2f(0.125f, 0.5f), new Vector2f(0.375f, 0.5f),
-			new Vector2f(0, 0.375f), new Vector2f(0.5f, 0.375f),
-			new Vector2f(0, 0.125f), new Vector2f(0.125f, 0),
-			new Vector2f(0.375f, 0), new Vector2f(0.5f, 0.125f));
+			new Vector2f(0.2f , 0.55f), // displacement
+			new Vector2f(0.25f ,0.25f), // center
+						// collision body:
+			new Vector2f(0.25f/4f,   1    /4f), new Vector2f(0.75f /4f, 1    /4f),
+			new Vector2f(0    /4f,   0.75f/4f), new Vector2f(1     /4f, 0.75f/4f),
+			new Vector2f(0    /4f, 0.25f  /4f), new Vector2f(0.25f /4f, 0    /4f),
+			new Vector2f(0.75f/4f, 0      /4f), new Vector2f(1     /4f, 0.25f/4f));
 
 	// hitbox by inspection
 	public static final PCollisionBody PLAYER_HITBOX_BODY =
@@ -124,13 +123,13 @@ public class GameConfig
 	public static final PCollisionBody MOB_COLLISION_BODY =
 		// clang-format off
 		new PCollisionBody(
-			new Vector2f(0f , 0.7f), // displacement
+			new Vector2f(0.2f , 0.55f), // displacement
 			new Vector2f(0.25f ,0.25f), // center
 						  // collision body:
-			new Vector2f(0.25f/2f,   1    /2f), new Vector2f(0.75f /2f, 1    /2f),
-			new Vector2f(0    /2f,   0.75f/2f), new Vector2f(1     /2f, 0.75f/2f),
-			new Vector2f(0    /2f, 0.25f  /2f), new Vector2f(0.25f /2f, 0    /2f),
-			new Vector2f(0.75f/2f, 0      /2f), new Vector2f(1     /2f, 0.25f/2f));
+			new Vector2f(0.25f/4f,   1    /4f), new Vector2f(0.75f /4f, 1    /4f),
+			new Vector2f(0    /4f,   0.75f/4f), new Vector2f(1     /4f, 0.75f/4f),
+			new Vector2f(0    /4f, 0.25f  /4f), new Vector2f(0.25f /4f, 0    /4f),
+			new Vector2f(0.75f/4f, 0      /4f), new Vector2f(1     /4f, 0.25f/4f));
 	// clang-format on
 
 	public static final PCollisionBody MOB_MELEE_ATTACK_BODY =
