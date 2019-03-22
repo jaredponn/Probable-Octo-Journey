@@ -179,7 +179,7 @@ public class CombatFunctions
 		     i = engineState.getNextSetIndex(a, i)) {
 
 			final PCollisionBody abody = engineState.getComponentAt(
-				PhysicsPCollisionBody.class, i);
+				AggroRange.class, i);
 
 			for (int j = engineState.getInitialSetIndex(b);
 			     engineState.isValidEntity(j);

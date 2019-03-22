@@ -34,7 +34,8 @@ There are 2 UML diagrams provided, which can be found in the following locations
 - Finite ammo - DONE (alex 03/20/19)
 - Buying ammo - just need to implement cooldown for key press (alex 03/22/19)
 - Aligning the aggro hit box properly - DONE (alex 03/20/19) 
-- Actually using the aggro hit box
+- Actually using the aggro hit box - DONE (alex 03/22/19)
+- Make mobs slowly move towards player when in aggro range 
 - Shrinking the PPhysicsHitBox of zombies and players
 - Polishing zombie spawn points (perhaps 5 or 6 spawn points around the map. Also, for api design, consider looking at the COOL_DOWN_KEYS variable in GameConfig.java for how to load the spawn points in.)
 - Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
