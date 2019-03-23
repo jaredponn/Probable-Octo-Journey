@@ -30,16 +30,16 @@ There are 2 UML diagrams provided, which can be found in the following locations
 # Announcements -- for Contributors:
 
 ## TODO List
-- Powerups (more damage) - just need to handle spawning now (alex 03/20/19)
-- Collectibles (HP refill, ammo refill, money) - just need to handle spawning now (alex 03/20/19)
-- Finite ammo - DONE (alex 03/20/19)
-- Buying ammo - just need to implement cooldown for key press (alex 03/22/19)
-- Aligning the aggro hit box properly - DONE (alex 03/20/19) 
-- Actually using the aggro hit box - DONE (alex 03/22/19)
-- Make mobs slowly move towards player when in aggro range 
-- Shrinking the PPhysicsHitBox of zombies and players - DONE (alex 03/22/19)
-- Polishing zombie spawn points (perhaps 5 or 6 spawn points around the map)
-- Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
+-[] Powerups (more damage) - just need to handle spawning now (alex 03/20/19)
+-[] Collectibles (HP refill, ammo refill, money) - just need to handle spawning now (alex 03/20/19)
+-[x] Finite ammo - DONE (alex 03/20/19)
+-[] Buying ammo - just need to implement cooldown for key press (alex 03/22/19)
+-[x] Aligning the aggro hit box properly - DONE (alex 03/20/19) 
+-[x] Actually using the aggro hit box - DONE (alex 03/22/19)
+-[] Make mobs slowly move towards player when in aggro range 
+-[x] Shrinking the PPhysicsHitBox of zombies and players - DONE (alex 03/22/19)
+-[] Polishing zombie spawn points (perhaps 5 or 6 spawn points around the map)
+-[] Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
 
 
 - Boss zombies (may need more graphics from Ramiro for this)
