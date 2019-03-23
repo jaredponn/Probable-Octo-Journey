@@ -33,7 +33,7 @@ There are 2 UML diagrams provided, which can be found in the following locations
 - [ ] Powerups (more damage) - just need to handle spawning now (alex 03/20/19)
 - [ ] Collectibles (HP refill, ammo refill, money) - just need to handle spawning now (alex 03/20/19)
 - [x] Finite ammo - DONE (alex 03/20/19)
-- [ ] Buying ammo - just need to implement cooldown for key press (alex 03/22/19)
+- [x] Buying ammo - just need to implement cooldown for key press (alex 03/22/19) Done (haiyang 03/23/19)
 - [x] Aligning the aggro hit box properly - DONE (alex 03/20/19) 
 - [x] Actually using the aggro hit box - DONE (alex 03/22/19)
 - [ ] Make mobs slowly move towards player when in aggro range 
