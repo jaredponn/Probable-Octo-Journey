@@ -475,8 +475,8 @@ public class PlayGame extends World
 	protected void centerCamerasPositionToPlayer()
 	{
 		this.centerCamerasPositionsToWorldAttribute(
-			engineState.getComponentAt(WorldAttributes.class,
-						   this.player));
+			engineState.unsafeGetComponentAt(WorldAttributes.class,
+							 this.player));
 	}
 
 	// ASE
@@ -505,7 +505,8 @@ public class PlayGame extends World
 		this.healthDisplay.setStr(
 			"Your HP: "
 			+ engineState
-				  .getComponentAt(HitPoints.class, this.player)
+				  .unsafeGetComponentAt(HitPoints.class,
+							this.player)
 				  .getHP());
 	}
 
@@ -650,8 +651,8 @@ public class PlayGame extends World
 	protected void collectCash(int amount)
 	{
 		PhysicsPCollisionBody playerPosition =
-			engineState.getComponentAt(PhysicsPCollisionBody.class,
-						   this.player);
+			engineState.unsafeGetComponentAt(
+				PhysicsPCollisionBody.class, this.player);
 
 		for (int i = this.engineState.getInitialSetIndex(
 			     CollectibleSet.class);
@@ -659,12 +660,16 @@ public class PlayGame extends World
 		     i = this.engineState.getNextSetIndex(CollectibleSet.class,
 							  i)) {
 
-			PhysicsPCollisionBody collectiblePosition =
+			Optional<PhysicsPCollisionBody> collectiblePosition =
 				engineState.getComponentAt(
 					PhysicsPCollisionBody.class, i);
 
+			if (!collectiblePosition.isPresent())
+				continue;
+
 			if (Systems.arePCollisionBodiesColliding(
-				    gjk, playerPosition, collectiblePosition)) {
+				    gjk, playerPosition,
+				    collectiblePosition.get())) {
 				this.cash += amount;
 				System.out.println("Picked up $" + amount
 						   + ". You now have $"
@@ -680,19 +685,23 @@ public class PlayGame extends World
 	protected void collectPowerUp()
 	{
 		PhysicsPCollisionBody playerPosition =
-			engineState.getComponentAt(PhysicsPCollisionBody.class,
-						   this.player);
+			engineState.unsafeGetComponentAt(
+				PhysicsPCollisionBody.class, this.player);
 
 		for (int i = this.engineState.getInitialSetIndex(PowerUp.class);
 		     this.engineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(PowerUp.class, i)) {
 
-			PhysicsPCollisionBody collectiblePosition =
+			Optional<PhysicsPCollisionBody> collectiblePosition =
 				engineState.getComponentAt(
 					PhysicsPCollisionBody.class, i);
+			if (!collectiblePosition.isPresent()) {
+				continue;
+			}
 
 			if (Systems.arePCollisionBodiesColliding(
-				    gjk, playerPosition, collectiblePosition)) {
+				    gjk, playerPosition,
+				    collectiblePosition.get())) {
 				this.playerDamageBonus +=
 					GameConfig.PICKUP_POWERUP_AMOUNT;
 				System.out.println(
@@ -709,8 +718,8 @@ public class PlayGame extends World
 	protected void collectHealthPack()
 	{
 		PhysicsPCollisionBody playerPosition =
-			engineState.getComponentAt(PhysicsPCollisionBody.class,
-						   this.player);
+			engineState.unsafeGetComponentAt(
+				PhysicsPCollisionBody.class, this.player);
 
 		for (int i = this.engineState.getInitialSetIndex(
 			     HealthPack.class);
@@ -718,14 +727,19 @@ public class PlayGame extends World
 		     i = this.engineState.getNextSetIndex(HealthPack.class,
 							  i)) {
 
-			PhysicsPCollisionBody collectiblePosition =
+			Optional<PhysicsPCollisionBody> collectiblePosition =
 				engineState.getComponentAt(
 					PhysicsPCollisionBody.class, i);
+			if (!collectiblePosition.isPresent()) {
+				continue;
+			}
 
 			if (Systems.arePCollisionBodiesColliding(
-				    gjk, playerPosition, collectiblePosition)) {
+				    gjk, playerPosition,
+				    collectiblePosition.get())) {
 				engineState
-					.getComponentAt(HitPoints.class, player)
+					.unsafeGetComponentAt(HitPoints.class,
+							      player)
 					.heal(GameConfig
 						      .PICKUP_HEALTHPACK_AMOUNT);
 				CombatFunctions.removePickUp(engineState, i);
@@ -739,20 +753,28 @@ public class PlayGame extends World
 	protected void collectAmmoPack()
 	{
 		PhysicsPCollisionBody playerPosition =
-			engineState.getComponentAt(PhysicsPCollisionBody.class,
-						   this.player);
+			engineState.unsafeGetComponentAt(
+				PhysicsPCollisionBody.class, this.player);
 
 		for (int i = this.engineState.getInitialSetIndex(
 			     AmmoPack.class);
 		     this.engineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(AmmoPack.class, i)) {
 
-			PhysicsPCollisionBody collectiblePosition =
+			Optional<PhysicsPCollisionBody> collectiblePosition =
 				engineState.getComponentAt(
 					PhysicsPCollisionBody.class, i);
 
+			if (!collectiblePosition.isPresent())
+				continue;
+
 			if (Systems.arePCollisionBodiesColliding(
+<<<<<<< HEAD
 				    gjk, playerPosition, collectiblePosition)) {
+=======
+				    gjk, playerPosition,
+				    collectiblePosition.get())) {
+>>>>>>> 04b71387e043313dafa5c7204a0ec3f68cff8c85
 				this.playerAmmo +=
 					GameConfig.PICKUP_AMMOPACK_AMOUNT;
 				CombatFunctions.removePickUp(engineState, i);
@@ -781,7 +803,7 @@ public class PlayGame extends World
 		for (int i = engineState.getInitialSetIndex(TurretSet.class);
 		     poj.EngineState.isValidEntity(i);
 		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
-			engineState.getComponentAt(AttackCycle.class, i)
+			engineState.unsafeGetComponentAt(AttackCycle.class, i)
 				.startAttackCycle();
 		}
 	}

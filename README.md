@@ -83,7 +83,7 @@ Using Optional in Java (should be used for all values that may or may not exist)
 ```Java
 Optional<Double> a = Optional.of(3d); // initilizes with value of 3
                 // = Optional.empty(); // initlizes with no value
-if (a.isEmpty())
+if (!a.isPresent()) // is not present
 {
 	// handle error
 }

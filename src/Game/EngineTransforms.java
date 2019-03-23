@@ -10,7 +10,6 @@ import java.awt.Color;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Queue;
 
 import Components.AttackCycle;
@@ -43,6 +42,8 @@ import poj.Render.RenderObject;
 import poj.Time.Timer;
 import poj.linear.Vector2f;
 
+import java.util.Optional;
+
 public class EngineTransforms
 {
 	public static void updateAnimationWindows(EngineState engineState,
@@ -64,10 +65,18 @@ public class EngineTransforms
 		     Components.isValidEntity(i);
 		     i = engineState.getNextComponentIndex(HasAnimation.class,
 							   i)) {
+
+			Optional<Render> rc =
+				engineState.getComponentAt(Render.class, i);
+
+			if (!rc.isPresent())
+				continue;
+
 			Systems.updateRenderComponentWindowFromHasAnimation(
-				engineState.getComponentAt(Render.class, i),
-				engineState.getComponentAt(HasAnimation.class,
-							   i));
+				engineState.getComponentAt(Render.class, i)
+					.get(),
+				engineState.unsafeGetComponentAt(
+					HasAnimation.class, i));
 		}
 	}
 
@@ -81,11 +90,17 @@ public class EngineTransforms
 		     Components.isValidEntity(i);
 		     i = engineState.getNextComponentIndex(
 			     WorldAttributes.class, i)) {
+
+			Optional<Render> rc =
+				engineState.getComponentAt(Render.class, i);
+			if (!rc.isPresent())
+				continue;
+
+
 			Systems.updateRenderScreenCoordinatesFromWorldCoordinates(
-				engineState.getComponentAt(
+				engineState.unsafeGetComponentAt(
 					WorldAttributes.class, i),
-				engineState.getComponentAt(Render.class, i),
-				cam);
+				rc.get(), cam);
 		}
 	}
 
@@ -97,10 +112,18 @@ public class EngineTransforms
 			     Movement.class);
 		     Components.isValidEntity(i);
 		     i = engineState.getNextComponentIndex(Movement.class, i)) {
-			Systems.updateWorldAttribPositionFromMovement(
+
+			Optional<WorldAttributes> wc =
 				engineState.getComponentAt(
-					WorldAttributes.class, i),
-				engineState.getComponentAt(Movement.class, i),
+					WorldAttributes.class, i);
+
+			if (!wc.isPresent())
+				continue;
+
+			Systems.updateWorldAttribPositionFromMovement(
+				wc.get(),
+				engineState.unsafeGetComponentAt(Movement.class,
+								 i),
 				dt);
 		}
 	}
@@ -112,10 +135,21 @@ public class EngineTransforms
 		for (int i = engineState.getInitialSetIndex(c);
 		     Components.isValidEntity(i);
 		     i = engineState.getNextSetIndex(c, i)) {
-			Systems.setMovementVelocityFromMovementDirection(
-				engineState.getComponentAt(Movement.class, i),
+			Optional<Movement> mc =
+				engineState.getComponentAt(Movement.class, i);
+			Optional<MovementDirection> mdc =
 				engineState.getComponentAt(
-					MovementDirection.class, i));
+					MovementDirection.class, i);
+
+			if (!mc.isPresent())
+				continue;
+
+			if (!mdc.isPresent())
+				continue;
+
+
+			Systems.setMovementVelocityFromMovementDirection(
+				mc.get(), mdc.get());
 		}
 	}
 
@@ -126,11 +160,22 @@ public class EngineTransforms
 		for (int i = engineState.getInitialSetIndex(c);
 		     Components.isValidEntity(i);
 		     i = engineState.getNextSetIndex(c, i)) {
-			Systems.steerMovementVelocityFromMovementDirection(
-				engineState.getComponentAt(Movement.class, i),
+
+			Optional<Movement> mc =
+				engineState.getComponentAt(Movement.class, i);
+
+			Optional<MovementDirection> mdc =
 				engineState.getComponentAt(
-					MovementDirection.class, i),
-				steerRatio);
+					MovementDirection.class, i);
+
+			if (!mc.isPresent())
+				continue;
+
+			if (!mdc.isPresent())
+				continue;
+
+			Systems.steerMovementVelocityFromMovementDirection(
+				mc.get(), mdc.get(), steerRatio);
 		}
 	}
 
@@ -141,7 +186,8 @@ public class EngineTransforms
 		ArrayList<Vector2f> neighbours = new ArrayList<Vector2f>();
 		ArrayList<PathFindCord> tmp = new ArrayList<PathFindCord>();
 		Vector2f centerVector =
-			mapLayer.getComponentAt(PathFindCord.class, indexOfEcs)
+			mapLayer.unsafeGetComponentAt(PathFindCord.class,
+						      indexOfEcs)
 				.getCord();
 		// add the 8 neighbours
 		neighbours.add(centerVector.addAndReturnVector(-1, 0));
@@ -160,7 +206,7 @@ public class EngineTransforms
 				       PathFindCord.class,
 				       map.getEcsIndexFromWorldVector2f(
 					       neib)))) {
-				tmp.add(mapLayer.getComponentAt(
+				tmp.add(mapLayer.unsafeGetComponentAt(
 					PathFindCord.class,
 					map.getEcsIndexFromWorldVector2f(
 						neib)));
@@ -181,7 +227,7 @@ public class EngineTransforms
 			map,
 			map.getEcsIndexFromWorldVector2f(
 				engineState
-					.getComponentAt(
+					.unsafeGetComponentAt(
 						PhysicsPCollisionBody.class,
 						mob1)
 					.pureGetCenter()),
@@ -192,14 +238,14 @@ public class EngineTransforms
 		Vector2f maxPosition = new Vector2f();
 		Vector2f mobPosition =
 			engineState
-				.getComponentAt(PhysicsPCollisionBody.class,
-						mob1)
+				.unsafeGetComponentAt(
+					PhysicsPCollisionBody.class, mob1)
 				.pureGetCenter();
 
 		Vector2f playerPosition =
 			engineState
-				.getComponentAt(PhysicsPCollisionBody.class,
-						player)
+				.unsafeGetComponentAt(
+					PhysicsPCollisionBody.class, player)
 				.pureGetCenter();
 
 		// get the mob's highest neighbour value
@@ -242,8 +288,9 @@ public class EngineTransforms
 
 		// if mob and player are at the same tile
 
-		final PhysicsPCollisionBody a = engineState.getComponentAt(
-			PhysicsPCollisionBody.class, mob1);
+		final PhysicsPCollisionBody a =
+			engineState.unsafeGetComponentAt(
+				PhysicsPCollisionBody.class, mob1);
 
 
 		for (int j = engineState.getInitialSetIndex(TurretSet.class);
@@ -256,8 +303,9 @@ public class EngineTransforms
 			}
 		}
 
-		final PhysicsPCollisionBody b = engineState.getComponentAt(
-			PhysicsPCollisionBody.class, player);
+		final PhysicsPCollisionBody b =
+			engineState.unsafeGetComponentAt(
+				PhysicsPCollisionBody.class, player);
 
 		if (Systems.arePCollisionBodiesColliding(gjk, a, b)) {
 			// engineState.getComponentAt(Movement.class, mob1)
@@ -321,9 +369,10 @@ public class EngineTransforms
 		// value
 		if (maxValue
 		    <= map.getLayerEngineState(0)
-			       .getComponentAt(PathFindCord.class,
-					       map.getEcsIndexFromWorldVector2f(
-						       mobPosition))
+			       .unsafeGetComponentAt(
+				       PathFindCord.class,
+				       map.getEcsIndexFromWorldVector2f(
+					       mobPosition))
 			       .getDiffusionValue()
 
 		) {
@@ -342,8 +391,8 @@ public class EngineTransforms
 
 			CardinalDirections tempDir =
 				engineState
-					.getComponentAt(MovementDirection.class,
-							mob1)
+					.unsafeGetComponentAt(
+						MovementDirection.class, mob1)
 					.getDirection();
 
 			// when the current tile the enemy/mob is standing on
@@ -366,13 +415,15 @@ public class EngineTransforms
 							.subtractAndReturnVector(
 								mobPosition));
 			engineState
-				.getComponentAt(MovementDirection.class, mob1)
+				.unsafeGetComponentAt(MovementDirection.class,
+						      mob1)
 				.setDirection(tempDir);
 
-			engineState.getComponentAt(HasAnimation.class, mob1)
+			engineState
+				.unsafeGetComponentAt(HasAnimation.class, mob1)
 				.setAnimation(AnimationGetter.queryEnemySprite(
 					tempDir, 1));
-			engineState.getComponentAt(Movement.class, mob1)
+			engineState.unsafeGetComponentAt(Movement.class, mob1)
 				.setSpeed(GameConfig.MOB_SPEED);
 		}
 	}
@@ -383,11 +434,13 @@ public class EngineTransforms
 				    int turretPosition, int mob1, GJK gjk)
 	{
 
-		final PhysicsPCollisionBody a = engineState.getComponentAt(
-			PhysicsPCollisionBody.class, turretPosition);
+		final PhysicsPCollisionBody a =
+			engineState.unsafeGetComponentAt(
+				PhysicsPCollisionBody.class, turretPosition);
 
-		final PhysicsPCollisionBody b = engineState.getComponentAt(
-			PhysicsPCollisionBody.class, mob1);
+		final PhysicsPCollisionBody b =
+			engineState.unsafeGetComponentAt(
+				PhysicsPCollisionBody.class, mob1);
 
 		return Systems.arePCollisionBodiesColliding(gjk, a, b);
 	}
@@ -406,8 +459,8 @@ public class EngineTransforms
 				*/
 		Vector2f playerPosition =
 			engineState
-				.getComponentAt(PhysicsPCollisionBody.class,
-						player)
+				.unsafeGetComponentAt(
+					PhysicsPCollisionBody.class, player)
 				.pureGetCenter();
 
 		// TODO: turret diffusion value.. NEED TO BE CHANGED LATER TO
@@ -415,11 +468,11 @@ public class EngineTransforms
 		for (int i = engineState.getInitialSetIndex(TurretSet.class);
 		     poj.EngineState.isValidEntity(i);
 		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
-			mapLayer.getComponentAt(
+			mapLayer.unsafeGetComponentAt(
 					PathFindCord.class,
 					map.getEcsIndexFromWorldVector2f(
 						engineState
-							.getComponentAt(
+							.unsafeGetComponentAt(
 								WorldAttributes
 									.class,
 								i)
@@ -448,13 +501,13 @@ public class EngineTransforms
 		if (map.getEcsIndexFromWorldVector2f(playerPosition) != -1) {
 			// map.printPathfindCord(0);
 
-			if (!mapLayer.getComponentAt(
+			if (!mapLayer.unsafeGetComponentAt(
 					     PathFindCord.class,
 					     map.getEcsIndexFromWorldVector2f(
 						     playerPosition))
 				     .getIsWall()) {
 
-				mapLayer.getComponentAt(
+				mapLayer.unsafeGetComponentAt(
 						PathFindCord.class,
 						map.getEcsIndexFromWorldVector2f(
 							playerPosition))
@@ -463,7 +516,7 @@ public class EngineTransforms
 							.PLAYER_DIFFUSION_VALUE);
 			} else {
 
-				mapLayer.getComponentAt(
+				mapLayer.unsafeGetComponentAt(
 						PathFindCord.class,
 						map.getEcsIndexFromWorldVector2f(
 							playerPosition))
@@ -506,14 +559,14 @@ public class EngineTransforms
 					continue;
 
 				Systems.updateRenderScreenCoordinatesFromWorldCoordinates(
-					tileLayer.getComponentAt(
+					tileLayer.unsafeGetComponentAt(
 						WorldAttributes.class, e),
-					tileLayer.getComponentAt(Render.class,
-								 e),
+					tileLayer.unsafeGetComponentAt(
+						Render.class, e),
 					cam);
 				Systems.pushRenderComponentToQueue(
-					tileLayer.getComponentAt(Render.class,
-								 e),
+					tileLayer.unsafeGetComponentAt(
+						Render.class, e),
 					q);
 				tileMapRenderHelperSet.add(e);
 			}
@@ -531,8 +584,8 @@ public class EngineTransforms
 		     Components.isValidEntity(i);
 		     i = e.getNextSetIndex(PhysicsPCollisionBody.class, i)) {
 			Systems.pCollisionBodyDebugRenderer(
-				e.getComponentAt(PhysicsPCollisionBody.class,
-						 i),
+				e.unsafeGetComponentAt(
+					PhysicsPCollisionBody.class, i),
 				q, cam, c);
 		}
 	}
@@ -547,8 +600,8 @@ public class EngineTransforms
 		     Components.isValidEntity(i);
 		     i = e.getNextSetIndex(PHitBox.class, i)) {
 			Systems.pCollisionBodyDebugRenderer(
-				e.getComponentAt(PHitBox.class, i), q, cam,
-				Color.BLUE);
+				e.unsafeGetComponentAt(PHitBox.class, i), q,
+				cam, Color.BLUE);
 		}
 	}
 
@@ -561,8 +614,8 @@ public class EngineTransforms
 		     Components.isValidEntity(i);
 		     i = e.getNextSetIndex(AggroRange.class, i)) {
 			Systems.pCollisionBodyDebugRenderer(
-				e.getComponentAt(AggroRange.class, i), q, cam,
-				Color.magenta);
+				e.unsafeGetComponentAt(AggroRange.class, i), q,
+				cam, Color.magenta);
 		}
 	}
 
@@ -576,20 +629,26 @@ public class EngineTransforms
 		     Components.isValidEntity(i);
 		     i = engineState.getNextSetIndex(set0, i)) {
 
-			final PhysicsPCollisionBody a =
+			final Optional<PhysicsPCollisionBody> a =
 				engineState.getComponentAt(
 					PhysicsPCollisionBody.class, i);
+
+			if (!a.isPresent())
+				continue;
 
 			for (int j = engineState.getInitialSetIndex(set1);
 			     Components.isValidEntity(j);
 			     j = engineState.getNextSetIndex(set1, j)) {
 
-				final PhysicsPCollisionBody b =
+				final Optional<PhysicsPCollisionBody> b =
 					engineState.getComponentAt(
 						PhysicsPCollisionBody.class, j);
 
-				if (Systems.arePCollisionBodiesColliding(g, a,
-									 b)) {
+				if (!b.isPresent())
+					continue;
+
+				if (Systems.arePCollisionBodiesColliding(
+					    g, a.get(), b.get())) {
 					System.out.println(
 						"PCOllision detected");
 					break;
@@ -607,12 +666,17 @@ public class EngineTransforms
 		     Components.isValidEntity(i);
 		     i = engineState.getNextSetIndex(set0, i)) {
 
-			final PhysicsPCollisionBody a =
+			final Optional<PhysicsPCollisionBody> a =
 				engineState.getComponentAt(
 					PhysicsPCollisionBody.class, i);
 
-			Movement va =
+			Optional<Movement> va =
 				engineState.getComponentAt(Movement.class, i);
+			if (!a.isPresent())
+				continue;
+
+			if (!va.isPresent())
+				continue;
 
 			for (PhysicsPCollisionBody b :
 			     map.getRawComponentArrayListPackedData(
@@ -622,9 +686,9 @@ public class EngineTransforms
 				// wall
 				Vector2f tmp =
 					Systems.pCollisionBodiesGetCollisionBodyBDisplacementDelta(
-						g, b, a, va, dt);
+						g, b, a.get(), va.get(), dt);
 				tmp.mul(1 / ((float)dt));
-				va.setVelocity(tmp);
+				va.get().setVelocity(tmp);
 			}
 		}
 	}
@@ -638,21 +702,28 @@ public class EngineTransforms
 		     Components.isValidEntity(i);
 		     i = engineState.getNextSetIndex(set0, i)) {
 
-			final PhysicsPCollisionBody a =
+			final Optional<PhysicsPCollisionBody> a =
 				engineState.getComponentAt(
 					PhysicsPCollisionBody.class, i);
 
-			WorldAttributes aw = engineState.getComponentAt(
-				WorldAttributes.class, i);
+			Optional<WorldAttributes> aw =
+				engineState.getComponentAt(
+					WorldAttributes.class, i);
+
+			if (!a.isPresent())
+				continue;
+
+			if (!aw.isPresent())
+				continue;
 
 			for (PhysicsPCollisionBody b :
 			     map.getRawComponentArrayListPackedData(
 				     PhysicsPCollisionBody.class)) {
 				g.clearVerticies();
 				if (g.areColliding(b.getPolygon(),
-						   a.getPolygon())) {
+						   a.get().getPolygon())) {
 					Systems.nudgeCollisionBodyBOutOfA(
-						b, a, aw, g);
+						b, a.get(), aw.get(), g);
 				}
 			}
 		}
@@ -665,27 +736,52 @@ public class EngineTransforms
 		for (int i = e.getInitialSetIndex(PhysicsPCollisionBody.class);
 		     Components.isValidEntity(i);
 		     i = e.getNextSetIndex(PhysicsPCollisionBody.class, i)) {
+
+			PhysicsPCollisionBody ppe = e.unsafeGetComponentAt(
+				PhysicsPCollisionBody.class, i);
+
+			Optional<WorldAttributes> wwe =
+				e.getComponentAt(WorldAttributes.class, i);
+
+			if (!wwe.isPresent()) {
+				continue;
+			}
+
 			Systems.updatePCollisionBodyPositionFromWorldAttr(
-				e.getComponentAt(PhysicsPCollisionBody.class,
-						 i),
-				e.getComponentAt(WorldAttributes.class, i));
+				ppe, wwe.get());
 		}
 
 		for (int i = e.getInitialSetIndex(PHitBox.class);
 		     Components.isValidEntity(i);
 		     i = e.getNextSetIndex(PHitBox.class, i)) {
-			Systems.updatePCollisionBodyPositionFromWorldAttr(
-				e.getComponentAt(PHitBox.class, i),
-				e.getComponentAt(WorldAttributes.class, i));
-		}
-		
-		for (int i = e.getInitialSetIndex(AggroRange.class);
-			     Components.isValidEntity(i);
-			     i = e.getNextSetIndex(AggroRange.class, i)) {
-				Systems.updatePCollisionBodyPositionFromWorldAttr(
-					e.getComponentAt(AggroRange.class, i),
-					e.getComponentAt(WorldAttributes.class, i));
+
+			Optional<WorldAttributes> wwe =
+				e.getComponentAt(WorldAttributes.class, i);
+
+			if (!wwe.isPresent()) {
+				continue;
 			}
+
+			Systems.updatePCollisionBodyPositionFromWorldAttr(
+				e.unsafeGetComponentAt(PHitBox.class, i),
+				wwe.get());
+		}
+
+		for (int i = e.getInitialSetIndex(AggroRange.class);
+		     Components.isValidEntity(i);
+		     i = e.getNextSetIndex(AggroRange.class, i)) {
+
+			Optional<WorldAttributes> wwe =
+				e.getComponentAt(WorldAttributes.class, i);
+
+			if (!wwe.isPresent()) {
+				continue;
+			}
+
+			Systems.updatePCollisionBodyPositionFromWorldAttr(
+				e.unsafeGetComponentAt(AggroRange.class, i),
+				wwe.get());
+		}
 	}
 
 
@@ -713,7 +809,7 @@ public class EngineTransforms
 		     engineState.isValidEntity(i);
 		     i = engineState.getNextComponentIndex(DespawnTimer.class,
 							   i)) {
-			DespawnTimer n = engineState.getComponentAt(
+			DespawnTimer n = engineState.unsafeGetComponentAt(
 				DespawnTimer.class, i);
 
 			n.decrementTimerBy(dt);

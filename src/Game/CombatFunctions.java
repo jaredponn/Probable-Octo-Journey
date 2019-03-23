@@ -1,6 +1,7 @@
 package Game;
 
 import java.math.*;
+import java.util.Optional;
 
 import Components.*;
 import EntitySets.*;
@@ -56,21 +57,25 @@ public class CombatFunctions
 		engineState.deleteAllComponentsAt(t);
 		engineState.markIndexAsFree(t);
 	}
-	
+
 	/**
-	 * Removes an entity with a lifespan component 
+	 * Removes an entity with a lifespan component
 	 * if it has reached the end of its lifespan
 	 * @param g: the main game
 	 * @param entity: the entity to be deleted
 	 */
-	public static void removeEntityWithLifeSpan(PlayGame g , int entity)
+	public static void removeEntityWithLifeSpan(PlayGame g, int entity)
 	{
 		EngineState engineState = g.getEngineState();
-		
-		double spawnTime = engineState.getComponentAt(Lifespan.class, entity).getSpawnTime();
-		double lifespan = engineState.getComponentAt(Lifespan.class, entity).getLifespan();
-		
-		if (g.getPlayTime() - spawnTime >= lifespan ) {
+
+		double spawnTime =
+			engineState.unsafeGetComponentAt(Lifespan.class, entity)
+				.getSpawnTime();
+		double lifespan =
+			engineState.unsafeGetComponentAt(Lifespan.class, entity)
+				.getLifespan();
+
+		if (g.getPlayTime() - spawnTime >= lifespan) {
 			engineState.deleteAllComponentsAt(entity);
 			engineState.markIndexAsFree(entity);
 		}
@@ -96,30 +101,42 @@ public class CombatFunctions
 		GJK gjk = g.getGJK();
 
 		final PhysicsPCollisionBody bulletBody =
-			mainState.getComponentAt(PhysicsPCollisionBody.class,
-						 bullet);
+			mainState.unsafeGetComponentAt(
+				PhysicsPCollisionBody.class, bullet);
 
 		// check for bullet collision with any mob
 		for (int i = mainState.getInitialSetIndex(MobSet.class);
 		     poj.EngineState.isValidEntity(i);
 		     i = mainState.getNextSetIndex(MobSet.class, i)) {
 
-			final PHitBox mobBody =
+			final Optional<PHitBox> mobBodyOptional =
 				mainState.getComponentAt(PHitBox.class, i);
+
+			if (!mobBodyOptional.isPresent())
+				continue;
+
+			final PHitBox mobBody = mobBodyOptional.get();
 
 			// if collision detected
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, bulletBody, mobBody)) {
-				mainState.getComponentAt(HitPoints.class, i)
-					.hurt((int) (Math.floor(mainState
-						      .getComponentAt(
-							      Damage.class,
-							      bullet)
-						      .getDamage() * g.playerDamageBonus)));
+
+				mainState
+					.unsafeGetComponentAt(HitPoints.class,
+							      i)
+					.hurt((int)(Math.floor(
+						mainState
+							.unsafeGetComponentAt(
+								Damage.class,
+								bullet)
+							.getDamage()
+						* g.playerDamageBonus)));
 				removeBullet(mainState, bullet);
 
 
-				if (mainState.getComponentAt(HitPoints.class, i)
+				if (mainState
+					    .unsafeGetComponentAt(
+						    HitPoints.class, i)
 					    .getHP()
 				    <= 0)
 					g.pushEventToEventHandler(
@@ -178,22 +195,39 @@ public class CombatFunctions
 		     engineState.isValidEntity(i);
 		     i = engineState.getNextSetIndex(a, i)) {
 
-			final PCollisionBody abody = engineState.getComponentAt(
-				AggroRange.class, i);
+			final Optional<AggroRange> abodyOptional =
+				engineState.getComponentAt(AggroRange.class, i);
+
+			if (!abodyOptional.isPresent())
+				continue;
+
+			final PCollisionBody abody = abodyOptional.get();
 
 			for (int j = engineState.getInitialSetIndex(b);
 			     engineState.isValidEntity(j);
 			     j = engineState.getNextSetIndex(b, j)) {
 
-				final PCollisionBody bbody =
+				final Optional<
+					PhysicsPCollisionBody> bbodyOptional =
 					engineState.getComponentAt(
 						PhysicsPCollisionBody.class, j);
+
+				if (!bbodyOptional.isPresent())
+					continue;
+
+				final PCollisionBody bbody =
+					bbodyOptional.get();
+
 				if (Systems.arePCollisionBodiesColliding(
 					    gjk, bbody, abody)) {
-					engineState
-						.getComponentAt(
-							AttackCycle.class, i)
-						.startAttackCycle();
+
+					Optional<AttackCycle> atkcycle =
+						engineState.getComponentAt(
+							AttackCycle.class, i);
+
+					if (atkcycle.isPresent())
+						atkcycle.get()
+							.startAttackCycle();
 					break;
 				}
 			}
@@ -211,17 +245,21 @@ public class CombatFunctions
 						GJK gjk, int mob, int turret)
 	{
 		final PhysicsPCollisionBody mobBody =
-			engineState.getComponentAt(PhysicsPCollisionBody.class,
-						   mob);
+			engineState.unsafeGetComponentAt(
+				PhysicsPCollisionBody.class, mob);
 
 		final PhysicsPCollisionBody turretBody =
-			engineState.getComponentAt(PhysicsPCollisionBody.class,
-						   turret);
+			engineState.unsafeGetComponentAt(
+				PhysicsPCollisionBody.class, turret);
 
 		if (Systems.arePCollisionBodiesColliding(gjk, mobBody,
 							 turretBody)) {
-			engineState.getComponentAt(AttackCycle.class, mob)
-				.startAttackCycle();
+			Optional<AttackCycle> atkcycle =
+				engineState.getComponentAt(AttackCycle.class,
+							   mob);
+			if (!atkcycle.isPresent())
+				return;
+			atkcycle.get().startAttackCycle();
 		}
 	}
 
@@ -236,8 +274,8 @@ public class CombatFunctions
 	public static void handleMobDamageTurret(EngineState engineState,
 						 int turret)
 	{
-		HitPoints turretHP =
-			engineState.getComponentAt(HitPoints.class, turret);
+		HitPoints turretHP = engineState.unsafeGetComponentAt(
+			HitPoints.class, turret);
 		System.out.println("A mob is hitting a turret! Turret HP: "
 				   + turretHP.getHP());
 
@@ -257,8 +295,8 @@ public class CombatFunctions
 	public static void handlePlayerDamage(EngineState engineState,
 					      int player, int amount)
 	{
-		HitPoints playerHP =
-			engineState.getComponentAt(HitPoints.class, player);
+		HitPoints playerHP = engineState.unsafeGetComponentAt(
+			HitPoints.class, player);
 		playerHP.hurt(amount);
 
 		if (playerHP.getHP() <= 0) {
@@ -278,7 +316,7 @@ public class CombatFunctions
 	public static void turretTargeting(EngineState engineState, int turret)
 	{
 		Vector2f turretPosition =
-			engineState.getComponentAt(PHitBox.class, turret)
+			engineState.unsafeGetComponentAt(PHitBox.class, turret)
 				.getCenter();
 		int currentTarget = 0;
 
@@ -290,15 +328,15 @@ public class CombatFunctions
 
 			// find the centre of the mob's hit box
 			Vector2f mob1Position =
-				engineState.getComponentAt(PHitBox.class, i)
+				engineState
+					.unsafeGetComponentAt(PHitBox.class, i)
 					.getCenter();
 
 			// find the vector from turret to target
 			Vector2f tmp =
 				turretPosition.pureSubtract(mob1Position);
 			tmp.negate();
-			Vector2f unitVecturretPosTomob1Delta =
-				tmp;
+			Vector2f unitVecturretPosTomob1Delta = tmp;
 
 			// find next mob and compare range
 			for (int j = engineState.getNextSetIndex(MobSet.class,
@@ -309,8 +347,8 @@ public class CombatFunctions
 				// find centre of next mob's hit box
 				Vector2f mob2Position =
 					engineState
-						.getComponentAt(PHitBox.class,
-								j)
+						.unsafeGetComponentAt(
+							PHitBox.class, j)
 						.getCenter();
 
 				// find the vector from turret to this mob
@@ -350,12 +388,12 @@ public class CombatFunctions
 				       int target)
 	{
 		Vector2f turretPosition =
-			engineState.getComponentAt(PHitBox.class, turret)
+			engineState.unsafeGetComponentAt(PHitBox.class, turret)
 				.getPolygon()
 				.pureGetAPointInPolygon(0);
 
 		Vector2f targetPosition =
-			engineState.getComponentAt(PHitBox.class, target)
+			engineState.unsafeGetComponentAt(PHitBox.class, target)
 				.getCenter();
 
 		Vector2f tmp = turretPosition.pureSubtract(targetPosition);
@@ -364,16 +402,18 @@ public class CombatFunctions
 
 		int e = engineState.spawnEntitySet(
 			new CannonShell(turretPosition));
-		engineState.getComponentAt(PhysicsPCollisionBody.class, e)
+		engineState.unsafeGetComponentAt(PhysicsPCollisionBody.class, e)
 			.setPositionPoint(
 				engineState
-					.getComponentAt(WorldAttributes.class,
-							turret)
+					.unsafeGetComponentAt(
+						WorldAttributes.class, turret)
 					.getCenteredBottomQuarter());
-		float shellSpeed = engineState.getComponentAt(Movement.class, e)
-					   .getSpeed();
 
-		engineState.getComponentAt(Movement.class, e)
+		float shellSpeed =
+			engineState.unsafeGetComponentAt(Movement.class, e)
+				.getSpeed();
+
+		engineState.unsafeGetComponentAt(Movement.class, e)
 			.setVelocity(unitVecturretPosTotargetDelta.pureMul(
 				shellSpeed));
 	}
