@@ -34,6 +34,7 @@ There are 2 UML diagrams provided, which can be found in the following locations
 - [ ] Collectibles (HP refill, ammo refill, money) - just need to handle spawning now (alex 03/20/19)
 - [x] Finite ammo - DONE (alex 03/20/19)
 - [x] Buying ammo - just need to implement cooldown for key press (alex 03/22/19) Done (haiyang 03/23/19)
+- [ ] No attack animation when there is no more ammo 
 - [x] Aligning the aggro hit box properly - DONE (alex 03/20/19) 
 - [x] Actually using the aggro hit box - DONE (alex 03/22/19)
 - [ ] Make mobs slowly move towards player when in aggro range 
@@ -95,6 +96,11 @@ else
 // 2 ways to test if the value exists or not respectively
 // .isPresent() / isEmpty()
 ```
+
+# Audio tracks
+Gun sound: https://www.youtube.com/watch?v=GAT-AwwMP_I
+
+Zombie sound: https://www.youtube.com/watch?v=wg8u3AQj1Ac
 
 # Credits
 Tileset: https://opengameart.org/content/cave-tileset
