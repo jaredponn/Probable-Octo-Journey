@@ -33,13 +33,17 @@ public class GameConfig
 		new Vector2f(3f, 3f);
 	public static final PCollisionBody PLAYER_COLLISION_BODY =
 		new PCollisionBody(
-			new Vector2f(0.2f , 0.55f), // displacement
-			new Vector2f(0.25f ,0.25f), // center
-						// collision body:
-			new Vector2f(0.25f/4f,   1    /4f), new Vector2f(0.75f /4f, 1    /4f),
-			new Vector2f(0    /4f,   0.75f/4f), new Vector2f(1     /4f, 0.75f/4f),
-			new Vector2f(0    /4f, 0.25f  /4f), new Vector2f(0.25f /4f, 0    /4f),
-			new Vector2f(0.75f/4f, 0      /4f), new Vector2f(1     /4f, 0.25f/4f));
+			new Vector2f(0.2f, 0.55f),  // displacement
+			new Vector2f(0.25f, 0.25f), // center
+						    // collision body:
+			new Vector2f(0.25f / 4f, 1 / 4f),
+			new Vector2f(0.75f / 4f, 1 / 4f),
+			new Vector2f(0 / 4f, 0.75f / 4f),
+			new Vector2f(1 / 4f, 0.75f / 4f),
+			new Vector2f(0 / 4f, 0.25f / 4f),
+			new Vector2f(0.25f / 4f, 0 / 4f),
+			new Vector2f(0.75f / 4f, 0 / 4f),
+			new Vector2f(1 / 4f, 0.25f / 4f));
 
 	// hitbox by inspection
 	public static final PCollisionBody PLAYER_HITBOX_BODY =
@@ -139,27 +143,26 @@ public class GameConfig
 				   new Vector2f(0, 0), new Vector2f(2, 0),
 				   new Vector2f(0, 2), new Vector2f(2, 2));
 
-	public static final AggroRange MOB_AGGRO_RANGE =
-			new AggroRange(
-				new Vector2f(-0.3f, 0f),  // displacement
-				new Vector2f(0.5f, 0.5f), // center
-							  // collision body:
-				new Vector2f(0f, 0f), new Vector2f(1f, 1f),
-				new Vector2f(1f, 0f), new Vector2f(0f, 1f),
-				new Vector2f(0.5f, -0.25f), new Vector2f(-0.2f, 0.5f),
-				new Vector2f(1.2f, 0.5f), new Vector2f(0.5f, 1.25f));
+	public static final AggroRange MOB_AGGRO_RANGE = new AggroRange(
+		new Vector2f(-0.3f, 0f),  // displacement
+		new Vector2f(0.5f, 0.5f), // center
+					  // collision body:
+		new Vector2f(0f, 0f), new Vector2f(1f, 1f),
+		new Vector2f(1f, 0f), new Vector2f(0f, 1f),
+		new Vector2f(0.5f, -0.25f), new Vector2f(-0.2f, 0.5f),
+		new Vector2f(1.2f, 0.5f), new Vector2f(0.5f, 1.25f));
 
 	public static final float MOB_SPAWN_TIMER = 10.0f;
 	public static final double MOB_DESPAWN_TIMER = 5000d; // in ms
 
 	// spawn points:
-	public static final ArrayList<Vector2f> MOB_SPAWN_POINTS = 
-			new ArrayList<Vector2f>() {
-				{
-					add(new Vector2f(14f, 7f ));
-					add(new Vector2f(20f, 20f));
-				}
-	};
+	public static final ArrayList<Vector2f> MOB_SPAWN_POINTS =
+		new ArrayList<Vector2f>() {
+			{
+				add(new Vector2f(14f, 7f));
+				add(new Vector2f(20f, 20f));
+			}
+		};
 
 
 	///////////////////////
@@ -262,8 +265,7 @@ public class GameConfig
 				add(new Pair<Integer, Double>(SWITCH_WEAPONS,
 							      1d));
 				add(new Pair<Integer, Double>(BUILD_TRAP, 1d));
-				add(new Pair<Integer, Double>(BUY_AMMO,
-					      0.3d));
+				add(new Pair<Integer, Double>(BUY_AMMO, 1d));
 			}
 		};
 

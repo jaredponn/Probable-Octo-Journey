@@ -27,6 +27,7 @@ public class Map
 	public int rowsOfTileSet, colsOfTileSet, tileHeight, tileWidth,
 		tileCount, mapWidth = 0, mapHeight = 0;
 	private ArrayList<Boolean> wallState;
+	private ArrayList<PhysicsPCollisionBody> wallHitBox;
 
 	/**
 	 * Create map with specified number of mapLayer and the vector
@@ -221,12 +222,9 @@ public class Map
 						// if it is wall
 						if (wallState.get(Integer.parseInt(
 							    tempList[i]))) {
-
-
 							// NOT on 0th layer
 							if (mapLayers.size()
 							    > 1) {
-
 								mapLayers.get(0)
 									.getComponentAt(
 										PathFindCord
@@ -287,7 +285,9 @@ public class Map
 											1,
 											1)),
 									nextFreeIndex);
-						} else {
+						}
+						// if not on the wall
+						else {
 							mapLayers
 								.get(mapLayers
 									     .size()
@@ -304,7 +304,6 @@ public class Map
 										0),
 									nextFreeIndex);
 						}
-
 						// here will pick the tile image
 						// and render it
 						mapLayers
@@ -436,6 +435,17 @@ public class Map
 	{
 		wallState = new ArrayList<Boolean>(
 			Collections.nCopies(tileCount, false));
+
+		Vector2f cbwc = new Vector2f(0f, 0f);
+		wallHitBox = new ArrayList<PhysicsPCollisionBody>(
+			Collections.nCopies(
+				tileCount, new PhysicsPCollisionBody(
+						   new Vector2f(0f, 0f),
+						   cbwc.pureAdd(0.5f,
+								0.5f), // center
+						   cbwc, cbwc.pureAdd(1, 0),
+						   cbwc.pureAdd(0, 1),
+						   cbwc.pureAdd(1, 1))));
 
 		// setting the tile cord of these tiles
 		for (int i = 48; i <= 99; ++i) {

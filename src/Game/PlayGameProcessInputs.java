@@ -53,6 +53,7 @@ public class PlayGameProcessInputs
 
 
 			////// Combat Commands //////
+
 			if (inputPoller.isKeyDown(GameConfig.ATTACK_KEY)
 			    || inputPoller.isLeftMouseButtonDown()) {
 				if (Math.abs(g.lastCoolDown.get(
@@ -60,7 +61,7 @@ public class PlayGameProcessInputs
 				    == 0d) {
 					updateDtForKey(
 						g, GameConfig.ATTACK_KEY,
-						-g.coolDownMax.get(
+						-PlayGame.coolDownMax.get(
 							GameConfig.ATTACK_KEY));
 
 					engineState
@@ -78,7 +79,7 @@ public class PlayGameProcessInputs
 				    == 0d) {
 					updateDtForKey(
 						g, GameConfig.SWITCH_WEAPONS,
-						-g.coolDownMax.get(
+						-PlayGame.coolDownMax.get(
 							GameConfig
 								.SWITCH_WEAPONS));
 					System.out.print(
@@ -242,7 +243,7 @@ public class PlayGameProcessInputs
 					// cooldown of that key
 					updateDtForKey(
 						g, GameConfig.BUILD_TOWER,
-						-g.coolDownMax.get(
+						-PlayGame.coolDownMax.get(
 							GameConfig
 								.BUILD_TOWER));
 					// lastCoolDown.set(GameConfig.BUILD_TOWER,
@@ -261,17 +262,24 @@ public class PlayGameProcessInputs
 				// TODO: highlight that tile?
 				// TODO: spawn new trap entity on tile
 			}
-			
+
 			// buy ammo
 			if (inputPoller.isKeyDown(GameConfig.BUY_AMMO)) {
 				// TODO: cooldown for key press
-				if ( g.cash >= 20 * GameConfig.BULLET_COST) {
+				if (Math.abs(g.lastCoolDown.get(
+					    GameConfig.BUY_AMMO))
+					    == 0d
+				    && g.cash >= 20 * GameConfig.BULLET_COST) {
 					g.playerAmmo += 20;
 					g.cash -= 20 * GameConfig.BULLET_COST;
+					updateDtForKey(
+						g, GameConfig.BUY_AMMO,
+						-PlayGame.coolDownMax.get(
+							GameConfig.BUY_AMMO));
 					System.out.println("Bought some ammo");
-				}
-				else
-					System.out.println("Not enough money to buy more ammo");
+				} else
+					System.out.println(
+						"Either is on cooldown or not enough money to buy more ammo");
 			}
 		}
 	}

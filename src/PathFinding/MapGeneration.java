@@ -18,6 +18,7 @@ public class MapGeneration extends Thread
 	private float difCoefficient;
 	public volatile boolean startGeneration = false;
 	public volatile boolean endGeneration = false;
+	private volatile ArrayList<Float> tempDiffusionBuffer;
 
 
 	/**
@@ -36,6 +37,18 @@ public class MapGeneration extends Thread
 		this.mapLayer = map.getLayerEngineState(layerNumber);
 		this.layerNumber = layerNumber;
 		this.difCoefficient = difCoefficient;
+
+		// creates the buffer so it does not need to reallocate buffers
+		// each run
+		tempDiffusionBuffer =
+			new ArrayList<Float>(map.mapWidth * map.mapHeight);
+		for (int i = mapLayer.getInitialComponentIndex(
+			     PathFindCord.class);
+		     Components.isValidEntity(i);
+		     i = mapLayer.getNextComponentIndex(PathFindCord.class,
+							i)) {
+			tempDiffusionBuffer.add(0f);
+		}
 		System.out.println("map generation thread generated!");
 	}
 	/**
@@ -97,9 +110,9 @@ public class MapGeneration extends Thread
 			// height is cols
 			if (this.startGeneration) {
 				// will allocate vector size of map size
-				ArrayList<Float> tempDiffusionBuffer =
-					new ArrayList<Float>(map.mapWidth
-							     * map.mapHeight);
+				// ArrayList<Float> tempDiffusionBuffer =
+				// new ArrayList<Float>(map.mapWidth
+				//* map.mapHeight);
 				// will not loop to the empty tiles inside the
 				// map
 				for (int i = mapLayer.getInitialComponentIndex(
@@ -129,9 +142,9 @@ public class MapGeneration extends Thread
 						sum = center.getDiffusionValue()
 						      + sum * difCoefficient;
 						sum = sum * 1 / 2;
-						tempDiffusionBuffer.add(sum);
+						tempDiffusionBuffer.set(i, sum);
 					} else {
-						tempDiffusionBuffer.add(0f);
+						tempDiffusionBuffer.set(i, 0f);
 					}
 				}
 
