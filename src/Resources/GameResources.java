@@ -76,16 +76,15 @@ public class GameResources
 	// clang-format off
 
 	public static BufferedImage officialTileSet =
-		ImageLoader.load("resources/RomiroGraphics/officialTileSet/TILEMAPDONETEST.png");
+		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSprities.png");
 
-	public static String officialMapGround1="resources/RomiroGraphics/officialTileSet/TileMap_floor.csv",
-		   		officialMapMisc2="resources/RomiroGraphics/officialTileSet/TileMap_any misc items.csv",
-				officialMapEverythingElse3="resources/RomiroGraphics/officialTileSet/TileMap_everything else.csv",
-				officialMapCars4="resources/RomiroGraphics/officialTileSet/TileMap_cars.csv",
-				officialMapRocks5="resources/RomiroGraphics/officialTileSet/TileMap_rocks.csv",
-				officialMapTrees6="resources/RomiroGraphics/officialTileSet/TileMap_trees.csv",
-				officialTileSetConfig="resources/RomiroGraphics/officialTileSet/MapSprite.json",
-				officialMapConfig="resources/RomiroGraphics/officialTileSet/TileMap.json";
+	public static String officialMapGround1="resources/RamiroGraphics/officialMap/MapFinal_ground.csv",
+		   		officialMapMisc2="resources/RamiroGraphics/officialMap/MapFinal_misc1.csv",
+				officialMapCarsAndBuildings3="resources/RamiroGraphics/officialMap/MapFinal_cars and buildings.csv",
+				officialMapTreesAndRocks4="resources/RamiroGraphics/officialMap/MapFinal_trees and rocks.csv",
+				officialMapLightsAndSigns5="resources/RamiroGraphics/officialMap/MapFinal_lights and signs.csv",
+				officialTileSetConfig="resources/RamiroGraphics/officialMap/mapSpritesfinal.json",
+				officialMapConfig="resources/RamiroGraphics/officialMap/MapFinal.json";
 
 	// clang-format on
 	public static final float MAGIC_CONSTANT =
@@ -120,15 +119,15 @@ public class GameResources
 
 	// player resources
 	public static BufferedImage playerSpriteSheet =
-		ImageLoader.load("resources/RomiroGraphics/playerReduce5.png");
+		ImageLoader.load("resources/RamiroGraphics/playerReduce5.png");
 	public static BufferedImage enemySpriteSheet =
-		ImageLoader.load("resources/RomiroGraphics/zombieReduce5.png");
+		ImageLoader.load("resources/RamiroGraphics/zombieReduce5.png");
 
 	/*
 	public static BufferedImage playerSpriteSheet =
-		ImageLoader.load("resources/RomiroGraphics/playerReduce5.png");
+		ImageLoader.load("resources/RamiroGraphics/playerReduce5.png");
 	public static BufferedImage enemySpriteSheet =
-		ImageLoader.load("resources/RomiroGraphics/zombieReduce5.png");*/
+		ImageLoader.load("resources/RamiroGraphics/zombieReduce5.png");*/
 
 	/*
 	 * animation is in columns
