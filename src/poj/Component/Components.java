@@ -8,15 +8,16 @@ package poj.Component;
  */
 
 import poj.EntitySet.EntitySet;
+import poj.Logger.Logger;
 import poj.Component.Component;
 import poj.PackedVector;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Map;
 
 public class Components extends ComponentsArray
 {
-	protected Class<? extends Component> typeFocus; // focused type
 
 	/**
 	 * Constructs a Components Array with the specified buffer size
@@ -94,30 +95,47 @@ public class Components extends ComponentsArray
 	 */
 	public void printAllComponentsAt(int i)
 	{
-		System.out.println("All components at " + i + ": ");
+		Logger.logMessage("All components at " + i + ": ");
 		for (Map.Entry<Class<? extends Component>,
 			       PackedVector<? extends Component>> pair :
 		     m_component_list.entrySet()) {
 			Class<? extends Component> c = pair.getKey();
 			if (this.hasComponent(c, i)) {
-				System.out.println(c);
+				Logger.logMessage(c.toString());
 			}
 		}
-		System.out.println("End printing components");
+		Logger.logMessage("End printing components");
 	}
 
 
 	/* component getters / setters for the sparse vector*/
 	/**
-	 * returns a pointer to the component of a certain type.
+	 * returns a optional pointer to the component of a certain type.
 	 * @param  ct component type
 	 * @param  i index to get at
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Component> T getComponentAt(Class<T> c, int i)
+	public <T extends Component> Optional<T> getComponentAt(Class<T> c,
+								int i)
 	{
-		return (T)getComponentPackedVector(c)
-			.get_data_from_sparse_vector(i);
+		if (this.hasComponent(c, i)) {
+			return Optional.of(
+				(T)getComponentPackedVector(c)
+					.get_data_from_sparse_vector(i));
+		} else {
+			printAllComponentsAt(i);
+			return Optional.empty();
+		}
+	}
+
+	/**
+	 * returns a pointer to the component of a certain type.
+	 * @param  ct component type
+	 * @param  i index to get at
+	 */
+	public <T extends Component> T unsafeGetComponentAt(Class<T> c, int i)
+	{
+		return getComponentAt(c, i).get();
 	}
 
 	/**
@@ -185,7 +203,6 @@ public class Components extends ComponentsArray
 	public final <T extends Component> int
 	getInitialSetIndex(Class<T> setType)
 	{
-		this.typeFocus = setType;
 		ArrayList<Integer> tmp =
 			getComponentPackedVector(setType).get_packed_indicies();
 		if (tmp.size() == 0)
@@ -234,30 +251,6 @@ public class Components extends ComponentsArray
 	}
 
 	/**
-	 * gets the next set index given a set index.
-	 *
-	 * @param  ct component type
-	 * @param  focus the current "focused" entity
-	 * @return  int -- either the next index or an invalid set index
-	 */
-	final public <T extends Component> int getNextSetIndex(int focus)
-	{
-		ArrayList<Integer> stmp =
-			getComponentPackedVector(this.typeFocus)
-				.get_sparse_vector();
-		ArrayList<Integer> ptmp =
-			getComponentPackedVector(this.typeFocus)
-				.get_packed_indicies();
-
-		final int nextpkdfocus = stmp.get(focus) + 1;
-
-		if (ptmp.size() <= nextpkdfocus)
-			return INVALID_ENTITY_INDEX;
-		else
-			return ptmp.get(nextpkdfocus);
-	}
-
-	/**
 	 *  Alias for getInitialSetIndex
 	 */
 	public final <T extends Component> int
@@ -275,13 +268,12 @@ public class Components extends ComponentsArray
 		return this.getNextSetIndex(setType, focus);
 	}
 
-
 	/**
 	 * checks if the current int is a valid entity
 	 *
 	 * @param  focus the current "focused" entity
-	 * @return  boolean -- true if it is a valid entity, and false if it is
-	 *         not
+	 * @return  boolean -- true if it is a valid entity, and false
+	 *         if it is not
 	 */
 	static final public boolean isValidEntity(int focus)
 	{

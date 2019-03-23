@@ -228,7 +228,7 @@ public class Map
 							    > 1) {
 
 								mapLayers.get(0)
-									.getComponentAt(
+									.unsafeGetComponentAt(
 										PathFindCord
 											.class
 										,

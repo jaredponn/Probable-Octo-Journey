@@ -108,7 +108,7 @@ public class MapGeneration extends Thread
 				     i = mapLayer.getNextComponentIndex(
 					     PathFindCord.class, i)) {
 					PathFindCord center =
-						mapLayer.getComponentAt(
+						mapLayer.unsafeGetComponentAt(
 							PathFindCord.class, i);
 					if (!center.getIsWall()) {
 						ArrayList<
@@ -155,7 +155,7 @@ public class MapGeneration extends Thread
 					     Components.isValidEntity(i);
 					     i = mapLayer.getNextComponentIndex(
 						     PathFindCord.class, i)) {
-						mapLayer.getComponentAt(
+						mapLayer.unsafeGetComponentAt(
 								PathFindCord
 									.class,
 								i)

@@ -40,7 +40,7 @@ public class ZombieOutOfHPEvent extends PlayGameEvent
 			return;
 		}
 
-		MovementDirection mv = engineState.getComponentAt(
+		MovementDirection mv = engineState.unsafeGetComponentAt(
 			MovementDirection.class, focus);
 
 		// deletes everything but the  render, animation, and
@@ -68,7 +68,7 @@ public class ZombieOutOfHPEvent extends PlayGameEvent
 			engineState.printAllComponentsAt(focus);
 			return;
 		}
-		engineState.getComponentAt(HasAnimation.class, focus)
+		engineState.unsafeGetComponentAt(HasAnimation.class, focus)
 			.setAnimation(AnimationGetter.queryEnemySprite(
 				mv.getDirection(), 3));
 	}

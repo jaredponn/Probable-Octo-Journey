@@ -64,7 +64,7 @@ public class PlayGameProcessInputs
 							GameConfig.ATTACK_KEY));
 
 					engineState
-						.getComponentAt(
+						.unsafeGetComponentAt(
 							AttackCycle.class,
 							player)
 						.startAttackCycle();
@@ -102,87 +102,97 @@ public class PlayGameProcessInputs
 			if (inputPoller.isKeyDown(KeyEvent.VK_W)
 			    && inputPoller.isKeyDown(KeyEvent.VK_D)) {
 				engineState
-					.getComponentAt(MovementDirection.class,
-							player)
+					.unsafeGetComponentAt(
+						MovementDirection.class, player)
 					.setDirection(CardinalDirections.NW);
 				engineState
-					.getComponentAt(Movement.class, player)
+					.unsafeGetComponentAt(Movement.class,
+							      player)
 					.setSpeed(GameConfig.PLAYER_SPEED);
 			} else if (inputPoller.isKeyDown(KeyEvent.VK_W)
 				   && inputPoller.isKeyDown(KeyEvent.VK_A)) {
 				engineState
-					.getComponentAt(MovementDirection.class,
-							player)
+					.unsafeGetComponentAt(
+						MovementDirection.class, player)
 					.setDirection(CardinalDirections.SW);
 				engineState
-					.getComponentAt(Movement.class, player)
+					.unsafeGetComponentAt(Movement.class,
+							      player)
 					.setSpeed(GameConfig.PLAYER_SPEED);
 			} else if (inputPoller.isKeyDown(KeyEvent.VK_S)
 				   && inputPoller.isKeyDown(KeyEvent.VK_A)) {
 				engineState
-					.getComponentAt(MovementDirection.class,
-							player)
+					.unsafeGetComponentAt(
+						MovementDirection.class, player)
 					.setDirection(CardinalDirections.SE);
 				engineState
-					.getComponentAt(Movement.class, player)
+					.unsafeGetComponentAt(Movement.class,
+							      player)
 					.setSpeed(GameConfig.PLAYER_SPEED);
 			} else if (inputPoller.isKeyDown(KeyEvent.VK_S)
 				   && inputPoller.isKeyDown(KeyEvent.VK_D)) {
 				engineState
-					.getComponentAt(MovementDirection.class,
-							player)
+					.unsafeGetComponentAt(
+						MovementDirection.class, player)
 					.setDirection(CardinalDirections.NE);
 				engineState
-					.getComponentAt(Movement.class, player)
+					.unsafeGetComponentAt(Movement.class,
+							      player)
 					.setSpeed(GameConfig.PLAYER_SPEED);
 
 			} else if (inputPoller.isKeyDown(
 					   KeyEvent.VK_W)) { // single Key
 							     // movements
 				engineState
-					.getComponentAt(MovementDirection.class,
-							player)
+					.unsafeGetComponentAt(
+						MovementDirection.class, player)
 					.setDirection(CardinalDirections.W);
 				engineState
-					.getComponentAt(Movement.class, player)
+					.unsafeGetComponentAt(Movement.class,
+							      player)
 					.setSpeed(GameConfig.PLAYER_SPEED);
 			} else if (inputPoller.isKeyDown(KeyEvent.VK_D)) {
 				engineState
-					.getComponentAt(MovementDirection.class,
-							player)
+					.unsafeGetComponentAt(
+						MovementDirection.class, player)
 					.setDirection(CardinalDirections.N);
 				engineState
-					.getComponentAt(Movement.class, player)
+					.unsafeGetComponentAt(Movement.class,
+							      player)
 					.setSpeed(GameConfig.PLAYER_SPEED);
 			} else if (inputPoller.isKeyDown(KeyEvent.VK_A)) {
 				engineState
-					.getComponentAt(MovementDirection.class,
-							player)
+					.unsafeGetComponentAt(
+						MovementDirection.class, player)
 					.setDirection(CardinalDirections.S);
 				engineState
-					.getComponentAt(Movement.class, player)
+					.unsafeGetComponentAt(Movement.class,
+							      player)
 					.setSpeed(GameConfig.PLAYER_SPEED);
 			} else if (inputPoller.isKeyDown(KeyEvent.VK_S)) {
 				engineState
-					.getComponentAt(MovementDirection.class,
-							player)
+					.unsafeGetComponentAt(
+						MovementDirection.class, player)
 					.setDirection(CardinalDirections.E);
 				engineState
-					.getComponentAt(Movement.class, player)
+					.unsafeGetComponentAt(Movement.class,
+							      player)
 					.setSpeed(GameConfig.PLAYER_SPEED);
 			} else // no movement key is pressed
 			{
 				hasMovementKeyBeenPressed = false;
 				engineState
-					.getComponentAt(Movement.class, player)
+					.unsafeGetComponentAt(Movement.class,
+							      player)
 					.setSpeed(0);
 				// TODO idle direction!!!!!
-				engineState.getComponentAt(
+				engineState.unsafeGetComponentAt(
 					FacingDirection.class, player);
 			}
 
 			if (!engineState
-				     .getComponentAt(AttackCycle.class, player)
+				     .unsafeGetComponentAt(AttackCycle.class,
+							   player)
 				     .isAttacking()) {
 				int flag = hasMovementKeyBeenPressed ? 1 : 0;
 
@@ -190,11 +200,11 @@ public class PlayGameProcessInputs
 					flag += 2;
 				}
 				engineState
-					.getComponentAt(HasAnimation.class,
-							player)
+					.unsafeGetComponentAt(
+						HasAnimation.class, player)
 					.setAnimation(AnimationGetter.queryPlayerSprite(
 						engineState
-							.getComponentAt(
+							.unsafeGetComponentAt(
 								MovementDirection
 									.class,
 								player)
@@ -218,7 +228,7 @@ public class PlayGameProcessInputs
 					// of the polygon !
 					Vector2f playerPosition =
 						engineState
-							.getComponentAt(
+							.unsafeGetComponentAt(
 								PhysicsPCollisionBody
 									.class,
 								player)
@@ -230,7 +240,7 @@ public class PlayGameProcessInputs
 						new TurretSet());
 					g.cash -= 250;
 					engineState
-						.getComponentAt(
+						.unsafeGetComponentAt(
 							WorldAttributes.class,
 							tmp)
 						.setOriginCoord(playerPosition);
@@ -261,17 +271,17 @@ public class PlayGameProcessInputs
 				// TODO: highlight that tile?
 				// TODO: spawn new trap entity on tile
 			}
-			
+
 			// buy ammo
 			if (inputPoller.isKeyDown(GameConfig.BUY_AMMO)) {
 				// TODO: cooldown for key press
-				if ( g.cash >= 20 * GameConfig.BULLET_COST) {
+				if (g.cash >= 20 * GameConfig.BULLET_COST) {
 					g.playerAmmo += 20;
 					g.cash -= 20 * GameConfig.BULLET_COST;
 					System.out.println("Bought some ammo");
-				}
-				else
-					System.out.println("Not enough money to buy more ammo");
+				} else
+					System.out.println(
+						"Not enough money to buy more ammo");
 			}
 		}
 	}

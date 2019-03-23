@@ -32,7 +32,7 @@ public class AttackCycleHandlers
 		for (int i = engineState.getInitialSetIndex(PlayerSet.class);
 		     engineState.isValidEntity(i);
 		     i = engineState.getNextSetIndex(PlayerSet.class, i)) {
-			AttackCycle a = engineState.getComponentAt(
+			AttackCycle a = engineState.unsafeGetComponentAt(
 				AttackCycle.class, i);
 
 			if (a.isAttacking()) {
@@ -53,7 +53,8 @@ public class AttackCycleHandlers
 				}
 
 				// setting velocity to 0
-				engineState.getComponentAt(Movement.class, i)
+				engineState
+					.unsafeGetComponentAt(Movement.class, i)
 					.setVelocity(new Vector2f(0, 0));
 			}
 		}
@@ -62,7 +63,7 @@ public class AttackCycleHandlers
 		for (int i = engineState.getInitialSetIndex(MobSet.class);
 		     EngineState.isValidEntity(i);
 		     i = engineState.getNextSetIndex(MobSet.class, i)) {
-			AttackCycle a = engineState.getComponentAt(
+			AttackCycle a = engineState.unsafeGetComponentAt(
 				AttackCycle.class, i);
 
 			if (a.isAttacking()) {
@@ -89,7 +90,8 @@ public class AttackCycleHandlers
 				}
 
 				// setting velocity to 0
-				engineState.getComponentAt(Movement.class, i)
+				engineState
+					.unsafeGetComponentAt(Movement.class, i)
 					.setVelocity(new Vector2f(0, 0));
 			}
 		}
@@ -98,7 +100,7 @@ public class AttackCycleHandlers
 		for (int i = engineState.getInitialSetIndex(TurretSet.class);
 		     EngineState.isValidEntity(i);
 		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
-			AttackCycle a = engineState.getComponentAt(
+			AttackCycle a = engineState.unsafeGetComponentAt(
 				AttackCycle.class, i);
 
 			if (a.isAttacking()) {
@@ -136,8 +138,8 @@ public class AttackCycleHandlers
 		int player = engineState.getInitialSetIndex(PlayerSet.class);
 		Vector2f playerPosition =
 			engineState
-				.getComponentAt(PhysicsPCollisionBody.class,
-						player)
+				.unsafeGetComponentAt(
+					PhysicsPCollisionBody.class, player)
 				.getPolygon()
 				.pureGetAPointInPolygon(0);
 
@@ -154,7 +156,9 @@ public class AttackCycleHandlers
 			Vector2f unitVecPlayerPosToMouseDelta =
 				tmp.pureNormalize();
 
-			engineState.getComponentAt(HasAnimation.class, player)
+			engineState
+				.unsafeGetComponentAt(HasAnimation.class,
+						      player)
 				.setAnimation(AnimationGetter.queryPlayerSprite(
 					CardinalDirections
 						.getClosestDirectionFromDirectionVector(
@@ -162,27 +166,31 @@ public class AttackCycleHandlers
 					0));
 
 			// generation of the bullet
-			if ( playGame.playerAmmo > 0 )
-			{
+			if (playGame.playerAmmo > 0) {
 				int e = engineState.spawnEntitySet(
 					new Bullet(playerPosition));
 				engineState
-					.getComponentAt(PhysicsPCollisionBody.class, e)
+					.unsafeGetComponentAt(
+						PhysicsPCollisionBody.class, e)
 					.setPositionPoint(
 						engineState
-							.getComponentAt(
-								WorldAttributes.class,
+							.unsafeGetComponentAt(
+								WorldAttributes
+									.class,
 								player)
 							.getCenteredBottomQuarter());
 				float bulletSpeed =
-					engineState.getComponentAt(Movement.class, e)
+					engineState
+						.unsafeGetComponentAt(
+							Movement.class, e)
 						.getSpeed();
 
-				engineState.getComponentAt(Movement.class, e)
+				engineState
+					.unsafeGetComponentAt(Movement.class, e)
 					.setVelocity(
-						unitVecPlayerPosToMouseDelta.pureMul(
-							bulletSpeed));
-			
+						unitVecPlayerPosToMouseDelta
+							.pureMul(bulletSpeed));
+
 				playGame.playerAmmo -= 1;
 			}
 			break;
@@ -196,9 +204,9 @@ public class AttackCycleHandlers
 	public static void mobMeleeAttackPrimerHandler(EngineState engineState,
 						       int focus)
 	{
-		final MovementDirection n = engineState.getComponentAt(
+		final MovementDirection n = engineState.unsafeGetComponentAt(
 			MovementDirection.class, focus);
-		engineState.getComponentAt(HasAnimation.class, focus)
+		engineState.unsafeGetComponentAt(HasAnimation.class, focus)
 			.setAnimation(AnimationGetter.queryEnemySprite(
 				n.getDirection(), 2));
 	}
@@ -209,7 +217,7 @@ public class AttackCycleHandlers
 
 		// in the future make the hit boxes attack forward and just
 		// witch upon them
-		final MovementDirection n = engineState.getComponentAt(
+		final MovementDirection n = engineState.unsafeGetComponentAt(
 			MovementDirection.class, focus);
 
 		// Spawn the hitbox in the correct location and check against
@@ -217,8 +225,8 @@ public class AttackCycleHandlers
 		PCollisionBody pmob =
 			new PCollisionBody(GameConfig.MOB_MELEE_ATTACK_BODY);
 		Systems.updatePCollisionBodyPositionFromWorldAttr(
-			pmob, engineState.getComponentAt(WorldAttributes.class,
-							 focus));
+			pmob, engineState.unsafeGetComponentAt(
+				      WorldAttributes.class, focus));
 
 		// debug rendering
 		Systems.pCollisionBodyDebugRenderer(pmob, playGame.debugBuffer,
@@ -229,8 +237,8 @@ public class AttackCycleHandlers
 		     engineState.isValidEntity(i);
 		     i = engineState.getNextSetIndex(PlayerSet.class, i)) {
 
-			PHitBox pplayer =
-				engineState.getComponentAt(PHitBox.class, i);
+			PHitBox pplayer = engineState.unsafeGetComponentAt(
+				PHitBox.class, i);
 
 			if (Systems.arePCollisionBodiesColliding(gjk, pplayer,
 								 pmob)) {
@@ -246,8 +254,8 @@ public class AttackCycleHandlers
 		for (int i = engineState.getInitialSetIndex(TurretSet.class);
 		     engineState.isValidEntity(i);
 		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
-			PHitBox pturret =
-				engineState.getComponentAt(PHitBox.class, i);
+			PHitBox pturret = engineState.unsafeGetComponentAt(
+				PHitBox.class, i);
 
 			if (Systems.arePCollisionBodiesColliding(gjk, pturret,
 								 pmob)) {
@@ -261,6 +269,6 @@ public class AttackCycleHandlers
 	public static void turretAttackHandler(EngineState engineState,
 					       int turret, double gameTime)
 	{
-		CombatFunctions.turretTargeting(engineState, turret );
+		CombatFunctions.turretTargeting(engineState, turret);
 	}
 }
