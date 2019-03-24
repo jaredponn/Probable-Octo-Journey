@@ -372,7 +372,7 @@ public class CombatFunctions
 			if (currentTarget > 0
 			    && Vector2f.scalarValueOfVector(
 				       unitVecturretPosTomob1Delta)
-				       < 20)
+				       < 15)
 				shootTurret(engineState, turret, currentTarget);
 		}
 	}

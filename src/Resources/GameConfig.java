@@ -159,8 +159,11 @@ public class GameConfig
 	public static final ArrayList<Vector2f> MOB_SPAWN_POINTS =
 		new ArrayList<Vector2f>() {
 			{
-				add(new Vector2f(14f, 7f));
-				add(new Vector2f(20f, 20f));
+				add(new Vector2f(9.5f, 19.5f));		// western Blockbuster
+				add(new Vector2f(30f, 14f));		// parking lot
+				add(new Vector2f(40f, 30f));		// near fountain
+				add(new Vector2f(60f, 24f));		// park past parking lot
+				add(new Vector2f(42f, 50f));		// gas station
 			}
 		};
 

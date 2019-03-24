@@ -41,7 +41,7 @@ There are 2 UML diagrams provided, which can be found in the following locations
 - [x] Actually using the aggro hit box - DONE (alex 03/22/19)
 - [ ] Make mobs slowly move towards player when in aggro range 
 - [x] Shrinking the PPhysicsHitBox of zombies and players - DONE (alex 03/22/19)
-- [ ] Polishing zombie spawn points (perhaps 5 or 6 spawn points around the map)
+- [x] Polishing zombie spawn points - DONE (alex 03/24/19)
 - [ ] Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
 - [ ] Boss zombies (may need more graphics from Ramiro for this)
 - [ ] Melee attack

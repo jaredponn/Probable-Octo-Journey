@@ -168,19 +168,12 @@ public class GameResources
 
 
 	// player resources
-
-	// public static BufferedImage playerSpriteSheet = ImageLoader.load(
-	//"resources/RamiroGraphics/spritePack/PlayerSheet.png");
 	public static BufferedImage playerSpriteSheet =
 		ImageLoader.load("resources/RamiroGraphics/playerReduce5.png");
+		//ImageLoader.load("resources/RamiroGraphics/spritePack/PlayerSheet.png");
 	public static BufferedImage enemySpriteSheet =
 		ImageLoader.load("resources/RamiroGraphics/zombieReduce5.png");
-
-	/*
-	public static BufferedImage playerSpriteSheet =
-		ImageLoader.load("resources/RamiroGraphics/playerReduce5.png");
-	public static BufferedImage enemySpriteSheet =
-		ImageLoader.load("resources/RamiroGraphics/zombieReduce5.png");*/
+		//ImageLoader.load("resources/RamiroGraphics/spritePack/ZombieSheet.png");
 
 	/*
 	 * animation is in columns
