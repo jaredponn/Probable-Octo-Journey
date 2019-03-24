@@ -70,6 +70,6 @@ public class ZombieOutOfHPEvent extends PlayGameEvent
 		}
 		engineState.unsafeGetComponentAt(HasAnimation.class, focus)
 			.setAnimation(AnimationGetter.queryEnemySprite(
-				mv.getDirection(), 3));
+				mv.getDirection(), 30));
 	}
 }

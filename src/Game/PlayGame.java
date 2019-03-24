@@ -769,12 +769,8 @@ public class PlayGame extends World
 				continue;
 
 			if (Systems.arePCollisionBodiesColliding(
-<<<<<<< HEAD
-				    gjk, playerPosition, collectiblePosition)) {
-=======
 				    gjk, playerPosition,
 				    collectiblePosition.get())) {
->>>>>>> 04b71387e043313dafa5c7204a0ec3f68cff8c85
 				this.playerAmmo +=
 					GameConfig.PICKUP_AMMOPACK_AMOUNT;
 				CombatFunctions.removePickUp(engineState, i);

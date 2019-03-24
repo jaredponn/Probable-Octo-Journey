@@ -7,6 +7,7 @@ package Game;
  */
 
 import java.awt.Color;
+import java.util.Optional;
 
 import Components.*;
 import EntitySets.*;
@@ -14,9 +15,11 @@ import Resources.GameConfig;
 
 import poj.EngineState;
 import poj.GameWindow.InputPoller;
+import poj.Component.*;
 import poj.linear.Vector2f;
 import poj.Animation;
 import poj.Collisions.*;
+
 
 public class AttackCycleHandlers
 {
@@ -37,25 +40,20 @@ public class AttackCycleHandlers
 
 			if (a.isAttacking()) {
 				switch (a.getAttackState()) {
-				case 0:
+				case 0: // priming
 					break;
 
-				case 1:
+				case 1: // attack
 					AttackCycleHandlers.playerAttackHandler(
 						playGame);
 					break;
-				case 2:
+				case 2: // recoil
 					break;
-				case 3:
+				case 3: // end attack cycle
 					a.endAttackCycle();
 					a.resetCycle();
 					break;
 				}
-
-				// setting velocity to 0
-				engineState
-					.unsafeGetComponentAt(Movement.class, i)
-					.setVelocity(new Vector2f(0, 0));
 			}
 		}
 
@@ -70,8 +68,9 @@ public class AttackCycleHandlers
 				switch (a.getAttackState()) {
 				case 0:
 					AttackCycleHandlers
-						.mobMeleeAttackPrimerHandler(
-							engineState, i);
+						.meleeAttackPrimerHandler(
+							engineState, i,
+							MobSet.class, 2);
 					break;
 
 				case 1:
@@ -88,11 +87,6 @@ public class AttackCycleHandlers
 
 					break;
 				}
-
-				// setting velocity to 0
-				engineState
-					.unsafeGetComponentAt(Movement.class, i)
-					.setVelocity(new Vector2f(0, 0));
 			}
 		}
 
@@ -127,6 +121,15 @@ public class AttackCycleHandlers
 	 * Player's attack handler.
 	 * Variable names should be intuitive.
 	 */
+	public static Vector2f queryEntityToMouseDirection()
+	{
+		return new Vector2f(0, 0);
+	}
+
+	/**
+	 * Player's attack handler.
+	 * Variable names should be intuitive.
+	 */
 	public static void playerAttackHandler(PlayGame playGame)
 	{
 
@@ -137,16 +140,11 @@ public class AttackCycleHandlers
 
 		int player = engineState.getInitialSetIndex(PlayerSet.class);
 		Vector2f playerPosition =
-			engineState
-				.unsafeGetComponentAt(
-					PhysicsPCollisionBody.class, player)
-				.getPolygon()
-				.pureGetAPointInPolygon(0);
+			engineState.unsafeGetComponentAt(PHitBox.class, player)
+				.pureGetCenter();
 
 		switch (playerCurWPState) {
 		case Gun:
-			playerPosition.add(-GameConfig.PLAYER_WIDTH / 3,
-					   -GameConfig.PLAYER_HEIGHT / 3);
 			Vector2f mousePosition = ip.getMousePosition();
 			mousePosition.matrixMultiply(invCam);
 
@@ -175,10 +173,9 @@ public class AttackCycleHandlers
 					.setPositionPoint(
 						engineState
 							.unsafeGetComponentAt(
-								WorldAttributes
-									.class,
+								PHitBox.class,
 								player)
-							.getCenteredBottomQuarter());
+							.getCenter());
 				float bulletSpeed =
 					engineState
 						.unsafeGetComponentAt(
@@ -200,16 +197,47 @@ public class AttackCycleHandlers
 		}
 	}
 
-
-	public static void mobMeleeAttackPrimerHandler(EngineState engineState,
-						       int focus)
+	/**
+	 * Generalized melee attack handler
+	 * @param engineState  engineState
+	 * @param focus  focused entity
+	 * @param c  Entity set to run the melee attack handler
+	 * @param animationFlag  flag for the animation
+	 */
+	public static void
+	meleeAttackPrimerHandler(EngineState engineState, int focus,
+				 Class<? extends Component> c,
+				 int animationFlag)
 	{
-		final MovementDirection n = engineState.unsafeGetComponentAt(
-			MovementDirection.class, focus);
-		engineState.unsafeGetComponentAt(HasAnimation.class, focus)
-			.setAnimation(AnimationGetter.queryEnemySprite(
-				n.getDirection(), 2));
+
+		final Optional<MovementDirection> nOpt =
+			engineState.getComponentAt(MovementDirection.class,
+						   focus);
+
+		final Optional<Movement> mOpt =
+			engineState.getComponentAt(Movement.class, focus);
+
+		final Optional<HasAnimation> animationOpt =
+			engineState.getComponentAt(HasAnimation.class, focus);
+
+		if (!nOpt.isPresent())
+			return;
+
+		if (!animationOpt.isPresent())
+			return;
+
+		if (!mOpt.isPresent())
+			return;
+
+		final MovementDirection n = nOpt.get();
+		HasAnimation animation = animationOpt.get();
+
+		animation.setAnimation(AnimationGetter.queryEnemySprite(
+			n.getDirection(), animationFlag));
+
+		mOpt.get().setVelocity(new Vector2f(0, 0));
 	}
+
 	public static void mobMeleeAttackHandler(PlayGame playGame, int focus)
 	{
 		EngineState engineState = playGame.getEngineState();

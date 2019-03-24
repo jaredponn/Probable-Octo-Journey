@@ -98,7 +98,6 @@ public class AttackCycle implements Component
 	 * 2 -- is the recoil attack state
 	 * 3 -- end of the entire cycle
 	 *
-	 * -1 -- is no state
 	 *
 	 * @return   int -- see the above description for what the ints
 	 *         mean
