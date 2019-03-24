@@ -31,6 +31,7 @@ There are 2 UML diagrams provided, which can be found in the following locations
 
 ## TODO List
 - [ ] Render the map layer properly! in render() in PlayGame
+- [ ] Make the hitboxes for the tilemap
 - [ ] Powerups (more damage) - just need to handle spawning now (alex 03/20/19)
 - [ ] Collectibles (HP refill, ammo refill, money) - just need to handle spawning now (alex 03/20/19)
 - [x] Finite ammo - DONE (alex 03/20/19)
