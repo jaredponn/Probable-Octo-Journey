@@ -48,6 +48,8 @@ public class PlayGame extends World
 	// buffers for the renderer
 	protected Queue<RenderObject> groundBuffer;
 	protected MinYFirstSortedRenderObjectBuffer entityBuffer;
+	protected MinYFirstSortedRenderObjectBuffer buildingBuffer;
+	protected MinYFirstSortedRenderObjectBuffer poleBuffer;
 	protected Queue<RenderObject> guiBuffer;
 	public static Queue<RenderObject> debugBuffer =
 		new LinkedList<RenderObject>(); // all debugging should be
@@ -108,6 +110,18 @@ public class PlayGame extends World
 
 		// World loading
 		this.map = new Map(5);
+
+		this.map.addTileSet(GameResources.NoTreeofficialTileSetConfig);
+		this.map.addMapConfig(GameResources.NoTreeofficialMapConfig);
+		this.map.addMapLayer(GameResources.NoTreeofficialMapGround1);
+		this.map.addMapLayer(GameResources.NoTreeofficialMapMisc2);
+		this.map.addMapLayer(
+			GameResources.NoTreeofficialMapCarsAndBuildings3);
+		this.map.addMapLayer(
+			GameResources.NoTreeofficialMapTreesAndRocks4);
+		this.map.addMapLayer(
+			GameResources.NoTreeofficialMapLightsAndSigns5);
+		/*
 		this.map.addTileSet(GameResources.officialTileSetConfig);
 		this.map.addMapConfig(GameResources.officialMapConfig);
 		this.map.addMapLayer(GameResources.officialMapGround1);
@@ -116,6 +130,8 @@ public class PlayGame extends World
 			GameResources.officialMapCarsAndBuildings3);
 		this.map.addMapLayer(GameResources.officialMapTreesAndRocks4);
 		this.map.addMapLayer(GameResources.officialMapLightsAndSigns5);
+		*/
+
 		// this.map.addMapLayer(GameResources.demo1LayerWall);
 		/*
 		// World loading
@@ -150,6 +166,8 @@ public class PlayGame extends World
 
 		this.groundBuffer = new LinkedList<RenderObject>();
 		this.entityBuffer = new MinYFirstSortedRenderObjectBuffer();
+		this.buildingBuffer = new MinYFirstSortedRenderObjectBuffer();
+		this.poleBuffer = new MinYFirstSortedRenderObjectBuffer();
 		this.guiBuffer = new LinkedList<RenderObject>();
 
 		// camera initialization
@@ -399,18 +417,18 @@ public class PlayGame extends World
 	protected void render()
 	{
 
-		// TODO: refactor this later..
+		// TODO: someone please fix the render layering..
 		pushTileMapLayerToQueue(map.getLayerEngineState(0),
 					groundBuffer);
 
 		pushTileMapLayerToQueue(map.getLayerEngineState(1),
-					entityBuffer);
+					groundBuffer);
 		pushTileMapLayerToQueue(map.getLayerEngineState(2),
-					entityBuffer);
+					buildingBuffer);
 		pushTileMapLayerToQueue(map.getLayerEngineState(3),
-					entityBuffer);
-		pushTileMapLayerToQueue(map.getLayerEngineState(4),
-					entityBuffer);
+					buildingBuffer);
+		pushTileMapLayerToQueue(map.getLayerEngineState(4), poleBuffer);
+
 
 		for (Render r :
 		     super.getRawComponentArrayListPackedData(Render.class)) {
@@ -425,6 +443,7 @@ public class PlayGame extends World
 		guiBuffer.add(this.ammoDisplay);
 
 		super.renderer.renderBuffers(groundBuffer, entityBuffer,
+					     buildingBuffer, poleBuffer,
 					     debugBuffer, guiBuffer);
 	}
 

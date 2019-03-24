@@ -39,6 +39,28 @@ public class GameResources
 		ImageLoader.load("resources/menu/backButton.png");
 	public static int backButtonWidth = 150, backButtonHeight = 80;
 
+	// special tiles
+	public static BufferedImage tree1 = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/tree1.png");
+	public static BufferedImage tree2 = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/tree2.png");
+	public static BufferedImage tree3 = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/tree3.png");
+	public static BufferedImage tree4 = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/tree4.png");
+	public static BufferedImage tree5 = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/tree5.png");
+
+	public static BufferedImage pole1 = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/pole1.png");
+	public static BufferedImage pole2 = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/pole2.png");
+	public static BufferedImage pole3 = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/pole3.png");
+	public static BufferedImage pole4 = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/pole4.png");
+	public static BufferedImage stopSign = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/stopSign.png");
 
 	public static BufferedImage testTile =
 		ImageLoader.load("resources/newmap/tiled_cave_1.png");
@@ -86,6 +108,14 @@ public class GameResources
 				officialTileSetConfig="resources/RamiroGraphics/officialMap/mapSpritesfinal.json",
 				officialMapConfig="resources/RamiroGraphics/officialMap/MapFinal.json";
 
+	public static String NoTreeofficialMapGround1="resources/RamiroGraphics/officialMap/MapFinalNoTrees_ground.csv",
+		   		NoTreeofficialMapMisc2="resources/RamiroGraphics/officialMap/MapFinalNoTrees_misc1.csv",
+				NoTreeofficialMapCarsAndBuildings3="resources/RamiroGraphics/officialMap/MapFinalNoTrees_cars and buildings.csv",
+				NoTreeofficialMapTreesAndRocks4="resources/RamiroGraphics/officialMap/MapFinalNoTrees_trees and rocks.csv",
+				NoTreeofficialMapLightsAndSigns5="resources/RamiroGraphics/officialMap/MapFinalNoTrees_lights and signs.csv",
+				NoTreeofficialTileSetConfig="resources/RamiroGraphics/officialMap/mapSpritesfinal.json",
+				NoTreeofficialMapConfig="resources/RamiroGraphics/officialMap/MapFinal.json";
+
 	// clang-format on
 	public static final float MAGIC_CONSTANT =
 		(float)Math.sqrt(2)
@@ -118,6 +148,9 @@ public class GameResources
 		ImageLoader.load("resources/coin.png");
 
 	// player resources
+
+	// public static BufferedImage playerSpriteSheet = ImageLoader.load(
+	//"resources/RamiroGraphics/spritePack/PlayerSheet.png");
 	public static BufferedImage playerSpriteSheet =
 		ImageLoader.load("resources/RamiroGraphics/playerReduce5.png");
 	public static BufferedImage enemySpriteSheet =
