@@ -288,8 +288,8 @@ public class PlayGame extends World
 				engineState, gjk, MobSet.class,
 				TurretSet.class);
 
-		this.cashSpawner(true, 13f, 7f);
-		this.powerUpSpawner(true, 13f, 8f);
+		//this.cashSpawner(true, 13f, 7f);
+		//this.powerUpSpawner(true, 13f, 8f);
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
 		this.collectPowerUp();
 		this.collectHealthPack();

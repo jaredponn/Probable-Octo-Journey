@@ -32,8 +32,8 @@ There are 2 UML diagrams provided, which can be found in the following locations
 ## TODO List
 - [ ] Render the map layer properly! in render() in PlayGame
 - [ ] Make the hitboxes for the tilemap
-- [ ] Powerups (more damage) - just need to handle spawning now (alex 03/20/19)
-- [ ] Collectibles (HP refill, ammo refill, money) - just need to handle spawning now (alex 03/20/19)
+- [x] Powerups (more damage) - DONE (alex 03/20/19)
+- [x] Collectibles (HP refill, ammo refill, money) - DONE (alex 03/20/19)
 - [x] Finite ammo - DONE (alex 03/20/19)
 - [x] Buying ammo - just need to implement cooldown for key press (alex 03/22/19) Done (haiyang 03/23/19)
 - [ ] No attack animation when there is no more ammo 
