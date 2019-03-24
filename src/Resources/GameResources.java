@@ -145,22 +145,35 @@ public class GameResources
 	public static final int CASH_SPRITE_WIDTH = 16;
 	public static final int CASH_SPRITE_HEIGHT = 16;
 	public static BufferedImage cashImage =
+		ImageLoader.load("resources/RamiroGraphics/spritePack/Coin.png");
+	
+	// ammo resources
+	public static final int AMMO_SPRITE_WIDTH = 16;
+	public static final int AMMO_SPRITE_HEIGHT = 16;
+	public static BufferedImage ammoImage =
+		ImageLoader.load("resources/RamiroGraphics/spritePack/AmmoPack.png");
+		
+	// health resources
+	public static final int HEALTH_SPRITE_WIDTH = 16;
+	public static final int HEALTH_SPRITE_HEIGHT = 16;
+	public static BufferedImage healthImage =
+		ImageLoader.load("resources/RamiroGraphics/spritePack/MedKit.png");
+	
+	// health resources
+	public static final int POWERUP_SPRITE_WIDTH = 16;
+	public static final int POWERUP_SPRITE_HEIGHT = 16;
+	public static BufferedImage powerupImage =
 		ImageLoader.load("resources/coin.png");
+		
+
 
 	// player resources
-
-	// public static BufferedImage playerSpriteSheet = ImageLoader.load(
-	//"resources/RamiroGraphics/spritePack/PlayerSheet.png");
 	public static BufferedImage playerSpriteSheet =
 		ImageLoader.load("resources/RamiroGraphics/playerReduce5.png");
+		//ImageLoader.load("resources/RamiroGraphics/spritePack/PlayerSheet.png");
 	public static BufferedImage enemySpriteSheet =
 		ImageLoader.load("resources/RamiroGraphics/zombieReduce5.png");
-
-	/*
-	public static BufferedImage playerSpriteSheet =
-		ImageLoader.load("resources/RamiroGraphics/playerReduce5.png");
-	public static BufferedImage enemySpriteSheet =
-		ImageLoader.load("resources/RamiroGraphics/zombieReduce5.png");*/
+		//ImageLoader.load("resources/RamiroGraphics/spritePack/ZombieSheet.png");
 
 	/*
 	 * animation is in columns

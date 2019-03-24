@@ -35,7 +35,7 @@ public class AttackCycleHandlers
 			AttackCycle a = engineState.unsafeGetComponentAt(
 				AttackCycle.class, i);
 
-			if (a.isAttacking()) {
+			if (a.isAttacking() && playGame.playerAmmo > 0) {
 				switch (a.getAttackState()) {
 				case 0:
 					break;
@@ -56,6 +56,10 @@ public class AttackCycleHandlers
 				engineState
 					.unsafeGetComponentAt(Movement.class, i)
 					.setVelocity(new Vector2f(0, 0));
+			}
+			else {
+				a.endAttackCycle();
+				a.resetCycle();
 			}
 		}
 

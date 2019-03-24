@@ -288,10 +288,12 @@ public class PlayGame extends World
 				engineState, gjk, MobSet.class,
 				TurretSet.class);
 
-		this.cashSpawner(true, 13f, 7f);
-		this.powerUpSpawner(true, 13f, 8f);
+		//this.cashSpawner(true, 13f, 7f);
+		//this.powerUpSpawner(true, 13f, 8f);
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
 		this.collectPowerUp();
+		this.collectHealthPack();
+		this.collectAmmoPack();
 
 		this.updateGameTimer();
 		this.updateCashDisplay();
@@ -599,6 +601,18 @@ public class PlayGame extends World
 			System.out.println("Spawning new power-up drop.");
 		}
 	}
+	
+	protected void ammoPackSpawner(boolean timed , float x , float y)
+	{
+		double currentPlayTime = this.getPlayTime();
+		super.engineState.spawnEntitySet(new AmmoPack(x, y, currentPlayTime));
+	}
+	
+	protected void healthPackSpawner(boolean timed , float x , float y)
+	{
+		double currentPlayTime = this.getPlayTime();
+		super.engineState.spawnEntitySet(new HealthPack(x, y, currentPlayTime));
+	}
 
 	/**
 	 * deletes cash drops older than the lifespan
@@ -791,12 +805,8 @@ public class PlayGame extends World
 				continue;
 
 			if (Systems.arePCollisionBodiesColliding(
-<<<<<<< HEAD
-				    gjk, playerPosition, collectiblePosition)) {
-=======
 				    gjk, playerPosition,
 				    collectiblePosition.get())) {
->>>>>>> 04b71387e043313dafa5c7204a0ec3f68cff8c85
 				this.playerAmmo +=
 					GameConfig.PICKUP_AMMOPACK_AMOUNT;
 				CombatFunctions.removePickUp(engineState, i);

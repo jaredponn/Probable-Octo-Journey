@@ -32,16 +32,16 @@ There are 2 UML diagrams provided, which can be found in the following locations
 ## TODO List
 - [ ] Render the map layer properly! in render() in PlayGame
 - [ ] Make the hitboxes for the tilemap
-- [ ] Powerups (more damage) - just need to handle spawning now (alex 03/20/19)
-- [ ] Collectibles (HP refill, ammo refill, money) - just need to handle spawning now (alex 03/20/19)
+- [x] Powerups (more damage) - DONE (alex 03/24/19)
+- [x] Collectibles (HP refill, ammo refill, money) - DONE (alex 03/24/19)
 - [x] Finite ammo - DONE (alex 03/20/19)
-- [x] Buying ammo - just need to implement cooldown for key press (alex 03/22/19) Done (haiyang 03/23/19)
-- [ ] No attack animation when there is no more ammo 
+- [x] Buying ammo - DONE (alex 03/22/19)/(haiyang 03/23/19)
+- [x] No attack animation when there is no more ammo - DONE (alex 03/24/19)
 - [x] Aligning the aggro hit box properly - DONE (alex 03/20/19) 
 - [x] Actually using the aggro hit box - DONE (alex 03/22/19)
 - [ ] Make mobs slowly move towards player when in aggro range 
 - [x] Shrinking the PPhysicsHitBox of zombies and players - DONE (alex 03/22/19)
-- [ ] Polishing zombie spawn points (perhaps 5 or 6 spawn points around the map)
+- [x] Polishing zombie spawn points - DONE (alex 03/24/19)
 - [ ] Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
 - [ ] Boss zombies (may need more graphics from Ramiro for this)
 - [ ] Melee attack
@@ -52,6 +52,7 @@ There are 2 UML diagrams provided, which can be found in the following locations
 - [ ] Bullet sprite
 - [ ] Melee sprites with a more visible sword
 - [ ] Slower zombie attacks
+- [ ] Update text based version
 
 ## Directory Hierarchy
 The directory hierarchy is as follows:

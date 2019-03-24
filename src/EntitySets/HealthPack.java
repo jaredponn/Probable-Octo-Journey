@@ -24,7 +24,7 @@ public class HealthPack extends EntitySet {
 		super();
 		
 		addComponent(new Render(
-			new ImageRenderObject(0, 0, GameResources.cashImage)));
+			new ImageRenderObject(0, 0, GameResources.healthImage)));
 
 		addComponent(new WorldAttributes(new Vector2f(x, y),
 						 GameConfig.PICKUP_WIDTH,
