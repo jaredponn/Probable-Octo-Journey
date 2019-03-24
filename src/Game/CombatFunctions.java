@@ -142,6 +142,7 @@ public class CombatFunctions
 				    <= 0) {
 					g.pushEventToEventHandler(
 						new ZombieOutOfHPEvent(g, i));
+					g.killCount++;
 					int dropRoll  = ThreadLocalRandom.current().nextInt(0, 99) + 1;
 					if (dropRoll >= (100 - GameConfig.MOB_DROP_RATE )) {
 						int dropType = ThreadLocalRandom.current().nextInt(0,4);
