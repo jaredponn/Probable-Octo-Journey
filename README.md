@@ -51,6 +51,7 @@ There are 2 UML diagrams provided, which can be found in the following locations
 - [ ] Bullet sprite
 - [ ] Melee sprites with a more visible sword
 - [ ] Slower zombie attacks
+- [ ] Update text based version
 
 ## Directory Hierarchy
 The directory hierarchy is as follows:

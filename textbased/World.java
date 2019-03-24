@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /**
  * Contains and controls info about the current state of the game
  * @author Alex
- * @version 1.0
+ * @version 2.0
  */
 public class World {
     
@@ -18,9 +18,7 @@ public class World {
     public World() {
         createMap();
         spawnWalls();
-        putWallsOnMap();
         spawnFloors();
-        putFloorsOnMap();
         spawnPlayer( GameConfig.PLAYER_SPAWN_X , GameConfig.PLAYER_SPAWN_Y );
         spawnEnemies();
         spawnPickup( 10 , 10 );
@@ -61,6 +59,8 @@ public class World {
             entities.add( new Wall( i , GameConfig.MAP_HEIGHT - 1 , this.lastIndex ) );
             this.lastIndex += 1;
         }
+        
+        putWallsOnMap();
     }
     
     /**
@@ -73,6 +73,7 @@ public class World {
                 this.lastIndex += 1;
             }
         }
+        putFloorsOnMap();
     }
     
     /**
@@ -119,7 +120,7 @@ public class World {
      * @param y-coordinate of the pick-up spawn point
      */
     public void spawnPickup( int x , int y ) {
-        PickUp pickup = new PickUp( GameConfig.HEALTH_PICKUP_AMOUNT , x , y , this.lastIndex );
+        HealthPack pickup = new HealthPack( GameConfig.HEALTH_PICKUP_AMOUNT , x , y , this.lastIndex );
         entities.add( pickup );
         this.lastIndex += 1;
         
@@ -190,6 +191,10 @@ public class World {
         return entities.get( index );
     }
     
+    public int getIndex() {
+        return this.lastIndex;
+    }
+    
     public int countEnemies() {
         int count = 0;
         for (Entity thisEntity : entities) {
@@ -199,6 +204,36 @@ public class World {
         return count;
     }
     
+    /**
+    * Finds the neighboring entity in a direction
+    * @param pos: the world position of the entity whos neighbor you are searching for
+    * @param direction: the direction in which to look for a neighbor
+    */
+    public Entity getNeighborInDirection( Position pos , String direction ) {
+        Position neighborPosition;
+        
+        if (direction.equals("N")){
+            neighborPosition = new Position( pos.getXPos() , pos.getYPos()-1 );
+            return getEntityAt(neighborPosition);
+        }
+        else if (direction.equals("S")){
+            neighborPosition = new Position( pos.getXPos() , pos.getYPos()+1 );
+            return getEntityAt(neighborPosition);
+        }
+        else if (direction.equals("E")){
+            neighborPosition = new Position( pos.getXPos()+1 , pos.getYPos() );
+            return getEntityAt(neighborPosition);
+        }
+        else if (direction.equals("W")){
+            neighborPosition = new Position( pos.getXPos()-1 , pos.getYPos() );
+            return getEntityAt(neighborPosition);
+        }
+        else {
+            System.out.println("failed to find neighbor");
+            return GameConfig.NULL_ENTITY;
+        }
+    }
+    
     ///// Setters /////
     /**
      * Removes an entity from the list of entities and
@@ -206,12 +241,18 @@ public class World {
      * @param index of the entity to be removed
      */
     public void removeEntity( int index ) {
-        entities.set( index , new Entity( -1 ) );
-        System.out.println("Entity Removed!");
+        entities.set( index , GameConfig.NULL_ENTITY );
         if (index == this.playerIndex) {
             System.out.println("The Player Has Been Defeated!");
             System.exit(0);
         }
+    }
+    
+    /**
+    * increase the last index used
+    */
+    public void incIndex() {
+        this.lastIndex++;
     }
     
     /**
@@ -229,7 +270,7 @@ public class World {
             	// player moving into an enemy
                 if (entity instanceof Player && endFloor.getContents() instanceof Enemy) {
                     Enemy thisEnemy = (Enemy) endFloor.getContents();
-                    thisEnemy.hurt( 33 ); //TODO: not hardcode damage
+                    thisEnemy.hurt( GameConfig.MELEE_DAMAGE );
                     System.out.println("Enemy health now at " + thisEnemy.getHealth() );
                     if (thisEnemy.getHealth() <= 0) {
                         removeEntity( thisEnemy.getIndex() );
@@ -240,25 +281,35 @@ public class World {
                 // enemy moving into the player
                 else if (entity instanceof Enemy && endFloor.getContents() instanceof Player) {
                     Player player = (Player) endFloor.getContents();
-                    player.hurt( 33 ); //TODO: not hardcode damage
+                    player.hurt( GameConfig.MELEE_DAMAGE );
+                    return false;
+                }
+                // enemy moving into an enemy
+                else if (entity instanceof Enemy && endFloor.getContents() instanceof Enemy) {
                     return false;
                 }
                 // player moving into a pick-up
                 else if (entity instanceof Player && endFloor.getContents() instanceof PickUp) {
                     Player player = (Player) entity;
                     PickUp pickup = (PickUp) endFloor.getContents();
-                    player.heal( pickup.getAmount() );
+                    pickup.collect(player);
                     removeEntity( pickup.getIndex() );
                     endFloor.clearContents();
                 }
+                // enemy moving into a pick-up
+                else if (entity instanceof Enemy && endFloor.getContents() instanceof PickUp) {
+                    endFloor.suppressContents();
+                }
                 // should never get here
-                else
-                	System.out.println("Something tried to move into an spot occupied by something strange");
+                else {
+                	System.out.println("Something tried to move into a spot occupied by something strange");
                     return false;
+                }
             }
             // move entity into the end position
             endFloor.setContents(entity);
             startPosition.clearContents();
+            startPosition.unsuppressContents();
             return true;
         }
         else

@@ -24,7 +24,7 @@ public class PowerUp extends EntitySet {
 		super();
 		
 		addComponent(new Render(
-			new ImageRenderObject(0, 0, GameResources.cashImage)));
+			new ImageRenderObject(0, 0, GameResources.powerupImage)));
 
 		addComponent(new WorldAttributes(new Vector2f(x, y),
 						 GameConfig.PICKUP_WIDTH,

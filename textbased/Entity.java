@@ -1,7 +1,7 @@
 /**
  * Default entity for textbased game
  * @author Alex
- * @version 1.0
+ * @version 2.0
  */
 public class Entity {
     
@@ -17,6 +17,8 @@ public class Entity {
     public Entity( int defIndex ) {
         this.position = new Position( 0 , 0 );
         this.index = defIndex;
+        if (defIndex == -1)
+            setDisplayChar(". ");
     }
     
     /**
@@ -28,6 +30,10 @@ public class Entity {
     public Entity( int defX , int defY , int defIndex ) {
         this.position = new Position( defX , defY );
         this.index = defIndex;
+    }
+    
+    public Entity( Position pos , int defIndex ) {
+        this(pos.getXPos() , pos.getYPos() , defIndex );
     }
     
     ///// Getters /////
