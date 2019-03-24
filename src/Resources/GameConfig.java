@@ -118,6 +118,8 @@ public class GameConfig
 	public static final int MOB_ATTACK_DAMAGE = 1;
 
 	public static final int MOB_HP = 100;
+	// percent chance for a mob to drop cash on death
+	public static final int MOB_DROP_RATE = 25;
 
 	public static final AttackCycle MOB_ATTACK_CYCLE =
 		new AttackCycle(100, 100);
