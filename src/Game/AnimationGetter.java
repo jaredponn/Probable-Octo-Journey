@@ -38,99 +38,75 @@ public class AnimationGetter
 		case N:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return new Animation(
-					GameResources.enemyNMoveAnimation);
+				return GameResources.enemyNMoveAnimation;
 			} else if (flag == 10) {
-				return new Animation(
-					GameResources.enemyNAttackAnimation);
+				return GameResources.enemyNAttackAnimation;
 
 			} else if (flag == 30) {
-				return new Animation(
-					GameResources.enemyNDeathAnimation);
+				return GameResources.enemyNDeathAnimation;
 			}
 		case NE:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return new Animation(
-					GameResources.enemyNEMoveAnimation);
+				return GameResources.enemyNEMoveAnimation;
 			} else if (flag == 10) {
-				return new Animation(
-					GameResources.enemyNEAttackAnimation);
+				return GameResources.enemyNEAttackAnimation;
 			} else if (flag == 30) {
-				return new Animation(
-					GameResources.enemyNDeathAnimation);
+				return GameResources.enemyNDeathAnimation;
 			}
 		case NW:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return new Animation(
-					GameResources.enemyNWMoveAnimation);
+				return GameResources.enemyNWMoveAnimation;
 			} else if (flag == 10) {
-				return new Animation(
-					GameResources.enemyNWAttackAnimation);
+				return GameResources.enemyNWAttackAnimation;
 			} else if (flag == 30) {
-				return new Animation(
-					GameResources.enemyWDeathAnimation);
+				return GameResources.enemyWDeathAnimation;
 			}
 		case S:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return new Animation(
-					GameResources.enemySMoveAnimation);
+				return GameResources.enemySMoveAnimation;
 			} else if (flag == 10) {
-				return new Animation(
-					GameResources.enemySAttackAnimation);
+				return GameResources.enemySAttackAnimation;
 			} else if (flag == 30) {
-				return new Animation(
-					GameResources.enemySDeathAnimation);
+				return GameResources.enemySDeathAnimation;
 			}
 		case SE:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return new Animation(
-					GameResources.enemySEMoveAnimation);
+				return GameResources.enemySEMoveAnimation;
 			} else if (flag == 10) {
-				return new Animation(
-					GameResources.enemySEAttackAnimation);
+				return GameResources.enemySEAttackAnimation;
 			} else if (flag == 30) {
-				return new Animation(
-					GameResources.enemyEDeathAnimation);
+				return GameResources.enemyEDeathAnimation;
 			}
 		case SW:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return new Animation(
-					GameResources.enemySWMoveAnimation);
+				return GameResources.enemySWMoveAnimation;
 			} else if (flag == 10) {
-				return new Animation(
-					GameResources.enemySWAttackAnimation);
+				return GameResources.enemySWAttackAnimation;
 			} else if (flag == 30) {
-				return new Animation(
-					GameResources.enemySDeathAnimation);
+				return GameResources.enemySDeathAnimation;
 			}
 		case W:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return new Animation(
-					GameResources.enemyWMoveAnimation);
+				return GameResources.enemyWMoveAnimation;
 			} else if (flag == 10) {
-				return new Animation(
-					GameResources.enemyWAttackAnimation);
+				return GameResources.enemyWAttackAnimation;
 			} else if (flag == 30) {
-				return new Animation(
-					GameResources.enemyWDeathAnimation);
+				return GameResources.enemyWDeathAnimation;
 			}
 		case E:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return new Animation(
-					GameResources.enemyEMoveAnimation);
+				return GameResources.enemyEMoveAnimation;
 			} else if (flag == 10) {
-				return new Animation(
-					GameResources.enemyEAttackAnimation);
+				return GameResources.enemyEAttackAnimation;
 			} else if (flag == 30) {
-				return new Animation(
-					GameResources.enemyEDeathAnimation);
+				return GameResources.enemyEDeathAnimation;
 			}
 		default:
 			System.out.println(
