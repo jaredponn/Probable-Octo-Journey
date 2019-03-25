@@ -54,8 +54,6 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 			AttackCycleHandlers.meleeAttackPrimerHandler(
 				engineState, focus, MobSet.class, 10,
 				d.getDirection());
-
-			mopt.get().setSpeed(0);
 		}
 	}
 
