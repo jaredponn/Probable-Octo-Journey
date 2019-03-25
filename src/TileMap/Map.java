@@ -222,10 +222,6 @@ public class Map
 						// if it is wall
 						if (wallState.get(Integer.parseInt(
 							    tempList[i]))) {
-							System.out.println(
-								"Integer.parseInt(tempList[i])"
-								+ Integer.parseInt(
-									  tempList[i]));
 							// NOT on 0th layer
 							if (mapLayers.size()
 							    > 1) {
@@ -234,9 +230,8 @@ public class Map
 										PathFindCord
 											.class
 										,
-										getEcsIndexFromWorldVector2f(new Vector2f(
-											numRows - 1,
-											i % mapWidth)))
+										Integer.parseInt(
+											tempList[i]))
 									.setIsWall(
 										true);
 							}
@@ -688,7 +683,7 @@ public class Map
 		for (int i = 128; i <= 136; ++i) {
 			wallState.set(i, true);
 			wallHitBox.set(i, new PhysicsPCollisionBody(
-						  new Vector2f(0.0f, 0.0f),
+						  new Vector2f(-1f, -1f),
 						  cbwc.pureAdd(0.5f,
 							       0.5f), // center
 						  cbwc.pureAdd(0f, 0f), cbwc,
@@ -696,18 +691,136 @@ public class Map
 						  cbwc.pureAdd(0f, 1f),
 						  cbwc.pureAdd(1f, 1f)));
 		}
+
+		// TODO: IMPORTANT!
+		/*
+		 * For small objects (chairs, cars, fenes), look at test.csv
+		 * For buildings, look at the buildings.csv
+		 */
+
+		// clang-format off
 		// small chairs
 		wallState.set(80, true);
 		wallState.set(81, true);
+		wallHitBox.set(80, new PhysicsPCollisionBody(
+					   new Vector2f(-1f, -1f),
+					   cbwc.pureAdd(0.5f,
+							0.5f), // center
+					   cbwc.pureAdd(0f, 0f), cbwc,
+					   cbwc.pureAdd(1f, 0f),
+					   cbwc.pureAdd(0f, 1f),
+					   cbwc.pureAdd(1f, 1f)));
+		wallHitBox.set(81, new PhysicsPCollisionBody(
+					   new Vector2f(-1f, -1f),
+					   cbwc.pureAdd(0.5f,
+							0.5f), // center
+					   cbwc.pureAdd(0f, 0f), cbwc,
+					   cbwc.pureAdd(1f, 0f),
+					   cbwc.pureAdd(0f, 1f),
+					   cbwc.pureAdd(1f, 1f)));
 
-		// fences
+		// fence1
 		wallState.set(137, true);
-		wallHitBox.set(137, new PhysicsPCollisionBody(
-					    new Vector2f(0f, 0f),
-					    cbwc.pureAdd(1f / 4f, 0f), cbwc,
-					    cbwc.pureAdd(1f / 4f, 0.8f),
-					    cbwc.pureAdd(0.9f, 1),
-					    cbwc.pureAdd(0.5f, 1)));
+		wallHitBox.set(
+			137,
+			new PhysicsPCollisionBody(
+				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
+		wallState.set(121, true);
+		wallHitBox.set(
+			121,
+			new PhysicsPCollisionBody(
+				new Vector2f(-1f, 0f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
+		wallState.set(122, true);
+		wallHitBox.set(
+			122,
+			new PhysicsPCollisionBody(
+				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0.5f, 0.5f),
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
+
+
+		// fence2
+		
+		wallState.set(123, true);
+		wallHitBox.set(
+			123,
+			new PhysicsPCollisionBody(
+				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
+				cbwc.pureAdd(0.5f, 0.5f), cbwc.pureAdd(1f, 1f)));
+
+		wallState.set(124, true);
+		wallHitBox.set(
+			124,
+			new PhysicsPCollisionBody(
+				new Vector2f(0f, -1f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
+		wallState.set(140, true);
+		wallHitBox.set(
+			140,
+			new PhysicsPCollisionBody(
+				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
+
+
+		//buildings
+		//blue building 2
+		
+		/*
+		for (int i = 371; i <= 372; ++i) {
+			wallState.set(i, true);
+			wallHitBox.set(i, new PhysicsPCollisionBody(
+						  new Vector2f(-0.5f, -0.5f),
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
+		}
+
+		for (int i = 387; i <= 389; ++i) {
+			wallState.set(i, true);
+			wallHitBox.set(i, new PhysicsPCollisionBody(
+						  new Vector2f(-1f, -1f),
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
+		}
+		for (int i = 403; i <= 405; ++i) {
+			wallState.set(i, true);
+			wallHitBox.set(i, new PhysicsPCollisionBody(
+						  new Vector2f(-1f, -1f),
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
+		}
+
+		for (int i = 419; i <= 421; ++i) {
+			wallState.set(i, true);
+			wallHitBox.set(i, new PhysicsPCollisionBody(
+						  new Vector2f(-1f, -1f),
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
+		}
+		*/
+		// clang-format on
 	}
 
 
