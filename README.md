@@ -46,7 +46,8 @@ HIGH PRIORITY (Needed for 03/25/19):
 - [ ] Some sort of save game or high score feature
 
 LOW PRIORITY (Not needed for 03/25/19):
-- [ ] Make path find work around fences and buildings 
+- [ ] Make path find work around fences and buildings??
+- [ ] Put back the poles beside the buildings and make the buildings one image
 - [x] No attack animation when there is no more ammo - DONE (alex 03/24/19)
 - [x] Aligning the aggro hit box properly - DONE (alex 03/20/19) 
 - [x] Actually using the aggro hit box - DONE (alex 03/22/19)
