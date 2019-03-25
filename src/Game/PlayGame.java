@@ -83,7 +83,7 @@ public class PlayGame extends World
 	protected WeaponState curWeaponState = WeaponState.Gun;
 
 	protected double playerDamageBonus = 1d;
-	//protected int playerAmmo = GameConfig.PLAYER_STARTING_AMMO;
+	// protected int playerAmmo = GameConfig.PLAYER_STARTING_AMMO;
 	protected Ammo playerAmmo = new Ammo(GameConfig.PLAYER_STARTING_AMMO);
 	protected int cash = GameConfig.PLAYER_STARTING_CASH;
 	protected int killCount = 0;
@@ -857,7 +857,8 @@ public class PlayGame extends World
 				    gjk, playerPosition,
 				    collectiblePosition.get())) {
 				this.playerAmmo.increaseAmmo(
-						GameConfig.PICKUP_AMMOPACK_AMOUNT, GameConfig.PLAYER_MAX_AMMO);
+					GameConfig.PICKUP_AMMOPACK_AMOUNT,
+					GameConfig.PLAYER_MAX_AMMO);
 				CombatFunctions.removePickUp(engineState, i);
 			}
 		}

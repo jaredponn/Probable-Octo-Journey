@@ -218,15 +218,17 @@ public class Map
 
 					if (Integer.parseInt(tempList[i])
 					    != -1) {
+
 						// PathFindCord create
 						// if it is wall
 						if (wallState.get(Integer.parseInt(
 							    tempList[i]))) {
+
+
 							// NOT on 0th layer
 							if (mapLayers.size()
 							    > 1) {
-								// marking the
-								// tile as wall
+
 								mapLayers.get(0)
 									.unsafeGetComponentAt(
 										PathFindCord
@@ -237,19 +239,6 @@ public class Map
 											i % mapWidth)))
 									.setIsWall(
 										true);
-								// set the
-								// diffusion
-								// value to 0
-								mapLayers.get(0)
-									.unsafeGetComponentAt(
-										PathFindCord
-											.class
-										,
-										getEcsIndexFromWorldVector2f(new Vector2f(
-											numRows - 1,
-											i % mapWidth)))
-									.setDiffusionValue(
-										0f);
 							}
 							// on 0th layer
 							else {
@@ -269,7 +258,6 @@ public class Map
 											0),
 										nextFreeIndex);
 							}
-
 
 							Vector2f cbwc = new Vector2f(
 								numRows - 1,
