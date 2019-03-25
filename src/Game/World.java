@@ -37,8 +37,13 @@ public abstract class World
 	protected Renderer renderer;
 	protected InputPoller inputPoller;
 
-	public World()
+	public World(int width, int height, Renderer renderer,
+		     InputPoller inputPoller)
 	{
+		setWindowWidth(width);
+		setWindowHeight(height);
+		loadRenderer(renderer);
+		loadInputPoller(inputPoller);
 		this.engineState = new EngineState();
 	}
 
@@ -148,6 +153,7 @@ public abstract class World
 
 			while (acc >= this.dt) {
 				runGame();
+
 				acc -= this.dt;
 				this.acct += this.dt;
 			}
@@ -156,12 +162,20 @@ public abstract class World
 	}
 
 	// init function
-	public abstract void registerComponents();
-	public abstract void registerEntitySets();
+	public void registerComponents()
+	{
+	}
+	public void registerEntitySets()
+	{
+	}
 
 	// higher game logic functions
-	public abstract void spawnWorld();
-	public abstract void clearWorld();
+	public void spawnWorld()
+	{
+	}
+	public void clearWorld()
+	{
+	}
 
 	protected abstract void processInputs();
 	protected abstract void render();
@@ -173,6 +187,11 @@ public abstract class World
 	public EngineState getEngineState()
 	{
 		return this.engineState;
+	}
+
+	public void quit()
+	{
+		quit = true;
 	}
 
 	public InputPoller getInputPoller()

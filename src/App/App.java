@@ -7,6 +7,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Game.Menu;
 import Game.PlayGame;
+import Game.GameOver;
 import Resources.GameConfig;
 import Resources.GameResources;
 
@@ -84,17 +85,6 @@ public class App
 					IOException, LineUnavailableException
 	{
 
-		// playgame
-		PlayGame playGame = new PlayGame();
-
-		playGame.setWindowWidth(width);
-		playGame.setWindowHeight(height);
-		playGame.loadRenderer(this.renderer);
-
-		playGame.loadInputPoller(this.inputPoller);
-		playGame.registerComponents();
-		playGame.registerEntitySets();
-		playGame.spawnWorld();
 
 		Menu menu = new Menu(width, height, this.renderer,
 				     this.inputPoller);
@@ -103,23 +93,38 @@ public class App
 			System.out.println("its null..");
 		}
 
-		// start playing menu music
-		GameResources.menuSound.playContinuously();
-
-		while (runMenu) {
-			menu.runGame();
-		}
-
-		// stop playing menu music
-		GameResources.menuSound.end();
 
 		// start playing game background music
 		GameResources.gameBgSound.playContinuously();
 		while (isRunning) {
-			playGame.runGameLoop();
-		}
+			runMenu = true; // this is so bad
 
-		playGame.clearWorld();
+			// start playing menu music
+			GameResources.menuSound.playContinuously();
+
+			while (runMenu) {
+				menu.runGame();
+			}
+
+			// stop playing menu music
+			GameResources.menuSound.end();
+
+			// playgame
+			PlayGame playGame = new PlayGame(
+				width, height, this.renderer, this.inputPoller);
+
+			playGame.registerComponents();
+			playGame.registerEntitySets();
+			playGame.spawnWorld();
+
+			playGame.runGameLoop();
+
+			GameOver gameOver = new GameOver(
+				width, height, this.renderer, this.inputPoller,
+				playGame.getKillCount());
+
+			gameOver.runGameLoop();
+		}
 	}
 
 	/**

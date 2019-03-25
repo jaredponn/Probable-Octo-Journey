@@ -33,7 +33,8 @@ import Resources.GameResources;
 import TileMap.Map;
 import TileMap.MapLayer;
 
-import poj.Pair;
+import poj.Render.*;
+import poj.GameWindow.*;
 import poj.Collisions.GJK;
 import poj.Logger.Logger;
 import poj.Render.MinYFirstSortedRenderObjectBuffer;
@@ -112,10 +113,13 @@ public class PlayGame extends World
 	protected GJK gjk;
 
 	protected MapGeneration generateDiffusionMap;
-	public PlayGame() throws UnsupportedAudioFileException, IOException,
-				 LineUnavailableException
+	public PlayGame(int width, int height, Renderer renderer,
+			InputPoller inputPoller)
+		throws UnsupportedAudioFileException, IOException,
+		       LineUnavailableException
 	{
-		super();
+		super(width, height, renderer, inputPoller);
+
 
 		gjk = new GJK();
 		gjk.clearVerticies();
@@ -268,6 +272,7 @@ public class PlayGame extends World
 				"an exception has occured in path finding generation thread "
 				+ ex);
 		}
+
 		this.processInputs();
 
 		// ASE
@@ -299,11 +304,12 @@ public class PlayGame extends World
 
 		// mobs touching players
 		CombatFunctions
-			.startAttackCycleOfSetAIfPhysicsCollisionBodiesAreCollidingWithSetB(
+			.startAttackCycleOfSetAIfAggroCollisionBodyAreCollidingWithSetBPHitBox(
 				engineState, gjk, MobSet.class,
 				PlayerSet.class);
+
 		CombatFunctions
-			.startAttackCycleOfSetAIfPhysicsCollisionBodiesAreCollidingWithSetB(
+			.startAttackCycleOfSetAIfAggroCollisionBodyAreCollidingWithSetBPHitBox(
 				engineState, gjk, MobSet.class,
 				TurretSet.class);
 
@@ -327,10 +333,8 @@ public class PlayGame extends World
 		// updating positions
 		EngineTransforms.setMovementVelocityFromMovementDirectionForSet(
 			this.engineState, PlayerSet.class);
-		EngineTransforms
-			.steerMovementVelocityFromMovementDirectionForSet(
-				this.engineState, MobSet.class,
-				1 / 16f); // 1/16f is the steering val
+		EngineTransforms.setMovementVelocityFromMovementDirectionForSet(
+			this.engineState, MobSet.class);
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 
@@ -907,5 +911,10 @@ public class PlayGame extends World
 	protected void pushEventToEventHandler(PlayGameEvent event)
 	{
 		this.gameEventStack.push(event);
+	}
+
+	public int getKillCount()
+	{
+		return this.killCount;
 	}
 }

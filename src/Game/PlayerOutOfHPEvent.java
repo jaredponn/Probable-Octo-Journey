@@ -1,5 +1,12 @@
 package Game;
 
+import EntitySets.PlayerSet;
+
+import java.awt.Color;
+
+import poj.Render.RenderObject;
+import poj.Render.StringRenderObject;
+
 public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
 {
 
@@ -8,8 +15,13 @@ public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
 		super(g);
 	}
 
+	public PlayerOutOfHPEvent(PlayGame g, int focus)
+	{
+		super(g, focus);
+	}
+
 	public void f()
 	{
-		System.out.println("Player is dead");
+		getPlayGame().quit();
 	}
 }
