@@ -55,7 +55,7 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 				engineState, focus, MobSet.class, 10,
 				d.getDirection());
 
-			mopt.get().setSpeed(0);
+			mopt.get().setSpeed(0.001f);
 		}
 	}
 

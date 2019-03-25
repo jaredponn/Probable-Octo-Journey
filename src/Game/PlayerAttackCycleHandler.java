@@ -12,6 +12,8 @@ import poj.linear.Vector2f;
 import poj.Animation;
 import poj.Collisions.*;
 
+import java.util.Optional;
+
 public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 {
 
@@ -39,14 +41,32 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 							      player)
 					.pureGetCenter();
 
+			Optional<Movement> mopt = engineState.getComponentAt(
+				Movement.class, focus);
+
+			if (!mopt.isPresent())
+				return;
+
 			switch (playerCurWPState) {
+
 			case Gun:
 				break;
 			case Melee:
-				System.out.println(
-					"attacked with melee weapon");
+				CardinalDirections d =
+					CardinalDirections.getClosestDirectionFromDirectionVector(
+						AttackCycleHandlers
+							.queryEntitySetWithPHitBoxToMouseDirection(
+								super.getPlayGame(),
+								player));
+
+				AttackCycleHandlers.meleeAttackPrimerHandler(
+					engineState, focus, MobSet.class, 10,
+					d);
+
 				break;
 			}
+
+			mopt.get().setSpeed(0f);
 		}
 	}
 
