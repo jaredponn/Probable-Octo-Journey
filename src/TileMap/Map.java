@@ -151,7 +151,6 @@ public class Map
 			mapReader.close();
 			createTileRenderObjects();
 			// TODO: create new wall states!!
-			createWallState();
 
 		} catch (FileNotFoundException e) {
 			System.out.println(
@@ -172,6 +171,8 @@ public class Map
 		// TODO HAIANG:
 		//!: parse wall for different layers????
 		// 2:have indicator for which is wall!!!!!!
+
+		createWallState();
 		try {
 			mapLayers.add(new MapLayer(mapWidth * mapHeight));
 			// get the last added engine state
@@ -222,6 +223,10 @@ public class Map
 						// if it is wall
 						if (wallState.get(Integer.parseInt(
 							    tempList[i]))) {
+							System.out.println(
+								"Integer.parseInt(tempList[i])"
+								+ Integer.parseInt(
+									  tempList[i]));
 							// NOT on 0th layer
 							if (mapLayers.size()
 							    > 1) {
@@ -259,6 +264,7 @@ public class Map
 							Vector2f cbwc = new Vector2f(
 								numRows - 1,
 								i % mapWidth);
+							/*
 							mapLayers
 								.get(mapLayers
 									     .size()
@@ -267,7 +273,8 @@ public class Map
 									PhysicsPCollisionBody
 										.class
 									,
-									new PhysicsPCollisionBody(
+									new
+							PhysicsPCollisionBody(
 										new Vector2f(
 											0f,
 											0f),
@@ -276,14 +283,34 @@ public class Map
 											0.5f), // center
 										cbwc,
 										cbwc.pureAdd(
-											1,
-											0),
+											0.25f,
+											0.8f),
 										cbwc.pureAdd(
-											0,
-											1),
+											0.9f,
+											1.0f),
 										cbwc.pureAdd(
-											1,
-											1)),
+											0.5f,
+											1.0f)),
+									nextFreeIndex);
+									*/
+
+							System.out.println(
+								"the thing inside hitbox: ");
+							wallHitBox
+								.get(Integer.parseInt(
+									tempList[i]))
+								.print();
+							mapLayers
+								.get(mapLayers
+									     .size()
+								     - 1)
+								.addComponentAt(
+									PhysicsPCollisionBody
+										.class
+									,
+									wallHitBox
+										.get(Integer.parseInt(
+											tempList[i])),
 									nextFreeIndex);
 						}
 						// if not on the wall
@@ -632,34 +659,47 @@ public class Map
 	public void createWallState()
 	{
 		wallState = new ArrayList<Boolean>(
-			Collections.nCopies(tileCount, false));
+			Collections.nCopies(getMapSize(), false));
 
+		System.out.println(" mapsize  = " + getMapSize());
 		Vector2f cbwc = new Vector2f(0f, 0f);
 		wallHitBox = new ArrayList<PhysicsPCollisionBody>(
 			Collections.nCopies(
-				tileCount, new PhysicsPCollisionBody(
-						   new Vector2f(0f, 0f),
-						   cbwc.pureAdd(0.5f,
-								0.5f), // center
-						   cbwc, cbwc.pureAdd(1, 0),
-						   cbwc.pureAdd(0, 1),
-						   cbwc.pureAdd(1, 1))));
+				getMapSize(),
+				new PhysicsPCollisionBody(
+					new Vector2f(0f, 0f),
+					cbwc.pureAdd(0.5f,
+						     0.5f), // center
+					cbwc, cbwc.pureAdd(1f, 0f),
+					cbwc.pureAdd(0f, 1f),
+					cbwc.pureAdd(1f, 1f))));
 
-		/*
+
 		// setting the tile cord of these tiles
-		for (int i = 48; i <= 99; ++i) {
+		// cars
+		for (int i = 128; i <= 136; ++i) {
 			wallState.set(i, true);
+			wallHitBox.set(i, new PhysicsPCollisionBody(
+						  new Vector2f(0.0f, 0.0f),
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
 		}
-		for (int i = 112; i <= 119; ++i) {
-			wallState.set(i, true);
-		}
-		for (int i = 128; i <= 137; ++i) {
-			wallState.set(i, true);
-		}
-		for (int i = 176; i <= 203; ++i) {
-			wallState.set(i, true);
-		}
-		*/
+		// small chairs
+		wallState.set(80, true);
+		wallState.set(81, true);
+
+		// fences
+		wallState.set(137, true);
+		wallHitBox.set(137, new PhysicsPCollisionBody(
+					    new Vector2f(0f, 0f),
+					    cbwc.pureAdd(1f / 4f, 0f), cbwc,
+					    cbwc.pureAdd(1f / 4f, 0.8f),
+					    cbwc.pureAdd(0.9f, 1),
+					    cbwc.pureAdd(0.5f, 1)));
 	}
 
 
