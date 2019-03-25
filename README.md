@@ -46,6 +46,7 @@ HIGH PRIORITY (Needed for 03/25/19):
 - [ ] Some sort of save game or high score feature
 
 LOW PRIORITY (Not needed for 03/25/19):
+- [ ] Make path find work around fences and buildings 
 - [x] No attack animation when there is no more ammo - DONE (alex 03/24/19)
 - [x] Aligning the aggro hit box properly - DONE (alex 03/20/19) 
 - [x] Actually using the aggro hit box - DONE (alex 03/22/19)
@@ -53,7 +54,7 @@ LOW PRIORITY (Not needed for 03/25/19):
 - [x] Shrinking the PPhysicsHitBox of zombies and players - DONE (alex 03/22/19)
 - [ ] Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
 - [ ] Boss zombies (may need more graphics from Ramiro for this)
-- [ ] Audio
+- [ ] Audio - partially done
 - [ ] Turret sprites - just need to be implemented
 - [ ] Bullet sprite
 - [ ] Melee sprites with a more visible sword

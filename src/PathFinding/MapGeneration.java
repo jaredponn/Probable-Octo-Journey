@@ -115,6 +115,13 @@ public class MapGeneration extends Thread
 				//* map.mapHeight);
 				// will not loop to the empty tiles inside the
 				// map
+				System.out.println(
+					"from pathfind : "
+					+ mapLayer.unsafeGetComponentAt(
+							  PathFindCord.class,
+							  137)
+						  .getIsWall());
+
 				for (int i = mapLayer.getInitialComponentIndex(
 					     PathFindCord.class);
 				     Components.isValidEntity(i);
