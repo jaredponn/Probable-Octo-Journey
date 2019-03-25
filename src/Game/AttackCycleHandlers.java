@@ -23,7 +23,6 @@ import poj.Collisions.*;
 
 public class AttackCycleHandlers
 {
-
 	public static void
 	runAttackCycleHandlersAndFreezeMovement(PlayGame playGame)
 	{
@@ -31,64 +30,10 @@ public class AttackCycleHandlers
 
 		double gameElapsedTime = playGame.getPlayTime();
 
-		// players attacking
-		for (int i = engineState.getInitialSetIndex(PlayerSet.class);
-		     engineState.isValidEntity(i);
-		     i = engineState.getNextSetIndex(PlayerSet.class, i)) {
-			AttackCycle a = engineState.unsafeGetComponentAt(
-				AttackCycle.class, i);
-
-			if (a.isAttacking()) {
-				switch (a.getAttackState()) {
-				case 0: // priming
-					break;
-
-				case 1: // attack
-					AttackCycleHandlers.playerAttackHandler(
-						playGame);
-					break;
-				case 2: // recoil
-					break;
-				case 3: // end attack cycle
-					a.endAttackCycle();
-					a.resetCycle();
-					break;
-				}
-			}
-		}
-
-		// mobs attacking
-		for (int i = engineState.getInitialSetIndex(MobSet.class);
-		     EngineState.isValidEntity(i);
-		     i = engineState.getNextSetIndex(MobSet.class, i)) {
-			AttackCycle a = engineState.unsafeGetComponentAt(
-				AttackCycle.class, i);
-
-			if (a.isAttacking()) {
-				switch (a.getAttackState()) {
-				case 0:
-					AttackCycleHandlers
-						.meleeAttackPrimerHandler(
-							engineState, i,
-							MobSet.class, 2);
-					break;
-
-				case 1:
-					AttackCycleHandlers
-						.mobMeleeAttackHandler(playGame,
-								       i);
-					break;
-				case 2:
-					break;
-				case 3:
-
-					a.endAttackCycle();
-					a.resetCycle();
-
-					break;
-				}
-			}
-		}
+		AttackCycleHandlers.runAttackCyclerHandler(playGame,
+							   PlayerSet.class);
+		AttackCycleHandlers.runAttackCyclerHandler(playGame,
+							   MobSet.class);
 
 		// turret attack
 		for (int i = engineState.getInitialSetIndex(TurretSet.class);
@@ -118,110 +63,52 @@ public class AttackCycleHandlers
 	}
 
 	/**
-	 * Player's attack handler.
-	 * Variable names should be intuitive.
+	 * Generalized way to query an entity's direcion towards the mouse
+	 * @param playGame godly game state
+	 * @param focus  focused entity
 	 */
-	public static Vector2f queryEntityToMouseDirection()
+	public static Vector2f
+	queryEntitySetWithPHitBoxToMouseDirection(PlayGame playGame, int focus)
 	{
-		return new Vector2f(0, 0);
-	}
-
-	/**
-	 * Player's attack handler.
-	 * Variable names should be intuitive.
-	 */
-	public static void playerAttackHandler(PlayGame playGame)
-	{
-
 		EngineState engineState = playGame.getEngineState();
-		WeaponState playerCurWPState = playGame.curWeaponState;
 		InputPoller ip = playGame.getInputPoller();
-		Camera invCam = playGame.invCam;
+		Camera invCam = playGame.getInvCam();
 
-		int player = engineState.getInitialSetIndex(PlayerSet.class);
-		Vector2f playerPosition =
-			engineState.unsafeGetComponentAt(PHitBox.class, player)
+		Vector2f focusPos =
+			engineState.unsafeGetComponentAt(PHitBox.class, focus)
 				.pureGetCenter();
 
-		switch (playerCurWPState) {
-		case Gun:
-			Vector2f mousePosition = ip.getMousePosition();
-			mousePosition.matrixMultiply(invCam);
+		Vector2f mousePosition = ip.getMousePosition();
+		mousePosition.matrixMultiply(invCam);
 
-			Vector2f tmp =
-				playerPosition.pureSubtract(mousePosition);
-			tmp.negate();
-			Vector2f unitVecPlayerPosToMouseDelta =
-				tmp.pureNormalize();
+		Vector2f tmp = focusPos.pureSubtract(mousePosition);
+		tmp.negate();
 
-			engineState
-				.unsafeGetComponentAt(HasAnimation.class,
-						      player)
-				.setAnimation(AnimationGetter.queryPlayerSprite(
-					CardinalDirections
-						.getClosestDirectionFromDirectionVector(
-							tmp),
-					0));
+		Vector2f unitVecToMouse = tmp.pureNormalize();
 
-			// generation of the bullet
-			if (playGame.playerAmmo > 0) {
-				int e = engineState.spawnEntitySet(
-					new Bullet(playerPosition));
-				engineState
-					.unsafeGetComponentAt(
-						PhysicsPCollisionBody.class, e)
-					.setPositionPoint(
-						engineState
-							.unsafeGetComponentAt(
-								PHitBox.class,
-								player)
-							.getCenter());
-				float bulletSpeed =
-					engineState
-						.unsafeGetComponentAt(
-							Movement.class, e)
-						.getSpeed();
-
-				engineState
-					.unsafeGetComponentAt(Movement.class, e)
-					.setVelocity(
-						unitVecPlayerPosToMouseDelta
-							.pureMul(bulletSpeed));
-
-				playGame.playerAmmo -= 1;
-			}
-			break;
-		case Melee:
-			System.out.println("attacked with melee weapon");
-			break;
-		}
+		return unitVecToMouse;
 	}
 
+
 	/**
-	 * Generalized melee attack handler
+	 * Generalized melee attack handler -- freeze aand point in the
+	 * direction
 	 * @param engineState  engineState
 	 * @param focus  focused entity
 	 * @param c  Entity set to run the melee attack handler
 	 * @param animationFlag  flag for the animation
+	 * @param d  direction for animation
 	 */
 	public static void
 	meleeAttackPrimerHandler(EngineState engineState, int focus,
 				 Class<? extends Component> c,
-				 int animationFlag)
+				 int animationFlag, CardinalDirections d)
 	{
-
-		final Optional<MovementDirection> nOpt =
-			engineState.getComponentAt(MovementDirection.class,
-						   focus);
-
 		final Optional<Movement> mOpt =
 			engineState.getComponentAt(Movement.class, focus);
 
 		final Optional<HasAnimation> animationOpt =
 			engineState.getComponentAt(HasAnimation.class, focus);
-
-		if (!nOpt.isPresent())
-			return;
 
 		if (!animationOpt.isPresent())
 			return;
@@ -229,11 +116,10 @@ public class AttackCycleHandlers
 		if (!mOpt.isPresent())
 			return;
 
-		final MovementDirection n = nOpt.get();
 		HasAnimation animation = animationOpt.get();
 
-		animation.setAnimation(AnimationGetter.queryEnemySprite(
-			n.getDirection(), animationFlag));
+		animation.setAnimation(
+			AnimationGetter.queryEnemySprite(d, animationFlag));
 
 		mOpt.get().setVelocity(new Vector2f(0, 0));
 	}
@@ -298,5 +184,67 @@ public class AttackCycleHandlers
 					       int turret, double gameTime)
 	{
 		CombatFunctions.turretTargeting(engineState, turret);
+	}
+
+
+	public static EntityAttackSetHandler
+	queryEntityAttackSetHandler(Class<? extends Component> c)
+	{
+		if (c == PlayerSet.class)
+			return new PlayerAttackCycleHandler();
+		else if (c == MobSet.class)
+			return new MobSetAttackCycleHandler();
+		else {
+			return new PlayerAttackCycleHandler();
+		}
+	}
+
+	public static void runAttackCyclerHandler(PlayGame playGame,
+						  Class<? extends Component> c)
+	{
+		EngineState engineState = playGame.getEngineState();
+		double gameElapsedTime = playGame.getPlayTime();
+
+		EntityAttackSetHandler atkHandler =
+			queryEntityAttackSetHandler(c);
+
+		for (int i = engineState.getInitialSetIndex(c);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(c, i)) {
+
+			Optional<AttackCycle> aOpt = engineState.getComponentAt(
+				AttackCycle.class, i);
+
+			if (!aOpt.isPresent())
+				continue;
+
+			AttackCycle a = aOpt.get();
+
+			if (a.isAttacking()) {
+				switch (a.getAttackState()) {
+				case 0: // priming
+					playGame.pushEventToEventHandler(
+						atkHandler.primerHandler(
+							playGame, i));
+					break;
+
+				case 1: // attack
+					playGame.pushEventToEventHandler(
+						atkHandler.attackHandler(
+							playGame, i));
+					break;
+				case 2: // recoil
+					playGame.pushEventToEventHandler(
+						atkHandler.recoilHandler(
+							playGame, i));
+					break;
+
+				case 3: // end attack cycle
+					a.endAttackCycle();
+					a.resetCycle();
+					break;
+				}
+			}
+		}
 	}
 }

@@ -818,6 +818,16 @@ public class PlayGame extends World
 		return this.gjk;
 	}
 
+	protected Camera getInvCam()
+	{
+		return this.invCam;
+	}
+
+	protected Camera getCam()
+	{
+		return this.cam;
+	}
+
 	protected void pushEventToEventHandler(PlayGameEvent event)
 	{
 		this.gameEventStack.push(event);

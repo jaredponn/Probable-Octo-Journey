@@ -18,4 +18,9 @@ public abstract class PlayGameEvent
 	 * Mutation to the game state
 	 */
 	public abstract void f();
+
+	public PlayGame getPlayGame()
+	{
+		return gameState;
+	}
 }
