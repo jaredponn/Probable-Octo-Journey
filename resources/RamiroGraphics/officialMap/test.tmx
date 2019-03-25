@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="5" height="3" tilewidth="64" tileheight="42" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="64" tileheight="42" infinite="0" nextlayerid="2" nextobjectid="1">
  <tileset firstgid="1" source="mapSpritesfinal.tsx"/>
- <layer id="1" name="Tile Layer 1" width="5" height="3">
+ <layer id="1" name="Tile Layer 1" width="10" height="10">
   <data encoding="csv">
-577,578,579,580,581,
-675,676,677,678,0,
-687,0,0,0,0
+81,82,0,129,130,131,132,133,134,0,
+135,136,137,0,0,0,0,0,0,0,
+0,122,0,0,0,0,0,0,0,0,
+138,0,123,124,141,142,127,413,430,0,
+0,0,0,0,0,0,0,0,0,0,
+668,684,669,0,0,0,0,0,0,0,
+0,0,0,685,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
 </map>
