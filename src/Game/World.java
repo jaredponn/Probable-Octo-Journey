@@ -77,7 +77,7 @@ public abstract class World
 	/* component getters / setters for the sparse vector*/
 	public <T extends Component> T getComponentAt(Class<T> c, int i)
 	{
-		return (T)engineState.getComponentAt(c, i);
+		return (T)engineState.unsafeGetComponentAt(c, i);
 	}
 
 	public <T extends Component> void setComponentAt(Class<T> c, int i,
