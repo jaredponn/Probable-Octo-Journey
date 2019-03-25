@@ -30,6 +30,7 @@ There are 2 UML diagrams provided, which can be found in the following locations
 # Announcements -- for Contributors:
 
 ## TODO List
+- [ ] Initials for the GAME OVER SCREEN (Ramiro)
 - [ ] Make the hitboxes for the tilemap - WIP (Ramiro)
 - [ ] Aligning hit boxes with the map - WIP (Ramiro)
 - [ ] Game over screen (restart / play again, go back to menu) - half done
