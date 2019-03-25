@@ -1,92 +1,111 @@
 package Game;
 
 import poj.Animation;
+import EntitySets.*;
+import poj.Component.Component;
+import poj.Logger.Logger;
+
 import Resources.GameResources;
 import Components.CardinalDirections;
 
 public class AnimationGetter
 {
 
+	public static Animation
+	queryAnimationSprite(Class<? extends Component> c,
+			     CardinalDirections dir, int flag)
+	{
+		if (c == PlayerSet.class)
+			return queryPlayerSprite(dir, flag);
+		else if (c == MobSet.class)
+			return queryEnemySprite(dir, flag);
+		else {
+			Logger.logMessage(
+				"error in animation getter -- invalid class");
+			return GameResources.enemyNMoveAnimation;
+		}
+	}
+
 	public static Animation queryEnemySprite(CardinalDirections dir,
 						 int flag)
 	{
 		// flag = 0, idle position,
 		// flag = 1, move direction
-		// flag = 2, melee attack
-		// flag = 3, death animation
+		// flag = 10, melee attack
+		// flag = 30, death animation
 
 		switch (dir) {
 		case N:
 			if (flag == 0) {
 			} else if (flag == 1) {
 				return GameResources.enemyNMoveAnimation;
-			} else if (flag == 2) {
+			} else if (flag == 10) {
 				return GameResources.enemyNAttackAnimation;
 
-			} else if (flag == 3) {
+			} else if (flag == 30) {
 				return GameResources.enemyNDeathAnimation;
 			}
 		case NE:
 			if (flag == 0) {
 			} else if (flag == 1) {
 				return GameResources.enemyNEMoveAnimation;
-			} else if (flag == 2) {
+			} else if (flag == 10) {
 				return GameResources.enemyNEAttackAnimation;
-			} else if (flag == 3) {
+			} else if (flag == 30) {
 				return GameResources.enemyNDeathAnimation;
 			}
 		case NW:
 			if (flag == 0) {
 			} else if (flag == 1) {
 				return GameResources.enemyNWMoveAnimation;
-			} else if (flag == 2) {
+			} else if (flag == 10) {
 				return GameResources.enemyNWAttackAnimation;
-			} else if (flag == 3) {
+			} else if (flag == 30) {
 				return GameResources.enemyWDeathAnimation;
 			}
 		case S:
 			if (flag == 0) {
 			} else if (flag == 1) {
 				return GameResources.enemySMoveAnimation;
-			} else if (flag == 2) {
+			} else if (flag == 10) {
 				return GameResources.enemySAttackAnimation;
-			} else if (flag == 3) {
+			} else if (flag == 30) {
 				return GameResources.enemySDeathAnimation;
 			}
 		case SE:
 			if (flag == 0) {
 			} else if (flag == 1) {
 				return GameResources.enemySEMoveAnimation;
-			} else if (flag == 2) {
+			} else if (flag == 10) {
 				return GameResources.enemySEAttackAnimation;
-			} else if (flag == 3) {
+			} else if (flag == 30) {
 				return GameResources.enemyEDeathAnimation;
 			}
 		case SW:
 			if (flag == 0) {
 			} else if (flag == 1) {
 				return GameResources.enemySWMoveAnimation;
-			} else if (flag == 2) {
+			} else if (flag == 10) {
 				return GameResources.enemySWAttackAnimation;
-			} else if (flag == 3) {
+			} else if (flag == 30) {
 				return GameResources.enemySDeathAnimation;
 			}
 		case W:
 			if (flag == 0) {
 			} else if (flag == 1) {
 				return GameResources.enemyWMoveAnimation;
-			} else if (flag == 2) {
+			} else if (flag == 10) {
 				return GameResources.enemyWAttackAnimation;
-			} else if (flag == 3) {
+			} else if (flag == 30) {
 				return GameResources.enemyWDeathAnimation;
 			}
 		case E:
 			if (flag == 0) {
 			} else if (flag == 1) {
 				return GameResources.enemyEMoveAnimation;
-			} else if (flag == 2) {
+			} else if (flag == 10) {
 				return GameResources.enemyEAttackAnimation;
-			} else if (flag == 3) {
+			} else if (flag == 30) {
 				return GameResources.enemyEDeathAnimation;
 			}
 		default:

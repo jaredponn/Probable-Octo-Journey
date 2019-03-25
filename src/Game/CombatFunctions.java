@@ -135,30 +135,6 @@ public class CombatFunctions
 				removeBullet(mainState, bullet);
 
 
-				if (mainState
-					    .unsafeGetComponentAt(
-						    HitPoints.class, i)
-					    .getHP()
-				    <= 0) {
-					g.pushEventToEventHandler(
-						new ZombieOutOfHPEvent(g, i));
-					g.killCount++;
-					if (g.killCount >= g.mobsSpawned)
-						g.lastWaveDefeatedAt = g.getPlayTime();
-					int dropRoll  = ThreadLocalRandom.current().nextInt(0, 99) + 1;
-					if (dropRoll >= (100 - GameConfig.MOB_DROP_RATE )) {
-						int dropType = ThreadLocalRandom.current().nextInt(0,4);
-						if (dropType == 0)
-							g.cashSpawner(false, mobBody.getCenter().x, mobBody.getCenter().y);
-						else if (dropType == 1)
-							g.powerUpSpawner(false, mobBody.getCenter().x, mobBody.getCenter().y);
-						else if (dropType == 2)
-							g.ammoPackSpawner(false, mobBody.getCenter().x, mobBody.getCenter().y);
-						else
-							g.healthPackSpawner(false, mobBody.getCenter().x, mobBody.getCenter().y);
-					}
-				}
-
 				return; // If it does hit something, it should
 					// just delete the bullet (as seen here)
 					// and just exit and not check if is

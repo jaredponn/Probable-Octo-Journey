@@ -819,4 +819,37 @@ public class EngineTransforms
 			}
 		}
 	}
+
+	public static void pushOutOfHPEventsIfHPIsZeroOrLess(PlayGame g)
+	{
+		ifSetIsOutOfHPPushEventToEventStack(g, MobSet.class,
+						    new MobOutOfHPEvent(g));
+
+		ifSetIsOutOfHPPushEventToEventStack(g, PlayerSet.class,
+						    new PlayerOutOfHPEvent(g));
+	}
+
+	private static void
+	ifSetIsOutOfHPPushEventToEventStack(PlayGame g,
+					    Class<? extends Component> c,
+					    FocusedPlayGameEvent event)
+	{
+		EngineState engineState = g.getEngineState();
+
+		for (int i = engineState.getInitialSetIndex(c);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextComponentIndex(c, i)) {
+
+			Optional<HitPoints> hOpt =
+				engineState.getComponentAt(HitPoints.class, i);
+
+			if (!hOpt.isPresent())
+				continue;
+
+			if (hOpt.get().getHP() <= 0) {
+				event.setFocus(i);
+				g.pushEventToEventHandler(event);
+			}
+		}
+	}
 }

@@ -53,6 +53,7 @@ public class Spawners {
             // create new heath pack
             HealthPack newPickUp = new HealthPack(GameConfig.HEALTH_PICKUP_AMOUNT , thisSpawner , world.getIndex() );
             entities.add(newPickUp);
+            world.incIndex();
             System.out.println("A new health-pack has spawned");
             
             // add pick-up to floor
@@ -75,6 +76,7 @@ public class Spawners {
             // create new heath pack
             AmmoPack newPickUp = new AmmoPack(GameConfig.AMMO_PICKUP_AMOUNT , thisSpawner , world.getIndex() );
             entities.add(newPickUp);
+            world.incIndex();
             System.out.println("A new ammo-pack has spawned");
             
             // add pick-up to floor

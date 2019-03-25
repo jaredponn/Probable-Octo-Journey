@@ -307,6 +307,8 @@ public class PlayGame extends World
 				engineState, gjk, MobSet.class,
 				TurretSet.class);
 
+		EngineTransforms.pushOutOfHPEventsIfHPIsZeroOrLess(this);
+
 		// this.cashSpawner(true, 13f, 7f);
 		// this.powerUpSpawner(true, 13f, 8f);
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
@@ -890,6 +892,16 @@ public class PlayGame extends World
 	protected GJK getGJK()
 	{
 		return this.gjk;
+	}
+
+	protected Camera getInvCam()
+	{
+		return this.invCam;
+	}
+
+	protected Camera getCam()
+	{
+		return this.cam;
 	}
 
 	protected void pushEventToEventHandler(PlayGameEvent event)

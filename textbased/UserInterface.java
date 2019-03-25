@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * User Interface that handles game logic based on user input
@@ -37,7 +38,8 @@ public class UserInterface {
             
             // the enemies will move every other turn
             if ( (turnNumber % 2) == 0 ) {
-                for (Entity thisEntity : gameWorld.getEntities() ) {
+                ArrayList<Entity> entities = gameWorld.getEntities();
+                for (Entity thisEntity : entities ) {
                     if (thisEntity instanceof Enemy) {
                         Enemy thisEnemy = (Enemy) thisEntity;
                         gameWorld.doMove(thisEnemy , thisEnemy.moveToPlayer( gameWorld.getPlayer().getPosition() ) , 1 );
@@ -50,10 +52,8 @@ public class UserInterface {
                 if (thisEntity instanceof ActiveEntity) {
                     ActiveEntity thisActiveEntity = (ActiveEntity) thisEntity;
                     if (thisActiveEntity.getHealth() <= 0 ) {
-                        Entity thisPosition = gameWorld.getEntityAt( thisActiveEntity.getPosition() );
-                        Floor thisFloor = (Floor) thisPosition;
-                        thisFloor.clearContents();
-                        gameWorld.removeEntity( thisActiveEntity.getIndex() );
+                        System.out.println("Found an enemy at index " + thisActiveEntity.getIndex() + " with <= 0 HP");
+                        gameWorld.killEntityAtPosition(thisActiveEntity.getPosition());
                     }
                 }
             }
@@ -64,6 +64,7 @@ public class UserInterface {
             Spawners.ammoSpawner(gameWorld , turnNumber);
             gameWorld.print();
             numEnemies = gameWorld.countEnemies();
+            System.out.println("Your kills: " +gameWorld.getKillCount());
             System.out.println("Enemies remaining: "+numEnemies);
         }
         System.out.println("**** THE GAME HAS ENDED! ****");

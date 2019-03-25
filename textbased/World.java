@@ -11,6 +11,7 @@ public class World {
     private ArrayList<ArrayList<Entity>> map = new ArrayList<ArrayList<Entity>>();
     private int playerIndex;
     private int lastIndex = 0;
+    private int killCounter = 0;
     
     /**
      * Initializes the game world
@@ -204,6 +205,10 @@ public class World {
         return count;
     }
     
+    public int getKillCount() {
+        return this.killCounter;
+    }
+    
     /**
     * Finds the neighboring entity in a direction
     * @param pos: the world position of the entity whos neighbor you are searching for
@@ -241,11 +246,21 @@ public class World {
      * @param index of the entity to be removed
      */
     public void removeEntity( int index ) {
-        entities.set( index , GameConfig.NULL_ENTITY );
+        entities.set( index , null );
         if (index == this.playerIndex) {
             System.out.println("The Player Has Been Defeated!");
             System.exit(0);
         }
+    }
+    
+    public void killEntityAtPosition(Position pos) {
+        Floor floor = (Floor) getEntityAt(pos);
+        Entity entity = floor.getContents();
+        if (entity instanceof Enemy) {
+            incKillCounter();
+        }
+        floor.clearContents();
+        removeEntity(entity.getIndex());
     }
     
     /**
@@ -253,6 +268,13 @@ public class World {
     */
     public void incIndex() {
         this.lastIndex++;
+    }
+    
+    /**
+    * increase the kill counter
+    */
+    public void incKillCounter() {
+        this.killCounter++;
     }
     
     /**
@@ -273,8 +295,8 @@ public class World {
                     thisEnemy.hurt( GameConfig.MELEE_DAMAGE );
                     System.out.println("Enemy health now at " + thisEnemy.getHealth() );
                     if (thisEnemy.getHealth() <= 0) {
-                        removeEntity( thisEnemy.getIndex() );
-                        endFloor.clearContents();
+                        killEntityAtPosition(thisEnemy.getPosition());
+                        System.out.println("Killed an enemy with a melee attack");
                     }
                     return false;
                 }
@@ -293,8 +315,7 @@ public class World {
                     Player player = (Player) entity;
                     PickUp pickup = (PickUp) endFloor.getContents();
                     pickup.collect(player);
-                    removeEntity( pickup.getIndex() );
-                    endFloor.clearContents();
+                    killEntityAtPosition( pickup.getPosition() );
                 }
                 // enemy moving into a pick-up
                 else if (entity instanceof Enemy && endFloor.getContents() instanceof PickUp) {
@@ -309,7 +330,6 @@ public class World {
             // move entity into the end position
             endFloor.setContents(entity);
             startPosition.clearContents();
-            startPosition.unsuppressContents();
             return true;
         }
         else
@@ -324,6 +344,9 @@ public class World {
      */
     public void doMove( ActiveEntity entity , String direction , int amount ) {
         Floor startPosition = (Floor) this.getEntityAt(entity.getPosition());
+        boolean player = false;
+        if (entity instanceof Player)
+            player = true;
         
         // Move North
         if ( direction.equals( GameConfig.NORTH_KEY ) ) {
@@ -331,8 +354,11 @@ public class World {
             boolean canMove = doMoveHelper( entity  , startPosition );
             if (canMove == false) {
                 entity.moveSouth(amount);
-                System.out.println("Cannot move that direction");
+                if (player)
+                    System.out.println("Cannot move that direction");
             }
+            else if (player)
+                System.out.println("Moved north");
         }
         // Move South
         else if ( direction.equals( GameConfig.SOUTH_KEY ) ) {
@@ -340,8 +366,11 @@ public class World {
             boolean canMove = doMoveHelper( entity , startPosition);
             if (canMove == false) {
                 entity.moveNorth(amount);
-                System.out.println("Cannot move that direction");
+                if (player)
+                    System.out.println("Cannot move that direction");
             }
+            else if (player)
+                System.out.println("Moved south");
         }
         // Move East
         else if ( direction.equals( GameConfig.EAST_KEY ) ) {
@@ -349,8 +378,11 @@ public class World {
             boolean canMove = doMoveHelper( entity , startPosition);
             if (canMove == false) {
                 entity.moveWest(amount);
-                System.out.println("Cannot move that direction");
+                if (player)
+                    System.out.println("Cannot move that direction");
             }
+            else if (player)
+                System.out.println("Moved east");
         }
         // Move West
         else if ( direction.equals( GameConfig.WEST_KEY ) ) {
@@ -358,8 +390,11 @@ public class World {
             boolean canMove = doMoveHelper( entity , startPosition);
             if (canMove == false) {
                 entity.moveEast(amount);
-                System.out.println("Cannot move that direction");
+                if (player)
+                    System.out.println("Cannot move that direction");
             }
+            else if (player)
+                System.out.println("Moved west");
         }
     }
     
