@@ -95,23 +95,25 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 							      player)
 					.pureGetCenter();
 
+			Vector2f unitVecToMouse =
+				AttackCycleHandlers
+					.queryEntitySetWithPHitBoxToMouseDirection(
+						super.getPlayGame(), player);
+			CardinalDirections closestDirToMouse =
+				CardinalDirections
+					.getClosestDirectionFromDirectionVector(
+						unitVecToMouse);
+
 			switch (playerCurWPState) {
 			case Gun:
 
-				Vector2f unitVecToMouse =
-					AttackCycleHandlers
-						.queryEntitySetWithPHitBoxToMouseDirection(
-							super.getPlayGame(),
-							player);
 
 				engineState
 					.unsafeGetComponentAt(
 						HasAnimation.class, player)
-					.setAnimation(AnimationGetter.queryPlayerSprite(
-						CardinalDirections
-							.getClosestDirectionFromDirectionVector(
-								unitVecToMouse),
-						0));
+					.setAnimation(
+						AnimationGetter.queryPlayerSprite(
+							closestDirToMouse, 0));
 
 				// generation of the bullet
 				if (super.getPlayGame().playerAmmo > 0) {
