@@ -218,7 +218,6 @@ public class Map
 
 					if (Integer.parseInt(tempList[i])
 					    != -1) {
-
 						// PathFindCord create
 						// if it is wall
 						if (wallState.get(Integer.parseInt(
@@ -296,10 +295,18 @@ public class Map
 
 							System.out.println(
 								"the thing inside hitbox: ");
+
+							wallHitBox
+								.get(Integer.parseInt(
+									tempList[i]))
+								.setPositionPoint(
+									cbwc);
+
 							wallHitBox
 								.get(Integer.parseInt(
 									tempList[i]))
 								.print();
+
 							mapLayers
 								.get(mapLayers
 									     .size()

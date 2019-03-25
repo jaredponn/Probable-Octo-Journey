@@ -83,7 +83,7 @@ public class GameResources
 		menuSelectButtonSoundPath =
 			"resources/sounds/menuSelectButtonSound.wav",
 		healthPickupSoundPath =
-			"resources/sounds/healthPickupSound.wav.wav";
+			"resources/sounds/healthPickupSound.wav";
 	public static Sound gunSound, zombieDeathSound, zombieDeathSound2,
 		zombieDeathSound3, zombieDeathSound4, emptyClipSound, menuSound,
 		gameBgSound, menuSelectButtonSound, healthPickupSound;
