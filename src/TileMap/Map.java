@@ -315,9 +315,10 @@ public class Map
 									PhysicsPCollisionBody
 										.class
 									,
-									wallHitBox
-										.get(Integer.parseInt(
-											tempList[i])),
+									new PhysicsPCollisionBody(
+										wallHitBox
+											.get(Integer.parseInt(
+												tempList[i]))),
 									nextFreeIndex);
 						}
 						// if not on the wall
