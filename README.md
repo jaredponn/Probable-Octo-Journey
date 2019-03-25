@@ -103,6 +103,8 @@ else
 # Audio tracks
 Gun sound: https://www.youtube.com/watch?v=GAT-AwwMP_I
 
+Empty clip sound: https://www.youtube.com/watch?v=cqYlilUqGfs
+
 Zombie sound: https://www.youtube.com/watch?v=wg8u3AQj1Ac
 
 # Credits
