@@ -35,7 +35,7 @@ import poj.linear.Vector2f;
 public class AttackCycleHandlers
 {
 	public static void
-	runAttackCycleHandlersAndFreezeMovement(PlayGame playGame)
+	runAttackCyclers(PlayGame playGame)
 	{
 		EngineState engineState = playGame.getEngineState();
 

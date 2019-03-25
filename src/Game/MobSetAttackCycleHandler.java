@@ -55,7 +55,7 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 				engineState, focus, MobSet.class, 10,
 				d.getDirection());
 
-			mopt.get().setSpeed(0);
+			mopt.get().setSpeed(0.001f);
 		}
 	}
 
@@ -91,44 +91,15 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 				pmob, playGame.debugBuffer, playGame.cam,
 				Color.orange);
 
-			// testing for hits against  the player
-			for (int i = engineState.getInitialSetIndex(
-				     PlayerSet.class);
-			     engineState.isValidEntity(i);
-			     i = engineState.getNextSetIndex(PlayerSet.class,
-							     i)) {
+			EngineTransforms
+				.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
+					engineState, pmob, PlayerSet.class,
+					GameConfig.MOB_ATTACK_DAMAGE);
 
-				PHitBox pplayer =
-					engineState.unsafeGetComponentAt(
-						PHitBox.class, i);
-
-				if (Systems.arePCollisionBodiesColliding(
-					    gjk, pplayer, pmob)) {
-					CombatFunctions.handlePlayerDamage(
-						engineState, i,
-						GameConfig.MOB_ATTACK_DAMAGE);
-					return; // shouldn't do damage to
-						// multiple things
-				}
-			}
-
-			// testing for hits against towers
-			for (int i = engineState.getInitialSetIndex(
-				     TurretSet.class);
-			     engineState.isValidEntity(i);
-			     i = engineState.getNextSetIndex(TurretSet.class,
-							     i)) {
-				PHitBox pturret =
-					engineState.unsafeGetComponentAt(
-						PHitBox.class, i);
-
-				if (Systems.arePCollisionBodiesColliding(
-					    gjk, pturret, pmob)) {
-					CombatFunctions.handleMobDamageTurret(
-						engineState, i);
-					return;
-				}
-			}
+			EngineTransforms
+				.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
+					engineState, pmob, TurretSet.class,
+					GameConfig.MOB_ATTACK_DAMAGE);
 		}
 	}
 

@@ -4,6 +4,7 @@ package Game;
 import Components.*;
 import EntitySets.*;
 import Resources.GameConfig;
+import java.awt.Color;
 
 import poj.EngineState;
 import poj.GameWindow.InputPoller;
@@ -11,6 +12,8 @@ import poj.Component.*;
 import poj.linear.Vector2f;
 import poj.Animation;
 import poj.Collisions.*;
+
+import java.util.Optional;
 
 public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 {
@@ -39,14 +42,32 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 							      player)
 					.pureGetCenter();
 
+			Optional<Movement> mopt = engineState.getComponentAt(
+				Movement.class, focus);
+
+			if (!mopt.isPresent())
+				return;
+
 			switch (playerCurWPState) {
+
 			case Gun:
 				break;
 			case Melee:
-				System.out.println(
-					"attacked with melee weapon");
+				CardinalDirections d =
+					CardinalDirections.getClosestDirectionFromDirectionVector(
+						AttackCycleHandlers
+							.queryEntitySetWithPHitBoxToMouseDirection(
+								super.getPlayGame(),
+								player));
+
+				AttackCycleHandlers.meleeAttackPrimerHandler(
+					engineState, focus, MobSet.class, 10,
+					d);
+
 				break;
 			}
+
+			mopt.get().setSpeed(0f);
 		}
 	}
 
@@ -128,6 +149,28 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 			case Melee:
 				System.out.println(
 					"attacked with melee weapon");
+
+				// Spawn the hitbox in the correct location and
+				// check against all enemies
+				PCollisionBody patk = new PCollisionBody(
+					GameConfig.MOB_MELEE_ATTACK_BODY);
+				Systems.updatePCollisionBodyPositionFromWorldAttr(
+					patk,
+					engineState.unsafeGetComponentAt(
+						WorldAttributes.class, focus));
+
+
+				// debug rendering
+				Systems.pCollisionBodyDebugRenderer(
+					patk, super.getPlayGame().debugBuffer,
+					super.getPlayGame().cam, Color.orange);
+
+				EngineTransforms.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
+					engineState, patk, MobSet.class,
+					(int)(GameConfig
+						      .PLAYER_STARTING_MELEE_DAMAGE
+					      * super.getPlayGame()
+							.playerDamageBonus));
 				break;
 			}
 		}
