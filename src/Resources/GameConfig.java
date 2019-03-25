@@ -60,6 +60,9 @@ public class GameConfig
 	public static final int PLAYER_STARTING_AMMO = 20;
 	public static final int PLAYER_STARTING_MELEE_DAMAGE = 30;
 
+	// public static final PCollisionBody PLAYER_MELEE_N_ATK_BODY =
+
+
 	/////////////////////////
 	///// turret config /////
 	/////////////////////////
