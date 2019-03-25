@@ -419,6 +419,7 @@ public class CombatFunctions
 		tmp.negate();
 		Vector2f unitVecturretPosTotargetDelta = tmp.pureNormalize();
 
+		// create projectile
 		int e = engineState.spawnEntitySet(
 			new CannonShell(turretPosition));
 		engineState.unsafeGetComponentAt(PhysicsPCollisionBody.class, e)
@@ -435,5 +436,17 @@ public class CombatFunctions
 		engineState.unsafeGetComponentAt(Movement.class, e)
 			.setVelocity(unitVecturretPosTotargetDelta.pureMul(
 				shellSpeed));
+		
+		// decrease ammo
+		engineState.unsafeGetComponentAt(Ammo.class, turret)
+			.decreaseAmmo(1, GameConfig.TURRET_STARTING_AMMO);
+		
+		// destroy turret if out of ammo
+		if (engineState.unsafeGetComponentAt(Ammo.class, turret).hasAmmo(1))
+			return;
+		else {
+			System.out.println("A turret ran out of ammo");
+			removeTurret( engineState , turret );
+		}
 	}
 }
