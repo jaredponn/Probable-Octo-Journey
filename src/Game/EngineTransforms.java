@@ -907,6 +907,9 @@ at Main.main(Main.java:25)
 				HitPoints hp = hpOpt.get();
 
 				hp.hurt(damage);
+				
+				//only do damage to one thing at a time
+				return;
 			}
 		}
 	}
