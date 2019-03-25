@@ -326,6 +326,7 @@ public class EngineTransforms
 		}
 
 		// in the same world cord
+		/*
 		if ((int)mobPosition.x == (int)playerPosition.x
 		    && (int)mobPosition.y == (int)playerPosition.y) {
 			// TODO: NEED TO INTEGRATE THIS WITH COLLISION!!
@@ -367,15 +368,16 @@ public class EngineTransforms
 					.setSpeed(0);
 			}
 		}
+		*/
 		// test if the current tile the mob is at is bigger than the max
 		// value
-		else if (maxValue
-			 <= map.getLayerEngineState(0)
-				    .unsafeGetComponentAt(
-					    PathFindCord.class,
-					    map.getEcsIndexFromWorldVector2f(
-						    mobPosition))
-				    .getDiffusionValue()) {
+		if (maxValue
+		    <= map.getLayerEngineState(0)
+			       .unsafeGetComponentAt(
+				       PathFindCord.class,
+				       map.getEcsIndexFromWorldVector2f(
+					       mobPosition))
+			       .getDiffusionValue()) {
 
 			/*
 		System.out.println(
