@@ -230,13 +230,13 @@ public class GameConfig
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final PCollisionBody PICKUP_COLLISION_BODY =
 		new PCollisionBody(
-			new Vector2f(0.0f, 0.0f), // displacement
+			new Vector2f(0.0f, 0.4f), // displacement
 			new Vector2f(PICKUP_WIDTH / 2,
-				     PICKUP_HEIGHT / 2), // center
+				     PICKUP_HEIGHT / 4), // center
 							 // collision body:
-			new Vector2f(0, 0), new Vector2f(0, PICKUP_HEIGHT),
+			new Vector2f(0, 0), new Vector2f(0, PICKUP_HEIGHT/2),
 			new Vector2f(PICKUP_WIDTH, 0),
-			new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT));
+			new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT/2));
 
 	// money:
 	public static final int PICKUP_CASH_AMOUNT = 100;

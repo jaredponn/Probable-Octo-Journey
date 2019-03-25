@@ -36,7 +36,7 @@ HIGH PRIORITY (Needed for 03/25/19):
 - [ ] Aligning hit boxes with the map
 - [ ] Melee attack
 - [ ] Game over screen (restart / play again, go back to menu)
-- [ ] Update text based version
+- [x] Update text based version
 - [x] Powerups (more damage) - DONE (alex 03/24/19)
 - [x] Collectibles (HP refill, ammo refill, money) - DONE (alex 03/24/19)
 - [x] Finite ammo - DONE (alex 03/20/19)
