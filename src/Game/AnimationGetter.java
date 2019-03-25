@@ -38,78 +38,104 @@ public class AnimationGetter
 		case N:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return GameResources.enemyNMoveAnimation;
+				return new Animation(
+					GameResources.enemyNMoveAnimation);
 			} else if (flag == 10) {
-				return GameResources.enemyNAttackAnimation;
+				return new Animation(
+					GameResources.enemyNAttackAnimation);
 
 			} else if (flag == 30) {
-				return GameResources.enemyNDeathAnimation;
+				return new Animation(
+					GameResources.enemyNDeathAnimation);
 			}
 		case NE:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return GameResources.enemyNEMoveAnimation;
+				return new Animation(
+					GameResources.enemyNEMoveAnimation);
 			} else if (flag == 10) {
-				return GameResources.enemyNEAttackAnimation;
+				return new Animation(
+					GameResources.enemyNEAttackAnimation);
 			} else if (flag == 30) {
-				return GameResources.enemyNDeathAnimation;
+				return new Animation(
+					GameResources.enemyNDeathAnimation);
 			}
 		case NW:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return GameResources.enemyNWMoveAnimation;
+				return new Animation(
+					GameResources.enemyNWMoveAnimation);
 			} else if (flag == 10) {
-				return GameResources.enemyNWAttackAnimation;
+				return new Animation(
+					GameResources.enemyNWAttackAnimation);
 			} else if (flag == 30) {
-				return GameResources.enemyWDeathAnimation;
+				return new Animation(
+					GameResources.enemyWDeathAnimation);
 			}
 		case S:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return GameResources.enemySMoveAnimation;
+				return new Animation(
+					GameResources.enemySMoveAnimation);
 			} else if (flag == 10) {
-				return GameResources.enemySAttackAnimation;
+				return new Animation(
+					GameResources.enemySAttackAnimation);
 			} else if (flag == 30) {
-				return GameResources.enemySDeathAnimation;
+				return new Animation(
+					GameResources.enemySDeathAnimation);
 			}
 		case SE:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return GameResources.enemySEMoveAnimation;
+				return new Animation(
+					GameResources.enemySEMoveAnimation);
 			} else if (flag == 10) {
-				return GameResources.enemySEAttackAnimation;
+				return new Animation(
+					GameResources.enemySEAttackAnimation);
 			} else if (flag == 30) {
-				return GameResources.enemyEDeathAnimation;
+				return new Animation(
+					GameResources.enemyEDeathAnimation);
 			}
 		case SW:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return GameResources.enemySWMoveAnimation;
+				return new Animation(
+					GameResources.enemySWMoveAnimation);
 			} else if (flag == 10) {
-				return GameResources.enemySWAttackAnimation;
+				return new Animation(
+					GameResources.enemySWAttackAnimation);
 			} else if (flag == 30) {
-				return GameResources.enemySDeathAnimation;
+				return new Animation(
+					GameResources.enemySDeathAnimation);
 			}
 		case W:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return GameResources.enemyWMoveAnimation;
+				return new Animation(
+					GameResources.enemyWMoveAnimation);
 			} else if (flag == 10) {
-				return GameResources.enemyWAttackAnimation;
+				return new Animation(
+					GameResources.enemyWAttackAnimation);
 			} else if (flag == 30) {
-				return GameResources.enemyWDeathAnimation;
+				return new Animation(
+					GameResources.enemyWDeathAnimation);
 			}
 		case E:
 			if (flag == 0) {
 			} else if (flag == 1) {
-				return GameResources.enemyEMoveAnimation;
+				return new Animation(
+					GameResources.enemyEMoveAnimation);
 			} else if (flag == 10) {
-				return GameResources.enemyEAttackAnimation;
+				return new Animation(
+					GameResources.enemyEAttackAnimation);
 			} else if (flag == 30) {
-				return GameResources.enemyEDeathAnimation;
+				return new Animation(
+					GameResources.enemyEDeathAnimation);
 			}
 		default:
-			return GameResources.enemyNMoveAnimation;
+			System.out.println(
+				"Error with get enemy sprite -- please put in a valid sprite");
+			return new Animation(GameResources.enemyNMoveAnimation);
 		}
 	}
 
