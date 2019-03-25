@@ -821,8 +821,8 @@ public class Map
 	 */
 	public boolean isValidCord(Vector2f cord)
 	{
-		return (cord.x < mapHeight && cord.y < mapWidth)
-			&& (cord.x >= 0 && cord.y >= 0);
+		return ((int)cord.x < mapHeight && (int)cord.y < mapWidth)
+			&& ((int)cord.x >= 0 && (int)cord.y >= 0);
 	}
 	/**
 	 * test if a PathFindCord is a valid map cordinate
@@ -856,7 +856,6 @@ public class Map
 	{
 
 		if (isValidCord(v)) {
-
 			return (int)v.x * (mapWidth) + (int)v.y;
 		} else {
 			return -1;
