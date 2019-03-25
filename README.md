@@ -31,11 +31,11 @@ There are 2 UML diagrams provided, which can be found in the following locations
 
 ## TODO List
 HIGH PRIORITY (Needed for 03/25/19):
-- [ ] Render the map layer properly! in render() in PlayGame
+- [x] Render the map layer properly! in render() in PlayGame
 - [ ] Make the hitboxes for the tilemap
 - [ ] Aligning hit boxes with the map
-- [ ] Melee attack
-- [ ] Game over screen (restart / play again, go back to menu)
+- [x] Melee attack
+- [ ] Game over screen (restart / play again, go back to menu) - half done
 - [x] Update text based version
 - [x] Powerups (more damage) - DONE (alex 03/24/19)
 - [x] Collectibles (HP refill, ammo refill, money) - DONE (alex 03/24/19)
