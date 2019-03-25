@@ -60,7 +60,13 @@ public class GameConfig
 	public static final int PLAYER_STARTING_AMMO = 20;
 	public static final int PLAYER_STARTING_MELEE_DAMAGE = 30;
 
-	// public static final PCollisionBody PLAYER_MELEE_N_ATK_BODY =
+	public static final PCollisionBody PLAYER_MELEE_N_ATK_BODY =
+		new PCollisionBody(new Vector2f(0, 0.25f),   // displacement
+				   new Vector2f(0.5f, 0.5f), // center
+							     // collision body:
+				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
+				   new Vector2f(0.4f, 0),
+				   new Vector2f(0.4f, 0.6f));
 
 
 	/////////////////////////
@@ -69,9 +75,11 @@ public class GameConfig
 	public static final int TOWER_BUILD_COST = 250;
 	public static final PCollisionBody TURRET_COLLISION_BODY =
 		new PCollisionBody(
-			new Vector2f(-0.25f, 1f), // displacement
-			new Vector2f(0.5f, 0.5f), // center
-						  // collision body:
+			new Vector2f(-0.25f,
+				     1f), // displacement
+			new Vector2f(0.5f,
+				     0.5f), // center
+					    // collision body:
 			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
 			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
@@ -100,14 +108,16 @@ public class GameConfig
 	public static final int BULLET_COST = 5;
 
 	public static final PCollisionBody BULLET_COLLISION_BODY =
-		new PCollisionBody(
-			new Vector2f(0.0f, 0.0f), // displacement
-			new Vector2f(BULLET_WIDTH / 2,
-				     BULLET_HEIGHT / 2), // center
-							 // collision body:
-			new Vector2f(0, 0), new Vector2f(0, BULLET_HEIGHT),
-			new Vector2f(BULLET_WIDTH, 0),
-			new Vector2f(BULLET_WIDTH, BULLET_HEIGHT));
+		new PCollisionBody(new Vector2f(0.0f,
+						0.0f), // displacement
+				   new Vector2f(BULLET_WIDTH / 2,
+						BULLET_HEIGHT / 2), // center
+								    // collision
+								    // body:
+				   new Vector2f(0, 0),
+				   new Vector2f(0, BULLET_HEIGHT),
+				   new Vector2f(BULLET_WIDTH, 0),
+				   new Vector2f(BULLET_WIDTH, BULLET_HEIGHT));
 
 	///////////////////////
 	////// mob config /////
@@ -142,16 +152,19 @@ public class GameConfig
 	// clang-format on
 
 	public static final PCollisionBody MOB_MELEE_ATTACK_BODY =
-		new PCollisionBody(new Vector2f(-0.5f, 0),   // displacement
-				   new Vector2f(0.5f, 0.5f), // center
-							     // collision body:
+		new PCollisionBody(new Vector2f(-0.5f, 0), // displacement
+				   new Vector2f(0.5f,
+						0.5f), // center
+						       // collision body:
 				   new Vector2f(0, 0), new Vector2f(2, 0),
 				   new Vector2f(0, 2), new Vector2f(2, 2));
 
 	public static final AggroRange MOB_AGGRO_RANGE = new AggroRange(
-		new Vector2f(-0.3f, 0f),  // displacement
-		new Vector2f(0.5f, 0.5f), // center
-					  // collision body:
+		new Vector2f(-0.3f,
+			     0f), // displacement
+		new Vector2f(0.5f,
+			     0.5f), // center
+				    // collision body:
 		new Vector2f(0f, 0f), new Vector2f(1f, 1f),
 		new Vector2f(1f, 0f), new Vector2f(0f, 1f),
 		new Vector2f(0.5f, -0.25f), new Vector2f(-0.2f, 0.5f),
@@ -165,12 +178,17 @@ public class GameConfig
 		new ArrayList<Vector2f>() {
 			{
 				add(new Vector2f(9.5f,
-						 19.5f)); // western Blockbuster
-				add(new Vector2f(30f, 14f)); // parking lot
-				add(new Vector2f(40f, 30f)); // near fountain
+						 19.5f)); // western
+							  // Blockbuster
+				add(new Vector2f(30f,
+						 14f)); // parking lot
+				add(new Vector2f(40f,
+						 30f)); // near fountain
 				add(new Vector2f(60f,
-						 24f)); // park past parking lot
-				add(new Vector2f(42f, 50f)); // gas station
+						 24f)); // park past
+							// parking lot
+				add(new Vector2f(42f,
+						 50f)); // gas station
 			}
 		};
 
@@ -235,10 +253,12 @@ public class GameConfig
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final PCollisionBody PICKUP_COLLISION_BODY =
 		new PCollisionBody(
-			new Vector2f(0.0f, 0.4f), // displacement
+			new Vector2f(0.0f,
+				     0.4f), // displacement
 			new Vector2f(PICKUP_WIDTH / 2,
 				     PICKUP_HEIGHT / 4), // center
-							 // collision body:
+							 // collision
+							 // body:
 			new Vector2f(0, 0), new Vector2f(0, PICKUP_HEIGHT / 2),
 			new Vector2f(PICKUP_WIDTH, 0),
 			new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT / 2));

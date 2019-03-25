@@ -450,8 +450,9 @@ public class PlayGame extends World
 		pushTileMapLayerToQueue(map.getLayerEngineState(2),
 					buildingBuffer);
 		pushTileMapLayerToQueue(map.getLayerEngineState(3),
-					buildingBuffer);
-		pushTileMapLayerToQueue(map.getLayerEngineState(4), poleBuffer);
+					entityBuffer);
+		pushTileMapLayerToQueue(map.getLayerEngineState(4),
+					entityBuffer);
 
 
 		for (Render r :

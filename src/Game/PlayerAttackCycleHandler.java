@@ -149,13 +149,11 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 				}
 				break;
 			case Melee:
-				System.out.println(
-					"attacked with melee weapon");
-
 				// Spawn the hitbox in the correct location and
 				// check against all enemies
 				PCollisionBody patk = new PCollisionBody(
-					GameConfig.MOB_MELEE_ATTACK_BODY);
+					GameConfig.PLAYER_MELEE_N_ATK_BODY);
+
 				Systems.updatePCollisionBodyPositionFromWorldAttr(
 					patk,
 					engineState.unsafeGetComponentAt(
