@@ -112,14 +112,10 @@ public class PlayGame extends World
 	protected GJK gjk;
 
 	protected MapGeneration generateDiffusionMap;
-	protected Sound gunSound, zombieDeathSound, emptyClipSound;
 	public PlayGame() throws UnsupportedAudioFileException, IOException,
 				 LineUnavailableException
 	{
 		super();
-		gunSound = new Sound(GameResources.gunSound);
-		zombieDeathSound = new Sound(GameResources.zombieDeathSound);
-		emptyClipSound = new Sound(GameResources.emptyClipSound);
 
 		gjk = new GJK();
 		gjk.clearVerticies();
@@ -260,8 +256,6 @@ public class PlayGame extends World
 	// step. Time is all in milliseconds
 	public void runGame()
 	{
-		System.out.println("gun sound status = "
-				   + gunSound.getIsPlaying());
 		// if (!gunSound.getClip().isActive()) {
 		// gunSound.play();
 		// System.out.println("stoped plasying!!");

@@ -1,10 +1,13 @@
 package Game;
 
-import poj.EngineState;
-import poj.Logger.Logger;
+import java.util.concurrent.ThreadLocalRandom;
 
 import Components.*;
 import Resources.GameConfig;
+import Resources.GameResources;
+
+import poj.EngineState;
+import poj.Logger.Logger;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.Optional;
@@ -65,6 +68,25 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 			engineState.printAllComponentsAt(focus);
 			return;
 		}
+
+		// play death sound
+
+		int deathSoundPlay = ThreadLocalRandom.current().nextInt(0, 4);
+		switch (deathSoundPlay) {
+		case 0:
+			GameResources.zombieDeathSound.play();
+			break;
+		case 1:
+			GameResources.zombieDeathSound2.play();
+			break;
+		case 2:
+			GameResources.zombieDeathSound3.play();
+			break;
+		case 3:
+			GameResources.zombieDeathSound4.play();
+			break;
+		}
+
 		engineState.addComponentAt(
 			DespawnTimer.class,
 			new DespawnTimer(GameConfig.MOB_DESPAWN_TIMER), focus);

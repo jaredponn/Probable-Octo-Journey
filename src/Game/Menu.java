@@ -70,46 +70,20 @@ public class Menu
 		if (inputPoller.isLeftMouseButtonDown()) {
 
 			Vector2f mousePosition = inputPoller.getMousePosition();
-			System.out.println("x value of mouse click is : "
-					   + mousePosition.x
-					   + ", y value of mouse click is : "
-					   + mousePosition.y);
 			PCollisionBody mouseHitBox = new PCollisionBody(
 				new Vector2f(0f, 0f), new Vector2f(0f, 0f),
 				mousePosition);
 
-			System.out.println("button hitbox sizze before = "
-					   + buttonHitBoxes.size());
-			/*
 			int i = 0;
 			while (!buttonHitBoxes.isEmpty()) {
 				PCollisionBody buttonBody =
 					buttonHitBoxes.poll();
-				if (Systems.arePCollisionBodiesColliding(
-					    gjk, mouseHitBox, buttonBody)) {
-					if (i == 0) {
-						System.out.println("0 is hit");
-					} else if (i == 1) {
-						System.out.println("1 is hit");
-					} else if (i == 2) {
-						System.out.println("2 is hit");
-					}
-				}
-				i++;
-			}
-				*/
-
-
-			int i = 0;
-			while (!buttonHitBoxes.isEmpty()) {
-				PCollisionBody buttonBody =
-					buttonHitBoxes.poll();
-				System.out.println("currr i  " + i);
-				System.out.println("cur enum = "
-						   + curMenuState);
-
 				if (Systems.arePCollisionBodiesColliding(
 					    gjk, buttonBody, mouseHitBox)) {
+					// menu selection button sound is played
+					GameResources.menuSelectButtonSound
+						.play();
+
 					// exit button is always
 					// added if in main menu
 					// 1st=playButton, 2nd=

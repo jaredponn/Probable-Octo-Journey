@@ -59,6 +59,11 @@ public class Sound implements Component
 		// this.isPlaying = clip.isActive();
 	}
 
+	public void playContinuously()
+	{
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
+	}
+
 	public void end()
 	{
 		clip.stop();
