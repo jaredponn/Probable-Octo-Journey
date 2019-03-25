@@ -74,6 +74,11 @@ public class Render implements Component
 		this.graphic.setY(y);
 	}
 
+	public Vector2f pureGetTranslation()
+	{
+		return new Vector2f(this.position_translation);
+	}
+
 	public ImageWindow getImageWindow()
 	{
 		return this.graphic.getImageWindow();

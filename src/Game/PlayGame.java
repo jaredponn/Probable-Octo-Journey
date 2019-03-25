@@ -482,7 +482,7 @@ public class PlayGame extends World
 		guiBuffer.add(this.killDisplay);
 		guiBuffer.add(this.mobCountDisplay);
 
-		debugBuffer.clear();
+		// debugBuffer.clear();
 
 		super.renderer.renderBuffers(groundBuffer, entityBuffer,
 					     buildingBuffer, poleBuffer,

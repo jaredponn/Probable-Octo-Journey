@@ -239,6 +239,17 @@ public class Map
 											i % mapWidth)))
 									.setIsWall(
 										true);
+
+								mapLayers.get(0)
+									.unsafeGetComponentAt(
+										PathFindCord
+											.class
+										,
+										getEcsIndexFromWorldVector2f(new Vector2f(
+											numRows - 1,
+											i % mapWidth)))
+									.setDiffusionValue(
+										0f);
 							}
 							// on 0th layer
 							else {
@@ -525,11 +536,12 @@ public class Map
 											tilesRenderPart
 												.get(Integer.parseInt(
 													tempList[i]))),
+										// new Vector2f( -(float)tileWidth / 2f, -(float)tileHeight / 2f)),
 										new Vector2f(
-											-(float)tileWidth
-												/ 2f, // TODO also awful someone please figure out whty this does this.
-											-(float)tileHeight // TODO This is awful -- this is the translation needed to render the tiles so they line up with where the world coordinates are
-												/ 2f)),
+											1,
+											0)
+
+											),
 									nextFreeIndex);
 						}
 					}
@@ -649,7 +661,7 @@ public class Map
 		for (int i = 128; i <= 136; ++i) {
 			wallState.set(i, true);
 			wallHitBox.set(i, new PhysicsPCollisionBody(
-						  new Vector2f(-1f, -1f),
+						  new Vector2f(0f, 0f),
 						  cbwc.pureAdd(0.5f,
 							       0.5f), // center
 						  cbwc.pureAdd(0f, 0f), cbwc,

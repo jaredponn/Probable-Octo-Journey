@@ -308,8 +308,9 @@ public class EngineTransforms
 				PhysicsPCollisionBody.class, player);
 
 		if (Systems.arePCollisionBodiesColliding(gjk, a, b)) {
-			engineState.unsafeGetComponentAt(Movement.class, mob1)
-				.setSpeed(0);
+
+			// engineState.unsafeGetComponentAt(Movement.class,
+			// mob1) .setSpeed(0);
 
 			// CardinalDirections tempDir =
 			// engineState
@@ -377,12 +378,10 @@ public class EngineTransforms
 						    mobPosition))
 				    .getDiffusionValue()) {
 
-			/*
-		System.out.println(
-			" went inside this cord is bigger than all
-		neightbours!!"); System.out.println( "set the mob speed equal to
-		0!!!!!!!");
-			*/
+			System.out.println(
+				" went inside this cord is bigger than all neightbours!!");
+			System.out.println(
+				"set the mob speed equal to 0!!!!!!!");
 
 			/*
 			engineState.getComponentAt(Movement.class, mob1)
@@ -482,6 +481,8 @@ at Main.main(Main.java:25)
 					PhysicsPCollisionBody.class, player)
 				.pureGetCenter();
 
+		playerPosition.log("PLAYER POSITION");
+
 		// TODO: turret diffusion value.. NEED TO BE CHANGED LATER TO
 		// MATCH THE PHYSICS COLLISION BODY!
 		for (int i = engineState.getInitialSetIndex(TurretSet.class);
@@ -534,7 +535,6 @@ at Main.main(Main.java:25)
 						GameConfig
 							.PLAYER_DIFFUSION_VALUE);
 			} else {
-
 				mapLayer.unsafeGetComponentAt(
 						PathFindCord.class,
 						map.getEcsIndexFromWorldVector2f(

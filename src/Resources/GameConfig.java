@@ -21,15 +21,14 @@ public class GameConfig
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
-	public static final int PLAYER_HP = 1000000000;
-	public static final int PLAYER_MAX_HP = 200;
+	public static final int PLAYER_HP = 1000000;
+	public static final int PLAYER_MAX_HP = 2000000;
 	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
 	public static final int TOWER_DIFFUSION_VALUE = (int)Math.pow(2, 5);
 	public static final float PLAYER_HEIGHT =
 		GameResources.PLAYER_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
-	public static final Vector2f PLAYER_SPAWNNING_POS =
-		new Vector2f(3f, 3f);
+	public static final Vector2f PLAYER_SPAWNNING_POS = new Vector2f(0, 0);
 	public static final PCollisionBody PLAYER_COLLISION_BODY =
 		new PCollisionBody(
 			new Vector2f(0.2f, 0.55f),  // displacement
