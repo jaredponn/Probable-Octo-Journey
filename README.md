@@ -110,8 +110,15 @@ Gun sound: https://www.youtube.com/watch?v=GAT-AwwMP_I
 
 Empty clip sound: https://www.youtube.com/watch?v=cqYlilUqGfs
 
-Zombie sound: https://www.youtube.com/watch?v=wg8u3AQj1Ac
+Zombie sounds: https://opengameart.org/content/zombies-sound-pack
 
+Menu sound: https://opengameart.org/content/rpg-title-screen-music-pack, used Steven Soucy - RPG Title Screen Music Pack - 03 Contingency.wav 
+
+Menu selection sound: https://opengameart.org/content/menu-selection-click
+
+Game background sound: https://opengameart.org/content/rpg-title-screen-music-pack, used Salvatore Maccarrone - RPG Title Screen Music Pack - 15 Overworld.wav 
+
+Health pickup sound: https://opengameart.org/content/life-pickup-yo-frankie
 # Credits
 Tileset: https://opengameart.org/content/cave-tileset
 
