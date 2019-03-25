@@ -827,6 +827,9 @@ public class EngineTransforms
 
 		ifSetIsOutOfHPPushEventToEventStack(g, PlayerSet.class,
 						    new PlayerOutOfHPEvent(g));
+
+		ifSetIsOutOfHPPushEventToEventStack(g, TurretSet.class,
+						    new TurretOutOfHPEvent(g));
 	}
 
 	private static void
@@ -849,6 +852,42 @@ public class EngineTransforms
 			if (hOpt.get().getHP() <= 0) {
 				event.setFocus(i);
 				g.pushEventToEventHandler(event);
+			}
+		}
+	}
+
+	public static void
+	doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
+		EngineState engineState, PCollisionBody pbody,
+		Class<? extends Component> c, int damage)
+	{
+		GJK gjk = new GJK();
+
+		for (int i = engineState.getInitialSetIndex(c);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(c, i)) {
+
+			Optional<PHitBox> phbodyOpt =
+				engineState.getComponentAt(PHitBox.class, i);
+
+			if (!phbodyOpt.isPresent())
+				continue;
+
+			PHitBox phbody = phbodyOpt.get();
+
+			if (Systems.arePCollisionBodiesColliding(gjk, pbody,
+								 phbody)) {
+
+				Optional<HitPoints> hpOpt =
+					engineState.getComponentAt(
+						HitPoints.class, i);
+
+				if (!hpOpt.isPresent())
+					continue;
+
+				HitPoints hp = hpOpt.get();
+
+				hp.hurt(damage);
 			}
 		}
 	}

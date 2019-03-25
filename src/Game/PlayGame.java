@@ -329,7 +329,8 @@ public class PlayGame extends World
 			this.engineState, PlayerSet.class);
 		EngineTransforms
 			.steerMovementVelocityFromMovementDirectionForSet(
-				this.engineState, MobSet.class, 1 / 16f);
+				this.engineState, MobSet.class,
+				1 / 16f); // 1/16f is the steering val
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 
@@ -346,7 +347,6 @@ public class PlayGame extends World
 						  this.debugBuffer, this.cam);
 
 		// Resolving  collisions against tilemap
-
 		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
 			EngineTransforms
 				.nudgePhysicsPCollisionBodiesOutsideTileMap(
@@ -368,8 +368,7 @@ public class PlayGame extends World
 		}
 
 		//  attack cycles
-		AttackCycleHandlers.runAttackCycleHandlersAndFreezeMovement(
-			this);
+		AttackCycleHandlers.runAttackCyclers(this);
 
 		// changing world attrib position
 		EngineTransforms.updateWorldAttribPositionFromMovement(

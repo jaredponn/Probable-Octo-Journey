@@ -4,6 +4,7 @@ package Game;
 import Components.*;
 import EntitySets.*;
 import Resources.GameConfig;
+import java.awt.Color;
 
 import poj.EngineState;
 import poj.GameWindow.InputPoller;
@@ -148,6 +149,28 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 			case Melee:
 				System.out.println(
 					"attacked with melee weapon");
+
+				// Spawn the hitbox in the correct location and
+				// check against all enemies
+				PCollisionBody patk = new PCollisionBody(
+					GameConfig.MOB_MELEE_ATTACK_BODY);
+				Systems.updatePCollisionBodyPositionFromWorldAttr(
+					patk,
+					engineState.unsafeGetComponentAt(
+						WorldAttributes.class, focus));
+
+
+				// debug rendering
+				Systems.pCollisionBodyDebugRenderer(
+					patk, super.getPlayGame().debugBuffer,
+					super.getPlayGame().cam, Color.orange);
+
+				EngineTransforms.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
+					engineState, patk, MobSet.class,
+					(int)(GameConfig
+						      .PLAYER_STARTING_MELEE_DAMAGE
+					      * super.getPlayGame()
+							.playerDamageBonus));
 				break;
 			}
 		}

@@ -193,11 +193,13 @@ public class PlayGameProcessInputs
 					FacingDirection.class, player);
 			}
 
+
 			if (!engineState
 				     .unsafeGetComponentAt(AttackCycle.class,
 							   player)
 				     .isAttacking()) {
 				int flag = hasMovementKeyBeenPressed ? 1 : 0;
+
 
 				if (g.curWeaponState == WeaponState.Melee) {
 					flag += 2;
@@ -213,7 +215,13 @@ public class PlayGameProcessInputs
 								player)
 							.getDirection(),
 						flag));
+			} else {
+				engineState
+					.unsafeGetComponentAt(Movement.class,
+							      player)
+					.setSpeed(0);
 			}
+
 
 			////// Build Commands //////
 			if (inputPoller.isKeyDown(GameConfig.BUILD_TOWER)) {
