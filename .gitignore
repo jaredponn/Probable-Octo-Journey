@@ -2,6 +2,8 @@ bin/
 bin/*
 ./bin/
 ./bin/*
+./scores.txt
+scores.txt
 /.metadata/
 eclimd.log
 ./eclimd.log

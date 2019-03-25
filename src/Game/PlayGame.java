@@ -253,6 +253,13 @@ public class PlayGame extends World
 
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
+
+
+		for (int i = 0; i < GameConfig.MOB_SPAWN_POINTS.size(); i++) {
+			engineState.spawnEntitySet(
+				new MobSet(GameConfig.MOB_SPAWN_POINTS.get(i)));
+			mobsSpawned++;
+		}
 	}
 	public void clearWorld()
 	{
@@ -267,6 +274,7 @@ public class PlayGame extends World
 		// System.out.println("stoped plasying!!");
 		//}
 
+		mobSpawner();
 		try {
 			generateDiffusionMap.setStart();
 		} catch (Exception ex) {
@@ -278,7 +286,7 @@ public class PlayGame extends World
 		this.processInputs();
 
 		// ASE
-		this.mobSpawner();
+
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 		this.handleTurrets();
@@ -458,7 +466,7 @@ public class PlayGame extends World
 		pushTileMapLayerToQueue(map.getLayerEngineState(3),
 					entityBuffer);
 		pushTileMapLayerToQueue(map.getLayerEngineState(4),
-					buildingBuffer);
+					entityBuffer);
 
 
 		for (Render r :

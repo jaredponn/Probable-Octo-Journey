@@ -191,8 +191,9 @@ public class CombatFunctions
 		     engineState.isValidEntity(i);
 		     i = engineState.getNextSetIndex(a, i)) {
 
-			final Optional<AggroRange> abodyOptional =
-				engineState.getComponentAt(AggroRange.class, i);
+			final Optional<PhysicsPCollisionBody> abodyOptional =
+				engineState.getComponentAt(
+					PhysicsPCollisionBody.class, i);
 
 			if (!abodyOptional.isPresent())
 				continue;
@@ -436,17 +437,18 @@ public class CombatFunctions
 		engineState.unsafeGetComponentAt(Movement.class, e)
 			.setVelocity(unitVecturretPosTotargetDelta.pureMul(
 				shellSpeed));
-		
+
 		// decrease ammo
 		engineState.unsafeGetComponentAt(Ammo.class, turret)
 			.decreaseAmmo(1, GameConfig.TURRET_STARTING_AMMO);
-		
+
 		// destroy turret if out of ammo
-		if (engineState.unsafeGetComponentAt(Ammo.class, turret).hasAmmo(1))
+		if (engineState.unsafeGetComponentAt(Ammo.class, turret)
+			    .hasAmmo(1))
 			return;
 		else {
 			System.out.println("A turret ran out of ammo");
-			removeTurret( engineState , turret );
+			removeTurret(engineState, turret);
 		}
 	}
 }
