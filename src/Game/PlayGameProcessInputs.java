@@ -59,6 +59,8 @@ public class PlayGameProcessInputs
 				if (Math.abs(g.lastCoolDown.get(
 					    GameConfig.ATTACK_KEY))
 				    == 0d) {
+
+
 					updateDtForKey(
 						g, GameConfig.ATTACK_KEY,
 						-PlayGame.coolDownMax.get(

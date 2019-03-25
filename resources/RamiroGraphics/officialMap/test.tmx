@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="5" height="3" tilewidth="64" tileheight="42" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" source="mapSpritesfinal.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="5" height="3">
+  <data encoding="csv">
+577,578,579,580,581,
+675,676,677,678,0,
+687,0,0,0,0
+</data>
+ </layer>
+</map>

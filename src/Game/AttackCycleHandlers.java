@@ -72,6 +72,7 @@ public class AttackCycleHandlers
 	{
 		EngineState engineState = playGame.getEngineState();
 		InputPoller ip = playGame.getInputPoller();
+
 		Camera invCam = playGame.getInvCam();
 
 		Vector2f focusPos =
@@ -124,61 +125,6 @@ public class AttackCycleHandlers
 		mOpt.get().setVelocity(new Vector2f(0, 0));
 	}
 
-	public static void mobMeleeAttackHandler(PlayGame playGame, int focus)
-	{
-		EngineState engineState = playGame.getEngineState();
-		GJK gjk = playGame.gjk;
-
-		// in the future make the hit boxes attack forward and just
-		// witch upon them
-		final MovementDirection n = engineState.unsafeGetComponentAt(
-			MovementDirection.class, focus);
-
-		// Spawn the hitbox in the correct location and check against
-		// all enemies
-		PCollisionBody pmob =
-			new PCollisionBody(GameConfig.MOB_MELEE_ATTACK_BODY);
-		Systems.updatePCollisionBodyPositionFromWorldAttr(
-			pmob, engineState.unsafeGetComponentAt(
-				      WorldAttributes.class, focus));
-
-		// debug rendering
-		Systems.pCollisionBodyDebugRenderer(pmob, playGame.debugBuffer,
-						    playGame.cam, Color.orange);
-
-		// testing for hits against  the player
-		for (int i = engineState.getInitialSetIndex(PlayerSet.class);
-		     engineState.isValidEntity(i);
-		     i = engineState.getNextSetIndex(PlayerSet.class, i)) {
-
-			PHitBox pplayer = engineState.unsafeGetComponentAt(
-				PHitBox.class, i);
-
-			if (Systems.arePCollisionBodiesColliding(gjk, pplayer,
-								 pmob)) {
-				CombatFunctions.handlePlayerDamage(
-					engineState, i,
-					GameConfig.MOB_ATTACK_DAMAGE);
-				return; // shouldn't do damage to multiple
-					// things
-			}
-		}
-
-		// testing for hits against towers
-		for (int i = engineState.getInitialSetIndex(TurretSet.class);
-		     engineState.isValidEntity(i);
-		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
-			PHitBox pturret = engineState.unsafeGetComponentAt(
-				PHitBox.class, i);
-
-			if (Systems.arePCollisionBodiesColliding(gjk, pturret,
-								 pmob)) {
-				CombatFunctions.handleMobDamageTurret(
-					engineState, i);
-				return;
-			}
-		}
-	}
 
 	public static void turretAttackHandler(EngineState engineState,
 					       int turret, double gameTime)

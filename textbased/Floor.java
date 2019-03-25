@@ -1,12 +1,14 @@
 /**
  * Sub-class of Entity that can 'contain' other entities
  * @author Alex
- * @version 1.0
+ * @version 2.0
  */
 public class Floor extends Entity {
     
-    private Entity contents;
+    private Entity contents = GameConfig.NULL_ENTITY;
+    private Entity suppressedContents = GameConfig.NULL_ENTITY;
     private boolean hasContents = false;
+    private boolean hasSupressedContents = false;
     
     public Floor( int defIndex ) {
         super( defIndex );
@@ -43,8 +45,34 @@ public class Floor extends Entity {
      * sets the hasContents flag to false
      */
     public void clearContents() {
-        this.contents = null;
+        this.contents = GameConfig.NULL_ENTITY;
         this.hasContents = false;
+    }
+    
+    /**
+    * Suppresses contents to allow enemies to move onto a floor with a pick-up
+    */
+    public void suppressContents() {
+        if (this.hasContents() ) {
+            this.suppressedContents = this.contents;
+            this.hasSupressedContents = true;
+            this.clearContents();
+            
+            if (this.suppressedContents instanceof ActiveEntity) {
+                System.out.println("Just suppressed an ActiveEntity! This should not be happening!");
+            }
+        }
+    }
+    
+    /**
+    * Unsuppresses contents when enemy moves off floor
+    */
+    public void unsuppressContents() {
+        if (this.hasSupressedContents) {
+            setContents(this.suppressedContents);
+            this.suppressedContents = GameConfig.NULL_ENTITY;
+            this.hasSupressedContents = false;
+        }
     }
     
     ///// Print /////

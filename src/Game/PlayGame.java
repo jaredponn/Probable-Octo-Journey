@@ -14,6 +14,7 @@ package Game;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 import Components.*;
 import EntitySets.AmmoPack;
@@ -41,6 +42,11 @@ import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
 import poj.EngineState;
 
+import java.io.IOException;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.Clip;
+
 public class PlayGame extends World
 {
 	// Render
@@ -48,6 +54,8 @@ public class PlayGame extends World
 	// buffers for the renderer
 	protected Queue<RenderObject> groundBuffer;
 	protected MinYFirstSortedRenderObjectBuffer entityBuffer;
+	protected MinYFirstSortedRenderObjectBuffer buildingBuffer;
+	protected MinYFirstSortedRenderObjectBuffer poleBuffer;
 	protected Queue<RenderObject> guiBuffer;
 	public static Queue<RenderObject> debugBuffer =
 		new LinkedList<RenderObject>(); // all debugging should be
@@ -76,6 +84,9 @@ public class PlayGame extends World
 	protected double playerDamageBonus = 1d;
 	protected int playerAmmo = GameConfig.PLAYER_STARTING_AMMO;
 	protected int cash = GameConfig.PLAYER_STARTING_CASH;
+	protected int killCount = 0;
+	protected int mobsSpawned = 0;
+	protected double lastWaveDefeatedAt = 0.0;
 
 	protected double timeOfLastMobSpawn = 0.0 - GameConfig.MOB_SPAWN_TIMER;
 	protected double timeOfLastCashSpawn =
@@ -91,15 +102,24 @@ public class PlayGame extends World
 		new StringRenderObject("", 5, 30, Color.WHITE);
 	protected StringRenderObject ammoDisplay =
 		new StringRenderObject("", 5, 40, Color.WHITE);
+	protected StringRenderObject killDisplay =
+		new StringRenderObject("", 5, 50, Color.WHITE);
+	protected StringRenderObject mobCountDisplay =
+		new StringRenderObject("", 5, 60, Color.WHITE);
 
 
 	// Collision detection and resolution
 	protected GJK gjk;
 
 	protected MapGeneration generateDiffusionMap;
-	public PlayGame()
+	protected Sound gunSound, zombieDeathSound, emptyClipSound;
+	public PlayGame() throws UnsupportedAudioFileException, IOException,
+				 LineUnavailableException
 	{
 		super();
+		gunSound = new Sound(GameResources.gunSound);
+		zombieDeathSound = new Sound(GameResources.zombieDeathSound);
+		emptyClipSound = new Sound(GameResources.emptyClipSound);
 
 		gjk = new GJK();
 		gjk.clearVerticies();
@@ -108,6 +128,18 @@ public class PlayGame extends World
 
 		// World loading
 		this.map = new Map(5);
+
+		this.map.addTileSet(GameResources.NoTreeofficialTileSetConfig);
+		this.map.addMapConfig(GameResources.NoTreeofficialMapConfig);
+		this.map.addMapLayer(GameResources.NoTreeofficialMapGround1);
+		this.map.addMapLayer(GameResources.NoTreeofficialMapMisc2);
+		this.map.addMapLayer(
+			GameResources.NoTreeofficialMapCarsAndBuildings3);
+		this.map.addMapLayer(
+			GameResources.NoTreeofficialMapTreesAndRocks4);
+		this.map.addMapLayer(
+			GameResources.NoTreeofficialMapLightsAndSigns5);
+		/*
 		this.map.addTileSet(GameResources.officialTileSetConfig);
 		this.map.addMapConfig(GameResources.officialMapConfig);
 		this.map.addMapLayer(GameResources.officialMapGround1);
@@ -116,6 +148,8 @@ public class PlayGame extends World
 			GameResources.officialMapCarsAndBuildings3);
 		this.map.addMapLayer(GameResources.officialMapTreesAndRocks4);
 		this.map.addMapLayer(GameResources.officialMapLightsAndSigns5);
+		*/
+
 		// this.map.addMapLayer(GameResources.demo1LayerWall);
 		/*
 		// World loading
@@ -150,6 +184,8 @@ public class PlayGame extends World
 
 		this.groundBuffer = new LinkedList<RenderObject>();
 		this.entityBuffer = new MinYFirstSortedRenderObjectBuffer();
+		this.buildingBuffer = new MinYFirstSortedRenderObjectBuffer();
+		this.poleBuffer = new MinYFirstSortedRenderObjectBuffer();
 		this.guiBuffer = new LinkedList<RenderObject>();
 
 		// camera initialization
@@ -224,6 +260,13 @@ public class PlayGame extends World
 	// step. Time is all in milliseconds
 	public void runGame()
 	{
+		System.out.println("gun sound status = "
+				   + gunSound.getIsPlaying());
+		// if (!gunSound.getClip().isActive()) {
+		// gunSound.play();
+		// System.out.println("stoped plasying!!");
+		//}
+
 		try {
 			generateDiffusionMap.setStart();
 		} catch (Exception ex) {
@@ -270,15 +313,21 @@ public class PlayGame extends World
 				engineState, gjk, MobSet.class,
 				TurretSet.class);
 
-		this.cashSpawner(true, 13f, 7f);
-		this.powerUpSpawner(true, 13f, 8f);
+		EngineTransforms.pushOutOfHPEventsIfHPIsZeroOrLess(this);
+
+		// this.cashSpawner(true, 13f, 7f);
+		// this.powerUpSpawner(true, 13f, 8f);
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
 		this.collectPowerUp();
+		this.collectHealthPack();
+		this.collectAmmoPack();
 
 		this.updateGameTimer();
 		this.updateCashDisplay();
 		this.updateHealthDisplay();
 		this.updateAmmoDisplay();
+		this.updateKillDisplay();
+		this.updateMobCountDisplay();
 
 
 		// updating positions
@@ -399,18 +448,18 @@ public class PlayGame extends World
 	protected void render()
 	{
 
-		// TODO: refactor this later..
+		// TODO: someone please fix the render layering..
 		pushTileMapLayerToQueue(map.getLayerEngineState(0),
 					groundBuffer);
 
 		pushTileMapLayerToQueue(map.getLayerEngineState(1),
-					entityBuffer);
+					groundBuffer);
 		pushTileMapLayerToQueue(map.getLayerEngineState(2),
-					entityBuffer);
+					buildingBuffer);
 		pushTileMapLayerToQueue(map.getLayerEngineState(3),
-					entityBuffer);
-		pushTileMapLayerToQueue(map.getLayerEngineState(4),
-					entityBuffer);
+					buildingBuffer);
+		pushTileMapLayerToQueue(map.getLayerEngineState(4), poleBuffer);
+
 
 		for (Render r :
 		     super.getRawComponentArrayListPackedData(Render.class)) {
@@ -423,8 +472,11 @@ public class PlayGame extends World
 		guiBuffer.add(this.cashDisplay);
 		guiBuffer.add(this.healthDisplay);
 		guiBuffer.add(this.ammoDisplay);
+		guiBuffer.add(this.killDisplay);
+		guiBuffer.add(this.mobCountDisplay);
 
 		super.renderer.renderBuffers(groundBuffer, entityBuffer,
+					     buildingBuffer, poleBuffer,
 					     debugBuffer, guiBuffer);
 	}
 
@@ -519,6 +571,19 @@ public class PlayGame extends World
 		this.ammoDisplay.setStr("Your Ammo: " + this.playerAmmo);
 	}
 
+	/** update killDisplay */
+	protected void updateKillDisplay()
+	{
+		this.killDisplay.setStr("Your kills: " + this.killCount);
+	}
+
+	/** update mobCountDisplay */
+	protected void updateMobCountDisplay()
+	{
+		this.mobCountDisplay.setStr("Total Zombies spawned: "
+					    + this.mobsSpawned);
+	}
+
 	/**
 	 * spawns a new mob entity if it has been at least
 	 * MOB_SPAWN_TIMER seconds since the last spawn
@@ -527,16 +592,19 @@ public class PlayGame extends World
 	{
 		double currentPlayTime = this.getPlayTime();
 		if (currentPlayTime - this.timeOfLastMobSpawn
-		    >= GameConfig.MOB_SPAWN_TIMER) {
+			    >= GameConfig.MOB_SPAWN_TIMER
+		    || killCount >= mobsSpawned) {
+			this.timeOfLastMobSpawn = currentPlayTime;
+			System.out.println("New zombies arrived at T+"
+					   + currentPlayTime + " seconds!");
 			for (int i = 0; i < GameConfig.MOB_SPAWN_POINTS.size();
 			     i++) {
 				engineState.spawnEntitySet(new MobSet(
 					GameConfig.MOB_SPAWN_POINTS.get(i)));
+				mobsSpawned++;
 			}
-			this.timeOfLastMobSpawn = currentPlayTime;
-			System.out.println("Spawning new mob at time: "
-					   + this.timeOfLastMobSpawn);
 		}
+		// TODO: make more mobs spawn over time
 	}
 
 	/**
@@ -579,6 +647,20 @@ public class PlayGame extends World
 				new PowerUp(x, y, currentPlayTime));
 			System.out.println("Spawning new power-up drop.");
 		}
+	}
+
+	protected void ammoPackSpawner(boolean timed, float x, float y)
+	{
+		double currentPlayTime = this.getPlayTime();
+		super.engineState.spawnEntitySet(
+			new AmmoPack(x, y, currentPlayTime));
+	}
+
+	protected void healthPackSpawner(boolean timed, float x, float y)
+	{
+		double currentPlayTime = this.getPlayTime();
+		super.engineState.spawnEntitySet(
+			new HealthPack(x, y, currentPlayTime));
 	}
 
 	/**

@@ -1,19 +1,21 @@
 /**
  * Sub-class of ActiveEntity that has basic pathfinding
  * @author Alex
- * @version 1.0
+ * @version 2.0
  */
 public class Enemy extends ActiveEntity {
     
     public Enemy( int defIndex ) {
-        super( defIndex );
-        setHealth( GameConfig.ENEMY_HEALTH );
-        setDisplayChar("E ");
+        this( 1 , 1 , defIndex );
     }
     
     public Enemy( int defX , int defY , int defIndex ) {
         super( GameConfig.ENEMY_HEALTH , defX , defY , defIndex );
         setDisplayChar("E ");
+    }
+    
+    public Enemy( Position pos , int defIndex ) {
+        this( pos.getXPos() , pos.getYPos() , defIndex );
     }
     
     /**
@@ -30,7 +32,6 @@ public class Enemy extends ActiveEntity {
         
         if (thisXPos != playerXPos && roll >= 0.5 ) {
             int xDifference = playerXPos - thisXPos; 
-            // System.out.println("This enemy need to move east by " + xDifference + " spaces to reach the player");
             if (xDifference > 0)
                 return GameConfig.EAST_KEY;
             else
@@ -39,7 +40,6 @@ public class Enemy extends ActiveEntity {
         
         else if (thisYPos != playerYPos) {
             int yDifference = playerYPos - thisYPos;
-            // System.out.println("This enemy need to move south by " + yDifference + " spaces to reach the player");
             if (yDifference > 0)
                 return GameConfig.SOUTH_KEY;
             else
@@ -49,7 +49,6 @@ public class Enemy extends ActiveEntity {
         // in case it needs to move east/west but roll < 0.5 and did not move north/south
         else if (thisXPos != playerXPos) {
             int xDifference = playerXPos - thisXPos; 
-            // System.out.println("This enemy need to move east by " + xDifference + " spaces to reach the player");
             if (xDifference > 0)
                 return GameConfig.EAST_KEY;
             else

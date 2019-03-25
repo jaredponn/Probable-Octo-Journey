@@ -2,9 +2,9 @@
  * A sub-class of entity that will give the player health when
  * the player moves into the same position.
  * @author Alex
- * @version 1.0
+ * @version 2.0
  */
-public class PickUp extends Entity {
+public abstract class PickUp extends Entity {
     
     private int pickupAmount;
     
@@ -16,7 +16,7 @@ public class PickUp extends Entity {
     public PickUp( int amount , int defIndex ) {
         super( defIndex );
         this.pickupAmount = amount;
-        setDisplayChar("$ ");
+        setDisplayChar("X ");
     }
     
     /**
@@ -27,10 +27,16 @@ public class PickUp extends Entity {
      * @param defIndex: the index of this entity in the worlds entities ArrayList
      */
     public PickUp( int amount , int defX , int defY , int defIndex ) {
-        super( defX , defY , defIndex );
-        this.pickupAmount = amount;
-        setDisplayChar("$ ");
+        this(amount , new Position(defX,defY) , defIndex );
     }
+    
+    public PickUp( int amount , Position pos , int defIndex ) {
+        super( pos , defIndex );
+        this.pickupAmount = amount;
+        setDisplayChar("X ");
+    }
+    
+    public abstract void collect(Player player);
     
     ///// Getters /////
     public int getAmount() {

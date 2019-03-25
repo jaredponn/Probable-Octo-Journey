@@ -1,5 +1,7 @@
 package TileMap;
 
+import java.awt.image.*;
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -13,9 +15,7 @@ import Components.WorldAttributes;
 import Resources.GameResources;
 
 import poj.Logger.Logger;
-import poj.Render.ImageRenderObject;
-import poj.Render.ImageWindow;
-import poj.Render.Renderer;
+import poj.Render.*;
 import poj.linear.Vector2f;
 
 public class Map
@@ -306,37 +306,235 @@ public class Map
 						}
 						// here will pick the tile image
 						// and render it
-						mapLayers
-							.get(mapLayers.size()
-							     - 1)
-							.getComponents()
-							.addComponentAt(
-								Render.class,
-								new Render(
-									new ImageRenderObject(
-										(i
-										 % tileWidth)
-											* tileWidth,
-										//+
-										// xShiftValue,
-										//(numRows
-										//- 1) *
-										// tileHeight,
-										(numRows
-										 - 1) * tileHeight
-											/ 4,
-										/// 8,
-										GameResources
-											.officialTileSet,
-										tilesRenderPart
-											.get(Integer.parseInt(
-												tempList[i]))),
-									new Vector2f(
-										-(float)tileWidth
-											/ 2f, // TODO also awful someone please figure out whty this does this.
-										-(float)tileHeight // TODO This is awful -- this is the translation needed to render the tiles so they line up with where the world coordinates are
-											/ 2f)),
-								nextFreeIndex);
+
+						boolean isSpecialTile = false;
+						BufferedImage imagePath =
+							GameResources.tree1;
+						float specialWidth =
+							      -(float)tileWidth,
+						      specialHeight = -(
+							      float)tileHeight;
+						if (Integer.parseInt(
+							    tempList[i])
+						    == 576) {
+							// first tree
+							isSpecialTile = true;
+							imagePath =
+								GameResources
+									.tree1;
+							specialWidth =
+								specialWidth
+								/ 2f;
+							specialHeight =
+								specialHeight
+									* 2f
+								+ 20f;
+
+						} else if (Integer.parseInt(
+								   tempList[i])
+							   == 577) {
+							// second tree
+							isSpecialTile = true;
+							imagePath =
+								GameResources
+									.tree2;
+							specialWidth =
+								specialWidth
+								/ 2f;
+							specialHeight =
+								specialHeight
+									* 3f
+								+ 20f;
+						} else if (Integer.parseInt(
+								   tempList[i])
+							   == 578) {
+							// third tree
+							isSpecialTile = true;
+							imagePath =
+								GameResources
+									.tree3;
+							specialWidth =
+								specialWidth
+								/ 2f;
+							specialHeight =
+								specialHeight
+									* 2f
+								+ 20f;
+						} else if (Integer.parseInt(
+								   tempList[i])
+							   == 579) {
+							// fourth tree
+							isSpecialTile = true;
+							imagePath =
+								GameResources
+									.tree4;
+							specialWidth =
+								specialWidth
+								/ 2f;
+							specialHeight =
+								specialHeight
+									* 3f
+								+ 20f;
+						}
+
+						else if (Integer.parseInt(
+								 tempList[i])
+							 == 580) {
+							// fifth tree
+							isSpecialTile = true;
+							imagePath =
+								GameResources
+									.tree5;
+							specialWidth =
+								specialWidth
+								/ 2f;
+							specialHeight =
+								specialHeight
+									* 2f
+								- 20f;
+						}
+
+						else if (Integer.parseInt(
+								 tempList[i])
+							 == 674) {
+							// first pole
+							isSpecialTile = true;
+							imagePath =
+								GameResources
+									.pole1;
+							specialWidth =
+								specialWidth
+								/ 2f;
+							specialHeight =
+								specialHeight
+									* 3f
+								- 20f;
+						}
+
+						else if (Integer.parseInt(
+								 tempList[i])
+							 == 675) {
+							// second pole
+							isSpecialTile = true;
+							imagePath =
+								GameResources
+									.pole2;
+							specialWidth =
+								specialWidth
+								/ 2f;
+							specialHeight =
+								specialHeight
+									* 3f
+								- 30f;
+						}
+
+						else if (Integer.parseInt(
+								 tempList[i])
+							 == 676) {
+							// third pole
+							isSpecialTile = true;
+
+							imagePath =
+								GameResources
+									.pole3;
+							specialWidth =
+								specialWidth
+									/ 2f
+								- 10f;
+							specialHeight =
+								specialHeight
+									* 3f
+								- 30f;
+						}
+
+						else if (Integer.parseInt(
+								 tempList[i])
+							 == 677) {
+							// fourth pole
+							isSpecialTile = true;
+							imagePath =
+								GameResources
+									.pole4;
+							specialWidth =
+								specialWidth
+								/ 2f;
+							specialHeight =
+								specialHeight
+									* 3f
+								- 20f;
+						}
+
+						else if (Integer.parseInt(
+								 tempList[i])
+							 == 686) {
+							// stop sign
+							isSpecialTile = true;
+							imagePath =
+								GameResources
+									.stopSign;
+							specialWidth /= 2f;
+							specialHeight =
+								specialHeight
+									* 2f
+								+ 20f;
+						}
+
+						// check if it is special tile
+						// (for the trees and poles and
+						// stop sign)
+						if (isSpecialTile) {
+							mapLayers
+								.get(mapLayers
+									     .size()
+								     - 1)
+								.getComponents()
+								.addComponentAt(
+									Render.class
+									,
+									new Render(
+										new ImageRenderObject(
+											0,
+											0,
+											imagePath),
+										new Vector2f(
+											specialWidth,
+											specialHeight)),
+									nextFreeIndex);
+						} else {
+							mapLayers
+								.get(mapLayers
+									     .size()
+								     - 1)
+								.getComponents()
+								.addComponentAt(
+									Render.class
+									,
+									new Render(
+										new ImageRenderObject(
+											(i
+											 % tileWidth)
+												* tileWidth,
+											//+
+											// xShiftValue,
+											//(numRows
+											//- 1) *
+											// tileHeight,
+											(numRows
+											 - 1) * tileHeight
+												/ 4,
+											/// 8,
+											GameResources
+												.officialTileSet,
+											tilesRenderPart
+												.get(Integer.parseInt(
+													tempList[i]))),
+										new Vector2f(
+											-(float)tileWidth
+												/ 2f, // TODO also awful someone please figure out whty this does this.
+											-(float)tileHeight // TODO This is awful -- this is the translation needed to render the tiles so they line up with where the world coordinates are
+												/ 2f)),
+									nextFreeIndex);
+						}
 					}
 				}
 			}
@@ -447,6 +645,7 @@ public class Map
 						   cbwc.pureAdd(0, 1),
 						   cbwc.pureAdd(1, 1))));
 
+		/*
 		// setting the tile cord of these tiles
 		for (int i = 48; i <= 99; ++i) {
 			wallState.set(i, true);
@@ -460,6 +659,7 @@ public class Map
 		for (int i = 176; i <= 203; ++i) {
 			wallState.set(i, true);
 		}
+		*/
 	}
 
 

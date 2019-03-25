@@ -231,4 +231,14 @@ public class Systems
 		e.deleteAllComponentsAt(i);
 		e.markIndexAsFree(i);
 	}
+
+	public static void damageIfPCollisionBodyIsCollidingWithSetPHitBoxBody(
+		PCollisionBody pbody, PHitBox phbody, HitPoints hp, int amount)
+	{
+		GJK gjk = new GJK();
+
+		if (gjk.areColliding(pbody.getPolygon(), phbody.getPolygon())) {
+			hp.hurt(amount);
+		}
+	}
 }

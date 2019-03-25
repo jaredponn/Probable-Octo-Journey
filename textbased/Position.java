@@ -1,7 +1,7 @@
 /**
  * A basic vector for storing x and y coordinates
  * @author Alex
- * @version 1.0
+ * @version 2.0
  */
 public class Position {
     
@@ -34,6 +34,14 @@ public class Position {
     
     public int getYPos() {
         return this.yPos;
+    }
+    
+    public String toString() {
+        return "X: " + this.xPos + " | Y: " + this.yPos;
+    }
+    
+    public void print() {
+        System.out.println(this.toString());
     }
     
     ///// Setters /////

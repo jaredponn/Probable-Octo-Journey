@@ -4,15 +4,14 @@ import poj.EngineState;
 import poj.Logger.Logger;
 
 import Components.*;
-import EntitySets.*;
 import Resources.GameConfig;
 
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.Optional;
 
-public class ZombieOutOfHPEvent extends PlayGameEvent
+
+public class MobOutOfHPEvent extends FocusedPlayGameEvent
 {
-
-	private int focus;
-
 
 	/**
 	 * Constructor
@@ -20,10 +19,9 @@ public class ZombieOutOfHPEvent extends PlayGameEvent
 	 * @param e: zombie entity that is out of HP
 	 */
 
-	public ZombieOutOfHPEvent(PlayGame g, int e)
+	public MobOutOfHPEvent(PlayGame g)
 	{
 		super(g);
-		this.focus = e;
 	}
 
 	public void f()
@@ -42,6 +40,16 @@ public class ZombieOutOfHPEvent extends PlayGameEvent
 
 		MovementDirection mv = engineState.unsafeGetComponentAt(
 			MovementDirection.class, focus);
+
+
+		final Optional<PHitBox> mobBodyOptional =
+			engineState.getComponentAt(PHitBox.class, focus);
+
+		if (!mobBodyOptional.isPresent())
+			return;
+
+		final PHitBox mobBody = mobBodyOptional.get();
+
 
 		// deletes everything but the  render, animation, and
 		// worldattributes components so we can show the death animation
@@ -71,5 +79,30 @@ public class ZombieOutOfHPEvent extends PlayGameEvent
 		engineState.unsafeGetComponentAt(HasAnimation.class, focus)
 			.setAnimation(AnimationGetter.queryEnemySprite(
 				mv.getDirection(), 30));
+
+		gameState.killCount++;
+		if (gameState.killCount >= gameState.mobsSpawned)
+			gameState.lastWaveDefeatedAt = gameState.getPlayTime();
+		int dropRoll = ThreadLocalRandom.current().nextInt(0, 99) + 1;
+		if (dropRoll >= (100 - GameConfig.MOB_DROP_RATE)) {
+			int dropType =
+				ThreadLocalRandom.current().nextInt(0, 4);
+			if (dropType == 0)
+				gameState.cashSpawner(false,
+						      mobBody.getCenter().x,
+						      mobBody.getCenter().y);
+			else if (dropType == 1)
+				gameState.powerUpSpawner(false,
+							 mobBody.getCenter().x,
+							 mobBody.getCenter().y);
+			else if (dropType == 2)
+				gameState.ammoPackSpawner(
+					false, mobBody.getCenter().x,
+					mobBody.getCenter().y);
+			else
+				gameState.healthPackSpawner(
+					false, mobBody.getCenter().x,
+					mobBody.getCenter().y);
+		}
 	}
 }

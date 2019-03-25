@@ -2,6 +2,7 @@ package Game;
 
 import java.math.*;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 import Components.*;
 import EntitySets.*;
@@ -134,14 +135,6 @@ public class CombatFunctions
 				removeBullet(mainState, bullet);
 
 
-				if (mainState
-					    .unsafeGetComponentAt(
-						    HitPoints.class, i)
-					    .getHP()
-				    <= 0)
-					g.pushEventToEventHandler(
-						new ZombieOutOfHPEvent(g, i));
-
 				return; // If it does hit something, it should
 					// just delete the bullet (as seen here)
 					// and just exit and not check if is
@@ -263,7 +256,6 @@ public class CombatFunctions
 		}
 	}
 
-
 	/**
 	 * Handler for mobs hitting a turret
 	 * @param engineState: the main game state
@@ -372,7 +364,7 @@ public class CombatFunctions
 			if (currentTarget > 0
 			    && Vector2f.scalarValueOfVector(
 				       unitVecturretPosTomob1Delta)
-				       < 20)
+				       < 15)
 				shootTurret(engineState, turret, currentTarget);
 		}
 	}
