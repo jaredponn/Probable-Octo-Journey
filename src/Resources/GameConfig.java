@@ -68,6 +68,63 @@ public class GameConfig
 				   new Vector2f(0.4f, 0),
 				   new Vector2f(0.4f, 0.6f));
 
+	public static final PCollisionBody PLAYER_MELEE_NE_ATK_BODY =
+		new PCollisionBody(new Vector2f(0f, 0.25f),  // displacement
+				   new Vector2f(0.5f, 0.5f), // center
+							     // collision body:
+				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
+				   new Vector2f(0.6f, 0),
+				   new Vector2f(0.6f, 0.6f));
+
+
+	public static final PCollisionBody PLAYER_MELEE_E_ATK_BODY =
+		new PCollisionBody(new Vector2f(0.25f, 0.25f), // displacement
+				   new Vector2f(0.5f, 0.5f),   // center
+							     // collision body:
+				   new Vector2f(0, 0), new Vector2f(0.6f, 0),
+				   new Vector2f(0, 0.4f),
+				   new Vector2f(0.6f, 0.4f));
+
+	public static final PCollisionBody PLAYER_MELEE_SE_ATK_BODY =
+		new PCollisionBody(new Vector2f(0.1f, 0f),   // displacement
+				   new Vector2f(0.5f, 0.5f), // center
+							     // collision body:
+				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
+				   new Vector2f(0.6f, 0),
+				   new Vector2f(0.6f, 0.6f));
+
+	public static final PCollisionBody PLAYER_MELEE_S_ATK_BODY =
+		new PCollisionBody(new Vector2f(0, 0.25f),    // displacement
+				   new Vector2f(0.5f, -0.5f), // center
+							      // collision body:
+				   new Vector2f(0, 0), new Vector2f(0, -0.6f),
+				   new Vector2f(0.4f, 0),
+				   new Vector2f(0.4f, -0.6f));
+
+	public static final PCollisionBody PLAYER_MELEE_SW_ATK_BODY =
+		new PCollisionBody(new Vector2f(-0.25f, -0.1f), // displacement
+				   new Vector2f(0.5f, 0.5f),    // center
+							     // collision body:
+				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
+				   new Vector2f(0.6f, 0),
+				   new Vector2f(0.6f, 0.6f));
+
+	public static final PCollisionBody PLAYER_MELEE_W_ATK_BODY =
+		new PCollisionBody(new Vector2f(0.25f, 0.25f), // displacement
+				   new Vector2f(0.5f, 0.5f),   // center
+							     // collision body:
+				   new Vector2f(0, 0), new Vector2f(-0.6f, 0),
+				   new Vector2f(0, 0.4f),
+				   new Vector2f(-0.6f, 0.4f));
+
+	public static final PCollisionBody PLAYER_MELEE_NW_ATK_BODY =
+		new PCollisionBody(new Vector2f(-0.25f, 0.25f), // displacement
+				   new Vector2f(0.5f, 0.5f),    // center
+							     // collision body:
+				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
+				   new Vector2f(0.6f, 0),
+				   new Vector2f(0.6f, 0.6f));
+
 
 	/////////////////////////
 	///// turret config /////

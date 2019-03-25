@@ -34,8 +34,7 @@ import poj.linear.Vector2f;
 
 public class AttackCycleHandlers
 {
-	public static void
-	runAttackCyclers(PlayGame playGame)
+	public static void runAttackCyclers(PlayGame playGame)
 	{
 		EngineState engineState = playGame.getEngineState();
 
@@ -130,8 +129,8 @@ public class AttackCycleHandlers
 
 		HasAnimation animation = animationOpt.get();
 
-		animation.setAnimation(
-			AnimationGetter.queryEnemySprite(d, animationFlag));
+		animation.setAnimation(AnimationGetter.queryAnimationSprite(
+			c, d, animationFlag));
 
 		mOpt.get().setVelocity(new Vector2f(0, 0));
 	}

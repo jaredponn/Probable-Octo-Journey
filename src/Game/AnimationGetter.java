@@ -120,6 +120,8 @@ public class AnimationGetter
 		// flag = 1, gun move direction
 		// flag = 2, melee attack idle
 		// flag = 3, melee attack move
+
+		// flag = 10, melee attack
 		switch (dir) {
 		case N:
 			if (flag == 0) {
@@ -130,6 +132,9 @@ public class AnimationGetter
 				return GameResources.playerNMeleeIdleAnimation;
 			} else if (flag == 3) {
 				return GameResources.playerNMeleeMoveAnimation;
+			} else if (flag == 10) {
+
+				return GameResources.playerNMeleeAttack;
 			}
 		case NE:
 			if (flag == 0) {
@@ -140,6 +145,9 @@ public class AnimationGetter
 				return GameResources.playerNEMeleeIdleAnimation;
 			} else if (flag == 3) {
 				return GameResources.playerNEMeleeMoveAnimation;
+
+			} else if (flag == 10) {
+				return GameResources.playerNEMeleeAttack;
 			}
 		case NW:
 			if (flag == 0) {
@@ -150,6 +158,8 @@ public class AnimationGetter
 				return GameResources.playerNWMeleeIdleAnimation;
 			} else if (flag == 3) {
 				return GameResources.playerNWMeleeMoveAnimation;
+			} else if (flag == 10) {
+				return GameResources.playerNWMeleeAttack;
 			}
 		case S:
 			if (flag == 0) {
@@ -160,6 +170,8 @@ public class AnimationGetter
 				return GameResources.playerSMeleeIdleAnimation;
 			} else if (flag == 3) {
 				return GameResources.playerSMeleeMoveAnimation;
+			} else if (flag == 10) {
+				return GameResources.playerSMeleeAttack;
 			}
 		case SE:
 			if (flag == 0) {
@@ -170,6 +182,8 @@ public class AnimationGetter
 				return GameResources.playerSEMeleeIdleAnimation;
 			} else if (flag == 3) {
 				return GameResources.playerSEMeleeMoveAnimation;
+			} else if (flag == 10) {
+				return GameResources.playerSEMeleeAttack;
 			}
 		case SW:
 			if (flag == 0) {
@@ -180,6 +194,8 @@ public class AnimationGetter
 				return GameResources.playerSWMeleeIdleAnimation;
 			} else if (flag == 3) {
 				return GameResources.playerSWMeleeMoveAnimation;
+			} else if (flag == 10) {
+				return GameResources.playerSWMeleeAttack;
 			}
 		case W:
 			if (flag == 0) {
@@ -191,6 +207,8 @@ public class AnimationGetter
 				return GameResources.playerWMeleeIdleAnimation;
 			} else if (flag == 3) {
 				return GameResources.playerWMeleeMoveAnimation;
+			} else if (flag == 10) {
+				return GameResources.playerWMeleeAttack;
 			}
 		case E:
 			if (flag == 0) {
@@ -201,6 +219,8 @@ public class AnimationGetter
 				return GameResources.playerEMeleeIdleAnimation;
 			} else if (flag == 3) {
 				return GameResources.playerEMeleeMoveAnimation;
+			} else if (flag == 10) {
+				return GameResources.playerEMeleeAttack;
 			}
 		default:
 			return GameResources.playerNGunIdleAnimation;

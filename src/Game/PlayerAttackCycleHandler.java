@@ -4,6 +4,8 @@ package Game;
 import Components.*;
 import EntitySets.*;
 import Resources.GameConfig;
+import Resources.GameResources;
+
 import java.awt.Color;
 
 import poj.EngineState;
@@ -61,7 +63,7 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 								player));
 
 				AttackCycleHandlers.meleeAttackPrimerHandler(
-					engineState, focus, MobSet.class, 10,
+					engineState, focus, PlayerSet.class, 10,
 					d);
 
 				break;
@@ -107,15 +109,18 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 			case Gun:
 
 				if (super.getPlayGame().playerAmmo > 0) {
-					
-					// set animation to face in correct direction
+
+					// set animation to face in correct
+					// direction
 					engineState
 						.unsafeGetComponentAt(
-								HasAnimation.class, player)
+							HasAnimation.class,
+							player)
 						.setAnimation(
-								AnimationGetter.queryPlayerSprite(
-									closestDirToMouse, 0));
-					
+							AnimationGetter.queryPlayerSprite(
+								closestDirToMouse,
+								0));
+
 					// generate bullet
 					int e = engineState.spawnEntitySet(
 						new Bullet(playerPosition));
@@ -151,8 +156,9 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 			case Melee:
 				// Spawn the hitbox in the correct location and
 				// check against all enemies
-				PCollisionBody patk = new PCollisionBody(
-					GameConfig.PLAYER_MELEE_N_ATK_BODY);
+				PCollisionBody patk =
+					new PCollisionBody(queryMeleeAttackBody(
+						closestDirToMouse));
 
 				Systems.updatePCollisionBodyPositionFromWorldAttr(
 					patk,
@@ -185,6 +191,31 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 		}
 		public void f()
 		{
+		}
+	}
+
+	private PCollisionBody queryMeleeAttackBody(CardinalDirections d)
+	{
+
+		switch (d) {
+		case N:
+			return GameConfig.PLAYER_MELEE_N_ATK_BODY;
+		case NE:
+			return GameConfig.PLAYER_MELEE_NE_ATK_BODY;
+		case NW:
+			return GameConfig.PLAYER_MELEE_NW_ATK_BODY;
+		case S:
+			return GameConfig.PLAYER_MELEE_S_ATK_BODY;
+		case SE:
+			return GameConfig.PLAYER_MELEE_SE_ATK_BODY;
+		case SW:
+			return GameConfig.PLAYER_MELEE_SW_ATK_BODY;
+		case W:
+			return GameConfig.PLAYER_MELEE_W_ATK_BODY;
+		case E:
+			return GameConfig.PLAYER_MELEE_E_ATK_BODY;
+		default:
+			return GameConfig.PLAYER_MELEE_E_ATK_BODY;
 		}
 	}
 
