@@ -225,6 +225,8 @@ public class Map
 							// NOT on 0th layer
 							if (mapLayers.size()
 							    > 1) {
+								// marking the
+								// tile as wall
 								mapLayers.get(0)
 									.unsafeGetComponentAt(
 										PathFindCord
@@ -234,6 +236,18 @@ public class Map
 											tempList[i]))
 									.setIsWall(
 										true);
+								// set the
+								// diffusion
+								// value to 0
+								mapLayers.get(0)
+									.unsafeGetComponentAt(
+										PathFindCord
+											.class
+										,
+										Integer.parseInt(
+											tempList[i]))
+									.setDiffusionValue(
+										0f);
 							}
 							// on 0th layer
 							else {
@@ -258,49 +272,12 @@ public class Map
 							Vector2f cbwc = new Vector2f(
 								numRows - 1,
 								i % mapWidth);
-							/*
-							mapLayers
-								.get(mapLayers
-									     .size()
-								     - 1)
-								.addComponentAt(
-									PhysicsPCollisionBody
-										.class
-									,
-									new
-							PhysicsPCollisionBody(
-										new Vector2f(
-											0f,
-											0f),
-										cbwc.pureAdd(
-											0.5f,
-											0.5f), // center
-										cbwc,
-										cbwc.pureAdd(
-											0.25f,
-											0.8f),
-										cbwc.pureAdd(
-											0.9f,
-											1.0f),
-										cbwc.pureAdd(
-											0.5f,
-											1.0f)),
-									nextFreeIndex);
-									*/
-
-							System.out.println(
-								"the thing inside hitbox: ");
 
 							wallHitBox
 								.get(Integer.parseInt(
 									tempList[i]))
 								.setPositionPoint(
 									cbwc);
-
-							wallHitBox
-								.get(Integer.parseInt(
-									tempList[i]))
-								.print();
 
 							mapLayers
 								.get(mapLayers
