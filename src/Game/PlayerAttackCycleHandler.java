@@ -108,18 +108,19 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 			switch (playerCurWPState) {
 			case Gun:
 
-				if (super.getPlayGame().playerAmmo > 0) {
 
-					// set animation to face in correct
-					// direction
-					engineState
-						.unsafeGetComponentAt(
-							HasAnimation.class,
-							player)
-						.setAnimation(
-							AnimationGetter.queryPlayerSprite(
-								closestDirToMouse,
-								0));
+				// set animation to face in correct
+				// direction
+				engineState
+					.unsafeGetComponentAt(
+						HasAnimation.class, player)
+					.setAnimation(
+						AnimationGetter.queryPlayerSprite(
+							closestDirToMouse, 0));
+
+				if (super.getPlayGame().playerAmmo > 0) {
+					GameResources.gunSound.play();
+
 
 					// generate bullet
 					int e = engineState.spawnEntitySet(
@@ -151,7 +152,10 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 								bulletSpeed));
 
 					super.getPlayGame().playerAmmo -= 1;
+				} else {
+					GameResources.emptyClipSound.play();
 				}
+
 				break;
 			case Melee:
 				// Spawn the hitbox in the correct location and
