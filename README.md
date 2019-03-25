@@ -119,6 +119,10 @@ Menu selection sound: https://opengameart.org/content/menu-selection-click
 Game background sound: https://opengameart.org/content/rpg-title-screen-music-pack, used Salvatore Maccarrone - RPG Title Screen Music Pack - 15 Overworld.wav 
 
 Health pickup sound: https://opengameart.org/content/life-pickup-yo-frankie
+
+Alert sound: https://opengameart.org/content/tx-alert
+
+Player drop HP sound: https://opengameart.org/content/15-vocal-male-strainhurtpainjump-sounds
 # Credits
 Tileset: https://opengameart.org/content/cave-tileset
 
