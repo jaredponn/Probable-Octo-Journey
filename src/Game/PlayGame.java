@@ -103,23 +103,19 @@ public class PlayGame extends World
 	protected StringRenderObject ammoDisplay =
 		new StringRenderObject("", 5, 40, Color.WHITE);
 	protected StringRenderObject killDisplay =
-			new StringRenderObject("", 5, 50, Color.WHITE);
+		new StringRenderObject("", 5, 50, Color.WHITE);
 	protected StringRenderObject mobCountDisplay =
-			new StringRenderObject("", 5, 60, Color.WHITE);
+		new StringRenderObject("", 5, 60, Color.WHITE);
 
 
 	// Collision detection and resolution
 	protected GJK gjk;
 
 	protected MapGeneration generateDiffusionMap;
-	protected Sound gunSound, zombieDeathSound, emptyClipSound;
 	public PlayGame() throws UnsupportedAudioFileException, IOException,
 				 LineUnavailableException
 	{
 		super();
-		gunSound = new Sound(GameResources.gunSound);
-		zombieDeathSound = new Sound(GameResources.zombieDeathSound);
-		emptyClipSound = new Sound(GameResources.emptyClipSound);
 
 		gjk = new GJK();
 		gjk.clearVerticies();
@@ -260,8 +256,6 @@ public class PlayGame extends World
 	// step. Time is all in milliseconds
 	public void runGame()
 	{
-		System.out.println("gun sound status = "
-				   + gunSound.getIsPlaying());
 		// if (!gunSound.getClip().isActive()) {
 		// gunSound.play();
 		// System.out.println("stoped plasying!!");
@@ -568,17 +562,18 @@ public class PlayGame extends World
 	{
 		this.ammoDisplay.setStr("Your Ammo: " + this.playerAmmo);
 	}
-	
+
 	/** update killDisplay */
 	protected void updateKillDisplay()
 	{
 		this.killDisplay.setStr("Your kills: " + this.killCount);
 	}
-	
+
 	/** update mobCountDisplay */
 	protected void updateMobCountDisplay()
 	{
-		this.mobCountDisplay.setStr("Total Zombies spawned: " + this.mobsSpawned);
+		this.mobCountDisplay.setStr("Total Zombies spawned: "
+					    + this.mobsSpawned);
 	}
 
 	/**
@@ -589,7 +584,8 @@ public class PlayGame extends World
 	{
 		double currentPlayTime = this.getPlayTime();
 		if (currentPlayTime - this.timeOfLastMobSpawn
-		    >= GameConfig.MOB_SPAWN_TIMER || killCount >= mobsSpawned) {
+			    >= GameConfig.MOB_SPAWN_TIMER
+		    || killCount >= mobsSpawned) {
 			this.timeOfLastMobSpawn = currentPlayTime;
 			System.out.println("New zombies arrived at T+"
 					   + currentPlayTime + " seconds!");

@@ -8,15 +8,26 @@ package Game;
 
 import java.awt.Color;
 
-import Components.*;
-import EntitySets.*;
+import Components.AttackCycle;
+import Components.CardinalDirections;
+import Components.HasAnimation;
+import Components.Movement;
+import Components.MovementDirection;
+import Components.PCollisionBody;
+import Components.PHitBox;
+import Components.PhysicsPCollisionBody;
+import Components.WorldAttributes;
+import EntitySets.Bullet;
+import EntitySets.MobSet;
+import EntitySets.PlayerSet;
+import EntitySets.TurretSet;
 import Resources.GameConfig;
+import Resources.GameResources;
 
 import poj.EngineState;
+import poj.Collisions.GJK;
 import poj.GameWindow.InputPoller;
 import poj.linear.Vector2f;
-import poj.Animation;
-import poj.Collisions.*;
 
 public class AttackCycleHandlers
 {
@@ -188,7 +199,7 @@ public class AttackCycleHandlers
 				// update animation and
 				// play sound based on the availability
 				// of the ammo!!
-				playGame.gunSound.play();
+				GameResources.gunSound.play();
 
 				engineState
 					.unsafeGetComponentAt(

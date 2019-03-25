@@ -1,8 +1,14 @@
 package Resources;
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
-import poj.Render.ImageLoader;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import Components.Sound;
+
 import poj.Animation;
+import poj.Render.ImageLoader;
 import poj.Render.ImageWindow;
 
 public class GameResources
@@ -61,13 +67,39 @@ public class GameResources
 		"resources/RamiroGraphics/officialMap/pole4.png");
 	public static BufferedImage stopSign = ImageLoader.load(
 		"resources/RamiroGraphics/officialMap/stopSign.png");
-
 	// sounds
-	public static String gunSound = "resources/sounds/gunSound.wav",
-			     zombieDeathSound =
+	public static String gunSoundPath = "resources/sounds/gunSound.wav",
+			     zombieDeathSoundPath =
 				     "resources/sounds/zombieDeathSound.wav",
-			     emptyClipSound =
-				     "resources/sounds/emptyClipSound.wav";
+			     emptyClipSoundPath =
+				     "resources/sounds/emptyClipSound.wav",
+			     menuSoundPath = "resources/sounds/menuSound.wav",
+			     gameBgSoundPath =
+				     "resources/sounds/gameBgMusic.wav";
+	public static Sound gunSound, zombieDeathSound, emptyClipSound,
+		menuSound, gameBgSound;
+
+	static
+	{
+		try {
+			gunSound = new Sound(GameResources.gunSoundPath);
+			zombieDeathSound =
+				new Sound(GameResources.zombieDeathSoundPath);
+			emptyClipSound =
+				new Sound(GameResources.emptyClipSoundPath);
+			menuSound = new Sound(GameResources.menuSoundPath);
+			gameBgSound = new Sound(GameResources.gameBgSoundPath);
+
+		} catch (UnsupportedAudioFileException e) {
+			System.out.println(
+				"UnsupportedAudioFileException has occured..");
+		} catch (IOException a) {
+			System.out.println("IOException has occured..");
+		} catch (LineUnavailableException b) {
+			System.out.println(
+				"LineUnavailableException has occured..");
+		}
+	}
 
 
 	public static BufferedImage testTile =

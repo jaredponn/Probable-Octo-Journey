@@ -1,11 +1,15 @@
 package Game;
 
+import Components.DespawnTimer;
+import Components.HasAnimation;
+import Components.MovementDirection;
+import Components.Render;
+import Components.WorldAttributes;
+import Resources.GameConfig;
+import Resources.GameResources;
+
 import poj.EngineState;
 import poj.Logger.Logger;
-
-import Components.*;
-import EntitySets.*;
-import Resources.GameConfig;
 
 
 public class ZombieOutOfHPEvent extends PlayGameEvent
@@ -57,6 +61,9 @@ public class ZombieOutOfHPEvent extends PlayGameEvent
 			engineState.printAllComponentsAt(focus);
 			return;
 		}
+
+		// play death sound
+		GameResources.zombieDeathSound.play();
 		engineState.addComponentAt(
 			DespawnTimer.class,
 			new DespawnTimer(GameConfig.MOB_DESPAWN_TIMER), focus);

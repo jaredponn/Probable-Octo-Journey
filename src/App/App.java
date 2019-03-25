@@ -1,23 +1,25 @@
 package App;
 
+import java.io.IOException;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import Game.Menu;
+import Game.PlayGame;
+import Resources.GameConfig;
+import Resources.GameResources;
+
 /**
  * App. Application running loop
  * Date: February 10, 2019
  * @author Jared
  * @version 1.0
  */
-
-import poj.GameWindow.*;
-import poj.Render.*;
-import Game.PlayGame;
-import Game.Menu;
-import Resources.GameConfig;
-
-import java.awt.*;
-
-import java.io.IOException;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import poj.GameWindow.GameCanvas;
+import poj.GameWindow.GameWindow;
+import poj.GameWindow.InputPoller;
+import poj.Render.Renderer;
 
 public class App
 {
@@ -97,10 +99,22 @@ public class App
 		Menu menu = new Menu(width, height, this.renderer,
 				     this.inputPoller);
 
+		if (GameResources.menuSound == null) {
+			System.out.println("its null..");
+		}
+
+		// start playing menu music
+		GameResources.menuSound.playContinuously();
+
 		while (runMenu) {
 			menu.runGame();
 		}
 
+		// stop playing menu music
+		GameResources.menuSound.end();
+
+		// start playing game background music
+		GameResources.gameBgSound.playContinuously();
 		while (isRunning) {
 			playGame.runGameLoop();
 		}
