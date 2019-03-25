@@ -249,6 +249,23 @@ public class GameConfig
 			}
 		};
 
+	public static final PCollisionBody MOB_MELEE_N_ATK_BODY =
+		PLAYER_MELEE_N_ATK_BODY;
+	public static final PCollisionBody MOB_MELEE_NE_ATK_BODY =
+		PLAYER_MELEE_NE_ATK_BODY;
+	public static final PCollisionBody MOB_MELEE_E_ATK_BODY =
+		PLAYER_MELEE_E_ATK_BODY;
+	public static final PCollisionBody MOB_MELEE_SE_ATK_BODY =
+		PLAYER_MELEE_SE_ATK_BODY;
+	public static final PCollisionBody MOB_MELEE_S_ATK_BODY =
+		PLAYER_MELEE_S_ATK_BODY;
+	public static final PCollisionBody MOB_MELEE_SW_ATK_BODY =
+		PLAYER_MELEE_SW_ATK_BODY;
+	public static final PCollisionBody MOB_MELEE_W_ATK_BODY =
+		PLAYER_MELEE_W_ATK_BODY;
+	public static final PCollisionBody MOB_MELEE_NW_ATK_BODY =
+		PLAYER_MELEE_NW_ATK_BODY;
+
 
 	///////////////////////
 	///// menu config /////

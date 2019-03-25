@@ -55,7 +55,7 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 				engineState, focus, MobSet.class, 10,
 				d.getDirection());
 
-			mopt.get().setSpeed(0.001f);
+			mopt.get().setSpeed(0);
 		}
 	}
 
@@ -81,7 +81,7 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 			// Spawn the hitbox in the correct location and check
 			// against all enemies
 			PCollisionBody pmob = new PCollisionBody(
-				GameConfig.MOB_MELEE_ATTACK_BODY);
+				queryMeleeAttackBody(n.getDirection()));
 			Systems.updatePCollisionBodyPositionFromWorldAttr(
 				pmob, engineState.unsafeGetComponentAt(
 					      WorldAttributes.class, focus));
@@ -113,6 +113,31 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 
 		public void f()
 		{
+		}
+	}
+
+	private PCollisionBody queryMeleeAttackBody(CardinalDirections d)
+	{
+
+		switch (d) {
+		case N:
+			return GameConfig.MOB_MELEE_N_ATK_BODY;
+		case NE:
+			return GameConfig.MOB_MELEE_NE_ATK_BODY;
+		case NW:
+			return GameConfig.MOB_MELEE_NW_ATK_BODY;
+		case S:
+			return GameConfig.MOB_MELEE_S_ATK_BODY;
+		case SE:
+			return GameConfig.MOB_MELEE_SE_ATK_BODY;
+		case SW:
+			return GameConfig.MOB_MELEE_SW_ATK_BODY;
+		case W:
+			return GameConfig.MOB_MELEE_W_ATK_BODY;
+		case E:
+			return GameConfig.MOB_MELEE_E_ATK_BODY;
+		default:
+			return GameConfig.MOB_MELEE_E_ATK_BODY;
 		}
 	}
 

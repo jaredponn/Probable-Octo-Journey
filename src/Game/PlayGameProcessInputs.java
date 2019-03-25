@@ -188,7 +188,7 @@ public class PlayGameProcessInputs
 					.unsafeGetComponentAt(Movement.class,
 							      player)
 					.setSpeed(0);
-				// TODO idle direction!!!!!
+
 				engineState.unsafeGetComponentAt(
 					FacingDirection.class, player);
 			}
