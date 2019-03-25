@@ -173,14 +173,14 @@ public class CombatFunctions
 	}
 
 	/**
-	 * Handler for mobs touching the player
+	 * Generic Handler for mobs touching the player
 	 * @param engineState: the main game state
 	 * @param gjk: GJK needed to handle collisions
 	 * @param a: entity set to start the attack cycle if touching
 	 * @param b: entity set to check against
 	 */
 	public static void
-	startAttackCycleOfSetAIfPhysicsCollisionBodiesAreCollidingWithSetB(
+	startAttackCycleOfSetAIfAggroCollisionBodyAreCollidingWithSetBPHitBox(
 		EngineState engineState, GJK gjk, Class<? extends Component> a,
 		Class<? extends Component> b)
 	{
@@ -205,22 +205,27 @@ public class CombatFunctions
 					engineState.getComponentAt(
 						PhysicsPCollisionBody.class, j);
 
+				Optional<AttackCycle> atkcycleOpt =
+					engineState.getComponentAt(
+						AttackCycle.class, i);
+
 				if (!bbodyOptional.isPresent())
+					continue;
+
+				if (!atkcycleOpt.isPresent())
 					continue;
 
 				final PCollisionBody bbody =
 					bbodyOptional.get();
 
+				AttackCycle atkcycle = atkcycleOpt.get();
+
+
 				if (Systems.arePCollisionBodiesColliding(
-					    gjk, bbody, abody)) {
+					    gjk, bbody, abody)
+				    && !atkcycle.isAttacking()) {
 
-					Optional<AttackCycle> atkcycle =
-						engineState.getComponentAt(
-							AttackCycle.class, i);
-
-					if (atkcycle.isPresent())
-						atkcycle.get()
-							.startAttackCycle();
+					atkcycle.startAttackCycle();
 					break;
 				}
 			}
