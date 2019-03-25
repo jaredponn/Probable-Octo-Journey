@@ -139,7 +139,7 @@ public class GameOver extends World
 
 	public void processInputs()
 	{
-		if (inputPoller.isKeyDown(KeyEvent.VK_SPACE))
+		if (inputPoller.isKeyDown(KeyEvent.VK_ENTER))
 			quit();
 	}
 

@@ -274,6 +274,7 @@ public class PlayGame extends World
 		// System.out.println("stoped plasying!!");
 		//}
 
+		mobSpawner();
 		try {
 			generateDiffusionMap.setStart();
 		} catch (Exception ex) {
@@ -465,7 +466,7 @@ public class PlayGame extends World
 		pushTileMapLayerToQueue(map.getLayerEngineState(3),
 					entityBuffer);
 		pushTileMapLayerToQueue(map.getLayerEngineState(4),
-					buildingBuffer);
+					entityBuffer);
 
 
 		for (Render r :
