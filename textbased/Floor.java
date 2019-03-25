@@ -5,8 +5,8 @@
  */
 public class Floor extends Entity {
     
-    private Entity contents = GameConfig.NULL_ENTITY;
-    private Entity suppressedContents = GameConfig.NULL_ENTITY;
+    private Entity contents = null;
+    private Entity suppressedContents = null;
     private boolean hasContents = false;
     private boolean hasSupressedContents = false;
     
@@ -45,8 +45,13 @@ public class Floor extends Entity {
      * sets the hasContents flag to false
      */
     public void clearContents() {
-        this.contents = GameConfig.NULL_ENTITY;
-        this.hasContents = false;
+        if (this.hasSupressedContents){
+            this.unsuppressContents();
+        }
+        else {
+            this.contents = null;
+            this.hasContents = false;
+        }
     }
     
     /**
@@ -55,8 +60,8 @@ public class Floor extends Entity {
     public void suppressContents() {
         if (this.hasContents() ) {
             this.suppressedContents = this.contents;
-            this.hasSupressedContents = true;
             this.clearContents();
+            this.hasSupressedContents = true;
             
             if (this.suppressedContents instanceof ActiveEntity) {
                 System.out.println("Just suppressed an ActiveEntity! This should not be happening!");
@@ -70,7 +75,7 @@ public class Floor extends Entity {
     public void unsuppressContents() {
         if (this.hasSupressedContents) {
             setContents(this.suppressedContents);
-            this.suppressedContents = GameConfig.NULL_ENTITY;
+            this.suppressedContents = null;
             this.hasSupressedContents = false;
         }
     }

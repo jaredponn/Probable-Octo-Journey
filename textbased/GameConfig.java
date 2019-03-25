@@ -15,7 +15,7 @@ public class GameConfig {
     public static final int PLAYER_SPAWN_X = 1;
     public static final int PLAYER_SPAWN_Y = 1;
     public static final int PLAYER_HEALTH =  100;
-    public static final int PLAYER_STARTING_AMMO = 12;
+    public static final int PLAYER_STARTING_AMMO = 7;
     
     // Enemy config
     public static final int ENEMY_HEALTH  =  100;
@@ -40,7 +40,7 @@ public class GameConfig {
     public static final int HEALTH_PICKUP_SPAWN_TIMER = 15;
     public static final Position HEALTH_PICKUP_SPAWNER = new Position( 10 , 10 );
     
-    public static final int AMMO_PICKUP_AMOUNT = 12;
+    public static final int AMMO_PICKUP_AMOUNT = 5;
     public static final int AMMO_PICKUP_SPAWN_TIMER = 20;
     public static final Position AMMO_PICKUP_SPAWNER = new Position( 18 , 18 );
     

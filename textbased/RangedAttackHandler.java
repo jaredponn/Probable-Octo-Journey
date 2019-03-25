@@ -21,6 +21,10 @@ public class RangedAttackHandler {
                         Enemy enemy = (Enemy) contents;
                         enemy.hurt(GameConfig.BULLET_DAMAGE);
                         System.out.println("You shot an enemy for "+GameConfig.BULLET_DAMAGE+" damage.");
+                        if (enemy.getHealth() <= 0) {
+                            world.killEntityAtPosition(enemy.getPosition());
+                            System.out.println("Killed an enemy with a ranged attack");
+                        }
                         bulletHit = true;
                     }
                     else{
