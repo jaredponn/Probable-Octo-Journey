@@ -21,7 +21,8 @@ public class GameConfig
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
-	public static final int PLAYER_HP = 5;
+	public static final int PLAYER_HP = 100;
+	public static final int PLAYER_MAX_HP = 200;
 	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
 	public static final int TOWER_DIFFUSION_VALUE = (int)Math.pow(2, 5);
 	public static final float PLAYER_HEIGHT =
@@ -184,11 +185,11 @@ public class GameConfig
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final float MOB_WIDTH = GameResources.ENEMY_SPRITE_WIDTH
 					      / GameResources.TILE_SCREEN_WIDTH;
-	public static final int MOB_ATTACK_DAMAGE = 1;
+	public static final int MOB_ATTACK_DAMAGE = 10;
 
 	public static final int MOB_HP = 100;
 	// percent chance for a mob to drop cash on death
-	public static final int MOB_DROP_RATE = 25;
+	public static final int MOB_DROP_RATE = 33;
 
 	public static final AttackCycle MOB_ATTACK_CYCLE =
 		new AttackCycle(GameResources.animationDurationms * 8,
