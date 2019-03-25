@@ -81,6 +81,7 @@ public class PlayGame extends World
 	protected int cash = GameConfig.PLAYER_STARTING_CASH;
 	protected int killCount = 0;
 	protected int mobsSpawned = 0;
+	protected double lastWaveDefeatedAt = 0.0;
 
 	protected double timeOfLastMobSpawn = 0.0 - GameConfig.MOB_SPAWN_TIMER;
 	protected double timeOfLastCashSpawn =
@@ -571,16 +572,16 @@ public class PlayGame extends World
 	{
 		double currentPlayTime = this.getPlayTime();
 		if (currentPlayTime - this.timeOfLastMobSpawn
-		    >= GameConfig.MOB_SPAWN_TIMER && killCount >= mobsSpawned) {
+		    >= GameConfig.MOB_SPAWN_TIMER || killCount >= mobsSpawned) {
+			this.timeOfLastMobSpawn = currentPlayTime;
 			System.out.println("New zombies arrived at T+"
-					   + this.getPlayTime()+ " seconds!");
+					   + currentPlayTime + " seconds!");
 			for (int i = 0; i < GameConfig.MOB_SPAWN_POINTS.size();
 			     i++) {
 				engineState.spawnEntitySet(new MobSet(
 					GameConfig.MOB_SPAWN_POINTS.get(i)));
 				mobsSpawned++;
 			}
-			this.timeOfLastMobSpawn = currentPlayTime;
 		}
 		// TODO: make more mobs spawn over time
 	}
