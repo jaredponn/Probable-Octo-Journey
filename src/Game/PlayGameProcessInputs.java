@@ -302,6 +302,10 @@ public class PlayGameProcessInputs
 					System.out.println(
 						"Either is on cooldown or not enough money to buy more ammo");
 			}
+			
+			///// Quit Game /////
+			if (inputPoller.isKeyDown(GameConfig.QUIT_KEY))
+				g.quit();
 		}
 	}
 

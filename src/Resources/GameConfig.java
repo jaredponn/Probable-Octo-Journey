@@ -361,6 +361,7 @@ new Vector2f(1.2f, 0.5f), new Vector2f(0.5f, 1.25f));*/
 	public static final int BUILD_TOWER = KeyEvent.VK_Q;
 	public static final int BUILD_TRAP = KeyEvent.VK_E;
 	public static final int BUY_AMMO = KeyEvent.VK_B;
+	public static final int QUIT_KEY = KeyEvent.VK_ESCAPE;
 
 	// key, cooldown (ms)
 	public static final ArrayList<Pair<Integer, Double>> COOL_DOWN_KEYS =
