@@ -253,6 +253,13 @@ public class PlayGame extends World
 
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
+
+
+		for (int i = 0; i < GameConfig.MOB_SPAWN_POINTS.size(); i++) {
+			engineState.spawnEntitySet(
+				new MobSet(GameConfig.MOB_SPAWN_POINTS.get(i)));
+			mobsSpawned++;
+		}
 	}
 	public void clearWorld()
 	{
@@ -278,7 +285,7 @@ public class PlayGame extends World
 		this.processInputs();
 
 		// ASE
-		this.mobSpawner();
+
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 		this.handleTurrets();
