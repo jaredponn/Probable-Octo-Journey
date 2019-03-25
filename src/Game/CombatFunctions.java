@@ -97,10 +97,10 @@ public class CombatFunctions
 		EngineState mapState3 = g.getMap().getLayerEngineState(3);
 		EngineState mapState4 = g.getMap().getLayerEngineState(4);
 		// map layer 0: ???
-		//			 1: map edge
-		//			 2: cars
-		//			 3: park benches
-		//			 4: ???
+		//			 1: map edge and small rocks
+		//			 2: cars and buildings
+		//			 3: trees
+		//			 4: lights and signs
 		GJK gjk = g.getGJK();
 
 		final PhysicsPCollisionBody bulletBody =
