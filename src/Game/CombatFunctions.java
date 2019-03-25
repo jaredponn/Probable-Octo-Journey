@@ -142,6 +142,9 @@ public class CombatFunctions
 				    <= 0) {
 					g.pushEventToEventHandler(
 						new ZombieOutOfHPEvent(g, i));
+					g.killCount++;
+					if (g.killCount >= g.mobsSpawned)
+						g.lastWaveDefeatedAt = g.getPlayTime();
 					int dropRoll  = ThreadLocalRandom.current().nextInt(0, 99) + 1;
 					if (dropRoll >= (100 - GameConfig.MOB_DROP_RATE )) {
 						int dropType = ThreadLocalRandom.current().nextInt(0,4);
@@ -276,7 +279,6 @@ public class CombatFunctions
 			atkcycle.get().startAttackCycle();
 		}
 	}
-
 
 	/**
 	 * Handler for mobs hitting a turret

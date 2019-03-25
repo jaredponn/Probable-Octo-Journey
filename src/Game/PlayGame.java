@@ -14,6 +14,7 @@ package Game;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 import Components.*;
 import EntitySets.AmmoPack;
@@ -83,6 +84,9 @@ public class PlayGame extends World
 	protected double playerDamageBonus = 1d;
 	protected int playerAmmo = GameConfig.PLAYER_STARTING_AMMO;
 	protected int cash = GameConfig.PLAYER_STARTING_CASH;
+	protected int killCount = 0;
+	protected int mobsSpawned = 0;
+	protected double lastWaveDefeatedAt = 0.0;
 
 	protected double timeOfLastMobSpawn = 0.0 - GameConfig.MOB_SPAWN_TIMER;
 	protected double timeOfLastCashSpawn =
@@ -98,6 +102,10 @@ public class PlayGame extends World
 		new StringRenderObject("", 5, 30, Color.WHITE);
 	protected StringRenderObject ammoDisplay =
 		new StringRenderObject("", 5, 40, Color.WHITE);
+	protected StringRenderObject killDisplay =
+			new StringRenderObject("", 5, 50, Color.WHITE);
+	protected StringRenderObject mobCountDisplay =
+			new StringRenderObject("", 5, 60, Color.WHITE);
 
 
 	// Collision detection and resolution
@@ -316,6 +324,8 @@ public class PlayGame extends World
 		this.updateCashDisplay();
 		this.updateHealthDisplay();
 		this.updateAmmoDisplay();
+		this.updateKillDisplay();
+		this.updateMobCountDisplay();
 
 
 		// updating positions
@@ -460,6 +470,8 @@ public class PlayGame extends World
 		guiBuffer.add(this.cashDisplay);
 		guiBuffer.add(this.healthDisplay);
 		guiBuffer.add(this.ammoDisplay);
+		guiBuffer.add(this.killDisplay);
+		guiBuffer.add(this.mobCountDisplay);
 
 		super.renderer.renderBuffers(groundBuffer, entityBuffer,
 					     buildingBuffer, poleBuffer,
@@ -556,6 +568,18 @@ public class PlayGame extends World
 	{
 		this.ammoDisplay.setStr("Your Ammo: " + this.playerAmmo);
 	}
+	
+	/** update killDisplay */
+	protected void updateKillDisplay()
+	{
+		this.killDisplay.setStr("Your kills: " + this.killCount);
+	}
+	
+	/** update mobCountDisplay */
+	protected void updateMobCountDisplay()
+	{
+		this.mobCountDisplay.setStr("Total Zombies spawned: " + this.mobsSpawned);
+	}
 
 	/**
 	 * spawns a new mob entity if it has been at least
@@ -565,16 +589,18 @@ public class PlayGame extends World
 	{
 		double currentPlayTime = this.getPlayTime();
 		if (currentPlayTime - this.timeOfLastMobSpawn
-		    >= GameConfig.MOB_SPAWN_TIMER) {
+		    >= GameConfig.MOB_SPAWN_TIMER || killCount >= mobsSpawned) {
+			this.timeOfLastMobSpawn = currentPlayTime;
+			System.out.println("New zombies arrived at T+"
+					   + currentPlayTime + " seconds!");
 			for (int i = 0; i < GameConfig.MOB_SPAWN_POINTS.size();
 			     i++) {
 				engineState.spawnEntitySet(new MobSet(
 					GameConfig.MOB_SPAWN_POINTS.get(i)));
+				mobsSpawned++;
 			}
-			this.timeOfLastMobSpawn = currentPlayTime;
-			System.out.println("Spawning new mob at time: "
-					   + this.timeOfLastMobSpawn);
 		}
+		// TODO: make more mobs spawn over time
 	}
 
 	/**
