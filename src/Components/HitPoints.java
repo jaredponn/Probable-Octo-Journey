@@ -1,5 +1,7 @@
 package Components;
 
+import Resources.GameConfig;
+
 /**
  * HitPoints. HitPoints Component
  *
@@ -33,11 +35,13 @@ public class HitPoints implements Component
 	public void heal(int amount)
 	{
 		this.hp += amount;
+		if (this.hp > GameConfig.PLAYER_MAX_HP)
+			this.hp = GameConfig.PLAYER_MAX_HP;
 	}
 
 	public void hurt(int amount)
 	{
-		this.hp -= amount;
+		this.heal(-amount);
 	}
 
 	public void print()
