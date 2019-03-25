@@ -41,6 +41,11 @@ import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
 import poj.EngineState;
 
+import java.io.IOException;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.Clip;
+
 public class PlayGame extends World
 {
 	// Render
@@ -99,9 +104,14 @@ public class PlayGame extends World
 	protected GJK gjk;
 
 	protected MapGeneration generateDiffusionMap;
-	public PlayGame()
+	protected Sound gunSound, zombieDeathSound, emptyClipSound;
+	public PlayGame() throws UnsupportedAudioFileException, IOException,
+				 LineUnavailableException
 	{
 		super();
+		gunSound = new Sound(GameResources.gunSound);
+		zombieDeathSound = new Sound(GameResources.zombieDeathSound);
+		emptyClipSound = new Sound(GameResources.emptyClipSound);
 
 		gjk = new GJK();
 		gjk.clearVerticies();
@@ -242,6 +252,13 @@ public class PlayGame extends World
 	// step. Time is all in milliseconds
 	public void runGame()
 	{
+		System.out.println("gun sound status = "
+				   + gunSound.getIsPlaying());
+		// if (!gunSound.getClip().isActive()) {
+		// gunSound.play();
+		// System.out.println("stoped plasying!!");
+		//}
+
 		try {
 			generateDiffusionMap.setStart();
 		} catch (Exception ex) {
@@ -288,8 +305,8 @@ public class PlayGame extends World
 				engineState, gjk, MobSet.class,
 				TurretSet.class);
 
-		//this.cashSpawner(true, 13f, 7f);
-		//this.powerUpSpawner(true, 13f, 8f);
+		// this.cashSpawner(true, 13f, 7f);
+		// this.powerUpSpawner(true, 13f, 8f);
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
 		this.collectPowerUp();
 		this.collectHealthPack();
@@ -601,17 +618,19 @@ public class PlayGame extends World
 			System.out.println("Spawning new power-up drop.");
 		}
 	}
-	
-	protected void ammoPackSpawner(boolean timed , float x , float y)
+
+	protected void ammoPackSpawner(boolean timed, float x, float y)
 	{
 		double currentPlayTime = this.getPlayTime();
-		super.engineState.spawnEntitySet(new AmmoPack(x, y, currentPlayTime));
+		super.engineState.spawnEntitySet(
+			new AmmoPack(x, y, currentPlayTime));
 	}
-	
-	protected void healthPackSpawner(boolean timed , float x , float y)
+
+	protected void healthPackSpawner(boolean timed, float x, float y)
 	{
 		double currentPlayTime = this.getPlayTime();
-		super.engineState.spawnEntitySet(new HealthPack(x, y, currentPlayTime));
+		super.engineState.spawnEntitySet(
+			new HealthPack(x, y, currentPlayTime));
 	}
 
 	/**

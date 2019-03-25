@@ -62,6 +62,14 @@ public class GameResources
 	public static BufferedImage stopSign = ImageLoader.load(
 		"resources/RamiroGraphics/officialMap/stopSign.png");
 
+	// sounds
+	public static String gunSound = "resources/sounds/gunSound.wav",
+			     zombieDeathSound =
+				     "resources/sounds/zombieDeathSound.wav",
+			     emptyClipSound =
+				     "resources/sounds/emptyClipSound.wav";
+
+
 	public static BufferedImage testTile =
 		ImageLoader.load("resources/newmap/tiled_cave_1.png");
 
@@ -144,36 +152,35 @@ public class GameResources
 	// money resources
 	public static final int CASH_SPRITE_WIDTH = 16;
 	public static final int CASH_SPRITE_HEIGHT = 16;
-	public static BufferedImage cashImage =
-		ImageLoader.load("resources/RamiroGraphics/spritePack/Coin.png");
-	
+	public static BufferedImage cashImage = ImageLoader.load(
+		"resources/RamiroGraphics/spritePack/Coin.png");
+
 	// ammo resources
 	public static final int AMMO_SPRITE_WIDTH = 16;
 	public static final int AMMO_SPRITE_HEIGHT = 16;
-	public static BufferedImage ammoImage =
-		ImageLoader.load("resources/RamiroGraphics/spritePack/AmmoPack.png");
-		
+	public static BufferedImage ammoImage = ImageLoader.load(
+		"resources/RamiroGraphics/spritePack/AmmoPack.png");
+
 	// health resources
 	public static final int HEALTH_SPRITE_WIDTH = 16;
 	public static final int HEALTH_SPRITE_HEIGHT = 16;
-	public static BufferedImage healthImage =
-		ImageLoader.load("resources/RamiroGraphics/spritePack/MedKit.png");
-	
+	public static BufferedImage healthImage = ImageLoader.load(
+		"resources/RamiroGraphics/spritePack/MedKit.png");
+
 	// health resources
 	public static final int POWERUP_SPRITE_WIDTH = 16;
 	public static final int POWERUP_SPRITE_HEIGHT = 16;
 	public static BufferedImage powerupImage =
 		ImageLoader.load("resources/coin.png");
-		
 
 
 	// player resources
 	public static BufferedImage playerSpriteSheet =
 		ImageLoader.load("resources/RamiroGraphics/playerReduce5.png");
-		//ImageLoader.load("resources/RamiroGraphics/spritePack/PlayerSheet.png");
+	// ImageLoader.load("resources/RamiroGraphics/spritePack/PlayerSheet.png");
 	public static BufferedImage enemySpriteSheet =
 		ImageLoader.load("resources/RamiroGraphics/zombieReduce5.png");
-		//ImageLoader.load("resources/RamiroGraphics/spritePack/ZombieSheet.png");
+	// ImageLoader.load("resources/RamiroGraphics/spritePack/ZombieSheet.png");
 
 	/*
 	 * animation is in columns

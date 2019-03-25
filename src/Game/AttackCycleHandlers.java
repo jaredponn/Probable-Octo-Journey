@@ -51,13 +51,11 @@ public class AttackCycleHandlers
 					a.resetCycle();
 					break;
 				}
-
 				// setting velocity to 0
 				engineState
 					.unsafeGetComponentAt(Movement.class, i)
 					.setVelocity(new Vector2f(0, 0));
-			}
-			else {
+			} else {
 				a.endAttackCycle();
 				a.resetCycle();
 			}
@@ -160,14 +158,6 @@ public class AttackCycleHandlers
 			Vector2f unitVecPlayerPosToMouseDelta =
 				tmp.pureNormalize();
 
-			engineState
-				.unsafeGetComponentAt(HasAnimation.class,
-						      player)
-				.setAnimation(AnimationGetter.queryPlayerSprite(
-					CardinalDirections
-						.getClosestDirectionFromDirectionVector(
-							tmp),
-					0));
 
 			// generation of the bullet
 			if (playGame.playerAmmo > 0) {
@@ -195,6 +185,19 @@ public class AttackCycleHandlers
 						unitVecPlayerPosToMouseDelta
 							.pureMul(bulletSpeed));
 
+				// update animation and
+				// play sound based on the availability
+				// of the ammo!!
+				playGame.gunSound.play();
+
+				engineState
+					.unsafeGetComponentAt(
+						HasAnimation.class, player)
+					.setAnimation(AnimationGetter.queryPlayerSprite(
+						CardinalDirections
+							.getClosestDirectionFromDirectionVector(
+								tmp),
+						0));
 				playGame.playerAmmo -= 1;
 			}
 			break;

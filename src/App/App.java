@@ -15,6 +15,10 @@ import Resources.GameConfig;
 
 import java.awt.*;
 
+import java.io.IOException;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 public class App
 {
 
@@ -74,7 +78,8 @@ public class App
 	 * states that will be run during the duration of the application.
 	 * TODO in the future add different game states like menu, and start
 	 */
-	public void runAppLoop()
+	public void runAppLoop() throws UnsupportedAudioFileException,
+					IOException, LineUnavailableException
 	{
 
 		// playgame
