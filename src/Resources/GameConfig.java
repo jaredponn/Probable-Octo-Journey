@@ -21,8 +21,7 @@ public class GameConfig
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
-	// public static final int PLAYER_HP = 100;
-	public static final int PLAYER_HP = Integer.MAX_VALUE;
+	public static final int PLAYER_HP = 5;
 	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
 	public static final int TOWER_DIFFUSION_VALUE = (int)Math.pow(2, 5);
 	public static final float PLAYER_HEIGHT =
@@ -33,7 +32,7 @@ public class GameConfig
 	public static final PCollisionBody PLAYER_COLLISION_BODY =
 		new PCollisionBody(
 			new Vector2f(0.2f, 0.55f),  // displacement
-			new Vector2f(0.25f, 0.25f), // center
+			new Vector2f(0.15f, 0.15f), // center
 						    // collision body:
 			new Vector2f(0.25f / 4f, 1 / 4f),
 			new Vector2f(0.75f / 4f, 1 / 4f),
@@ -56,7 +55,7 @@ public class GameConfig
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(45, 45);
 
-	public static final int PLAYER_STARTING_CASH = Integer.MAX_VALUE;
+	public static final int PLAYER_STARTING_CASH = 100;
 	public static final int PLAYER_STARTING_AMMO = 20;
 	public static final int PLAYER_STARTING_MELEE_DAMAGE = 30;
 
@@ -192,7 +191,8 @@ public class GameConfig
 	public static final int MOB_DROP_RATE = 25;
 
 	public static final AttackCycle MOB_ATTACK_CYCLE =
-		new AttackCycle(100, 100);
+		new AttackCycle(GameResources.animationDurationms * 8,
+				GameResources.animationDurationms * 6);
 	public static final PCollisionBody ENEMY_HITBOX_BODY =
 		PLAYER_HITBOX_BODY;
 
@@ -216,16 +216,15 @@ public class GameConfig
 				   new Vector2f(0, 0), new Vector2f(2, 0),
 				   new Vector2f(0, 2), new Vector2f(2, 2));
 
-	public static final AggroRange MOB_AGGRO_RANGE = new AggroRange(
-		new Vector2f(-0.3f,
-			     0f), // displacement
-		new Vector2f(0.5f,
-			     0.5f), // center
-				    // collision body:
-		new Vector2f(0f, 0f), new Vector2f(1f, 1f),
-		new Vector2f(1f, 0f), new Vector2f(0f, 1f),
-		new Vector2f(0.5f, -0.25f), new Vector2f(-0.2f, 0.5f),
-		new Vector2f(1.2f, 0.5f), new Vector2f(0.5f, 1.25f));
+	public static final PCollisionBody MOB_AGGRO_RANGE =
+		ENEMY_HITBOX_BODY; /*new
+AggroRange( new Vector2f(-0.3f, 0f), // displacement new
+Vector2f(0.5f, 0.5f), // center
+// collision body:
+new Vector2f(0f, 0f), new Vector2f(1f, 1f),
+new Vector2f(1f, 0f), new Vector2f(0f, 1f),
+new Vector2f(0.5f, -0.25f), new Vector2f(-0.2f, 0.5f),
+new Vector2f(1.2f, 0.5f), new Vector2f(0.5f, 1.25f));*/
 
 	public static final float MOB_SPAWN_TIMER = 10.0f;
 	public static final double MOB_DESPAWN_TIMER = 5000d; // in ms
