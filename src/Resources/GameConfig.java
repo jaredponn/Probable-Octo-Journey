@@ -14,7 +14,6 @@ import poj.linear.Vector2f;
 // is, the height and width of things are expressed as ratios of the tile size.
 public class GameConfig
 {
-
 	//////////////////////////
 	////// player config /////
 	//////////////////////////
@@ -59,6 +58,7 @@ public class GameConfig
 
 	public static final int PLAYER_STARTING_CASH = Integer.MAX_VALUE;
 	public static final int PLAYER_STARTING_AMMO = 20;
+	public static final int PLAYER_STARTING_MELEE_DAMAGE = 30;
 
 	/////////////////////////
 	///// turret config /////
@@ -161,11 +161,13 @@ public class GameConfig
 	public static final ArrayList<Vector2f> MOB_SPAWN_POINTS =
 		new ArrayList<Vector2f>() {
 			{
-				add(new Vector2f(9.5f, 19.5f));		// western Blockbuster
-				add(new Vector2f(30f, 14f));		// parking lot
-				add(new Vector2f(40f, 30f));		// near fountain
-				add(new Vector2f(60f, 24f));		// park past parking lot
-				add(new Vector2f(42f, 50f));		// gas station
+				add(new Vector2f(9.5f,
+						 19.5f)); // western Blockbuster
+				add(new Vector2f(30f, 14f)); // parking lot
+				add(new Vector2f(40f, 30f)); // near fountain
+				add(new Vector2f(60f,
+						 24f)); // park past parking lot
+				add(new Vector2f(42f, 50f)); // gas station
 			}
 		};
 
@@ -234,9 +236,9 @@ public class GameConfig
 			new Vector2f(PICKUP_WIDTH / 2,
 				     PICKUP_HEIGHT / 4), // center
 							 // collision body:
-			new Vector2f(0, 0), new Vector2f(0, PICKUP_HEIGHT/2),
+			new Vector2f(0, 0), new Vector2f(0, PICKUP_HEIGHT / 2),
 			new Vector2f(PICKUP_WIDTH, 0),
-			new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT/2));
+			new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT / 2));
 
 	// money:
 	public static final int PICKUP_CASH_AMOUNT = 100;
