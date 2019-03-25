@@ -66,7 +66,6 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 
 				break;
 			}
-
 			mopt.get().setSpeed(0f);
 		}
 	}
@@ -107,16 +106,17 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 			switch (playerCurWPState) {
 			case Gun:
 
-
-				engineState
-					.unsafeGetComponentAt(
-						HasAnimation.class, player)
-					.setAnimation(
-						AnimationGetter.queryPlayerSprite(
-							closestDirToMouse, 0));
-
-				// generation of the bullet
 				if (super.getPlayGame().playerAmmo > 0) {
+					
+					// set animation to face in correct direction
+					engineState
+						.unsafeGetComponentAt(
+								HasAnimation.class, player)
+						.setAnimation(
+								AnimationGetter.queryPlayerSprite(
+									closestDirToMouse, 0));
+					
+					// generate bullet
 					int e = engineState.spawnEntitySet(
 						new Bullet(playerPosition));
 					engineState
