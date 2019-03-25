@@ -58,6 +58,7 @@ public class GameConfig
 
 	public static final int PLAYER_STARTING_CASH = 100;
 	public static final int PLAYER_STARTING_AMMO = 20;
+	public static final int PLAYER_MAX_AMMO = 100;
 	public static final int PLAYER_STARTING_MELEE_DAMAGE = 30;
 
 	public static final PCollisionBody PLAYER_MELEE_N_ATK_BODY =
@@ -143,7 +144,8 @@ public class GameConfig
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
 	public static final int CONSTRUCT_HP = 100;
 	public static final float SHELL_SPEED = 0.04f;
-	public static final int SHELL_DAMAGE = 100;
+	public static final int SHELL_DAMAGE = 75;
+	public static final int TURRET_STARTING_AMMO = 40;
 	public static final PCollisionBody TURRET_HITBOX_BODY =
 		TURRET_COLLISION_BODY;
 
@@ -349,6 +351,7 @@ new Vector2f(1.2f, 0.5f), new Vector2f(0.5f, 1.25f));*/
 	// ammo:
 	public static final int PICKUP_AMMOPACK_AMOUNT = 20;
 	public static final float PICKUP_AMMOPACK_SPAWN_TIME = 20.0f;
+	public static final int PURCHASE_AMMOPACK_AMOUNT = 20;
 
 	////////////////////////
 	///// input config /////

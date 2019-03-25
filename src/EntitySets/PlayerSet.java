@@ -34,5 +34,6 @@ public class PlayerSet extends EntitySet
 
 		addComponent(new HitPoints(GameConfig.PLAYER_HP));
 		addComponent(new AttackCycle(GameConfig.PLAYER_ATTACK_CYCLE));
+		addComponent(new Ammo(GameConfig.PLAYER_STARTING_AMMO));
 	}
 }

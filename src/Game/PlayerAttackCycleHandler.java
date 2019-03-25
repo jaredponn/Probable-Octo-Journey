@@ -118,7 +118,7 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 						AnimationGetter.queryPlayerSprite(
 							closestDirToMouse, 0));
 
-				if (super.getPlayGame().playerAmmo > 0) {
+				if (super.getPlayGame().playerAmmo.hasAmmo(1)) {
 					GameResources.gunSound.play();
 
 
@@ -151,7 +151,7 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 							unitVecToMouse.pureMul(
 								bulletSpeed));
 
-					super.getPlayGame().playerAmmo -= 1;
+					super.getPlayGame().playerAmmo.decreaseAmmo(1, GameConfig.PLAYER_MAX_AMMO);;
 				} else {
 					GameResources.emptyClipSound.play();
 				}

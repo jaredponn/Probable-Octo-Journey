@@ -2,6 +2,11 @@ package Components;
 
 import poj.Component.Component;
 
+/**
+ * component for entities that apply damage to things
+ * @author Alex
+ * @version 1.0
+ */
 public class Damage implements Component{
 	
 	private int damage;
