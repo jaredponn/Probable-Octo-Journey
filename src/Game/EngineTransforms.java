@@ -308,40 +308,38 @@ public class EngineTransforms
 				PhysicsPCollisionBody.class, player);
 
 		if (Systems.arePCollisionBodiesColliding(gjk, a, b)) {
-			// engineState.getComponentAt(Movement.class, mob1)
-			//.setSpeed(0);
+			engineState.unsafeGetComponentAt(Movement.class, mob1)
+				.setSpeed(0);
 
-			/*
-		CardinalDirections tempDir =
-			engineState
-				.getComponentAt(MovementDirection.class,
-						mob1)
-				.getDirection();
+			// CardinalDirections tempDir =
+			// engineState
+			//.unsafeGetComponentAt(
+			// MovementDirection.class, mob1)
+			//.getDirection();
 
-		// idle position
-		engineState.getComponentAt(HasAnimation.class, mob1)
-			.setAnimation(
-				AnimationGetter.findEnemyFacingSprite(tempDir,
-		0));
-				*/
+			// set animation as idle position
+			// engineState
+			//.unsafeGetComponentAt(HasAnimation.class, mob1)
+			//.setAnimation(AnimationGetter.queryEnemySprite(
+			// tempDir, 0));
 			return;
 		}
 
 		// in the same world cord
-		/*
 		if ((int)mobPosition.x == (int)playerPosition.x
 		    && (int)mobPosition.y == (int)playerPosition.y) {
 			// TODO: NEED TO INTEGRATE THIS WITH COLLISION!!
 
 			engineState
-				.getComponentAt(MovementDirection.class, mob1)
+				.unsafeGetComponentAt(MovementDirection.class,
+						      mob1)
 				.setDirection(
 					CardinalDirections.getClosestDirectionFromDirectionVector(
 						playerPosition
 							.subtractAndReturnVector(
 								mobPosition)));
 
-			engineState.getComponentAt(Movement.class, mob1)
+			engineState.unsafeGetComponentAt(Movement.class, mob1)
 				.setSpeed(GameConfig.MOB_SPEED);
 			// if the mob does not have the same position as the
 			// player
@@ -350,30 +348,34 @@ public class EngineTransforms
 			    && Math.abs(mobPosition.y - playerPosition.y)
 				       >= PlayGame.EPSILON) {
 				engineState
-					.getComponentAt(MovementDirection.class,
-							mob1)
+					.unsafeGetComponentAt(
+						MovementDirection.class, mob1)
 					.setDirection(CardinalDirections.getClosestDirectionFromDirectionVector(
 						playerPosition
 							.subtractAndReturnVector(
 								mobPosition)));
-				engineState.getComponentAt(Movement.class, mob1)
+				engineState
+					.unsafeGetComponentAt(Movement.class,
+							      mob1)
 					.setSpeed(GameConfig.MOB_SPEED);
 			}
 			// mob have the same position as the player
 			else {
-				engineState.getComponentAt(Movement.class, mob1)
+				engineState
+					.unsafeGetComponentAt(Movement.class,
+							      mob1)
 					.setSpeed(0);
 			}
-		}*/
+		}
 		// test if the current tile the mob is at is bigger than the max
 		// value
-		if (maxValue
-		    <= map.getLayerEngineState(0)
-			       .unsafeGetComponentAt(
-				       PathFindCord.class,
-				       map.getEcsIndexFromWorldVector2f(
-					       mobPosition))
-			       .getDiffusionValue()
+		else if (maxValue
+			 <= map.getLayerEngineState(0)
+				    .unsafeGetComponentAt(
+					    PathFindCord.class,
+					    map.getEcsIndexFromWorldVector2f(
+						    mobPosition))
+				    .getDiffusionValue()
 
 		) {
 			/*
