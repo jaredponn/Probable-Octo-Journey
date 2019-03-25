@@ -639,20 +639,19 @@ public class Map
 	public void createWallState()
 	{
 		wallState = new ArrayList<Boolean>(
-			Collections.nCopies(getMapSize(), false));
+			Collections.nCopies(tileCount, false));
 
 		System.out.println(" mapsize  = " + getMapSize());
 		Vector2f cbwc = new Vector2f(0f, 0f);
 		wallHitBox = new ArrayList<PhysicsPCollisionBody>(
 			Collections.nCopies(
-				getMapSize(),
-				new PhysicsPCollisionBody(
-					new Vector2f(0f, 0f),
-					cbwc.pureAdd(0.5f,
-						     0.5f), // center
-					cbwc, cbwc.pureAdd(1f, 0f),
-					cbwc.pureAdd(0f, 1f),
-					cbwc.pureAdd(1f, 1f))));
+				tileCount, new PhysicsPCollisionBody(
+						   new Vector2f(0f, 0f),
+						   cbwc.pureAdd(0.5f,
+								0.5f), // center
+						   cbwc, cbwc.pureAdd(1f, 0f),
+						   cbwc.pureAdd(0f, 1f),
+						   cbwc.pureAdd(1f, 1f))));
 
 
 		// setting the tile cord of these tiles

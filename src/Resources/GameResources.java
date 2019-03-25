@@ -83,10 +83,18 @@ public class GameResources
 		menuSelectButtonSoundPath =
 			"resources/sounds/menuSelectButtonSound.wav",
 		healthPickupSoundPath =
-			"resources/sounds/healthPickupSound.wav";
+			"resources/sounds/healthPickupSound.wav",
+		playerHpDropSound1Path = "resources/sounds/playerHpDrop1.wav",
+		playerHpDropSound2Path = "resources/sounds/playerHpDrop2.wav",
+		playerHpDropSound3Path = "resources/sounds/playerHpDrop3.wav",
+		playerHpDropSound4Path = "resources/sounds/playerHpDrop4.wav",
+		playerDeathSoundPath = "resources/sounds/playerDeathSound.wav";
+
 	public static Sound gunSound, zombieDeathSound, zombieDeathSound2,
 		zombieDeathSound3, zombieDeathSound4, emptyClipSound, menuSound,
-		gameBgSound, menuSelectButtonSound, healthPickupSound;
+		gameBgSound, menuSelectButtonSound, healthPickupSound,
+		playerHpDropSound1, playerHpDropSound2, playerHpDropSound3,
+		playerHpDropSound4, playerDeathSound;
 
 	static
 	{
@@ -107,6 +115,11 @@ public class GameResources
 			menuSelectButtonSound =
 				new Sound(menuSelectButtonSoundPath);
 			healthPickupSound = new Sound(healthPickupSoundPath);
+			playerHpDropSound1 = new Sound(playerHpDropSound1Path);
+			playerHpDropSound2 = new Sound(playerHpDropSound2Path);
+			playerHpDropSound3 = new Sound(playerHpDropSound3Path);
+			playerHpDropSound4 = new Sound(playerHpDropSound4Path);
+			playerDeathSound = new Sound(playerDeathSoundPath);
 
 		} catch (UnsupportedAudioFileException e) {
 			System.out.println(
