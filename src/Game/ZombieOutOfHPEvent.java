@@ -1,5 +1,7 @@
 package Game;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import Components.DespawnTimer;
 import Components.HasAnimation;
 import Components.MovementDirection;
@@ -63,7 +65,23 @@ public class ZombieOutOfHPEvent extends PlayGameEvent
 		}
 
 		// play death sound
-		GameResources.zombieDeathSound.play();
+
+		int deathSoundPlay = ThreadLocalRandom.current().nextInt(0, 4);
+		switch (deathSoundPlay) {
+		case 0:
+			GameResources.zombieDeathSound.play();
+			break;
+		case 1:
+			GameResources.zombieDeathSound2.play();
+			break;
+		case 2:
+			GameResources.zombieDeathSound3.play();
+			break;
+		case 3:
+			GameResources.zombieDeathSound4.play();
+			break;
+		}
+
 		engineState.addComponentAt(
 			DespawnTimer.class,
 			new DespawnTimer(GameConfig.MOB_DESPAWN_TIMER), focus);

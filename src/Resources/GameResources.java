@@ -68,16 +68,25 @@ public class GameResources
 	public static BufferedImage stopSign = ImageLoader.load(
 		"resources/RamiroGraphics/officialMap/stopSign.png");
 	// sounds
-	public static String gunSoundPath = "resources/sounds/gunSound.wav",
-			     zombieDeathSoundPath =
-				     "resources/sounds/zombieDeathSound.wav",
-			     emptyClipSoundPath =
-				     "resources/sounds/emptyClipSound.wav",
-			     menuSoundPath = "resources/sounds/menuSound.wav",
-			     gameBgSoundPath =
-				     "resources/sounds/gameBgMusic.wav";
-	public static Sound gunSound, zombieDeathSound, emptyClipSound,
-		menuSound, gameBgSound;
+	public static String
+		gunSoundPath = "resources/sounds/gunSound.wav",
+		zombieDeathSoundPath = "resources/sounds/zombieDeathSound.wav",
+		zombieDeathSoundPath2 =
+			"resources/sounds/zombieDeathSound2.wav",
+		zombieDeathSoundPath3 =
+			"resources/sounds/zombieDeathSound3.wav",
+		zombieDeathSoundPath4 =
+			"resources/sounds/zombieDeathSound4.wav",
+		emptyClipSoundPath = "resources/sounds/emptyClipSound.wav",
+		menuSoundPath = "resources/sounds/menuSound.wav",
+		gameBgSoundPath = "resources/sounds/gameBgMusic.wav",
+		menuSelectButtonSoundPath =
+			"resources/sounds/menuSelectButtonSound.wav",
+		healthPickupSoundPath =
+			"resources/sounds/healthPickupSound.wav.wav";
+	public static Sound gunSound, zombieDeathSound, zombieDeathSound2,
+		zombieDeathSound3, zombieDeathSound4, emptyClipSound, menuSound,
+		gameBgSound, menuSelectButtonSound, healthPickupSound;
 
 	static
 	{
@@ -85,10 +94,19 @@ public class GameResources
 			gunSound = new Sound(GameResources.gunSoundPath);
 			zombieDeathSound =
 				new Sound(GameResources.zombieDeathSoundPath);
+			zombieDeathSound2 =
+				new Sound(GameResources.zombieDeathSoundPath2);
+			zombieDeathSound3 =
+				new Sound(GameResources.zombieDeathSoundPath3);
+			zombieDeathSound4 =
+				new Sound(GameResources.zombieDeathSoundPath4);
 			emptyClipSound =
 				new Sound(GameResources.emptyClipSoundPath);
 			menuSound = new Sound(GameResources.menuSoundPath);
 			gameBgSound = new Sound(GameResources.gameBgSoundPath);
+			menuSelectButtonSound =
+				new Sound(menuSelectButtonSoundPath);
+			healthPickupSound = new Sound(healthPickupSoundPath);
 
 		} catch (UnsupportedAudioFileException e) {
 			System.out.println(
