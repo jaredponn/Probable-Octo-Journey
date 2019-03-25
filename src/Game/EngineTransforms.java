@@ -375,9 +375,8 @@ public class EngineTransforms
 					    PathFindCord.class,
 					    map.getEcsIndexFromWorldVector2f(
 						    mobPosition))
-				    .getDiffusionValue()
+				    .getDiffusionValue()) {
 
-		) {
 			/*
 		System.out.println(
 			" went inside this cord is bigger than all

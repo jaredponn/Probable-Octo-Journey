@@ -21,7 +21,7 @@ public class GameConfig
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
-	public static final int PLAYER_HP = 100;
+	public static final int PLAYER_HP = 1000000000;
 	public static final int PLAYER_MAX_HP = 200;
 	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
 	public static final int TOWER_DIFFUSION_VALUE = (int)Math.pow(2, 5);
@@ -58,6 +58,7 @@ public class GameConfig
 
 	public static final int PLAYER_STARTING_CASH = 100;
 	public static final int PLAYER_STARTING_AMMO = 20;
+	public static final int PLAYER_MAX_AMMO = 100;
 	public static final int PLAYER_STARTING_MELEE_DAMAGE = 30;
 
 	public static final PCollisionBody PLAYER_MELEE_N_ATK_BODY =
@@ -143,7 +144,8 @@ public class GameConfig
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
 	public static final int CONSTRUCT_HP = 100;
 	public static final float SHELL_SPEED = 0.04f;
-	public static final int SHELL_DAMAGE = 100;
+	public static final int SHELL_DAMAGE = 75;
+	public static final int TURRET_STARTING_AMMO = 40;
 	public static final PCollisionBody TURRET_HITBOX_BODY =
 		TURRET_COLLISION_BODY;
 
@@ -349,6 +351,7 @@ new Vector2f(1.2f, 0.5f), new Vector2f(0.5f, 1.25f));*/
 	// ammo:
 	public static final int PICKUP_AMMOPACK_AMOUNT = 20;
 	public static final float PICKUP_AMMOPACK_SPAWN_TIME = 20.0f;
+	public static final int PURCHASE_AMMOPACK_AMOUNT = 20;
 
 	////////////////////////
 	///// input config /////
@@ -358,6 +361,7 @@ new Vector2f(1.2f, 0.5f), new Vector2f(0.5f, 1.25f));*/
 	public static final int BUILD_TOWER = KeyEvent.VK_Q;
 	public static final int BUILD_TRAP = KeyEvent.VK_E;
 	public static final int BUY_AMMO = KeyEvent.VK_B;
+	public static final int QUIT_KEY = KeyEvent.VK_ESCAPE;
 
 	// key, cooldown (ms)
 	public static final ArrayList<Pair<Integer, Double>> COOL_DOWN_KEYS =

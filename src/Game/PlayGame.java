@@ -83,7 +83,8 @@ public class PlayGame extends World
 	protected WeaponState curWeaponState = WeaponState.Gun;
 
 	protected double playerDamageBonus = 1d;
-	protected int playerAmmo = GameConfig.PLAYER_STARTING_AMMO;
+	//protected int playerAmmo = GameConfig.PLAYER_STARTING_AMMO;
+	protected Ammo playerAmmo = new Ammo(GameConfig.PLAYER_STARTING_AMMO);
 	protected int cash = GameConfig.PLAYER_STARTING_CASH;
 	protected int killCount = 0;
 	protected int mobsSpawned = 0;
@@ -216,6 +217,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(HitPoints.class);
 		super.engineState.registerComponent(Damage.class);
 		super.engineState.registerComponent(AggroRange.class);
+		super.engineState.registerComponent(Ammo.class);
 	}
 	public void registerEntitySets()
 	{
@@ -568,7 +570,7 @@ public class PlayGame extends World
 	/** update ammoDisplay */
 	protected void updateAmmoDisplay()
 	{
-		this.ammoDisplay.setStr("Your Ammo: " + this.playerAmmo);
+		this.ammoDisplay.setStr("Your Ammo: " + this.playerAmmo.get());
 	}
 
 	/** update killDisplay */
@@ -856,8 +858,8 @@ public class PlayGame extends World
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, playerPosition,
 				    collectiblePosition.get())) {
-				this.playerAmmo +=
-					GameConfig.PICKUP_AMMOPACK_AMOUNT;
+				this.playerAmmo.increaseAmmo(
+						GameConfig.PICKUP_AMMOPACK_AMOUNT, GameConfig.PLAYER_MAX_AMMO);
 				CombatFunctions.removePickUp(engineState, i);
 			}
 		}

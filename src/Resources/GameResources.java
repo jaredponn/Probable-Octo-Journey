@@ -22,6 +22,7 @@ public class GameResources
 		ImageLoader.load("resources/playerspritesheet.png");
 
 	public static BufferedImage turret =
+		//ImageLoader.load("resources/RamiroGraphics/spritePack/Turret8.png");
 		ImageLoader.load("resources/turret1Crop.png");
 
 	public static BufferedImage octoTitle =

@@ -232,8 +232,9 @@ public class Map
 										PathFindCord
 											.class
 										,
-										Integer.parseInt(
-											tempList[i]))
+										getEcsIndexFromWorldVector2f(new Vector2f(
+											numRows - 1,
+											i % mapWidth)))
 									.setIsWall(
 										true);
 								// set the
@@ -244,8 +245,9 @@ public class Map
 										PathFindCord
 											.class
 										,
-										Integer.parseInt(
-											tempList[i]))
+										getEcsIndexFromWorldVector2f(new Vector2f(
+											numRows - 1,
+											i % mapWidth)))
 									.setDiffusionValue(
 										0f);
 							}
@@ -703,6 +705,7 @@ public class Map
 				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
+		/*
 		wallState.set(121, true);
 		wallHitBox.set(
 			121,
@@ -710,6 +713,7 @@ public class Map
 				new Vector2f(-1f, 0f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
+				*/
 		wallState.set(122, true);
 		wallHitBox.set(
 			122,
@@ -857,7 +861,8 @@ public class Map
 		if (isValidCord(v)) {
 			return (int)v.x * (mapWidth) + (int)v.y;
 		} else {
-			return -1;
+			// TODO: unsafe return!
+			return 0;
 		}
 	}
 	/**

@@ -124,6 +124,18 @@ public class MapGeneration extends Thread
 					PathFindCord center =
 						mapLayer.unsafeGetComponentAt(
 							PathFindCord.class, i);
+					/*
+					System.out.println(
+						" from path finding"
+						+ mapLayer.unsafeGetComponentAt(
+								  PathFindCord
+									  .class
+								  ,
+								  135)
+							  .getIsWall());
+							  */
+
+
 					if (!center.getIsWall()) {
 						ArrayList<
 							PathFindCord> tempNeighbours =
@@ -145,7 +157,7 @@ public class MapGeneration extends Thread
 						sum = sum * 1 / 2;
 						tempDiffusionBuffer.set(i, sum);
 					} else {
-						tempDiffusionBuffer.set(i, 0f);
+						center.setDiffusionValue(0f);
 					}
 				}
 
@@ -153,13 +165,18 @@ public class MapGeneration extends Thread
 				/*
 				int counter = 0;
 				for (int i = 0; i < tempDiffusionBuffer.size();
-				++i) { if (counter == map.mapWidth) { counter =
-				0; System.out.println();
+				     ++i) {
+					if (counter == map.mapWidth) {
+						counter = 0;
+						System.out.println();
 					}
-					System.out.print(tempDiffusionBuffer.get(i)
-				+ " , "); counter++;
+					System.out.print(
+						tempDiffusionBuffer.get(i)
+						+ " , ");
+					counter++;
 				}
 				System.out.println();
+				System.out.println("done one iteration...");
 				*/
 
 				if (tempDiffusionBuffer.size() > 0) {
