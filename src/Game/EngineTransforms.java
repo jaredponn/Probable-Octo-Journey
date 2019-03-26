@@ -377,11 +377,12 @@ public class EngineTransforms
 					    map.getEcsIndexFromWorldVector2f(
 						    mobPosition))
 				    .getDiffusionValue()) {
-
+			/*
 			System.out.println(
-				" went inside this cord is bigger than all neightbours!!");
-			System.out.println(
-				"set the mob speed equal to 0!!!!!!!");
+				" went inside this cord is bigger than all
+			neightbours!!"); System.out.println( "set the mob speed
+			equal to 0!!!!!!!");
+				*/
 
 			/*
 			engineState.getComponentAt(Movement.class, mob1)
