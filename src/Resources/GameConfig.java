@@ -21,8 +21,8 @@ public class GameConfig
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
-	public static final int PLAYER_HP = 1000000;
-	public static final int PLAYER_MAX_HP = 2000000;
+	public static final int PLAYER_HP = 50;
+	public static final int PLAYER_MAX_HP = 75;
 	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
 	public static final int TOWER_DIFFUSION_VALUE = (int)Math.pow(2, 5);
 	public static final float PLAYER_HEIGHT =
@@ -53,9 +53,9 @@ public class GameConfig
 			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
-		new AttackCycle(45, 45);
+		new AttackCycle(100, 100);
 
-	public static final int PLAYER_STARTING_CASH = Integer.MAX_VALUE;
+	public static final int PLAYER_STARTING_CASH = 100;
 	public static final int PLAYER_STARTING_AMMO = 20;
 	public static final int PLAYER_MAX_AMMO = 100;
 	public static final int PLAYER_STARTING_MELEE_DAMAGE = 30;
