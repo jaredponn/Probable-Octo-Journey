@@ -74,6 +74,8 @@ The UML diagram can be found at:
 ```bash
 ./demo3umldiagram.png   
 ```
+# Textbased Version:
+See `textbased/README.md` for more information about the text based version.
 
 # Announcements -- for Contributors:
 
