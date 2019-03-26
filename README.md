@@ -20,6 +20,7 @@ Note: this script only works with bash.
 # Playing the game
 - WASD to move
 - SPACE to attack (shoot or attack with a bat)
+- X to swap weapons
 - Q to place a turret (if you have enough money)
 - B to buy more ammo (if you have enough money)
 
