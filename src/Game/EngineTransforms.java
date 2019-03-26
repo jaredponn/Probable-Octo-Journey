@@ -223,6 +223,16 @@ public class EngineTransforms
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
 			engineState, map, layerNumber, player);
 		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
+		if (map.getEcsIndexFromWorldVector2f(
+			    engineState
+				    .unsafeGetComponentAt(
+					    PhysicsPCollisionBody.class, mob1)
+				    .pureGetCenter())
+		    == -1) {
+			System.out.println(
+				"bad thing happened in update enemy position..");
+			return;
+		}
 		ArrayList<PathFindCord> mobNeighb = getEightNeighbourVector(
 			map,
 			map.getEcsIndexFromWorldVector2f(
@@ -296,7 +306,6 @@ public class EngineTransforms
 		for (int j = engineState.getInitialSetIndex(TurretSet.class);
 		     poj.EngineState.isValidEntity(j);
 		     j = engineState.getNextSetIndex(TurretSet.class, j)) {
-
 			if (checkTurretCollisionWithMob(engineState, j, mob1,
 							gjk)) {
 				return;
@@ -311,7 +320,6 @@ public class EngineTransforms
 		    || engineState.unsafeGetComponentAt(AttackCycle.class, mob1)
 			       .isAttacking()) { // TODO refactor this -- move
 						 // to a component
-
 			// engineState.unsafeGetComponentAt(Movement.class,
 			// mob1) .setSpeed(0);
 
