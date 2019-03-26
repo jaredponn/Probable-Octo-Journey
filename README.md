@@ -5,22 +5,49 @@
 Execute the following commands in the command line
 
 ```bash
+# clone the repo
 git clone https://github.com/jaredponn/probable-octo-journey
+
+# change directory 
 cd probable-octo-journey
+
+# compile and run the project
 ./run.sh 
 ```
+
 Note: this script only works with bash.
+
+# Playing the game
+- WASD to move
+- SPACE to attack (shoot or attack with a bat)
+- Q to place a turret (if you have enough money)
+- B to buy more ammo (if you have enough money)
+
+Aim with the mouse.Go kill some zombies! See if you can get on the score board.
+
+
+NOTES: unstable release still. Many collision boxes have not been implemented yet.
 
 
 # Running the unit tests
 Execute the following commands in the command line
 
 ```bash
+# clone the repo
 git clone https://github.com/jaredponn/probable-octo-journey
+
+# change directory
 cd probable-octo-journey
-# copy the "hamcrest-core-1.3.jar" and "junit-4.13.jar" into
-# the folder probable-octo-journey/
+
+# copy the "hamcrest-core-1.3.jar" and "junit-4.13.jar" files 
+# into the folder probable-octo-journey/
+cp <hamcrest-core-1.3.jar> .
+cp <junit-4.13.jar> .
+
+# running the unit tests
 ./unittests.sh
+
+# individual unit tests can be found at src/poj/test/*
 ```
 
 Note: this script only works with bash.
@@ -30,14 +57,25 @@ Note: this script only works with bash.
 
 - 2019 March 11, Version 1.1 Pre-Alpha half-stable release. Debug renderer is enabled and the red dots indicate collision box points.
 
+- 2019 March 25, Version 1.1 Pre-Alpha half-unstable release. 
 
-# Architecture / UML diagrams
-The architecture uses an entity component system that favors composition.
 
-There is one UML diagrams provided, which can be found in the following locations:
+# Understanding the Code Base 
+The book *Design Patterns: Elements of Reusable Object-Oriented Software* famously wrote that we should write code to "Favor 'object composition' over 'class inheritance'." (Gang of Four 1995:20). This code base does exactly that -- it utilizes an entity component system that favors object composition different Component classes in EntitySets instead of inheritance to create highly generalized reusable code. See `src/Components/ExampleComponent.java` and `src/EntitySets/ExampleEntitySet.java` for examples.
+
+
+The entity component system (the game engine) can be found in the directory `src/poj`. It includes various generalized code for rendering, animations, and entity creation and deletion.
+
+
+The game engine design came from various posts and contributions from: https://jaredponn.github.io/ and from the project https://github.com/jaredponn/improved-octo-waffle
+
+
+The UML diagram can be found at:
 ```bash
-./demo3umldiagram.png      # actual UML diagram with all the classes in it
+./demo3umldiagram.png   
 ```
+# Textbased Version:
+See `textbased/README.md` for more information about the text based version.
 
 # Announcements -- for Contributors:
 
@@ -79,12 +117,6 @@ There is one UML diagrams provided, which can be found in the following location
 - [x] Actually using the aggro hit box - DONE (alex 03/22/19)
 - [x] Shrinking the PPhysicsHitBox of zombies and players - DONE (alex 03/22/19)
 
-## Directory Hierarchy
-The directory hierarchy is as follows:
-```bash
-src/    # source files
-src/poj/ # game engine
-```
 
 ## Coordinate System
 The coordinate system is a little strange. The following diagram will illustrate:
@@ -151,13 +183,6 @@ Turret: https://opengameart.org/content/orange-defense-gun-isometric
 
 
 Coin: https://opengameart.org/content/spinning-pixel-coin-0
-
-
-
-Majority of the collision algorithms were from or built upon *Real-Time Collision Detection* by Christer Ericson, published by Morgan Kaufmann Publishers, Copyright 2005 Elsevier Inc.
-
-
-The game engine design came from various posts and contributions from: https://jaredponn.github.io/ and from the project https://github.com/jaredponn/improved-octo-waffle
 
 
 # Useful readings

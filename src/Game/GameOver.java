@@ -129,7 +129,7 @@ public class GameOver extends World
 		}
 
 		renderBuffer.add(new StringRenderObject(
-			"PRESS SPACE TO GO BACK TO THE MENU",
+			"PRESS ENTER TO GO BACK TO THE MENU",
 			super.windowWidth / 2 - 350,
 			super.windowHeight - FONT_SIZE - 20, Color.darkGray,
 			FONT));
