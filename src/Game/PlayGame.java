@@ -416,7 +416,7 @@ public class PlayGame extends World
 			this.engineState, PlayerSet.class);
 		EngineTransforms
 			.steerMovementVelocityFromMovementDirectionForSet(
-				this.engineState, MobSet.class, 1 / 32f);
+				this.engineState, MobSet.class, 1 / 29f);
 	}
 
 	protected Vector2f getPositionToMouseDelta(Vector2f v)
