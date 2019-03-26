@@ -861,8 +861,7 @@ public class Map
 		if (isValidCord(v)) {
 			return (int)v.x * (mapWidth) + (int)v.y;
 		} else {
-			// TODO: unsafe return!
-			return 0;
+			return -1;
 		}
 	}
 	/**

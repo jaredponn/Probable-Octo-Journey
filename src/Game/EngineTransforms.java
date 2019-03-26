@@ -481,7 +481,6 @@ at Main.main(Main.java:25)
 					PhysicsPCollisionBody.class, player)
 				.pureGetCenter();
 
-		playerPosition.log("PLAYER POSITION");
 
 		// TODO: turret diffusion value.. NEED TO BE CHANGED LATER TO
 		// MATCH THE PHYSICS COLLISION BODY!
@@ -907,8 +906,8 @@ at Main.main(Main.java:25)
 				HitPoints hp = hpOpt.get();
 
 				hp.hurt(damage);
-				
-				//only do damage to one thing at a time
+
+				// only do damage to one thing at a time
 				return;
 			}
 		}
