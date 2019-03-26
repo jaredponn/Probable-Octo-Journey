@@ -318,10 +318,8 @@ public class Map
 						boolean isSpecialTile = false;
 						BufferedImage imagePath =
 							GameResources.tree1;
-						float specialWidth =
-							      -(float)tileWidth,
-						      specialHeight = -(
-							      float)tileHeight;
+						float specialWidth = 1f,
+						      specialHeight = 0f;
 						if (Integer.parseInt(
 							    tempList[i])
 						    == 576) {
@@ -330,13 +328,9 @@ public class Map
 							imagePath =
 								GameResources
 									.tree1;
-							specialWidth =
-								specialWidth
-								/ 2f;
-							specialHeight =
-								specialHeight
-									* 2f
-								+ 20f;
+
+							specialWidth -= 1f;
+							specialHeight -= 1f;
 
 						} else if (Integer.parseInt(
 								   tempList[i])
@@ -346,13 +340,8 @@ public class Map
 							imagePath =
 								GameResources
 									.tree2;
-							specialWidth =
-								specialWidth
-								/ 2f;
-							specialHeight =
-								specialHeight
-									* 3f
-								+ 20f;
+							specialWidth -= 2f;
+							specialHeight -= 2f;
 						} else if (Integer.parseInt(
 								   tempList[i])
 							   == 578) {
@@ -361,13 +350,8 @@ public class Map
 							imagePath =
 								GameResources
 									.tree3;
-							specialWidth =
-								specialWidth
-								/ 2f;
-							specialHeight =
-								specialHeight
-									* 2f
-								+ 20f;
+							specialWidth -= 1f;
+							specialHeight -= 1f;
 						} else if (Integer.parseInt(
 								   tempList[i])
 							   == 579) {
@@ -376,13 +360,8 @@ public class Map
 							imagePath =
 								GameResources
 									.tree4;
-							specialWidth =
-								specialWidth
-								/ 2f;
-							specialHeight =
-								specialHeight
-									* 3f
-								+ 20f;
+							specialWidth -= 2f;
+							specialHeight -= 2f;
 						}
 
 						else if (Integer.parseInt(
@@ -393,13 +372,8 @@ public class Map
 							imagePath =
 								GameResources
 									.tree5;
-							specialWidth =
-								specialWidth
-								/ 2f;
-							specialHeight =
-								specialHeight
-									* 2f
-								- 20f;
+							specialWidth -= 2f;
+							specialHeight -= 2f;
 						}
 
 						else if (Integer.parseInt(
@@ -410,13 +384,8 @@ public class Map
 							imagePath =
 								GameResources
 									.pole1;
-							specialWidth =
-								specialWidth
-								/ 2f;
-							specialHeight =
-								specialHeight
-									* 3f
-								- 20f;
+							specialWidth -= 3f;
+							specialHeight -= 3f;
 						}
 
 						else if (Integer.parseInt(
@@ -427,64 +396,39 @@ public class Map
 							imagePath =
 								GameResources
 									.pole2;
-							specialWidth =
-								specialWidth
-								/ 2f;
-							specialHeight =
-								specialHeight
-									* 3f
-								- 30f;
-						}
-
-						else if (Integer.parseInt(
-								 tempList[i])
-							 == 676) {
+							specialWidth -= 3f;
+							specialHeight -= 3f;
+						} else if (Integer.parseInt(
+								   tempList[i])
+							   == 676) {
 							// third pole
 							isSpecialTile = true;
 
 							imagePath =
 								GameResources
 									.pole3;
-							specialWidth =
-								specialWidth
-									/ 2f
-								- 10f;
-							specialHeight =
-								specialHeight
-									* 3f
-								- 30f;
-						}
-
-						else if (Integer.parseInt(
-								 tempList[i])
-							 == 677) {
+							specialWidth -= 3f;
+							specialHeight -= 3f;
+						} else if (Integer.parseInt(
+								   tempList[i])
+							   == 677) {
 							// fourth pole
 							isSpecialTile = true;
 							imagePath =
 								GameResources
 									.pole4;
-							specialWidth =
-								specialWidth
-								/ 2f;
-							specialHeight =
-								specialHeight
-									* 3f
-								- 20f;
-						}
-
-						else if (Integer.parseInt(
-								 tempList[i])
-							 == 686) {
+							specialWidth -= 3f;
+							specialHeight -= 3f;
+						} else if (Integer.parseInt(
+								   tempList[i])
+							   == 686) {
 							// stop sign
 							isSpecialTile = true;
 							imagePath =
 								GameResources
 									.stopSign;
-							specialWidth /= 2f;
-							specialHeight =
-								specialHeight
-									* 2f
-								+ 20f;
+							specialWidth -= 1f;
+							specialHeight -= 1f;
 						}
 
 						// check if it is special tile
