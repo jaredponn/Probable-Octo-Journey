@@ -1,4 +1,4 @@
-# Probably Octo Journey: CPSC 233 Project
+# Probable Octo Journey: CPSC 233 Project
 
 
 # Running the demo
@@ -8,6 +8,19 @@ Execute the following commands in the command line
 git clone https://github.com/jaredponn/probable-octo-journey
 cd probable-octo-journey
 ./run.sh 
+```
+Note: this script only works with bash.
+
+
+# Running the unit tests
+Execute the following commands in the command line
+
+```bash
+git clone https://github.com/jaredponn/probable-octo-journey
+cd probable-octo-journey
+# copy the "hamcrest-core-1.3.jar" and "junit-4.13.jar" into
+# the folder probable-octo-journey/
+./unittests.sh
 ```
 
 Note: this script only works with bash.
@@ -21,10 +34,9 @@ Note: this script only works with bash.
 # Architecture / UML diagrams
 The architecture uses an entity component system that favors composition.
 
-There are 2 UML diagrams provided, which can be found in the following locations:
+There is one UML diagrams provided, which can be found in the following locations:
 ```bash
-./simplifiedumldiagram.png # simplified UML diagram without all the classes
-./demo2umldiagram.png      # actual UML diagram with all the classes in it
+./demo3umldiagram.png      # actual UML diagram with all the classes in it
 ```
 
 # Announcements -- for Contributors:
