@@ -72,7 +72,7 @@ The game engine design came from various posts and contributions from: https://j
 
 The UML diagram can be found at:
 ```bash
-./demo3umldiagram.png      # actual UML diagram with all the classes in it
+./demo3umldiagram.png   
 ```
 
 # Announcements -- for Contributors:
