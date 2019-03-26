@@ -49,12 +49,16 @@ public class AttackCycle implements Component
 		recoilTimems = rtms;
 
 		this.resetCycle();
+		this.endAttackCycle();
 	}
 
 	public AttackCycle(AttackCycle n)
 	{
 		primingTimems = n.primingTimems;
 		recoilTimems = n.recoilTimems;
+
+		this.resetCycle();
+		this.endAttackCycle();
 	}
 
 	public void resetCycle()

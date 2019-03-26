@@ -132,6 +132,7 @@ public class AttackCycleHandlers
 		animation.setAnimation(AnimationGetter.queryAnimationSprite(
 			c, d, animationFlag));
 
+		mOpt.get().setSpeed(0);
 		mOpt.get().setVelocity(new Vector2f(0, 0));
 	}
 
@@ -158,6 +159,7 @@ public class AttackCycleHandlers
 	public static void runAttackCyclerHandler(PlayGame playGame,
 						  Class<? extends Component> c)
 	{
+
 		EngineState engineState = playGame.getEngineState();
 		double gameElapsedTime = playGame.getPlayTime();
 

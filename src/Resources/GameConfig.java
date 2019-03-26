@@ -55,7 +55,7 @@ public class GameConfig
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(45, 45);
 
-	public static final int PLAYER_STARTING_CASH = 100;
+	public static final int PLAYER_STARTING_CASH = Integer.MAX_VALUE;
 	public static final int PLAYER_STARTING_AMMO = 20;
 	public static final int PLAYER_MAX_AMMO = 100;
 	public static final int PLAYER_STARTING_MELEE_DAMAGE = 30;
@@ -218,15 +218,20 @@ public class GameConfig
 				   new Vector2f(0, 0), new Vector2f(2, 0),
 				   new Vector2f(0, 2), new Vector2f(2, 2));
 
-	public static final PCollisionBody MOB_AGGRO_RANGE =
-		ENEMY_HITBOX_BODY; /*new
-AggroRange( new Vector2f(-0.3f, 0f), // displacement new
-Vector2f(0.5f, 0.5f), // center
-// collision body:
-new Vector2f(0f, 0f), new Vector2f(1f, 1f),
-new Vector2f(1f, 0f), new Vector2f(0f, 1f),
-new Vector2f(0.5f, -0.25f), new Vector2f(-0.2f, 0.5f),
-new Vector2f(1.2f, 0.5f), new Vector2f(0.5f, 1.25f));*/
+	public static final PCollisionBody MOB_AGGRO_RANGE = new PCollisionBody(
+		// clang-format off
+		new Vector2f(0.2f, 0.55f),  // displacement
+		new Vector2f(0.25f, 0.25f), // center
+					    // collision body:
+		new Vector2f(0.25f / 3f, 1 / 3f),
+		new Vector2f(0.75f / 3f, 1 / 3f),
+		new Vector2f(0 / 3f    , 0.75f / 3f),
+		new Vector2f(1 / 3f    , 0.75f / 3f),
+		new Vector2f(0 / 3f    , 0.25f / 3f),
+		new Vector2f(0.25f / 3f, 0 / 3f),
+		new Vector2f(0.75f / 3f, 0 / 3f),
+		new Vector2f(1 / 3f    , 0.25f / 3f));
+	// clang-format on
 
 	public static final float MOB_SPAWN_TIMER = 10.0f;
 	public static final double MOB_DESPAWN_TIMER = 5000d; // in ms

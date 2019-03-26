@@ -191,14 +191,22 @@ public class CombatFunctions
 		     engineState.isValidEntity(i);
 		     i = engineState.getNextSetIndex(a, i)) {
 
-			final Optional<PhysicsPCollisionBody> abodyOptional =
-				engineState.getComponentAt(
-					PhysicsPCollisionBody.class, i);
+			final Optional<AggroRange> abodyOptional =
+				engineState.getComponentAt(AggroRange.class, i);
+
+			Optional<AttackCycle> atkcycleOpt =
+				engineState.getComponentAt(AttackCycle.class,
+							   i);
+
+			if (!atkcycleOpt.isPresent())
+				continue;
 
 			if (!abodyOptional.isPresent())
 				continue;
 
 			final PCollisionBody abody = abodyOptional.get();
+
+			AttackCycle atkcycle = atkcycleOpt.get();
 
 			for (int j = engineState.getInitialSetIndex(b);
 			     engineState.isValidEntity(j);
@@ -209,28 +217,17 @@ public class CombatFunctions
 					engineState.getComponentAt(
 						PhysicsPCollisionBody.class, j);
 
-				Optional<AttackCycle> atkcycleOpt =
-					engineState.getComponentAt(
-						AttackCycle.class, i);
 
 				if (!bbodyOptional.isPresent())
-					continue;
-
-				if (!atkcycleOpt.isPresent())
 					continue;
 
 				final PCollisionBody bbody =
 					bbodyOptional.get();
 
-				AttackCycle atkcycle = atkcycleOpt.get();
-
 
 				if (Systems.arePCollisionBodiesColliding(
-					    gjk, bbody, abody)
-				    && !atkcycle.isAttacking()) {
-
+					    gjk, bbody, abody)) {
 					atkcycle.startAttackCycle();
-					break;
 				}
 			}
 		}

@@ -288,9 +288,9 @@ public class EngineTransforms
 
 		// if mob and player are at the same tile
 
-		final PhysicsPCollisionBody a =
-			engineState.unsafeGetComponentAt(
-				PhysicsPCollisionBody.class, mob1);
+		// LINE 309 HAIYANG HE PATH FINDING WORKING WITH ATTACK CYCLE
+		final PCollisionBody a = engineState.unsafeGetComponentAt(
+			AggroRange.class, mob1);
 
 
 		for (int j = engineState.getInitialSetIndex(TurretSet.class);
@@ -307,7 +307,10 @@ public class EngineTransforms
 			engineState.unsafeGetComponentAt(
 				PhysicsPCollisionBody.class, player);
 
-		if (Systems.arePCollisionBodiesColliding(gjk, a, b)) {
+		if (Systems.arePCollisionBodiesColliding(gjk, a, b)
+		    || engineState.unsafeGetComponentAt(AttackCycle.class, mob1)
+			       .isAttacking()) { // TODO refactor this -- move
+						 // to a component
 
 			// engineState.unsafeGetComponentAt(Movement.class,
 			// mob1) .setSpeed(0);
@@ -480,8 +483,6 @@ at Main.main(Main.java:25)
 				.unsafeGetComponentAt(
 					PhysicsPCollisionBody.class, player)
 				.pureGetCenter();
-
-		playerPosition.log("PLAYER POSITION");
 
 		// TODO: turret diffusion value.. NEED TO BE CHANGED LATER TO
 		// MATCH THE PHYSICS COLLISION BODY!
@@ -907,8 +908,8 @@ at Main.main(Main.java:25)
 				HitPoints hp = hpOpt.get();
 
 				hp.hurt(damage);
-				
-				//only do damage to one thing at a time
+
+				// only do damage to one thing at a time
 				return;
 			}
 		}
