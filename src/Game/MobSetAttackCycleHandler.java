@@ -1,23 +1,22 @@
 package Game;
 
+import java.awt.Color;
+import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
+
+import Components.CardinalDirections;
+import Components.Movement;
+import Components.MovementDirection;
+import Components.PCollisionBody;
+import Components.WorldAttributes;
 import EntitySets.MobSet;
+import EntitySets.PlayerSet;
+import EntitySets.TurretSet;
+import Resources.GameConfig;
+import Resources.GameResources;
 
 import poj.EngineState;
-import poj.linear.*;
-
-import java.util.Optional;
-
-import Components.*;
-
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.util.*;
-import Components.*;
-import EntitySets.*;
-import Resources.*;
-
 import poj.Collisions.GJK;
-import poj.Logger.Logger;
 
 
 public class MobSetAttackCycleHandler implements EntityAttackSetHandler
@@ -91,10 +90,32 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 				pmob, playGame.debugBuffer, playGame.cam,
 				Color.orange);
 
-			EngineTransforms
-				.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
-					engineState, pmob, PlayerSet.class,
-					GameConfig.MOB_ATTACK_DAMAGE);
+			boolean playerHitByMob =
+				EngineTransforms
+					.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
+						engineState, pmob,
+						PlayerSet.class,
+						GameConfig.MOB_ATTACK_DAMAGE);
+			if (playerHitByMob) {
+				// play player hurt sound
+				int hurtSoundPlay =
+					ThreadLocalRandom.current().nextInt(0,
+									    4);
+				switch (hurtSoundPlay) {
+				case 0:
+					GameResources.playerHpDropSound1.play();
+					break;
+				case 1:
+					GameResources.playerHpDropSound2.play();
+					break;
+				case 2:
+					GameResources.playerHpDropSound3.play();
+					break;
+				case 3:
+					GameResources.playerHpDropSound4.play();
+					break;
+				}
+			}
 
 			EngineTransforms
 				.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(

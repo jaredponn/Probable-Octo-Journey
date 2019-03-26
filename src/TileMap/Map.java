@@ -587,7 +587,6 @@ public class Map
 		wallState = new ArrayList<Boolean>(
 			Collections.nCopies(tileCount, false));
 
-		System.out.println(" mapsize  = " + getMapSize());
 		Vector2f cbwc = new Vector2f(0f, 0f);
 		wallHitBox = new ArrayList<PhysicsPCollisionBody>(
 			Collections.nCopies(

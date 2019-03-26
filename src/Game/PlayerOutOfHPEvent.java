@@ -1,11 +1,6 @@
 package Game;
 
-import EntitySets.PlayerSet;
-
-import java.awt.Color;
-
-import poj.Render.RenderObject;
-import poj.Render.StringRenderObject;
+import Resources.GameResources;
 
 public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
 {
@@ -22,6 +17,8 @@ public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
 
 	public void f()
 	{
+		// play death sound
+		GameResources.playerDeathSound.play();
 		getPlayGame().quit();
 	}
 }
