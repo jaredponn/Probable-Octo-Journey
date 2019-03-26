@@ -43,11 +43,13 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 			Optional<Movement> mopt = engineState.getComponentAt(
 				Movement.class, focus);
 
-			if (!dopt.isPresent())
+			if (!dopt.isPresent()) {
 				return;
+			}
 
-			if (!mopt.isPresent())
+			if (!mopt.isPresent()) {
 				return;
+			}
 
 			MovementDirection d = dopt.get();
 

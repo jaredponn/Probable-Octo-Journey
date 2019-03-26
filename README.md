@@ -51,6 +51,9 @@ There are 2 UML diagrams provided, which can be found in the following locations
 - [ ] ability to enter name/initials on high score screen
 - [ ] pause game (maybe)
 
+- [ ] move pathfinding to its component and iterate through that to decide which entities to path find. Makes it easier for the attack cycler as well
+
+
 - [x] Render the map layer properly! in render() in PlayGame
 - [x] Melee attack - DONE (jared 03/24/19)
 - [x] Update text based version - DONE (alex 03/24/19)

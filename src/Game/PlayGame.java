@@ -243,8 +243,6 @@ public class PlayGame extends World
 
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
 			this.engineState, this.map, 0, this.player);
-		// TODO: HAIYANG get the layer number for the path finding!
-		// right now for testing it only have 1 layer
 
 		clearTime();
 
@@ -274,7 +272,7 @@ public class PlayGame extends World
 		// System.out.println("stoped plasying!!");
 		//}
 
-		mobSpawner();
+		this.mobSpawner();
 		try {
 			generateDiffusionMap.setStart();
 		} catch (Exception ex) {
@@ -325,8 +323,6 @@ public class PlayGame extends World
 
 		EngineTransforms.pushOutOfHPEventsIfHPIsZeroOrLess(this);
 
-		// this.cashSpawner(true, 13f, 7f);
-		// this.powerUpSpawner(true, 13f, 8f);
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
 		this.collectPowerUp();
 		this.collectHealthPack();
@@ -339,12 +335,7 @@ public class PlayGame extends World
 		this.updateKillDisplay();
 		this.updateMobCountDisplay();
 
-
 		// updating positions
-		EngineTransforms.setMovementVelocityFromMovementDirectionForSet(
-			this.engineState, PlayerSet.class);
-		EngineTransforms.setMovementVelocityFromMovementDirectionForSet(
-			this.engineState, MobSet.class);
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 
@@ -396,19 +387,6 @@ public class PlayGame extends World
 			EngineTransforms.updateEnemyPositionFromPlayer(
 				this.engineState, this.map, 0, this.player, i,
 				gjk);
-
-			// TODO: detect mob with turret but MOB CANNOT BE MOVED
-			// after collision
-			/*
-			for (int j = engineState.getInitialSetIndex(
-				     TurretSet.class);
-			     engineState.isValidEntity(j);
-			     j = engineState.getNextSetIndex(TurretSet.class,
-							     j)) {
-				EngineTransforms.checkTurretCollisionWithMob(
-					this.engineState, j, i, this.gjk);
-			}
-			*/
 		}
 
 		// updating the camera
@@ -433,6 +411,12 @@ public class PlayGame extends World
 
 		gameEventStack.runGameEventStack();
 		// rendering is run after this is run
+
+		EngineTransforms.setMovementVelocityFromMovementDirectionForSet(
+			this.engineState, PlayerSet.class);
+		EngineTransforms
+			.steerMovementVelocityFromMovementDirectionForSet(
+				this.engineState, MobSet.class, 1 / 16f);
 	}
 
 	protected Vector2f getPositionToMouseDelta(Vector2f v)
