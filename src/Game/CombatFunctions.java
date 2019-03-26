@@ -297,26 +297,8 @@ public class CombatFunctions
 			HitPoints.class, player);
 		playerHP.hurt(amount);
 		if (playerHP.getHP() > 0) {
-			// play player hurt sound
-			int hurtSoundPlay =
-				ThreadLocalRandom.current().nextInt(0, 4);
-			switch (hurtSoundPlay) {
-			case 0:
-				GameResources.playerHpDropSound1.play();
-				break;
-			case 1:
-				GameResources.playerHpDropSound2.play();
-				break;
-			case 2:
-				GameResources.playerHpDropSound3.play();
-				break;
-			case 3:
-				GameResources.playerHpDropSound4.play();
-				break;
-			}
 		} else {
 			// play death sound
-			GameResources.playerDeathSound.play();
 			System.out.println(
 				"---------------\n"
 				+ "The player has been killed!!!\n---GAME OVER---");

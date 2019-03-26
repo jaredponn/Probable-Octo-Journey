@@ -877,7 +877,7 @@ at Main.main(Main.java:25)
 		}
 	}
 
-	public static void
+	public static boolean
 	doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
 		EngineState engineState, PCollisionBody pbody,
 		Class<? extends Component> c, int damage)
@@ -911,8 +911,9 @@ at Main.main(Main.java:25)
 				hp.hurt(damage);
 
 				// only do damage to one thing at a time
-				return;
+				return true;
 			}
 		}
+		return false;
 	}
 }
