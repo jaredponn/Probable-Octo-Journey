@@ -18,7 +18,13 @@ public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
 	public void f()
 	{
 		// play death sound
+		try {
 		GameResources.playerDeathSound.play();
+		}
+		catch (NullPointerException e) {
+			System.out.println("ERROR: Problem playing player death sound");
+			e.printStackTrace();
+		}
 		getPlayGame().quit();
 	}
 }

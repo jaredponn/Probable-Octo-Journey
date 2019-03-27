@@ -90,22 +90,18 @@ See `textbased/README.md` for more information about the text based version.
 - [ ] Aligning collision boxes for the players&zombie 
 - [ ] Game over screen (restart / play again, go back to menu) - half done
 - [ ] Automated tests
-- [ ] No attack animation when there is no more ammo - seems someone broke this
-- [ ] Make mobs slowly move towards player when in aggro range 
 - [ ] Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
 - [ ] Boss zombies (may need more graphics from Ramiro for this)
 - [ ] Audio - partially done
 - [ ] Turret sprites - just need to be implemented
-- [ ] Bullet sprite
 - [ ] Melee sprites with a more visible sword
-- [ ] Slower zombie attacks
 - [ ] refine melee attacks/use animation
 - [ ] make trying to close game window generate a confirmation prompt 
-- [ ] ability to enter name/initials on high score screen
 - [ ] pause game (maybe)
 - [ ] move pathfinding to its component and iterate through that to decide which entities to path find. Makes it easier for the attack cycler as well
 
 
+- [x] Slower zombie attacks
 - [x] Put back the poles beside the buildings 
 - [x] Make path find work around fences and buildings
 - [x] Render the map layer properly! in render() in PlayGame

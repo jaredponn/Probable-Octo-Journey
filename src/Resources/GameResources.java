@@ -130,6 +130,7 @@ public class GameResources
 		} catch (LineUnavailableException b) {
 			System.out.println(
 				"LineUnavailableException has occured..");
+			System.out.println(b.toString());
 		}
 	}
 

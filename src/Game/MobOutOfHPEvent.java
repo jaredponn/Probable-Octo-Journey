@@ -70,21 +70,26 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 		}
 
 		// play death sound
-
-		int deathSoundPlay = ThreadLocalRandom.current().nextInt(0, 4);
-		switch (deathSoundPlay) {
-		case 0:
-			GameResources.zombieDeathSound.play();
-			break;
-		case 1:
-			GameResources.zombieDeathSound2.play();
-			break;
-		case 2:
-			GameResources.zombieDeathSound3.play();
-			break;
-		case 3:
-			GameResources.zombieDeathSound4.play();
-			break;
+		try {
+			int deathSoundPlay = ThreadLocalRandom.current().nextInt(0, 4);
+			switch (deathSoundPlay) {
+			case 0:
+				GameResources.zombieDeathSound.play();
+				break;
+			case 1:
+				GameResources.zombieDeathSound2.play();
+				break;
+			case 2:
+				GameResources.zombieDeathSound3.play();
+				break;
+			case 3:
+				GameResources.zombieDeathSound4.play();
+				break;
+			}
+		}
+		catch (NullPointerException e) {
+			System.out.println("ERROR: Problem playing zombie death sound");
+			e.printStackTrace();
 		}
 
 		engineState.addComponentAt(

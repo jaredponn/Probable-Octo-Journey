@@ -119,7 +119,13 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 							closestDirToMouse, 0));
 
 				if (super.getPlayGame().playerAmmo.hasAmmo(1)) {
+					try {
 					GameResources.gunSound.play();
+					}
+					catch (NullPointerException e) {
+						System.out.println("ERROR: Problem playing gun sound");
+						e.printStackTrace();
+					}
 
 
 					// generate bullet
@@ -153,7 +159,13 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 
 					super.getPlayGame().playerAmmo.decreaseAmmo(1, GameConfig.PLAYER_MAX_AMMO);;
 				} else {
+					try {
 					GameResources.emptyClipSound.play();
+					}
+					catch (NullPointerException e) {
+						System.out.println("ERROR: Problem playing empty clip sound");
+						e.printStackTrace();
+					}
 				}
 
 				break;
