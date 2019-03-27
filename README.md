@@ -62,7 +62,10 @@ Note: this script only works with bash.
 
 
 # Understanding the Code Base 
-The book *Design Patterns: Elements of Reusable Object-Oriented Software* famously wrote that we should write code to "Favor 'object composition' over 'class inheritance'." (Gang of Four 1995:20). This code base does exactly that -- it utilizes an entity component system that favors object composition of different Component classes in EntitySets instead of inheritance which results in highly generalized reusable code when used properly. See `src/Components/ExampleComponent.java` and `src/EntitySets/ExampleEntitySet.java` for examples.
+The book *Design Patterns: Elements of Reusable Object-Oriented Software* famously wrote that we should write code to "Favor 'object composition' over 'class inheritance'." (Gang of Four 1995:20). This code base does exactly that -- it utilizes an entity component system that favors object composition of different Component classes in EntitySets instead of inheritance. This method  results in highly generalized reusable code when used properly. 
+
+
+See `src/Components/ExampleComponent.java` and `src/EntitySets/ExampleEntitySet.java` for examples on how to create a Component and how to create an EntitySet.
 
 
 The entity component system (the game engine) can be found in the directory `src/poj`. It includes various generalized code for rendering, animations, and entity creation and deletion.
@@ -87,22 +90,18 @@ See `textbased/README.md` for more information about the text based version.
 - [ ] Aligning collision boxes for the players&zombie 
 - [ ] Game over screen (restart / play again, go back to menu) - half done
 - [ ] Automated tests
-- [ ] No attack animation when there is no more ammo - seems someone broke this
-- [ ] Make mobs slowly move towards player when in aggro range 
 - [ ] Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
 - [ ] Boss zombies (may need more graphics from Ramiro for this)
 - [ ] Audio - partially done
 - [ ] Turret sprites - just need to be implemented
-- [ ] Bullet sprite
 - [ ] Melee sprites with a more visible sword
-- [ ] Slower zombie attacks
 - [ ] refine melee attacks/use animation
 - [ ] make trying to close game window generate a confirmation prompt 
-- [ ] ability to enter name/initials on high score screen
 - [ ] pause game (maybe)
 - [ ] move pathfinding to its component and iterate through that to decide which entities to path find. Makes it easier for the attack cycler as well
 
 
+- [x] Slower zombie attacks
 - [x] Put back the poles beside the buildings 
 - [x] Make path find work around fences and buildings
 - [x] Render the map layer properly! in render() in PlayGame

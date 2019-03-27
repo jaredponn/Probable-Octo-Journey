@@ -97,23 +97,29 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 						PlayerSet.class,
 						GameConfig.MOB_ATTACK_DAMAGE);
 			if (playerHitByMob) {
+				try {
 				// play player hurt sound
-				int hurtSoundPlay =
-					ThreadLocalRandom.current().nextInt(0,
+					int hurtSoundPlay =
+							ThreadLocalRandom.current().nextInt(0,
 									    4);
-				switch (hurtSoundPlay) {
-				case 0:
-					GameResources.playerHpDropSound1.play();
-					break;
-				case 1:
-					GameResources.playerHpDropSound2.play();
-					break;
-				case 2:
-					GameResources.playerHpDropSound3.play();
-					break;
-				case 3:
-					GameResources.playerHpDropSound4.play();
-					break;
+					switch (hurtSoundPlay) {
+					case 0:
+						GameResources.playerHpDropSound1.play();
+						break;
+					case 1:
+						GameResources.playerHpDropSound2.play();
+						break;
+					case 2:
+						GameResources.playerHpDropSound3.play();
+						break;
+					case 3:
+						GameResources.playerHpDropSound4.play();
+						break;
+					}
+				}
+				catch (NullPointerException e) {
+					System.out.println("Error: Problem playing player hp drop sound");
+					e.printStackTrace();
 				}
 			}
 
