@@ -62,7 +62,10 @@ Note: this script only works with bash.
 
 
 # Understanding the Code Base 
-The book *Design Patterns: Elements of Reusable Object-Oriented Software* famously wrote that we should write code to "Favor 'object composition' over 'class inheritance'." (Gang of Four 1995:20). This code base does exactly that -- it utilizes an entity component system that favors object composition of different Component classes in EntitySets instead of inheritance which results in highly generalized reusable code when used properly. See `src/Components/ExampleComponent.java` and `src/EntitySets/ExampleEntitySet.java` for examples.
+The book *Design Patterns: Elements of Reusable Object-Oriented Software* famously wrote that we should write code to "Favor 'object composition' over 'class inheritance'." (Gang of Four 1995:20). This code base does exactly that -- it utilizes an entity component system that favors object composition of different Component classes in EntitySets instead of inheritance. This method  results in highly generalized reusable code when used properly. 
+
+
+See `src/Components/ExampleComponent.java` and `src/EntitySets/ExampleEntitySet.java` for examples on how to create a Component and how to create an EntitySet.
 
 
 The entity component system (the game engine) can be found in the directory `src/poj`. It includes various generalized code for rendering, animations, and entity creation and deletion.
