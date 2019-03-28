@@ -143,14 +143,19 @@ public class AttackCycleHandlers
 		CombatFunctions.turretTargeting(engineState, turret);
 	}
 
+	// reduces the allocations during the main game loop
+	private static EntityAttackSetHandler PLAYER_ATTACK_CYCLE_HANDLER_MEMO =
+		new PlayerAttackCycleHandler();
+	private static EntityAttackSetHandler MOBSET_ATTACK_CYCLE_HANDLER_MEMO =
+		new MobSetAttackCycleHandler();
 
 	public static EntityAttackSetHandler
 	queryEntityAttackSetHandler(Class<? extends Component> c)
 	{
 		if (c == PlayerSet.class)
-			return new PlayerAttackCycleHandler();
+			return PLAYER_ATTACK_CYCLE_HANDLER_MEMO;
 		else if (c == MobSet.class)
-			return new MobSetAttackCycleHandler();
+			return MOBSET_ATTACK_CYCLE_HANDLER_MEMO;
 		else {
 			return new PlayerAttackCycleHandler();
 		}
