@@ -81,8 +81,13 @@ public class Menu
 				if (Systems.arePCollisionBodiesColliding(
 					    gjk, buttonBody, mouseHitBox)) {
 					// menu selection button sound is played
-					//GameResources.menuSelectButtonSound
-					//	.play();
+					try {
+					GameResources.menuSelectButtonSound.play();
+					}
+					catch (NullPointerException e) {
+						System.out.println("ERROR: Problem playing button press sound");
+						e.printStackTrace();
+					}
 
 					// exit button is always
 					// added if in main menu
