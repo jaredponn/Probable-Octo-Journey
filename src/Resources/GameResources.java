@@ -188,6 +188,7 @@ public class GameResources
 				NoTreeofficialMapCarsAndBuildings3="resources/RamiroGraphics/officialMap/MapFinalNoTrees_cars and buildings.csv",
 				NoTreeofficialMapTreesAndRocks4="resources/RamiroGraphics/officialMap/MapFinalNoTrees_trees and rocks.csv",
 				NoTreeofficialMapLightsAndSigns5="resources/RamiroGraphics/officialMap/MapFinalNoTrees_lights and signs.csv",
+				NoTreeofficialMapEmptyBlockForBuildings="resources/RamiroGraphics/officialMap/MapFinalNoTrees_emptyBlocksFOrBuildings.csv",
 				NoTreeofficialTileSetConfig="resources/RamiroGraphics/officialMap/mapSpritesfinal.json",
 				NoTreeofficialMapConfig="resources/RamiroGraphics/officialMap/MapFinal.json";
 
