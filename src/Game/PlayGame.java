@@ -197,7 +197,7 @@ public class PlayGame extends World
 		this.guiBuffer = new LinkedList<RenderObject>();
 
 		// camera initialization
-		resetCamera();
+		this.resetCamera();
 
 		this.invCam = new Camera();
 		this.updateInverseCamera();
