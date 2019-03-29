@@ -47,4 +47,31 @@ public class OctoAnimationBuffer
 			this.buffer[i] = new Animation(o.buffer[i]);
 		}
 	}
+
+	public Animation getAnimation(CardinalDirections d)
+	{
+
+		switch (d) {
+		case N:
+			return buffer[0];
+		case NE:
+			return buffer[1];
+		case NW:
+			return buffer[2];
+		case S:
+			return buffer[3];
+		case SE:
+			return buffer[4];
+		case SW:
+			return buffer[5];
+		case W:
+			return buffer[6];
+		case E:
+			return buffer[7];
+		default:
+			Logger.logMessage(
+				"Java is seriously a garbage language -- error in octo animation buffer");
+			return buffer[7];
+		}
+	}
 }

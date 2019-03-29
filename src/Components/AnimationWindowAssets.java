@@ -10,37 +10,43 @@ public class AnimationWindowAssets implements Component
 {
 	// change to use ocotanimation buffer
 	private static final int DEFAULT_ASSET_BUFFER_SIZE = 100;
-	Animation assets[];
+	OctoAnimationBuffer assets[];
 
-	public AnimationWindowAssets(ArrayList<Pair<Animation, Integer>> arr)
+	public AnimationWindowAssets(
+		ArrayList<Pair<OctoAnimationBuffer, Integer>> arr)
 	{
-		assets = new Animation[DEFAULT_ASSET_BUFFER_SIZE];
+		assets = new OctoAnimationBuffer[DEFAULT_ASSET_BUFFER_SIZE];
 
-		for (Pair<Animation, Integer> p : arr) {
+		for (Pair<OctoAnimationBuffer, Integer> p : arr) {
 			assets[p.snd()] = p.fst();
 		}
 	}
 
 	public AnimationWindowAssets(AnimationWindowAssets a)
 	{
-		assets = new Animation[DEFAULT_ASSET_BUFFER_SIZE];
+		assets = new OctoAnimationBuffer[DEFAULT_ASSET_BUFFER_SIZE];
 
 		for (int i = 0; i < a.assets.length; ++i) {
-			if (a.unsafeGetAnimation(i) == null)
+			if (a.getOctoAnimationBufferAt(i) == null)
 				continue;
 
-			assets[i] = new Animation(a.unsafeGetAnimation(i));
+			assets[i] = new OctoAnimationBuffer(
+				a.getOctoAnimationBufferAt(i));
 		}
 	}
-
-	public Animation unsafeGetAnimation(int i)
+	protected OctoAnimationBuffer getOctoAnimationBufferAt(int i)
 	{
 		return assets[i];
 	}
 
-	public Animation getAnimation(int i)
+	public Animation unsafeGetAnimation(CardinalDirections d, int i)
 	{
-		return unsafeGetAnimation(i);
+		return assets[i].getAnimation(d);
+	}
+
+	public Animation getAnimation(CardinalDirections d, int i)
+	{
+		return unsafeGetAnimation(d, i);
 	}
 
 	public void print()
