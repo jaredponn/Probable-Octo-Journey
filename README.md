@@ -84,14 +84,14 @@ See `textbased/README.md` for more information about the text based version.
 # Announcements -- for Contributors:
 
 ## TODO List
+- [ ] REDO SPRITE for the tilemap so buildings fits the tiles perfectly (either delete or add new blocks)
 - [ ] Initials for the GAME OVER SCREEN (Ramiro)
-- [ ] Make the hitboxes for the tilemap - WIP (Ramiro)
-- [ ] Aligning hit boxes with the map - WIP (Ramiro)
+- [ ] Boss zombies (may need more graphics from Ramiro for this)
+- [ ] Make the hitboxes for the tilemap - Buildings are done 03/29/19 haiyang
 - [ ] Aligning collision boxes for the players&zombie 
 - [ ] Game over screen (restart / play again, go back to menu) - half done
 - [ ] Automated tests
 - [ ] Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
-- [ ] Boss zombies (may need more graphics from Ramiro for this)
 - [ ] Audio - partially done
 - [ ] Turret sprites - just need to be implemented
 - [ ] Melee sprites with a more visible sword
