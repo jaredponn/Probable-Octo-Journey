@@ -230,7 +230,7 @@ public class EngineTransforms
 				    .pureGetCenter())
 		    == -1) {
 			System.out.println(
-				"bad thing happened in update enemy position..");
+				"bad thing happened in update enemy position. th");
 			return;
 		}
 		ArrayList<PathFindCord> mobNeighb = getEightNeighbourVector(
