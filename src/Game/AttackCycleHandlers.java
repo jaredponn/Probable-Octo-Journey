@@ -133,7 +133,6 @@ public class AttackCycleHandlers
 			c, d, animationFlag));
 
 		mOpt.get().setSpeed(0);
-		mOpt.get().setVelocity(new Vector2f(0, 0));
 	}
 
 
@@ -185,29 +184,50 @@ public class AttackCycleHandlers
 
 			if (a.isAttacking()) {
 				switch (a.getAttackState()) {
-				case 0: // priming
-					playGame.pushEventToEventHandler(
+				case 0: // starting
+					pushAttackEventToAttackHandler(
+						playGame,
+						atkHandler.startingHandler(
+							playGame, i));
+					break;
+
+				case 1: // priming
+					pushAttackEventToAttackHandler(
+						playGame,
 						atkHandler.primerHandler(
 							playGame, i));
 					break;
 
-				case 1: // attack
-					playGame.pushEventToEventHandler(
+				case 2: // attack
+					pushAttackEventToAttackHandler(
+						playGame,
 						atkHandler.attackHandler(
 							playGame, i));
 					break;
-				case 2: // recoil
-					playGame.pushEventToEventHandler(
+				case 3: // recoil
+					pushAttackEventToAttackHandler(
+						playGame,
 						atkHandler.recoilHandler(
 							playGame, i));
 					break;
 
-				case 3: // end attack cycle
+				case 4: // end attack cycle
+					pushAttackEventToAttackHandler(
+						playGame,
+						atkHandler.endAttackHandler(
+							playGame, i));
+
 					a.endAttackCycle();
 					a.resetCycle();
 					break;
 				}
 			}
 		}
+	}
+	private static void pushAttackEventToAttackHandler(PlayGame g,
+							   PlayGameEvent e)
+	{
+		if (e != null)
+			g.pushEventToEventHandler(e);
 	}
 }

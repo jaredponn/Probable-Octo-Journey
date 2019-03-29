@@ -95,7 +95,7 @@ public class PlayGame extends World
 	protected int mobsSpawned = 0;
 	protected double lastWaveDefeatedAt = 0.0;
 
-	protected double timeOfLastMobSpawn = 0.0 - GameConfig.MOB_SPAWN_TIMER;
+	protected double timeOfLastMobSpawn = 0.0;
 	protected double timeOfLastCashSpawn =
 		0.0 - GameConfig.PICKUP_CASH_SPAWN_TIME;
 	protected double timeOfLastPowerUpSpawn =
@@ -246,7 +246,6 @@ public class PlayGame extends World
 	{
 		// Player
 		this.player = super.engineState.spawnEntitySet(new PlayerSet());
-		mobSpawner();
 
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
 			this.engineState, this.map, 0, this.player);
@@ -358,26 +357,37 @@ public class PlayGame extends World
 		EngineTransforms.debugRenderAggro(this.engineState,
 						  this.debugBuffer, this.cam);
 
+
+		// resolving entity collision
+		EngineTransforms
+			.nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
+				this.engineState, this.gjk, PlayerSet.class,
+				MobSet.class);
+		EngineTransforms
+			.nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
+				this.engineState, this.gjk, MobSet.class,
+				MobSet.class);
+
 		// Resolving  collisions against tilemap
 		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
 			EngineTransforms
 				.nudgePhysicsPCollisionBodiesOutsideTileMap(
 					this.engineState, this.gjk,
 					PlayerSet.class,
-					this.map.getLayerEngineState(i),
-					this.dt);
+					this.map.getLayerEngineState(i));
 
 			EngineTransforms
 				.nudgePhysicsPCollisionBodiesOutsideTileMap(
 					this.engineState, this.gjk,
 					MobSet.class,
-					this.map.getLayerEngineState(i),
-					this.dt);
+					this.map.getLayerEngineState(i));
+
 
 			EngineTransforms.debugRenderPhysicsPCollisionBodies(
 				this.map.getLayerEngineState(i), debugBuffer,
 				this.cam, Color.RED);
 		}
+
 
 		//  attack cycles
 		AttackCycleHandlers.runAttackCyclers(this);
@@ -416,14 +426,14 @@ public class PlayGame extends World
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 				this.engineState, this.cam);
 
-		gameEventStack.runGameEventStack();
-		// rendering is run after this is run
 
 		EngineTransforms.setMovementVelocityFromMovementDirectionForSet(
 			this.engineState, PlayerSet.class);
 		EngineTransforms
 			.steerMovementVelocityFromMovementDirectionForSet(
-				this.engineState, MobSet.class, 1 / 29f);
+				this.engineState, MobSet.class, 1 / 20f);
+		gameEventStack.runGameEventStack();
+		// rendering is run after this is run
 	}
 
 	protected Vector2f getPositionToMouseDelta(Vector2f v)

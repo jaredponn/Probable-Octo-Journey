@@ -602,7 +602,7 @@ public class Map
 		for (int i = 128; i <= 136; ++i) {
 			wallState.set(i, true);
 			wallHitBox.set(i, new PhysicsPCollisionBody(
-						  new Vector2f(0f, 0f),
+						  new Vector2f(-1f, -1f),//allignment
 						  cbwc.pureAdd(0.5f,
 							       0.5f), // center
 						  cbwc.pureAdd(0f, 0f), cbwc,
@@ -654,41 +654,98 @@ public class Map
 				new Vector2f(-1f, 0f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
+		
 				*/
 		wallState.set(122, true);
 		wallHitBox.set(
 			122,
 			new PhysicsPCollisionBody(
 				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
-				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0.5f, 0.5f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
 
 
 		// fence2
 		
+		// left side of the fence
 		wallState.set(123, true);
 		wallHitBox.set(
 			123,
 			new PhysicsPCollisionBody(
 				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
-				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
-				cbwc.pureAdd(0.5f, 0.5f), cbwc.pureAdd(1f, 1f)));
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(1f, 0f),
+				cbwc.pureAdd(0f, 1f), cbwc.pureAdd(1f, 1f)));
 
+		// top right of the right side fences
 		wallState.set(124, true);
 		wallHitBox.set(
 			124,
 			new PhysicsPCollisionBody(
-				new Vector2f(0f, -1f), cbwc.pureAdd(0f, 0f),
+				new Vector2f(1f, 1f), cbwc.pureAdd(1f, 1f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
-				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 0f)));
+		
+		// this one is the right side of the fence
+		
+		// 2nd one
 		wallState.set(140, true);
 		wallHitBox.set(
 			140,
 			new PhysicsPCollisionBody(
 				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(1f, 0f),
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
+		
+		wallState.set(107, true);
+		wallHitBox.set(
+			107,
+			new PhysicsPCollisionBody(
+				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
-
+		
+		// the top right part of fence of the right side
+		wallState.set(124, true);
+		wallHitBox.set(
+			124,
+			new PhysicsPCollisionBody(
+				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 0f)));
+		
+		// fence 3
+		//  bottom left side of the fence border/ left side
+		
+		wallState.set(412, true);
+		wallHitBox.set(
+			412,
+			new PhysicsPCollisionBody(
+				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 0f)));
+		
+		// bottom left side of the fence/ right side
+		
+		wallState.set(429, true);
+		wallHitBox.set(
+			429,
+			new PhysicsPCollisionBody(
+				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 0f)));
+		
+		// bottom left side of the fence/ top right side
+		
+		wallState.set(413, true);
+		wallHitBox.set(
+			413,
+			new PhysicsPCollisionBody(
+				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(1f, 1f), cbwc.pureAdd(0f, 1f),
+				cbwc.pureAdd(0f, 1f), cbwc.pureAdd(0f, 1f)));
+		
+		
+		
 
 		//buildings
 				//hitbox for the post sign

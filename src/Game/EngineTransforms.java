@@ -686,46 +686,10 @@ at Main.main(Main.java:25)
 		}
 	}
 
-	public static void resolvePhysicsPCollisionBodiesAgainstTileMap(
-		EngineState engineState, GJK g,
-		final Class<? extends Component> set0, final MapLayer map,
-		final double dt)
-	{
-		for (int i = engineState.getInitialSetIndex(set0);
-		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(set0, i)) {
-
-			final Optional<PhysicsPCollisionBody> a =
-				engineState.getComponentAt(
-					PhysicsPCollisionBody.class, i);
-
-			Optional<Movement> va =
-				engineState.getComponentAt(Movement.class, i);
-			if (!a.isPresent())
-				continue;
-
-			if (!va.isPresent())
-				continue;
-
-			for (PhysicsPCollisionBody b :
-			     map.getRawComponentArrayListPackedData(
-				     PhysicsPCollisionBody.class)) {
-
-				// sets velocity so that it never enters the
-				// wall
-				Vector2f tmp =
-					Systems.pCollisionBodiesGetCollisionBodyBDisplacementDelta(
-						g, b, a.get(), va.get(), dt);
-				tmp.mul(1 / ((float)dt));
-				va.get().setVelocity(tmp);
-			}
-		}
-	}
 
 	public static void nudgePhysicsPCollisionBodiesOutsideTileMap(
 		EngineState engineState, GJK g,
-		final Class<? extends Component> set0, final MapLayer map,
-		final double dt)
+		final Class<? extends Component> set0, final MapLayer map)
 	{
 		for (int i = engineState.getInitialSetIndex(set0);
 		     Components.isValidEntity(i);
@@ -753,6 +717,57 @@ at Main.main(Main.java:25)
 						   a.get().getPolygon())) {
 					Systems.nudgeCollisionBodyBOutOfA(
 						b, a.get(), aw.get(), g);
+				}
+			}
+		}
+	}
+
+	public static void nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
+		EngineState engineState, GJK g,
+		final Class<? extends Component> a,
+		final Class<? extends Component> b)
+	{
+		for (int i = engineState.getInitialSetIndex(a);
+		     Components.isValidEntity(i);
+		     i = engineState.getNextSetIndex(a, i)) {
+
+			final Optional<PhysicsPCollisionBody> apopt =
+				engineState.getComponentAt(
+					PhysicsPCollisionBody.class, i);
+
+			Optional<WorldAttributes> awopt =
+				engineState.getComponentAt(
+					WorldAttributes.class, i);
+
+			if (!apopt.isPresent())
+				continue;
+
+			if (!awopt.isPresent())
+				continue;
+
+			PhysicsPCollisionBody ap = apopt.get();
+			WorldAttributes aw = awopt.get();
+
+			for (int j = engineState.getInitialSetIndex(b);
+			     Components.isValidEntity(j);
+			     j = engineState.getNextSetIndex(b, j)) {
+
+				final Optional<PhysicsPCollisionBody> bpopt =
+					engineState.getComponentAt(
+						PhysicsPCollisionBody.class, j);
+				if (!bpopt.isPresent())
+					continue;
+
+				PhysicsPCollisionBody bp = bpopt.get();
+
+				if (Systems.arePCollisionBodiesColliding(g, bp,
+									 ap)
+				    && i != j) {
+
+					Systems.nudgeCollisionBodyBOutOfA(
+						bp, ap, aw, g);
+
+					break;
 				}
 			}
 		}
