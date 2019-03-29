@@ -174,6 +174,8 @@ public class GameResources
 		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSprities.png");
 	public static BufferedImage officialTileSetTest =
 		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSpritiesWithLines.png");
+	public static BufferedImage officialTileSetTestNoBoundBuildings =
+		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSpritiesWithLinesWithoutBounds.png");
 
 	public static String officialMapGround1="resources/RamiroGraphics/officialMap/MapFinal_ground.csv",
 		   		officialMapMisc2="resources/RamiroGraphics/officialMap/MapFinal_misc1.csv",
