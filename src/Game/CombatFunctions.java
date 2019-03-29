@@ -17,6 +17,7 @@ import poj.EngineState;
 import poj.Component.*;
 import poj.Collisions.GJK;
 import poj.linear.Vector2f;
+import Resources.*;
 
 /**
  * A collection of methods to help handle combat and entity removal
@@ -193,10 +194,19 @@ public class CombatFunctions
 			final Optional<AggroRange> abodyOptional =
 				engineState.getComponentAt(AggroRange.class, i);
 
+			Optional<AttackCycle> atkcycleOpt =
+				engineState.getComponentAt(AttackCycle.class,
+							   i);
+
+			if (!atkcycleOpt.isPresent())
+				continue;
+
 			if (!abodyOptional.isPresent())
 				continue;
 
 			final PCollisionBody abody = abodyOptional.get();
+
+			AttackCycle atkcycle = atkcycleOpt.get();
 
 			for (int j = engineState.getInitialSetIndex(b);
 			     engineState.isValidEntity(j);
@@ -207,28 +217,17 @@ public class CombatFunctions
 					engineState.getComponentAt(
 						PhysicsPCollisionBody.class, j);
 
-				Optional<AttackCycle> atkcycleOpt =
-					engineState.getComponentAt(
-						AttackCycle.class, i);
 
 				if (!bbodyOptional.isPresent())
-					continue;
-
-				if (!atkcycleOpt.isPresent())
 					continue;
 
 				final PCollisionBody bbody =
 					bbodyOptional.get();
 
-				AttackCycle atkcycle = atkcycleOpt.get();
-
 
 				if (Systems.arePCollisionBodiesColliding(
-					    gjk, bbody, abody)
-				    && !atkcycle.isAttacking()) {
-
+					    gjk, bbody, abody)) {
 					atkcycle.startAttackCycle();
-					break;
 				}
 			}
 		}
@@ -297,8 +296,9 @@ public class CombatFunctions
 		HitPoints playerHP = engineState.unsafeGetComponentAt(
 			HitPoints.class, player);
 		playerHP.hurt(amount);
-
-		if (playerHP.getHP() <= 0) {
+		if (playerHP.getHP() > 0) {
+		} else {
+			// play death sound
 			System.out.println(
 				"---------------\n"
 				+ "The player has been killed!!!\n---GAME OVER---");
@@ -399,6 +399,7 @@ public class CombatFunctions
 		tmp.negate();
 		Vector2f unitVecturretPosTotargetDelta = tmp.pureNormalize();
 
+		// create projectile
 		int e = engineState.spawnEntitySet(
 			new CannonShell(turretPosition));
 		engineState.unsafeGetComponentAt(PhysicsPCollisionBody.class, e)
@@ -415,5 +416,18 @@ public class CombatFunctions
 		engineState.unsafeGetComponentAt(Movement.class, e)
 			.setVelocity(unitVecturretPosTotargetDelta.pureMul(
 				shellSpeed));
+
+		// decrease ammo
+		engineState.unsafeGetComponentAt(Ammo.class, turret)
+			.decreaseAmmo(1, GameConfig.TURRET_STARTING_AMMO);
+
+		// destroy turret if out of ammo
+		if (engineState.unsafeGetComponentAt(Ammo.class, turret)
+			    .hasAmmo(1))
+			return;
+		else {
+			System.out.println("A turret ran out of ammo");
+			removeTurret(engineState, turret);
+		}
 	}
 }

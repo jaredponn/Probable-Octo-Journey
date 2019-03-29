@@ -289,9 +289,10 @@ public class PlayGameProcessInputs
 				if (Math.abs(g.lastCoolDown.get(
 					    GameConfig.BUY_AMMO))
 					    == 0d
-				    && g.cash >= 20 * GameConfig.BULLET_COST) {
-					g.playerAmmo += 20;
-					g.cash -= 20 * GameConfig.BULLET_COST;
+				    && g.cash >= GameConfig.PURCHASE_AMMOPACK_AMOUNT * GameConfig.BULLET_COST) {
+					g.playerAmmo.increaseAmmo(
+							GameConfig.PURCHASE_AMMOPACK_AMOUNT, GameConfig.PLAYER_MAX_AMMO);
+					g.cash -= GameConfig.PURCHASE_AMMOPACK_AMOUNT * GameConfig.BULLET_COST;
 					updateDtForKey(
 						g, GameConfig.BUY_AMMO,
 						-PlayGame.coolDownMax.get(
@@ -301,6 +302,10 @@ public class PlayGameProcessInputs
 					System.out.println(
 						"Either is on cooldown or not enough money to buy more ammo");
 			}
+			
+			///// Quit Game /////
+			if (inputPoller.isKeyDown(GameConfig.QUIT_KEY))
+				g.quit();
 		}
 	}
 

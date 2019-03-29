@@ -21,15 +21,14 @@ public class GameConfig
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
-	public static final int PLAYER_HP = 100;
-	public static final int PLAYER_MAX_HP = 200;
+	public static final int PLAYER_HP = 50;
+	public static final int PLAYER_MAX_HP = 75;
 	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
 	public static final int TOWER_DIFFUSION_VALUE = (int)Math.pow(2, 5);
 	public static final float PLAYER_HEIGHT =
 		GameResources.PLAYER_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
-	public static final Vector2f PLAYER_SPAWNNING_POS =
-		new Vector2f(3f, 3f);
+	public static final Vector2f PLAYER_SPAWNNING_POS = new Vector2f(0, 0);
 	public static final PCollisionBody PLAYER_COLLISION_BODY =
 		new PCollisionBody(
 			new Vector2f(0.2f, 0.55f),  // displacement
@@ -54,15 +53,16 @@ public class GameConfig
 			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
-		new AttackCycle(45, 45);
+		new AttackCycle(100, 100);
 
 	public static final int PLAYER_STARTING_CASH = 100;
 	public static final int PLAYER_STARTING_AMMO = 20;
+	public static final int PLAYER_MAX_AMMO = 100;
 	public static final int PLAYER_STARTING_MELEE_DAMAGE = 30;
 
 	public static final PCollisionBody PLAYER_MELEE_N_ATK_BODY =
 		new PCollisionBody(new Vector2f(0, 0.25f),   // displacement
-				   new Vector2f(0.5f, 0.5f), // center
+				   new Vector2f(0.3f, 0.3f), // center
 							     // collision body:
 				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
 				   new Vector2f(0.4f, 0),
@@ -70,7 +70,7 @@ public class GameConfig
 
 	public static final PCollisionBody PLAYER_MELEE_NE_ATK_BODY =
 		new PCollisionBody(new Vector2f(0f, 0.25f),  // displacement
-				   new Vector2f(0.5f, 0.5f), // center
+				   new Vector2f(0.3f, 0.3f), // center
 							     // collision body:
 				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
 				   new Vector2f(0.6f, 0),
@@ -79,7 +79,7 @@ public class GameConfig
 
 	public static final PCollisionBody PLAYER_MELEE_E_ATK_BODY =
 		new PCollisionBody(new Vector2f(0.25f, 0.25f), // displacement
-				   new Vector2f(0.5f, 0.5f),   // center
+				   new Vector2f(0.3f, 0.3f),   // center
 							     // collision body:
 				   new Vector2f(0, 0), new Vector2f(0.6f, 0),
 				   new Vector2f(0, 0.4f),
@@ -87,7 +87,7 @@ public class GameConfig
 
 	public static final PCollisionBody PLAYER_MELEE_SE_ATK_BODY =
 		new PCollisionBody(new Vector2f(0.1f, 0f),   // displacement
-				   new Vector2f(0.5f, 0.5f), // center
+				   new Vector2f(0.3f, 0.3f), // center
 							     // collision body:
 				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
 				   new Vector2f(0.6f, 0),
@@ -95,7 +95,7 @@ public class GameConfig
 
 	public static final PCollisionBody PLAYER_MELEE_S_ATK_BODY =
 		new PCollisionBody(new Vector2f(0, 0.25f),    // displacement
-				   new Vector2f(0.5f, -0.5f), // center
+				   new Vector2f(0.3f, -0.3f), // center
 							      // collision body:
 				   new Vector2f(0, 0), new Vector2f(0, -0.6f),
 				   new Vector2f(0.4f, 0),
@@ -103,7 +103,7 @@ public class GameConfig
 
 	public static final PCollisionBody PLAYER_MELEE_SW_ATK_BODY =
 		new PCollisionBody(new Vector2f(-0.25f, -0.1f), // displacement
-				   new Vector2f(0.5f, 0.5f),    // center
+				   new Vector2f(0.3f, 0.3f),    // center
 							     // collision body:
 				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
 				   new Vector2f(0.6f, 0),
@@ -111,15 +111,15 @@ public class GameConfig
 
 	public static final PCollisionBody PLAYER_MELEE_W_ATK_BODY =
 		new PCollisionBody(new Vector2f(0.25f, 0.25f), // displacement
-				   new Vector2f(0.5f, 0.5f),   // center
-							     // collision body:
+				   new Vector2f(-0.3f, 0.2f),  // center
+							      // collision body:
 				   new Vector2f(0, 0), new Vector2f(-0.6f, 0),
 				   new Vector2f(0, 0.4f),
 				   new Vector2f(-0.6f, 0.4f));
 
 	public static final PCollisionBody PLAYER_MELEE_NW_ATK_BODY =
 		new PCollisionBody(new Vector2f(-0.25f, 0.25f), // displacement
-				   new Vector2f(0.5f, 0.5f),    // center
+				   new Vector2f(0.3f, 0.3f),    // center
 							     // collision body:
 				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
 				   new Vector2f(0.6f, 0),
@@ -143,7 +143,8 @@ public class GameConfig
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
 	public static final int CONSTRUCT_HP = 100;
 	public static final float SHELL_SPEED = 0.04f;
-	public static final int SHELL_DAMAGE = 100;
+	public static final int SHELL_DAMAGE = 75;
+	public static final int TURRET_STARTING_AMMO = 40;
 	public static final PCollisionBody TURRET_HITBOX_BODY =
 		TURRET_COLLISION_BODY;
 
@@ -217,15 +218,20 @@ public class GameConfig
 				   new Vector2f(0, 0), new Vector2f(2, 0),
 				   new Vector2f(0, 2), new Vector2f(2, 2));
 
-	public static final PCollisionBody MOB_AGGRO_RANGE =
-		ENEMY_HITBOX_BODY; /*new
-AggroRange( new Vector2f(-0.3f, 0f), // displacement new
-Vector2f(0.5f, 0.5f), // center
-// collision body:
-new Vector2f(0f, 0f), new Vector2f(1f, 1f),
-new Vector2f(1f, 0f), new Vector2f(0f, 1f),
-new Vector2f(0.5f, -0.25f), new Vector2f(-0.2f, 0.5f),
-new Vector2f(1.2f, 0.5f), new Vector2f(0.5f, 1.25f));*/
+	public static final PCollisionBody MOB_AGGRO_RANGE = new PCollisionBody(
+		// clang-format off
+		new Vector2f(0.2f, 0.55f),  // displacement
+		new Vector2f(0.25f, 0.25f), // center
+					    // collision body:
+		new Vector2f(0.25f / 3f, 1 / 3f),
+		new Vector2f(0.75f / 3f, 1 / 3f),
+		new Vector2f(0 / 3f    , 0.75f / 3f),
+		new Vector2f(1 / 3f    , 0.75f / 3f),
+		new Vector2f(0 / 3f    , 0.25f / 3f),
+		new Vector2f(0.25f / 3f, 0 / 3f),
+		new Vector2f(0.75f / 3f, 0 / 3f),
+		new Vector2f(1 / 3f    , 0.25f / 3f));
+	// clang-format on
 
 	public static final float MOB_SPAWN_TIMER = 10.0f;
 	public static final double MOB_DESPAWN_TIMER = 5000d; // in ms
@@ -349,6 +355,7 @@ new Vector2f(1.2f, 0.5f), new Vector2f(0.5f, 1.25f));*/
 	// ammo:
 	public static final int PICKUP_AMMOPACK_AMOUNT = 20;
 	public static final float PICKUP_AMMOPACK_SPAWN_TIME = 20.0f;
+	public static final int PURCHASE_AMMOPACK_AMOUNT = 20;
 
 	////////////////////////
 	///// input config /////
@@ -358,6 +365,7 @@ new Vector2f(1.2f, 0.5f), new Vector2f(0.5f, 1.25f));*/
 	public static final int BUILD_TOWER = KeyEvent.VK_Q;
 	public static final int BUILD_TRAP = KeyEvent.VK_E;
 	public static final int BUY_AMMO = KeyEvent.VK_B;
+	public static final int QUIT_KEY = KeyEvent.VK_ESCAPE;
 
 	// key, cooldown (ms)
 	public static final ArrayList<Pair<Integer, Double>> COOL_DOWN_KEYS =

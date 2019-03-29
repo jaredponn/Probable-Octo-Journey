@@ -49,17 +49,21 @@ public class AttackCycle implements Component
 		recoilTimems = rtms;
 
 		this.resetCycle();
+		this.endAttackCycle();
 	}
 
 	public AttackCycle(AttackCycle n)
 	{
 		primingTimems = n.primingTimems;
 		recoilTimems = n.recoilTimems;
+
+		this.resetCycle();
+		this.endAttackCycle();
 	}
 
 	public void resetCycle()
 	{
-		accTimems = 0d;
+		accTimems = -Double.MAX_VALUE;
 		priming = true;
 	}
 
@@ -92,11 +96,12 @@ public class AttackCycle implements Component
 
 	/**
 	 * Gets the current attack state.
-	 * 0 -- is the priming attack state
-	 * 1 -- is the attack hit box state -- NOTE AUTOMATICALLY
+	 * 0 -- is the starting attack
+	 * 1 -- is the priming attack state
+	 * 2 -- is the attack hit box state -- NOTE AUTOMATICALLY
 	 * UPDATES THE priming VARIABLE
-	 * 2 -- is the recoil attack state
-	 * 3 -- end of the entire cycle
+	 * 3 -- is the recoil attack state
+	 * 4 -- end of the entire cycle
 	 *
 	 *
 	 * @return   int -- see the above description for what the ints
@@ -104,21 +109,25 @@ public class AttackCycle implements Component
 	 */
 	public int getAttackState()
 	{
-		if (accTimems < primingTimems && priming) {
+		if (accTimems < 0) {
+			accTimems = 0;
 			return 0;
+		}
+		if (accTimems < primingTimems && priming) {
+			return 1;
 		}
 
 		if (accTimems >= primingTimems && priming) {
 			priming = !priming;
-			return 1;
-		}
-
-		if ((accTimems - primingTimems) < recoilTimems && !priming) {
 			return 2;
 		}
 
-		if ((accTimems - primingTimems) > recoilTimems && !priming) {
+		if ((accTimems - primingTimems) < recoilTimems && !priming) {
 			return 3;
+		}
+
+		if ((accTimems - primingTimems) > recoilTimems && !priming) {
+			return 4;
 		}
 
 		return -1;

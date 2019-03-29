@@ -13,7 +13,11 @@ package Game;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.util.*;
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import Components.*;
@@ -38,6 +42,7 @@ import poj.GameWindow.*;
 import poj.Collisions.GJK;
 import poj.Logger.Logger;
 import poj.Render.MinYFirstSortedRenderObjectBuffer;
+import poj.Time.*;
 import poj.Render.RenderObject;
 import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
@@ -83,13 +88,14 @@ public class PlayGame extends World
 	protected WeaponState curWeaponState = WeaponState.Gun;
 
 	protected double playerDamageBonus = 1d;
-	protected int playerAmmo = GameConfig.PLAYER_STARTING_AMMO;
+	// protected int playerAmmo = GameConfig.PLAYER_STARTING_AMMO;
+	protected Ammo playerAmmo = new Ammo(GameConfig.PLAYER_STARTING_AMMO);
 	protected int cash = GameConfig.PLAYER_STARTING_CASH;
 	protected int killCount = 0;
 	protected int mobsSpawned = 0;
 	protected double lastWaveDefeatedAt = 0.0;
 
-	protected double timeOfLastMobSpawn = 0.0 - GameConfig.MOB_SPAWN_TIMER;
+	protected double timeOfLastMobSpawn = 0.0;
 	protected double timeOfLastCashSpawn =
 		0.0 - GameConfig.PICKUP_CASH_SPAWN_TIME;
 	protected double timeOfLastPowerUpSpawn =
@@ -216,6 +222,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(HitPoints.class);
 		super.engineState.registerComponent(Damage.class);
 		super.engineState.registerComponent(AggroRange.class);
+		super.engineState.registerComponent(Ammo.class);
 	}
 	public void registerEntitySets()
 	{
@@ -237,12 +244,9 @@ public class PlayGame extends World
 	{
 		// Player
 		this.player = super.engineState.spawnEntitySet(new PlayerSet());
-		mobSpawner();
 
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
 			this.engineState, this.map, 0, this.player);
-		// TODO: HAIYANG get the layer number for the path finding!
-		// right now for testing it only have 1 layer
 
 		clearTime();
 
@@ -251,6 +255,13 @@ public class PlayGame extends World
 
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
+
+
+		for (int i = 0; i < GameConfig.MOB_SPAWN_POINTS.size(); i++) {
+			engineState.spawnEntitySet(
+				new MobSet(GameConfig.MOB_SPAWN_POINTS.get(i)));
+			mobsSpawned++;
+		}
 	}
 	public void clearWorld()
 	{
@@ -265,6 +276,7 @@ public class PlayGame extends World
 		// System.out.println("stoped plasying!!");
 		//}
 
+		this.mobSpawner();
 		try {
 			generateDiffusionMap.setStart();
 		} catch (Exception ex) {
@@ -276,7 +288,7 @@ public class PlayGame extends World
 		this.processInputs();
 
 		// ASE
-		this.mobSpawner();
+
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 		this.handleTurrets();
@@ -315,8 +327,6 @@ public class PlayGame extends World
 
 		EngineTransforms.pushOutOfHPEventsIfHPIsZeroOrLess(this);
 
-		// this.cashSpawner(true, 13f, 7f);
-		// this.powerUpSpawner(true, 13f, 8f);
 		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
 		this.collectPowerUp();
 		this.collectHealthPack();
@@ -329,12 +339,7 @@ public class PlayGame extends World
 		this.updateKillDisplay();
 		this.updateMobCountDisplay();
 
-
 		// updating positions
-		EngineTransforms.setMovementVelocityFromMovementDirectionForSet(
-			this.engineState, PlayerSet.class);
-		EngineTransforms.setMovementVelocityFromMovementDirectionForSet(
-			this.engineState, MobSet.class);
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 
@@ -350,26 +355,37 @@ public class PlayGame extends World
 		EngineTransforms.debugRenderAggro(this.engineState,
 						  this.debugBuffer, this.cam);
 
+
+		// resolving entity collision
+		EngineTransforms
+			.nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
+				this.engineState, this.gjk, PlayerSet.class,
+				MobSet.class);
+		EngineTransforms
+			.nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
+				this.engineState, this.gjk, MobSet.class,
+				MobSet.class);
+
 		// Resolving  collisions against tilemap
 		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
 			EngineTransforms
 				.nudgePhysicsPCollisionBodiesOutsideTileMap(
 					this.engineState, this.gjk,
 					PlayerSet.class,
-					this.map.getLayerEngineState(i),
-					this.dt);
+					this.map.getLayerEngineState(i));
 
 			EngineTransforms
 				.nudgePhysicsPCollisionBodiesOutsideTileMap(
 					this.engineState, this.gjk,
 					MobSet.class,
-					this.map.getLayerEngineState(i),
-					this.dt);
+					this.map.getLayerEngineState(i));
+
 
 			EngineTransforms.debugRenderPhysicsPCollisionBodies(
 				this.map.getLayerEngineState(i), debugBuffer,
 				this.cam, Color.RED);
 		}
+
 
 		//  attack cycles
 		AttackCycleHandlers.runAttackCyclers(this);
@@ -386,19 +402,6 @@ public class PlayGame extends World
 			EngineTransforms.updateEnemyPositionFromPlayer(
 				this.engineState, this.map, 0, this.player, i,
 				gjk);
-
-			// TODO: detect mob with turret but MOB CANNOT BE MOVED
-			// after collision
-			/*
-			for (int j = engineState.getInitialSetIndex(
-				     TurretSet.class);
-			     engineState.isValidEntity(j);
-			     j = engineState.getNextSetIndex(TurretSet.class,
-							     j)) {
-				EngineTransforms.checkTurretCollisionWithMob(
-					this.engineState, j, i, this.gjk);
-			}
-			*/
 		}
 
 		// updating the camera
@@ -421,6 +424,12 @@ public class PlayGame extends World
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 				this.engineState, this.cam);
 
+
+		EngineTransforms.setMovementVelocityFromMovementDirectionForSet(
+			this.engineState, PlayerSet.class);
+		EngineTransforms
+			.steerMovementVelocityFromMovementDirectionForSet(
+				this.engineState, MobSet.class, 1 / 20f);
 		gameEventStack.runGameEventStack();
 		// rendering is run after this is run
 	}
@@ -473,6 +482,8 @@ public class PlayGame extends World
 		guiBuffer.add(this.killDisplay);
 		guiBuffer.add(this.mobCountDisplay);
 
+		// debugBuffer.clear();
+
 		super.renderer.renderBuffers(groundBuffer, entityBuffer,
 					     buildingBuffer, poleBuffer,
 					     debugBuffer, guiBuffer);
@@ -500,18 +511,13 @@ public class PlayGame extends World
 	protected void resetCamera()
 	{
 		this.cam.clearBackToIdentity();
-		this.cam.setScalingForVector2(-GameResources.TILE_SCREEN_WIDTH,
-					      GameResources.TILE_SCREEN_HEIGHT);
+		this.cam.setScalingForVector2(
+			-GameResources.TILE_SCREEN_WIDTH
+				* GameResources.MAGIC_CONSTANT,
+			GameResources.TILE_SCREEN_HEIGHT
+				* GameResources.MAGIC_CONSTANT);
 		this.cam.composeWithRotationForVector2XaxisCC(
 			GameResources.TILE_SCREEN_ROTATION);
-		this.cam.composeSetScalingForVector2(
-			GameResources.MAGIC_CONSTANT,
-			GameResources.MAGIC_CONSTANT);
-		/*
-		this.cam.setScalingForVector2(-GameResources.TILE_SCREEN_WIDTH,
-					      GameResources.TILE_SCREEN_HEIGHT);
-		this.cam.composeWithRotationForVector2XaxisCC(
-			GameResources.TILE_SCREEN_ROTATION);*/
 	}
 
 	protected void centerCamerasPositionsToWorldAttribute(WorldAttributes n)
@@ -566,7 +572,7 @@ public class PlayGame extends World
 	/** update ammoDisplay */
 	protected void updateAmmoDisplay()
 	{
-		this.ammoDisplay.setStr("Your Ammo: " + this.playerAmmo);
+		this.ammoDisplay.setStr("Your Ammo: " + this.playerAmmo.get());
 	}
 
 	/** update killDisplay */
@@ -854,8 +860,9 @@ public class PlayGame extends World
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, playerPosition,
 				    collectiblePosition.get())) {
-				this.playerAmmo +=
-					GameConfig.PICKUP_AMMOPACK_AMOUNT;
+				this.playerAmmo.increaseAmmo(
+					GameConfig.PICKUP_AMMOPACK_AMOUNT,
+					GameConfig.PLAYER_MAX_AMMO);
 				CombatFunctions.removePickUp(engineState, i);
 			}
 		}

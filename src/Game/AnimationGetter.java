@@ -109,7 +109,9 @@ public class AnimationGetter
 				return GameResources.enemyEDeathAnimation;
 			}
 		default:
-			return GameResources.enemyNMoveAnimation;
+			System.out.println(
+				"Error with get enemy sprite -- please put in a valid sprite");
+			return new Animation(GameResources.enemyNMoveAnimation);
 		}
 	}
 

@@ -132,7 +132,7 @@ public class AttackCycleHandlers
 		animation.setAnimation(AnimationGetter.queryAnimationSprite(
 			c, d, animationFlag));
 
-		mOpt.get().setVelocity(new Vector2f(0, 0));
+		mOpt.get().setSpeed(0);
 	}
 
 
@@ -142,14 +142,19 @@ public class AttackCycleHandlers
 		CombatFunctions.turretTargeting(engineState, turret);
 	}
 
+	// reduces the allocations during the main game loop
+	private static EntityAttackSetHandler PLAYER_ATTACK_CYCLE_HANDLER_MEMO =
+		new PlayerAttackCycleHandler();
+	private static EntityAttackSetHandler MOBSET_ATTACK_CYCLE_HANDLER_MEMO =
+		new MobSetAttackCycleHandler();
 
 	public static EntityAttackSetHandler
 	queryEntityAttackSetHandler(Class<? extends Component> c)
 	{
 		if (c == PlayerSet.class)
-			return new PlayerAttackCycleHandler();
+			return PLAYER_ATTACK_CYCLE_HANDLER_MEMO;
 		else if (c == MobSet.class)
-			return new MobSetAttackCycleHandler();
+			return MOBSET_ATTACK_CYCLE_HANDLER_MEMO;
 		else {
 			return new PlayerAttackCycleHandler();
 		}
@@ -158,6 +163,7 @@ public class AttackCycleHandlers
 	public static void runAttackCyclerHandler(PlayGame playGame,
 						  Class<? extends Component> c)
 	{
+
 		EngineState engineState = playGame.getEngineState();
 		double gameElapsedTime = playGame.getPlayTime();
 
@@ -178,29 +184,50 @@ public class AttackCycleHandlers
 
 			if (a.isAttacking()) {
 				switch (a.getAttackState()) {
-				case 0: // priming
-					playGame.pushEventToEventHandler(
+				case 0: // starting
+					pushAttackEventToAttackHandler(
+						playGame,
+						atkHandler.startingHandler(
+							playGame, i));
+					break;
+
+				case 1: // priming
+					pushAttackEventToAttackHandler(
+						playGame,
 						atkHandler.primerHandler(
 							playGame, i));
 					break;
 
-				case 1: // attack
-					playGame.pushEventToEventHandler(
+				case 2: // attack
+					pushAttackEventToAttackHandler(
+						playGame,
 						atkHandler.attackHandler(
 							playGame, i));
 					break;
-				case 2: // recoil
-					playGame.pushEventToEventHandler(
+				case 3: // recoil
+					pushAttackEventToAttackHandler(
+						playGame,
 						atkHandler.recoilHandler(
 							playGame, i));
 					break;
 
-				case 3: // end attack cycle
+				case 4: // end attack cycle
+					pushAttackEventToAttackHandler(
+						playGame,
+						atkHandler.endAttackHandler(
+							playGame, i));
+
 					a.endAttackCycle();
 					a.resetCycle();
 					break;
 				}
 			}
 		}
+	}
+	private static void pushAttackEventToAttackHandler(PlayGame g,
+							   PlayGameEvent e)
+	{
+		if (e != null)
+			g.pushEventToEventHandler(e);
 	}
 }

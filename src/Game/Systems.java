@@ -28,12 +28,12 @@ public class Systems
 	public static void updateRenderScreenCoordinatesFromWorldCoordinates(
 		WorldAttributes p, Render r, final Camera c)
 	{
-		Vector2f tmp =
-			Systems.getRenderScreenCoordinateFromWorldCoordinate(p,
-									     c);
+		Vector2f tmp = p.getTopLeftCoordFromOrigin();
+		tmp.add(r.pureGetTranslation());
+		tmp.matrixMultiply(c);
+
 		r.setTopLeftCornerPosition(Math.round(tmp.getX()),
 					   Math.round(tmp.getY()));
-		r.addTranslation();
 	}
 
 	public static Vector2f

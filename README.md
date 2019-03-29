@@ -1,13 +1,54 @@
-# Probably Octo Journey: CPSC 233 Project
+# Probable Octo Journey: CPSC 233 Project
 
 
 # Running the demo
 Execute the following commands in the command line
 
 ```bash
+# clone the repo
 git clone https://github.com/jaredponn/probable-octo-journey
+
+# change directory 
 cd probable-octo-journey
+
+# compile and run the project
 ./run.sh 
+```
+
+Note: this script only works with bash.
+
+# Playing the game
+- WASD to move
+- SPACE to attack (shoot or attack with a bat)
+- X to swap weapons
+- Q to place a turret (if you have enough money)
+- B to buy more ammo (if you have enough money)
+
+Aim with the mouse.Go kill some zombies! See if you can get on the score board.
+
+
+NOTES: unstable release still. Many collision boxes have not been implemented yet.
+
+
+# Running the unit tests
+Execute the following commands in the command line
+
+```bash
+# clone the repo
+git clone https://github.com/jaredponn/probable-octo-journey
+
+# change directory
+cd probable-octo-journey
+
+# copy the "hamcrest-core-1.3.jar" and "junit-4.13.jar" files 
+# into the folder probable-octo-journey/
+cp <hamcrest-core-1.3.jar> .
+cp <junit-4.13.jar> .
+
+# running the unit tests
+./unittests.sh
+
+# individual unit tests can be found at src/poj/test/*
 ```
 
 Note: this script only works with bash.
@@ -17,55 +58,65 @@ Note: this script only works with bash.
 
 - 2019 March 11, Version 1.1 Pre-Alpha half-stable release. Debug renderer is enabled and the red dots indicate collision box points.
 
+- 2019 March 25, Version 1.1 Pre-Alpha half-unstable release. 
 
-# Architecture / UML diagrams
-The architecture uses an entity component system that favors composition.
 
-There are 2 UML diagrams provided, which can be found in the following locations:
+# Understanding the Code Base 
+The book *Design Patterns: Elements of Reusable Object-Oriented Software* famously wrote that we should write code to "Favor 'object composition' over 'class inheritance'." (Gang of Four 1995:20). This code base does exactly that -- it utilizes an entity component system that favors object composition of different Component classes in EntitySets instead of inheritance. This method  results in highly generalized reusable code when used properly. 
+
+
+See `src/Components/ExampleComponent.java` and `src/EntitySets/ExampleEntitySet.java` for examples on how to create a Component and how to create an EntitySet.
+
+
+The entity component system (the game engine) can be found in the directory `src/poj`. It includes various generalized code for rendering, animations, and entity creation and deletion.
+
+
+The game engine design came from various posts and contributions from: https://jaredponn.github.io/ and from the project https://github.com/jaredponn/improved-octo-waffle
+
+
+The UML diagram can be found at:
 ```bash
-./simplifiedumldiagram.png # simplified UML diagram without all the classes
-./demo2umldiagram.png      # actual UML diagram with all the classes in it
+./demo3umldiagram.png   
 ```
+# Textbased Version:
+See `textbased/README.md` for more information about the text based version.
 
 # Announcements -- for Contributors:
 
 ## TODO List
-HIGH PRIORITY (Needed for 03/25/19):
-- [x] Render the map layer properly! in render() in PlayGame
-- [ ] Make the hitboxes for the tilemap
-- [ ] Aligning hit boxes with the map
-- [x] Melee attack
+- [ ] Initials for the GAME OVER SCREEN (Ramiro)
+- [ ] Make the hitboxes for the tilemap - WIP (Ramiro)
+- [ ] Aligning hit boxes with the map - WIP (Ramiro)
+- [ ] Aligning collision boxes for the players&zombie 
 - [ ] Game over screen (restart / play again, go back to menu) - half done
-- [x] Update text based version
+- [ ] Automated tests
+- [ ] Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
+- [ ] Boss zombies (may need more graphics from Ramiro for this)
+- [ ] Audio - partially done
+- [ ] Turret sprites - just need to be implemented
+- [ ] Melee sprites with a more visible sword
+- [ ] refine melee attacks/use animation
+- [ ] make trying to close game window generate a confirmation prompt 
+- [ ] pause game (maybe)
+- [ ] move pathfinding to its component and iterate through that to decide which entities to path find. Makes it easier for the attack cycler as well
+
+
+- [x] Slower zombie attacks
+- [x] Put back the poles beside the buildings 
+- [x] Make path find work around fences and buildings
+- [x] Render the map layer properly! in render() in PlayGame
+- [x] Melee attack - DONE (jared 03/24/19)
+- [x] Update text based version - DONE (alex 03/24/19)
 - [x] Powerups (more damage) - DONE (alex 03/24/19)
 - [x] Collectibles (HP refill, ammo refill, money) - DONE (alex 03/24/19)
 - [x] Finite ammo - DONE (alex 03/20/19)
 - [x] Buying ammo - DONE (alex 03/22/19)/(haiyang 03/23/19)
 - [x] Polishing zombie spawn points - DONE (alex 03/24/19)
-- [ ] Automated tests
-- [ ] Some sort of save game or high score feature
-
-LOW PRIORITY (Not needed for 03/25/19):
-- [ ] Make path find work around fences and buildings 
-- [x] No attack animation when there is no more ammo - DONE (alex 03/24/19)
+- [x] Some sort of save game or high score feature
 - [x] Aligning the aggro hit box properly - DONE (alex 03/20/19) 
 - [x] Actually using the aggro hit box - DONE (alex 03/22/19)
-- [ ] Make mobs slowly move towards player when in aggro range 
 - [x] Shrinking the PPhysicsHitBox of zombies and players - DONE (alex 03/22/19)
-- [ ] Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
-- [ ] Boss zombies (may need more graphics from Ramiro for this)
-- [ ] Audio - partially done
-- [ ] Turret sprites - just need to be implemented
-- [ ] Bullet sprite
-- [ ] Melee sprites with a more visible sword
-- [ ] Slower zombie attacks
 
-## Directory Hierarchy
-The directory hierarchy is as follows:
-```bash
-src/    # source files
-src/poj/ # game engine
-```
 
 ## Coordinate System
 The coordinate system is a little strange. The following diagram will illustrate:
@@ -132,13 +183,6 @@ Turret: https://opengameart.org/content/orange-defense-gun-isometric
 
 
 Coin: https://opengameart.org/content/spinning-pixel-coin-0
-
-
-
-Majority of the collision algorithms were from or built upon *Real-Time Collision Detection* by Christer Ericson, published by Morgan Kaufmann Publishers, Copyright 2005 Elsevier Inc.
-
-
-The game engine design came from various posts and contributions from: https://jaredponn.github.io/ and from the project https://github.com/jaredponn/improved-octo-waffle
 
 
 # Useful readings

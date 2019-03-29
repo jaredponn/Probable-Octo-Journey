@@ -20,9 +20,9 @@ import java.util.Optional;
 public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 {
 
-	class PlayerAttackPrimerEvent extends FocusedPlayGameEvent
+	class PlayerStartingAttackEvent extends FocusedPlayGameEvent
 	{
-		PlayerAttackPrimerEvent(PlayGame g, int e)
+		PlayerStartingAttackEvent(PlayGame g, int e)
 		{
 			super(g, e);
 		}
@@ -72,6 +72,7 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 		}
 	}
 
+
 	public class PlayerAttackEvent extends FocusedPlayGameEvent
 	{
 		PlayerAttackEvent(PlayGame g, int e)
@@ -118,8 +119,14 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 						AnimationGetter.queryPlayerSprite(
 							closestDirToMouse, 0));
 
-				if (super.getPlayGame().playerAmmo > 0) {
-					GameResources.gunSound.play();
+				if (super.getPlayGame().playerAmmo.hasAmmo(1)) {
+					try {
+						GameResources.gunSound.play();
+					} catch (NullPointerException e) {
+						System.out.println(
+							"ERROR: Problem playing gun sound");
+						e.printStackTrace();
+					}
 
 
 					// generate bullet
@@ -151,9 +158,21 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 							unitVecToMouse.pureMul(
 								bulletSpeed));
 
-					super.getPlayGame().playerAmmo -= 1;
+					super.getPlayGame()
+						.playerAmmo.decreaseAmmo(
+							1,
+							GameConfig
+								.PLAYER_MAX_AMMO);
+					;
 				} else {
-					GameResources.emptyClipSound.play();
+					try {
+						GameResources.emptyClipSound
+							.play();
+					} catch (NullPointerException e) {
+						System.out.println(
+							"ERROR: Problem playing empty clip sound");
+						e.printStackTrace();
+					}
 				}
 
 				break;
@@ -187,17 +206,6 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 	}
 
 
-	public class PlayerRecoilEvent extends FocusedPlayGameEvent
-	{
-		PlayerRecoilEvent(PlayGame g, int e)
-		{
-			super(g, e);
-		}
-		public void f()
-		{
-		}
-	}
-
 	private PCollisionBody queryMeleeAttackBody(CardinalDirections d)
 	{
 
@@ -223,16 +231,17 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 		}
 	}
 
-	public PlayGameEvent primerHandler(PlayGame g, int focus)
+
+	public PlayGameEvent startingHandler(PlayGame g, int focus)
 	{
-		return new PlayerAttackPrimerEvent(g, focus);
+		return new PlayerStartingAttackEvent(g, focus);
 	}
 	public PlayGameEvent attackHandler(PlayGame g, int focus)
 	{
 		return new PlayerAttackEvent(g, focus);
 	}
-	public PlayGameEvent recoilHandler(PlayGame g, int focus)
+	public PlayGameEvent endAttackHandler(PlayGame g, int focus)
 	{
-		return new PlayerRecoilEvent(g, focus);
+		return null;
 	}
 }

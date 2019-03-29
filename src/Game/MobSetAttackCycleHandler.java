@@ -1,32 +1,33 @@
 package Game;
 
+import java.awt.Color;
+import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
+
+import Components.AggroRange;
+import Components.PhysicsPCollisionBody;
+import Components.CardinalDirections;
+import Components.Movement;
+import Components.MovementDirection;
+import Components.PCollisionBody;
+import Components.WorldAttributes;
 import EntitySets.MobSet;
+import EntitySets.PlayerSet;
+import EntitySets.TurretSet;
+import Resources.GameConfig;
+import Resources.GameResources;
 
 import poj.EngineState;
-import poj.linear.*;
-
-import java.util.Optional;
-
-import Components.*;
-
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.util.*;
-import Components.*;
-import EntitySets.*;
-import Resources.*;
-
 import poj.Collisions.GJK;
-import poj.Logger.Logger;
 
 
 public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 {
 
-	class MobAttackPrimerEvent extends FocusedPlayGameEvent
+	class MobStartingEvent extends FocusedPlayGameEvent
 	{
 
-		public MobAttackPrimerEvent(PlayGame g, int focus)
+		public MobStartingEvent(PlayGame g, int focus)
 		{
 			super(g, focus);
 		}
@@ -43,19 +44,19 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 			Optional<Movement> mopt = engineState.getComponentAt(
 				Movement.class, focus);
 
-			if (!dopt.isPresent())
+			if (!dopt.isPresent()) {
 				return;
+			}
 
-			if (!mopt.isPresent())
+			if (!mopt.isPresent()) {
 				return;
+			}
 
 			MovementDirection d = dopt.get();
 
 			AttackCycleHandlers.meleeAttackPrimerHandler(
 				engineState, focus, MobSet.class, 10,
 				d.getDirection());
-
-			mopt.get().setSpeed(0);
 		}
 	}
 
@@ -91,10 +92,42 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 				pmob, playGame.debugBuffer, playGame.cam,
 				Color.orange);
 
-			EngineTransforms
-				.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
-					engineState, pmob, PlayerSet.class,
-					GameConfig.MOB_ATTACK_DAMAGE);
+			boolean playerHitByMob =
+				EngineTransforms
+					.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
+						engineState, pmob,
+						PlayerSet.class,
+						GameConfig.MOB_ATTACK_DAMAGE);
+			if (playerHitByMob) {
+				try {
+					// play player hurt sound
+					int hurtSoundPlay =
+						ThreadLocalRandom.current()
+							.nextInt(0, 4);
+					switch (hurtSoundPlay) {
+					case 0:
+						GameResources.playerHpDropSound1
+							.play();
+						break;
+					case 1:
+						GameResources.playerHpDropSound2
+							.play();
+						break;
+					case 2:
+						GameResources.playerHpDropSound3
+							.play();
+						break;
+					case 3:
+						GameResources.playerHpDropSound4
+							.play();
+						break;
+					}
+				} catch (NullPointerException e) {
+					System.out.println(
+						"Error: Problem playing player hp drop sound");
+					e.printStackTrace();
+				}
+			}
 
 			EngineTransforms
 				.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
@@ -103,16 +136,50 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 		}
 	}
 
-	class MobAttackRecoil extends FocusedPlayGameEvent
+
+	class MobAttackEnd extends FocusedPlayGameEvent
 	{
 
-		public MobAttackRecoil(PlayGame g, int focus)
+		public MobAttackEnd(PlayGame g, int focus)
 		{
 			super(g, focus);
 		}
 
 		public void f()
 		{
+			EngineState engineState =
+				super.getPlayGame().getEngineState();
+
+			Optional<PhysicsPCollisionBody> pplayeropt =
+				engineState.getComponentAt(
+					PhysicsPCollisionBody.class,
+					engineState.getInitialSetIndex(
+						PlayerSet.class));
+
+			Optional<MovementDirection> dmobopt =
+				engineState.getComponentAt(
+					MovementDirection.class, focus);
+
+			Optional<AggroRange> agopt = engineState.getComponentAt(
+				AggroRange.class, focus);
+
+			if (!agopt.isPresent())
+				return;
+
+			if (!pplayeropt.isPresent())
+				return;
+
+			if (!dmobopt.isPresent())
+				return;
+
+			CardinalDirections d =
+				CardinalDirections.getClosestDirectionFromDirectionVector(
+					pplayeropt.get()
+						.pureGetCenter()
+						.pureSubtract(
+							agopt.get()
+								.pureGetCenter()));
+			dmobopt.get().setDirection(d);
 		}
 	}
 
@@ -141,17 +208,16 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 		}
 	}
 
-
-	public PlayGameEvent primerHandler(PlayGame g, int focus)
+	public PlayGameEvent startingHandler(PlayGame g, int focus)
 	{
-		return new MobAttackPrimerEvent(g, focus);
+		return new MobStartingEvent(g, focus);
 	}
 	public PlayGameEvent attackHandler(PlayGame g, int focus)
 	{
 		return new MobAttackEvent(g, focus);
 	}
-	public PlayGameEvent recoilHandler(PlayGame g, int focus)
+	public PlayGameEvent endAttackHandler(PlayGame g, int focus)
 	{
-		return new MobAttackRecoil(g, focus);
+		return new MobAttackEnd(g, focus);
 	}
 }
