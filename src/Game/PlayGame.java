@@ -13,7 +13,11 @@ package Game;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.util.*;
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import Components.*;
@@ -38,6 +42,7 @@ import poj.GameWindow.*;
 import poj.Collisions.GJK;
 import poj.Logger.Logger;
 import poj.Render.MinYFirstSortedRenderObjectBuffer;
+import poj.Time.*;
 import poj.Render.RenderObject;
 import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
@@ -496,18 +501,13 @@ public class PlayGame extends World
 	protected void resetCamera()
 	{
 		this.cam.clearBackToIdentity();
-		this.cam.setScalingForVector2(-GameResources.TILE_SCREEN_WIDTH,
-					      GameResources.TILE_SCREEN_HEIGHT);
+		this.cam.setScalingForVector2(
+			-GameResources.TILE_SCREEN_WIDTH
+				* GameResources.MAGIC_CONSTANT,
+			GameResources.TILE_SCREEN_HEIGHT
+				* GameResources.MAGIC_CONSTANT);
 		this.cam.composeWithRotationForVector2XaxisCC(
 			GameResources.TILE_SCREEN_ROTATION);
-		this.cam.composeSetScalingForVector2(
-			GameResources.MAGIC_CONSTANT,
-			GameResources.MAGIC_CONSTANT);
-		/*
-		this.cam.setScalingForVector2(-GameResources.TILE_SCREEN_WIDTH,
-					      GameResources.TILE_SCREEN_HEIGHT);
-		this.cam.composeWithRotationForVector2XaxisCC(
-			GameResources.TILE_SCREEN_ROTATION);*/
 	}
 
 	protected void centerCamerasPositionsToWorldAttribute(WorldAttributes n)
