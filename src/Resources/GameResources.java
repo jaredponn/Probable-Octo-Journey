@@ -22,7 +22,7 @@ public class GameResources
 		ImageLoader.load("resources/playerspritesheet.png");
 
 	public static BufferedImage turret =
-		//ImageLoader.load("resources/RamiroGraphics/spritePack/Turret8.png");
+		// ImageLoader.load("resources/RamiroGraphics/spritePack/Turret8.png");
 		ImageLoader.load("resources/turret1Crop.png");
 
 	public static BufferedImage octoTitle =
@@ -172,6 +172,8 @@ public class GameResources
 
 	public static BufferedImage officialTileSet =
 		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSprities.png");
+	public static BufferedImage officialTileSetTest =
+		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSpritiesWithLines.png");
 
 	public static String officialMapGround1="resources/RamiroGraphics/officialMap/MapFinal_ground.csv",
 		   		officialMapMisc2="resources/RamiroGraphics/officialMap/MapFinal_misc1.csv",
