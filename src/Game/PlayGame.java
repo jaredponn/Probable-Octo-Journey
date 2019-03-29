@@ -133,7 +133,7 @@ public class PlayGame extends World
 		this.gameEventStack = new PlayGameEventStack();
 
 		// World loading
-		this.map = new Map(5);
+		this.map = new Map(6);
 
 		this.map.addTileSet(GameResources.NoTreeofficialTileSetConfig);
 		this.map.addMapConfig(GameResources.NoTreeofficialMapConfig);
@@ -145,6 +145,8 @@ public class PlayGame extends World
 			GameResources.NoTreeofficialMapTreesAndRocks4);
 		this.map.addMapLayer(
 			GameResources.NoTreeofficialMapLightsAndSigns5);
+		this.map.addMapLayer(
+			GameResources.NoTreeofficialMapEmptyBlockForBuildings);
 		/*
 		this.map.addTileSet(GameResources.officialTileSetConfig);
 		this.map.addMapConfig(GameResources.officialMapConfig);
