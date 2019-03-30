@@ -474,7 +474,7 @@ public class Map
 												/ 4,
 											/// 8,
 											GameResources
-												.officialTileSetTestNoBoundBuildings,
+												.officialTileSetTest,
 											tilesRenderPart
 												.get(Integer.parseInt(
 													tempList[i]))),
@@ -788,7 +788,6 @@ public class Map
 						  cbwc.pureAdd(0f, 1f),
 						  cbwc.pureAdd(1f, 1f)));
 			//special empty block for blue building 2
-			/*
 			wallState.set(422, true);
 			wallHitBox.set(422, new PhysicsPCollisionBody(
 						  new Vector2f(0f, 0f),
@@ -798,7 +797,6 @@ public class Map
 						  cbwc.pureAdd(1f, 0f),
 						  cbwc.pureAdd(0f, 0.5f),
 						  cbwc.pureAdd(1f, 0.5f)));
-						  */
 
 
 			//cafe colored building 2:
