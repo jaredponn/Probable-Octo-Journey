@@ -89,19 +89,14 @@ public class App
 		Menu menu = new Menu(width, height, this.renderer,
 				     this.inputPoller);
 
-		if (GameResources.menuSound == null) {
-			System.out.println("its null..");
-		}
-
 
 		// start playing game background music
-		GameResources.gameBgSound.playContinuously();
+
 		while (isRunning) {
 			runMenu = true; // this is so bad
 
 			// start playing menu music
 			GameResources.menuSound.playContinuously();
-
 			while (runMenu) {
 				menu.runGame();
 			}
@@ -110,6 +105,7 @@ public class App
 			GameResources.menuSound.end();
 
 			// playgame
+			GameResources.gameBgSound.playContinuously();
 			PlayGame playGame = new PlayGame(
 				width, height, this.renderer, this.inputPoller);
 
@@ -118,6 +114,7 @@ public class App
 			playGame.spawnWorld();
 
 			playGame.runGameLoop();
+			GameResources.gameBgSound.end();
 
 			GameOver gameOver = new GameOver(
 				width, height, this.renderer, this.inputPoller,
