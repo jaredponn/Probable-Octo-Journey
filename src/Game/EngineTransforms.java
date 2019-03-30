@@ -201,6 +201,7 @@ public class EngineTransforms
 		neighbours.add(centerVector.addAndReturnVector(-1, -1));
 		for (Vector2f neib : neighbours) {
 			// if the tile is valid
+
 			if (map.isValidCord(neib)
 			    && (mapLayer.hasComponent(
 				       PathFindCord.class,
@@ -531,26 +532,29 @@ at Main.main(Main.java:25)
 		if (map.getEcsIndexFromWorldVector2f(playerPosition) != -1) {
 			// map.printPathfindCord(0);
 
-			if (!mapLayer.unsafeGetComponentAt(
-					     PathFindCord.class,
-					     map.getEcsIndexFromWorldVector2f(
-						     playerPosition))
-				     .getIsWall()) {
+			/*
+		if (!mapLayer.unsafeGetComponentAt(
+				     PathFindCord.class,
+				     map.getEcsIndexFromWorldVector2f(
+					     playerPosition))
+			     .getIsWall()) {
+				 */
 
-				mapLayer.unsafeGetComponentAt(
-						PathFindCord.class,
-						map.getEcsIndexFromWorldVector2f(
-							playerPosition))
-					.setDiffusionValue(
-						GameConfig
-							.PLAYER_DIFFUSION_VALUE);
-			} else {
-				mapLayer.unsafeGetComponentAt(
-						PathFindCord.class,
-						map.getEcsIndexFromWorldVector2f(
-							playerPosition))
-					.setDiffusionValue(0f);
+			mapLayer.unsafeGetComponentAt(
+					PathFindCord.class,
+					map.getEcsIndexFromWorldVector2f(
+						playerPosition))
+				.setDiffusionValue(
+					GameConfig.PLAYER_DIFFUSION_VALUE);
+			/*
+		} else {
+			mapLayer.unsafeGetComponentAt(
+					PathFindCord.class,
+					map.getEcsIndexFromWorldVector2f(
+						playerPosition))
+				.setDiffusionValue(0f);
 			}
+		*/
 		}
 	}
 

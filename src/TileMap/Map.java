@@ -601,14 +601,15 @@ public class Map
 		// cars
 		for (int i = 128; i <= 136; ++i) {
 			wallState.set(i, true);
-			wallHitBox.set(i, new PhysicsPCollisionBody(
-						  new Vector2f(-1f, -1f),//allignment
-						  cbwc.pureAdd(0.5f,
-							       0.5f), // center
-						  cbwc.pureAdd(0f, 0f), cbwc,
-						  cbwc.pureAdd(1f, 0f),
-						  cbwc.pureAdd(0f, 1f),
-						  cbwc.pureAdd(1f, 1f)));
+			wallHitBox.set(
+				i, new PhysicsPCollisionBody(
+					   new Vector2f(-1f, -1f), // allignment
+					   cbwc.pureAdd(0.5f,
+							0.5f), // center
+					   cbwc.pureAdd(0f, 0f), cbwc,
+					   cbwc.pureAdd(1f, 0f),
+					   cbwc.pureAdd(0f, 1f),
+					   cbwc.pureAdd(1f, 1f)));
 		}
 
 		// TODO: IMPORTANT!
