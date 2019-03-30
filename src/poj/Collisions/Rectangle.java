@@ -4,7 +4,7 @@ import poj.linear.*;
 import poj.Logger.*;
 import java.util.ArrayList;
 
-class Rectangle
+public class Rectangle
 {
 	/*
 	 *             max
@@ -63,5 +63,16 @@ class Rectangle
 	public float getMinY()
 	{
 		return min.y;
+	}
+
+
+	public float getMaxX()
+	{
+		return max.x;
+	}
+
+	public float getMaxY()
+	{
+		return max.y;
 	}
 }
