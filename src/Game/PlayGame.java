@@ -40,6 +40,8 @@ import TileMap.MapLayer;
 import poj.Render.*;
 import poj.GameWindow.*;
 import poj.Collisions.GJK;
+import poj.Collisions.QuadTree;
+import poj.Collisions.Rectangle;
 import poj.Logger.Logger;
 import poj.Render.MinYFirstSortedRenderObjectBuffer;
 import poj.Time.*;
@@ -117,8 +119,10 @@ public class PlayGame extends World
 
 	// Collision detection and resolution
 	protected GJK gjk;
+	protected QuadTree tileMapQuadTree;
 
 	protected MapGeneration generateDiffusionMap;
+
 	public PlayGame(int width, int height, Renderer renderer,
 			InputPoller inputPoller)
 		throws UnsupportedAudioFileException, IOException,
@@ -205,6 +209,13 @@ public class PlayGame extends World
 		// initialize the path finding thread
 		this.generateDiffusionMap =
 			new MapGeneration(this.map, 0, 1f / 8f);
+
+		System.out.println(this.map.mapWidth);
+		System.out.println(this.map.mapHeight);
+
+		this.tileMapQuadTree =
+			new QuadTree(0, new Rectangle(0, 0, this.map.mapWidth,
+						      this.map.mapHeight));
 	}
 
 	public void registerComponents()
@@ -265,6 +276,7 @@ public class PlayGame extends World
 			mobsSpawned++;
 		}
 	}
+
 	public void clearWorld()
 	{
 	}
