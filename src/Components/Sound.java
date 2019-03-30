@@ -2,7 +2,7 @@ package Components;
 
 /**
  * Sound component.
- *	Used to play sound effects, ONLY support .wav files because Java sound
+ *	Used to create sound effects, ONLY support .wav files because Java sound
  *API
  *
  * Date: March 24, 2019
@@ -27,6 +27,7 @@ public class Sound implements Component
 	private AudioInputStream audioInputStream;
 	private Clip clip;
 	private volatile boolean isPlaying = false;
+	private String audioPath;
 
 	/**
 	 * Constructor.
@@ -37,6 +38,7 @@ public class Sound implements Component
 					      IOException,
 					      LineUnavailableException
 	{
+		this.audioPath = audioPath;
 		audioInputStream = AudioSystem.getAudioInputStream(
 			new File(audioPath).getAbsoluteFile());
 		// create clip reference
@@ -46,9 +48,39 @@ public class Sound implements Component
 		clip.open(audioInputStream);
 	}
 
-	public Clip getClip()
+	public Sound(Sound anotherSound) throws UnsupportedAudioFileException,
+						IOException,
+						LineUnavailableException
 	{
-		return this.clip;
+		this.audioPath = anotherSound.getAudioPath();
+		this.audioInputStream = anotherSound.getAIS();
+		this.clip = anotherSound.getClip();
+	}
+
+	public Clip getClip() throws UnsupportedAudioFileException, IOException,
+				     LineUnavailableException
+	{
+
+		AudioInputStream ais = AudioSystem.getAudioInputStream(
+			new File(this.audioPath).getAbsoluteFile());
+		// create clip reference
+		Clip tempClip = AudioSystem.getClip();
+
+		// open audioInputStream to the clip
+		tempClip.open(ais);
+		return tempClip;
+	}
+	public AudioInputStream getAIS() throws UnsupportedAudioFileException,
+						IOException,
+						LineUnavailableException
+	{
+		AudioInputStream ais = AudioSystem.getAudioInputStream(
+			new File(this.audioPath).getAbsoluteFile());
+		return ais;
+	}
+	public String getAudioPath()
+	{
+		return this.audioPath;
 	}
 
 	public void play()

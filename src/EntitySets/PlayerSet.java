@@ -12,6 +12,11 @@ import poj.Render.ImageRenderObject;
 import poj.linear.Vector2f;
 import Components.*;
 import poj.linear.*;
+
+import java.io.IOException;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 public class PlayerSet extends EntitySet
 {
 	public PlayerSet()
@@ -22,8 +27,8 @@ public class PlayerSet extends EntitySet
 		addComponent(new WorldAttributes(
 			new Vector2f(GameConfig.PLAYER_SPAWNNING_POS),
 			GameConfig.PLAYER_WIDTH, GameConfig.PLAYER_HEIGHT));
-		addComponent(
-			new HasAnimation(GameResources.playerNGunIdleAnimation));
+		addComponent(new HasAnimation(
+			GameResources.playerNGunIdleAnimation));
 		addComponent(new Movement(GameConfig.PLAYER_SPEED));
 		addComponent(new MovementDirection(CardinalDirections.N));
 		addComponent(new FacingDirection(CardinalDirections.N));
@@ -35,5 +40,8 @@ public class PlayerSet extends EntitySet
 		addComponent(new HitPoints(GameConfig.PLAYER_HP));
 		addComponent(new AttackCycle(GameConfig.PLAYER_ATTACK_CYCLE));
 		addComponent(new Ammo(GameConfig.PLAYER_STARTING_AMMO));
+		addComponent(new SoundAssets(GameResources.playerSoundAsset));
+
+		// player sound effects:
 	}
 }

@@ -121,7 +121,13 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 
 				if (super.getPlayGame().playerAmmo.hasAmmo(1)) {
 					try {
-						GameResources.gunSound.play();
+						// play gun shooting sound
+						engineState
+							.unsafeGetComponentAt(
+								SoundAssets
+									.class,
+								player)
+							.playSoundAt(0);
 					} catch (NullPointerException e) {
 						System.out.println(
 							"ERROR: Problem playing gun sound");
@@ -166,8 +172,13 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 					;
 				} else {
 					try {
-						GameResources.emptyClipSound
-							.play();
+						// play empty clip sound
+						engineState
+							.unsafeGetComponentAt(
+								SoundAssets
+									.class,
+								player)
+							.playSoundAt(1);
 					} catch (NullPointerException e) {
 						System.out.println(
 							"ERROR: Problem playing empty clip sound");

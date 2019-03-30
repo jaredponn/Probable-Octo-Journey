@@ -5,11 +5,12 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import Components.AggroRange;
-import Components.PhysicsPCollisionBody;
 import Components.CardinalDirections;
 import Components.Movement;
 import Components.MovementDirection;
 import Components.PCollisionBody;
+import Components.PhysicsPCollisionBody;
+import Components.SoundAssets;
 import Components.WorldAttributes;
 import EntitySets.MobSet;
 import EntitySets.PlayerSet;
@@ -104,24 +105,13 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 					int hurtSoundPlay =
 						ThreadLocalRandom.current()
 							.nextInt(0, 4);
-					switch (hurtSoundPlay) {
-					case 0:
-						GameResources.playerHpDropSound1
-							.play();
-						break;
-					case 1:
-						GameResources.playerHpDropSound2
-							.play();
-						break;
-					case 2:
-						GameResources.playerHpDropSound3
-							.play();
-						break;
-					case 3:
-						GameResources.playerHpDropSound4
-							.play();
-						break;
-					}
+					engineState
+						.unsafeGetComponentAt(
+							SoundAssets.class,
+							engineState.getInitialSetIndex(
+								PlayerSet
+									.class))
+						.playSoundAt(hurtSoundPlay + 2);
 				} catch (NullPointerException e) {
 					System.out.println(
 						"Error: Problem playing player hp drop sound");

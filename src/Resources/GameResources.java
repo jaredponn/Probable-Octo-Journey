@@ -1,6 +1,7 @@
 package Resources;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -96,6 +97,8 @@ public class GameResources
 		gameBgSound, menuSelectButtonSound, healthPickupSound,
 		playerHpDropSound1, playerHpDropSound2, playerHpDropSound3,
 		playerHpDropSound4, playerDeathSound;
+	public static ArrayList<Sound> playerSoundAsset =
+		new ArrayList<Sound>();
 
 	static
 	{
@@ -122,6 +125,13 @@ public class GameResources
 			playerHpDropSound4 = new Sound(playerHpDropSound4Path);
 			playerDeathSound = new Sound(playerDeathSoundPath);
 
+			playerSoundAsset.add(gunSound);
+			playerSoundAsset.add(emptyClipSound);
+			playerSoundAsset.add(playerHpDropSound1);
+			playerSoundAsset.add(playerHpDropSound2);
+			playerSoundAsset.add(playerHpDropSound3);
+			playerSoundAsset.add(playerHpDropSound4);
+			playerSoundAsset.add(playerDeathSound);
 		} catch (UnsupportedAudioFileException e) {
 			System.out.println(
 				"UnsupportedAudioFileException has occured..");
@@ -174,8 +184,6 @@ public class GameResources
 		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSprities.png");
 	public static BufferedImage officialTileSetTest =
 		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSpritiesWithLines.png");
-	public static BufferedImage officialTileSetTestNoBoundBuildings =
-		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSpritiesWithLinesWithoutBounds.png");
 
 	public static String officialMapGround1="resources/RamiroGraphics/officialMap/MapFinal_ground.csv",
 		   		officialMapMisc2="resources/RamiroGraphics/officialMap/MapFinal_misc1.csv",

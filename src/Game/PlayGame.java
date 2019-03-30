@@ -225,6 +225,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(Damage.class);
 		super.engineState.registerComponent(AggroRange.class);
 		super.engineState.registerComponent(Ammo.class);
+		super.engineState.registerComponent(SoundAssets.class);
 	}
 	public void registerEntitySets()
 	{
@@ -246,6 +247,7 @@ public class PlayGame extends World
 	{
 		// Player
 		this.player = super.engineState.spawnEntitySet(new PlayerSet());
+
 
 		EngineTransforms.addPlayerDiffusionValAtPlayerPos(
 			this.engineState, this.map, 0, this.player);
