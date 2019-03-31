@@ -22,7 +22,7 @@ public class MobSet extends EntitySet
 	 */
 	public MobSet()
 	{
-		this( GameConfig.MOB_SPAWN_POINTS.get(0) );
+		this(GameConfig.MOB_SPAWN_POINTS.get(0));
 	}
 
 	/**
@@ -47,10 +47,12 @@ public class MobSet extends EntitySet
 		addComponent(new FacingDirection(CardinalDirections.N));
 		addComponent(new PhysicsPCollisionBody(
 			GameConfig.MOB_COLLISION_BODY));
-		addComponent(new HitPoints(GameConfig.MOB_HP,GameConfig.MOB_MAX_HP));
+		addComponent(new HitPoints(GameConfig.MOB_HP,
+					   GameConfig.MOB_MAX_HP));
 		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
 		addComponent(new AttackCycle(GameConfig.MOB_ATTACK_CYCLE));
 		addComponent(new AggroRange(GameConfig.MOB_AGGRO_RANGE));
+		addComponent(new SoundAssets(GameResources.zombieSoundAsset));
 	}
 
 	/**

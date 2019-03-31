@@ -259,13 +259,6 @@ public class PlayGame extends World
 
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
-
-
-		for (int i = 0; i < GameConfig.MOB_SPAWN_POINTS.size(); i++) {
-			engineState.spawnEntitySet(
-				new MobSet(GameConfig.MOB_SPAWN_POINTS.get(i)));
-			mobsSpawned++;
-		}
 	}
 	public void clearWorld()
 	{
@@ -611,6 +604,17 @@ public class PlayGame extends World
 					GameConfig.MOB_SPAWN_POINTS.get(i)));
 				mobsSpawned++;
 			}
+			// play zombie spawn sound with first set index of the
+			// mob (UNLESS WE WANT MULTIPLE SPAWN SOUNDS TO BE
+			// PLAYED AT THE SAME TIME, we change this..)
+			engineState
+				.unsafeGetComponentAt(
+					SoundAssets.class,
+					engineState.getInitialSetIndex(
+						MobSet.class))
+				.playSoundAt(
+					ThreadLocalRandom.current().nextInt(0,
+									    3));
 		}
 		// TODO: make more mobs spawn over time
 	}
