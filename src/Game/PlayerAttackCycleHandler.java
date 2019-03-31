@@ -120,20 +120,12 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 							closestDirToMouse, 0));
 
 				if (super.getPlayGame().playerAmmo.hasAmmo(1)) {
-					try {
-						// play gun shooting sound
-						engineState
-							.unsafeGetComponentAt(
-								SoundAssets
-									.class,
-								player)
-							.playSoundAt(0);
-					} catch (NullPointerException e) {
-						System.out.println(
-							"ERROR: Problem playing gun sound");
-						e.printStackTrace();
-					}
-
+					// play gun shooting sound
+					engineState
+						.unsafeGetComponentAt(
+							SoundAssets.class,
+							player)
+						.playSoundAt(0);
 
 					// generate bullet
 					int e = engineState.spawnEntitySet(
@@ -171,19 +163,12 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 								.PLAYER_MAX_AMMO);
 					;
 				} else {
-					try {
-						// play empty clip sound
-						engineState
-							.unsafeGetComponentAt(
-								SoundAssets
-									.class,
-								player)
-							.playSoundAt(1);
-					} catch (NullPointerException e) {
-						System.out.println(
-							"ERROR: Problem playing empty clip sound");
-						e.printStackTrace();
-					}
+					// play empty clip sound
+					engineState
+						.unsafeGetComponentAt(
+							SoundAssets.class,
+							player)
+						.playSoundAt(1);
 				}
 
 				break;
@@ -202,7 +187,7 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 
 				// debug rendering
 				Systems.pCollisionBodyDebugRenderer(
-					patk, super.getPlayGame().debugBuffer,
+					patk, Game.PlayGame.debugBuffer,
 					super.getPlayGame().cam, Color.orange);
 
 				EngineTransforms.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
