@@ -290,8 +290,7 @@ public class PlayGameProcessInputs
 					    GameConfig.BUY_AMMO))
 					    == 0d
 				    && g.cash >= GameConfig.PURCHASE_AMMOPACK_AMOUNT * GameConfig.BULLET_COST) {
-					g.playerAmmo.increaseAmmo(
-							GameConfig.PURCHASE_AMMOPACK_AMOUNT, GameConfig.PLAYER_MAX_AMMO);
+					g.playerAmmo.increaseAmmo(GameConfig.PURCHASE_AMMOPACK_AMOUNT);
 					g.cash -= GameConfig.PURCHASE_AMMOPACK_AMOUNT * GameConfig.BULLET_COST;
 					updateDtForKey(
 						g, GameConfig.BUY_AMMO,
