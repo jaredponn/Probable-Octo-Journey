@@ -119,25 +119,16 @@ public class Sound implements Component
 
 	public void end()
 	{
-		try {
-			clip.stop();
-			clip.close();
-			isPlaying = false;
-		} catch (NullPointerException e) {
-			// if the sound is null
-			poj.Logger.Logger.logMessage(
-				"NullPointerException has occured when ending the sound with sound path "
-					+ this.audioPath,
-				poj.Logger.LogLevels.VERBOSE);
-			e.printStackTrace();
-		}
+		clip.stop();
+		clip.close();
+		resetClip();
+		isPlaying = false;
 	}
 
 	public void restart()
 	{
 		try {
-			clip.stop();
-			clip.close();
+			end();
 			clip.start();
 			play();
 			isPlaying = true;
@@ -145,6 +136,41 @@ public class Sound implements Component
 			// if the sound is null
 			poj.Logger.Logger.logMessage(
 				"NullPointerException has occured when restarting the sound with sound path "
+					+ this.audioPath,
+				poj.Logger.LogLevels.VERBOSE);
+			e.printStackTrace();
+		}
+	}
+
+	public void resetClip()
+	{
+		try {
+			this.audioInputStream = AudioSystem.getAudioInputStream(
+				new File(audioPath).getAbsoluteFile());
+			clip = AudioSystem.getClip();
+			// open audioInputStream to the clip
+			clip.open(this.audioInputStream);
+		} catch (NullPointerException e) {
+			poj.Logger.Logger.logMessage(
+				"NullPointerException has occured when reseting the sound with sound path "
+					+ this.audioPath,
+				poj.Logger.LogLevels.VERBOSE);
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			poj.Logger.Logger.logMessage(
+				"LineUnavailableException has occured when reseting the sound with sound path "
+					+ this.audioPath,
+				poj.Logger.LogLevels.VERBOSE);
+			e.printStackTrace();
+		} catch (IOException e) {
+			poj.Logger.Logger.logMessage(
+				"IOException has occured when reseting the sound with sound path "
+					+ this.audioPath,
+				poj.Logger.LogLevels.VERBOSE);
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			poj.Logger.Logger.logMessage(
+				"UnsupportedAudioFileException has occured when reseting the sound with sound path "
 					+ this.audioPath,
 				poj.Logger.LogLevels.VERBOSE);
 			e.printStackTrace();
