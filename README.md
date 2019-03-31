@@ -175,6 +175,8 @@ Health pickup sound: https://opengameart.org/content/life-pickup-yo-frankie
 Alert sound: https://opengameart.org/content/tx-alert
 
 Player drop HP sound: https://opengameart.org/content/15-vocal-male-strainhurtpainjump-sounds
+
+Player death sound: https://opengameart.org/content/grunts-male-death-and-pain
 # Credits
 Tileset: https://opengameart.org/content/cave-tileset
 

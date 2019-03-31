@@ -91,13 +91,21 @@ public class GameResources
 		playerHpDropSound2Path = "resources/sounds/playerHpDrop2.wav",
 		playerHpDropSound3Path = "resources/sounds/playerHpDrop3.wav",
 		playerHpDropSound4Path = "resources/sounds/playerHpDrop4.wav",
-		playerDeathSoundPath = "resources/sounds/playerDeathSound.wav";
+		playerDeathSoundPath1 =
+			"resources/sounds/playerDeathSound1.wav",
+		playerDeathSoundPath2 =
+			"resources/sounds/playerDeathSound2.wav",
+		playerDeathSoundPath3 =
+			"resources/sounds/playerDeathSound3.wav",
+		playerDeathSoundPath4 =
+			"resources/sounds/playerDeathSound4.wav";
 
 	public static Sound gunSound, zombieDeathSound, zombieDeathSound2,
 		zombieDeathSound3, zombieDeathSound4, emptyClipSound, menuSound,
 		gameBgSound, menuSelectButtonSound, healthPickupSound,
 		playerHpDropSound1, playerHpDropSound2, playerHpDropSound3,
-		playerHpDropSound4, playerDeathSound;
+		playerHpDropSound4, playerDeathSound1, playerDeathSound2,
+		playerDeathSound3, playerDeathSound4;
 	public static ArrayList<Sound> playerSoundAsset =
 					       new ArrayList<Sound>(),
 				       zombieSoundAsset =
@@ -127,7 +135,10 @@ public class GameResources
 			playerHpDropSound2 = new Sound(playerHpDropSound2Path);
 			playerHpDropSound3 = new Sound(playerHpDropSound3Path);
 			playerHpDropSound4 = new Sound(playerHpDropSound4Path);
-			playerDeathSound = new Sound(playerDeathSoundPath);
+			playerDeathSound1 = new Sound(playerDeathSoundPath1);
+			playerDeathSound2 = new Sound(playerDeathSoundPath2);
+			playerDeathSound3 = new Sound(playerDeathSoundPath3);
+			playerDeathSound4 = new Sound(playerDeathSoundPath4);
 
 			// adding the sounds into component's assets
 			playerSoundAsset.add(gunSound);
@@ -135,8 +146,11 @@ public class GameResources
 			playerSoundAsset.add(playerHpDropSound1);
 			playerSoundAsset.add(playerHpDropSound2);
 			playerSoundAsset.add(playerHpDropSound3);
-			playerSoundAsset.add(playerHpDropSound4);
-			playerSoundAsset.add(playerDeathSound);
+			playerSoundAsset.add(playerHpDropSound4); // 5 index
+			playerSoundAsset.add(playerDeathSound1);
+			playerSoundAsset.add(playerDeathSound2);
+			playerSoundAsset.add(playerDeathSound3);
+			playerSoundAsset.add(playerDeathSound4);
 		} catch (NullPointerException e) {
 			poj.Logger.Logger.logMessage(
 				"NullPointerException has occured when loading the sound in (don't know which sound so debugg it yourself')",
