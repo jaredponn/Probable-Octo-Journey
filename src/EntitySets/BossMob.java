@@ -1,10 +1,9 @@
 package EntitySets;
 
 /**
- * MobSet. Enemies and zombies.
- * Date: February 10, 2019
+ * Type of mob, but stronger
  * @author Alex Stark
- * @version 1.0
+ * @version 1.0 - 03/31/19
  */
 
 import poj.EntitySet.*;
@@ -14,13 +13,13 @@ import poj.linear.*;
 import poj.Render.ImageRenderObject;
 import Components.*;
 
-public class MobSet extends EntitySet
+public class BossMob extends EntitySet
 {
 
 	/**
 	 * Spawn mob at first spawn point in GameConfig.MOB_SPAWN_POINTS
 	 */
-	public MobSet()
+	public BossMob()
 	{
 		this( GameConfig.MOB_SPAWN_POINTS.get(0) );
 	}
@@ -30,7 +29,7 @@ public class MobSet extends EntitySet
 	 * @param x-coord
 	 * @param y-coord
 	 */
-	public MobSet(float x, float y)
+	public BossMob(float x, float y)
 	{
 		super();
 
@@ -42,12 +41,12 @@ public class MobSet extends EntitySet
 
 		addComponent(
 			new HasAnimation(GameResources.enemyNMoveAnimation));
-		addComponent(new Movement(GameConfig.MOB_SPEED));
+		addComponent(new Movement(GameConfig.BOSS_SPEED));
 		addComponent(new MovementDirection(CardinalDirections.N));
 		addComponent(new FacingDirection(CardinalDirections.N));
 		addComponent(new PhysicsPCollisionBody(
 			GameConfig.MOB_COLLISION_BODY));
-		addComponent(new HitPoints(GameConfig.MOB_HP,GameConfig.MOB_MAX_HP));
+		addComponent(new HitPoints(GameConfig.BOSS_HP,GameConfig.BOSS_MAX_HP));
 		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
 		addComponent(new AttackCycle(GameConfig.MOB_ATTACK_CYCLE));
 		addComponent(new AggroRange(GameConfig.MOB_AGGRO_RANGE));
@@ -57,7 +56,7 @@ public class MobSet extends EntitySet
 	 * Spawn mob at coordinates defined by a vector
 	 * @param posVector to spawn mob at
 	 */
-	public MobSet(Vector2f n)
+	public BossMob(Vector2f n)
 	{
 		this(n.x, n.y);
 	}

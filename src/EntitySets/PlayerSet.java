@@ -37,7 +37,7 @@ public class PlayerSet extends EntitySet
 			GameConfig.PLAYER_COLLISION_BODY));
 		addComponent(new PHitBox(GameConfig.PLAYER_HITBOX_BODY));
 
-		addComponent(new HitPoints(GameConfig.PLAYER_HP));
+		addComponent(new HitPoints(GameConfig.PLAYER_HP,GameConfig.PLAYER_MAX_HP));
 		addComponent(new AttackCycle(GameConfig.PLAYER_ATTACK_CYCLE));
 		addComponent(new Ammo(GameConfig.PLAYER_STARTING_AMMO));
 		addComponent(new SoundAssets(GameResources.playerSoundAsset));
