@@ -935,6 +935,45 @@ public class Map
 						  cbwc.pureAdd(0.35f, 0f),
 						  cbwc.pureAdd(0f, 0.35f),
 						  cbwc.pureAdd(0.35f, 0.35f)));
+
+			//water fountain
+			wallState.set(316, true);
+			wallHitBox.set(316, new PhysicsPCollisionBody(
+						  new Vector2f(0f, 0f),
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
+			wallState.set(317, true);
+			wallHitBox.set(317, new PhysicsPCollisionBody(
+						  new Vector2f(0f, 0f),
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
+			wallState.set(332, true);
+			wallHitBox.set(332, new PhysicsPCollisionBody(
+						  new Vector2f(0f, 0f),
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
+			wallState.set(333, true);
+			wallHitBox.set(333, new PhysicsPCollisionBody(
+						  new Vector2f(0f, 0f),
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
+
 		// clang-format on
 	}
 
