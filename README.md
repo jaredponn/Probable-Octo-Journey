@@ -162,7 +162,9 @@ Gun sound: https://www.youtube.com/watch?v=GAT-AwwMP_I
 
 Empty clip sound: https://www.youtube.com/watch?v=cqYlilUqGfs
 
-Zombie sounds: https://opengameart.org/content/zombies-sound-pack
+Zombie death sounds: https://opengameart.org/content/zombies-sound-pack
+
+Zombie spawn sounds: https://opengameart.org/content/zombie-moans
 
 Menu sound: https://opengameart.org/content/rpg-title-screen-music-pack, used Steven Soucy - RPG Title Screen Music Pack - 03 Contingency.wav 
 
