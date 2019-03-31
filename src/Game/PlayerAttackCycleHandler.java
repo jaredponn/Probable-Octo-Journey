@@ -157,10 +157,7 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 								bulletSpeed));
 
 					super.getPlayGame()
-						.playerAmmo.decreaseAmmo(
-							1,
-							GameConfig
-								.PLAYER_MAX_AMMO);
+						.playerAmmo.decreaseAmmo(1);
 					;
 				} else {
 					// play empty clip sound
