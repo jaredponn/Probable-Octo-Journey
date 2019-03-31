@@ -24,19 +24,36 @@ public class SoundAssets implements Component
 		for (int i = 0; i < soundBuffer.size(); ++i) {
 			try { // deep copy
 				soundAsset.add(new Sound(soundBuffer.get(i)));
+			} catch (NullPointerException e) {
+				poj.Logger.Logger.logMessage(
+					"NullPointerException has occured when deep copying the sounds inside sound asset. The program should continue to work, but at index "
+						+ i
+						+ " inside soundAsset the sound is replaced by the gunSound",
+					poj.Logger.LogLevels.VERBOSE);
+				soundAsset.add(GameResources.gunSound);
+				continue;
 			} catch (UnsupportedAudioFileException e) {
-				System.out.println(
-					"UnsupportedAudioFileException has occured inside sound asset");
+				poj.Logger.Logger.logMessage(
+					"UnsupportedAudioFileException has occured when deep copying the sounds inside sound asset. The program should continue to work, but at index "
+						+ i
+						+ " inside soundAsset the sound is replaced by the gunSound",
+					poj.Logger.LogLevels.VERBOSE);
 				soundAsset.add(GameResources.gunSound);
 				continue;
 			} catch (IOException a) {
-				System.out.println(
-					"IOException has occured inside sound asset");
+				poj.Logger.Logger.logMessage(
+					"IOException has occured when deep copying the sounds inside sound asset. The program should continue to work, but at index "
+						+ i
+						+ " inside soundAsset the sound is replaced by the gunSound",
+					poj.Logger.LogLevels.VERBOSE);
 				soundAsset.add(GameResources.gunSound);
 				continue;
 			} catch (LineUnavailableException b) {
-				System.out.println(
-					"LineUnavailableException has occured inside sound asset");
+				poj.Logger.Logger.logMessage(
+					"LineUnavailableException has occured when deep copying the sounds inside sound asset. The program should continue to work, but at index "
+						+ i
+						+ " inside soundAsset the sound is replaced by the gunSound",
+					poj.Logger.LogLevels.VERBOSE);
 				System.out.println(b.toString());
 				soundAsset.add(GameResources.gunSound);
 				continue;

@@ -83,33 +83,68 @@ public class Sound implements Component
 		return this.audioPath;
 	}
 
+	// If there occurs an exception it will
+	// not play the sound and will not crashs the game
 	public void play()
 	{
-		clip.setFramePosition(0);
-		clip.start();
-		this.isPlaying = true;
-		// this.isPlaying = clip.isActive();
+		try {
+			clip.setFramePosition(0);
+			clip.start();
+			this.isPlaying = true;
+			// this.isPlaying = clip.isActive();
+		} catch (NullPointerException e) {
+			// if the sound is null
+			poj.Logger.Logger.logMessage(
+				"NullPointerException has occured when playing the sound with sound path "
+					+ this.audioPath,
+				poj.Logger.LogLevels.VERBOSE);
+		}
 	}
 
 	public void playContinuously()
 	{
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		try {
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (NullPointerException e) {
+			// if the sound is null
+			poj.Logger.Logger.logMessage(
+				"NullPointerException has occured when playing the sound CONTINUOUSLY with sound path "
+					+ this.audioPath,
+				poj.Logger.LogLevels.VERBOSE);
+		}
 	}
+
 
 	public void end()
 	{
-		clip.stop();
-		clip.close();
-		isPlaying = false;
+		try {
+			clip.stop();
+			clip.close();
+			isPlaying = false;
+		} catch (NullPointerException e) {
+			// if the sound is null
+			poj.Logger.Logger.logMessage(
+				"NullPointerException has occured when ending the sound with sound path "
+					+ this.audioPath,
+				poj.Logger.LogLevels.VERBOSE);
+		}
 	}
 
 	public void restart()
 	{
-		clip.stop();
-		clip.close();
-		clip.start();
-		play();
-		isPlaying = true;
+		try {
+			clip.stop();
+			clip.close();
+			clip.start();
+			play();
+			isPlaying = true;
+		} catch (NullPointerException e) {
+			// if the sound is null
+			poj.Logger.Logger.logMessage(
+				"NullPointerException has occured when restarting the sound with sound path "
+					+ this.audioPath,
+				poj.Logger.LogLevels.VERBOSE);
+		}
 	}
 
 	public boolean getIsPlaying()
