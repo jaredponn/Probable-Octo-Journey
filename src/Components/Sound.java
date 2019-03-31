@@ -98,6 +98,7 @@ public class Sound implements Component
 				"NullPointerException has occured when playing the sound with sound path "
 					+ this.audioPath,
 				poj.Logger.LogLevels.VERBOSE);
+			System.out.println(e.toString());
 		}
 	}
 
@@ -111,6 +112,7 @@ public class Sound implements Component
 				"NullPointerException has occured when playing the sound CONTINUOUSLY with sound path "
 					+ this.audioPath,
 				poj.Logger.LogLevels.VERBOSE);
+			System.out.println(e.toString());
 		}
 	}
 
@@ -127,6 +129,7 @@ public class Sound implements Component
 				"NullPointerException has occured when ending the sound with sound path "
 					+ this.audioPath,
 				poj.Logger.LogLevels.VERBOSE);
+			System.out.println(e.toString());
 		}
 	}
 
@@ -144,6 +147,7 @@ public class Sound implements Component
 				"NullPointerException has occured when restarting the sound with sound path "
 					+ this.audioPath,
 				poj.Logger.LogLevels.VERBOSE);
+			System.out.println(e.toString());
 		}
 	}
 

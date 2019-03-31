@@ -30,6 +30,7 @@ public class SoundAssets implements Component
 						+ i
 						+ " inside soundAsset the sound is replaced by the gunSound",
 					poj.Logger.LogLevels.VERBOSE);
+				System.out.println(e.toString());
 				soundAsset.add(GameResources.gunSound);
 				continue;
 			} catch (UnsupportedAudioFileException e) {
@@ -38,23 +39,25 @@ public class SoundAssets implements Component
 						+ i
 						+ " inside soundAsset the sound is replaced by the gunSound",
 					poj.Logger.LogLevels.VERBOSE);
+				System.out.println(e.toString());
 				soundAsset.add(GameResources.gunSound);
 				continue;
-			} catch (IOException a) {
+			} catch (IOException e) {
 				poj.Logger.Logger.logMessage(
 					"IOException has occured when deep copying the sounds inside sound asset. The program should continue to work, but at index "
 						+ i
 						+ " inside soundAsset the sound is replaced by the gunSound",
 					poj.Logger.LogLevels.VERBOSE);
+				System.out.println(e.toString());
 				soundAsset.add(GameResources.gunSound);
 				continue;
-			} catch (LineUnavailableException b) {
+			} catch (LineUnavailableException e) {
 				poj.Logger.Logger.logMessage(
 					"LineUnavailableException has occured when deep copying the sounds inside sound asset. The program should continue to work, but at index "
 						+ i
 						+ " inside soundAsset the sound is replaced by the gunSound",
 					poj.Logger.LogLevels.VERBOSE);
-				System.out.println(b.toString());
+				System.out.println(e.toString());
 				soundAsset.add(GameResources.gunSound);
 				continue;
 			}

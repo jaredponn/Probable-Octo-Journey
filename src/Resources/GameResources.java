@@ -132,15 +132,26 @@ public class GameResources
 			playerSoundAsset.add(playerHpDropSound3);
 			playerSoundAsset.add(playerHpDropSound4);
 			playerSoundAsset.add(playerDeathSound);
+		} catch (NullPointerException e) {
+			poj.Logger.Logger.logMessage(
+				"NullPointerException has occured when loading the sound in (don't know which sound so debugg it yourself')",
+				poj.Logger.LogLevels.VERBOSE);
+			System.out.println(e.toString());
 		} catch (UnsupportedAudioFileException e) {
-			System.out.println(
-				"UnsupportedAudioFileException has occured..");
-		} catch (IOException a) {
-			System.out.println("IOException has occured..");
-		} catch (LineUnavailableException b) {
-			System.out.println(
-				"LineUnavailableException has occured..");
-			System.out.println(b.toString());
+			poj.Logger.Logger.logMessage(
+				"UnsupportedAudioFileException has occured when loading the sound in (don't know which sound so debugg it yourself')",
+				poj.Logger.LogLevels.VERBOSE);
+			System.out.println(e.toString());
+		} catch (IOException e) {
+			poj.Logger.Logger.logMessage(
+				"IOException has occured when loading the sound in (don't know which sound so debugg it yourself')",
+				poj.Logger.LogLevels.VERBOSE);
+			System.out.println(e.toString());
+		} catch (LineUnavailableException e) {
+			poj.Logger.Logger.logMessage(
+				"LineUnavailableException has occured when loading the sound in (don't know which sound so debugg it yourself')",
+				poj.Logger.LogLevels.VERBOSE);
+			System.out.println(e.toString());
 		}
 	}
 
