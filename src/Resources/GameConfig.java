@@ -141,7 +141,8 @@ public class GameConfig
 			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
-	public static final int CONSTRUCT_HP = 100;
+	public static final int TURRET_HP = 100;
+	public static final int TURRET_MAX_HP = 100;
 	public static final float SHELL_SPEED = 0.04f;
 	public static final int SHELL_DAMAGE = 75;
 	public static final int TURRET_STARTING_AMMO = 40;
@@ -189,6 +190,7 @@ public class GameConfig
 	public static final int MOB_ATTACK_DAMAGE = 10;
 
 	public static final int MOB_HP = 100;
+	public static final int MOB_MAX_HP = 100;
 	// percent chance for a mob to drop cash on death
 	public static final int MOB_DROP_RATE = 33;
 
