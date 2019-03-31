@@ -69,6 +69,7 @@ public class GameResources
 		"resources/RamiroGraphics/officialMap/pole4.png");
 	public static BufferedImage stopSign = ImageLoader.load(
 		"resources/RamiroGraphics/officialMap/stopSign.png");
+
 	// sounds
 	public static String
 		gunSoundPath = "resources/sounds/gunSound.wav",
@@ -98,11 +99,14 @@ public class GameResources
 		playerHpDropSound1, playerHpDropSound2, playerHpDropSound3,
 		playerHpDropSound4, playerDeathSound;
 	public static ArrayList<Sound> playerSoundAsset =
-		new ArrayList<Sound>();
+					       new ArrayList<Sound>(),
+				       zombieSoundAsset =
+					       new ArrayList<Sound>();
 
 	static
 	{
 		try {
+			// creating the sounds
 			gunSound = new Sound(GameResources.gunSoundPath);
 			zombieDeathSound =
 				new Sound(GameResources.zombieDeathSoundPath);
@@ -125,6 +129,7 @@ public class GameResources
 			playerHpDropSound4 = new Sound(playerHpDropSound4Path);
 			playerDeathSound = new Sound(playerDeathSoundPath);
 
+			// adding the sounds into component's assets
 			playerSoundAsset.add(gunSound);
 			playerSoundAsset.add(emptyClipSound);
 			playerSoundAsset.add(playerHpDropSound1);
@@ -136,22 +141,22 @@ public class GameResources
 			poj.Logger.Logger.logMessage(
 				"NullPointerException has occured when loading the sound in (don't know which sound so debugg it yourself')",
 				poj.Logger.LogLevels.VERBOSE);
-			System.out.println(e.toString());
+			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
 			poj.Logger.Logger.logMessage(
 				"UnsupportedAudioFileException has occured when loading the sound in (don't know which sound so debugg it yourself')",
 				poj.Logger.LogLevels.VERBOSE);
-			System.out.println(e.toString());
+			e.printStackTrace();
 		} catch (IOException e) {
 			poj.Logger.Logger.logMessage(
 				"IOException has occured when loading the sound in (don't know which sound so debugg it yourself')",
 				poj.Logger.LogLevels.VERBOSE);
-			System.out.println(e.toString());
+			e.printStackTrace();
 		} catch (LineUnavailableException e) {
 			poj.Logger.Logger.logMessage(
 				"LineUnavailableException has occured when loading the sound in (don't know which sound so debugg it yourself')",
 				poj.Logger.LogLevels.VERBOSE);
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 	}
 

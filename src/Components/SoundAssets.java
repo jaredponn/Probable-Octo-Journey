@@ -30,7 +30,7 @@ public class SoundAssets implements Component
 						+ i
 						+ " inside soundAsset the sound is replaced by the gunSound",
 					poj.Logger.LogLevels.VERBOSE);
-				System.out.println(e.toString());
+				e.printStackTrace();
 				soundAsset.add(GameResources.gunSound);
 				continue;
 			} catch (UnsupportedAudioFileException e) {
@@ -39,7 +39,7 @@ public class SoundAssets implements Component
 						+ i
 						+ " inside soundAsset the sound is replaced by the gunSound",
 					poj.Logger.LogLevels.VERBOSE);
-				System.out.println(e.toString());
+				e.printStackTrace();
 				soundAsset.add(GameResources.gunSound);
 				continue;
 			} catch (IOException e) {
@@ -48,7 +48,7 @@ public class SoundAssets implements Component
 						+ i
 						+ " inside soundAsset the sound is replaced by the gunSound",
 					poj.Logger.LogLevels.VERBOSE);
-				System.out.println(e.toString());
+				e.printStackTrace();
 				soundAsset.add(GameResources.gunSound);
 				continue;
 			} catch (LineUnavailableException e) {
@@ -57,7 +57,7 @@ public class SoundAssets implements Component
 						+ i
 						+ " inside soundAsset the sound is replaced by the gunSound",
 					poj.Logger.LogLevels.VERBOSE);
-				System.out.println(e.toString());
+				e.printStackTrace();
 				soundAsset.add(GameResources.gunSound);
 				continue;
 			}
