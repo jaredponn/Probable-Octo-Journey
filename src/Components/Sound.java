@@ -1,5 +1,16 @@
 package Components;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 /**
  * Sound component.
  *	Used to create sound effects, ONLY support .wav files because Java sound
@@ -10,14 +21,6 @@ package Components;
  * @version 1.0
  */
 import poj.Component.Component;
-import java.io.File;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-
-import java.io.IOException;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 // took the basic structures from
 // https://www.geeksforgeeks.org/play-audio-file-using-java/
@@ -26,7 +29,7 @@ public class Sound implements Component
 
 	private AudioInputStream audioInputStream;
 	private Clip clip;
-	private volatile boolean isPlaying = false;
+	private boolean isPlaying = false;
 	private String audioPath;
 
 	/**
@@ -81,6 +84,45 @@ public class Sound implements Component
 	public String getAudioPath()
 	{
 		return this.audioPath;
+	}
+
+	// play sound effect (CANNOT BE STOPPED)
+	public static void playSoundEffect(String fileName)
+	{
+		try {
+			AudioInputStream audioInputStream =
+				AudioSystem.getAudioInputStream(
+					new File(fileName));
+			AudioFormat af = audioInputStream.getFormat();
+			int size = (int)(af.getFrameSize()
+					 * audioInputStream.getFrameLength());
+			byte[] audio = new byte[size];
+			DataLine.Info info =
+				new DataLine.Info(Clip.class, af, size);
+			audioInputStream.read(audio, 0, size);
+
+			Clip clip = (Clip)AudioSystem.getLine(info);
+			clip.open(af, audio, 0, size);
+			clip.start();
+		} catch (UnsupportedAudioFileException e) {
+			poj.Logger.Logger.logMessage(
+				"UnsupportedAudioFileException has occured when playing the sound EFFECT with file path "
+					+ fileName,
+				poj.Logger.LogLevels.VERBOSE);
+			e.printStackTrace();
+		} catch (IOException e) {
+			poj.Logger.Logger.logMessage(
+				"IOException has occured when playing the sound EFFECT with file path"
+					+ fileName,
+				poj.Logger.LogLevels.VERBOSE);
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			poj.Logger.Logger.logMessage(
+				"LineUnavailableException has occured when playing the sound EFFECT with file path"
+					+ fileName,
+				poj.Logger.LogLevels.VERBOSE);
+			e.printStackTrace();
+		}
 	}
 
 	// If there occurs an exception it will

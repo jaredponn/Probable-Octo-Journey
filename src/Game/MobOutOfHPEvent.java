@@ -54,9 +54,9 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 		final PHitBox mobBody = mobBodyOptional.get();
 
 		// play death sound
-		engineState.unsafeGetComponentAt(SoundAssets.class, focus)
-			.playSoundAt(ThreadLocalRandom.current().nextInt(0, 4)
-				     + 3);
+		engineState.unsafeGetComponentAt(SoundEffectAssets.class, focus)
+			.playSoundEffectAt(
+				ThreadLocalRandom.current().nextInt(0, 4) + 3);
 
 		// deletes everything but the  render, animation, and
 		// worldattributes components so we can show the death animation

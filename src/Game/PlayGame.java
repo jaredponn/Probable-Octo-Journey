@@ -88,7 +88,8 @@ public class PlayGame extends World
 	protected WeaponState curWeaponState = WeaponState.Gun;
 
 	protected double playerDamageBonus = 1d;
-	protected Ammo playerAmmo = new Ammo(GameConfig.PLAYER_STARTING_AMMO,GameConfig.PLAYER_MAX_AMMO);
+	protected Ammo playerAmmo = new Ammo(GameConfig.PLAYER_STARTING_AMMO,
+					     GameConfig.PLAYER_MAX_AMMO);
 	protected int cash = GameConfig.PLAYER_STARTING_CASH;
 	protected int killCount = 0;
 	protected int mobsSpawned = 0;
@@ -225,6 +226,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(AggroRange.class);
 		super.engineState.registerComponent(Ammo.class);
 		super.engineState.registerComponent(SoundAssets.class);
+		super.engineState.registerComponent(SoundEffectAssets.class);
 	}
 	public void registerEntitySets()
 	{
@@ -608,10 +610,10 @@ public class PlayGame extends World
 			// PLAYED AT THE SAME TIME, we change this..)
 			engineState
 				.unsafeGetComponentAt(
-					SoundAssets.class,
+					SoundEffectAssets.class,
 					engineState.getInitialSetIndex(
 						MobSet.class))
-				.playSoundAt(
+				.playSoundEffectAt(
 					ThreadLocalRandom.current().nextInt(0,
 									    3));
 		}
@@ -687,7 +689,8 @@ public class PlayGame extends World
 		     i = this.engineState.getNextSetIndex(CollectibleSet.class,
 							  i)) {
 
-			engineState.unsafeGetComponentAt(Lifespan.class, i).checkLifeSpan(this, i);
+			engineState.unsafeGetComponentAt(Lifespan.class, i)
+				.checkLifeSpan(this, i);
 		}
 
 		// power-ups
@@ -695,7 +698,8 @@ public class PlayGame extends World
 		     this.engineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(PowerUp.class, i)) {
 
-			engineState.unsafeGetComponentAt(Lifespan.class, i).checkLifeSpan(this, i);
+			engineState.unsafeGetComponentAt(Lifespan.class, i)
+				.checkLifeSpan(this, i);
 		}
 
 		// health packs
@@ -705,7 +709,8 @@ public class PlayGame extends World
 		     i = this.engineState.getNextSetIndex(HealthPack.class,
 							  i)) {
 
-			engineState.unsafeGetComponentAt(Lifespan.class, i).checkLifeSpan(this, i);
+			engineState.unsafeGetComponentAt(Lifespan.class, i)
+				.checkLifeSpan(this, i);
 		}
 
 		// ammo packs
@@ -714,7 +719,8 @@ public class PlayGame extends World
 		     this.engineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(AmmoPack.class, i)) {
 
-			engineState.unsafeGetComponentAt(Lifespan.class, i).checkLifeSpan(this, i);
+			engineState.unsafeGetComponentAt(Lifespan.class, i)
+				.checkLifeSpan(this, i);
 		}
 	}
 

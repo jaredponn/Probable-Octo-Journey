@@ -8,8 +8,9 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Resources.GameResources;
 /**
- * Sound asset component.
- *	Used to store sound effects for a entity set
+ * Sound asset component for music and sounds that NEED TO BE STOPPED AND
+ *REPLAYED.
+ Used to store sound for a entity set
  *
  * Date: March 24, 2019
  * @author Haiyang
@@ -69,7 +70,7 @@ public class SoundAssets implements Component
 			soundAsset.get(i).play();
 		} catch (ArrayIndexOutOfBoundsException e) {
 			poj.Logger.Logger.logMessage(
-				"Array out of bounds in playSoundAt in sound assets! the number was "
+				"Array out of bounds in playSoundAt in sound assets! the index number was "
 					+ i
 					+ " but the largest index in the asset is "
 					+ (soundAsset.size() - 1),
@@ -84,7 +85,7 @@ public class SoundAssets implements Component
 			soundAsset.get(i).playContinuously();
 		} catch (ArrayIndexOutOfBoundsException e) {
 			poj.Logger.Logger.logMessage(
-				"Array out of bounds in playContinuouslyAt in sound assets! the number was "
+				"Array out of bounds in playContinuouslyAt in sound assets! the index number was "
 					+ i
 					+ " but the largest index in the asset is "
 					+ (soundAsset.size() - 1),
@@ -98,7 +99,7 @@ public class SoundAssets implements Component
 			soundAsset.get(i).end();
 		} catch (ArrayIndexOutOfBoundsException e) {
 			poj.Logger.Logger.logMessage(
-				"Array out of bounds in endPlayingAt in sound assets! the number was "
+				"Array out of bounds in endPlayingAt in sound assets! the index number was "
 					+ i
 					+ " but the largest index in the asset is "
 					+ (soundAsset.size() - 1),
@@ -112,7 +113,7 @@ public class SoundAssets implements Component
 			soundAsset.get(i).restart();
 		} catch (ArrayIndexOutOfBoundsException e) {
 			poj.Logger.Logger.logMessage(
-				"Array out of bounds in restartPlayingAt in sound assets! the number was "
+				"Array out of bounds in restartPlayingAt in sound assets! the index number was "
 					+ i
 					+ " but the largest index in the asset is "
 					+ (soundAsset.size() - 1),
@@ -126,7 +127,7 @@ public class SoundAssets implements Component
 			return soundAsset.get(i).getIsPlaying();
 		} catch (ArrayIndexOutOfBoundsException e) {
 			poj.Logger.Logger.logMessage(
-				"Array out of bounds in getIsPlayingAt in sound assets! the number was "
+				"Array out of bounds in getIsPlayingAt in sound assets! the index number was "
 					+ i
 					+ " but the largest index in the asset is "
 					+ (soundAsset.size() - 1),

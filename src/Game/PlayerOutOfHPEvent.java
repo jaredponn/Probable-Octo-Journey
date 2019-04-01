@@ -2,7 +2,7 @@ package Game;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import Components.SoundAssets;
+import Components.*;
 import EntitySets.PlayerSet;
 
 public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
@@ -27,10 +27,10 @@ public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
 		System.out.println("dead at = " + dead);
 		gameState.getEngineState()
 			.unsafeGetComponentAt(
-				SoundAssets.class,
+				SoundEffectAssets.class,
 				gameState.getEngineState().getInitialSetIndex(
 					PlayerSet.class))
-			.playSoundAt(dead + 6);
+			.playSoundEffectAt(dead + 6);
 		getPlayGame().quit();
 	}
 }

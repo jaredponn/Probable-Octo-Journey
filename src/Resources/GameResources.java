@@ -73,18 +73,18 @@ public class GameResources
 	// sounds
 	public static String
 		gunSoundPath = "resources/sounds/gunSound.wav",
-		zombieDeathSoundPath1 = "resources/sounds/zombieDeathSound.wav",
-		zombieDeathSoundPath2 =
+		zombieDeathSound1Path = "resources/sounds/zombieDeathSound.wav",
+		zombieDeathSound2Path =
 			"resources/sounds/zombieDeathSound2.wav",
-		zombieDeathSoundPath3 =
+		zombieDeathSound3Path =
 			"resources/sounds/zombieDeathSound3.wav",
-		zombieDeathSoundPath4 =
+		zombieDeathSound4Path =
 			"resources/sounds/zombieDeathSound4.wav",
-		zombieSpawnSoundPath1 =
+		zombieSpawnSound1Path =
 			"resources/sounds/zombieSpawnSound1.wav",
-		zombieSpawnSoundPath2 =
+		zombieSpawnSound2Path =
 			"resources/sounds/zombieSpawnSound2.wav",
-		zombieSpawnSoundPath3 =
+		zombieSpawnSound3Path =
 			"resources/sounds/zombieSpawnSound3.wav",
 		emptyClipSoundPath = "resources/sounds/emptyClipSound.wav",
 		menuSoundPath = "resources/sounds/menuSound.wav",
@@ -97,13 +97,13 @@ public class GameResources
 		playerHpDropSound2Path = "resources/sounds/playerHpDrop2.wav",
 		playerHpDropSound3Path = "resources/sounds/playerHpDrop3.wav",
 		playerHpDropSound4Path = "resources/sounds/playerHpDrop4.wav",
-		playerDeathSoundPath1 =
+		playerDeathSound1Path =
 			"resources/sounds/playerDeathSound1.wav",
-		playerDeathSoundPath2 =
+		playerDeathSound2Path =
 			"resources/sounds/playerDeathSound2.wav",
-		playerDeathSoundPath3 =
+		playerDeathSound3Path =
 			"resources/sounds/playerDeathSound3.wav",
-		playerDeathSoundPath4 =
+		playerDeathSound4Path =
 			"resources/sounds/playerDeathSound4.wav";
 
 	public static Sound gunSound, zombieDeathSound1, zombieDeathSound2,
@@ -113,14 +113,15 @@ public class GameResources
 		playerHpDropSound1, playerHpDropSound2, playerHpDropSound3,
 		playerHpDropSound4, playerDeathSound1, playerDeathSound2,
 		playerDeathSound3, playerDeathSound4;
-	public static ArrayList<Sound> playerSoundAsset =
-					       new ArrayList<Sound>(),
-				       zombieSoundAsset =
-					       new ArrayList<Sound>();
+	public static ArrayList<String> playerSoundAsset =
+						new ArrayList<String>(),
+					zombieSoundAsset =
+						new ArrayList<String>();
 
 	static
 	{
 		try {
+			/*
 			// gun sounds
 			gunSound = new Sound(GameResources.gunSoundPath);
 			emptyClipSound =
@@ -140,9 +141,11 @@ public class GameResources
 				new Sound(GameResources.zombieSpawnSoundPath2);
 			zombieSpawnSound3 =
 				new Sound(GameResources.zombieSpawnSoundPath3);
+				*/
 			// game sounds
 			menuSound = new Sound(GameResources.menuSoundPath);
 			gameBgSound = new Sound(GameResources.gameBgSoundPath);
+			/*
 			menuSelectButtonSound =
 				new Sound(menuSelectButtonSoundPath);
 			healthPickupSound = new Sound(healthPickupSoundPath);
@@ -155,27 +158,28 @@ public class GameResources
 			playerDeathSound2 = new Sound(playerDeathSoundPath2);
 			playerDeathSound3 = new Sound(playerDeathSoundPath3);
 			playerDeathSound4 = new Sound(playerDeathSoundPath4);
+			*/
 
 			// adding the sounds into player assets
-			playerSoundAsset.add(gunSound);
-			playerSoundAsset.add(emptyClipSound);
-			playerSoundAsset.add(playerHpDropSound1);
-			playerSoundAsset.add(playerHpDropSound2);
-			playerSoundAsset.add(playerHpDropSound3);
-			playerSoundAsset.add(playerHpDropSound4); // 5 index
-			playerSoundAsset.add(playerDeathSound1);
-			playerSoundAsset.add(playerDeathSound2);
-			playerSoundAsset.add(playerDeathSound3);
-			playerSoundAsset.add(playerDeathSound4);
+			playerSoundAsset.add(gunSoundPath);
+			playerSoundAsset.add(emptyClipSoundPath);
+			playerSoundAsset.add(playerHpDropSound1Path);
+			playerSoundAsset.add(playerHpDropSound2Path);
+			playerSoundAsset.add(playerHpDropSound3Path);
+			playerSoundAsset.add(playerHpDropSound4Path); // 5 index
+			playerSoundAsset.add(playerDeathSound1Path);
+			playerSoundAsset.add(playerDeathSound2Path);
+			playerSoundAsset.add(playerDeathSound3Path);
+			playerSoundAsset.add(playerDeathSound4Path);
 
 			// adding the sounds into zombie assets
-			zombieSoundAsset.add(zombieSpawnSound1);
-			zombieSoundAsset.add(zombieSpawnSound2);
-			zombieSoundAsset.add(zombieSpawnSound3); // 2 index
-			zombieSoundAsset.add(zombieDeathSound1);
-			zombieSoundAsset.add(zombieDeathSound2);
-			zombieSoundAsset.add(zombieDeathSound3);
-			zombieSoundAsset.add(zombieDeathSound4);
+			zombieSoundAsset.add(zombieSpawnSound1Path);
+			zombieSoundAsset.add(zombieSpawnSound2Path);
+			zombieSoundAsset.add(zombieSpawnSound3Path); // 2 index
+			zombieSoundAsset.add(zombieDeathSound1Path);
+			zombieSoundAsset.add(zombieDeathSound2Path);
+			zombieSoundAsset.add(zombieDeathSound3Path);
+			zombieSoundAsset.add(zombieDeathSound4Path);
 		} catch (NullPointerException e) {
 			poj.Logger.Logger.logMessage(
 				"NullPointerException has occured when loading the sound in (don't know which sound so debugg it yourself')",

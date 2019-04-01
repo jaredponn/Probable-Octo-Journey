@@ -11,7 +11,7 @@ import Components.Movement;
 import Components.MovementDirection;
 import Components.PCollisionBody;
 import Components.PhysicsPCollisionBody;
-import Components.SoundAssets;
+import Components.SoundEffectAssets;
 import Components.WorldAttributes;
 import EntitySets.MobSet;
 import EntitySets.PlayerSet;
@@ -112,11 +112,11 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 				if (playerHitByMob && (hp > 0)) {
 					engineState
 						.unsafeGetComponentAt(
-							SoundAssets.class,
+							SoundEffectAssets.class,
 							engineState.getInitialSetIndex(
 								PlayerSet
 									.class))
-						.playSoundAt(
+						.playSoundEffectAt(
 							ThreadLocalRandom
 								.current()
 								.nextInt(0, 4)

@@ -123,9 +123,9 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 					// play gun shooting sound
 					engineState
 						.unsafeGetComponentAt(
-							SoundAssets.class,
+							SoundEffectAssets.class,
 							player)
-						.playSoundAt(0);
+						.playSoundEffectAt(0);
 
 					// generate bullet
 					int e = engineState.spawnEntitySet(
@@ -163,9 +163,9 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 					// play empty clip sound
 					engineState
 						.unsafeGetComponentAt(
-							SoundAssets.class,
+							SoundEffectAssets.class,
 							player)
-						.playSoundAt(1);
+						.playSoundEffectAt(1);
 				}
 
 				break;

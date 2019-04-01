@@ -21,8 +21,8 @@ public class GameConfig
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
-	public static final int PLAYER_HP = 100000;     // 50;
-	public static final int PLAYER_MAX_HP = 100000; // 75;
+	public static final int PLAYER_HP = 10;     // 50;
+	public static final int PLAYER_MAX_HP = 10; // 75;
 	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
 	public static final int TOWER_DIFFUSION_VALUE = (int)Math.pow(2, 5);
 	public static final float PLAYER_HEIGHT =

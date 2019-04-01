@@ -1,16 +1,16 @@
 package App;
 
+import java.io.File;
 import java.io.IOException;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 
+
+import Game.GameOver;
 import Game.Menu;
 import Game.PlayGame;
-import Game.GameOver;
 import Resources.GameConfig;
 import Resources.GameResources;
-
 /**
  * App. Application running loop
  * Date: February 10, 2019
@@ -47,7 +47,7 @@ public class App
 	 */
 	public App()
 	{
-		this.gwindow = new GameWindow("Probably Octo Journey");
+		this.gwindow = new GameWindow("Probable Octo Journey");
 		this.inputPoller = new InputPoller();
 
 		/* -- this makes it full screen
@@ -81,6 +81,7 @@ public class App
 	 * states that will be run during the duration of the application.
 	 * TODO in the future add different game states like menu, and start
 	 */
+
 	public void runAppLoop() throws UnsupportedAudioFileException,
 					IOException, LineUnavailableException
 	{
@@ -92,6 +93,7 @@ public class App
 		// start playing game background music
 		while (isRunning) {
 			runMenu = true; // this is so bad
+
 
 			// start playing menu music
 			GameResources.menuSound.playContinuously();
