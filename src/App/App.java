@@ -22,6 +22,8 @@ import poj.GameWindow.GameWindow;
 import poj.GameWindow.InputPoller;
 import poj.Render.Renderer;
 
+import java.awt.*;
+
 public class App
 {
 
@@ -50,19 +52,18 @@ public class App
 		this.gwindow = new GameWindow("Probable Octo Journey");
 		this.inputPoller = new InputPoller();
 
-		/* -- this makes it full screen
 		GraphicsDevice gd =
 			GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getDefaultScreenDevice();
 		this.gcanvas = new GameCanvas(gd.getDisplayMode().getWidth(),
 					      gd.getDisplayMode().getHeight(),
-					      inputPoller);*/
+					      inputPoller);
+		this.width = gd.getDisplayMode().getWidth();
+		this.height = gd.getDisplayMode().getHeight();
 
-		this.width = 1024;
-		this.height = 768;
-
-		// windowed
-		this.gcanvas = new GameCanvas(width, height, inputPoller);
+		// this.width = 1024;
+		// this.height = 768;
+		// this.gcanvas = new GameCanvas(width, height, inputPoller);
 
 		this.gwindow.defaultAddGameCanvasAndSetBufferStrat(gcanvas);
 
