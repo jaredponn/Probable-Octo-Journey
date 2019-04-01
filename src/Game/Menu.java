@@ -82,10 +82,12 @@ public class Menu
 					    gjk, buttonBody, mouseHitBox)) {
 					// menu selection button sound is played
 					try {
-					GameResources.menuSelectButtonSound.play();
-					}
-					catch (NullPointerException e) {
-						System.out.println("ERROR: Problem playing button press sound");
+						Components.Sound.playSoundEffect(
+							GameResources
+								.menuSelectButtonSoundPath);
+					} catch (NullPointerException e) {
+						System.out.println(
+							"ERROR: Problem playing button press sound");
 						e.printStackTrace();
 					}
 

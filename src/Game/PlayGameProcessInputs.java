@@ -301,8 +301,7 @@ public class PlayGameProcessInputs
 								   .BULLET_COST) {
 					g.playerAmmo.increaseAmmo(
 						GameConfig
-							.PURCHASE_AMMOPACK_AMOUNT,
-						GameConfig.PLAYER_MAX_AMMO);
+							.PURCHASE_AMMOPACK_AMOUNT);
 					g.cash -=
 						GameConfig
 							.PURCHASE_AMMOPACK_AMOUNT

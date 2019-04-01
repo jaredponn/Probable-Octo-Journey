@@ -90,8 +90,8 @@ public class PlayGame extends World
 	protected WeaponState curWeaponState = WeaponState.Gun;
 
 	protected double playerDamageBonus = 1d;
-	// protected int playerAmmo = GameConfig.PLAYER_STARTING_AMMO;
-	protected Ammo playerAmmo = new Ammo(GameConfig.PLAYER_STARTING_AMMO);
+	protected Ammo playerAmmo = new Ammo(GameConfig.PLAYER_STARTING_AMMO,
+					     GameConfig.PLAYER_MAX_AMMO);
 	protected int cash = GameConfig.PLAYER_STARTING_CASH;
 	protected int killCount = 0;
 	protected int mobsSpawned = 0;
@@ -248,6 +248,7 @@ public class PlayGame extends World
 		super.engineState.registerComponent(AggroRange.class);
 		super.engineState.registerComponent(Ammo.class);
 		super.engineState.registerComponent(SoundAssets.class);
+		super.engineState.registerComponent(SoundEffectAssets.class);
 	}
 	public void registerEntitySets()
 	{
@@ -282,12 +283,8 @@ public class PlayGame extends World
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 
-
-		// for (int i = 0; i < GameConfig.MOB_SPAWN_POINTS.size(); i++)
-		// { engineState.spawnEntitySet( new
-		// MobSet(GameConfig.MOB_SPAWN_POINTS.get(i))); mobsSpawned++; }
 		for (int i = 0; i < 100; ++i) {
-			engineState.spawnEntitySet(new MobSet(30f, 30f));
+			engineState.spawnEntitySet(new MobSet(30, 30f));
 		}
 	}
 
@@ -304,7 +301,7 @@ public class PlayGame extends World
 		// System.out.println("stoped plasying!!");
 		//}
 
-		// this.mobSpawner();
+		this.mobSpawner();
 		try {
 			generateDiffusionMap.setStart();
 		} catch (Exception ex) {
@@ -563,7 +560,7 @@ public class PlayGame extends World
 
 	// ASE
 	/** @return: current time the game has been running in seconds */
-	protected double getPlayTime()
+	public double getPlayTime()
 	{
 		double playTime = Math.floor((super.acct / 1000) * 100) / 100;
 		return playTime;
@@ -630,6 +627,17 @@ public class PlayGame extends World
 					GameConfig.MOB_SPAWN_POINTS.get(i)));
 				mobsSpawned++;
 			}
+			// play zombie spawn sound with first set index of the
+			// mob (UNLESS WE WANT MULTIPLE SPAWN SOUNDS TO BE
+			// PLAYED AT THE SAME TIME, we change this..)
+			engineState
+				.unsafeGetComponentAt(
+					SoundEffectAssets.class,
+					engineState.getInitialSetIndex(
+						MobSet.class))
+				.playSoundEffectAt(
+					ThreadLocalRandom.current().nextInt(0,
+									    3));
 		}
 		// TODO: make more mobs spawn over time
 	}
@@ -691,70 +699,52 @@ public class PlayGame extends World
 	}
 
 	/**
-	 * deletes cash drops older than the lifespan
+	 * deletes drops older than their lifespan
 	 * prevents drops that have not been collected from piling up
 	 */
 	protected void timedDespawner()
 	{
+		// money
 		for (int i = this.engineState.getInitialSetIndex(
 			     CollectibleSet.class);
 		     this.engineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(CollectibleSet.class,
 							  i)) {
 
-			CombatFunctions.removeEntityWithLifeSpan(this, i);
+			engineState.unsafeGetComponentAt(Lifespan.class, i)
+				.checkLifeSpan(this, i);
 		}
 
+		// power-ups
 		for (int i = this.engineState.getInitialSetIndex(PowerUp.class);
 		     this.engineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(PowerUp.class, i)) {
 
-			CombatFunctions.removeEntityWithLifeSpan(this, i);
+			engineState.unsafeGetComponentAt(Lifespan.class, i)
+				.checkLifeSpan(this, i);
 		}
 
+		// health packs
 		for (int i = this.engineState.getInitialSetIndex(
 			     HealthPack.class);
 		     this.engineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(HealthPack.class,
 							  i)) {
 
-			CombatFunctions.removeEntityWithLifeSpan(this, i);
+			engineState.unsafeGetComponentAt(Lifespan.class, i)
+				.checkLifeSpan(this, i);
 		}
 
+		// ammo packs
 		for (int i = this.engineState.getInitialSetIndex(
 			     AmmoPack.class);
 		     this.engineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(AmmoPack.class, i)) {
 
-			CombatFunctions.removeEntityWithLifeSpan(this, i);
+			engineState.unsafeGetComponentAt(Lifespan.class, i)
+				.checkLifeSpan(this, i);
 		}
 	}
-
-	/**
-	 * Removes bullets that have been alive longer than their lifespan
-	 * Makes bullets have limited range
-	 * Depreciated. Bullets now just removed on collision
-	 */
-	/*
-	protected void bulletDespawner()
-	{
-		for (int i = this.engineState.getInitialSetIndex(Bullet.class);
-		     this.engineState.isValidEntity(i);
-		     i = this.engineState.getNextSetIndex(Bullet.class, i)) {
-
-			double spawnTime =
-				engineState.getComponentAt(Lifespan.class, i)
-					.getSpawnTime();
-			double lifespan =
-				engineState.getComponentAt(Lifespan.class, i)
-					.getLifespan();
-
-			if (this.getPlayTime() - spawnTime >= lifespan) {
-				CombatFunctions.removeBullet(engineState, i);
-			}
-		}
-	}
-	*/
 
 	/**
 	 * Add the money in a cash pick-up to the player
@@ -884,8 +874,7 @@ public class PlayGame extends World
 				    gjk, playerPosition,
 				    collectiblePosition.get())) {
 				this.playerAmmo.increaseAmmo(
-					GameConfig.PICKUP_AMMOPACK_AMOUNT,
-					GameConfig.PLAYER_MAX_AMMO);
+					GameConfig.PICKUP_AMMOPACK_AMOUNT);
 				CombatFunctions.removePickUp(engineState, i);
 			}
 		}

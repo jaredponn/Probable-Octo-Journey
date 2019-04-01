@@ -70,16 +70,23 @@ public class GameResources
 		"resources/RamiroGraphics/officialMap/pole4.png");
 	public static BufferedImage stopSign = ImageLoader.load(
 		"resources/RamiroGraphics/officialMap/stopSign.png");
+
 	// sounds
 	public static String
 		gunSoundPath = "resources/sounds/gunSound.wav",
-		zombieDeathSoundPath = "resources/sounds/zombieDeathSound.wav",
-		zombieDeathSoundPath2 =
+		zombieDeathSound1Path = "resources/sounds/zombieDeathSound.wav",
+		zombieDeathSound2Path =
 			"resources/sounds/zombieDeathSound2.wav",
-		zombieDeathSoundPath3 =
+		zombieDeathSound3Path =
 			"resources/sounds/zombieDeathSound3.wav",
-		zombieDeathSoundPath4 =
+		zombieDeathSound4Path =
 			"resources/sounds/zombieDeathSound4.wav",
+		zombieSpawnSound1Path =
+			"resources/sounds/zombieSpawnSound1.wav",
+		zombieSpawnSound2Path =
+			"resources/sounds/zombieSpawnSound2.wav",
+		zombieSpawnSound3Path =
+			"resources/sounds/zombieSpawnSound3.wav",
 		emptyClipSoundPath = "resources/sounds/emptyClipSound.wav",
 		menuSoundPath = "resources/sounds/menuSound.wav",
 		gameBgSoundPath = "resources/sounds/gameBgMusic.wav",
@@ -91,58 +98,109 @@ public class GameResources
 		playerHpDropSound2Path = "resources/sounds/playerHpDrop2.wav",
 		playerHpDropSound3Path = "resources/sounds/playerHpDrop3.wav",
 		playerHpDropSound4Path = "resources/sounds/playerHpDrop4.wav",
-		playerDeathSoundPath = "resources/sounds/playerDeathSound.wav";
+		playerDeathSound1Path =
+			"resources/sounds/playerDeathSound1.wav",
+		playerDeathSound2Path =
+			"resources/sounds/playerDeathSound2.wav",
+		playerDeathSound3Path =
+			"resources/sounds/playerDeathSound3.wav",
+		playerDeathSound4Path =
+			"resources/sounds/playerDeathSound4.wav";
 
-	public static Sound gunSound, zombieDeathSound, zombieDeathSound2,
-		zombieDeathSound3, zombieDeathSound4, emptyClipSound, menuSound,
+	public static Sound gunSound, zombieDeathSound1, zombieDeathSound2,
+		zombieDeathSound3, zombieDeathSound4, zombieSpawnSound1,
+		zombieSpawnSound2, zombieSpawnSound3, emptyClipSound, menuSound,
 		gameBgSound, menuSelectButtonSound, healthPickupSound,
 		playerHpDropSound1, playerHpDropSound2, playerHpDropSound3,
-		playerHpDropSound4, playerDeathSound;
-	public static ArrayList<Sound> playerSoundAsset =
-		new ArrayList<Sound>();
+		playerHpDropSound4, playerDeathSound1, playerDeathSound2,
+		playerDeathSound3, playerDeathSound4;
+	public static ArrayList<String> playerSoundAsset =
+						new ArrayList<String>(),
+					zombieSoundAsset =
+						new ArrayList<String>();
 
 	static
 	{
 		try {
+			/*
+			// gun sounds
 			gunSound = new Sound(GameResources.gunSoundPath);
-			zombieDeathSound =
-				new Sound(GameResources.zombieDeathSoundPath);
+			emptyClipSound =
+				new Sound(GameResources.emptyClipSoundPath);
+			// zombie sounds
+			zombieDeathSound1 =
+				new Sound(GameResources.zombieDeathSoundPath1);
 			zombieDeathSound2 =
 				new Sound(GameResources.zombieDeathSoundPath2);
 			zombieDeathSound3 =
 				new Sound(GameResources.zombieDeathSoundPath3);
 			zombieDeathSound4 =
 				new Sound(GameResources.zombieDeathSoundPath4);
-			emptyClipSound =
-				new Sound(GameResources.emptyClipSoundPath);
+			zombieSpawnSound1 =
+				new Sound(GameResources.zombieSpawnSoundPath1);
+			zombieSpawnSound2 =
+				new Sound(GameResources.zombieSpawnSoundPath2);
+			zombieSpawnSound3 =
+				new Sound(GameResources.zombieSpawnSoundPath3);
+				*/
+			// game sounds
 			menuSound = new Sound(GameResources.menuSoundPath);
 			gameBgSound = new Sound(GameResources.gameBgSoundPath);
+			/*
 			menuSelectButtonSound =
 				new Sound(menuSelectButtonSoundPath);
 			healthPickupSound = new Sound(healthPickupSoundPath);
+			// player sounds
 			playerHpDropSound1 = new Sound(playerHpDropSound1Path);
 			playerHpDropSound2 = new Sound(playerHpDropSound2Path);
 			playerHpDropSound3 = new Sound(playerHpDropSound3Path);
 			playerHpDropSound4 = new Sound(playerHpDropSound4Path);
-			playerDeathSound = new Sound(playerDeathSoundPath);
+			playerDeathSound1 = new Sound(playerDeathSoundPath1);
+			playerDeathSound2 = new Sound(playerDeathSoundPath2);
+			playerDeathSound3 = new Sound(playerDeathSoundPath3);
+			playerDeathSound4 = new Sound(playerDeathSoundPath4);
+			*/
 
-			playerSoundAsset.add(gunSound);
-			playerSoundAsset.add(emptyClipSound);
-			playerSoundAsset.add(playerHpDropSound1);
-			playerSoundAsset.add(playerHpDropSound2);
-			playerSoundAsset.add(playerHpDropSound3);
-			playerSoundAsset.add(playerHpDropSound4);
-			playerSoundAsset.add(playerDeathSound);
+			// adding the sounds into player assets
+			playerSoundAsset.add(gunSoundPath);
+			playerSoundAsset.add(emptyClipSoundPath);
+			playerSoundAsset.add(playerHpDropSound1Path);
+			playerSoundAsset.add(playerHpDropSound2Path);
+			playerSoundAsset.add(playerHpDropSound3Path);
+			playerSoundAsset.add(playerHpDropSound4Path); // 5 index
+			playerSoundAsset.add(playerDeathSound1Path);
+			playerSoundAsset.add(playerDeathSound2Path);
+			playerSoundAsset.add(playerDeathSound3Path);
+			playerSoundAsset.add(playerDeathSound4Path);
+
+			// adding the sounds into zombie assets
+			zombieSoundAsset.add(zombieSpawnSound1Path);
+			zombieSoundAsset.add(zombieSpawnSound2Path);
+			zombieSoundAsset.add(zombieSpawnSound3Path); // 2 index
+			zombieSoundAsset.add(zombieDeathSound1Path);
+			zombieSoundAsset.add(zombieDeathSound2Path);
+			zombieSoundAsset.add(zombieDeathSound3Path);
+			zombieSoundAsset.add(zombieDeathSound4Path);
+		} catch (NullPointerException e) {
+			poj.Logger.Logger.logMessage(
+				"NullPointerException has occured when loading the sound in (don't know which sound so debugg it yourself')",
+				poj.Logger.LogLevels.VERBOSE);
+			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
-			System.out.println(
-				"UnsupportedAudioFileException has occured.."
-				+ e.toString());
-		} catch (IOException a) {
-			System.out.println("IOException has occured..");
-		} catch (LineUnavailableException b) {
-			System.out.println(
-				"LineUnavailableException has occured..");
-			System.out.println(b.toString());
+			poj.Logger.Logger.logMessage(
+				"UnsupportedAudioFileException has occured when loading the sound in (don't know which sound so debugg it yourself')",
+				poj.Logger.LogLevels.VERBOSE);
+			e.printStackTrace();
+		} catch (IOException e) {
+			poj.Logger.Logger.logMessage(
+				"IOException has occured when loading the sound in (don't know which sound so debugg it yourself')",
+				poj.Logger.LogLevels.VERBOSE);
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			poj.Logger.Logger.logMessage(
+				"LineUnavailableException has occured when loading the sound in (don't know which sound so debugg it yourself')",
+				poj.Logger.LogLevels.VERBOSE);
+			e.printStackTrace();
 		}
 	}
 

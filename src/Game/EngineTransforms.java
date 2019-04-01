@@ -233,7 +233,14 @@ public class EngineTransforms
 				    .pureGetCenter())
 		    == -1) {
 			System.out.println(
-				"bad thing happened in update enemy position. th");
+				"bad thing happened in update enemy position. the return value is -1. Printing all components of the mob");
+			engineState.printAllComponentsAt(mob1);
+			System.out.println(
+				"printing the PhysicsPCollisionBody polygon points");
+			engineState
+				.unsafeGetComponentAt(
+					PhysicsPCollisionBody.class, mob1)
+				.print();
 			return;
 		}
 		ArrayList<PathFindCord> mobNeighb = getEightNeighbourVector(

@@ -60,29 +60,6 @@ public class CombatFunctions
 		engineState.markIndexAsFree(t);
 	}
 
-	/**
-	 * Removes an entity with a lifespan component
-	 * if it has reached the end of its lifespan
-	 * @param g: the main game
-	 * @param entity: the entity to be deleted
-	 */
-	public static void removeEntityWithLifeSpan(PlayGame g, int entity)
-	{
-		EngineState engineState = g.getEngineState();
-
-		double spawnTime =
-			engineState.unsafeGetComponentAt(Lifespan.class, entity)
-				.getSpawnTime();
-		double lifespan =
-			engineState.unsafeGetComponentAt(Lifespan.class, entity)
-				.getLifespan();
-
-		if (g.getPlayTime() - spawnTime >= lifespan) {
-			engineState.deleteAllComponentsAt(entity);
-			engineState.markIndexAsFree(entity);
-		}
-	}
-
 
 	/**
 	 * Handler for bullet collisions
@@ -418,8 +395,7 @@ public class CombatFunctions
 				shellSpeed));
 
 		// decrease ammo
-		engineState.unsafeGetComponentAt(Ammo.class, turret)
-			.decreaseAmmo(1, GameConfig.TURRET_STARTING_AMMO);
+		engineState.unsafeGetComponentAt(Ammo.class, turret).decreaseAmmo(1);
 
 		// destroy turret if out of ammo
 		if (engineState.unsafeGetComponentAt(Ammo.class, turret)

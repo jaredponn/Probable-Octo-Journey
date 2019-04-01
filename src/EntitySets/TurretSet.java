@@ -25,9 +25,9 @@ public class TurretSet extends EntitySet
 						 GameConfig.MOB_HEIGHT));
 		addComponent(new PhysicsPCollisionBody(
 			GameConfig.TURRET_COLLISION_BODY));
-		addComponent(new HitPoints(GameConfig.CONSTRUCT_HP));
+		addComponent(new HitPoints(GameConfig.TURRET_HP,GameConfig.TURRET_MAX_HP));
 		addComponent(new PHitBox(GameConfig.TURRET_HITBOX_BODY));
 		addComponent(new AttackCycle(GameConfig.TURRET_ATTACK_CYCLE));
-		addComponent(new Ammo(GameConfig.TURRET_STARTING_AMMO));
+		addComponent(new Ammo(GameConfig.TURRET_STARTING_AMMO,GameConfig.TURRET_STARTING_AMMO));
 	}
 }

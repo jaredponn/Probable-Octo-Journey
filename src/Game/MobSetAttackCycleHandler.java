@@ -6,17 +6,17 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import Components.AggroRange;
 import Components.CardinalDirections;
+import Components.HitPoints;
 import Components.Movement;
 import Components.MovementDirection;
 import Components.PCollisionBody;
 import Components.PhysicsPCollisionBody;
-import Components.SoundAssets;
+import Components.SoundEffectAssets;
 import Components.WorldAttributes;
 import EntitySets.MobSet;
 import EntitySets.PlayerSet;
 import EntitySets.TurretSet;
 import Resources.GameConfig;
-import Resources.GameResources;
 
 import poj.EngineState;
 import poj.Collisions.GJK;
@@ -89,7 +89,7 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 
 			// debug rendering
 			Systems.pCollisionBodyDebugRenderer(
-				pmob, playGame.debugBuffer, playGame.cam,
+				pmob, Game.PlayGame.debugBuffer, playGame.cam,
 				Color.orange);
 
 			boolean playerHitByMob =
@@ -98,23 +98,28 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 						engineState, pmob,
 						PlayerSet.class,
 						GameConfig.MOB_ATTACK_DAMAGE);
-			if (playerHitByMob) {
-				try {
-					// play player hurt sound
-					int hurtSoundPlay =
-						ThreadLocalRandom.current()
-							.nextInt(0, 4);
+
+			// get the player health
+			Optional<HitPoints> hpOpt = engineState.getComponentAt(
+				HitPoints.class, engineState.getInitialSetIndex(
+							 PlayerSet.class));
+			if (hpOpt.isPresent()) {
+				int hp = hpOpt.get().getHP();
+				System.out.println("player hp = " + hp);
+				// will play player hurt sound only if the
+				// player health is above 0
+				if (playerHitByMob && (hp > 0)) {
 					engineState
 						.unsafeGetComponentAt(
-							SoundAssets.class,
+							SoundEffectAssets.class,
 							engineState.getInitialSetIndex(
 								PlayerSet
 									.class))
-						.playSoundAt(hurtSoundPlay + 2);
-				} catch (NullPointerException e) {
-					System.out.println(
-						"Error: Problem playing player hp drop sound");
-					e.printStackTrace();
+						.playSoundEffectAt(
+							ThreadLocalRandom
+								.current()
+								.nextInt(0, 4)
+							+ 2);
 				}
 			}
 

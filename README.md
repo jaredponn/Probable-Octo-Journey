@@ -84,7 +84,8 @@ See `textbased/README.md` for more information about the text based version.
 # Announcements -- for Contributors:
 
 ## TODO List
-- [ ] REDO SPRITE for the tilemap so buildings fits the tiles perfectly (either delete or add new blocks)
+- [ ] REDO SPRITE (DONT FORGET THE WATER FOUNTAIN AND GAS STATION)for the tilemap so buildings fits the tiles perfectly (either delete or add new blocks)
+- [ ] Damage numbers ? at least tell the user how much damage does the weapons and zombies do
 - [ ] Initials for the GAME OVER SCREEN (Ramiro)
 - [ ] Boss zombies (may need more graphics from Ramiro for this)
 - [ ] Make the hitboxes for the tilemap - Buildings are done 03/29/19 haiyang
@@ -162,7 +163,9 @@ Gun sound: https://www.youtube.com/watch?v=GAT-AwwMP_I
 
 Empty clip sound: https://www.youtube.com/watch?v=cqYlilUqGfs
 
-Zombie sounds: https://opengameart.org/content/zombies-sound-pack
+Zombie death sounds: https://opengameart.org/content/zombies-sound-pack
+
+Zombie spawn sounds: https://opengameart.org/content/zombie-moans
 
 Menu sound: https://opengameart.org/content/rpg-title-screen-music-pack, used Steven Soucy - RPG Title Screen Music Pack - 03 Contingency.wav 
 
@@ -175,6 +178,8 @@ Health pickup sound: https://opengameart.org/content/life-pickup-yo-frankie
 Alert sound: https://opengameart.org/content/tx-alert
 
 Player drop HP sound: https://opengameart.org/content/15-vocal-male-strainhurtpainjump-sounds
+
+Player death sound: https://opengameart.org/content/grunts-male-death-and-pain
 # Credits
 Tileset: https://opengameart.org/content/cave-tileset
 

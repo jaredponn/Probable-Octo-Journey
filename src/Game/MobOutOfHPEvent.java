@@ -53,6 +53,10 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 
 		final PHitBox mobBody = mobBodyOptional.get();
 
+		// play death sound
+		engineState.unsafeGetComponentAt(SoundEffectAssets.class, focus)
+			.playSoundEffectAt(
+				ThreadLocalRandom.current().nextInt(0, 4) + 3);
 
 		Optional<AnimationWindowAssets> animWindowAssetsOpt =
 			engineState.getComponentAt(AnimationWindowAssets.class,
@@ -85,7 +89,7 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 				ThreadLocalRandom.current().nextInt(0, 4);
 			switch (deathSoundPlay) {
 			case 0:
-				GameResources.zombieDeathSound.play();
+				GameResources.zombieDeathSound1.play();
 				break;
 			case 1:
 				GameResources.zombieDeathSound2.play();

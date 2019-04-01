@@ -1,6 +1,9 @@
 package Game;
 
-import Resources.GameResources;
+import java.util.concurrent.ThreadLocalRandom;
+
+import Components.*;
+import EntitySets.PlayerSet;
 
 public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
 {
@@ -18,13 +21,16 @@ public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
 	public void f()
 	{
 		// play death sound
-		try {
-		GameResources.playerDeathSound.play();
-		}
-		catch (NullPointerException e) {
-			System.out.println("ERROR: Problem playing player death sound");
-			e.printStackTrace();
-		}
+		//
+		// TODO: this function is called multiple times!!!! fixx
+		int dead = ThreadLocalRandom.current().nextInt(0, 4);
+		System.out.println("dead at = " + dead);
+		gameState.getEngineState()
+			.unsafeGetComponentAt(
+				SoundEffectAssets.class,
+				gameState.getEngineState().getInitialSetIndex(
+					PlayerSet.class))
+			.playSoundEffectAt(dead + 6);
 		getPlayGame().quit();
 	}
 }

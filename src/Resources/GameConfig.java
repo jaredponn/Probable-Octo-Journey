@@ -21,8 +21,8 @@ public class GameConfig
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
-	public static final int PLAYER_HP = 10000000;     // 50;
-	public static final int PLAYER_MAX_HP = 10000000; // 75;
+	public static final int PLAYER_HP = 10;     // 50;
+	public static final int PLAYER_MAX_HP = 10; // 75;
 	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
 	public static final int TOWER_DIFFUSION_VALUE = (int)Math.pow(2, 5);
 	public static final float PLAYER_HEIGHT =
@@ -153,7 +153,8 @@ public class GameConfig
 			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
 			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
 			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
-	public static final int CONSTRUCT_HP = 100;
+	public static final int TURRET_HP = 100;
+	public static final int TURRET_MAX_HP = 100;
 	public static final float SHELL_SPEED = 0.04f;
 	public static final int SHELL_DAMAGE = 75;
 	public static final int TURRET_STARTING_AMMO = 40;
@@ -193,34 +194,43 @@ public class GameConfig
 	////// mob config /////
 	///////////////////////
 	public static final float MOB_SPEED = 0.6f * PLAYER_SPEED;
+	public static final float BOSS_SPEED = 0.95f * MOB_SPEED;
 	public static final float MOB_HEIGHT =
 		GameResources.ENEMY_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final float MOB_WIDTH = GameResources.ENEMY_SPRITE_WIDTH
 					      / GameResources.TILE_SCREEN_WIDTH;
-	public static final int MOB_ATTACK_DAMAGE = 10;
 
-	public static final int MOB_HP = 100;
 	// percent chance for a mob to drop cash on death
 	public static final int MOB_DROP_RATE = 33;
+
+	// pathfinding/collision detection
+	public static final PCollisionBody MOB_COLLISION_BODY =
+		// clang-format off
+			new PCollisionBody(
+				new Vector2f(0.2f , 0.55f), // displacement
+				new Vector2f(0.25f ,0.25f), // center
+							  // collision body:
+				new Vector2f(0.25f/4f,   1    /4f), new Vector2f(0.75f /4f, 1    /4f),
+				new Vector2f(0    /4f,   0.75f/4f), new Vector2f(1     /4f, 0.75f/4f),
+				new Vector2f(0    /4f, 0.25f  /4f), new Vector2f(0.25f /4f, 0    /4f),
+				new Vector2f(0.75f/4f, 0      /4f), new Vector2f(1     /4f, 0.25f/4f));
+	// clang-format on
+
+	// combat configs
+	public static final int MOB_ATTACK_DAMAGE = 10;
+	public static final int MOB_HP = 100;
+	public static final int MOB_MAX_HP = MOB_HP;
+
+	public static final int BOSS_ATTACK_DAMAGE = MOB_ATTACK_DAMAGE * 2;
+	public static final int BOSS_HP = MOB_HP * 2;
+	public static final int BOSS_MAX_HP = BOSS_HP;
 
 	public static final AttackCycle MOB_ATTACK_CYCLE =
 		new AttackCycle(GameResources.animationDurationms * 8,
 				GameResources.animationDurationms * 6);
 	public static final PCollisionBody ENEMY_HITBOX_BODY =
 		PLAYER_HITBOX_BODY;
-
-	public static final PCollisionBody MOB_COLLISION_BODY =
-		// clang-format off
-		new PCollisionBody(
-			new Vector2f(0.2f , 0.55f), // displacement
-			new Vector2f(0.25f ,0.25f), // center
-						  // collision body:
-			new Vector2f(0.25f/4f,   1    /4f), new Vector2f(0.75f /4f, 1    /4f),
-			new Vector2f(0    /4f,   0.75f/4f), new Vector2f(1     /4f, 0.75f/4f),
-			new Vector2f(0    /4f, 0.25f  /4f), new Vector2f(0.25f /4f, 0    /4f),
-			new Vector2f(0.75f/4f, 0      /4f), new Vector2f(1     /4f, 0.25f/4f));
-	// clang-format on
 
 	public static final PCollisionBody MOB_MELEE_ATTACK_BODY =
 		new PCollisionBody(new Vector2f(-0.5f, 0), // displacement
@@ -229,43 +239,6 @@ public class GameConfig
 						       // collision body:
 				   new Vector2f(0, 0), new Vector2f(2, 0),
 				   new Vector2f(0, 2), new Vector2f(2, 2));
-
-	public static final PCollisionBody MOB_AGGRO_RANGE = new PCollisionBody(
-		// clang-format off
-		new Vector2f(0.2f, 0.55f),  // displacement
-		new Vector2f(0.25f, 0.25f), // center
-					    // collision body:
-		new Vector2f(0.25f / 3f, 1 / 3f),
-		new Vector2f(0.75f / 3f, 1 / 3f),
-		new Vector2f(0 / 3f    , 0.75f / 3f),
-		new Vector2f(1 / 3f    , 0.75f / 3f),
-		new Vector2f(0 / 3f    , 0.25f / 3f),
-		new Vector2f(0.25f / 3f, 0 / 3f),
-		new Vector2f(0.75f / 3f, 0 / 3f),
-		new Vector2f(1 / 3f    , 0.25f / 3f));
-	// clang-format on
-
-	public static final float MOB_SPAWN_TIMER = 10.0f;
-	public static final double MOB_DESPAWN_TIMER = 5000d; // in ms
-
-	// spawn points:
-	public static final ArrayList<Vector2f> MOB_SPAWN_POINTS =
-		new ArrayList<Vector2f>() {
-			{
-				add(new Vector2f(9.5f,
-						 19.5f)); // western
-							  // Blockbuster
-				add(new Vector2f(30f,
-						 14f)); // parking lot
-				add(new Vector2f(40f,
-						 30f)); // near fountain
-				add(new Vector2f(60f,
-						 24f)); // park past
-							// parking lot
-				add(new Vector2f(42f,
-						 50f)); // gas station
-			}
-		};
 
 	public static final PCollisionBody MOB_MELEE_N_ATK_BODY =
 		PLAYER_MELEE_N_ATK_BODY;
@@ -283,6 +256,42 @@ public class GameConfig
 		PLAYER_MELEE_W_ATK_BODY;
 	public static final PCollisionBody MOB_MELEE_NW_ATK_BODY =
 		PLAYER_MELEE_NW_ATK_BODY;
+
+	public static final PCollisionBody MOB_AGGRO_RANGE = new PCollisionBody(
+		// clang-format off
+		new Vector2f(0.2f, 0.55f),  // displacement
+		new Vector2f(0.25f, 0.25f), // center
+					    // collision body:
+		new Vector2f(0.25f / 3f, 1 / 3f),
+		new Vector2f(0.75f / 3f, 1 / 3f),
+		new Vector2f(0 / 3f    , 0.75f / 3f),
+		new Vector2f(1 / 3f    , 0.75f / 3f),
+		new Vector2f(0 / 3f    , 0.25f / 3f),
+		new Vector2f(0.25f / 3f, 0 / 3f),
+		new Vector2f(0.75f / 3f, 0 / 3f),
+		new Vector2f(1 / 3f    , 0.25f / 3f));
+	// clang-format on
+
+	// spawn configs
+	public static final float MOB_SPAWN_TIMER = 10.0f;
+	public static final double MOB_DESPAWN_TIMER = 5000d; // in ms
+
+	// spawn points:
+	public static final ArrayList<Vector2f> MOB_SPAWN_POINTS =
+		new ArrayList<Vector2f>() {
+			{
+				add(new Vector2f(9.5f,
+						 19.5f)); // western Blockbuster
+				add(new Vector2f(30f,
+						 14f)); // parking lot
+				add(new Vector2f(40f,
+						 30f)); // near fountain
+				add(new Vector2f(60f,
+						 24f)); // park past parking lot
+				add(new Vector2f(42f,
+						 50f)); // gas station
+			}
+		};
 
 
 	public static final AnimationWindowAssets MOB_ANIMATION_WINDOW_ASSETS =
