@@ -8,12 +8,10 @@ import poj.Pair;
 
 public class AnimationWindowAssets implements Component
 {
-	// change to use ocotanimation buffer
 	private static final int DEFAULT_ASSET_BUFFER_SIZE = 100;
 	OctoAnimationBuffer assets[];
 
-	public AnimationWindowAssets(
-		ArrayList<Pair<OctoAnimationBuffer, Integer>> arr)
+	public AnimationWindowAssets(Pair<OctoAnimationBuffer, Integer>... arr)
 	{
 		assets = new OctoAnimationBuffer[DEFAULT_ASSET_BUFFER_SIZE];
 
@@ -34,6 +32,7 @@ public class AnimationWindowAssets implements Component
 				a.getOctoAnimationBufferAt(i));
 		}
 	}
+
 	protected OctoAnimationBuffer getOctoAnimationBufferAt(int i)
 	{
 		return assets[i];
@@ -41,7 +40,7 @@ public class AnimationWindowAssets implements Component
 
 	public Animation unsafeGetAnimation(CardinalDirections d, int i)
 	{
-		return assets[i].getAnimation(d);
+		return getOctoAnimationBufferAt(i).getAnimation(d);
 	}
 
 	public Animation getAnimation(CardinalDirections d, int i)
