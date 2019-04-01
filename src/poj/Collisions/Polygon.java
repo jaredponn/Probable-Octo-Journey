@@ -12,6 +12,7 @@ import poj.linear.*;
 public class Polygon implements CollisionShape
 {
 	public Vector2f pts[];
+	public Rectangle bounds;
 	public int size;
 
 	public Polygon(Vector2f... pts)
@@ -24,17 +25,18 @@ public class Polygon implements CollisionShape
 			this.pts[i] = new Vector2f(p);
 			++i;
 		}
+		bounds = this.getBoundingRectangle();
 	}
 
 	public Polygon(Polygon p)
 	{
 		this.pts = p.purePts();
 		this.size = p.size;
+		this.bounds = new Rectangle(p.bounds);
 	}
 
 	public void shiftAllPoints(float x, float y)
 	{
-
 		for (int i = 0; i < size; ++i) {
 			pts[i].add(x, y);
 		}
@@ -87,6 +89,7 @@ public class Polygon implements CollisionShape
 	{
 		Vector2f d = n.pureSubtract(pts[0]);
 		shiftAllPoints(d);
+		bounds.shiftRectangleBy(d);
 		return d;
 	}
 
@@ -94,6 +97,14 @@ public class Polygon implements CollisionShape
 	{
 		return setFirstPositionAndShiftAll(new Vector2f(x, y));
 	}
+
+	public Polygon pureSetFirstPositionAndShiftAll(float x, float y)
+	{
+		Polygon p = new Polygon(this);
+		p.setFirstPositionAndShiftAll(x, y);
+		return p;
+	}
+
 
 	public int indexOfFurthestPointInDirection(Vector2f dir)
 	{
@@ -153,5 +164,13 @@ public class Polygon implements CollisionShape
 		}
 
 		return str;
+	}
+
+	public Rectangle getBoundingRectangle()
+	{
+		if (bounds == null) {
+			return calculateBoundingRectangle();
+		} else
+			return bounds;
 	}
 }

@@ -38,11 +38,22 @@ public class Rectangle
 		this.max = new Vector2f(maxx, maxy);
 	}
 
+	public Rectangle(Rectangle n)
+	{
+		this(n.min.x, n.min.y, n.max.x, n.max.y);
+	}
+
 	public boolean isPointContained(Vector2f p)
 	{
 		final boolean xcontained = min.x <= p.x && p.x <= max.x;
 		final boolean ycontained = min.y <= p.y && p.y <= max.y;
 		return xcontained && ycontained;
+	}
+
+	public void shiftRectangleBy(Vector2f n)
+	{
+		min.add(n);
+		max.add(n);
 	}
 
 	public float getWidth()
