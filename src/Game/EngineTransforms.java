@@ -35,6 +35,8 @@ import TileMap.MapLayer;
 import poj.Animation;
 import poj.EngineState;
 import poj.Collisions.GJK;
+import poj.Collisions.CollisionShape;
+import poj.Collisions.QuadTree;
 import poj.Component.Component;
 import poj.Component.Components;
 import poj.GameWindow.InputPoller;
@@ -432,10 +434,16 @@ public class EngineTransforms
 						      mob1)
 				.setDirection(tempDir);
 
+
 			engineState
 				.unsafeGetComponentAt(HasAnimation.class, mob1)
-				.setAnimation(AnimationGetter.queryEnemySprite(
-					tempDir, 1));
+				.setAnimation(
+					engineState
+						.unsafeGetComponentAt(
+							AnimationWindowAssets
+								.class,
+							mob1)
+						.getAnimation(tempDir, 1));
 			engineState.unsafeGetComponentAt(Movement.class, mob1)
 				.setSpeed(GameConfig.MOB_SPEED);
 		}
@@ -690,41 +698,6 @@ at Main.main(Main.java:25)
 		}
 	}
 
-
-	public static void nudgePhysicsPCollisionBodiesOutsideTileMap(
-		EngineState engineState, GJK g,
-		final Class<? extends Component> set0, final MapLayer map)
-	{
-		for (int i = engineState.getInitialSetIndex(set0);
-		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(set0, i)) {
-
-			final Optional<PhysicsPCollisionBody> a =
-				engineState.getComponentAt(
-					PhysicsPCollisionBody.class, i);
-
-			Optional<WorldAttributes> aw =
-				engineState.getComponentAt(
-					WorldAttributes.class, i);
-
-			if (!a.isPresent())
-				continue;
-
-			if (!aw.isPresent())
-				continue;
-
-			for (PhysicsPCollisionBody b :
-			     map.getRawComponentArrayListPackedData(
-				     PhysicsPCollisionBody.class)) {
-				g.clearVerticies();
-				if (g.areColliding(b.getPolygon(),
-						   a.get().getPolygon())) {
-					Systems.nudgeCollisionBodyBOutOfA(
-						b, a.get(), aw.get(), g);
-				}
-			}
-		}
-	}
 
 	public static void nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
 		EngineState engineState, GJK g,

@@ -63,8 +63,7 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 								player));
 
 				AttackCycleHandlers.meleeAttackPrimerHandler(
-					engineState, focus, PlayerSet.class, 10,
-					d);
+					engineState, focus, 10, d);
 
 				break;
 			}
@@ -116,8 +115,15 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 					.unsafeGetComponentAt(
 						HasAnimation.class, player)
 					.setAnimation(
-						AnimationGetter.queryPlayerSprite(
-							closestDirToMouse, 0));
+						engineState
+							.unsafeGetComponentAt(
+								AnimationWindowAssets
+									.class,
+								player)
+							.getAnimation(
+
+								closestDirToMouse,
+								0));
 
 				if (super.getPlayGame().playerAmmo.hasAmmo(1)) {
 					try {

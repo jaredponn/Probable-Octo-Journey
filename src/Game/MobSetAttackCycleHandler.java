@@ -56,8 +56,7 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 			MovementDirection d = dopt.get();
 
 			AttackCycleHandlers.meleeAttackPrimerHandler(
-				engineState, focus, MobSet.class, 10,
-				d.getDirection());
+				engineState, focus, 10, d.getDirection());
 		}
 	}
 

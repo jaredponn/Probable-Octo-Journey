@@ -54,6 +54,16 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 		final PHitBox mobBody = mobBodyOptional.get();
 
 
+		Optional<AnimationWindowAssets> animWindowAssetsOpt =
+			engineState.getComponentAt(AnimationWindowAssets.class,
+						   focus);
+
+		if (!animWindowAssetsOpt.isPresent())
+			return;
+
+		AnimationWindowAssets animWindowAssets =
+			animWindowAssetsOpt.get();
+
 		// deletes everything but the  render, animation, and
 		// worldattributes components so we can show the death animation
 		// for a bit
@@ -71,7 +81,8 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 
 		// play death sound
 		try {
-			int deathSoundPlay = ThreadLocalRandom.current().nextInt(0, 4);
+			int deathSoundPlay =
+				ThreadLocalRandom.current().nextInt(0, 4);
 			switch (deathSoundPlay) {
 			case 0:
 				GameResources.zombieDeathSound.play();
@@ -86,9 +97,9 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 				GameResources.zombieDeathSound4.play();
 				break;
 			}
-		}
-		catch (NullPointerException e) {
-			System.out.println("ERROR: Problem playing zombie death sound");
+		} catch (NullPointerException e) {
+			System.out.println(
+				"ERROR: Problem playing zombie death sound");
 			e.printStackTrace();
 		}
 
@@ -104,7 +115,7 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 			return;
 		}
 		engineState.unsafeGetComponentAt(HasAnimation.class, focus)
-			.setAnimation(AnimationGetter.queryEnemySprite(
+			.setAnimation(animWindowAssets.getAnimation(
 				mv.getDirection(), 30));
 
 		gameState.killCount++;
