@@ -87,22 +87,24 @@ public class Sound implements Component
 	}
 
 	// play sound effect (CANNOT BE STOPPED)
+	// got the solution online from :
+	// http://www.java-gaming.org/index.php?topic=1611.0
 	public static void playSoundEffect(String fileName)
 	{
 		try {
 			AudioInputStream audioInputStream =
 				AudioSystem.getAudioInputStream(
 					new File(fileName));
-			AudioFormat af = audioInputStream.getFormat();
-			int size = (int)(af.getFrameSize()
+			AudioFormat audioFormat = audioInputStream.getFormat();
+			int size = (int)(audioFormat.getFrameSize()
 					 * audioInputStream.getFrameLength());
 			byte[] audio = new byte[size];
-			DataLine.Info info =
-				new DataLine.Info(Clip.class, af, size);
+			DataLine.Info info = new DataLine.Info(
+				Clip.class, audioFormat, size);
 			audioInputStream.read(audio, 0, size);
 
 			Clip clip = (Clip)AudioSystem.getLine(info);
-			clip.open(af, audio, 0, size);
+			clip.open(audioFormat, audio, 0, size);
 			clip.start();
 		} catch (UnsupportedAudioFileException e) {
 			poj.Logger.Logger.logMessage(
