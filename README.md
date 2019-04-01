@@ -84,7 +84,8 @@ See `textbased/README.md` for more information about the text based version.
 # Announcements -- for Contributors:
 
 ## TODO List
-- [ ] REDO SPRITE for the tilemap so buildings fits the tiles perfectly (either delete or add new blocks)
+- [ ] REDO SPRITE (DONT FORGET THE WATER FOUNTAIN AND GAS STATION)for the tilemap so buildings fits the tiles perfectly (either delete or add new blocks)
+- [ ] Damage numbers ? at least tell the user how much damage does the weapons and zombies do
 - [ ] Initials for the GAME OVER SCREEN (Ramiro)
 - [ ] Boss zombies (may need more graphics from Ramiro for this)
 - [ ] Make the hitboxes for the tilemap - Buildings are done 03/29/19 haiyang
