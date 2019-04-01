@@ -104,7 +104,13 @@ public class GameResources
 		playerDeathSound3Path =
 			"resources/sounds/playerDeathSound3.wav",
 		playerDeathSound4Path =
-			"resources/sounds/playerDeathSound4.wav";
+			"resources/sounds/playerDeathSound4.wav",
+		playerMeleeSound1Path =
+			"resources/sounds/playerMeleeSound1.wav",
+		playerMeleeSound2Path =
+			"resources/sounds/playerMeleeSound2.wav",
+		playerMeleeSound3Path =
+			"resources/sounds/playerMeleeSound3.wav";
 
 	public static Sound gunSound, zombieDeathSound1, zombieDeathSound2,
 		zombieDeathSound3, zombieDeathSound4, zombieSpawnSound1,
@@ -170,7 +176,10 @@ public class GameResources
 			playerSoundAsset.add(playerDeathSound1Path);
 			playerSoundAsset.add(playerDeathSound2Path);
 			playerSoundAsset.add(playerDeathSound3Path);
-			playerSoundAsset.add(playerDeathSound4Path);
+			playerSoundAsset.add(playerDeathSound4Path); // 9 index
+			playerSoundAsset.add(playerMeleeSound1Path);
+			playerSoundAsset.add(playerMeleeSound2Path);
+			playerSoundAsset.add(playerMeleeSound3Path);
 
 			// adding the sounds into zombie assets
 			zombieSoundAsset.add(zombieSpawnSound1Path);

@@ -1,21 +1,26 @@
 package Game;
 
 
-import Components.*;
-import EntitySets.*;
-import Resources.GameConfig;
-import Resources.GameResources;
-
 import java.awt.Color;
+import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
+
+import Components.CardinalDirections;
+import Components.HasAnimation;
+import Components.Movement;
+import Components.PCollisionBody;
+import Components.PHitBox;
+import Components.PhysicsPCollisionBody;
+import Components.SoundEffectAssets;
+import Components.WorldAttributes;
+import EntitySets.Bullet;
+import EntitySets.MobSet;
+import EntitySets.PlayerSet;
+import Resources.GameConfig;
 
 import poj.EngineState;
 import poj.GameWindow.InputPoller;
-import poj.Component.*;
 import poj.linear.Vector2f;
-import poj.Animation;
-import poj.Collisions.*;
-
-import java.util.Optional;
 
 public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 {
@@ -180,6 +185,14 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 					patk,
 					engineState.unsafeGetComponentAt(
 						WorldAttributes.class, focus));
+
+				// play melee sound
+				engineState
+					.unsafeGetComponentAt(
+						SoundEffectAssets.class, focus)
+					.playSoundEffectAt(
+						ThreadLocalRandom.current() .nextInt(0, 3)
+						+ 10);
 
 
 				// debug rendering
