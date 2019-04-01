@@ -68,6 +68,11 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 		AnimationWindowAssets animWindowAssets =
 			animWindowAssetsOpt.get();
 
+		// play death sound
+		engineState.unsafeGetComponentAt(SoundEffectAssets.class, focus)
+			.playSoundEffectAt(
+				ThreadLocalRandom.current().nextInt(0, 4) + 3);
+
 		// deletes everything but the  render, animation, and
 		// worldattributes components so we can show the death animation
 		// for a bit
@@ -83,29 +88,6 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 			return;
 		}
 
-		// play death sound
-		try {
-			int deathSoundPlay =
-				ThreadLocalRandom.current().nextInt(0, 4);
-			switch (deathSoundPlay) {
-			case 0:
-				GameResources.zombieDeathSound1.play();
-				break;
-			case 1:
-				GameResources.zombieDeathSound2.play();
-				break;
-			case 2:
-				GameResources.zombieDeathSound3.play();
-				break;
-			case 3:
-				GameResources.zombieDeathSound4.play();
-				break;
-			}
-		} catch (NullPointerException e) {
-			System.out.println(
-				"ERROR: Problem playing zombie death sound");
-			e.printStackTrace();
-		}
 
 		engineState.addComponentAt(
 			DespawnTimer.class,

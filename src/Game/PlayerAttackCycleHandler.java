@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import Components.AnimationWindowAssets;
 import Components.CardinalDirections;
 import Components.HasAnimation;
 import Components.Movement;
@@ -197,7 +198,8 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 					.unsafeGetComponentAt(
 						SoundEffectAssets.class, focus)
 					.playSoundEffectAt(
-						ThreadLocalRandom.current() .nextInt(0, 3)
+						ThreadLocalRandom.current()
+							.nextInt(0, 3)
 						+ 10);
 
 

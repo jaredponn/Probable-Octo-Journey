@@ -101,7 +101,7 @@ public class App
 				menu.runGame();
 			}
 			// stop playing menu music
-			// GameResources.menuSound.end();
+			GameResources.menuSound.end();
 
 			// playgame
 			GameResources.gameBgSound.playContinuously();

@@ -282,10 +282,6 @@ public class PlayGame extends World
 
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
-
-		for (int i = 0; i < 100; ++i) {
-			engineState.spawnEntitySet(new MobSet(30, 30f));
-		}
 	}
 
 	public void clearWorld()

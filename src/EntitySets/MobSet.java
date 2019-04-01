@@ -54,6 +54,7 @@ public class MobSet extends EntitySet
 		addComponent(new AggroRange(GameConfig.MOB_AGGRO_RANGE));
 		addComponent(new AnimationWindowAssets(
 			GameConfig.MOB_ANIMATION_WINDOW_ASSETS));
+		// zombie sound effects:
 		addComponent(
 			new SoundEffectAssets(GameResources.zombieSoundAsset));
 	}
