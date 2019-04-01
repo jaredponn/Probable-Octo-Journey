@@ -389,10 +389,10 @@ public class PlayGame extends World
 
 		// Resolving  collisions against tilemap
 		TileMapCollisionAlgorithms
-			.nudgePhysicsPCollisionBodiesOutsideTileMapWithQuadTree(
+			.nudgePhysicsPCollisionBodiesOutsideTileMap(
 				this, MobSet.class);
 		TileMapCollisionAlgorithms
-			.nudgePhysicsPCollisionBodiesOutsideTileMapWithQuadTree(
+			.nudgePhysicsPCollisionBodiesOutsideTileMap(
 				this, PlayerSet.class);
 
 
