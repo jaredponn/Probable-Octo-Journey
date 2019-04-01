@@ -1,0 +1,47 @@
+#logged on Mar 31, 2019 by haiyang  
+
+i = 1
+play button is hit!
+map generation thread generated!
+New zombies arrived at T+0.0 seconds!
+x key is down. Player character should be changing weapons
+old weapon state = Gun
+new weapon state = Melee
+New zombies arrived at T+10.0 seconds!
+bad thing happened in update enemy position. the return value is -1. Printing all components of the mob
+All components at 5: 
+class Components.Movement
+class EntitySets.MobSet
+class Components.Render
+class Components.HitPoints
+class Components.SoundEffectAssets
+class Components.FacingDirection
+class Components.MovementDirection
+class Components.AggroRange
+class Components.PhysicsPCollisionBody
+class Components.WorldAttributes
+class Components.AttackCycle
+class Components.HasAnimation
+class Components.PHitBox
+End printing components
+printing the PhysicsPCollisionBody polygon points
+PCollisionBody: displacement: (0.2, 0.55) , center: (42.3875, 70.001434) , Polygon: size = 8, pts: (42.2, 70.001434), (42.325, 70.001434), (42.1375, 69.938934), (42.3875, 69.938934), (42.1375, 69.813934), (42.2, 69.751434), (42.325, 69.751434), (42.3875, 69.813934), 
+bad thing happened in update enemy position. the return value is -1. Printing all components of the mob
+All components at 5: 
+class Components.Movement
+class EntitySets.MobSet
+class Components.Render
+class Components.HitPoints
+class Components.SoundEffectAssets
+class Components.FacingDirection
+class Components.MovementDirection
+class Components.AggroRange
+class Components.PhysicsPCollisionBody
+class Components.WorldAttributes
+class Components.AttackCycle
+class Components.HasAnimation
+class Components.PHitBox
+End printing components
+printing the PhysicsPCollisionBody polygon points
+PCollisionBody: displacement: (0.2, 0.55) , center: (42.3875, 70.01595) , Polygon: size = 8, pts: (42.2, 70.01595), (42.325, 70.01595), (42.1375, 69.95345), (42.3875, 69.95345), (42.1375, 69.82845), (42.2, 69.76595), (42.325, 69.76595), (42.3875, 69.82845), 
+
