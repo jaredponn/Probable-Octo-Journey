@@ -96,13 +96,12 @@ public class App
 			runMenu = true; // this is so bad
 
 			// start playing menu music
-			GameResources.menuSound.playContinuously();
+			// GameResources.menuSound.playContinuously();
 			while (runMenu) {
 				menu.runGame();
 			}
-
 			// stop playing menu music
-			GameResources.menuSound.end();
+			// GameResources.menuSound.end();
 
 			// playgame
 			GameResources.gameBgSound.playContinuously();
