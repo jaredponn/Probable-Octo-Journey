@@ -226,7 +226,9 @@ public class Map
 							// NOT on 0th layer
 							if (mapLayers.size()
 							    > 1) {
-
+								// mark the tile
+								// at 0th layer
+								// as a wall
 								mapLayers.get(0)
 									.unsafeGetComponentAt(
 										PathFindCord
@@ -278,19 +280,14 @@ public class Map
 								.setPositionPoint(
 									cbwc);
 
-							mapLayers
-								.get(mapLayers
-									     .size()
-								     - 1)
-								.addComponentAt(
-									PhysicsPCollisionBody
-										.class
-									,
-									new PhysicsPCollisionBody(
-										wallHitBox
-											.get(Integer.parseInt(
-												tempList[i]))),
-									nextFreeIndex);
+							mapLayers.get(0).addComponentAt(
+								PhysicsPCollisionBody
+									.class,
+								new PhysicsPCollisionBody(
+									wallHitBox
+										.get(Integer.parseInt(
+											tempList[i]))),
+								nextFreeIndex);
 						}
 						// if not on the wall
 						else {
@@ -603,7 +600,7 @@ public class Map
 			wallState.set(i, true);
 			wallHitBox.set(
 				i, new PhysicsPCollisionBody(
-					   new Vector2f(-1f, -1f), // allignment
+					   new Vector2f(0f, 0f), // allignment
 					   cbwc.pureAdd(0.5f,
 							0.5f), // center
 					   cbwc.pureAdd(0f, 0f), cbwc,
@@ -623,7 +620,7 @@ public class Map
 		wallState.set(80, true);
 		wallState.set(81, true);
 		wallHitBox.set(80, new PhysicsPCollisionBody(
-					   new Vector2f(-1f, -1f),
+					   new Vector2f(0f, 0f),
 					   cbwc.pureAdd(0.5f,
 							0.5f), // center
 					   cbwc.pureAdd(0f, 0f), cbwc,
@@ -631,7 +628,7 @@ public class Map
 					   cbwc.pureAdd(0f, 1f),
 					   cbwc.pureAdd(1f, 1f)));
 		wallHitBox.set(81, new PhysicsPCollisionBody(
-					   new Vector2f(-1f, -1f),
+					   new Vector2f(0f, 0f),
 					   cbwc.pureAdd(0.5f,
 							0.5f), // center
 					   cbwc.pureAdd(0f, 0f), cbwc,
@@ -644,7 +641,7 @@ public class Map
 		wallHitBox.set(
 			137,
 			new PhysicsPCollisionBody(
-				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
 		/*
@@ -661,7 +658,7 @@ public class Map
 		wallHitBox.set(
 			122,
 			new PhysicsPCollisionBody(
-				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
 
@@ -673,7 +670,7 @@ public class Map
 		wallHitBox.set(
 			123,
 			new PhysicsPCollisionBody(
-				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(1f, 0f),
 				cbwc.pureAdd(0f, 1f), cbwc.pureAdd(1f, 1f)));
 
@@ -682,7 +679,7 @@ public class Map
 		wallHitBox.set(
 			124,
 			new PhysicsPCollisionBody(
-				new Vector2f(1f, 1f), cbwc.pureAdd(1f, 1f),
+				new Vector2f(0, 0), cbwc.pureAdd(1f, 1f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 0f)));
 		
@@ -693,7 +690,7 @@ public class Map
 		wallHitBox.set(
 			140,
 			new PhysicsPCollisionBody(
-				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(1f, 0f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
 		
@@ -701,7 +698,7 @@ public class Map
 		wallHitBox.set(
 			107,
 			new PhysicsPCollisionBody(
-				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
 		
@@ -710,7 +707,7 @@ public class Map
 		wallHitBox.set(
 			124,
 			new PhysicsPCollisionBody(
-				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 0f)));
 		
@@ -721,7 +718,7 @@ public class Map
 		wallHitBox.set(
 			412,
 			new PhysicsPCollisionBody(
-				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 0f)));
 		
@@ -731,7 +728,7 @@ public class Map
 		wallHitBox.set(
 			429,
 			new PhysicsPCollisionBody(
-				new Vector2f(-1f, -1f), cbwc.pureAdd(0f, 0f),
+				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 0f)));
 		
@@ -744,9 +741,6 @@ public class Map
 				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(1f, 1f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(0f, 1f), cbwc.pureAdd(0f, 1f)));
-		
-		
-		
 
 		//buildings
 				//hitbox for the post sign
