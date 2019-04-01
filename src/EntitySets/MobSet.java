@@ -52,6 +52,8 @@ public class MobSet extends EntitySet
 		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
 		addComponent(new AttackCycle(GameConfig.MOB_ATTACK_CYCLE));
 		addComponent(new AggroRange(GameConfig.MOB_AGGRO_RANGE));
+		addComponent(new AnimationWindowAssets(
+			GameConfig.MOB_ANIMATION_WINDOW_ASSETS));
 		addComponent(
 			new SoundEffectAssets(GameResources.zombieSoundAsset));
 	}

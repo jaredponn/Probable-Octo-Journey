@@ -101,9 +101,10 @@ public class App
 				menu.runGame();
 			}
 			// stop playing menu music
-			GameResources.menuSound.end();
+			// GameResources.menuSound.end();
 
 			// playgame
+			GameResources.gameBgSound.playContinuously();
 			PlayGame playGame = new PlayGame(
 				width, height, this.renderer, this.inputPoller);
 
@@ -113,7 +114,7 @@ public class App
 			// start playing game background music
 			GameResources.gameBgSound.playContinuously();
 			playGame.runGameLoop();
-			// end playing game background music
+
 			GameResources.gameBgSound.end();
 
 			GameOver gameOver = new GameOver(

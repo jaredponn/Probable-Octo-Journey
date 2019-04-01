@@ -125,6 +125,18 @@ public class GameConfig
 				   new Vector2f(0.6f, 0),
 				   new Vector2f(0.6f, 0.6f));
 
+	public static final AnimationWindowAssets
+		PLAYER_ANIMATION_WINDOW_ASSETS = new AnimationWindowAssets(
+			new Pair<OctoAnimationBuffer, Integer>(
+				GameResources.playerGunIdleAnimation, 0),
+			new Pair<OctoAnimationBuffer, Integer>(
+				GameResources.playerGunMoveAnimation, 1),
+			new Pair<OctoAnimationBuffer, Integer>(
+				GameResources.playerMeleeIdleAnimation, 2),
+			new Pair<OctoAnimationBuffer, Integer>(
+				GameResources.playerMeleeMoveAnimation, 3),
+			new Pair<OctoAnimationBuffer, Integer>(
+				GameResources.playerMeleeAttackAnimation, 10));
 
 	/////////////////////////
 	///// turret config /////
@@ -281,6 +293,15 @@ public class GameConfig
 			}
 		};
 
+
+	public static final AnimationWindowAssets MOB_ANIMATION_WINDOW_ASSETS =
+		new AnimationWindowAssets(
+			new Pair<OctoAnimationBuffer, Integer>(
+				GameResources.enemyMoveAnimation, 1),
+			new Pair<OctoAnimationBuffer, Integer>(
+				GameResources.enemyAttackAnimation, 10),
+			new Pair<OctoAnimationBuffer, Integer>(
+				GameResources.enemyDeathAnimation, 30));
 
 	///////////////////////
 	///// menu config /////

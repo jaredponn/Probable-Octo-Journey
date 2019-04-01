@@ -29,6 +29,9 @@ public class Map
 	private ArrayList<Boolean> wallState;
 	private ArrayList<PhysicsPCollisionBody> wallHitBox;
 
+
+	public static final int COLLISION_LAYER = 0;
+
 	/**
 	 * Create map with specified number of mapLayer and the vector
 	 * containing the mapLayer will be allocate the same number of mapLayer
@@ -280,14 +283,17 @@ public class Map
 								.setPositionPoint(
 									cbwc);
 
-							mapLayers.get(0).addComponentAt(
-								PhysicsPCollisionBody
-									.class,
-								new PhysicsPCollisionBody(
-									wallHitBox
-										.get(Integer.parseInt(
-											tempList[i]))),
-								nextFreeIndex);
+							mapLayers
+								.get(COLLISION_LAYER)
+								.addComponentAt(
+									PhysicsPCollisionBody
+										.class
+									,
+									new PhysicsPCollisionBody(
+										wallHitBox
+											.get(Integer.parseInt(
+												tempList[i]))),
+									nextFreeIndex);
 						}
 						// if not on the wall
 						else {

@@ -12,6 +12,7 @@ import java.util.Optional;
 import Components.AttackCycle;
 import Components.CardinalDirections;
 import Components.HasAnimation;
+import Components.AnimationWindowAssets;
 import Components.Movement;
 import Components.MovementDirection;
 import Components.PCollisionBody;
@@ -110,10 +111,10 @@ public class AttackCycleHandlers
 	 * @param animationFlag  flag for the animation
 	 * @param d  direction for animation
 	 */
-	public static void
-	meleeAttackPrimerHandler(EngineState engineState, int focus,
-				 Class<? extends Component> c,
-				 int animationFlag, CardinalDirections d)
+	public static void meleeAttackPrimerHandler(EngineState engineState,
+						    int focus,
+						    int animationFlag,
+						    CardinalDirections d)
 	{
 		final Optional<Movement> mOpt =
 			engineState.getComponentAt(Movement.class, focus);
@@ -121,16 +122,23 @@ public class AttackCycleHandlers
 		final Optional<HasAnimation> animationOpt =
 			engineState.getComponentAt(HasAnimation.class, focus);
 
+		final Optional<AnimationWindowAssets> animAssetsOpt =
+			engineState.getComponentAt(AnimationWindowAssets.class,
+						   focus);
+
 		if (!animationOpt.isPresent())
 			return;
 
 		if (!mOpt.isPresent())
 			return;
 
+		if (!animAssetsOpt.isPresent())
+			return;
+
 		HasAnimation animation = animationOpt.get();
 
-		animation.setAnimation(AnimationGetter.queryAnimationSprite(
-			c, d, animationFlag));
+		animation.setAnimation(
+			animAssetsOpt.get().getAnimation(d, animationFlag));
 
 		mOpt.get().setSpeed(0);
 	}

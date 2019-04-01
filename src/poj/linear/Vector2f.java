@@ -194,6 +194,13 @@ public class Vector2f
 		this.y = (float)Math.floor(this.y);
 	}
 
+	public Vector2f pureFloor()
+	{
+		Vector2f n = new Vector2f(this);
+		n.floor();
+		return n;
+	}
+
 	/**
 	 * subtract and returns the added vector of this vector2f with another
 	 * vector

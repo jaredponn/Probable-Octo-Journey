@@ -32,10 +32,9 @@ public class OctoAnimationBuffer
 			"Error in OcotAnimationBuffer -- must have 8 animations");
 		buffer = new Animation[OCTO_BUF_LENGTH];
 
-		int i = 0;
 
-		for (Animation a : args) {
-			buffer[i] = a;
+		for (int i = 0; i < args.length; ++i) {
+			buffer[i] = args[i];
 		}
 	}
 

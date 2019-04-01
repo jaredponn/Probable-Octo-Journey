@@ -4,7 +4,7 @@ import poj.linear.*;
 import poj.Logger.*;
 import java.util.ArrayList;
 
-class Rectangle
+public class Rectangle
 {
 	/*
 	 *             max
@@ -38,11 +38,22 @@ class Rectangle
 		this.max = new Vector2f(maxx, maxy);
 	}
 
+	public Rectangle(Rectangle n)
+	{
+		this(n.min.x, n.min.y, n.max.x, n.max.y);
+	}
+
 	public boolean isPointContained(Vector2f p)
 	{
 		final boolean xcontained = min.x <= p.x && p.x <= max.x;
 		final boolean ycontained = min.y <= p.y && p.y <= max.y;
 		return xcontained && ycontained;
+	}
+
+	public void shiftRectangleBy(Vector2f n)
+	{
+		min.add(n);
+		max.add(n);
 	}
 
 	public float getWidth()
@@ -63,5 +74,16 @@ class Rectangle
 	public float getMinY()
 	{
 		return min.y;
+	}
+
+
+	public float getMaxX()
+	{
+		return max.x;
+	}
+
+	public float getMaxY()
+	{
+		return max.y;
 	}
 }

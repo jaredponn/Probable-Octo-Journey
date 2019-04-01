@@ -7,6 +7,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Components.Sound;
+import Components.OctoAnimationBuffer;
 
 import poj.Animation;
 import poj.Render.ImageLoader;
@@ -416,6 +417,19 @@ public class GameResources
 		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 11, 0,
 		PLAYER_SPRITE_WIDTH * 11, PLAYER_SPRITE_HEIGHT * 4);
 
+	public static OctoAnimationBuffer playerMeleeMoveAnimation =
+		new OctoAnimationBuffer(
+			playerNMeleeMoveAnimation, playerNEMeleeMoveAnimation,
+			playerNWMeleeMoveAnimation, playerSMeleeMoveAnimation,
+			playerSEMeleeMoveAnimation, playerSWMeleeMoveAnimation,
+			playerWMeleeMoveAnimation, playerEMeleeMoveAnimation);
+
+	public static OctoAnimationBuffer playerGunMoveAnimation =
+		new OctoAnimationBuffer(
+			playerNGunMoveAnimation, playerNEGunMoveAnimation,
+			playerNWGunMoveAnimation, playerSGunMoveAnimation,
+			playerSEGunMoveAnimation, playerSWGunMoveAnimation,
+			playerWGunMoveAnimation, playerEGunMoveAnimation);
 
 	// idle animation
 	public static Animation playerNGunIdleAnimation = new Animation(
@@ -515,6 +529,20 @@ public class GameResources
 		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 11,
 		PLAYER_SPRITE_HEIGHT * 7);
 
+	public static OctoAnimationBuffer playerMeleeIdleAnimation =
+		new OctoAnimationBuffer(
+			playerNMeleeIdleAnimation, playerNEMeleeIdleAnimation,
+			playerNWMeleeIdleAnimation, playerSMeleeIdleAnimation,
+			playerSEMeleeIdleAnimation, playerSWMeleeIdleAnimation,
+			playerWMeleeIdleAnimation, playerEMeleeIdleAnimation);
+
+	public static OctoAnimationBuffer playerGunIdleAnimation =
+		new OctoAnimationBuffer(
+			playerNGunIdleAnimation, playerNEGunIdleAnimation,
+			playerNWGunIdleAnimation, playerSGunIdleAnimation,
+			playerSEGunIdleAnimation, playerSWGunIdleAnimation,
+			playerWGunIdleAnimation, playerEGunIdleAnimation);
+
 	//  MELEE ATTACK ANIMATIONS
 	public static Animation playerNMeleeAttack = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
@@ -555,6 +583,14 @@ public class GameResources
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
 		0, 0, PLAYER_SPRITE_WIDTH * 1, PLAYER_SPRITE_HEIGHT * 3,
 		PLAYER_SPRITE_WIDTH * 1, PLAYER_SPRITE_HEIGHT * 4);
+
+
+	public static OctoAnimationBuffer playerMeleeAttackAnimation =
+		new OctoAnimationBuffer(playerNMeleeAttack, playerNEMeleeAttack,
+					playerNWMeleeAttack, playerSMeleeAttack,
+					playerSEMeleeAttack,
+					playerSWMeleeAttack, playerWMeleeAttack,
+					playerEMeleeAttack);
 
 	/*
 	 * size for player melee attack animation: 185 x 182
@@ -607,6 +643,13 @@ public class GameResources
 		ENEMY_SPRITE_HEIGHT, ENEMY_SPRITE_WIDTH * 7, 0,
 		ENEMY_SPRITE_WIDTH * 7, ENEMY_SPRITE_HEIGHT * 4);
 
+	public static OctoAnimationBuffer enemyMoveAnimation =
+		new OctoAnimationBuffer(
+			enemyNMoveAnimation, enemyNEMoveAnimation,
+			enemyNWMoveAnimation, enemySMoveAnimation,
+			enemySEMoveAnimation, enemySWMoveAnimation,
+			enemyWMoveAnimation, enemyEMoveAnimation);
+
 	// attack animation
 	public static Animation enemyNAttackAnimation = new Animation(
 		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
@@ -649,6 +692,12 @@ public class GameResources
 		ENEMY_SPRITE_WIDTH * 15, ENEMY_SPRITE_HEIGHT * 13);
 
 
+	public static OctoAnimationBuffer enemyAttackAnimation =
+		new OctoAnimationBuffer(
+			enemyNAttackAnimation, enemyNEAttackAnimation,
+			enemyNWAttackAnimation, enemySAttackAnimation,
+			enemySEAttackAnimation, enemySWAttackAnimation,
+			enemyWAttackAnimation, enemyEAttackAnimation);
 	// death animatoin
 	public static Animation enemyNDeathAnimation = new Animation(
 		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
@@ -668,4 +717,11 @@ public class GameResources
 		ENEMY_SPRITE_WIDTH, ENEMY_SPRITE_HEIGHT, animationDurationms, 0,
 		0, ENEMY_SPRITE_WIDTH * 3, ENEMY_SPRITE_HEIGHT * 4,
 		ENEMY_SPRITE_WIDTH * 3, ENEMY_SPRITE_HEIGHT * 4);
+
+	public static OctoAnimationBuffer enemyDeathAnimation =
+		new OctoAnimationBuffer(
+			enemyNDeathAnimation, enemyNDeathAnimation,
+			enemyWDeathAnimation, enemySDeathAnimation,
+			enemyEDeathAnimation, enemySDeathAnimation,
+			enemyWDeathAnimation, enemyEDeathAnimation);
 }

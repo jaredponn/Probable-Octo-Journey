@@ -211,20 +211,29 @@ public class Systems
 	}
 
 
+	private static float NUDGE_MULTIPLIER = 1.3f;
 	public static void nudgeCollisionBodyBOutOfA(PCollisionBody a,
 						     PCollisionBody b,
 						     WorldAttributes bw, GJK g)
 	{
-		final Vector2f tmp = g.calculatePenetrationVector(
-			a.getPolygon(), b.getPolygon());
-		tmp.mul(1.3f); // nudge a little
-			       // further so it easily
-			       // goes outside of the
-			       // box
+		nudgeCollisionBodyBOutOfA(a.getPolygon(), b, bw, g);
+	}
+
+	public static void nudgeCollisionBodyBOutOfA(CollisionShape a,
+						     PCollisionBody b,
+						     WorldAttributes bw, GJK g)
+	{
+		final Vector2f tmp =
+			g.calculatePenetrationVector(a, b.getPolygon());
+		tmp.mul(NUDGE_MULTIPLIER); // nudge a little
+					   // further so it easily
+					   // goes outside of the
+					   // box
 		bw.add(tmp);
 
 		Systems.updatePCollisionBodyPositionFromWorldAttr(b, bw);
 	}
+
 
 	public static void deleteAllComponentsAt(EngineState e, int i)
 	{

@@ -207,14 +207,21 @@ public class PlayGameProcessInputs
 				engineState
 					.unsafeGetComponentAt(
 						HasAnimation.class, player)
-					.setAnimation(AnimationGetter.queryPlayerSprite(
+					.setAnimation(
 						engineState
 							.unsafeGetComponentAt(
-								MovementDirection
+								AnimationWindowAssets
 									.class,
 								player)
-							.getDirection(),
-						flag));
+							.getAnimation(
+								engineState
+									.unsafeGetComponentAt(
+										MovementDirection
+											.class
+										,
+										player)
+									.getDirection(),
+								flag));
 			} else {
 				engineState
 					.unsafeGetComponentAt(Movement.class,
@@ -289,9 +296,16 @@ public class PlayGameProcessInputs
 				if (Math.abs(g.lastCoolDown.get(
 					    GameConfig.BUY_AMMO))
 					    == 0d
-				    && g.cash >= GameConfig.PURCHASE_AMMOPACK_AMOUNT * GameConfig.BULLET_COST) {
-					g.playerAmmo.increaseAmmo(GameConfig.PURCHASE_AMMOPACK_AMOUNT);
-					g.cash -= GameConfig.PURCHASE_AMMOPACK_AMOUNT * GameConfig.BULLET_COST;
+				    && g.cash >= GameConfig.PURCHASE_AMMOPACK_AMOUNT
+							 * GameConfig
+								   .BULLET_COST) {
+					g.playerAmmo.increaseAmmo(
+						GameConfig
+							.PURCHASE_AMMOPACK_AMOUNT);
+					g.cash -=
+						GameConfig
+							.PURCHASE_AMMOPACK_AMOUNT
+						* GameConfig.BULLET_COST;
 					updateDtForKey(
 						g, GameConfig.BUY_AMMO,
 						-PlayGame.coolDownMax.get(
@@ -301,7 +315,7 @@ public class PlayGameProcessInputs
 					System.out.println(
 						"Either is on cooldown or not enough money to buy more ammo");
 			}
-			
+
 			///// Quit Game /////
 			if (inputPoller.isKeyDown(GameConfig.QUIT_KEY))
 				g.quit();

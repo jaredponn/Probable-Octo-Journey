@@ -40,6 +40,8 @@ import TileMap.MapLayer;
 import poj.Render.*;
 import poj.GameWindow.*;
 import poj.Collisions.GJK;
+import poj.Collisions.QuadTree;
+import poj.Collisions.Rectangle;
 import poj.Logger.Logger;
 import poj.Render.MinYFirstSortedRenderObjectBuffer;
 import poj.Time.*;
@@ -117,8 +119,10 @@ public class PlayGame extends World
 
 	// Collision detection and resolution
 	protected GJK gjk;
+	protected QuadTree tileMapQuadTree;
 
 	protected MapGeneration generateDiffusionMap;
+
 	public PlayGame(int width, int height, Renderer renderer,
 			InputPoller inputPoller)
 		throws UnsupportedAudioFileException, IOException,
@@ -205,6 +209,22 @@ public class PlayGame extends World
 		// initialize the path finding thread
 		this.generateDiffusionMap =
 			new MapGeneration(this.map, 0, 1f / 8f);
+
+
+		// loading the quad tree
+		this.tileMapQuadTree = new QuadTree(
+			0, new Rectangle(0, 0, this.map.mapWidth + 1,
+					 this.map.mapHeight + 1));
+		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
+			EngineState tmp = this.map.getLayerEngineState(i);
+
+			ArrayList<PhysicsPCollisionBody> arr =
+				tmp.getRawComponentArrayListPackedData(
+					PhysicsPCollisionBody.class);
+
+			for (PhysicsPCollisionBody col : arr)
+				this.tileMapQuadTree.insert(col.getPolygon());
+		}
 	}
 
 	public void registerComponents()
@@ -216,6 +236,8 @@ public class PlayGame extends World
 		super.engineState.registerComponent(DespawnTimer.class);
 		super.engineState.registerComponent(FacingDirection.class);
 		super.engineState.registerComponent(AttackCycle.class);
+		super.engineState.registerComponent(
+			AnimationWindowAssets.class);
 		super.engineState.registerComponent(Movement.class);
 		super.engineState.registerComponent(
 			PhysicsPCollisionBody.class);
@@ -260,7 +282,12 @@ public class PlayGame extends World
 
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
+
+		for (int i = 0; i < 100; ++i) {
+			engineState.spawnEntitySet(new MobSet(30, 30f));
+		}
 	}
+
 	public void clearWorld()
 	{
 	}
@@ -365,20 +392,15 @@ public class PlayGame extends World
 				MobSet.class);
 
 		// Resolving  collisions against tilemap
+		TileMapCollisionAlgorithms
+			.nudgePhysicsPCollisionBodiesOutsideTileMapWithQuadTree(
+				this, MobSet.class);
+		TileMapCollisionAlgorithms
+			.nudgePhysicsPCollisionBodiesOutsideTileMapWithQuadTree(
+				this, PlayerSet.class);
+
+
 		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
-			EngineTransforms
-				.nudgePhysicsPCollisionBodiesOutsideTileMap(
-					this.engineState, this.gjk,
-					PlayerSet.class,
-					this.map.getLayerEngineState(i));
-
-			EngineTransforms
-				.nudgePhysicsPCollisionBodiesOutsideTileMap(
-					this.engineState, this.gjk,
-					MobSet.class,
-					this.map.getLayerEngineState(i));
-
-
 			EngineTransforms.debugRenderPhysicsPCollisionBodies(
 				this.map.getLayerEngineState(i), debugBuffer,
 				this.cam, Color.RED);
@@ -913,5 +935,10 @@ public class PlayGame extends World
 	public int getKillCount()
 	{
 		return this.killCount;
+	}
+
+	public QuadTree getTileMapCollisionQuadTree()
+	{
+		return this.tileMapQuadTree;
 	}
 }
