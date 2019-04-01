@@ -21,8 +21,8 @@ public class GameConfig
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
-	public static final int PLAYER_HP = 10;     // 50;
-	public static final int PLAYER_MAX_HP = 10; // 75;
+	public static final int PLAYER_HP = 100000;     // 50;
+	public static final int PLAYER_MAX_HP = 100000; // 75;
 	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
 	public static final int TOWER_DIFFUSION_VALUE = (int)Math.pow(2, 5);
 	public static final float PLAYER_HEIGHT =
@@ -188,13 +188,13 @@ public class GameConfig
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final float MOB_WIDTH = GameResources.ENEMY_SPRITE_WIDTH
 					      / GameResources.TILE_SCREEN_WIDTH;
-	
+
 	// percent chance for a mob to drop cash on death
 	public static final int MOB_DROP_RATE = 33;
-	
+
 	// pathfinding/collision detection
 	public static final PCollisionBody MOB_COLLISION_BODY =
-			// clang-format off
+		// clang-format off
 			new PCollisionBody(
 				new Vector2f(0.2f , 0.55f), // displacement
 				new Vector2f(0.25f ,0.25f), // center
@@ -203,17 +203,17 @@ public class GameConfig
 				new Vector2f(0    /4f,   0.75f/4f), new Vector2f(1     /4f, 0.75f/4f),
 				new Vector2f(0    /4f, 0.25f  /4f), new Vector2f(0.25f /4f, 0    /4f),
 				new Vector2f(0.75f/4f, 0      /4f), new Vector2f(1     /4f, 0.25f/4f));
-		// clang-format on
+	// clang-format on
 
 	// combat configs
 	public static final int MOB_ATTACK_DAMAGE = 10;
 	public static final int MOB_HP = 100;
 	public static final int MOB_MAX_HP = MOB_HP;
-	
+
 	public static final int BOSS_ATTACK_DAMAGE = MOB_ATTACK_DAMAGE * 2;
 	public static final int BOSS_HP = MOB_HP * 2;
 	public static final int BOSS_MAX_HP = BOSS_HP;
-	
+
 	public static final AttackCycle MOB_ATTACK_CYCLE =
 		new AttackCycle(GameResources.animationDurationms * 8,
 				GameResources.animationDurationms * 6);
@@ -227,23 +227,23 @@ public class GameConfig
 						       // collision body:
 				   new Vector2f(0, 0), new Vector2f(2, 0),
 				   new Vector2f(0, 2), new Vector2f(2, 2));
-	
+
 	public static final PCollisionBody MOB_MELEE_N_ATK_BODY =
-			PLAYER_MELEE_N_ATK_BODY;
-		public static final PCollisionBody MOB_MELEE_NE_ATK_BODY =
-			PLAYER_MELEE_NE_ATK_BODY;
-		public static final PCollisionBody MOB_MELEE_E_ATK_BODY =
-			PLAYER_MELEE_E_ATK_BODY;
-		public static final PCollisionBody MOB_MELEE_SE_ATK_BODY =
-			PLAYER_MELEE_SE_ATK_BODY;
-		public static final PCollisionBody MOB_MELEE_S_ATK_BODY =
-			PLAYER_MELEE_S_ATK_BODY;
-		public static final PCollisionBody MOB_MELEE_SW_ATK_BODY =
-			PLAYER_MELEE_SW_ATK_BODY;
-		public static final PCollisionBody MOB_MELEE_W_ATK_BODY =
-			PLAYER_MELEE_W_ATK_BODY;
-		public static final PCollisionBody MOB_MELEE_NW_ATK_BODY =
-			PLAYER_MELEE_NW_ATK_BODY;
+		PLAYER_MELEE_N_ATK_BODY;
+	public static final PCollisionBody MOB_MELEE_NE_ATK_BODY =
+		PLAYER_MELEE_NE_ATK_BODY;
+	public static final PCollisionBody MOB_MELEE_E_ATK_BODY =
+		PLAYER_MELEE_E_ATK_BODY;
+	public static final PCollisionBody MOB_MELEE_SE_ATK_BODY =
+		PLAYER_MELEE_SE_ATK_BODY;
+	public static final PCollisionBody MOB_MELEE_S_ATK_BODY =
+		PLAYER_MELEE_S_ATK_BODY;
+	public static final PCollisionBody MOB_MELEE_SW_ATK_BODY =
+		PLAYER_MELEE_SW_ATK_BODY;
+	public static final PCollisionBody MOB_MELEE_W_ATK_BODY =
+		PLAYER_MELEE_W_ATK_BODY;
+	public static final PCollisionBody MOB_MELEE_NW_ATK_BODY =
+		PLAYER_MELEE_NW_ATK_BODY;
 
 	public static final PCollisionBody MOB_AGGRO_RANGE = new PCollisionBody(
 		// clang-format off
