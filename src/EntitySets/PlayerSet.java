@@ -41,6 +41,8 @@ public class PlayerSet extends EntitySet
 		addComponent(new AttackCycle(GameConfig.PLAYER_ATTACK_CYCLE));
 		addComponent(new Ammo(GameConfig.PLAYER_STARTING_AMMO));
 		addComponent(new SoundAssets(GameResources.playerSoundAsset));
+		addComponent(new AnimationWindowAssets(
+			GameConfig.PLAYER_ANIMATION_WINDOW_ASSETS));
 
 		// player sound effects:
 	}

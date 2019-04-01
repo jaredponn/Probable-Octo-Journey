@@ -19,7 +19,7 @@ public class MobSet extends EntitySet
 
 	public MobSet()
 	{
-		this( GameConfig.MOB_SPAWN_POINTS.get(0) );
+		this(GameConfig.MOB_SPAWN_POINTS.get(0));
 	}
 
 	/**
@@ -48,6 +48,8 @@ public class MobSet extends EntitySet
 		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
 		addComponent(new AttackCycle(GameConfig.MOB_ATTACK_CYCLE));
 		addComponent(new AggroRange(GameConfig.MOB_AGGRO_RANGE));
+		addComponent(new AnimationWindowAssets(
+			GameConfig.MOB_ANIMATION_WINDOW_ASSETS));
 	}
 
 	/**
