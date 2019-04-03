@@ -1,6 +1,7 @@
 package Game;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -67,6 +68,10 @@ public class Menu
 	// 0th = play button, 1st= howToPlay
 	public void processInputs()
 	{
+
+		if (inputPoller.isKeyDown(KeyEvent.VK_P)) {
+			App.runMenu = false;
+		}
 		if (inputPoller.isLeftMouseButtonDown()) {
 
 			Vector2f mousePosition = inputPoller.getMousePosition();
