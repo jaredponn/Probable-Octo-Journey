@@ -7,10 +7,14 @@ package poj.GameWindow;
  * https://examples.javacodegeeks.com/desktop-java/swing/jframe/java-jframe-example/
  * https://javatutorial.net/swing-jframe-basics-create-jframe
  * https://www.javatpoint.com/java-awt-canvas
+ * https://stackoverflow.com/questions/7073412/awt-window-close-listener-event
  * @version  1.0
  */
 
 import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 public class GameWindow extends JFrame
 {
@@ -27,7 +31,15 @@ public class GameWindow extends JFrame
 
 		this.setResizable(false);
 		this.setIgnoreRepaint(true);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter() {
+			@Override public void windowClosing(WindowEvent we)
+			{
+				System.out.println("exiting");
+				System.exit(0);
+			}
+		});
 	}
 
 	/**
