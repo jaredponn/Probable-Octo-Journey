@@ -20,13 +20,14 @@ public class QuadTree
 {
 
 	private static int MAX_OBJ =
-		30; // number of objects it can hold before splitting
-	private static int MAX_LVLS = 20; // deepest sublevel node
+		20; // number of objects it can hold before splitting
+	private static int MAX_HEIGHT = 8; // deepest sublevel node
 
 
-	private int curLvl; // current level (0 is the topmost)
 	public ArrayList<CollisionShape> objects;
-	public Rectangle bounds; // 2D space occupied
+	public Rectangle bounds;
+
+	public int height;
 
 	/*
 	 * -------------
@@ -41,7 +42,7 @@ public class QuadTree
 
 	public QuadTree(int lvl, Rectangle bounds)
 	{
-		this.curLvl = lvl;
+		this.height = lvl;
 		this.bounds = bounds;
 		objects = new ArrayList<CollisionShape>();
 		nodes = new QuadTree[4];
@@ -69,18 +70,18 @@ public class QuadTree
 		float y = bounds.getMinY();
 
 		nodes[0] = new QuadTree(
-			curLvl + 1, new Rectangle(x, y, x + subW, y + subH));
+			height + 1, new Rectangle(x, y, x + subW, y + subH));
 
 		nodes[1] = new QuadTree(
-			curLvl + 1,
+			height + 1,
 			new Rectangle(x + subW, y, x + w, y + subH));
 
 		nodes[2] = new QuadTree(
-			curLvl + 1,
+			height + 1,
 			new Rectangle(x, y + subH, x + subW, y + h));
 
 		nodes[3] = new QuadTree(
-			curLvl + 1,
+			height + 1,
 			new Rectangle(x + subW, y + subH, x + w, y + h));
 	}
 
@@ -161,7 +162,7 @@ public class QuadTree
 		// if the focused node has more than the max objects and there
 		// are still levels to go down, then split the tree and
 		// propogate the collision box down
-		if (objects.size() > MAX_OBJ && curLvl < MAX_LVLS) {
+		if (objects.size() > MAX_OBJ && height < MAX_HEIGHT) {
 			if (!hasChildren()) {
 				split();
 			}
