@@ -65,7 +65,6 @@ public class RenderThread extends Thread
 	{
 		while (threadRunning) {
 			if (isRendering) {
-				Timer.START_BENCH();
 				renderer.renderBufferLists(
 					focus.getBuf(PlayGameRenderBuffers
 							     .groundBuf),
@@ -79,9 +78,6 @@ public class RenderThread extends Thread
 						PlayGameRenderBuffers.debugBuf),
 					focus.getBuf(
 						PlayGameRenderBuffers.guiBuf));
-
-				Timer.END_BENCH();
-				Timer.LOG_BENCH_DELTA();
 
 				this.stopRendering();
 			}
