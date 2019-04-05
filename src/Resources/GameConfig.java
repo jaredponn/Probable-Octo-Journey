@@ -17,7 +17,7 @@ public class GameConfig
 	//////////////////////////
 	////// player config /////
 	//////////////////////////
-	public static final float PLAYER_SPEED = 0.003f;
+	public static final float PLAYER_SPEED = 0.0015f;
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
@@ -28,7 +28,8 @@ public class GameConfig
 	public static final float PLAYER_HEIGHT =
 		GameResources.PLAYER_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
-	public static final Vector2f PLAYER_SPAWNNING_POS = new Vector2f(0, 0);
+	public static final Vector2f PLAYER_SPAWNNING_POS =
+		new Vector2f(32, 32);
 	public static final PCollisionBody PLAYER_COLLISION_BODY =
 		new PCollisionBody(
 			new Vector2f(0.2f, 0.55f),  // displacement
@@ -55,7 +56,7 @@ public class GameConfig
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(100, 100);
 
-	public static final int PLAYER_STARTING_CASH = 100;
+	public static final int PLAYER_STARTING_CASH = 100000;
 	public static final int PLAYER_STARTING_AMMO = 20;
 	public static final int PLAYER_MAX_AMMO = 100;
 	public static final int PLAYER_STARTING_MELEE_DAMAGE = 30;
@@ -167,7 +168,7 @@ public class GameConfig
 	//////////////////////////
 	////// bullet config /////
 	//////////////////////////
-	public static final float BULLET_SPEED = 0.02f;
+	public static final float BULLET_SPEED = 0.01f;
 	public static final float BULLET_WIDTH =
 		GameResources.BULLET_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
