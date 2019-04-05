@@ -11,9 +11,9 @@ import java.awt.*;
 
 public class StringRenderObject extends RenderObject
 {
-	private String str;
-	private Color color;
-	private Font font;
+	protected String str;
+	protected Color color;
+	protected Font font;
 
 	/**
 	 * StringRenderObject constructor
@@ -44,6 +44,11 @@ public class StringRenderObject extends RenderObject
 		setPosition(x, y);
 		setColor(c);
 		setFont(f);
+	}
+
+	public StringRenderObject(StringRenderObject a)
+	{
+		this(a.str, a.x, a.y, a.color, a.font);
 	}
 
 	/**

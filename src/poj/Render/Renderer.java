@@ -18,12 +18,16 @@ import java.awt.image.RescaleOp;
 import java.awt.geom.AffineTransform;
 
 import java.util.Queue;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
+import Resources.GameResources;
 import poj.GameWindow.GameCanvas;
 import poj.GameWindow.GraphicsContext;
 import poj.Logger.LogLevels;
 import poj.Logger.Logger;
+import poj.Render.*;
+import poj.Time.Timer;
 
 
 public class Renderer
@@ -66,9 +70,10 @@ public class Renderer
 	 */
 	public void setBufferedImageFromCanvas(GameCanvas gc)
 	{
-		bufferedImage =
+		// TODO RENDER
+		bufferedImage = ImageLoader.toCompatibleImage(
 			graphicsContext.graphicsConfig.createCompatibleImage(
-				gc.getWidth(), gc.getHeight());
+				gc.getWidth(), gc.getHeight()));
 		width = gc.getWidth();
 		height = gc.getHeight();
 	}
@@ -130,9 +135,10 @@ public class Renderer
 			do {
 				for (Queue<RenderObject> rb : renderBuffers) {
 					while (!rb.isEmpty()) {
+
 						final RenderObject t =
 							rb.remove();
-						// deprecated
+
 						if (t.getRenderObjectType()
 						    == RenderRect.class) {
 							renderRect(
@@ -164,6 +170,7 @@ public class Renderer
 					}
 				}
 				g = bufferStrat.getDrawGraphics();
+
 				g.drawImage(bufferedImage, 0, 0, null);
 
 				g.dispose();
@@ -176,39 +183,75 @@ public class Renderer
 		} while (bufferStrat.contentsLost());
 	}
 
-	/**
-	 * Renders objects with dim. WARNING LONG DEPRECATED
-	 */
-	private void renderImageRenderObjectWithDim(ImageRenderObject n,
-						    Graphics2D g2d)
+	public void renderBufferLists(ArrayList<RenderObject>... renderBuffers)
 	{
+		Graphics g = null;
+		Graphics2D g2d = null;
 
-		// doesn't copy
-		BufferedImage subimage = n.getImage().getSubimage(
-			n.getImageWindow().getX(), n.getImageWindow().getY(),
-			n.getImageWindow().getWidth(),
-			n.getImageWindow().getHeight());
+		// clear the color
+		g2d = bufferedImage.createGraphics();
 
-		// dest
-		BufferedImage copyimage = new BufferedImage(
-			n.getImage().getColorModel(),
-			n.getImage().getRaster().createCompatibleWritableRaster(
-				n.getImageWindow().getWidth(),
-				n.getImageWindow().getHeight()),
-			n.getImage().isAlphaPremultiplied(), null);
+		g2d.setColor(this.backgroundColor);
+
+		g2d.fillRect(0, 0, this.width, this.height);
 
 
-		// copy
-		subimage.copyData(copyimage.getRaster());
+		do {
+			do {
 
-		// transformations
-		n.getRescaleOp().filter(copyimage, copyimage);
+				for (ArrayList<RenderObject> rb :
+				     renderBuffers) {
+					for (int i = 0; i < rb.size(); ++i) {
 
-		// drawing
-		g2d.drawImage(
-			copyimage,
-			new AffineTransform(1f, 0f, 0f, 1f, n.getX(), n.getY()),
-			null);
+						final RenderObject t =
+							rb.get(i);
+
+						if (t.getRenderObjectType()
+						    == RenderRect.class) {
+							renderRect(
+								(RenderRect)t,
+								g2d);
+						} else if (
+							t.getRenderObjectType()
+							== ImageRenderObject
+								   .class) {
+							renderImageRenderObject(
+								(ImageRenderObject)
+									t,
+								g2d);
+						} else if (
+							t.getRenderObjectType()
+							== StringRenderObject
+								   .class) {
+							renderStringRenderObject(
+								(StringRenderObject)
+									t,
+								g2d);
+
+						} else {
+							Logger.logMessage(
+								"Error in renderer -- unknown render object type",
+								LogLevels
+									.MINOR_CRITICAL);
+						}
+					}
+
+					rb.clear();
+				}
+
+				g = bufferStrat.getDrawGraphics();
+
+				g.drawImage(bufferedImage, 0, 0, null);
+
+				g.dispose();
+				g2d.dispose();
+
+
+			} while (bufferStrat.contentsRestored());
+
+			bufferStrat.show();
+
+		} while (bufferStrat.contentsLost());
 	}
 
 	/**
@@ -216,6 +259,9 @@ public class Renderer
 	 * @param n Image to render
 	 * @param g2d graphics object
 	 */
+
+	private static AffineTransform AFFINE_TRANSFORM_BUF =
+		new AffineTransform(1f, 0f, 0f, 1f, 0f, 0f);
 	private void renderImageRenderObject(ImageRenderObject n,
 					     Graphics2D g2d)
 	{
@@ -226,11 +272,10 @@ public class Renderer
 			n.getImageWindow().getWidth(),
 			n.getImageWindow().getHeight());
 
+		AFFINE_TRANSFORM_BUF.setToTranslation(n.getX(), n.getY());
+
 		// drawing
-		g2d.drawImage(
-			subimage,
-			new AffineTransform(1f, 0f, 0f, 1f, n.getX(), n.getY()),
-			null);
+		g2d.drawImage(subimage, AFFINE_TRANSFORM_BUF, null);
 	}
 
 	/**
