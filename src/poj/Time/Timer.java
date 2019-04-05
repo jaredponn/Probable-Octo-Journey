@@ -1,5 +1,7 @@
 package poj.Time;
 
+import poj.Logger.Logger;
+
 /**
  *  Timer -- a way to get the time.
  * Date: February 20, 2019
@@ -9,6 +11,11 @@ package poj.Time;
 
 public class Timer
 {
+
+	private static double START_BENCH;
+	private static double END_BENCH;
+
+	private static double ACC_BENCH;
 	private Timer()
 	{
 	}
@@ -21,6 +28,44 @@ public class Timer
 	static public double getTimeInNanoSeconds()
 	{
 		return (double)System.nanoTime();
+	}
+
+
+	static public void START_BENCH()
+	{
+		START_BENCH = getTimeInNanoSeconds();
+	}
+
+	static public void END_BENCH()
+	{
+		END_BENCH = getTimeInNanoSeconds();
+		ACC_BENCH += BENCH_DELTA();
+	}
+
+	static public void CLEAR_ACC_BENCH()
+	{
+		ACC_BENCH = 0;
+	}
+
+	static private double BENCH_DELTA()
+	{
+		return END_BENCH - START_BENCH;
+	}
+
+	static public void LOG_BENCH_ACC()
+	{
+		Logger.logMessage("BENCH"
+				  + ": " + ACC_BENCH);
+	}
+
+	static public void LOG_BENCH_DELTA()
+	{
+		LOG_BENCH_DELTA("BENCH");
+	}
+
+	static public void LOG_BENCH_DELTA(String str)
+	{
+		Logger.logMessage(str + ": " + BENCH_DELTA());
 	}
 
 
