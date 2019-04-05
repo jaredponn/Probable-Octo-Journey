@@ -1,0 +1,14 @@
+All with ground buffer
+307395.14739229024
+
+without ground buffer
+11909166.477876106
+
+All and ground buffer with new array lists
+average time in nanosecs: 25542881.020242915
+average time in mlli: 25.542881020242916
+total samples: 247
+
+// fill rect time
+average time in nanosecs: 1791734.2285714287
+average time in mlli: 1.7917342285714286

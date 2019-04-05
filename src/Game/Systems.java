@@ -45,15 +45,10 @@ public class Systems
 		return topleftcoord;
 	}
 
-	public static void pushRenderComponentToRenderer(Render r, Renderer ren)
-	{
-		ren.pushRenderObject(r.getGraphic());
-	}
-
 	public static void pushRenderComponentToQueue(Render r,
-						      Queue<RenderObject> q)
+						      ArrayList<RenderObject> q)
 	{
-		q.add(r.getGraphic());
+		q.add(new ImageRenderObject(r.getGraphic()));
 	}
 
 	public static void cullPushRenderComponentToRenderer(Render r,
@@ -69,13 +64,13 @@ public class Systems
 		    || tmp.getY() + tmp.getImageWindow().getHeight() < 0)
 			return;
 
-		ren.pushRenderObject(r.getGraphic());
+		ren.pushRenderObject(new ImageRenderObject(r.getGraphic()));
 	}
 
-	public static void cullPushRenderComponentToQueue(Render r,
-							  Queue<RenderObject> q,
-							  int windowWidth,
-							  int windowHeight)
+	public static void cullPushRenderComponent(Render r,
+						   ArrayList<RenderObject> q,
+						   int windowWidth,
+						   int windowHeight)
 	{
 		ImageRenderObject tmp = r.getGraphic();
 		if (tmp.getX() > windowWidth || tmp.getY() > windowHeight)
@@ -85,7 +80,7 @@ public class Systems
 		    || tmp.getY() + tmp.getImageWindow().getHeight() < 0)
 			return;
 
-		q.add(r.getGraphic());
+		q.add(new ImageRenderObject(r.getGraphic()));
 	}
 
 	public static void
@@ -175,18 +170,18 @@ public class Systems
 	}
 
 
-	public static void pCollisionBodyDebugRenderer(final PCollisionBody pc,
-						       Queue<RenderObject> q,
-						       final Camera cam)
+	public static void
+	pCollisionBodyDebugRenderer(final PCollisionBody pc,
+				    ArrayList<RenderObject> q, final Camera cam)
 	{
 		pCollisionBodyDebugRenderer(pc, q, cam, Color.RED);
 	}
 
 	private static Color CENTER_DEBUG_COLOR = Color.GREEN;
-	public static void pCollisionBodyDebugRenderer(final PCollisionBody pc,
-						       Queue<RenderObject> q,
-						       final Camera cam,
-						       Color r)
+	public static void
+	pCollisionBodyDebugRenderer(final PCollisionBody pc,
+				    ArrayList<RenderObject> q, final Camera cam,
+				    Color r)
 	{
 		Polygon p = pc.getPolygon();
 		Vector2f[] pts = p.pts();

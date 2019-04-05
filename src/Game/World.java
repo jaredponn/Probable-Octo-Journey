@@ -17,7 +17,7 @@ public abstract class World
 {
 
 	// 124 fps  --> to go from fps to ms: 1/x fps = 1 / (x/1000)
-	private static double DEFAULT_DELTA_TIME = 1 / 0.124d;
+	private static double DEFAULT_DELTA_TIME = 1 / (24d / 1000d);
 	private static double MAX_ACC_TIME = 50d;
 
 	// pure game stuff
@@ -149,7 +149,7 @@ public abstract class World
 			ct = nt;
 			acc += ft;
 
-			acc = Math.min(MAX_ACC_TIME, acc);
+			// acc = Math.min(MAX_ACC_TIME, acc);
 
 			while (acc >= this.dt) {
 				runGame();

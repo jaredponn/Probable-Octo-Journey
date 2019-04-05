@@ -205,7 +205,7 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 
 				// debug rendering
 				Systems.pCollisionBodyDebugRenderer(
-					patk, Game.PlayGame.debugBuffer,
+					patk, super.getPlayGame().debugBuffer,
 					super.getPlayGame().cam, Color.orange);
 
 				EngineTransforms.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
