@@ -257,9 +257,8 @@ public class PlayGame extends World
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 
-		for (int i = 0; i < 100; ++i) {
-			engineState.spawnEntitySet(new MobSet(15, 15));
-		}
+		// for (int i = 0; i < 100; ++i) {
+		// engineState.spawnEntitySet(new MobSet(30, 30)); }
 	}
 
 	public void clearWorld()
@@ -354,12 +353,14 @@ public class PlayGame extends World
 
 
 		// resolving entity collision
-		// EngineTransforms
-		// .nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
-		// this.engineState, this.gjk, PlayerSet.class, MobSet.class);
-		// EngineTransforms
-		// .nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
-		// this.engineState, this.gjk, MobSet.class, MobSet.class);
+		EngineTransforms
+			.nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
+				this.engineState, this.gjk, PlayerSet.class,
+				MobSet.class);
+		EngineTransforms
+			.nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
+				this.engineState, this.gjk, MobSet.class,
+				MobSet.class);
 
 		// Resolving  collisions against tilemap
 		TileMapCollisionAlgorithms
@@ -419,7 +420,7 @@ public class PlayGame extends World
 			this.engineState, PlayerSet.class);
 		EngineTransforms
 			.steerMovementVelocityFromMovementDirectionForSet(
-				this.engineState, MobSet.class, 1 / 1);
+				this.engineState, MobSet.class, 1 / 8f);
 		gameEventStack.runGameEventStack();
 		// rendering is run after this is run
 	}
