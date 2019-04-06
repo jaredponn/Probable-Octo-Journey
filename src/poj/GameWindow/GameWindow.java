@@ -31,7 +31,6 @@ public class GameWindow extends JFrame
 
 		this.setResizable(false);
 		this.setIgnoreRepaint(true);
-		// this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter() {
 			@Override public void windowClosing(WindowEvent we)
@@ -40,6 +39,10 @@ public class GameWindow extends JFrame
 				System.exit(0);
 			}
 		});
+		// we can also use:
+		// this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setUndecorated(true);
 	}
 
 	/**
