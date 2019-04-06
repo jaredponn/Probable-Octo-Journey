@@ -72,8 +72,6 @@ public class PlayGame extends World
 	protected ArrayList<RenderObject> poleBuffer;
 	protected ArrayList<RenderObject> guiBuffer;
 	public ArrayList<RenderObject> debugBuffer;
-	private static RenderObjectComparator renderObjComp =
-		new RenderObjectComparator();
 
 
 	// Camera
@@ -445,62 +443,7 @@ public class PlayGame extends World
 	// Render function
 	protected void render()
 	{
-
-		// TODO -- this should be moved to the tile map so it is loaded
-		// there.
-		Vector2f origin = new Vector2f(this.map.mapWidth / 2,
-					       -this.map.mapHeight / 2);
-		origin.matrixMultiply(this.getCam());
-		groundBuffer.add(new ImageRenderObject(
-			(int)origin.x, (int)origin.y,
-			GameResources.TILE_MAP_SINGLE_IMAGE));
-
-		// pushTileMapLayerToArrayList(map.getLayerEngineState(0),
-		// groundBuffer);
-		pushTileMapLayerToArrayList(map.getLayerEngineState(1),
-					    groundBuffer);
-		pushTileMapLayerToArrayList(map.getLayerEngineState(2),
-					    buildingBuffer);
-		pushTileMapLayerToArrayList(map.getLayerEngineState(3),
-					    entityBuffer);
-		pushTileMapLayerToArrayList(map.getLayerEngineState(4),
-					    entityBuffer);
-
-
-		for (Render r :
-		     super.getRawComponentArrayListPackedData(Render.class)) {
-			Systems.cullPushRenderComponent(r, entityBuffer,
-							this.windowWidth,
-							this.windowHeight);
-		}
-
-		guiBuffer.add(new StringRenderObject(this.gameTimer));
-		guiBuffer.add(new StringRenderObject(this.cashDisplay));
-		guiBuffer.add(new StringRenderObject(this.healthDisplay));
-		guiBuffer.add(new StringRenderObject(this.ammoDisplay));
-		guiBuffer.add(new StringRenderObject(this.killDisplay));
-		guiBuffer.add(new StringRenderObject(this.mobCountDisplay));
-
-		Collections.sort(entityBuffer, this.renderObjComp);
-
-		while (this.renderThread.isRendering()) {
-			Timer.sleepNMilliseconds(1);
-		}
-		this.renderThread.swapBuffers();
-
-		this.renderThread.startRendering();
-
-		this.updateRenderWriteToBufferToUnfocusedBuffer();
-	}
-
-	protected void pushTileMapLayerToArrayList(MapLayer n,
-						   ArrayList<RenderObject> q)
-	{
-		EngineTransforms.pushTileMapLayerToQueue(
-			this.map, n, this.windowWidth, this.windowHeight,
-			(int)GameResources.TILE_SCREEN_WIDTH,
-			(int)GameResources.TILE_SCREEN_HEIGHT, this.cam,
-			this.invCam, q);
+		PlayGameRender.renderPlayGame(this);
 	}
 
 
