@@ -8,26 +8,48 @@ package poj.Collisions;
 
 import java.util.ArrayList;
 
-public class DBVT extends Tree
+public class DBVT
 {
-	public DBVT right;
+	// branch
 	public DBVT left;
+	public DBVT right;
+	public Rectangle bounds;
 
-	private static int MAX_OBJ =
-		2; // number of objects it can hold before splitting
+	// leaf
+	public CollisionShape a;
+	public CollisionShape b;
 
-	public DBVT(CollisionShape cs)
+	int height;
+
+	private static final int LEAF_HEIGHT = 1;
+
+	public DBVT()
 	{
-		super.height = 1; // leafs have height of 1
-		super.bounds = cs.getBoundingRectangle();
-		super.objects = null;
+		this(new Rectangle(0, 0, 0, 0), LEAF_HEIGHT);
+	}
+
+	public DBVT(Rectangle b, int h)
+	{
+		height = h;
+		bounds = b;
+	}
+
+	public DBVT(Rectangle b)
+	{
+		this(b, LEAF_HEIGHT); // leafs have a default height of 1
 	}
 
 
-	public static int height(DBVT node)
+	public int height()
 	{
-		return (node == null) ? 0 : node.height;
+		return height;
 	}
+
+	public boolean isLeaf()
+	{
+		return this.height() == LEAF_HEIGHT;
+	}
+
 
 	// rotates right and returns the new root
 	public static DBVT rightRotate(DBVT a)
@@ -38,8 +60,8 @@ public class DBVT extends Tree
 		b.right = a;
 		a.left = c;
 
-		a.height = Math.max(height(a.right), height(a.left)) + 1;
-		b.height = Math.max(height(b.right), height(b.left)) + 1;
+		a.height = Math.max(a.right.height, a.left.height) + 1;
+		b.height = Math.max(b.right.height, b.left.height) + 1;
 
 		return b;
 	}
@@ -53,27 +75,33 @@ public class DBVT extends Tree
 		a.left = b;
 		b.right = c;
 
-		a.height = Math.max(height(a.right), height(a.left)) + 1;
-		b.height = Math.max(height(b.right), height(b.left)) + 1;
+		a.height = Math.max(a.right.height, a.left.height) + 1;
+		b.height = Math.max(b.right.height, b.left.height) + 1;
 
 		return a;
 	}
 
-	public static int getBalance(DBVT n)
+	public int getBalance()
 	{
-		return height(n.left) - height(n.right);
+		return this.left.height - this.right.height;
 	}
 
-	public static DBVT insert(DBVT node, CollisionShape cs)
+	private static void insertInLeafAndUpdateBounds(CollisionShape cs)
+	{
+	}
+
+	// retrusn new root of th esub tree
+	public DBVT insert(CollisionShape cs)
 	{
 
 		Rectangle r = cs.getBoundingRectangle();
 
 		// base case just add it to the leaf
-		if (node == null)
-			return new DBVT(cs);
-		// if (r.getArea() < node)
+		if (this.isLeaf()) {
+			insertInLeafAndUpdateBounds(cs);
+			return this;
+		}
 
-		return node;
+		return new DBVT(r);
 	}
 }
