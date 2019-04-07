@@ -94,8 +94,8 @@ See `textbased/README.md` for more information about the text based version.
 - [ ] Automated tests
 - [ ] Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
 - [x] Audio - partially done
-- [ ] Turret sprites - just need to be implemented
-- [ ] Melee sprites with a more visible sword
+- [x] Turret sprites - just need to be implemented (04/06/19 jared)
+- [x] Melee sprites with a more visible sword (04/06/19 jared)
 - [ ] hp bars
 - [ ] bigger / prettier GUI font
 
