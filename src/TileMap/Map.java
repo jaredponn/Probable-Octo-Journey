@@ -15,8 +15,10 @@ import Components.WorldAttributes;
 import Resources.GameResources;
 
 import poj.Logger.Logger;
+import poj.Pair;
 import poj.Render.*;
 import poj.linear.Vector2f;
+import java.util.Optional;
 
 public class Map
 {
@@ -63,11 +65,6 @@ public class Map
 				new Scanner(new File(mapConfigLocation));
 			String tempString[];
 			tempString = configReader.nextLine().split("\"");
-			/*
-			mapHeight = Integer.parseInt(
-				tempString[2].substring(1,
-			tempString[2].length() - 1));
-				*/
 			while (configReader.hasNextLine()) {
 				tempString =
 					configReader.nextLine().split("\"");
@@ -121,10 +118,6 @@ public class Map
 								tempList[2].length()
 									- 1));
 						break;
-					// case "imageheight":
-					// break;
-					// case "imagewidth":
-					// break;
 					case "tilecount":
 						tileCount = Integer.parseInt(
 							tempList[2].substring(
@@ -153,7 +146,6 @@ public class Map
 			}
 			mapReader.close();
 			createTileRenderObjects();
-			// TODO: create new wall states!!
 
 		} catch (FileNotFoundException e) {
 			System.out.println(
@@ -171,14 +163,11 @@ public class Map
 	 */
 	public void addMapLayer(String mapLayerLocation)
 	{
-		// TODO HAIANG:
-		//!: parse wall for different layers????
-		// 2:have indicator for which is wall!!!!!!
-
 		createWallState();
 		try {
 			mapLayers.add(new MapLayer(mapWidth * mapHeight));
-			// get the last added engine state
+			// register components for each layer of the engine
+			// state
 			mapLayers.get(mapLayers.size() - 1)
 				.registerComponent(Render.class);
 			mapLayers.get(mapLayers.size() - 1)
@@ -187,23 +176,27 @@ public class Map
 				.registerComponent(PathFindCord.class);
 			mapLayers.get(mapLayers.size() - 1)
 				.registerComponent(PhysicsPCollisionBody.class);
-
+			// scanner to read the csv file
 			Scanner mapReader =
 				new Scanner(new File(mapLayerLocation));
 			int numRows = 0;
+			// loop that reads each line of the file
 			while (mapReader.hasNextLine()) {
-				int xShiftValue = 0;
+				// keeps track of the number of rows
 				++numRows;
 				String line = mapReader.nextLine();
 				String tempList[] = line.split(",");
+				// for each integer in each line
 				for (int i = 0; i < tempList.length; ++i) {
+					// get the next free index
 					int nextFreeIndex =
 						mapLayers
 							.get(mapLayers.size()
 							     - 1)
 							.getFreeIndex();
-					// add the tile cord to the engine
 
+					// add the world attribute of tile cord
+					// to the engine
 					mapLayers.get(mapLayers.size() - 1)
 						.addComponentAt(
 							WorldAttributes.class,
@@ -213,91 +206,26 @@ public class Map
 								1f, 1f),
 							nextFreeIndex);
 
-					if ((numRows) % 2 == 0
-					    && (numRows) > 1) { // not in the
-								// first row
-						xShiftValue = tileWidth / 2;
-					}
-
+					// if the tile/integer is NOT empty
 					if (Integer.parseInt(tempList[i])
 					    != -1) {
-
-						// PathFindCord create
 						// if it is wall
 						if (wallState.get(Integer.parseInt(
 							    tempList[i]))) {
-							// NOT on 0th layer
-							if (mapLayers.size()
-							    > 1) {
-								// mark the tile
-								// at 0th layer
-								// as a wall
-								mapLayers
-									.get(COLLISION_LAYER)
-									.unsafeGetComponentAt(
-										PathFindCord
-											.class
-										,
-										getEcsIndexFromWorldVector2f(new Vector2f(
-											numRows - 1,
-											i % mapWidth)))
-									.setIsWall(
-										true);
-
-								mapLayers
-									.get(COLLISION_LAYER)
-									.unsafeGetComponentAt(
-										PathFindCord
-											.class
-										,
-										getEcsIndexFromWorldVector2f(new Vector2f(
-											numRows - 1,
-											i % mapWidth)))
-									.setDiffusionValue(
-										0f);
-							}
-							// on 0th layer
-							else {
-								mapLayers
-									.get(mapLayers
-										     .size()
-									     - 1)
-									.addComponentAt(
-										PathFindCord
-											.class
-										,
-										new PathFindCord(
-											new Vector2f(
-												numRows - 1,
-												i % mapWidth),
-											true,
-											0),
-										nextFreeIndex);
-							}
-
-							Vector2f cbwc = new Vector2f(
+							// add the collision
+							// tile inside collision
+							// layer (layer 0)
+							addCollisionTile(
 								numRows - 1,
-								i % mapWidth);
-
-							PhysicsPCollisionBody tempHitBox =
-								wallHitBox.get(Integer.parseInt(
-									tempList[i]));
-							tempHitBox
-								.setPositionPoint(
-									cbwc);
-
-							mapLayers
-								.get(COLLISION_LAYER)
-								.addComponentAt(
-									PhysicsPCollisionBody
-										.class
-									,
-									new PhysicsPCollisionBody(
-										tempHitBox),
-									nextFreeIndex);
+								i % mapWidth,
+								Integer.parseInt(
+									tempList[i]),
+								nextFreeIndex);
 						}
 						// if not on the wall
 						else {
+							// mark the tile at  as
+							// NOT a wall
 							mapLayers
 								.get(mapLayers
 									     .size()
@@ -314,129 +242,40 @@ public class Map
 										0),
 									nextFreeIndex);
 						}
+
 						// here will pick the tile image
-						// and render it
-
-						boolean isSpecialTile = false;
-						BufferedImage imagePath =
-							GameResources.tree1;
-						float specialWidth = 1f,
-						      specialHeight = 0f;
-						if (Integer.parseInt(
-							    tempList[i])
-						    == 576) {
-							// first tree
-							isSpecialTile = true;
-							imagePath =
-								GameResources
-									.tree1;
-
-							specialWidth -= 1f;
-							specialHeight -= 1f;
-
-						} else if (Integer.parseInt(
-								   tempList[i])
-							   == 577) {
-							// second tree
-							isSpecialTile = true;
-							imagePath =
-								GameResources
-									.tree2;
-							specialWidth -= 2f;
-							specialHeight -= 2f;
-						} else if (Integer.parseInt(
-								   tempList[i])
-							   == 578) {
-							// third tree
-							isSpecialTile = true;
-							imagePath =
-								GameResources
-									.tree3;
-							specialWidth -= 1f;
-							specialHeight -= 1f;
-						} else if (Integer.parseInt(
-								   tempList[i])
-							   == 579) {
-							// fourth tree
-							isSpecialTile = true;
-							imagePath =
-								GameResources
-									.tree4;
-							specialWidth -= 2f;
-							specialHeight -= 2f;
-						}
-
-						else if (Integer.parseInt(
-								 tempList[i])
-							 == 580) {
-							// fifth tree
-							isSpecialTile = true;
-							imagePath =
-								GameResources
-									.tree5;
-							specialWidth -= 2f;
-							specialHeight -= 2f;
-						}
-
-						else if (Integer.parseInt(
-								 tempList[i])
-							 == 674) {
-							// first pole
-							isSpecialTile = true;
-							imagePath =
-								GameResources
-									.pole1;
-							specialWidth -= 3f;
-							specialHeight -= 3f;
-						}
-
-						else if (Integer.parseInt(
-								 tempList[i])
-							 == 675) {
-							// second pole
-							isSpecialTile = true;
-							imagePath =
-								GameResources
-									.pole2;
-							specialWidth -= 3f;
-							specialHeight -= 3f;
-						} else if (Integer.parseInt(
-								   tempList[i])
-							   == 676) {
-							// third pole
-							isSpecialTile = true;
-
-							imagePath =
-								GameResources
-									.pole3;
-							specialWidth -= 3f;
-							specialHeight -= 3f;
-						} else if (Integer.parseInt(
-								   tempList[i])
-							   == 677) {
-							// fourth pole
-							isSpecialTile = true;
-							imagePath =
-								GameResources
-									.pole4;
-							specialWidth -= 3f;
-							specialHeight -= 3f;
-						} else if (Integer.parseInt(
-								   tempList[i])
-							   == 686) {
-							// stop sign
-							isSpecialTile = true;
-							imagePath =
-								GameResources
-									.stopSign;
-							specialWidth -= 1f;
-							specialHeight -= 1f;
-						}
+						// // and add the render
+						// component to the ECS
 
 						// check if it is special tile
-						// (for the trees and poles and
-						// stop sign)
-						if (isSpecialTile) {
+						/*
+						 * special tiles are the trees,
+						 * poles, and the stop signs. In
+						 * order to have rendering
+						 * order/precedence (trees will
+						 * block the player), we need to
+						 * make the trees their
+						 * particular image and when a
+						 * tile have that tree, the
+						 * entire image of the tree,
+						 * instead of the tree split up
+						 * indo many tiles, will be
+						 * rendered to acheive this
+						 * effect.
+						 */
+						Optional<Pair<
+							BufferedImage,
+							Pair<Float,
+							     Float>>> specialTile =
+							getSpecialTile(Integer.parseInt(
+								tempList[i]));
+
+						// if it is a special tile
+						if (specialTile.isPresent()) {
+							// for <float, float> it
+							// is the ordered pair
+							// <specialWidth,
+							// specialHeight>
 							mapLayers
 								.get(mapLayers
 									     .size()
@@ -449,12 +288,25 @@ public class Map
 										new ImageRenderObject(
 											0,
 											0,
-											imagePath),
+											specialTile
+												.get()
+												.fst()),
 										new Vector2f(
-											specialWidth,
-											specialHeight)),
+											specialTile
+												.get()
+												.snd()
+												.fst(),
+											specialTile
+												.get()
+												.snd()
+												.snd())),
 									nextFreeIndex);
-						} else {
+						}
+						// if it is NOT a special tile
+						else {
+							// add the pieve of the
+							// image into the render
+							// component
 							mapLayers
 								.get(mapLayers
 									     .size()
@@ -468,26 +320,17 @@ public class Map
 											(i
 											 % tileWidth)
 												* tileWidth,
-											//+
-											// xShiftValue,
-											//(numRows
-											//- 1) *
-											// tileHeight,
 											(numRows
 											 - 1) * tileHeight
 												/ 4,
-											/// 8,
 											GameResources
 												.officialTileSetAllignedBuildings,
 											tilesRenderPart
 												.get(Integer.parseInt(
 													tempList[i]))),
-										// new Vector2f( -(float)tileWidth / 2f, -(float)tileHeight / 2f)),
 										new Vector2f(
 											1,
-											0)
-
-											),
+											0)),
 									nextFreeIndex);
 						}
 					}
@@ -499,6 +342,143 @@ public class Map
 				"In TileMap addMapLayer ,file not found exception!"
 				+ e.getMessage());
 		}
+	}
+
+	public void addCollisionTile(int row, int col, int tileCord,
+				     int nextFreeIndex)
+	{
+		// if the collision tile is not on the 0th layer
+		if (mapLayers.size() > 1) {
+			// mark the tile at 0th layer as a wall
+			mapLayers.get(COLLISION_LAYER)
+				.unsafeGetComponentAt(
+					PathFindCord.class,
+					getEcsIndexFromWorldVector2f(
+						new Vector2f(row, col)))
+				.setIsWall(true);
+
+			// set the diffusion value of that tile to 0
+			mapLayers.get(COLLISION_LAYER)
+				.unsafeGetComponentAt(
+					PathFindCord.class,
+					getEcsIndexFromWorldVector2f(
+						new Vector2f(row, col)))
+				.setDiffusionValue(0f);
+		}
+		// on 0th layer
+		else {
+			// mark the tile at 0th layer as a wall
+			mapLayers.get(mapLayers.size() - 1)
+				.addComponentAt(
+					PathFindCord.class,
+					new PathFindCord(new Vector2f(row, col),
+							 true, 0),
+					nextFreeIndex);
+		}
+
+		Vector2f cbwc = new Vector2f(row, col);
+
+		// create temporary hitbox that deals with vector translation
+		PhysicsPCollisionBody tempHitBox = wallHitBox.get(tileCord);
+		tempHitBox.setPositionPoint(cbwc);
+		// use the temporary hitbox and add it as the collision tile
+		mapLayers.get(COLLISION_LAYER)
+			.addComponentAt(PhysicsPCollisionBody.class,
+					new PhysicsPCollisionBody(tempHitBox),
+					nextFreeIndex);
+	}
+
+	public Optional<Pair<BufferedImage, Pair<Float, Float>>>
+	getSpecialTile(int tileCord)
+	{
+		float specialWidth = 1f, specialHeight = 0f;
+		switch (tileCord) {
+		case 576:
+			// first tree
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.tree1,
+					new Pair<Float, Float>(
+						specialWidth - 1f,
+						specialHeight - 1f)));
+		case 577:
+			// second tree
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.tree2,
+					new Pair<Float, Float>(
+						specialWidth - 2f,
+						specialHeight - 2f)));
+		case 578:
+			// third tree
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.tree3,
+					new Pair<Float, Float>(
+						specialWidth - 1f,
+						specialHeight - 1f)));
+		case 579:
+			// fourth tree
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.tree4,
+					new Pair<Float, Float>(
+						specialWidth - 2f,
+						specialHeight - 2f)));
+
+		case 580:
+			// fifth tree
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.tree5,
+					new Pair<Float, Float>(
+						specialWidth - 2f,
+						specialHeight - 2f)));
+		case 674:
+			// first pole
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.pole1,
+					new Pair<Float, Float>(
+						specialWidth - 3f,
+						specialHeight - 3f)));
+
+		case 675:
+			// second pole
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.pole2,
+					new Pair<Float, Float>(
+						specialWidth - 3f,
+						specialHeight - 3f)));
+		case 676:
+			// third pole
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.pole3,
+					new Pair<Float, Float>(
+						specialWidth - 3f,
+						specialHeight - 3f)));
+		case 677:
+			// fourth pole
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.pole4,
+					new Pair<Float, Float>(
+						specialWidth - 3f,
+						specialHeight - 3f)));
+		case 686:
+			// stop sign
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.stopSign,
+					new Pair<Float, Float>(
+						specialWidth - 1f,
+						specialHeight - 1f)));
+		}
+
+		// if is not one of the special tiles, return empty
+		return Optional.empty();
 	}
 
 	/**
@@ -525,20 +505,6 @@ public class Map
 		}
 	}
 
-	// add here for future loop reference
-	/*
-		public void printMapLayer(int layerNumber)
-		{
-			ArrayList<TileCord> mapTileCordData =
-				mapLayers.get(layerNumber)
-					.getComponents()
-					.getRawComponentArrayListPackedData(
-						TileCord.class);
-			for (int i = 0; i < mapTileCordData.size(); ++i) {
-				mapTileCordData.get(i).print();
-			}
-		}
-		*/
 	/**
 	 * create the tile render objects
 	 *  @return      void
@@ -582,6 +548,7 @@ public class Map
 
 	/**
 	 * tells the wallState vector which index is a wall and which is not
+	 * (required for hard code each tile number since it is tile specific)
 	 *  @return      void
 	 */
 	public void createWallState()
@@ -607,14 +574,11 @@ public class Map
 			wallState.set(i, true);
 		}
 
-		// clang-format off
-		
-
 		// small chairs
 		wallState.set(80, true);
 		wallState.set(81, true);
 
-		//medium chairs
+		// medium chairs
 		wallState.set(683, true);
 		wallState.set(684, true);
 
@@ -622,64 +586,58 @@ public class Map
 		wallState.set(137, true);
 		wallState.set(122, true);
 
-		 //major packed vector error happens at ONLY fence2! idk why..
-		//fence 2
+		// fence 2
 		wallState.set(123, true);
 		wallState.set(140, true);
 
-		//fence 3
+		// fence 3
 		wallState.set(141, true);
 		wallState.set(126, true);
 
-		//fence 4
+		// fence 4
 		wallState.set(76, true);
 		wallState.set(93, true);
-		//buildings
-				//hitbox for the post sign
-			wallState.set(670, true);
-		//blue building 2
-			wallState.set(403, true);
-			wallState.set(404, true);
-			wallState.set(420, true);
+		// buildings
+		// hitbox for the post sign
 
-			wallState.set(421, true);
+		wallState.set(670, true);
+		// blue building 2
+		wallState.set(403, true);
+		wallState.set(404, true);
+		wallState.set(420, true);
+		wallState.set(421, true);
+		// cafe colored building 2:
 
-			//cafe colored building 2:
-			//
-			wallState.set(423, true);
-			wallState.set(440, true);
-			wallState.set(408, true);
-			wallState.set(424, true);
-			wallState.set(425, true);
+		wallState.set(423, true);
+		wallState.set(440, true);
+		wallState.set(408, true);
+		wallState.set(424, true);
+		wallState.set(425, true);
 
-		//school building 2
-			wallState.set(482, true);
-			wallState.set(498, true);
-			wallState.set(499, true);
-			wallState.set(515, true);
-			wallState.set(516, true);
+		// school building 2
+		wallState.set(482, true);
+		wallState.set(498, true);
+		wallState.set(499, true);
+		wallState.set(515, true);
+		wallState.set(516, true);
 
-			//white building 2
-			wallState.set(503, true);
-			wallState.set(519, true);
-			wallState.set(535, true);
-			wallState.set(518, true);
-			wallState.set(520, true);
-
-			//water fountain
-			wallState.set(316, true);
-			wallState.set(317, true);
-			wallState.set(332, true);
-			wallState.set(333, true);
-			wallState.set(300, true);
-			wallState.set(301, true);
-
-			//gas station
-			wallState.set(218, true);
-			wallState.set(219, true);
-			wallState.set(203, true);
-
-		// clang-format on
+		// white building 2
+		wallState.set(503, true);
+		wallState.set(519, true);
+		wallState.set(535, true);
+		wallState.set(518, true);
+		wallState.set(520, true);
+		// water fountain
+		wallState.set(316, true);
+		wallState.set(317, true);
+		wallState.set(332, true);
+		wallState.set(333, true);
+		wallState.set(300, true);
+		wallState.set(301, true);
+		// gas station
+		wallState.set(218, true);
+		wallState.set(219, true);
+		wallState.set(203, true);
 	}
 
 
