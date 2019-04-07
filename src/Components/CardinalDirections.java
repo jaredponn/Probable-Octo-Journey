@@ -9,6 +9,7 @@ package Components;
 
 import poj.Logger.*;
 import poj.linear.Vector2f;
+import java.util.concurrent.ThreadLocalRandom;
 
 public enum CardinalDirections {
 	N,
@@ -129,5 +130,21 @@ public enum CardinalDirections {
 				"MAJOR ERROR in getClosestDirectionFromDirectionVector -- error in calcluating the cardinal direction from the vector ");
 			return CardinalDirections.N;
 		}
+	}
+
+	private static Vector2f RNG_CARDINAL_DIR_VEC_BUF = new Vector2f();
+	public static CardinalDirections getRandomCardinalDirection()
+	{
+		// random int between 0 to 10 inclusive for x dir
+		int rx = ThreadLocalRandom.current().nextInt(0, 10 + 1);
+
+		// random int between 0 to 10 inclusive for y dir
+		int ry = ThreadLocalRandom.current().nextInt(0, 10 + 1);
+
+		RNG_CARDINAL_DIR_VEC_BUF.x = (float)rx / 10f;
+		RNG_CARDINAL_DIR_VEC_BUF.y = (float)ry / 10f;
+
+		return getClosestDirectionFromDirectionVector(
+			RNG_CARDINAL_DIR_VEC_BUF);
 	}
 }

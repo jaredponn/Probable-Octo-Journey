@@ -35,9 +35,14 @@ public class PCollisionBody implements Component
 		p = pb.pureGetPolygon();
 	}
 
-	protected Vector2f pureGetDisplacement()
+	public Vector2f pureGetDisplacement()
 	{
 		return new Vector2f(displacement);
+	}
+
+	public Vector2f getDisplacement()
+	{
+		return displacement;
 	}
 
 	public Vector2f pureGetCenter()
