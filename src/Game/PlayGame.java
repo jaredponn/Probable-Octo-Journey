@@ -262,14 +262,17 @@ public class PlayGame extends World
 	public void clearWorld()
 	{
 
-		this.renderThread.stop();
+		try {
+			this.renderThread.join();
+		} catch (Exception e) {
+			this.renderThread.stop();
+		}
 	}
 
 	// use super.acct for the accumulated time, use this.dt for the time
 	// step. Time is all in milliseconds
 	public void runGame()
 	{
-		Timer.START_BENCH();
 		this.mobSpawner();
 		try {
 			generateDiffusionMap.setStart();

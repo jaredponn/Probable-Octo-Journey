@@ -344,8 +344,7 @@ public class CombatFunctions
 	{
 		Vector2f turretPosition =
 			engineState.unsafeGetComponentAt(PHitBox.class, turret)
-				.getPolygon()
-				.pureGetAPointInPolygon(0);
+				.pureGetCenter();
 
 		Vector2f targetPosition =
 			engineState.unsafeGetComponentAt(PHitBox.class, target)
@@ -355,19 +354,28 @@ public class CombatFunctions
 		tmp.negate();
 		Vector2f unitVecturretPosTotargetDelta = tmp.pureNormalize();
 
+		// faces the turret in the right direction
+		engineState.unsafeGetComponentAt(HasAnimation.class, turret)
+			.setAnimation(
+				engineState
+					.unsafeGetComponentAt(
+						AnimationWindowAssets.class,
+						turret)
+					.getAnimation(
+						CardinalDirections.getClosestDirectionFromDirectionVector(
+							unitVecturretPosTotargetDelta),
+						GameConfig.ATTACK_ANIMATION));
+
 		// create projectile
 		int e = engineState.spawnEntitySet(
 			new CannonShell(turretPosition));
 		engineState.unsafeGetComponentAt(PhysicsPCollisionBody.class, e)
-			.setPositionPoint(
-				engineState
-					.unsafeGetComponentAt(
-						WorldAttributes.class, turret)
-					.getCenteredBottomQuarter());
+			.setPositionPoint(turretPosition);
 
 		float shellSpeed =
 			engineState.unsafeGetComponentAt(Movement.class, e)
 				.getSpeed();
+
 
 		engineState.unsafeGetComponentAt(Movement.class, e)
 			.setVelocity(unitVecturretPosTotargetDelta.pureMul(
