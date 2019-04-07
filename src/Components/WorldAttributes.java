@@ -5,8 +5,8 @@ import poj.linear.Rectanglef;
 
 /**
  * WorldAttributes. WorldAttributes component. the width and height should no
- * longer be used and are deprectaed. however, the coord is still useful and
- * very relevant
+ * longer be used and are deprectaed. however, the coord (or origin coord) is
+ * still useful and very relevant
  *
  * Date: March 10, 2019
  * @author Jared
