@@ -342,8 +342,10 @@ public class PlayGameProcessInputs
 			}
 
 			///// Quit Game /////
-			if (inputPoller.isKeyDown(GameConfig.QUIT_KEY))
+			if (inputPoller.isKeyDown(GameConfig.QUIT_KEY)) {
+				g.clearWorld();
 				g.quit();
+			}
 		}
 	}
 

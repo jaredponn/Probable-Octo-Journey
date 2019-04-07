@@ -247,7 +247,7 @@ public class PlayGame extends World
 		clearTime();
 
 		// start the path finding thread
-		this.generateDiffusionMap.start();
+		this.generateDiffusionMap.setStart();
 
 		// starts the render thread
 		this.renderThread.startThread();
@@ -263,9 +263,13 @@ public class PlayGame extends World
 	{
 
 		try {
-			this.renderThread.join();
+			this.generateDiffusionMap.setEnd();
+			this.renderThread.endThread();
 		} catch (Exception e) {
-			this.renderThread.stop();
+			System.out.println(
+				"thread exception happened in clear world");
+			this.renderThread.endThread();
+			this.generateDiffusionMap.setEnd();
 		}
 	}
 
@@ -274,13 +278,16 @@ public class PlayGame extends World
 	public void runGame()
 	{
 		this.mobSpawner();
+		/*
 		try {
 			generateDiffusionMap.setStart();
 		} catch (Exception ex) {
 			Logger.logMessage(
-				"an exception has occured in path finding generation thread "
+				"an exception has occured in path finding
+		generation thread "
 				+ ex);
 		}
+		*/
 
 		this.processInputs();
 
