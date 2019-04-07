@@ -477,7 +477,7 @@ public class Map
 												/ 4,
 											/// 8,
 											GameResources
-												.officialTileSetTest,
+												.officialTileSetAllignedBuildings,
 											tilesRenderPart
 												.get(Integer.parseInt(
 													tempList[i]))),
@@ -615,12 +615,6 @@ public class Map
 					   cbwc.pureAdd(1f, 1f)));
 		}
 
-		// TODO: IMPORTANT!
-		/*
-		 * For small objects (chairs, cars, fenes), look at test.csv
-		 * For buildings, look at the buildings.csv
-		 */
-
 		// clang-format off
 		// small chairs
 		wallState.set(80, true);
@@ -644,110 +638,60 @@ public class Map
 
 		// fence1
 		wallState.set(137, true);
-		wallHitBox.set(
-			137,
+		wallHitBox.set(137,
 			new PhysicsPCollisionBody(
 				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
-		/*
-		wallState.set(121, true);
-		wallHitBox.set(
-			121,
-			new PhysicsPCollisionBody(
-				new Vector2f(-1f, 0f), cbwc.pureAdd(0f, 0f),
-				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
-				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
-		
-				*/
 		wallState.set(122, true);
-		wallHitBox.set(
-			122,
+		wallHitBox.set(122,
 			new PhysicsPCollisionBody(
 				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
 
-
-		// fence2
-		
-		// left side of the fence
+		 //major packed vector error happens at ONLY fence2! idk why..
+		//fence 2
 		wallState.set(123, true);
-		wallHitBox.set(
-			123,
+		wallHitBox.set(123,
 			new PhysicsPCollisionBody(
 				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
-				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(1f, 0f),
-				cbwc.pureAdd(0f, 1f), cbwc.pureAdd(1f, 1f)));
-
-		// top right of the right side fences
-		wallState.set(124, true);
-		wallHitBox.set(
-			124,
-			new PhysicsPCollisionBody(
-				new Vector2f(0, 0), cbwc.pureAdd(1f, 1f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
-				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 0f)));
-		
-		// this one is the right side of the fence
-		
-		// 2nd one
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
 		wallState.set(140, true);
-		wallHitBox.set(
-			140,
-			new PhysicsPCollisionBody(
-				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
-				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(1f, 0f),
-				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
-		
-		wallState.set(107, true);
-		wallHitBox.set(
-			107,
+		wallHitBox.set(140,
 			new PhysicsPCollisionBody(
 				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
 				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
 				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
-		
-		// the top right part of fence of the right side
-		wallState.set(124, true);
-		wallHitBox.set(
-			124,
-			new PhysicsPCollisionBody(
-				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
-				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
-				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 0f)));
-		
-		// fence 3
-		//  bottom left side of the fence border/ left side
-		
-		wallState.set(412, true);
-		wallHitBox.set(
-			412,
-			new PhysicsPCollisionBody(
-				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
-				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
-				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 0f)));
-		
-		// bottom left side of the fence/ right side
-		
-		wallState.set(429, true);
-		wallHitBox.set(
-			429,
-			new PhysicsPCollisionBody(
-				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
-				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
-				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 0f)));
-		
-		// bottom left side of the fence/ top right side
-		
-		wallState.set(413, true);
-		wallHitBox.set(
-			413,
-			new PhysicsPCollisionBody(
-				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
-				cbwc.pureAdd(1f, 1f), cbwc.pureAdd(0f, 1f),
-				cbwc.pureAdd(0f, 1f), cbwc.pureAdd(0f, 1f)));
 
+		//fence 3
+		wallState.set(141, true);
+		wallHitBox.set(141,
+			new PhysicsPCollisionBody(
+				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
+		wallState.set(126, true);
+		wallHitBox.set(126,
+			new PhysicsPCollisionBody(
+				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
+
+		//fence 4
+		wallState.set(76, true);
+		wallHitBox.set(76,
+			new PhysicsPCollisionBody(
+				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
+		wallState.set(93, true);
+		wallHitBox.set(93,
+			new PhysicsPCollisionBody(
+				new Vector2f(0f, 0f), cbwc.pureAdd(0f, 0f),
+				cbwc.pureAdd(0f, 0f), cbwc.pureAdd(0f, 1f),
+				cbwc.pureAdd(1f, 0f), cbwc.pureAdd(1f, 1f)));
 		//buildings
 				//hitbox for the post sign
 			wallState.set(670, true);
@@ -781,35 +725,43 @@ public class Map
 			wallState.set(420, true);
 			wallHitBox.set(420, new PhysicsPCollisionBody(
 						  new Vector2f(0f, 0f),
+						  cbwc.pureAdd(0.25f,
+							       0.25f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
+
+			wallState.set(421, true);
+			wallHitBox.set(421, new PhysicsPCollisionBody(
+						  new Vector2f(0f, 0f),
+						  cbwc.pureAdd(0.25f,
+							       0.25f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
+
+			//cafe colored building 2:
+			//
+			wallState.set(423, true);
+			wallHitBox.set(423, new PhysicsPCollisionBody(
+						  new Vector2f(0f, 0f),
 						  cbwc.pureAdd(0.5f,
 							       0.5f), // center
 						  cbwc.pureAdd(0f, 0f), cbwc,
 						  cbwc.pureAdd(1f, 0f),
 						  cbwc.pureAdd(0f, 1f),
 						  cbwc.pureAdd(1f, 1f)));
-			//special empty block for blue building 2
-			wallState.set(422, true);
-			wallHitBox.set(422, new PhysicsPCollisionBody(
+			wallState.set(440, true);
+			wallHitBox.set(440, new PhysicsPCollisionBody(
 						  new Vector2f(0f, 0f),
-						  cbwc.pureAdd(0.25f,
-							       0.25f), // center
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
 						  cbwc.pureAdd(0f, 0f), cbwc,
 						  cbwc.pureAdd(1f, 0f),
-						  cbwc.pureAdd(0f, 0.5f),
-						  cbwc.pureAdd(1f, 0.5f)));
-
-
-			//cafe colored building 2:
-				//special empty tile : 378
-			wallState.set(378, true);
-			wallHitBox.set(378, new PhysicsPCollisionBody(
-						  new Vector2f(0f, 0f),
-						  cbwc.pureAdd(0.25f/2f,
-							       0.25f/2f), // center
-						  cbwc.pureAdd(0f, 0f), cbwc,
-						  cbwc.pureAdd(1f, 0f),
-						  cbwc.pureAdd(0f, 0.25f),
-						  cbwc.pureAdd(1f, 0.25f)));
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
 			wallState.set(408, true);
 			wallHitBox.set(408, new PhysicsPCollisionBody(
 						  new Vector2f(0f, 0f),
@@ -821,6 +773,15 @@ public class Map
 						  cbwc.pureAdd(1f, 1f)));
 			wallState.set(424, true);
 			wallHitBox.set(424, new PhysicsPCollisionBody(
+						  new Vector2f(0f, 0f),
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
+			wallState.set(425, true);
+			wallHitBox.set(425, new PhysicsPCollisionBody(
 						  new Vector2f(0f, 0f),
 						  cbwc.pureAdd(0.5f,
 							       0.5f), // center
@@ -873,18 +834,8 @@ public class Map
 							       0.5f), // center
 						  cbwc.pureAdd(0f, 0f), cbwc,
 						  cbwc.pureAdd(1f, 0f),
-						  cbwc.pureAdd(0f, 0.75f),
-						  cbwc.pureAdd(1f, 0.75f)));
-			//special empty block for school building 2: 517
-			wallState.set(517, true);
-			wallHitBox.set(517, new PhysicsPCollisionBody(
-						  new Vector2f(0f, 0f),
-						  cbwc.pureAdd(0.5f,
-							       0.5f), // center
-						  cbwc.pureAdd(0f, 0f), cbwc,
-						  cbwc.pureAdd(1f, 0f),
-						  cbwc.pureAdd(0f, 0.75f),
-						  cbwc.pureAdd(1f, 0.75f)));
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
 
 			//white building 2
 			wallState.set(503, true);
@@ -905,36 +856,33 @@ public class Map
 						  cbwc.pureAdd(1f, 0f),
 						  cbwc.pureAdd(0f, 1f),
 						  cbwc.pureAdd(1f, 1f)));
-			//front special tile: 521
-			wallState.set(521, true);
-			wallHitBox.set(521, new PhysicsPCollisionBody(
+			wallState.set(535, true);
+			wallHitBox.set(535, new PhysicsPCollisionBody(
 						  new Vector2f(0f, 0f),
-						  cbwc.pureAdd(0.1f,
-							       0.1f), // center
-						  cbwc.pureAdd(0f, 0f), cbwc,
-						  cbwc.pureAdd(0.45f, 0f),
-						  cbwc.pureAdd(0f, 1f),
-						  cbwc.pureAdd(0.45f, 1f)));
-			//right special tile: 505
-			wallState.set(505, true);
-			wallHitBox.set(505, new PhysicsPCollisionBody(
-						  new Vector2f(0f, 0f),
-						  cbwc.pureAdd(0.1f,
-							       0.1f), // center
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
 						  cbwc.pureAdd(0f, 0f), cbwc,
 						  cbwc.pureAdd(1f, 0f),
-						  cbwc.pureAdd(0f, 0.45f),
-						  cbwc.pureAdd(1f, 0.45f)));
-			//corner special tile: 489
-			wallState.set(489, true);
-			wallHitBox.set(489, new PhysicsPCollisionBody(
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
+			wallState.set(518, true);
+			wallHitBox.set(518, new PhysicsPCollisionBody(
 						  new Vector2f(0f, 0f),
-						  cbwc.pureAdd(0.1f,
-							       0.1f), // center
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
 						  cbwc.pureAdd(0f, 0f), cbwc,
-						  cbwc.pureAdd(0.35f, 0f),
-						  cbwc.pureAdd(0f, 0.35f),
-						  cbwc.pureAdd(0.35f, 0.35f)));
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
+			wallState.set(520, true);
+			wallHitBox.set(520, new PhysicsPCollisionBody(
+						  new Vector2f(0f, 0f),
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
 
 			//water fountain
 			wallState.set(316, true);
@@ -946,8 +894,9 @@ public class Map
 						  cbwc.pureAdd(1f, 0f),
 						  cbwc.pureAdd(0f, 1f),
 						  cbwc.pureAdd(1f, 1f)));
+
 			wallState.set(317, true);
-			wallHitBox.set(317, new PhysicsPCollisionBody(
+			wallHitBox.set(316, new PhysicsPCollisionBody(
 						  new Vector2f(0f, 0f),
 						  cbwc.pureAdd(0.5f,
 							       0.5f), // center
@@ -956,7 +905,7 @@ public class Map
 						  cbwc.pureAdd(0f, 1f),
 						  cbwc.pureAdd(1f, 1f)));
 			wallState.set(332, true);
-			wallHitBox.set(332, new PhysicsPCollisionBody(
+			wallHitBox.set(316, new PhysicsPCollisionBody(
 						  new Vector2f(0f, 0f),
 						  cbwc.pureAdd(0.5f,
 							       0.5f), // center
@@ -965,7 +914,7 @@ public class Map
 						  cbwc.pureAdd(0f, 1f),
 						  cbwc.pureAdd(1f, 1f)));
 			wallState.set(333, true);
-			wallHitBox.set(333, new PhysicsPCollisionBody(
+			wallHitBox.set(313, new PhysicsPCollisionBody(
 						  new Vector2f(0f, 0f),
 						  cbwc.pureAdd(0.5f,
 							       0.5f), // center
@@ -973,7 +922,24 @@ public class Map
 						  cbwc.pureAdd(1f, 0f),
 						  cbwc.pureAdd(0f, 1f),
 						  cbwc.pureAdd(1f, 1f)));
-
+			wallState.set(300, true);
+			wallHitBox.set(300, new PhysicsPCollisionBody(
+						  new Vector2f(0f, 0f),
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
+			wallState.set(301, true);
+			wallHitBox.set(301, new PhysicsPCollisionBody(
+						  new Vector2f(0f, 0f),
+						  cbwc.pureAdd(0.5f,
+							       0.5f), // center
+						  cbwc.pureAdd(0f, 0f), cbwc,
+						  cbwc.pureAdd(1f, 0f),
+						  cbwc.pureAdd(0f, 1f),
+						  cbwc.pureAdd(1f, 1f)));
 		// clang-format on
 	}
 

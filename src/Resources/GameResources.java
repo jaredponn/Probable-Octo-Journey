@@ -130,27 +130,6 @@ public class GameResources
 	static
 	{
 		try {
-			/*
-			// gun sounds
-			gunSound = new Sound(GameResources.gunSoundPath);
-			emptyClipSound =
-				new Sound(GameResources.emptyClipSoundPath);
-			// zombie sounds
-			zombieDeathSound1 =
-				new Sound(GameResources.zombieDeathSoundPath1);
-			zombieDeathSound2 =
-				new Sound(GameResources.zombieDeathSoundPath2);
-			zombieDeathSound3 =
-				new Sound(GameResources.zombieDeathSoundPath3);
-			zombieDeathSound4 =
-				new Sound(GameResources.zombieDeathSoundPath4);
-			zombieSpawnSound1 =
-				new Sound(GameResources.zombieSpawnSoundPath1);
-			zombieSpawnSound2 =
-				new Sound(GameResources.zombieSpawnSoundPath2);
-			zombieSpawnSound3 =
-				new Sound(GameResources.zombieSpawnSoundPath3);
-				*/
 			// game sounds
 			menuSound = new Sound(GameResources.menuSoundPath);
 			gameBgSound = new Sound(GameResources.gameBgSoundPath);
@@ -158,17 +137,7 @@ public class GameResources
 			menuSelectButtonSound =
 				new Sound(menuSelectButtonSoundPath);
 			healthPickupSound = new Sound(healthPickupSoundPath);
-			// player sounds
-			playerHpDropSound1 = new Sound(playerHpDropSound1Path);
-			playerHpDropSound2 = new Sound(playerHpDropSound2Path);
-			playerHpDropSound3 = new Sound(playerHpDropSound3Path);
-			playerHpDropSound4 = new Sound(playerHpDropSound4Path);
-			playerDeathSound1 = new Sound(playerDeathSoundPath1);
-			playerDeathSound2 = new Sound(playerDeathSoundPath2);
-			playerDeathSound3 = new Sound(playerDeathSoundPath3);
-			playerDeathSound4 = new Sound(playerDeathSoundPath4);
 			*/
-
 			// adding the sounds into player assets
 			playerSoundAsset.add(gunSoundPath);
 			playerSoundAsset.add(emptyClipSoundPath);
@@ -253,6 +222,8 @@ public class GameResources
 
 	public static BufferedImage officialTileSet =
 		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSprities.png");
+	public static BufferedImage officialTileSetAllignedBuildings =
+		ImageLoader.load("resources/RamiroGraphics/officialMap/mapAlignedSprite1.png");
 	public static BufferedImage officialTileSetTest =
 		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSpritiesWithLines.png");
 

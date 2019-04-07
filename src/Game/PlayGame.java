@@ -851,7 +851,6 @@ public class PlayGame extends World
 		this.guiBuffer = this.writeToRenderBuffer.getBuf(
 			PlayGameRenderBuffers.guiBuf);
 	}
-
 	// /ASE
 	//
 	protected Map getMap()
