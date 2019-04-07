@@ -39,10 +39,13 @@ public class GameWindow extends JFrame
 				System.exit(0);
 			}
 		});
-		// we can also use:
+		// alternatively, we can use this to handle the exit event:
 		// this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		this.setUndecorated(true);
+		//  for some reason this makes the game canvas not render
+		//  sometimes
+		// this.setUndecorated(true);
 	}
 
 	/**
@@ -55,8 +58,9 @@ public class GameWindow extends JFrame
 	{
 		this.add(gc);
 		this.pack();
-		this.setVisible(true);
 		gc.createBufferStrategy(2);
+
+		this.setVisible(true);
 	}
 
 

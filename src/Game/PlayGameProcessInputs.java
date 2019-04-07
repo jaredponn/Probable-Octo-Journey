@@ -250,9 +250,7 @@ public class PlayGameProcessInputs
 								PhysicsPCollisionBody
 									.class,
 								player)
-							.getPolygon()
-							.pureGetAPointInPolygon(
-								0);
+							.pureGetCenter();
 
 					int tmp = engineState.spawnEntitySet(
 						new TurretSet());
@@ -261,7 +259,34 @@ public class PlayGameProcessInputs
 						.unsafeGetComponentAt(
 							WorldAttributes.class,
 							tmp)
-						.setOriginCoord(playerPosition);
+						.setOriginCoord(playerPosition.pureSubtract(
+							engineState
+								.unsafeGetComponentAt(
+									PhysicsPCollisionBody
+										.class
+									,
+									tmp)
+								.getDisplacement()));
+
+
+					// make the turret face in a random
+					// direction
+					engineState
+						.unsafeGetComponentAt(
+							HasAnimation.class, tmp)
+						.setAnimation(
+							engineState
+								.unsafeGetComponentAt(
+									AnimationWindowAssets
+										.class
+									,
+									tmp)
+								.getAnimation(
+									CardinalDirections
+										.getRandomCardinalDirection(),
+									GameConfig
+										.ATTACK_ANIMATION));
+
 
 					System.out.println(
 						"Built a tower. It cost $"

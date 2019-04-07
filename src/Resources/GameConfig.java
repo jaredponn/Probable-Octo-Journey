@@ -14,6 +14,13 @@ import poj.linear.Vector2f;
 // is, the height and width of things are expressed as ratios of the tile size.
 public class GameConfig
 {
+
+	////////////////////////////////////
+	////// animation assets config /////
+	////////////////////////////////////
+	public static final int IDLE_ANIMATION = 0;
+	public static final int ATTACK_ANIMATION = 10;
+
 	//////////////////////////
 	////// player config /////
 	//////////////////////////
@@ -129,15 +136,20 @@ public class GameConfig
 	public static final AnimationWindowAssets
 		PLAYER_ANIMATION_WINDOW_ASSETS = new AnimationWindowAssets(
 			new Pair<OctoAnimationBuffer, Integer>(
-				GameResources.playerGunIdleAnimation, 0),
+				GameResources.playerGunIdleAnimation,
+				IDLE_ANIMATION),
 			new Pair<OctoAnimationBuffer, Integer>(
-				GameResources.playerGunMoveAnimation, 1),
+				GameResources.playerGunMoveAnimation,
+				IDLE_ANIMATION + 1),
 			new Pair<OctoAnimationBuffer, Integer>(
-				GameResources.playerMeleeIdleAnimation, 2),
+				GameResources.playerMeleeIdleAnimation,
+				IDLE_ANIMATION + 2),
 			new Pair<OctoAnimationBuffer, Integer>(
-				GameResources.playerMeleeMoveAnimation, 3),
+				GameResources.playerMeleeMoveAnimation,
+				IDLE_ANIMATION + 3),
 			new Pair<OctoAnimationBuffer, Integer>(
-				GameResources.playerMeleeAttackAnimation, 10));
+				GameResources.playerMeleeAttackAnimation,
+				ATTACK_ANIMATION));
 
 	/////////////////////////
 	///// turret config /////
@@ -145,15 +157,15 @@ public class GameConfig
 	public static final int TOWER_BUILD_COST = 250;
 	public static final PCollisionBody TURRET_COLLISION_BODY =
 		new PCollisionBody(
-			new Vector2f(-0.25f,
-				     1f), // displacement
+			new Vector2f(0.27f,
+				     1.24f), // displacement
 			new Vector2f(0.5f,
 				     0.5f), // center
 					    // collision body:
-			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
-			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
-			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
-			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
+			new Vector2f(0.35f, 0.5f), new Vector2f(0.65f, 0.5f),
+			new Vector2f(0.5f, 0.65f), new Vector2f(0.5f, 0.65f),
+			new Vector2f(0.5f, 0.35f), new Vector2f(0.35f, 0.5f),
+			new Vector2f(0.65f, 0.5f), new Vector2f(0.5f, 0.35f));
 	public static final int TURRET_HP = 100;
 	public static final int TURRET_MAX_HP = 100;
 	public static final float SHELL_SPEED = 0.04f;
@@ -164,6 +176,12 @@ public class GameConfig
 
 	public static final AttackCycle TURRET_ATTACK_CYCLE =
 		new AttackCycle(1000, 1000);
+
+	public static final AnimationWindowAssets
+		TURRET_ANIMATION_WINDOW_ASSETS = new AnimationWindowAssets(
+			new Pair<OctoAnimationBuffer, Integer>(
+				GameResources.turretAttackAnimation,
+				ATTACK_ANIMATION));
 
 	//////////////////////////
 	////// bullet config /////
