@@ -167,7 +167,7 @@ public class PlayGame extends World
 		*/
 
 
-		// setting the build turret coolDown
+		// setting the coolDown keys
 		for (int i = 0; i < GameConfig.COOL_DOWN_KEYS.size(); ++i) {
 			coolDownMax.set(GameConfig.COOL_DOWN_KEYS.get(i).fst,
 					GameConfig.COOL_DOWN_KEYS.get(i).snd);
@@ -264,10 +264,12 @@ public class PlayGame extends World
 
 		try {
 			this.generateDiffusionMap.setEnd();
+			this.generateDiffusionMap.join();
 			this.renderThread.endThread();
+			this.renderThread.join();
 		} catch (Exception e) {
 			System.out.println(
-				"thread exception happened in clear world");
+				"thread exception happened in clear world, and we are screwd");
 			this.renderThread.endThread();
 			this.generateDiffusionMap.setEnd();
 		}
