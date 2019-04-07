@@ -15,11 +15,6 @@ import poj.Render.ImageWindow;
 
 public class GameResources
 {
-	/*
-	public static BufferedImage testImage =
-		ImageLoader.load("resources/playerspritesheet.png");
-	*/
-
 	public static BufferedImage testImage =
 		ImageLoader.load("resources/playerspritesheet.png");
 
@@ -731,43 +726,49 @@ public class GameResources
 	public static final int TURRET_SPRITE_WIDTH = 250 / 4;
 	public static final int TURRET_SPRITE_HEIGHT = 150 / 2;
 
+	// public static final int TURRET_SPRITE_WIDTH = 250 / 4;
+	// public static final int TURRET_SPRITE_HEIGHT = 150 / 2;
+
+
 	public static Animation turretNAttackAnimation = new Animation(
 		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
-		0, TURRET_SPRITE_HEIGHT, TURRET_SPRITE_WIDTH * 8, 0,
-		TURRET_SPRITE_WIDTH * 8, TURRET_SPRITE_HEIGHT * 13);
+		0, 0, TURRET_SPRITE_WIDTH * 3, 0, TURRET_SPRITE_WIDTH * 3, 0);
 
 	public static Animation turretEAttackAnimation = new Animation(
 		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
-		0, TURRET_SPRITE_HEIGHT, TURRET_SPRITE_WIDTH * 9, 0,
-		TURRET_SPRITE_WIDTH * 9, TURRET_SPRITE_HEIGHT * 13);
+		0, 0, TURRET_SPRITE_WIDTH * 0, 0, TURRET_SPRITE_WIDTH * 0, 0);
 
 	public static Animation turretSAttackAnimation = new Animation(
 		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
-		0, TURRET_SPRITE_HEIGHT, TURRET_SPRITE_WIDTH * 10, 0,
-		TURRET_SPRITE_WIDTH * 10, TURRET_SPRITE_HEIGHT * 13);
+		0, 0, TURRET_SPRITE_WIDTH * 2, 0, TURRET_SPRITE_WIDTH * 2, 0);
 
 	public static Animation turretWAttackAnimation = new Animation(
 		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
-		0, TURRET_SPRITE_HEIGHT, TURRET_SPRITE_WIDTH * 11, 0,
-		TURRET_SPRITE_WIDTH * 11, TURRET_SPRITE_HEIGHT * 13);
+		0, 0, TURRET_SPRITE_WIDTH * 0, TURRET_SPRITE_HEIGHT * 1,
+		TURRET_SPRITE_WIDTH * 0, TURRET_SPRITE_HEIGHT * 1);
 
 	public static Animation turretNEAttackAnimation = new Animation(
 		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
-		0, TURRET_SPRITE_HEIGHT, TURRET_SPRITE_WIDTH * 12, 0,
-		TURRET_SPRITE_WIDTH * 12, TURRET_SPRITE_HEIGHT * 13);
+		0, 0, TURRET_SPRITE_WIDTH * 3, TURRET_SPRITE_HEIGHT * 1,
+		TURRET_SPRITE_WIDTH * 3, TURRET_SPRITE_HEIGHT * 1);
 
 	public static Animation turretSEAttackAnimation = new Animation(
 		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
-		0, TURRET_SPRITE_HEIGHT, TURRET_SPRITE_WIDTH * 13, 0,
-		TURRET_SPRITE_WIDTH * 13, TURRET_SPRITE_HEIGHT * 13);
+		0, 0, TURRET_SPRITE_WIDTH * 1, 0, TURRET_SPRITE_WIDTH * 1, 0);
 
 	public static Animation turretSWAttackAnimation = new Animation(
 		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
-		0, TURRET_SPRITE_HEIGHT, TURRET_SPRITE_WIDTH * 14, 0,
-		TURRET_SPRITE_WIDTH * 14, TURRET_SPRITE_HEIGHT * 13);
+		0, 0, TURRET_SPRITE_WIDTH * 3, 0, TURRET_SPRITE_WIDTH * 3, 0);
 
 	public static Animation turretNWAttackAnimation = new Animation(
 		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
-		0, TURRET_SPRITE_HEIGHT, TURRET_SPRITE_WIDTH * 15, 0,
-		TURRET_SPRITE_WIDTH * 15, TURRET_SPRITE_HEIGHT * 13);
+		0, 0, TURRET_SPRITE_WIDTH * 1, TURRET_SPRITE_HEIGHT * 1,
+		TURRET_SPRITE_WIDTH * 1, TURRET_SPRITE_HEIGHT * 1);
+
+	public static OctoAnimationBuffer turretAttackAnimation =
+		new OctoAnimationBuffer(
+			turretNAttackAnimation, turretNEAttackAnimation,
+			turretNWAttackAnimation, turretSAttackAnimation,
+			turretSEAttackAnimation, turretSWAttackAnimation,
+			turretWAttackAnimation, turretEAttackAnimation);
 }
