@@ -38,7 +38,7 @@ public class EngineState extends Components
 		super(max_entities);
 		freeIndices = new Stack<Integer>();
 
-		for (int i = max_entities; i >= 0; --i) {
+		for (int i = max_entities - 1; i >= 0; --i) {
 			freeIndices.push(i);
 		}
 	}

@@ -232,7 +232,8 @@ public class Map
 								// mark the tile
 								// at 0th layer
 								// as a wall
-								mapLayers.get(0)
+								mapLayers
+									.get(COLLISION_LAYER)
 									.unsafeGetComponentAt(
 										PathFindCord
 											.class
@@ -243,7 +244,8 @@ public class Map
 									.setIsWall(
 										true);
 
-								mapLayers.get(0)
+								mapLayers
+									.get(COLLISION_LAYER)
 									.unsafeGetComponentAt(
 										PathFindCord
 											.class
@@ -277,9 +279,10 @@ public class Map
 								numRows - 1,
 								i % mapWidth);
 
-							wallHitBox
-								.get(Integer.parseInt(
-									tempList[i]))
+							PhysicsPCollisionBody tempHitBox =
+								wallHitBox.get(Integer.parseInt(
+									tempList[i]));
+							tempHitBox
 								.setPositionPoint(
 									cbwc);
 
@@ -290,9 +293,7 @@ public class Map
 										.class
 									,
 									new PhysicsPCollisionBody(
-										wallHitBox
-											.get(Integer.parseInt(
-												tempList[i]))),
+										tempHitBox),
 									nextFreeIndex);
 						}
 						// if not on the wall
@@ -607,6 +608,8 @@ public class Map
 		}
 
 		// clang-format off
+		
+
 		// small chairs
 		wallState.set(80, true);
 		wallState.set(81, true);
