@@ -9,6 +9,7 @@ public class PCollisionBody implements Component
 	private Polygon p;
 	private Vector2f displacement;
 	private Vector2f center;
+	private GJK gjk;
 
 	/**
 	 * Constructs a PhysicsCollisionBody object that is used for collision
@@ -26,6 +27,7 @@ public class PCollisionBody implements Component
 		displacement = new Vector2f(d);
 		center = new Vector2f(c);
 		p = new Polygon(pts);
+		gjk = new GJK();
 	}
 
 	public PCollisionBody(PCollisionBody pb)
@@ -33,6 +35,7 @@ public class PCollisionBody implements Component
 		displacement = pb.pureGetDisplacement();
 		center = pb.pureGetCenter();
 		p = pb.pureGetPolygon();
+		gjk = new GJK();
 	}
 
 	public Vector2f pureGetDisplacement()
@@ -53,6 +56,31 @@ public class PCollisionBody implements Component
 	public Vector2f getCenter()
 	{
 		return center;
+	}
+
+	public GJK getGJK()
+	{
+		return gjk;
+	}
+
+	public boolean isCollidingWith(PCollisionBody p)
+	{
+		this.gjk.clearVerticies();
+		return this.gjk.areColliding(p.getPolygon(), this.getPolygon());
+	}
+
+	// d is this delta movement
+	public boolean isCollidingWith(Vector2f d, PCollisionBody p)
+	{
+		this.gjk.clearVerticies();
+		return this.gjk.areColliding(p.getPolygon(), this.getPolygon(),
+					     d);
+	}
+
+	public Vector2f calculateThisPenetrationVector(PCollisionBody p)
+	{
+		return this.gjk.calculatePenetrationVector(p.getPolygon(),
+							   this.getPolygon());
 	}
 
 	/**
