@@ -318,59 +318,6 @@ public class GJKTests
 		}
 	}
 
-	@Test public void timeOfPolygonCollisionTrue()
-	{ // oops this is objectively wrong
-		Polygon r1 =
-			new Polygon(new Vector2f(0, 1), new Vector2f(0, 0),
-				    new Vector2f(1, 1), new Vector2f(1, 0));
-
-		Polygon r2 =
-			new Polygon(new Vector2f(1, 1), new Vector2f(1, 0),
-				    new Vector2f(2, 1), new Vector2f(2, 0));
-
-		Vector2f d = new Vector2f(1, 0);
-
-
-		GJK gjk = new GJK();
-
-		gjk.clearVerticies();
-		assertEquals(
-			0d,
-			gjk.upperBoundTimeOfPolygonCollision(r1, r2, d).get(),
-			0.0001d);
-
-		System.out.println(
-			gjk.upperBoundTimeOfPolygonCollision(r1, r2, d).get());
-	}
-
-	@Test public void assortedTimeOfPolygonCollisionTest()
-	{
-
-		{
-			Polygon r1 = new Polygon(
-				new Vector2f(0, 1), new Vector2f(0, 0),
-				new Vector2f(1, 1), new Vector2f(1, 0));
-
-			Polygon r2 = new Polygon(
-				new Vector2f(10f, 1), new Vector2f(10f, 0),
-				new Vector2f(11f, 1), new Vector2f(11, 0));
-
-
-			Vector2f d = new Vector2f(1000f, 0.1f);
-
-			GJK gjk = new GJK();
-
-			gjk.clearVerticies();
-
-			Optional<Double> tmp =
-				gjk.upperBoundTimeOfPolygonCollision(r2, r1, d);
-			assertTrue(
-				gjk.upperBoundTimeOfPolygonCollision(r2, r1, d)
-					.isPresent());
-			System.out.println("to tmp " + tmp.get());
-		}
-	}
-
 
 	@Test public void moreRealWorldTests()
 	{
@@ -388,33 +335,6 @@ public class GJKTests
 		assertFalse(gjk.areColliding(r1, r2));
 		gjk.clearVerticies();
 		assertFalse(gjk.areColliding(r2, r1));
-	}
-
-
-	@Test public void extraCollisionTimeTests()
-	{
-
-		{
-			Polygon r1 = new Polygon(
-				new Vector2f(0, 1), new Vector2f(0, 0),
-				new Vector2f(1, 1), new Vector2f(1, 0));
-
-			Polygon r2 = new Polygon(
-				new Vector2f(0.5f, 1), new Vector2f(0.5f, 0),
-				new Vector2f(1.5f, 1), new Vector2f(1.5f, 0));
-
-
-			Vector2f d = new Vector2f(1f, 0);
-
-
-			GJK gjk = new GJK();
-
-			gjk.clearVerticies();
-
-			Optional<Double> tmp =
-				gjk.upperBoundTimeOfPolygonCollision(r1, r2, d);
-			System.out.println("to tmp " + tmp.get());
-		}
 	}
 
 
@@ -506,19 +426,5 @@ public class GJKTests
 			assertEquals(0.5f, tmp.x, 0.0001f);
 			assertEquals(0.0f, tmp.y, 0.0001f);
 		}
-	}
-
-	@Test public void determineCOllisionBodyBVectorTest()
-	{
-		Polygon r1 =
-			new Polygon(new Vector2f(0, 1), new Vector2f(0, 0),
-				    new Vector2f(1, 1), new Vector2f(1, 0));
-
-		Polygon r2 =
-			new Polygon(new Vector2f(0, 1), new Vector2f(0, 0),
-				    new Vector2f(1, 1), new Vector2f(1, 0));
-
-		GJK gjk = new GJK();
-		gjk.clearVerticies();
 	}
 }
