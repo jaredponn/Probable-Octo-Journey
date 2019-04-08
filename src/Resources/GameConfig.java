@@ -174,6 +174,22 @@ public class GameConfig
 	public static final PCollisionBody TURRET_HITBOX_BODY =
 		TURRET_COLLISION_BODY;
 
+	public static final PCollisionBody TURRET_AGGRO_BODY =
+		// clang-format off
+		new PCollisionBody(
+			new Vector2f(-1f, 12.5f),  // displacement
+			new Vector2f(0.15f/ 0.25f, 0.15f/ 0.25f), // center
+						    // collision body:
+			new Vector2f(0.25f / 0.05f, 1     / 0.05f),
+			new Vector2f(0.75f / 0.05f, 1     / 0.05f),
+			new Vector2f(0     / 0.05f, 0.75f / 0.05f),
+			new Vector2f(1     / 0.05f, 0.75f / 0.05f),
+			new Vector2f(0     / 0.05f, 0.25f / 0.05f),
+			new Vector2f(0.25f / 0.05f, 0     / 0.05f),
+			new Vector2f(0.75f / 0.05f, 0     / 0.05f),
+			new Vector2f(1     / 0.05f, 0.25f / 0.05f));
+	// clang-format on
+
 	public static final AttackCycle TURRET_ATTACK_CYCLE =
 		new AttackCycle(1000, 1000);
 
