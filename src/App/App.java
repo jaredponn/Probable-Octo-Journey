@@ -103,7 +103,7 @@ public class App
 			// start playing menu music
 			GameResources.menuSound.playContinuously();
 			while (runMenu) {
-				menu.runGame();
+				menu.runGameLoop();
 			}
 			// stop playing menu music
 			GameResources.menuSound.end();

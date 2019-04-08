@@ -119,11 +119,12 @@ public class MenuNew extends World
 	{
 		if (inputPoller.isKeyDown(KeyEvent.VK_P)) {
 			App.App.runMenu = false;
+			super.quit();
 		}
-		addMainMenuRenderBuffer();
 	}
 	public void render()
 	{
+		addMainMenuRenderBuffer();
 		this.renderer.renderBuffers(titleBuffer, buttonsBuffer);
 	}
 
@@ -151,7 +152,7 @@ public class MenuNew extends World
 			pCollisionBodyDebugRenderer(i, buttonsBuffer,
 						    Color.BLUE);
 		}
-		render();
+		// render();
 	}
 
 	public void pCollisionBodyDebugRenderer(final PCollisionBody pc,
