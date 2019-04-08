@@ -84,28 +84,30 @@ See `textbased/README.md` for more information about the text based version.
 # Announcements -- for Contributors:
 
 ## TODO List
-- [ ] REDO SPRITE (DONT FORGET THE WATER FOUNTAIN AND GAS STATION)for the tilemap so buildings fits the tiles perfectly (either delete or add new blocks)
-- [x] Damage numbers ? at least tell the user how much damage does the weapons do
-- [ ] Initials for the GAME OVER SCREEN (just need to relocate and do key cooldown)
-- [ ] Boss zombies (may need more graphics from Ramiro for this)
+- [ ] REDO SPRITE (DONT FORGET THE WATER FOUNTAIN AND GAS STATION)for the tilemap so buildings fit the tiles perfectly (either delete or add new blocks)
 - [ ] Make the hitboxes for the tilemap - Buildings are done 03/29/19 haiyang
-- [x] Aligning collision boxes for the players&zombie 
-- [ ] Game over screen (restart / play again, go back to menu) - half done
+- [ ] Game over screen (make it pretty)
 - [ ] Automated tests
 - [ ] Wave style of zombie spawning (e.g. a wave comes every 10 seconds and more zombies spawn as the game goes on)
-- [x] Audio - partially done
-- [x] Turret sprites - just need to be implemented (04/06/19 jared)
-- [x] Melee sprites with a more visible sword (04/06/19 jared)
+
+- [ ] Refactor to reduce code duplication
+- [ ] Comments / Javadoc
+- [ ] Optimization
+
+Maybe list (if we have time)
 - [ ] hp bars
-- [ ] bigger / prettier GUI font (now bigger, just need to make prettier)
-
-
-- [ ] make trying to close game window generate a confirmation prompt 
-- [ ] pause game (maybe)
+- [ ] Boss zombies (may need more graphics from Ramiro for this)
+- [ ] Prettier HUD
+- [ ] pause game
 - [ ] move pathfinding to its component and iterate through that to decide which entities to path find. Makes it easier for the attack cycler as well
 
 
 
+- [x] Damage numbers ? at least tell the user how much damage does the weapons do
+- [x] Aligning collision boxes for the players&zombie 
+- [x] Audio
+- [x] Turret sprites - just need to be implemented (04/06/19 jared)
+- [x] Melee sprites with a more visible sword (04/06/19 jared)
 - [x] flat damage bonus instead of percent modifier
 - [x] Slower zombie attacks
 - [x] Put back the poles beside the buildings 

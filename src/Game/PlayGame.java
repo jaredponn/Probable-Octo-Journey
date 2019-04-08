@@ -81,12 +81,6 @@ public class PlayGame extends World
 	// game event stack
 	PlayGameEventStack gameEventStack;
 
-	// Cooldown for keys
-	//protected static ArrayList<Double> coolDownMax = new ArrayList<Double>(
-	//	Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
-	//protected ArrayList<Double> lastCoolDown = new ArrayList<Double>(
-	//	Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
-
 	// Higher level game logic
 	protected int player;
 	protected static double EPSILON = 0.0001d;
@@ -329,7 +323,7 @@ public class PlayGame extends World
 			this.findBulletHits(i);
 		}
 
-		// attak cycles
+		// attack cycles
 		EntityCollisionAlgorithms
 			.startAttackCycleIfAggroRadiusCollidesPhysicsPCollisionBody(
 				this, TurretSet.class, MobSet.class);
