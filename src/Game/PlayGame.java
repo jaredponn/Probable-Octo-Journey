@@ -167,7 +167,7 @@ public class PlayGame extends World
 		*/
 
 
-		// setting the build turret coolDown
+		// setting the coolDown keys
 		for (int i = 0; i < GameConfig.COOL_DOWN_KEYS.size(); ++i) {
 			coolDownMax.set(GameConfig.COOL_DOWN_KEYS.get(i).fst,
 					GameConfig.COOL_DOWN_KEYS.get(i).snd);
@@ -247,7 +247,7 @@ public class PlayGame extends World
 		clearTime();
 
 		// start the path finding thread
-		this.generateDiffusionMap.start();
+		this.generateDiffusionMap.setStart();
 
 		// starts the render thread
 		this.renderThread.startThread();
@@ -263,9 +263,15 @@ public class PlayGame extends World
 	{
 
 		try {
+			this.generateDiffusionMap.setEnd();
+			this.generateDiffusionMap.join();
+			this.renderThread.endThread();
 			this.renderThread.join();
 		} catch (Exception e) {
-			this.renderThread.stop();
+			System.out.println(
+				"thread exception happened in clear world, and we are screwd");
+			this.renderThread.endThread();
+			this.generateDiffusionMap.setEnd();
 		}
 	}
 
@@ -274,13 +280,16 @@ public class PlayGame extends World
 	public void runGame()
 	{
 		this.mobSpawner();
+		/*
 		try {
 			generateDiffusionMap.setStart();
 		} catch (Exception ex) {
 			Logger.logMessage(
-				"an exception has occured in path finding generation thread "
+				"an exception has occured in path finding
+		generation thread "
 				+ ex);
 		}
+		*/
 
 		this.processInputs();
 

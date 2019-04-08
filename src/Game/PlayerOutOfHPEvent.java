@@ -31,7 +31,7 @@ public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
 				gameState.getEngineState().getInitialSetIndex(
 					PlayerSet.class))
 			.playSoundEffectAt(dead + 6);
-		gameState.renderThread.endThread();
+		gameState.clearWorld();
 		getPlayGame().quit();
 	}
 }
