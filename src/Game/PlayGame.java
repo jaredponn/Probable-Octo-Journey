@@ -82,10 +82,10 @@ public class PlayGame extends World
 	PlayGameEventStack gameEventStack;
 
 	// Cooldown for keys
-	protected static ArrayList<Double> coolDownMax = new ArrayList<Double>(
-		Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
-	protected ArrayList<Double> lastCoolDown = new ArrayList<Double>(
-		Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
+	//protected static ArrayList<Double> coolDownMax = new ArrayList<Double>(
+	//	Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
+	//protected ArrayList<Double> lastCoolDown = new ArrayList<Double>(
+	//	Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
 
 	// Higher level game logic
 	protected int player;

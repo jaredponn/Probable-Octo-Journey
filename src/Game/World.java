@@ -12,6 +12,7 @@ import poj.Component.*;
 import poj.Render.Renderer;
 import poj.GameWindow.InputPoller;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public abstract class World
 {
@@ -36,6 +37,11 @@ public abstract class World
 	// unpure references to objects
 	protected Renderer renderer;
 	protected InputPoller inputPoller;
+	
+	protected static ArrayList<Double> coolDownMax = new ArrayList<Double>(
+			Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
+		protected ArrayList<Double> lastCoolDown = new ArrayList<Double>(
+			Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
 
 	public World(int width, int height, Renderer renderer,
 		     InputPoller inputPoller)

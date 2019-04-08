@@ -14,7 +14,7 @@ import EntitySets.*;
 public class PlayGameProcessInputs
 {
 
-	protected static void updateCoolDownKeys(PlayGame g)
+	protected static void updateCoolDownKeys(World g)
 	{
 		for (int i = 0; i < Resources.GameConfig.COOL_DOWN_KEYS.size();
 		     ++i) {
@@ -24,7 +24,7 @@ public class PlayGameProcessInputs
 				g.dt / 1000);
 		}
 	}
-	protected static void updateDtForKey(PlayGame g, int keyIndex,
+	protected static void updateDtForKey(World g, int keyIndex,
 					     double val)
 	{
 		// if the key cooldown is not 0 is necessary here
