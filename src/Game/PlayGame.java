@@ -118,11 +118,14 @@ public class PlayGame extends World
 	protected StringRenderObject ammoDisplay =
 		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 4, 
 				Color.WHITE, GameConfig.HUD_FONT);
+	protected StringRenderObject damageBonusDisplay =
+			new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 5, 
+					Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject killDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 5, 
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 6, 
 				Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject mobCountDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 6, 
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 7, 
 				Color.WHITE, GameConfig.HUD_FONT);
 
 
@@ -350,6 +353,7 @@ public class PlayGame extends World
 		this.updateAmmoDisplay();
 		this.updateKillDisplay();
 		this.updateMobCountDisplay();
+		this.updateDamageBonusDisplay();
 
 		// updating positions
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
@@ -550,6 +554,13 @@ public class PlayGame extends World
 	{
 		this.mobCountDisplay.setStr("Total Zombies spawned: "
 					    + this.mobsSpawned);
+	}
+	
+	/** update damageBonusDisplay */
+	protected void updateDamageBonusDisplay()
+	{
+		this.damageBonusDisplay.setStr("Current bullet damage: "
+					    + (GameConfig.BULLET_DAMAGE+playerDamageBonus));
 	}
 
 	/**
