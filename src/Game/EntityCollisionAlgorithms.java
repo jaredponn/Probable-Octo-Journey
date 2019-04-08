@@ -1,13 +1,12 @@
 package Game;
 
 /**
- * PlayGame -- main class that plays the game (input, render, engine transforms,
- * etc) - giant conglomeration of all the state and the seat and tears and blood
- * of our team put togtether to put together this project.
+ * EntityCollisionAlgorithms. Generalized and specilized collision algrotihms
+ * for entities against entities.
  *
- * Date: March 12, 2019
+ * Date: Aptil 5, 2019
  * 2019
- * @author Jared Pon, Haiyang He, Romirio Piqer, Alex Stark
+ * @author Jared Pon
  * @version 1.0
  */
 import java.util.Optional;

@@ -64,7 +64,7 @@ public class TileMapCollisionAlgorithms
 		return q;
 	}
 
-	public static void nudgePhysicsPCollisionBodiesOutsideTileMap(
+	public static void nudgePhysicsPCollisionBodiesOutsideTileMapON(
 		PlayGame g, Class<? extends Component> set)
 	{
 		EngineState engineState = g.getEngineState();
@@ -161,9 +161,13 @@ public class TileMapCollisionAlgorithms
 
 	private static ArrayList<CollisionShape> QUERIED_Q_TREE_COLLISION_BUF =
 		new ArrayList<CollisionShape>(100);
-	public static void
-	nudgePhysicsPCollisionBodiesOutsideTileMapWithQuadTree(
-		PlayGame g, Class<? extends Component> set)
+
+	public static <T extends PCollisionBody, U extends PCollisionBody> void
+	ifSetPCollisionBodyIsCollidingWithTileMapCollisionBodyRunGameEventUsingQuadTree(
+		PlayGame g, Class<? extends Component> set,
+		Class<T> setCollisionType, Class<T> tileMapCollisionType,
+		FocusedPlayGameEvent event)
+
 	{
 		EngineState engineState = g.getEngineState();
 		GJK gjk = g.getGJK();
@@ -172,15 +176,14 @@ public class TileMapCollisionAlgorithms
 		     Components.isValidEntity(i);
 		     i = engineState.getNextSetIndex(set, i)) {
 
-			final Optional<PhysicsPCollisionBody> a =
-				engineState.getComponentAt(
-					PhysicsPCollisionBody.class, i);
+			final Optional<? extends Component> aOpt =
+				engineState.getComponentAt(setCollisionType, i);
 
 			Optional<WorldAttributes> aw =
 				engineState.getComponentAt(
 					WorldAttributes.class, i);
 
-			if (!a.isPresent())
+			if (!aOpt.isPresent())
 				continue;
 
 			if (!aw.isPresent())
@@ -189,53 +192,38 @@ public class TileMapCollisionAlgorithms
 			QuadTree qtree = g.getTileMapCollisionQuadTree();
 
 			QUERIED_Q_TREE_COLLISION_BUF.clear();
-			qtree.queryCollisions(a.get().getPolygon(),
+
+			final PCollisionBody a = (PCollisionBody)aOpt.get();
+
+
+			qtree.queryCollisions(a.getPolygon(),
 					      QUERIED_Q_TREE_COLLISION_BUF);
 
 			for (CollisionShape cs : QUERIED_Q_TREE_COLLISION_BUF) {
 				gjk.clearVerticies();
-				if (gjk.areColliding(cs,
-						     a.get().getPolygon())) {
-					Systems.nudgeCollisionBodyBOutOfA(
-						cs, a.get(), aw.get(), gjk);
+				if (a.isCollidingWith(cs)) {
+
+					event.setFocus(i);
+					event.f();
 				}
 			}
 		}
 	}
 
 
-	public static void nudgePhysicsPCollisionBodiesOutsideTileMap(
-		EngineState engineState, GJK g,
-		final Class<? extends Component> set0, final MapLayer map)
+	private static NudgeAOutOfBPCollisionBodyEvent<
+		PhysicsPCollisionBody> NUDGE_A_OUT_OF_B_P_COLLISION_BODY_MEMO =
+		new NudgeAOutOfBPCollisionBodyEvent<PhysicsPCollisionBody>(
+			PhysicsPCollisionBody.class);
+
+	public static void
+	nudgePhysicsPCollisionBodiesOutsideTileMapPhysicsPCollisionBody(
+		PlayGame g, Class<? extends Component> set)
 	{
-		for (int i = engineState.getInitialSetIndex(set0);
-		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(set0, i)) {
-
-			final Optional<PhysicsPCollisionBody> a =
-				engineState.getComponentAt(
-					PhysicsPCollisionBody.class, i);
-
-			Optional<WorldAttributes> aw =
-				engineState.getComponentAt(
-					WorldAttributes.class, i);
-
-			if (!a.isPresent())
-				continue;
-
-			if (!aw.isPresent())
-				continue;
-
-			for (PhysicsPCollisionBody b :
-			     map.getRawComponentArrayListPackedData(
-				     PhysicsPCollisionBody.class)) {
-				g.clearVerticies();
-				if (g.areColliding(b.getPolygon(),
-						   a.get().getPolygon())) {
-					Systems.nudgeCollisionBodyBOutOfA(
-						b, a.get(), aw.get(), g);
-				}
-			}
-		}
+		NUDGE_A_OUT_OF_B_P_COLLISION_BODY_MEMO.setPlayGame(g);
+		ifSetPCollisionBodyIsCollidingWithTileMapCollisionBodyRunGameEventUsingQuadTree(
+			g, set, PhysicsPCollisionBody.class,
+			PhysicsPCollisionBody.class,
+			NUDGE_A_OUT_OF_B_P_COLLISION_BODY_MEMO);
 	}
 }
