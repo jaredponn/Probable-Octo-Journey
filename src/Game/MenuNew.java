@@ -118,7 +118,6 @@ public class MenuNew extends World
 	public void processInputs()
 	{
 		if (inputPoller.isKeyDown(KeyEvent.VK_P)) {
-			App.App.runMenu = false;
 			super.quit();
 		}
 	}

@@ -35,7 +35,6 @@ public class App
 
 	// boolean to keep track if the game is running
 	boolean isRunning;
-	public static boolean runMenu = true;
 	private int width;
 	private int height;
 
@@ -89,22 +88,12 @@ public class App
 	{
 
 
-		// Menu menu = new Menu(width, height, this.renderer,
-		// this.inputPoller);
-		MenuNew menu = new MenuNew(width, height, this.renderer,
-					   this.inputPoller);
-		// menu.registerComponents();
-		// menu.registerEntitySets();
-		// start playing game background music
 		while (isRunning) {
-			runMenu = true; // this is so bad
-
-
+			MenuNew menu = new MenuNew(width, height, this.renderer,
+						   this.inputPoller);
 			// start playing menu music
 			GameResources.menuSound.playContinuously();
-			while (runMenu) {
-				menu.runGameLoop();
-			}
+			menu.runGameLoop();
 			// stop playing menu music
 			GameResources.menuSound.end();
 
