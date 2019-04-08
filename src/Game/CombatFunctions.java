@@ -99,6 +99,7 @@ public class CombatFunctions
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, bulletBody, mobBody)) {
 
+				// TODO: make it so turrets don't get bonus damage
 				mainState
 					.unsafeGetComponentAt(HitPoints.class,
 							      i)
@@ -108,7 +109,7 @@ public class CombatFunctions
 								Damage.class,
 								bullet)
 							.getDamage()
-						* g.playerDamageBonus)));
+						+ g.playerDamageBonus)));
 				removeBullet(mainState, bullet);
 
 

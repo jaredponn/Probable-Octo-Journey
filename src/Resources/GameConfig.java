@@ -376,7 +376,7 @@ public class GameConfig
 	public static final int PICKUP_CASH_AMOUNT = 100;
 	public static final float PICKUP_CASH_SPAWN_TIME = 20.0f;
 	// power-up:
-	public static final double PICKUP_POWERUP_AMOUNT = 0.05;
+	public static final int PICKUP_POWERUP_AMOUNT = 5;
 	public static final float PICKUP_POWERUP_SPAWN_TIME = 20.0f;
 	// health:
 	public static final int PICKUP_HEALTHPACK_AMOUNT = 50;

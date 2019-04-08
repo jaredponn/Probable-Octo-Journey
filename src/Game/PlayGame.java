@@ -92,7 +92,7 @@ public class PlayGame extends World
 	protected static double EPSILON = 0.0001d;
 	protected WeaponState curWeaponState = WeaponState.Gun;
 
-	protected double playerDamageBonus = 1d;
+	protected int playerDamageBonus = 0;
 	protected Ammo playerAmmo = new Ammo(GameConfig.PLAYER_STARTING_AMMO,
 					     GameConfig.PLAYER_MAX_AMMO);
 	protected int cash = GameConfig.PLAYER_STARTING_CASH;
