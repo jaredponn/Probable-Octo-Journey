@@ -28,6 +28,7 @@ public class TurretSet extends EntitySet
 		addComponent(new HitPoints(GameConfig.TURRET_HP,
 					   GameConfig.TURRET_MAX_HP));
 		addComponent(new PHitBox(GameConfig.TURRET_HITBOX_BODY));
+		addComponent(new AggroRange(GameConfig.TURRET_AGGRO_BODY));
 		addComponent(new AttackCycle(GameConfig.TURRET_ATTACK_CYCLE));
 		addComponent(new Ammo(GameConfig.TURRET_STARTING_AMMO,
 				      GameConfig.TURRET_STARTING_AMMO));
