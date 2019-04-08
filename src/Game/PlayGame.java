@@ -297,7 +297,7 @@ public class PlayGame extends World
 
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
-		this.handleTurrets();
+		// this.handleTurrets();
 
 		// de-spawn entities with lifespans
 		this.timedDespawner();
@@ -320,16 +320,16 @@ public class PlayGame extends World
 			this.findBulletHits(i);
 		}
 
-		// mobs touching players
-		CombatFunctions
-			.startAttackCycleOfSetAIfAggroCollisionBodyAreCollidingWithSetBPHitBox(
-				engineState, gjk, MobSet.class,
-				PlayerSet.class);
-
-		CombatFunctions
-			.startAttackCycleOfSetAIfAggroCollisionBodyAreCollidingWithSetBPHitBox(
-				engineState, gjk, MobSet.class,
-				TurretSet.class);
+		// attak cycles
+		EntityCollisionAlgorithms
+			.startAttackCycleIfAggroRadiusCollidesPhysicsPCollisionBody(
+				this, TurretSet.class, MobSet.class);
+		EntityCollisionAlgorithms
+			.startAttackCycleIfAggroRadiusCollidesPhysicsPCollisionBody(
+				this, MobSet.class, PlayerSet.class);
+		EntityCollisionAlgorithms
+			.startAttackCycleIfAggroRadiusCollidesPhysicsPCollisionBody(
+				this, MobSet.class, TurretSet.class);
 
 		EngineTransforms.pushOutOfHPEventsIfHPIsZeroOrLess(this);
 

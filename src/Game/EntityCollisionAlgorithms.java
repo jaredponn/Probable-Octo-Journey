@@ -10,56 +10,20 @@ package Game;
  * @author Jared Pon, Haiyang He, Romirio Piqer, Alex Stark
  * @version 1.0
  */
-
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.util.Queue;
-import java.util.LinkedList;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
 
 import Components.*;
-import EntitySets.AmmoPack;
-import EntitySets.Bullet;
-import EntitySets.CannonShell;
-import EntitySets.CollectibleSet;
-import EntitySets.PowerUp;
-import EntitySets.ConstructSet;
-import EntitySets.HealthPack;
-import EntitySets.MobSet;
-import EntitySets.PlayerSet;
-import EntitySets.TurretSet;
-import PathFinding.MapGeneration;
-import Resources.GameConfig;
-import Resources.GameResources;
-import TileMap.Map;
-import TileMap.MapLayer;
-
-import poj.Render.*;
-import poj.GameWindow.*;
 import poj.Component.*;
-import poj.Collisions.GJK;
-import poj.Collisions.QuadTree;
-import poj.Collisions.Rectangle;
-import poj.Logger.Logger;
-import poj.Render.MinYFirstSortedRenderObjectBuffer;
-import poj.Time.*;
-import poj.Render.RenderObject;
-import poj.Render.StringRenderObject;
-import poj.linear.Vector2f;
 import poj.EngineState;
 
 
 public class EntityCollisionAlgorithms
 {
-
-	public static <T extends PCollisionBody> void
+	public static <T extends PCollisionBody, U extends PCollisionBody> void
 	ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
 		PlayGame g, Class<? extends Component> a,
-		Class<? extends Component> b, Class<T> collisionBodyType,
-		FocusedPlayGameEvent event)
+		Class<? extends Component> b, Class<T> collisionBodyTypeA,
+		Class<U> collisionBodyTypeB, FocusedPlayGameEvent event)
 	{
 		EngineState engineState = g.getEngineState();
 
@@ -68,7 +32,7 @@ public class EntityCollisionAlgorithms
 		     i = engineState.getNextSetIndex(a, i)) {
 
 			Optional<? extends Component> apopt =
-				engineState.getComponentAt(collisionBodyType,
+				engineState.getComponentAt(collisionBodyTypeA,
 							   i);
 
 			if (!apopt.isPresent())
@@ -82,7 +46,7 @@ public class EntityCollisionAlgorithms
 
 				Optional<? extends Component> bpopt =
 					engineState.getComponentAt(
-						collisionBodyType, j);
+						collisionBodyTypeB, j);
 
 				if (!bpopt.isPresent())
 					continue;
@@ -95,6 +59,18 @@ public class EntityCollisionAlgorithms
 				}
 			}
 		}
+	}
+
+
+	public static <T extends PCollisionBody> void
+	ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
+		PlayGame g, Class<? extends Component> a,
+		Class<? extends Component> b, Class<T> collisionBodyType,
+		FocusedPlayGameEvent event)
+	{
+
+		ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
+			g, a, b, collisionBodyType, collisionBodyType, event);
 	}
 
 
@@ -111,5 +87,20 @@ public class EntityCollisionAlgorithms
 		ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
 			g, a, b, PhysicsPCollisionBody.class,
 			NUDGE_A_OUT_OF_B_P_COLLISION_BODY_MEMO);
+	}
+
+
+	private static StartAttackCycleEvent START_ATTACK_CYCLE_EVENT_MEMO =
+		new StartAttackCycleEvent();
+	public static void
+	startAttackCycleIfAggroRadiusCollidesPhysicsPCollisionBody(
+		PlayGame g, Class<? extends Component> a,
+		Class<? extends Component> b)
+	{
+		START_ATTACK_CYCLE_EVENT_MEMO.setPlayGame(g);
+
+		ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
+			g, a, b, AggroRange.class, PhysicsPCollisionBody.class,
+			START_ATTACK_CYCLE_EVENT_MEMO);
 	}
 }
