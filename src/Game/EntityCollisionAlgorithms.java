@@ -39,6 +39,7 @@ import TileMap.MapLayer;
 
 import poj.Render.*;
 import poj.GameWindow.*;
+import poj.Component.*;
 import poj.Collisions.GJK;
 import poj.Collisions.QuadTree;
 import poj.Collisions.Rectangle;
@@ -50,12 +51,51 @@ import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
 import poj.EngineState;
 
-import java.io.IOException;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.sound.sampled.Clip;
-
 
 public class EntityCollisionAlgorithms
 {
+
+	public static void ifSetAAndBPhysicsBodyAreCollidingRunGameEvent(
+		PlayGame g, Class<? extends Component> a,
+		Class<? extends Component> b, PlayGameEvent event)
+	{
+		EngineState engineState = g.getEngineState();
+
+		for (int i = 0; engineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(a, i)) {
+
+			Optional<PhysicsPCollisionBody> apopt =
+				engineState.getComponentAt(
+					PhysicsPCollisionBody.class, i);
+
+			if (!apopt.isPresent())
+				continue;
+
+			PhysicsPCollisionBody ap = apopt.get();
+
+
+			for (int j = 0; engineState.isValidEntity(j);
+			     j = engineState.getNextSetIndex(b, j)) {
+
+				Optional<PhysicsPCollisionBody> bpopt =
+					engineState.getComponentAt(
+						PhysicsPCollisionBody.class, i);
+
+				if (!bpopt.isPresent())
+					continue;
+
+				PhysicsPCollisionBody bp = bpopt.get();
+
+				if (ap.isCollidingWith(bp))
+					event.f();
+			}
+		}
+	}
+
+	public static <T extends PCollisionBody> void f(EngineState e,
+							Class<T> a)
+	{
+		Optional<PCollisionBody> test =
+			(Optional<PCollisionBody>)e.getComponentAt(a, 2);
+	}
 }
