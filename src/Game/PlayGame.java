@@ -107,17 +107,23 @@ public class PlayGame extends World
 		0.0 - GameConfig.PICKUP_POWERUP_SPAWN_TIME;
 
 	protected StringRenderObject gameTimer =
-		new StringRenderObject("", 5, 10, Color.WHITE);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 1, 
+				Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject cashDisplay = new StringRenderObject(
-		"Your Cash: " + this.cash, 5, 20, Color.WHITE);
+		"Your Cash: " + this.cash, 5, GameConfig.HUD_LINE_SPACING * 2, 
+				Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject healthDisplay =
-		new StringRenderObject("", 5, 30, Color.WHITE);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 3, 
+				Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject ammoDisplay =
-		new StringRenderObject("", 5, 40, Color.WHITE);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 4, 
+				Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject killDisplay =
-		new StringRenderObject("", 5, 50, Color.WHITE);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 5, 
+				Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject mobCountDisplay =
-		new StringRenderObject("", 5, 60, Color.WHITE);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 6, 
+				Color.WHITE, GameConfig.HUD_FONT);
 
 
 	// Collision detection and resolution

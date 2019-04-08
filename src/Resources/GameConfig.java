@@ -15,15 +15,22 @@ import poj.linear.Vector2f;
 public class GameConfig
 {
 
-	////////////////////////////////////
-	////// animation assets config /////
-	////////////////////////////////////
+	////////////////////////
+	////// HUD config //////
+	////////////////////////
+	public static final int HUD_FONT_SIZE = 20;
+	public static final int HUD_LINE_SPACING = HUD_FONT_SIZE;
+	public static final Font HUD_FONT = new Font ("TimesRoman", Font.PLAIN, HUD_FONT_SIZE);
+	
+	/////////////////////////////////////
+	////// animation assets config //////
+	/////////////////////////////////////
 	public static final int IDLE_ANIMATION = 0;
 	public static final int ATTACK_ANIMATION = 10;
 
-	//////////////////////////
-	////// player config /////
-	//////////////////////////
+	///////////////////////////
+	////// player config //////
+	///////////////////////////
 	public static final float PLAYER_SPEED = 0.0015f;
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
