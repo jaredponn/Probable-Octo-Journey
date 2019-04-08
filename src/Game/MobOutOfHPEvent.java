@@ -104,8 +104,8 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 			.setAnimation(animWindowAssets.getAnimation(
 				mv.getDirection(), 30));
 
-		gameState.killCount++;
-		if (gameState.killCount >= gameState.mobsSpawned)
+		gameState.killCount.increase();
+		if (gameState.killCount.get() >= gameState.mobsSpawned)
 			gameState.lastWaveDefeatedAt = gameState.getPlayTime();
 		int dropRoll = ThreadLocalRandom.current().nextInt(0, 99) + 1;
 		if (dropRoll >= (100 - GameConfig.MOB_DROP_RATE)) {

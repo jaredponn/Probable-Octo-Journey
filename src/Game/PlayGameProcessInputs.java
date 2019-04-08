@@ -238,7 +238,7 @@ public class PlayGameProcessInputs
 				if (Math.abs(g.lastCoolDown.get(
 					    GameConfig.BUILD_TOWER))
 					    == 0d
-				    && g.cash >= GameConfig.TOWER_BUILD_COST) {
+				    && g.playerMoney.get() >= GameConfig.TOWER_BUILD_COST) {
 					// player position is also the top left
 					// of the polygon !
 					Vector2f playerPosition =
@@ -251,7 +251,7 @@ public class PlayGameProcessInputs
 
 					int tmp = engineState.spawnEntitySet(
 						new TurretSet());
-					g.cash -= 250;
+					g.playerMoney.decrease(250);
 					engineState
 						.unsafeGetComponentAt(
 							WorldAttributes.class,
@@ -298,7 +298,7 @@ public class PlayGameProcessInputs
 					// lastCoolDown.set(GameConfig.BUILD_TOWER,
 					//-coolDownMax.get(
 					// GameConfig.BUILD_TOWER));
-				} else if (g.cash < GameConfig.TOWER_BUILD_COST)
+				} else if (g.playerMoney.get() < GameConfig.TOWER_BUILD_COST)
 					System.out.print(
 						"Not enough cash to build a turret\nYou need at least $"
 						+ GameConfig.TOWER_BUILD_COST
@@ -318,16 +318,15 @@ public class PlayGameProcessInputs
 				if (Math.abs(g.lastCoolDown.get(
 					    GameConfig.BUY_AMMO))
 					    == 0d
-				    && g.cash >= GameConfig.PURCHASE_AMMOPACK_AMOUNT
+				    && g.playerMoney.get() >= GameConfig.PURCHASE_AMMOPACK_AMOUNT
 							 * GameConfig
 								   .BULLET_COST) {
 					g.playerAmmo.increaseAmmo(
 						GameConfig
 							.PURCHASE_AMMOPACK_AMOUNT);
-					g.cash -=
-						GameConfig
+					g.playerMoney.decrease(GameConfig
 							.PURCHASE_AMMOPACK_AMOUNT
-						* GameConfig.BULLET_COST;
+						* GameConfig.BULLET_COST);
 					updateDtForKey(
 						g, GameConfig.BUY_AMMO,
 						-PlayGame.coolDownMax.get(
