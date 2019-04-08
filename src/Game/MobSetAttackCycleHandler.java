@@ -89,8 +89,8 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 
 			// debug rendering
 			Systems.pCollisionBodyDebugRenderer(
-				pmob, Game.PlayGame.debugBuffer, playGame.cam,
-				Color.orange);
+				pmob, super.getPlayGame().debugBuffer,
+				playGame.cam, Color.orange);
 
 			boolean playerHitByMob =
 				EngineTransforms

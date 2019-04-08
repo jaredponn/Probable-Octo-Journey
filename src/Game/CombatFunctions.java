@@ -69,11 +69,8 @@ public class CombatFunctions
 	public static void bulletHitHandler(PlayGame g, int bullet)
 	{
 		EngineState mainState = g.getEngineState();
-		EngineState mapState0 = g.getMap().getLayerEngineState(0);
-		EngineState mapState1 = g.getMap().getLayerEngineState(1);
-		EngineState mapState2 = g.getMap().getLayerEngineState(2);
-		EngineState mapState3 = g.getMap().getLayerEngineState(3);
-		EngineState mapState4 = g.getMap().getLayerEngineState(4);
+		EngineState mapState0 = g.getMap().getLayerEngineState(
+			g.getMap().COLLISION_LAYER);
 		// map layer 0: ???
 		//			 1: map edge and small rocks
 		//			 2: cars and buildings
@@ -124,25 +121,7 @@ public class CombatFunctions
 
 		// check for bullet collision with wall
 		for (PhysicsPCollisionBody wall :
-		     mapState1.getRawComponentArrayListPackedData(
-			     PhysicsPCollisionBody.class)) {
-			if (Systems.arePCollisionBodiesColliding(
-				    gjk, bulletBody, wall)) {
-				removeBullet(mainState, bullet);
-				return;
-			}
-		}
-		for (PhysicsPCollisionBody wall :
-		     mapState2.getRawComponentArrayListPackedData(
-			     PhysicsPCollisionBody.class)) {
-			if (Systems.arePCollisionBodiesColliding(
-				    gjk, bulletBody, wall)) {
-				removeBullet(mainState, bullet);
-				return;
-			}
-		}
-		for (PhysicsPCollisionBody wall :
-		     mapState3.getRawComponentArrayListPackedData(
+		     mapState0.getRawComponentArrayListPackedData(
 			     PhysicsPCollisionBody.class)) {
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, bulletBody, wall)) {
@@ -365,8 +344,7 @@ public class CombatFunctions
 	{
 		Vector2f turretPosition =
 			engineState.unsafeGetComponentAt(PHitBox.class, turret)
-				.getPolygon()
-				.pureGetAPointInPolygon(0);
+				.pureGetCenter();
 
 		Vector2f targetPosition =
 			engineState.unsafeGetComponentAt(PHitBox.class, target)
@@ -376,26 +354,36 @@ public class CombatFunctions
 		tmp.negate();
 		Vector2f unitVecturretPosTotargetDelta = tmp.pureNormalize();
 
+		// faces the turret in the right direction
+		engineState.unsafeGetComponentAt(HasAnimation.class, turret)
+			.setAnimation(
+				engineState
+					.unsafeGetComponentAt(
+						AnimationWindowAssets.class,
+						turret)
+					.getAnimation(
+						CardinalDirections.getClosestDirectionFromDirectionVector(
+							unitVecturretPosTotargetDelta),
+						GameConfig.ATTACK_ANIMATION));
+
 		// create projectile
 		int e = engineState.spawnEntitySet(
 			new CannonShell(turretPosition));
 		engineState.unsafeGetComponentAt(PhysicsPCollisionBody.class, e)
-			.setPositionPoint(
-				engineState
-					.unsafeGetComponentAt(
-						WorldAttributes.class, turret)
-					.getCenteredBottomQuarter());
+			.setPositionPoint(turretPosition);
 
 		float shellSpeed =
 			engineState.unsafeGetComponentAt(Movement.class, e)
 				.getSpeed();
+
 
 		engineState.unsafeGetComponentAt(Movement.class, e)
 			.setVelocity(unitVecturretPosTotargetDelta.pureMul(
 				shellSpeed));
 
 		// decrease ammo
-		engineState.unsafeGetComponentAt(Ammo.class, turret).decreaseAmmo(1);
+		engineState.unsafeGetComponentAt(Ammo.class, turret)
+			.decreaseAmmo(1);
 
 		// destroy turret if out of ammo
 		if (engineState.unsafeGetComponentAt(Ammo.class, turret)

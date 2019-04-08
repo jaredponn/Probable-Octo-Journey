@@ -9,17 +9,15 @@ package poj.Render;
 import java.awt.image.*;
 import java.awt.Color;
 
-import java.awt.image.RescaleOp;
 
 public class ImageRenderObject extends RenderObject
 {
-	private BufferedImage img;
+	protected BufferedImage img;
 	public final static Color DEFAULT_DEBUG_BORDER_COLOR = Color.RED;
-	private Color debugBorderColor;
+	protected Color debugBorderColor;
 
-	private ImageWindow imageWindow;
+	protected ImageWindow imageWindow;
 
-	private RescaleOp rescaleOp;
 
 	/**
 	 Constructs an ImageRenderObject -- an object with a bitmap image to
@@ -35,8 +33,11 @@ public class ImageRenderObject extends RenderObject
 		this(x, y, img,
 		     ImageWindow.createFullSizeImageWindowOfImage(img),
 		     DEFAULT_DEBUG_BORDER_COLOR);
+	}
 
-		setDefaultRGBAScaleFactors();
+	public ImageRenderObject(ImageRenderObject a)
+	{
+		this(a.x, a.y, a.img, new ImageWindow(a.getImageWindow()));
 	}
 
 	/**
@@ -55,8 +56,6 @@ public class ImageRenderObject extends RenderObject
 		this(x, y, img,
 		     ImageWindow.createFullSizeImageWindowOfImage(img),
 		     dbgbordercolor);
-
-		setDefaultRGBAScaleFactors();
 	}
 
 	/**
@@ -75,7 +74,6 @@ public class ImageRenderObject extends RenderObject
 
 		this(x, y, img, imgw,
 		     ImageRenderObject.DEFAULT_DEBUG_BORDER_COLOR);
-		setDefaultRGBAScaleFactors();
 	}
 
 	/**
@@ -98,8 +96,6 @@ public class ImageRenderObject extends RenderObject
 		setImage(img);
 		setImageWindow(imgw);
 		debugBorderColor = dbgbordercolor;
-
-		setDefaultRGBAScaleFactors();
 	}
 
 	/**
@@ -165,56 +161,6 @@ public class ImageRenderObject extends RenderObject
 		return this.debugBorderColor;
 	}
 
-	/**
-	 * gets the Rescale op
-	 *
-	 * @return  debugBorderColor
-	 */
-	final public RescaleOp getRescaleOp()
-	{
-		return this.rescaleOp;
-	}
-
-	// returns array of float of: {r, g, b, a}
-	final public float[] getRGBAScaleFactors()
-	{
-		// why does java have C like io parameters.
-		float[] tmp = new float[4];
-		return this.rescaleOp.getScaleFactors(tmp);
-	}
-
-	public ImageRenderObject setRGBAScaleFactors(float r, float g, float b,
-						     float a)
-	{
-		rescaleOp =
-			new RescaleOp(new float[] {r, g, b, a},
-				      new float[] {0.f, 0.f, 0.f, 0.f}, null);
-
-		return this;
-	}
-
-	public ImageRenderObject setRGBScaleFactors(float r, float g, float b)
-	{
-		rescaleOp =
-			new RescaleOp(new float[] {r, g, b, 1.f},
-				      new float[] {0.f, 0.f, 0.f, 0.f}, null);
-
-		return this;
-	}
-
-	// sets to be a darker shade. 0 < x < 1 = darker image
-	// sets to be a darker shade. 1 < x     = brighter image
-	public ImageRenderObject setImageShade(float n)
-	{
-		setRGBScaleFactors(n, n, n);
-		return this;
-	}
-
-	public ImageRenderObject setDefaultRGBAScaleFactors()
-	{
-		setRGBAScaleFactors(1.f, 1.f, 1.f, 1.f);
-		return this;
-	}
 
 	public void setTopLeftCornerPosition(int x, int y)
 	{

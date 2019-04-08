@@ -1,13 +1,14 @@
 package App;
 
-import java.io.File;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 
-import javax.sound.sampled.*;
-
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Game.GameOver;
-import Game.Menu;
+import Game.MenuNew;
 import Game.PlayGame;
 import Resources.GameConfig;
 import Resources.GameResources;
@@ -34,7 +35,6 @@ public class App
 
 	// boolean to keep track if the game is running
 	boolean isRunning;
-	public static boolean runMenu = true;
 	private int width;
 	private int height;
 
@@ -50,19 +50,20 @@ public class App
 		this.gwindow = new GameWindow("Probable Octo Journey");
 		this.inputPoller = new InputPoller();
 
-		/* -- this makes it full screen
 		GraphicsDevice gd =
 			GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getDefaultScreenDevice();
 		this.gcanvas = new GameCanvas(gd.getDisplayMode().getWidth(),
 					      gd.getDisplayMode().getHeight(),
-					      inputPoller);*/
+					      inputPoller);
+		this.width = gd.getDisplayMode().getWidth();
+		this.height = gd.getDisplayMode().getHeight();
+		System.out.println("width = " + width);
+		System.out.println("height = " + height);
 
-		this.width = 1024;
-		this.height = 768;
-
-		// windowed
-		this.gcanvas = new GameCanvas(width, height, inputPoller);
+		// this.width = 1024;
+		// this.height = 768;
+		// this.gcanvas = new GameCanvas(width, height, inputPoller);
 
 		this.gwindow.defaultAddGameCanvasAndSetBufferStrat(gcanvas);
 
@@ -87,19 +88,12 @@ public class App
 	{
 
 
-		Menu menu = new Menu(width, height, this.renderer,
-				     this.inputPoller);
-
-		// start playing game background music
 		while (isRunning) {
-			runMenu = true; // this is so bad
-
-
+			MenuNew menu = new MenuNew(width, height, this.renderer,
+						   this.inputPoller);
 			// start playing menu music
 			GameResources.menuSound.playContinuously();
-			while (runMenu) {
-				menu.runGame();
-			}
+			menu.runGameLoop();
 			// stop playing menu music
 			GameResources.menuSound.end();
 

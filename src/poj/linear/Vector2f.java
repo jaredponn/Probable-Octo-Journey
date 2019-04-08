@@ -107,6 +107,33 @@ public class Vector2f
 		return addAndReturnVector(a);
 	}
 
+	public static Vector2f pureAdd(final Vector2f a, final Vector2f b,
+				       final Vector2f dest)
+	{
+		dest.x = a.x + b.x;
+		dest.y = a.y + b.y;
+
+		return dest;
+	}
+
+	public static Vector2f pureSubtract(final Vector2f a, final Vector2f b,
+					    final Vector2f dest)
+	{
+		dest.x = a.x - b.x;
+		dest.y = a.y - b.y;
+
+		return dest;
+	}
+
+	public static Vector2f pureMul(final Vector2f a, float n,
+				       final Vector2f dest)
+	{
+		dest.x = a.x * n;
+		dest.y = a.y * n;
+
+		return dest;
+	}
+
 	/**
 	 * alias for addAndReturnVector
 	 * @param  x	float, the x value of the vector that will be added

@@ -69,6 +69,7 @@ public class MapGeneration extends Thread
 	public void setStart()
 	{
 		this.startGeneration = true;
+		super.start();
 	}
 	/**
 	 * set the end boolean of the thread
@@ -78,6 +79,7 @@ public class MapGeneration extends Thread
 	public void setEnd()
 	{
 		this.endGeneration = true;
+		System.out.println("pathfinding thread exited");
 	}
 
 	/**
@@ -111,13 +113,6 @@ public class MapGeneration extends Thread
 						mapLayer.unsafeGetComponentAt(
 							PathFindCord.class, i);
 
-
-					/*
-					if(i == 135){
-						System.out.println("")
-					}
-					*/
-
 					if (!center.getIsWall()) {
 						ArrayList<
 							PathFindCord> tempNeighbours =
@@ -144,8 +139,9 @@ public class MapGeneration extends Thread
 				}
 
 				/*
-				int counter = 0;
-				for (int i = 0; i < tempDiffusionBuffer.size();
+				 * This is for debugging - printing all of the
+				diffusion values int counter = 0; for (int i =
+				0; i < tempDiffusionBuffer.size();
 				     ++i) {
 					if (counter == map.mapWidth) {
 						counter = 0;
@@ -160,6 +156,8 @@ public class MapGeneration extends Thread
 				System.out.println("done once");
 				*/
 
+				// set the diffusion value of the temporary
+				// buffer to the ECS buffer
 				if (tempDiffusionBuffer.size() > 0) {
 					int count = 0;
 					for (int i = mapLayer.getInitialComponentIndex(

@@ -74,7 +74,6 @@ public class Animation
 		     ystride, xmin, ymin, xmax, ymax);
 	}
 
-
 	/**
 	 * Copy constructor
 	 * @param  a animation object

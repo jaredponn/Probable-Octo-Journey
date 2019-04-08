@@ -573,7 +573,7 @@ at Main.main(Main.java:25)
 		}
 	}
 
-	private static int TILE_MAP_RENDER_HELPER_SET_CAPACITY = 5000;
+	private static int TILE_MAP_RENDER_HELPER_SET_CAPACITY = 10000;
 	private static HashSet<Integer> tileMapRenderHelperSet =
 		new HashSet<Integer>(
 			TILE_MAP_RENDER_HELPER_SET_CAPACITY); // used to help
@@ -585,7 +585,7 @@ at Main.main(Main.java:25)
 				final int windowWidth, final int windowHeight,
 				final int tileScreenWidth,
 				final int tileScreenHeight, final Camera cam,
-				final Camera invCam, Queue<RenderObject> q)
+				final Camera invCam, ArrayList<RenderObject> q)
 	{
 		tileMapRenderHelperSet.clear();
 
@@ -624,7 +624,7 @@ at Main.main(Main.java:25)
 
 	public static void
 	debugRenderPhysicsPCollisionBodies(final EngineState e,
-					   Queue<RenderObject> q,
+					   ArrayList<RenderObject> q,
 					   final Camera cam, Color c)
 	{
 
@@ -640,7 +640,7 @@ at Main.main(Main.java:25)
 
 
 	public static void debugRenderPHitBox(final EngineState e,
-					      Queue<RenderObject> q,
+					      ArrayList<RenderObject> q,
 					      final Camera cam)
 	{
 
@@ -654,7 +654,7 @@ at Main.main(Main.java:25)
 	}
 
 	public static void debugRenderAggro(final EngineState e,
-					    Queue<RenderObject> q,
+					    ArrayList<RenderObject> q,
 					    final Camera cam)
 	{
 

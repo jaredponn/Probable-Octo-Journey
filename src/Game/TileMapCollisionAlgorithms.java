@@ -29,6 +29,7 @@ import poj.EngineState;
 import poj.Collisions.GJK;
 import poj.Collisions.CollisionShape;
 import poj.Collisions.QuadTree;
+import poj.Collisions.Rectangle;
 import poj.Component.Component;
 import poj.Component.Components;
 import poj.GameWindow.InputPoller;
@@ -44,6 +45,25 @@ public class TileMapCollisionAlgorithms
 	private static ArrayList<CollisionShape>
 		SURROUNDING_TILES_COLLISION_BUF =
 			new ArrayList<CollisionShape>(9);
+	public static QuadTree generateQuadTreeFromMap(Map map)
+	{
+
+		QuadTree q =
+			new QuadTree(0, new Rectangle(0, 0, map.mapWidth + 1,
+						      map.mapHeight + 1));
+		for (int i = 0; i < map.getNumberOfLayers(); ++i) {
+			EngineState tmp = map.getLayerEngineState(i);
+
+			ArrayList<PhysicsPCollisionBody> arr =
+				tmp.getRawComponentArrayListPackedData(
+					PhysicsPCollisionBody.class);
+
+			for (PhysicsPCollisionBody col : arr)
+				q.insert(col.getPolygon());
+		}
+		return q;
+	}
+
 	public static void nudgePhysicsPCollisionBodiesOutsideTileMap(
 		PlayGame g, Class<? extends Component> set)
 	{

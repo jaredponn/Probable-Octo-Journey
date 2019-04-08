@@ -14,21 +14,29 @@ import poj.linear.Vector2f;
 // is, the height and width of things are expressed as ratios of the tile size.
 public class GameConfig
 {
+
+	////////////////////////////////////
+	////// animation assets config /////
+	////////////////////////////////////
+	public static final int IDLE_ANIMATION = 0;
+	public static final int ATTACK_ANIMATION = 10;
+
 	//////////////////////////
 	////// player config /////
 	//////////////////////////
-	public static final float PLAYER_SPEED = 0.003f;
+	public static final float PLAYER_SPEED = 0.0015f;
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
-	public static final int PLAYER_HP = 10;     // 50;
-	public static final int PLAYER_MAX_HP = 10; // 75;
+	public static final int PLAYER_HP = 100000;     // 50;
+	public static final int PLAYER_MAX_HP = 100000; // 75;
 	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
 	public static final int TOWER_DIFFUSION_VALUE = (int)Math.pow(2, 5);
 	public static final float PLAYER_HEIGHT =
 		GameResources.PLAYER_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
-	public static final Vector2f PLAYER_SPAWNNING_POS = new Vector2f(0, 0);
+	public static final Vector2f PLAYER_SPAWNNING_POS =
+		new Vector2f(32, 32);
 	public static final PCollisionBody PLAYER_COLLISION_BODY =
 		new PCollisionBody(
 			new Vector2f(0.2f, 0.55f),  // displacement
@@ -55,7 +63,7 @@ public class GameConfig
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(100, 100);
 
-	public static final int PLAYER_STARTING_CASH = 100;
+	public static final int PLAYER_STARTING_CASH = 100000;
 	public static final int PLAYER_STARTING_AMMO = 20;
 	public static final int PLAYER_MAX_AMMO = 100;
 	public static final int PLAYER_STARTING_MELEE_DAMAGE = 30;
@@ -128,15 +136,20 @@ public class GameConfig
 	public static final AnimationWindowAssets
 		PLAYER_ANIMATION_WINDOW_ASSETS = new AnimationWindowAssets(
 			new Pair<OctoAnimationBuffer, Integer>(
-				GameResources.playerGunIdleAnimation, 0),
+				GameResources.playerGunIdleAnimation,
+				IDLE_ANIMATION),
 			new Pair<OctoAnimationBuffer, Integer>(
-				GameResources.playerGunMoveAnimation, 1),
+				GameResources.playerGunMoveAnimation,
+				IDLE_ANIMATION + 1),
 			new Pair<OctoAnimationBuffer, Integer>(
-				GameResources.playerMeleeIdleAnimation, 2),
+				GameResources.playerMeleeIdleAnimation,
+				IDLE_ANIMATION + 2),
 			new Pair<OctoAnimationBuffer, Integer>(
-				GameResources.playerMeleeMoveAnimation, 3),
+				GameResources.playerMeleeMoveAnimation,
+				IDLE_ANIMATION + 3),
 			new Pair<OctoAnimationBuffer, Integer>(
-				GameResources.playerMeleeAttackAnimation, 10));
+				GameResources.playerMeleeAttackAnimation,
+				ATTACK_ANIMATION));
 
 	/////////////////////////
 	///// turret config /////
@@ -144,15 +157,15 @@ public class GameConfig
 	public static final int TOWER_BUILD_COST = 250;
 	public static final PCollisionBody TURRET_COLLISION_BODY =
 		new PCollisionBody(
-			new Vector2f(-0.25f,
-				     1f), // displacement
+			new Vector2f(0.27f,
+				     1.24f), // displacement
 			new Vector2f(0.5f,
 				     0.5f), // center
 					    // collision body:
-			new Vector2f(0.25f, 1), new Vector2f(0.75f, 1),
-			new Vector2f(0, 0.75f), new Vector2f(1, 0.75f),
-			new Vector2f(0, 0.25f), new Vector2f(0.25f, 0),
-			new Vector2f(0.75f, 0), new Vector2f(1, 0.25f));
+			new Vector2f(0.35f, 0.5f), new Vector2f(0.65f, 0.5f),
+			new Vector2f(0.5f, 0.65f), new Vector2f(0.5f, 0.65f),
+			new Vector2f(0.5f, 0.35f), new Vector2f(0.35f, 0.5f),
+			new Vector2f(0.65f, 0.5f), new Vector2f(0.5f, 0.35f));
 	public static final int TURRET_HP = 100;
 	public static final int TURRET_MAX_HP = 100;
 	public static final float SHELL_SPEED = 0.04f;
@@ -161,13 +174,35 @@ public class GameConfig
 	public static final PCollisionBody TURRET_HITBOX_BODY =
 		TURRET_COLLISION_BODY;
 
+	public static final PCollisionBody TURRET_AGGRO_BODY =
+		// clang-format off
+		new PCollisionBody(
+			new Vector2f(-1f, 12.5f),  // displacement
+			new Vector2f(0.15f/ 0.25f, 0.15f/ 0.25f), // center
+						    // collision body:
+			new Vector2f(0.25f / 0.05f, 1     / 0.05f),
+			new Vector2f(0.75f / 0.05f, 1     / 0.05f),
+			new Vector2f(0     / 0.05f, 0.75f / 0.05f),
+			new Vector2f(1     / 0.05f, 0.75f / 0.05f),
+			new Vector2f(0     / 0.05f, 0.25f / 0.05f),
+			new Vector2f(0.25f / 0.05f, 0     / 0.05f),
+			new Vector2f(0.75f / 0.05f, 0     / 0.05f),
+			new Vector2f(1     / 0.05f, 0.25f / 0.05f));
+	// clang-format on
+
 	public static final AttackCycle TURRET_ATTACK_CYCLE =
 		new AttackCycle(1000, 1000);
+
+	public static final AnimationWindowAssets
+		TURRET_ANIMATION_WINDOW_ASSETS = new AnimationWindowAssets(
+			new Pair<OctoAnimationBuffer, Integer>(
+				GameResources.turretAttackAnimation,
+				ATTACK_ANIMATION));
 
 	//////////////////////////
 	////// bullet config /////
 	//////////////////////////
-	public static final float BULLET_SPEED = 0.02f;
+	public static final float BULLET_SPEED = 0.01f;
 	public static final float BULLET_WIDTH =
 		GameResources.BULLET_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
@@ -302,49 +337,6 @@ public class GameConfig
 				GameResources.enemyAttackAnimation, 10),
 			new Pair<OctoAnimationBuffer, Integer>(
 				GameResources.enemyDeathAnimation, 30));
-
-	///////////////////////
-	///// menu config /////
-	///////////////////////
-
-	// clang-format off
-	public static final PCollisionBody PLAY_BUTTON_COLLISION_BODY =
-		new PCollisionBody(
-			new Vector2f(0f, 0f), // displacement
-			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 + 90)), 
-			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 + 90)), 
-			new Vector2f((float)(1024 / 2 - 70+ GameResources.playButtonWidth),(float)(768 / 2 + 90) ), 
-			new Vector2f((float)(1024 / 2 - 70) ,(float) (768 / 2 + 90+ GameResources.playButtonHeight)), 
-			new Vector2f((float)(1024 / 2 - 70 +GameResources.playButtonWidth),(float)(768 / 2 + 90 + GameResources.playButtonHeight)));
-
-	public static final PCollisionBody HOW_TO_PLAY_BUTTON_COLLISION_BODY =
-		new PCollisionBody(
-			new Vector2f(0f, 0f), // displacement
-			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 -90)), 
-			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 -90)), 
-			new Vector2f((float)(1024 / 2 - 70+ GameResources.howToPlayButtonWidth),(float)(768 / 2 -90) ), 
-			new Vector2f((float)(1024 / 2 - 70) ,(float) (768 / 2 -90+ GameResources.howToPlayButtonHeight)), 
-			new Vector2f((float)(1024 / 2 - 70 +GameResources.howToPlayButtonWidth),(float)(768 / 2 -90 + GameResources.howToPlayButtonHeight)));
-
-
-	public static final PCollisionBody EXIT_BUTTON_COLLISION_BODY =
-		new PCollisionBody(
-			new Vector2f(0f, 0f), // displacement
-			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 +290)), 
-			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 +290)), 
-			new Vector2f((float)(1024 / 2 - 70+ GameResources.exitButtonWidth),(float)(768 / 2 +290) ), 
-			new Vector2f((float)(1024 / 2 - 70) ,(float) (768 / 2 +290+ GameResources.exitButtonHeight)), 
-			new Vector2f((float)(1024 / 2 - 70 +GameResources.exitButtonWidth),(float)(768 / 2 +290 + GameResources.exitButtonHeight)));
-
-	public static final PCollisionBody BACK_BUTTON_COLLISION_BODY =
-		new PCollisionBody(
-			new Vector2f(0f, 0f), // displacement
-			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 +190)), 
-			new Vector2f((float)(1024 / 2 - 70), (float)(768 / 2 +190)), 
-			new Vector2f((float)(1024 / 2 - 70+ GameResources.backButtonWidth),(float)(768 / 2 +190) ), 
-			new Vector2f((float)(1024 / 2 - 70) ,(float) (768 / 2 +190+ GameResources.backButtonHeight)), 
-			new Vector2f((float)(1024 / 2 - 70 +GameResources.backButtonWidth),(float)(768 / 2 +190 + GameResources.backButtonHeight)));
-	// clang-format on
 
 	////////////////////////////
 	///// construct config /////

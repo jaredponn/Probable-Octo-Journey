@@ -29,6 +29,7 @@ import Resources.GameResources;
 import poj.EngineState;
 import poj.Collisions.GJK;
 import poj.GameWindow.InputPoller;
+import poj.Logger.Logger;
 import poj.Component.*;
 import poj.linear.Vector2f;
 
@@ -45,32 +46,8 @@ public class AttackCycleHandlers
 							   PlayerSet.class);
 		AttackCycleHandlers.runAttackCyclerHandler(playGame,
 							   MobSet.class);
-
-		// turret attack
-		for (int i = engineState.getInitialSetIndex(TurretSet.class);
-		     EngineState.isValidEntity(i);
-		     i = engineState.getNextSetIndex(TurretSet.class, i)) {
-			AttackCycle a = engineState.unsafeGetComponentAt(
-				AttackCycle.class, i);
-
-			if (a.isAttacking()) {
-				switch (a.getAttackState()) {
-				case 0:
-					break;
-				case 1:
-					AttackCycleHandlers.turretAttackHandler(
-						engineState, i,
-						gameElapsedTime);
-					break;
-				case 2:
-					break;
-				case 3:
-					a.endAttackCycle();
-					a.resetCycle();
-					break;
-				}
-			}
-		}
+		AttackCycleHandlers.runAttackCyclerHandler(playGame,
+							   TurretSet.class);
 	}
 
 	/**
@@ -155,7 +132,9 @@ public class AttackCycleHandlers
 		new PlayerAttackCycleHandler();
 	private static EntityAttackSetHandler MOBSET_ATTACK_CYCLE_HANDLER_MEMO =
 		new MobSetAttackCycleHandler();
-
+	private static EntityAttackSetHandler
+		TURRETSET_ATTACK_CYCLE_HANDLER_MEMO =
+			new TurretAttackCyclerHandler();
 	public static EntityAttackSetHandler
 	queryEntityAttackSetHandler(Class<? extends Component> c)
 	{
@@ -163,8 +142,11 @@ public class AttackCycleHandlers
 			return PLAYER_ATTACK_CYCLE_HANDLER_MEMO;
 		else if (c == MobSet.class)
 			return MOBSET_ATTACK_CYCLE_HANDLER_MEMO;
-		else {
-			return new PlayerAttackCycleHandler();
+		else if (c == TurretSet.class) {
+			return TURRETSET_ATTACK_CYCLE_HANDLER_MEMO;
+		} else {
+			Logger.logMessage("error in attack cycle handler");
+			return PLAYER_ATTACK_CYCLE_HANDLER_MEMO;
 		}
 	}
 

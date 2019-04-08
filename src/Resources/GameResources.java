@@ -15,40 +15,149 @@ import poj.Render.ImageWindow;
 
 public class GameResources
 {
-	/*
-	public static BufferedImage testImage =
-		ImageLoader.load("resources/playerspritesheet.png");
-	*/
-
 	public static BufferedImage testImage =
 		ImageLoader.load("resources/playerspritesheet.png");
 
-	public static BufferedImage turret =
-		// ImageLoader.load("resources/RamiroGraphics/spritePack/Turret8.png");
-		ImageLoader.load("resources/turret1Crop.png");
+	public static BufferedImage TILE_MAP_SINGLE_IMAGE = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/MapFinalNoTrees.png");
 
-	public static BufferedImage octoTitle =
-		ImageLoader.load("resources/menu/octo_journey_title.png");
-	public static BufferedImage instructionTitle =
-		ImageLoader.load("resources/menu/instructions.png");
+	public static BufferedImage turret = ImageLoader.load(
+		"resources/RamiroGraphics/spritePack/Turrets.png");
 
-	public static BufferedImage playButton =
-		ImageLoader.load("resources/menu/playButton.png");
-	public static int playButtonWidth = 180, playButtonHeight = 100;
 
-	public static BufferedImage howToPlayButton =
-		ImageLoader.load("resources/menu/howToPlay.png");
-	public static int howToPlayButtonWidth = 200, howToPlayButtonHeight =
-							      120;
+	// position constants for the buttons for menu pics:
+	// they are calculated based on the position of the buttons relative to
+	// the image size
+	// clang-format off
+	public static float playButtonWidthRatio = 2.6519337016574585f,
+			    playButtonHeightRatio = 2.9508196721311477f,
+			    playButtonSizeWidthRatio = 4.076433121019108f,
+			    playButtonSizeHeightRatio = 6.666666666666667f,
+				//how to play button
+				howToPlayButtonWidthRatio=2.436548223350254f,
+				howToPlayButtonHeightRatio=1.821247892074199f,
+			    howToPlayButtonSizeWidthRatio = 5.565217391304348f,
+			    howToPlayButtonSizeHeightRatio = 8.459627329192546f,
+				//exit button
+				exitButtonWidthRatio=2.436548223350254f,
+				exitButtonHeightRatio= 1.3740458015267176f,
+			    exitButtonSizeWidthRatio = 5.565217391304348f,
+			    exitButtonSizeHeightRatio = 8.471748723717228f,
+				//back button
+				backButtonWidthRatio=2.4427480916030535f,
+				backButtonHeightRatio= 1.2399540757749712f,
+			    backButtonSizeWidthRatio = 5.550989238216081f,
+			    backButtonSizeHeightRatio = 8.485416666666666f,
+				//howto howto button
+				howToHowToButtonWidthRatio= 3.3566433566433567f,
+				howToHowToButtonHeightRatio= 9.436392914653783f,
+			    howToHowToButtonSizeWidthRatio = 2.4742268041237114f,
+			    howToHowToButtonSizeHeightRatio = 7.859973186354834f;
 
-	public static BufferedImage exitButton =
-		ImageLoader.load("resources/menu/exitButton.png");
-	public static int exitButtonWidth = 150, exitButtonHeight = 80;
-	public static BufferedImage backButton =
-		ImageLoader.load("resources/menu/backButton.png");
-	public static int backButtonWidth = 150, backButtonHeight = 80;
 
-	// special tiles
+	// clang-format on
+	// 1920x1080 res menu pics:
+	public static BufferedImage octoTitle90 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1920_1080/game_name_main90.png");
+	public static BufferedImage mainBg90 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1920_1080/background_main90.png");
+	public static BufferedImage playButton90 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1920_1080/playButton90.png");
+	public static BufferedImage howToPlayButton90 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1920_1080/howToPlayButton90.png");
+	public static BufferedImage howToHowToPlayButton90 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1920_1080/howToHowToPlayButton90.png");
+	public static BufferedImage exitButton90 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1920_1080/exitButton90.png");
+	public static BufferedImage backButton90 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1920_1080/backButton90.png");
+
+	public static BufferedImage helpBg90 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1920_1080/background_help90.png");
+	public static BufferedImage helpButton90 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1920_1080/buttons_help90.png");
+	public static BufferedImage instructionsForHelp90 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1920_1080/instruction_boxes_help90.png");
+	public static BufferedImage tombstonesForMain90 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1920_1080/tombstone_main90.png");
+	public static ArrayList<BufferedImage> menuImage90 =
+		new ArrayList<BufferedImage>() {
+			{
+				add(octoTitle90);
+				add(mainBg90);
+				add(tombstonesForMain90);
+				add(helpBg90);
+				add(instructionsForHelp90);
+			}
+		};
+
+	public static ArrayList<BufferedImage> menuButtonImage90 =
+		new ArrayList<BufferedImage>() {
+			{
+				add(playButton90);
+				add(howToPlayButton90);
+				add(exitButton90);
+				add(howToHowToPlayButton90);
+				add(backButton90);
+			}
+		};
+	// clang-format off
+	public static float[][] menuButtonValues = new float[][]{
+		{playButtonWidthRatio, playButtonHeightRatio, playButtonSizeWidthRatio, playButtonSizeHeightRatio},
+		{howToPlayButtonWidthRatio, howToPlayButtonHeightRatio, howToPlayButtonSizeWidthRatio, howToPlayButtonSizeHeightRatio},
+		{exitButtonWidthRatio, exitButtonHeightRatio, exitButtonSizeWidthRatio, exitButtonSizeHeightRatio},
+		{howToHowToButtonWidthRatio, howToHowToButtonHeightRatio, howToHowToButtonSizeWidthRatio, howToHowToButtonSizeHeightRatio},
+		{backButtonWidthRatio, backButtonHeightRatio, backButtonSizeWidthRatio, backButtonSizeHeightRatio}
+	};
+	// clang-format on
+
+	// 1366x768 res menu pics:
+	public static BufferedImage octoTitle38 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1366_768/game_name_main38.png");
+	public static BufferedImage mainBg38 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1366_768/background_main38.png");
+	public static BufferedImage playButton38 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1366_768/playButton38.png");
+	public static BufferedImage howToPlayButton38 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1366_768/howToPlayButton38.png");
+	public static BufferedImage howToHowToPlayButton38 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1366_768/howToHowToPlayButton38.png");
+	public static BufferedImage exitButton38 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1366_768/exitButton38.png");
+	public static BufferedImage backButton38 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1366_768/backButton38.png");
+
+	public static BufferedImage helpBg38 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1366_768/background_help38.png");
+	public static BufferedImage helpButton38 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1366_768/buttons_help38.png");
+	public static BufferedImage instructionsForHelp38 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1366_768/instruction_boxes_help38.png");
+	public static BufferedImage tombstonesForMain38 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1366_768/tombstone_main38.png");
+	public static ArrayList<BufferedImage> menuImage38 =
+		new ArrayList<BufferedImage>() {
+			{
+				add(octoTitle38);
+				add(mainBg38);
+				add(tombstonesForMain38);
+				add(helpBg38);
+				add(instructionsForHelp38);
+			}
+		};
+	public static ArrayList<BufferedImage> menuButtonImage38 =
+		new ArrayList<BufferedImage>() {
+			{
+				add(playButton38);
+				add(howToPlayButton38);
+				add(exitButton38);
+				add(howToHowToPlayButton38);
+				add(backButton38);
+			}
+		};
+
+
+	// special tiles for tilemap
 	public static BufferedImage tree1 = ImageLoader.load(
 		"resources/RamiroGraphics/officialMap/tree1.png");
 	public static BufferedImage tree2 = ImageLoader.load(
@@ -128,27 +237,6 @@ public class GameResources
 	static
 	{
 		try {
-			/*
-			// gun sounds
-			gunSound = new Sound(GameResources.gunSoundPath);
-			emptyClipSound =
-				new Sound(GameResources.emptyClipSoundPath);
-			// zombie sounds
-			zombieDeathSound1 =
-				new Sound(GameResources.zombieDeathSoundPath1);
-			zombieDeathSound2 =
-				new Sound(GameResources.zombieDeathSoundPath2);
-			zombieDeathSound3 =
-				new Sound(GameResources.zombieDeathSoundPath3);
-			zombieDeathSound4 =
-				new Sound(GameResources.zombieDeathSoundPath4);
-			zombieSpawnSound1 =
-				new Sound(GameResources.zombieSpawnSoundPath1);
-			zombieSpawnSound2 =
-				new Sound(GameResources.zombieSpawnSoundPath2);
-			zombieSpawnSound3 =
-				new Sound(GameResources.zombieSpawnSoundPath3);
-				*/
 			// game sounds
 			menuSound = new Sound(GameResources.menuSoundPath);
 			gameBgSound = new Sound(GameResources.gameBgSoundPath);
@@ -156,17 +244,7 @@ public class GameResources
 			menuSelectButtonSound =
 				new Sound(menuSelectButtonSoundPath);
 			healthPickupSound = new Sound(healthPickupSoundPath);
-			// player sounds
-			playerHpDropSound1 = new Sound(playerHpDropSound1Path);
-			playerHpDropSound2 = new Sound(playerHpDropSound2Path);
-			playerHpDropSound3 = new Sound(playerHpDropSound3Path);
-			playerHpDropSound4 = new Sound(playerHpDropSound4Path);
-			playerDeathSound1 = new Sound(playerDeathSoundPath1);
-			playerDeathSound2 = new Sound(playerDeathSoundPath2);
-			playerDeathSound3 = new Sound(playerDeathSoundPath3);
-			playerDeathSound4 = new Sound(playerDeathSoundPath4);
 			*/
-
 			// adding the sounds into player assets
 			playerSoundAsset.add(gunSoundPath);
 			playerSoundAsset.add(emptyClipSoundPath);
@@ -251,6 +329,8 @@ public class GameResources
 
 	public static BufferedImage officialTileSet =
 		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSprities.png");
+	public static BufferedImage officialTileSetAllignedBuildings =
+		ImageLoader.load("resources/RamiroGraphics/officialMap/mapAlignedSprite1.png");
 	public static BufferedImage officialTileSetTest =
 		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSpritiesWithLines.png");
 
@@ -724,4 +804,54 @@ public class GameResources
 			enemyWDeathAnimation, enemySDeathAnimation,
 			enemyEDeathAnimation, enemySDeathAnimation,
 			enemyWDeathAnimation, enemyEDeathAnimation);
+
+	/// turret resources
+	public static final int TURRET_SPRITE_WIDTH = 250 / 4;
+	public static final int TURRET_SPRITE_HEIGHT = 150 / 2;
+
+	// public static final int TURRET_SPRITE_WIDTH = 250 / 4;
+	// public static final int TURRET_SPRITE_HEIGHT = 150 / 2;
+
+
+	public static Animation turretNAttackAnimation = new Animation(
+		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
+		0, 0, TURRET_SPRITE_WIDTH * 3, 0, TURRET_SPRITE_WIDTH * 3, 0);
+
+	public static Animation turretEAttackAnimation = new Animation(
+		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
+		0, 0, TURRET_SPRITE_WIDTH * 0, 0, TURRET_SPRITE_WIDTH * 0, 0);
+
+	public static Animation turretSAttackAnimation = new Animation(
+		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
+		0, 0, TURRET_SPRITE_WIDTH * 2, 0, TURRET_SPRITE_WIDTH * 2, 0);
+
+	public static Animation turretWAttackAnimation = new Animation(
+		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
+		0, 0, TURRET_SPRITE_WIDTH * 0, TURRET_SPRITE_HEIGHT * 1,
+		TURRET_SPRITE_WIDTH * 0, TURRET_SPRITE_HEIGHT * 1);
+
+	public static Animation turretNEAttackAnimation = new Animation(
+		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
+		0, 0, TURRET_SPRITE_WIDTH * 3, TURRET_SPRITE_HEIGHT * 1,
+		TURRET_SPRITE_WIDTH * 3, TURRET_SPRITE_HEIGHT * 1);
+
+	public static Animation turretSEAttackAnimation = new Animation(
+		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
+		0, 0, TURRET_SPRITE_WIDTH * 1, 0, TURRET_SPRITE_WIDTH * 1, 0);
+
+	public static Animation turretSWAttackAnimation = new Animation(
+		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
+		0, 0, TURRET_SPRITE_WIDTH * 3, 0, TURRET_SPRITE_WIDTH * 3, 0);
+
+	public static Animation turretNWAttackAnimation = new Animation(
+		TURRET_SPRITE_WIDTH, TURRET_SPRITE_HEIGHT, animationDurationms,
+		0, 0, TURRET_SPRITE_WIDTH * 1, TURRET_SPRITE_HEIGHT * 1,
+		TURRET_SPRITE_WIDTH * 1, TURRET_SPRITE_HEIGHT * 1);
+
+	public static OctoAnimationBuffer turretAttackAnimation =
+		new OctoAnimationBuffer(
+			turretNAttackAnimation, turretNEAttackAnimation,
+			turretNWAttackAnimation, turretSAttackAnimation,
+			turretSEAttackAnimation, turretSWAttackAnimation,
+			turretWAttackAnimation, turretEAttackAnimation);
 }

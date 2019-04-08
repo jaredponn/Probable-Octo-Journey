@@ -44,6 +44,9 @@ public class GJK
 	public ArrayList<Vector2f> verticies = new ArrayList<Vector2f>(3);
 	public Vector2f direction;
 
+	public CollisionShape collisionShapeA;
+	public CollisionShape collisionShapeB;
+
 	public GJK()
 	{
 		this.clearVerticies();
@@ -57,8 +60,8 @@ public class GJK
 	/**
 	 * Tests if things are colliding. Ensure "clearVerticies" is run before
 	 * using this function
-	 *
-	 * @param  cola first static (stationary)collision box
+	 k
+	 k @param  cola first static (stationary)collision box
 	 * @param  colb second collision box that is moving with the delta
 	 *         specified with db
 	 * @return      boolean to see if they are colliding
@@ -68,6 +71,9 @@ public class GJK
 				    final CollisionShape colb)
 	{
 		// verticies.clear();
+		collisionShapeA = cola;
+		collisionShapeB = colb;
+
 		EvolveResult evl = EvolveResult.STILL_EVOLVING;
 
 		int i = 0;
@@ -104,147 +110,7 @@ public class GJK
 		final Polygon p =
 			generateStretchedPolygonWithDirectionVector(colb, db);
 
-		this.clearVerticies();
-
 		return this.areColliding(cola, p);
-	}
-
-
-	/**
-	 * Calcluates the time of polygon collision. If you are just trying to
-	 * calculate if the collision occured over a distance, use the
-	 * overloaded "areColliding" function with the third parameter "db".
-	 * That will be significantly faster.
-	 *
-	 * @param  cola first static (stationary) collision box
-	 * @param  colb second collision box that is moving with the delta
-	 *         specified with db
-	 * @param  db delta of the second collision box
-	 * @return      Optional of the time of collision
-	 */
-	private static int TIME_OF_COLLISION_RESOLUTION = 15;
-	private Polygon LAST_STRETCHED_POLY_B_MEMO;
-	public Optional<Double>
-	upperBoundTimeOfPolygonCollision(final Polygon cola, final Polygon colb,
-					 final Vector2f db)
-	{
-		float mint = 0.0000001f; // min t
-		float t = 0.5f;		 // middle t
-		float maxt = 1f;	 // max t
-
-		// first case where we go the entire distance of the
-		// deltaof b
-		if (!this.areColliding(cola, colb, db)) {
-			return Optional.empty();
-		}
-
-		for (int i = 0; i < TIME_OF_COLLISION_RESOLUTION; ++i) {
-			t = (mint + maxt) / 2f;
-			final Vector2f d = db.pureMul(t);
-
-			final Polygon p =
-				generateStretchedPolygonWithDirectionVector(
-					colb, d);
-
-			this.clearVerticies();
-			if (this.areColliding(cola, p)) {
-				maxt = t;
-
-			} else {
-				mint = t;
-			}
-
-			// memoization for determinCollisionBodyBVector
-			LAST_STRETCHED_POLY_B_MEMO = p;
-		}
-
-		return Optional.of((t + maxt) / 2d);
-	}
-
-
-	public Vector2f determineCollisionBodyBVector(final Polygon cola,
-						      final Polygon colb,
-						      final Vector2f db)
-	{
-		Optional<Double> optt =
-			upperBoundTimeOfPolygonCollision(cola, colb, db);
-
-		// if there is no collision just return the original vector
-		if (!optt.isPresent()) {
-			return db;
-		}
-
-		Vector2f ndb = new Vector2f(0, 0); // new vector for db
-
-		final double t = optt.get(); // time of collision
-		final double s = 1d - t;     // extra time of t
-
-		this.clearVerticies();
-		this.areColliding(cola,
-				  LAST_STRETCHED_POLY_B_MEMO); // generates the
-							       // simplex
-		Vector2f n = calculatePenetrationVector(
-			cola,
-			LAST_STRETCHED_POLY_B_MEMO); // collision normal
-
-		Vector2f pn = Vector2f.pureTripleProduct(
-			n, db,
-			n); // perpendicular to normal in the direction of db
-
-		Vector2f tmp;
-		final float pnsqmag = pn.sqMag();
-		// projection of vb * s onto pn
-		if (Math.abs(pnsqmag) == 0) {
-			tmp = new Vector2f(0, 0);
-		} else {
-			final float k = pn.dot(db.pureMul((float)s)) / pnsqmag;
-			tmp = pn.pureMul(k);
-		}
-
-
-		// building the new collision vector
-		ndb.add(db.pureMul((float)t));
-		ndb.add(tmp);
-
-		return ndb;
-	}
-
-
-	// alias for the upper bound except it calcluates and gives the lower
-	// bound. TODO clean up this code
-	public Optional<Double>
-	lowerBoundTimeOfPolygonCollision(final Polygon cola, final Polygon colb,
-					 final Vector2f db)
-	{
-		float mint = 0.0000001f; // min t
-		float t = 0.5f;		 // middle t
-		float maxt = 1f;	 // max t
-
-		// first case where we go the entire distance of the
-		// deltaof b
-		if (!this.areColliding(cola, colb, db)) {
-			return Optional.empty();
-		}
-
-		for (int i = 0; i < TIME_OF_COLLISION_RESOLUTION; ++i) {
-			t = (mint + maxt) / 2f;
-			final Vector2f d = db.pureMul(t);
-
-			final Polygon p =
-				generateStretchedPolygonWithDirectionVector(
-					colb, d);
-
-			this.clearVerticies();
-			if (this.areColliding(cola, p)) {
-				maxt = t;
-
-			} else {
-				mint = t;
-			}
-		}
-
-
-		return Optional.of((t + mint) / 2d);
 	}
 
 
@@ -290,6 +156,13 @@ public class GJK
 
 		return penVector;
 	}
+
+	public Vector2f calculatePenetrationVector()
+	{
+		return calculatePenetrationVector(collisionShapeA,
+						  collisionShapeB);
+	}
+
 
 	private Edge findClosestEdgeToOriginOnSimplex(PolygonWinding winding)
 	{

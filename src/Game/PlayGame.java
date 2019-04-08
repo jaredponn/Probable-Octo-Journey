@@ -59,16 +59,19 @@ public class PlayGame extends World
 {
 	// Render
 	protected Map map;
+
+	protected RenderThread renderThread;
 	// buffers for the renderer
-	protected Queue<RenderObject> groundBuffer;
-	protected MinYFirstSortedRenderObjectBuffer entityBuffer;
-	protected MinYFirstSortedRenderObjectBuffer buildingBuffer;
-	protected MinYFirstSortedRenderObjectBuffer poleBuffer;
-	protected Queue<RenderObject> guiBuffer;
-	public static Queue<RenderObject> debugBuffer =
-		new LinkedList<RenderObject>(); // all debugging should be
-						// global (fight me) if java had
-						// Monads I would be happy
+	private static int DEFAULT_RENDER_BUF_SIZE = 10000;
+	protected PlayGameRenderBuffers writeToRenderBuffer;
+	// references to the render buffers in the thread. Mainly here for
+	// legacy reasons
+	protected ArrayList<RenderObject> groundBuffer;
+	protected ArrayList<RenderObject> entityBuffer;
+	protected ArrayList<RenderObject> buildingBuffer;
+	protected ArrayList<RenderObject> poleBuffer;
+	protected ArrayList<RenderObject> guiBuffer;
+	public ArrayList<RenderObject> debugBuffer;
 
 
 	// Camera
@@ -121,6 +124,7 @@ public class PlayGame extends World
 	protected GJK gjk;
 	protected QuadTree tileMapQuadTree;
 
+	// path finding thread
 	protected MapGeneration generateDiffusionMap;
 
 	public PlayGame(int width, int height, Renderer renderer,
@@ -162,43 +166,18 @@ public class PlayGame extends World
 		this.map.addMapLayer(GameResources.officialMapLightsAndSigns5);
 		*/
 
-		// this.map.addMapLayer(GameResources.demo1LayerWall);
-		/*
-		// World loading
-		this.map = new Map(3);
-		this.map.addTileSet(GameResources.tileSet);
-		this.map.addMapConfig(GameResources.demo1Config);
-		this.map.addMapLayer(GameResources.demo1LayerGround);
-		this.map.addMapLayer(GameResources.demo1LayerWall);
-		// this.map.addMapConfig(GameResources.pathFindTest3Config);
-		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
-		// */
 
-
-		// setting the build turret coolDown
+		// deep copies the coolDown keys
 		for (int i = 0; i < GameConfig.COOL_DOWN_KEYS.size(); ++i) {
 			coolDownMax.set(GameConfig.COOL_DOWN_KEYS.get(i).fst,
 					GameConfig.COOL_DOWN_KEYS.get(i).snd);
 		}
-		// this.map.addMapConfig(GameResources.pathFindTest1Config);
-		// this.map.addMapLayer(GameResources.pathFindTest1Layer);
-
-		// this.map.addMapConfig(GameResources.renderPerformanceConf);
-		// this.map.addMapLayer(GameResources.renderPerformanceLayer);
-
-		// mapLayer = this.map.getLayerEngineState(0);
-
-		// this.map.addMapLayer(GameResources.mapLayer1);
-		// this.map.addMapLayer(GameResources.mapLayer1);
-		// this.map.addMapLayer(GameResources.mapLayer2);
 
 		this.cam = new Camera();
 
-		this.groundBuffer = new LinkedList<RenderObject>();
-		this.entityBuffer = new MinYFirstSortedRenderObjectBuffer();
-		this.buildingBuffer = new MinYFirstSortedRenderObjectBuffer();
-		this.poleBuffer = new MinYFirstSortedRenderObjectBuffer();
-		this.guiBuffer = new LinkedList<RenderObject>();
+		// rendering
+		this.renderThread = new RenderThread(super.renderer);
+		this.updateRenderWriteToBufferToUnfocusedBuffer();
 
 		// camera initialization
 		this.resetCamera();
@@ -212,19 +191,9 @@ public class PlayGame extends World
 
 
 		// loading the quad tree
-		this.tileMapQuadTree = new QuadTree(
-			0, new Rectangle(0, 0, this.map.mapWidth + 1,
-					 this.map.mapHeight + 1));
-		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
-			EngineState tmp = this.map.getLayerEngineState(i);
-
-			ArrayList<PhysicsPCollisionBody> arr =
-				tmp.getRawComponentArrayListPackedData(
-					PhysicsPCollisionBody.class);
-
-			for (PhysicsPCollisionBody col : arr)
-				this.tileMapQuadTree.insert(col.getPolygon());
-		}
+		this.tileMapQuadTree =
+			TileMapCollisionAlgorithms.generateQuadTreeFromMap(
+				this.map);
 	}
 
 	public void registerComponents()
@@ -278,33 +247,49 @@ public class PlayGame extends World
 		clearTime();
 
 		// start the path finding thread
-		generateDiffusionMap.start();
+		this.generateDiffusionMap.setStart();
+
+		// starts the render thread
+		this.renderThread.startThread();
 
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
+
+		// for (int i = 0; i < 100; ++i) {
+		// engineState.spawnEntitySet(new MobSet(30, 30)); }
 	}
 
 	public void clearWorld()
 	{
+
+		try {
+			this.generateDiffusionMap.setEnd();
+			this.generateDiffusionMap.join();
+			this.renderThread.endThread();
+			this.renderThread.join();
+		} catch (Exception e) {
+			System.out.println(
+				"thread exception happened in clear world, and we are screwd");
+			this.renderThread.endThread();
+			this.generateDiffusionMap.setEnd();
+		}
 	}
 
 	// use super.acct for the accumulated time, use this.dt for the time
 	// step. Time is all in milliseconds
 	public void runGame()
 	{
-		// if (!gunSound.getClip().isActive()) {
-		// gunSound.play();
-		// System.out.println("stoped plasying!!");
-		//}
-
 		this.mobSpawner();
+		/*
 		try {
 			generateDiffusionMap.setStart();
 		} catch (Exception ex) {
 			Logger.logMessage(
-				"an exception has occured in path finding generation thread "
+				"an exception has occured in path finding
+		generation thread "
 				+ ex);
 		}
+		*/
 
 		this.processInputs();
 
@@ -312,7 +297,7 @@ public class PlayGame extends World
 
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
-		this.handleTurrets();
+		// this.handleTurrets();
 
 		// de-spawn entities with lifespans
 		this.timedDespawner();
@@ -335,16 +320,16 @@ public class PlayGame extends World
 			this.findBulletHits(i);
 		}
 
-		// mobs touching players
-		CombatFunctions
-			.startAttackCycleOfSetAIfAggroCollisionBodyAreCollidingWithSetBPHitBox(
-				engineState, gjk, MobSet.class,
-				PlayerSet.class);
-
-		CombatFunctions
-			.startAttackCycleOfSetAIfAggroCollisionBodyAreCollidingWithSetBPHitBox(
-				engineState, gjk, MobSet.class,
-				TurretSet.class);
+		// attak cycles
+		EntityCollisionAlgorithms
+			.startAttackCycleIfAggroRadiusCollidesPhysicsPCollisionBody(
+				this, TurretSet.class, MobSet.class);
+		EntityCollisionAlgorithms
+			.startAttackCycleIfAggroRadiusCollidesPhysicsPCollisionBody(
+				this, MobSet.class, PlayerSet.class);
+		EntityCollisionAlgorithms
+			.startAttackCycleIfAggroRadiusCollidesPhysicsPCollisionBody(
+				this, MobSet.class, TurretSet.class);
 
 		EngineTransforms.pushOutOfHPEventsIfHPIsZeroOrLess(this);
 
@@ -378,14 +363,13 @@ public class PlayGame extends World
 
 
 		// resolving entity collision
-		EngineTransforms
-			.nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
-				this.engineState, this.gjk, PlayerSet.class,
-				MobSet.class);
-		EngineTransforms
-			.nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
-				this.engineState, this.gjk, MobSet.class,
-				MobSet.class);
+		EntityCollisionAlgorithms
+			.nudgeSetAAndBIfPCollisionBodiesAreTouching(
+				this, MobSet.class, MobSet.class);
+
+		EntityCollisionAlgorithms
+			.nudgeSetAAndBIfPCollisionBodiesAreTouching(
+				this, PlayerSet.class, MobSet.class);
 
 		// Resolving  collisions against tilemap
 		TileMapCollisionAlgorithms
@@ -394,7 +378,6 @@ public class PlayGame extends World
 		TileMapCollisionAlgorithms
 			.nudgePhysicsPCollisionBodiesOutsideTileMapWithQuadTree(
 				this, PlayerSet.class);
-
 
 		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
 			EngineTransforms.debugRenderPhysicsPCollisionBodies(
@@ -405,6 +388,7 @@ public class PlayGame extends World
 
 		//  attack cycles
 		AttackCycleHandlers.runAttackCyclers(this);
+
 
 		// changing world attrib position
 		EngineTransforms.updateWorldAttribPositionFromMovement(
@@ -445,7 +429,7 @@ public class PlayGame extends World
 			this.engineState, PlayerSet.class);
 		EngineTransforms
 			.steerMovementVelocityFromMovementDirectionForSet(
-				this.engineState, MobSet.class, 1 / 20f);
+				this.engineState, MobSet.class, 1 / 8f);
 		gameEventStack.runGameEventStack();
 		// rendering is run after this is run
 	}
@@ -466,53 +450,11 @@ public class PlayGame extends World
 		PlayGameProcessInputs.playGameProcessInputs(this);
 	}
 
+
 	// Render function
 	protected void render()
 	{
-
-		// TODO: someone please fix the render layering..
-		pushTileMapLayerToQueue(map.getLayerEngineState(0),
-					groundBuffer);
-
-		pushTileMapLayerToQueue(map.getLayerEngineState(1),
-					groundBuffer);
-		pushTileMapLayerToQueue(map.getLayerEngineState(2),
-					buildingBuffer);
-		pushTileMapLayerToQueue(map.getLayerEngineState(3),
-					entityBuffer);
-		pushTileMapLayerToQueue(map.getLayerEngineState(4),
-					entityBuffer);
-
-
-		for (Render r :
-		     super.getRawComponentArrayListPackedData(Render.class)) {
-			Systems.cullPushRenderComponentToQueue(
-				r, entityBuffer, this.windowWidth,
-				this.windowHeight);
-		}
-
-		guiBuffer.add(this.gameTimer);
-		guiBuffer.add(this.cashDisplay);
-		guiBuffer.add(this.healthDisplay);
-		guiBuffer.add(this.ammoDisplay);
-		guiBuffer.add(this.killDisplay);
-		guiBuffer.add(this.mobCountDisplay);
-
-		// debugBuffer.clear();
-
-		super.renderer.renderBuffers(groundBuffer, entityBuffer,
-					     buildingBuffer, poleBuffer,
-					     debugBuffer, guiBuffer);
-	}
-
-	protected void pushTileMapLayerToQueue(MapLayer n,
-					       Queue<RenderObject> q)
-	{
-		EngineTransforms.pushTileMapLayerToQueue(
-			this.map, n, windowWidth, this.windowHeight,
-			(int)GameResources.TILE_SCREEN_WIDTH,
-			(int)GameResources.TILE_SCREEN_HEIGHT, this.cam,
-			this.invCam, q);
+		PlayGameRender.renderPlayGame(this);
 	}
 
 
@@ -900,6 +842,25 @@ public class PlayGame extends World
 			engineState.unsafeGetComponentAt(AttackCycle.class, i)
 				.startAttackCycle();
 		}
+	}
+
+	protected void updateRenderWriteToBufferToUnfocusedBuffer()
+	{
+		this.writeToRenderBuffer =
+			this.renderThread.getUnfocusedBuffer();
+
+		this.groundBuffer = this.writeToRenderBuffer.getBuf(
+			PlayGameRenderBuffers.groundBuf);
+		this.entityBuffer = this.writeToRenderBuffer.getBuf(
+			PlayGameRenderBuffers.entityBuf);
+		this.buildingBuffer = this.writeToRenderBuffer.getBuf(
+			PlayGameRenderBuffers.buildingBuf);
+		this.poleBuffer = this.writeToRenderBuffer.getBuf(
+			PlayGameRenderBuffers.poleBuf);
+		this.debugBuffer = this.writeToRenderBuffer.getBuf(
+			PlayGameRenderBuffers.debugBuf);
+		this.guiBuffer = this.writeToRenderBuffer.getBuf(
+			PlayGameRenderBuffers.guiBuf);
 	}
 	// /ASE
 	//

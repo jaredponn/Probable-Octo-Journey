@@ -66,6 +66,11 @@ public class Rectangle
 		return max.y - min.y;
 	}
 
+	public float getArea()
+	{
+		return getHeight() * getWidth();
+	}
+
 	public float getMinX()
 	{
 		return min.x;

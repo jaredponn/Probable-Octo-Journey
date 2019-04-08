@@ -2,14 +2,11 @@ package Game;
 
 import Resources.*;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.util.*;
 
 import poj.EngineState;
 import poj.GameWindow.InputPoller;
 import poj.linear.*;
-import poj.GameWindow.*;
 
 import Components.*;
 import EntitySets.*;
@@ -30,8 +27,8 @@ public class PlayGameProcessInputs
 	protected static void updateDtForKey(PlayGame g, int keyIndex,
 					     double val)
 	{
-		// if the key cooldown is not 0.. i put a if statement here
-		// because i don't want to subtract it to neg infinity..
+		// if the key cooldown is not 0 is necessary here
+		// because we don't want to subtract it to neg infinity..
 		if (g.lastCoolDown.get(keyIndex) - val > EPSILON) {
 			g.lastCoolDown.set(keyIndex,
 					   g.lastCoolDown.get(keyIndex) - val);
@@ -250,9 +247,7 @@ public class PlayGameProcessInputs
 								PhysicsPCollisionBody
 									.class,
 								player)
-							.getPolygon()
-							.pureGetAPointInPolygon(
-								0);
+							.pureGetCenter();
 
 					int tmp = engineState.spawnEntitySet(
 						new TurretSet());
@@ -261,7 +256,34 @@ public class PlayGameProcessInputs
 						.unsafeGetComponentAt(
 							WorldAttributes.class,
 							tmp)
-						.setOriginCoord(playerPosition);
+						.setOriginCoord(playerPosition.pureSubtract(
+							engineState
+								.unsafeGetComponentAt(
+									PhysicsPCollisionBody
+										.class
+									,
+									tmp)
+								.getDisplacement()));
+
+
+					// make the turret face in a random
+					// direction
+					engineState
+						.unsafeGetComponentAt(
+							HasAnimation.class, tmp)
+						.setAnimation(
+							engineState
+								.unsafeGetComponentAt(
+									AnimationWindowAssets
+										.class
+									,
+									tmp)
+								.getAnimation(
+									CardinalDirections
+										.getRandomCardinalDirection(),
+									GameConfig
+										.ATTACK_ANIMATION));
+
 
 					System.out.println(
 						"Built a tower. It cost $"
@@ -317,8 +339,10 @@ public class PlayGameProcessInputs
 			}
 
 			///// Quit Game /////
-			if (inputPoller.isKeyDown(GameConfig.QUIT_KEY))
+			if (inputPoller.isKeyDown(GameConfig.QUIT_KEY)) {
+				g.clearWorld();
 				g.quit();
+			}
 		}
 	}
 
