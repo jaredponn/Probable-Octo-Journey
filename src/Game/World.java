@@ -144,6 +144,9 @@ public abstract class World
 		double acc = 0.0d;
 
 		while (!this.quit) {
+
+			// Timer.START_BENCH();
+
 			double nt = Timer.getTimeInMilliSeconds();
 			double ft = nt - ct;
 			ct = nt;
@@ -158,6 +161,9 @@ public abstract class World
 				this.acct += this.dt;
 			}
 			this.render();
+
+			// Timer.END_BENCH();
+			// Timer.LOG_BENCH_DELTA();
 		}
 	}
 

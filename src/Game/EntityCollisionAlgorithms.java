@@ -55,47 +55,61 @@ import poj.EngineState;
 public class EntityCollisionAlgorithms
 {
 
-	public static void ifSetAAndBPhysicsBodyAreCollidingRunGameEvent(
+	public static <T extends PCollisionBody> void
+	ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
 		PlayGame g, Class<? extends Component> a,
-		Class<? extends Component> b, PlayGameEvent event)
+		Class<? extends Component> b, Class<T> collisionBodyType,
+		FocusedPlayGameEvent event)
 	{
 		EngineState engineState = g.getEngineState();
 
-		for (int i = 0; engineState.isValidEntity(i);
+		for (int i = engineState.getInitialSetIndex(a);
+		     engineState.isValidEntity(i);
 		     i = engineState.getNextSetIndex(a, i)) {
 
-			Optional<PhysicsPCollisionBody> apopt =
-				engineState.getComponentAt(
-					PhysicsPCollisionBody.class, i);
+			Optional<? extends Component> apopt =
+				engineState.getComponentAt(collisionBodyType,
+							   i);
 
 			if (!apopt.isPresent())
 				continue;
 
-			PhysicsPCollisionBody ap = apopt.get();
+			PCollisionBody ap = (PCollisionBody)apopt.get();
 
-
-			for (int j = 0; engineState.isValidEntity(j);
+			for (int j = engineState.getInitialSetIndex(b);
+			     engineState.isValidEntity(j);
 			     j = engineState.getNextSetIndex(b, j)) {
 
-				Optional<PhysicsPCollisionBody> bpopt =
+				Optional<? extends Component> bpopt =
 					engineState.getComponentAt(
-						PhysicsPCollisionBody.class, i);
+						collisionBodyType, j);
 
 				if (!bpopt.isPresent())
 					continue;
 
-				PhysicsPCollisionBody bp = bpopt.get();
+				PCollisionBody bp = (PCollisionBody)bpopt.get();
 
-				if (ap.isCollidingWith(bp))
+				if (ap.isCollidingWith(bp) && i != j) {
+					event.setFocus(i);
 					event.f();
+				}
 			}
 		}
 	}
 
-	public static <T extends PCollisionBody> void f(EngineState e,
-							Class<T> a)
+
+	private static NudgeAOutOfBPCollisionBodyEvent<
+		PhysicsPCollisionBody> NUDGE_A_OUT_OF_B_P_COLLISION_BODY_MEMO =
+		new NudgeAOutOfBPCollisionBodyEvent<PhysicsPCollisionBody>(
+			PhysicsPCollisionBody.class);
+	public static void
+	nudgeSetAAndBIfPCollisionBodiesAreTouching(PlayGame g,
+						   Class<? extends Component> a,
+						   Class<? extends Component> b)
 	{
-		Optional<PCollisionBody> test =
-			(Optional<PCollisionBody>)e.getComponentAt(a, 2);
+		NUDGE_A_OUT_OF_B_P_COLLISION_BODY_MEMO.setPlayGame(g);
+		ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
+			g, a, b, PhysicsPCollisionBody.class,
+			NUDGE_A_OUT_OF_B_P_COLLISION_BODY_MEMO);
 	}
 }

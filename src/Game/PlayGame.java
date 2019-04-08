@@ -363,14 +363,13 @@ public class PlayGame extends World
 
 
 		// resolving entity collision
-		EngineTransforms
-			.nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
-				this.engineState, this.gjk, PlayerSet.class,
-				MobSet.class);
-		EngineTransforms
-			.nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
-				this.engineState, this.gjk, MobSet.class,
-				MobSet.class);
+		EntityCollisionAlgorithms
+			.nudgeSetAAndBIfPCollisionBodiesAreTouching(
+				this, MobSet.class, MobSet.class);
+
+		EntityCollisionAlgorithms
+			.nudgeSetAAndBIfPCollisionBodiesAreTouching(
+				this, PlayerSet.class, MobSet.class);
 
 		// Resolving  collisions against tilemap
 		TileMapCollisionAlgorithms

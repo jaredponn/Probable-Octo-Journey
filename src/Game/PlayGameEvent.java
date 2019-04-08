@@ -9,6 +9,10 @@ public abstract class PlayGameEvent
 {
 	protected PlayGame gameState;
 
+	public PlayGameEvent()
+	{
+	}
+
 	public PlayGameEvent(PlayGame g)
 	{
 		gameState = g;
@@ -22,5 +26,10 @@ public abstract class PlayGameEvent
 	public PlayGame getPlayGame()
 	{
 		return gameState;
+	}
+
+	public void setPlayGame(PlayGame g)
+	{
+		this.gameState = g;
 	}
 }
