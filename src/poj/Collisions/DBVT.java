@@ -88,6 +88,7 @@ public class DBVT
 
 	private static void insertInLeafAndUpdateBounds(CollisionShape cs)
 	{
+		cs.getBoundingRectangle();
 	}
 
 	// retrusn new root of th esub tree

@@ -23,4 +23,13 @@ public interface CollisionShape {
 	{
 		return calculateBoundingRectangle();
 	}
+
+	public static float
+	calculateBoundingAreaOfCollisionShapes(CollisionShape a,
+					       CollisionShape b)
+	{
+		float abA = new Rectangle(a.getMin(), b.getMin());
+
+		return 1;
+	}
 }
