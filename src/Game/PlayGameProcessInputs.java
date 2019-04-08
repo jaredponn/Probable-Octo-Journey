@@ -2,14 +2,11 @@ package Game;
 
 import Resources.*;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.util.*;
 
 import poj.EngineState;
 import poj.GameWindow.InputPoller;
 import poj.linear.*;
-import poj.GameWindow.*;
 
 import Components.*;
 import EntitySets.*;
@@ -30,8 +27,8 @@ public class PlayGameProcessInputs
 	protected static void updateDtForKey(PlayGame g, int keyIndex,
 					     double val)
 	{
-		// if the key cooldown is not 0.. i put a if statement here
-		// because i don't want to subtract it to neg infinity..
+		// if the key cooldown is not 0 is necessary here
+		// because we don't want to subtract it to neg infinity..
 		if (g.lastCoolDown.get(keyIndex) - val > EPSILON) {
 			g.lastCoolDown.set(keyIndex,
 					   g.lastCoolDown.get(keyIndex) - val);
