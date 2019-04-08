@@ -19,6 +19,7 @@ import poj.Render.ImageRenderObject;
 import poj.Render.RenderObject;
 import poj.Render.RenderRect;
 import poj.Render.Renderer;
+import poj.Time.Timer;
 import poj.linear.Vector2f;
 public class MenuNew extends World
 {
@@ -26,6 +27,8 @@ public class MenuNew extends World
 	private Queue<RenderObject> titleBuffer =
 		new LinkedList<RenderObject>();
 	private Queue<RenderObject> buttonsBuffer =
+		new LinkedList<RenderObject>();
+	private Queue<RenderObject> collisioBoxBuffer =
 		new LinkedList<RenderObject>();
 	private Queue<PCollisionBody> buttonHitBoxBuffer =
 		new LinkedList<PCollisionBody>();
@@ -117,17 +120,84 @@ public class MenuNew extends World
 
 	public void processInputs()
 	{
+		// press P to play
 		if (inputPoller.isKeyDown(KeyEvent.VK_P)) {
 			super.quit();
 		}
-	}
-	public void render()
-	{
-		addMainMenuRenderBuffer();
-		this.renderer.renderBuffers(titleBuffer, buttonsBuffer);
+
+		// if the mouse is clicked
+		if (inputPoller.isLeftMouseButtonDown()) {
+			Vector2f mousePosition = inputPoller.getMousePosition();
+			PCollisionBody mouseHitBox = new PCollisionBody(
+				new Vector2f(0f, 0f), new Vector2f(0f, 0f),
+				mousePosition);
+			switch (curMenuState) {
+				// if the menu is at the main menu page
+			case mainMenu:
+				// store te array index of which elements are
+				// colliding
+				int colliding = -1;
+				for (int i = 0; i < 3; ++i) {
+					// if this button hitbosx is colliding
+					// with the mouse
+					if (Systems.arePCollisionBodiesColliding(
+						    gjk, mouseHitBox,
+						    this.buttonHitBoxROBuffer
+							    .get(i))) {
+						// set the colliding int as
+						// index, and then break
+						colliding = i;
+						break;
+					}
+				}
+
+				// if a collision occurs
+				if (colliding != -1) {
+					// clicks the play button
+					if (colliding == 0) {
+						super.quit();
+					}
+					// clicks how to play button
+					else if (colliding == 1) {
+						// switch the enum state to
+						// instructions
+						curMenuState =
+							MenuState.instructions;
+					}
+					// clicks the exit button
+					else {
+						System.exit(0);
+					}
+				}
+				// breaks from the switch
+				break;
+			// if the menu is at the instructions page
+			case instructions:
+				// if the back button is hit
+				if (Systems.arePCollisionBodiesColliding(
+					    gjk, mouseHitBox,
+					    this.buttonHitBoxROBuffer.get(4))) {
+					// switch the enum state to main menu
+					curMenuState = MenuState.mainMenu;
+				}
+				// break from the switch statement
+				break;
+			}
+		}
 	}
 
-	// add ecs for each buttons!!
+	public void render()
+	{
+		if (curMenuState == MenuState.mainMenu) {
+			addMainMenuRenderBuffer();
+		} else {
+			addInstructionsRenderBuffer();
+		}
+		this.renderer.renderBuffers(titleBuffer, buttonsBuffer,
+					    collisioBoxBuffer);
+	}
+
+	// add the buttons render objects and collision boxes for the main menu
 	public void addMainMenuRenderBuffer()
 	{
 		titleBuffer.add(menuImageROBuffer.get(1)); // add main bg
@@ -139,18 +209,36 @@ public class MenuNew extends World
 				this.buttonRenderLayer.get(i).getGraphic());
 			buttonHitBoxBuffer.add(
 				this.buttonHitBoxROBuffer.get(i));
+			pCollisionBodyDebugRenderer(
+				this.buttonHitBoxROBuffer.get(i),
+				collisioBoxBuffer, Color.BLUE);
 		}
+	}
+
+	// add the buttons render objects and collision boxes for the main menu
+	public void addInstructionsRenderBuffer()
+	{
+		titleBuffer.add(menuImageROBuffer.get(3)); // add help bg
+		titleBuffer.add(
+			menuImageROBuffer.get(4)); // add help instructiosn
+
+		// only render the how to play and back button
+		for (int i = 3; i <= 4; ++i) {
+			buttonsBuffer.add(
+				this.buttonRenderLayer.get(i).getGraphic());
+			buttonHitBoxBuffer.add(
+				this.buttonHitBoxROBuffer.get(i));
+			pCollisionBodyDebugRenderer(
+				this.buttonHitBoxROBuffer.get(i),
+				collisioBoxBuffer, Color.BLUE);
+		}
+		// show collision box for debugging
 	}
 
 	public void runGame()
 	{
-		// Timer.sleepNMilliseconds(10);
+		Timer.sleepNMilliseconds(10);
 		processInputs();
-		// show collision box for debugging
-		for (PCollisionBody i : buttonHitBoxBuffer) {
-			pCollisionBodyDebugRenderer(i, buttonsBuffer,
-						    Color.BLUE);
-		}
 		// render();
 	}
 
@@ -169,6 +257,5 @@ public class MenuNew extends World
 
 enum MenuState {
 	mainMenu,
-	instructions,
-	playing;
+	instructions;
 }
