@@ -167,7 +167,7 @@ public class PlayGame extends World
 		*/
 
 
-		// setting the coolDown keys
+		// deep copies the coolDown keys
 		for (int i = 0; i < GameConfig.COOL_DOWN_KEYS.size(); ++i) {
 			coolDownMax.set(GameConfig.COOL_DOWN_KEYS.get(i).fst,
 					GameConfig.COOL_DOWN_KEYS.get(i).snd);

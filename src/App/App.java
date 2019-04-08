@@ -1,13 +1,14 @@
 package App;
 
-import java.io.File;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 
-import javax.sound.sampled.*;
-
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Game.GameOver;
-import Game.Menu;
+import Game.MenuNew;
 import Game.PlayGame;
 import Resources.GameConfig;
 import Resources.GameResources;
@@ -21,8 +22,6 @@ import poj.GameWindow.GameCanvas;
 import poj.GameWindow.GameWindow;
 import poj.GameWindow.InputPoller;
 import poj.Render.Renderer;
-
-import java.awt.*;
 
 public class App
 {
@@ -60,6 +59,8 @@ public class App
 					      inputPoller);
 		this.width = gd.getDisplayMode().getWidth();
 		this.height = gd.getDisplayMode().getHeight();
+		System.out.println("width = " + width);
+		System.out.println("height = " + height);
 
 		// this.width = 1024;
 		// this.height = 768;
@@ -88,9 +89,12 @@ public class App
 	{
 
 
-		Menu menu = new Menu(width, height, this.renderer,
-				     this.inputPoller);
-
+		// Menu menu = new Menu(width, height, this.renderer,
+		// this.inputPoller);
+		MenuNew menu = new MenuNew(width, height, this.renderer,
+					   this.inputPoller);
+		// menu.registerComponents();
+		// menu.registerEntitySets();
 		// start playing game background music
 		while (isRunning) {
 			runMenu = true; // this is so bad
