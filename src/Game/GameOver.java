@@ -42,7 +42,7 @@ public class GameOver extends World
 	protected ArrayList<Integer> scores;
 	protected boolean isHighScore;
 
-	protected Queue<RenderObject> renderBuffer;
+	protected ArrayList<RenderObject> renderBuffer;
 
 	protected static final String SCORES_FILE_NAME = "scores.txt";
 	protected static final int FONT_SIZE = 32;
@@ -54,7 +54,7 @@ public class GameOver extends World
 	{
 		super(width, height, renderer, inputPoller);
 		this.newScore = newScore;
-		this.renderBuffer = new LinkedList<RenderObject>();
+		this.renderBuffer = new ArrayList<RenderObject>();
 
 		this.scores = new ArrayList<Integer>();
 
@@ -95,6 +95,20 @@ public class GameOver extends World
 	{
 		poj.Time.Timer.sleepNMilliseconds(10);
 
+
+		this.processInputs();
+	}
+
+	public void processInputs()
+	{
+		if (inputPoller.isKeyDown(KeyEvent.VK_ENTER))
+			quit();
+	}
+
+
+	public void render()
+	{
+
 		renderBuffer.add(new StringRenderObject(
 			"HIGH SCORES", super.windowWidth / 2 - 100,
 			4 * FONT_SIZE, Color.darkGray, FONT));
@@ -133,20 +147,7 @@ public class GameOver extends World
 			super.windowWidth / 2 - 350,
 			super.windowHeight - FONT_SIZE - 20, Color.darkGray,
 			FONT));
-
-		this.processInputs();
-	}
-
-	public void processInputs()
-	{
-		if (inputPoller.isKeyDown(KeyEvent.VK_ENTER))
-			quit();
-	}
-
-
-	public void render()
-	{
-		renderer.renderBuffers(renderBuffer);
+		renderer.renderBufferLists(renderBuffer);
 	}
 
 	public void overWriteScoresTextFile()
