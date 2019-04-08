@@ -65,8 +65,13 @@ public class PCollisionBody implements Component
 
 	public boolean isCollidingWith(PCollisionBody p)
 	{
+		return isCollidingWith(p.getPolygon());
+	}
+
+	public boolean isCollidingWith(CollisionShape p)
+	{
 		this.gjk.clearVerticies();
-		return this.gjk.areColliding(p.getPolygon(), this.getPolygon());
+		return this.gjk.areColliding(p, this.getPolygon());
 	}
 
 	// d is this delta movement
