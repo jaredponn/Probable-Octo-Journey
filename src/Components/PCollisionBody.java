@@ -77,10 +77,9 @@ public class PCollisionBody implements Component
 					     d);
 	}
 
-	public Vector2f calculateThisPenetrationVector(PCollisionBody p)
+	public Vector2f calculateThisPenetrationVector()
 	{
-		return this.gjk.calculatePenetrationVector(p.getPolygon(),
-							   this.getPolygon());
+		return this.gjk.calculatePenetrationVector();
 	}
 
 	/**

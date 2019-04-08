@@ -8,9 +8,12 @@ package Components;
  * @version 1.0
  */
 import poj.Component.Component;
+import poj.Logger.Logger;
 import poj.Render.*;
 import poj.linear.Vector2f;
+
 import java.awt.image.*;
+
 import poj.Render.ImageRenderObject;
 
 
@@ -57,6 +60,8 @@ public class Render implements Component
 
 	public void render(Renderer renderer)
 	{
+		Logger.logMessage(
+			"LONG DEPRECATED DO NOT USE Render::render()");
 		renderer.pushRenderObject(graphic);
 	}
 
