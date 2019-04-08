@@ -120,6 +120,7 @@ public class MenuNew extends World
 
 	public void processInputs()
 	{
+		System.out.println("asdfasdf");
 		// press P to play
 		if (inputPoller.isKeyDown(KeyEvent.VK_P)) {
 			super.quit();
@@ -238,6 +239,7 @@ public class MenuNew extends World
 	public void runGame()
 	{
 		Timer.sleepNMilliseconds(10);
+		System.out.println("Yo");
 		processInputs();
 		// render();
 	}

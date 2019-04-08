@@ -93,6 +93,7 @@ public class App
 						   this.inputPoller);
 			// start playing menu music
 			GameResources.menuSound.playContinuously();
+
 			menu.runGameLoop();
 			// stop playing menu music
 			GameResources.menuSound.end();
