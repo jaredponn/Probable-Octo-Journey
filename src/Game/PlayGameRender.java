@@ -58,6 +58,7 @@ public class PlayGameRender
 		g.guiBuffer.add(new StringRenderObject(g.ammoDisplay));
 		g.guiBuffer.add(new StringRenderObject(g.killDisplay));
 		g.guiBuffer.add(new StringRenderObject(g.mobCountDisplay));
+		g.guiBuffer.add(new StringRenderObject(g.damageBonusDisplay));
 
 		Collections.sort(g.entityBuffer, renderObjComp);
 
