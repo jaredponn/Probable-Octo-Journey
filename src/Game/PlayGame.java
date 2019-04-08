@@ -92,7 +92,7 @@ public class PlayGame extends World
 	protected static double EPSILON = 0.0001d;
 	protected WeaponState curWeaponState = WeaponState.Gun;
 
-	protected double playerDamageBonus = 1d;
+	protected int playerDamageBonus = 0;
 	protected Ammo playerAmmo = new Ammo(GameConfig.PLAYER_STARTING_AMMO,
 					     GameConfig.PLAYER_MAX_AMMO);
 	protected int cash = GameConfig.PLAYER_STARTING_CASH;
@@ -107,17 +107,26 @@ public class PlayGame extends World
 		0.0 - GameConfig.PICKUP_POWERUP_SPAWN_TIME;
 
 	protected StringRenderObject gameTimer =
-		new StringRenderObject("", 5, 10, Color.WHITE);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 1, 
+				Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject cashDisplay = new StringRenderObject(
-		"Your Cash: " + this.cash, 5, 20, Color.WHITE);
+		"Your Cash: " + this.cash, 5, GameConfig.HUD_LINE_SPACING * 2, 
+				Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject healthDisplay =
-		new StringRenderObject("", 5, 30, Color.WHITE);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 3, 
+				Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject ammoDisplay =
-		new StringRenderObject("", 5, 40, Color.WHITE);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 4, 
+				Color.WHITE, GameConfig.HUD_FONT);
+	protected StringRenderObject damageBonusDisplay =
+			new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 5, 
+					Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject killDisplay =
-		new StringRenderObject("", 5, 50, Color.WHITE);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 6, 
+				Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject mobCountDisplay =
-		new StringRenderObject("", 5, 60, Color.WHITE);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 7, 
+				Color.WHITE, GameConfig.HUD_FONT);
 
 
 	// Collision detection and resolution
@@ -344,6 +353,7 @@ public class PlayGame extends World
 		this.updateAmmoDisplay();
 		this.updateKillDisplay();
 		this.updateMobCountDisplay();
+		this.updateDamageBonusDisplay();
 
 		// updating positions
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
@@ -544,6 +554,13 @@ public class PlayGame extends World
 	{
 		this.mobCountDisplay.setStr("Total Zombies spawned: "
 					    + this.mobsSpawned);
+	}
+	
+	/** update damageBonusDisplay */
+	protected void updateDamageBonusDisplay()
+	{
+		this.damageBonusDisplay.setStr("Current bullet damage: "
+					    + (GameConfig.BULLET_DAMAGE+playerDamageBonus));
 	}
 
 	/**

@@ -394,11 +394,11 @@ public class GameResources
 	public static BufferedImage healthImage = ImageLoader.load(
 		"resources/RamiroGraphics/spritePack/MedKit.png");
 
-	// health resources
+	// power-up resources
 	public static final int POWERUP_SPRITE_WIDTH = 16;
 	public static final int POWERUP_SPRITE_HEIGHT = 16;
 	public static BufferedImage powerupImage =
-		ImageLoader.load("resources/coin.png");
+		ImageLoader.load("resources/RamiroGraphics/spritePack/ArrowPowerup.png");
 
 
 	// player resources

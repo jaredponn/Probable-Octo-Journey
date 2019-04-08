@@ -85,8 +85,8 @@ See `textbased/README.md` for more information about the text based version.
 
 ## TODO List
 - [ ] REDO SPRITE (DONT FORGET THE WATER FOUNTAIN AND GAS STATION)for the tilemap so buildings fits the tiles perfectly (either delete or add new blocks)
-- [ ] Damage numbers ? at least tell the user how much damage does the weapons and zombies do
-- [ ] Initials for the GAME OVER SCREEN (Ramiro)
+- [x] Damage numbers ? at least tell the user how much damage does the weapons do
+- [ ] Initials for the GAME OVER SCREEN (just need to relocate and do key cooldown)
 - [ ] Boss zombies (may need more graphics from Ramiro for this)
 - [ ] Make the hitboxes for the tilemap - Buildings are done 03/29/19 haiyang
 - [x] Aligning collision boxes for the players&zombie 
@@ -97,16 +97,16 @@ See `textbased/README.md` for more information about the text based version.
 - [x] Turret sprites - just need to be implemented (04/06/19 jared)
 - [x] Melee sprites with a more visible sword (04/06/19 jared)
 - [ ] hp bars
-- [ ] bigger / prettier GUI font
+- [ ] bigger / prettier GUI font (now bigger, just need to make prettier)
 
 
 - [ ] make trying to close game window generate a confirmation prompt 
 - [ ] pause game (maybe)
 - [ ] move pathfinding to its component and iterate through that to decide which entities to path find. Makes it easier for the attack cycler as well
-- [ ] additive damage for the player bonus
 
 
 
+- [x] flat damage bonus instead of percent modifier
 - [x] Slower zombie attacks
 - [x] Put back the poles beside the buildings 
 - [x] Make path find work around fences and buildings
