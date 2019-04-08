@@ -110,8 +110,6 @@ public class GJK
 		final Polygon p =
 			generateStretchedPolygonWithDirectionVector(colb, db);
 
-		this.clearVerticies();
-
 		return this.areColliding(cola, p);
 	}
 
