@@ -66,6 +66,7 @@ public class PlayGame extends World
 	// buffers for the renderer
 	private static int DEFAULT_RENDER_BUF_SIZE = 10000;
 	protected PlayGameRenderBuffers writeToRenderBuffer;
+
 	// references to the render buffers in the thread. Mainly here for
 	// legacy reasons
 	protected ArrayList<RenderObject> groundBuffer;

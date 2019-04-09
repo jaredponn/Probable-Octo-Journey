@@ -7,6 +7,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import Components.AnimationWindowAssets;
 import Components.CardinalDirections;
+import Components.Damage;
+import Components.DamageBonus;
 import Components.HasAnimation;
 import Components.Movement;
 import Components.PCollisionBody;
@@ -17,8 +19,7 @@ import Components.WorldAttributes;
 import EntitySets.Bullet;
 import EntitySets.MobSet;
 import EntitySets.PlayerSet;
-import Game.GameEvents.FocusedPlayGameEvent;
-import Game.GameEvents.PlayGameEvent;
+import Game.GameEvents.*;
 import Resources.GameConfig;
 
 import poj.EngineState;
@@ -86,6 +87,7 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 		{
 			super(g, e);
 		}
+
 		public void f()
 		{
 
@@ -210,12 +212,25 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 					patk, super.getPlayGame().debugBuffer,
 					super.getPlayGame().cam, Color.orange);
 
-				EngineTransforms.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
-					engineState, patk, MobSet.class,
-					(int)(GameConfig
-						      .PLAYER_STARTING_MELEE_DAMAGE
-					      + super.getPlayGame()
-							.playerDamageBonus.get()));
+				int playerDamage =
+					engineState
+						.unsafeGetComponentAt(
+							Damage.class, player)
+						.getDamage()
+					+ engineState
+						  .unsafeGetComponentAt(
+							  DamageBonus.class,
+							  player)
+						  .get();
+
+				EntityCollisionAlgorithms
+					.ifCollisionBodyIsCollidingWithSetARunGameEventOnFirst(
+						super.getPlayGame(), patk,
+						MobSet.class, PHitBox.class,
+						new DamageFocusedEntityEvent(
+							super.getPlayGame(),
+							playerDamage));
+
 				break;
 			}
 		}

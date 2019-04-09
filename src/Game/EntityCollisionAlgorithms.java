@@ -12,9 +12,7 @@ package Game;
 import java.util.Optional;
 
 import Components.*;
-import Game.GameEvents.BiFocusedPlayGameEvent;
-import Game.GameEvents.NudgeAOutOfBPCollisionBodyEvent;
-import Game.GameEvents.StartAttackCycleEvent;
+import Game.GameEvents.*;
 import poj.Component.*;
 import poj.EngineState;
 
@@ -60,6 +58,33 @@ public class EntityCollisionAlgorithms
 					event.setFocus2(j);
 					event.f();
 				}
+			}
+		}
+	}
+
+	public static <T extends PCollisionBody> void
+	ifCollisionBodyIsCollidingWithSetARunGameEventOnFirst(
+		PlayGame g, PCollisionBody pbody, Class<? extends Component> a,
+		Class<T> collisionBodyType, FocusedPlayGameEvent event)
+	{
+		EngineState engineState = g.getEngineState();
+
+		for (int i = engineState.getInitialSetIndex(a);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(a, i)) {
+
+			Optional<? extends Component> bpopt =
+				engineState.getComponentAt(collisionBodyType,
+							   i);
+			if (!bpopt.isPresent())
+				continue;
+
+			PCollisionBody bp = (PCollisionBody)bpopt.get();
+
+			if (bp.isCollidingWith(pbody)) {
+				event.setFocus1(i);
+				event.f();
+				return;
 			}
 		}
 	}
