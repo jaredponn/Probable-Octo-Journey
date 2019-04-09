@@ -111,52 +111,19 @@ public class GameOver extends World
 		
 		Collections.sort(scores);
 		Collections.reverse(scores);
+		
+		// deep copies the coolDown keys
+		for (int i = 0; i < GameConfig.COOL_DOWN_KEYS.size(); ++i) {
+			coolDownMax.set(GameConfig.COOL_DOWN_KEYS.get(i).fst,
+					GameConfig.COOL_DOWN_KEYS.get(i).snd);
+		}
 	}
 
 	public void runGame()
 	{
 		poj.Time.Timer.sleepNMilliseconds(10);
 
-		renderBuffer.add(new StringRenderObject(
-			"HIGH SCORES", super.windowWidth / 2 - 100,
-			4 * FONT_SIZE, Color.darkGray, FONT));
-
-		renderBuffer.add(new StringRenderObject(
-			"YOUR SCORE", super.windowWidth / 2 - 90, 5 * FONT_SIZE,
-			Color.darkGray, FONT));
-
-		renderBuffer.add(new StringRenderObject(
-			"" + newScore, super.windowWidth / 2, 6 * FONT_SIZE,
-			Color.darkGray, FONT));
-
-		renderBuffer.add(new StringRenderObject(
-			"ZOMBIES SLAIN", super.windowWidth / 2 - 100,
-			7 * FONT_SIZE, Color.darkGray, FONT));
-
-		if (isHighScore)
-			renderBuffer.add(new StringRenderObject(
-				"CONGRATS NEW HIGH SCORE",
-				super.windowWidth / 2 - 200, 8 * FONT_SIZE,
-				Color.darkGray, FONT));
-
-		renderBuffer.add(new StringRenderObject(
-			"OTHER SCORES", super.windowWidth / 2 - 100,
-			9 * FONT_SIZE, Color.darkGray, FONT));
-
-		for (int i = 0; i < 5 && i < scores.size(); ++i) {
-			renderBuffer.add(new StringRenderObject(
-				scores.get(i).getName() +": " + scores.get(i).getScore(),
-				super.windowWidth / 2 - 20,
-				(i + 10) * FONT_SIZE, Color.darkGray, FONT));
-		}
-
-		renderBuffer.add(new StringRenderObject(
-			"PRESS ENTER TO GO BACK TO THE MENU",
-			super.windowWidth / 2 - 350,
-			super.windowHeight - FONT_SIZE - 20, Color.darkGray,
-			FONT));
-
-		renderBuffer.add(initialRender);
+		PlayGameProcessInputs.updateCoolDownKeys(this);
 
 		this.processInputs();
 	}
@@ -167,34 +134,54 @@ public class GameOver extends World
 			quit();
 		
 		// Choose letter
-		if (inputPoller.isKeyDown(KeyEvent.VK_UP) ) {
-			if (initials.get(currentInitial) < 90) {
+		if (inputPoller.isKeyDown(GameConfig.ARROW_DOWN) &&
+				Math.abs(lastCoolDown.get(GameConfig.ARROW_DOWN)) == 0) {
+			if (initials.get(currentInitial) < GameConfig.Z_INTEGER) {
 				Integer initial = initials.get(currentInitial);
 				initials.set(currentInitial, initial + 1);
 			}
 			else {
-				initials.set(currentInitial, 65);
+				initials.set(currentInitial, GameConfig.A_INTEGER);
 			}
 			initialRender.setStr(initialsToString());
+			PlayGameProcessInputs.updateDtForKey(
+					this, GameConfig.ARROW_DOWN,
+					-PlayGame.coolDownMax.get(
+						GameConfig.ARROW_DOWN));
 		}
-		if (inputPoller.isKeyDown(KeyEvent.VK_DOWN) ) {
-			if (initials.get(currentInitial) > 65) {
+		if (inputPoller.isKeyDown(GameConfig.ARROW_UP) &&
+				Math.abs(lastCoolDown.get(GameConfig.ARROW_UP)) == 0) {
+			if (initials.get(currentInitial) > GameConfig.A_INTEGER) {
 				Integer initial = initials.get(currentInitial);
 				initials.set(currentInitial, initial - 1);
 			}
 			else {
-				initials.set(currentInitial , 90 );
+				initials.set(currentInitial , GameConfig.Z_INTEGER );
 			}
 			initialRender.setStr(initialsToString());
+			PlayGameProcessInputs.updateDtForKey(
+					this, GameConfig.ARROW_UP,
+					-PlayGame.coolDownMax.get(
+						GameConfig.ARROW_UP));
 		}
 		// Choose slot
-		if (inputPoller.isKeyDown(KeyEvent.VK_LEFT)) {
+		if (inputPoller.isKeyDown(GameConfig.ARROW_LEFT) &&
+				Math.abs(lastCoolDown.get(GameConfig.ARROW_LEFT)) == 0) {
 			if (currentInitial > 0)
 				currentInitial--;
+			PlayGameProcessInputs.updateDtForKey(
+					this, GameConfig.ARROW_LEFT,
+					-PlayGame.coolDownMax.get(
+						GameConfig.ARROW_LEFT));
 		}
-		if (inputPoller.isKeyDown(KeyEvent.VK_RIGHT)) {
+		if (inputPoller.isKeyDown(GameConfig.ARROW_RIGHT) &&
+				Math.abs(lastCoolDown.get(GameConfig.ARROW_RIGHT)) == 0) {
 			if (currentInitial < 2)
 				currentInitial++;
+			PlayGameProcessInputs.updateDtForKey(
+					this, GameConfig.ARROW_RIGHT,
+					-PlayGame.coolDownMax.get(
+						GameConfig.ARROW_RIGHT));
 		}
 	}
 
@@ -202,6 +189,48 @@ public class GameOver extends World
 	public void render()
 	{
 		renderer.renderBuffers(renderBuffer);
+		
+		renderBuffer.add(new StringRenderObject(
+				"HIGH SCORES", super.windowWidth / 2 - 100,
+				4 * FONT_SIZE, Color.darkGray, FONT));
+
+			renderBuffer.add(new StringRenderObject(
+				"YOUR SCORE", super.windowWidth / 2 - 90, 5 * FONT_SIZE,
+				Color.darkGray, FONT));
+
+			renderBuffer.add(new StringRenderObject(
+				"" + newScore, super.windowWidth / 2, 6 * FONT_SIZE,
+				Color.darkGray, FONT));
+
+			renderBuffer.add(new StringRenderObject(
+				"ZOMBIES SLAIN", super.windowWidth / 2 - 100,
+				7 * FONT_SIZE, Color.darkGray, FONT));
+
+			if (isHighScore)
+				renderBuffer.add(new StringRenderObject(
+					"CONGRATS NEW HIGH SCORE",
+					super.windowWidth / 2 - 200, 8 * FONT_SIZE,
+					Color.darkGray, FONT));
+
+			renderBuffer.add(new StringRenderObject(
+				"OTHER SCORES", super.windowWidth / 2 - 100,
+				9 * FONT_SIZE, Color.darkGray, FONT));
+
+			for (int i = 0; i < 5 && i < scores.size(); ++i) {
+				renderBuffer.add(new StringRenderObject(
+					scores.get(i).getName() +": " + scores.get(i).getScore(),
+					super.windowWidth / 2 - 20,
+					(i + 10) * FONT_SIZE, Color.darkGray, FONT));
+			}
+
+			renderBuffer.add(new StringRenderObject(
+				"PRESS ENTER TO GO BACK TO THE MENU",
+				super.windowWidth / 2 - 350,
+				super.windowHeight - FONT_SIZE - 20, Color.darkGray,
+				FONT));
+
+			renderBuffer.add(initialRender);
+		
 	}
 
 	public void overWriteScoresTextFile()
