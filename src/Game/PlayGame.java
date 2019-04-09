@@ -170,8 +170,8 @@ public class PlayGame extends World
 		this.updateInverseCamera();
 
 		// initialize the path finding thread
-		this.generateDiffusionMap =
-			new MapGeneration(this.map, 0, 1f / 8f);
+		this.generateDiffusionMap = new MapGeneration(
+			this.map, this.engineState, 0, 1f / 8f);
 
 
 		// loading the quad tree
@@ -200,7 +200,6 @@ public class PlayGame extends World
 		super.engineState.registerComponent(Damage.class);
 		super.engineState.registerComponent(AggroRange.class);
 		super.engineState.registerComponent(Ammo.class);
-		super.engineState.registerComponent(SoundAssets.class);
 		super.engineState.registerComponent(SoundEffectAssets.class);
 		super.engineState.registerComponent(Money.class);
 		super.engineState.registerComponent(DamageBonus.class);

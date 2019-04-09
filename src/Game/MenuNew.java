@@ -127,6 +127,7 @@ public class MenuNew extends World
 
 		// if the mouse is clicked
 		if (inputPoller.isLeftMouseButtonDown()) {
+
 			Vector2f mousePosition = inputPoller.getMousePosition();
 			PCollisionBody mouseHitBox = new PCollisionBody(
 				new Vector2f(0f, 0f), new Vector2f(0f, 0f),
@@ -153,6 +154,9 @@ public class MenuNew extends World
 
 				// if a collision occurs
 				if (colliding != -1) {
+					// plays the menu sound
+					GameResources.menuSelectButtonSound
+						.play();
 					// clicks the play button
 					if (colliding == 0) {
 						super.quit();
@@ -177,6 +181,9 @@ public class MenuNew extends World
 				if (Systems.arePCollisionBodiesColliding(
 					    gjk, mouseHitBox,
 					    this.buttonHitBoxROBuffer.get(4))) {
+					// plays the menu sound
+					GameResources.menuSelectButtonSound
+						.play();
 					// switch the enum state to main menu
 					curMenuState = MenuState.mainMenu;
 				}
@@ -185,14 +192,18 @@ public class MenuNew extends World
 			}
 		}
 	}
-
-	public void render()
+	public void addBuffers()
 	{
 		if (curMenuState == MenuState.mainMenu) {
 			addMainMenuRenderBuffer();
 		} else {
 			addInstructionsRenderBuffer();
 		}
+	}
+
+	public void render()
+	{
+		addBuffers();
 		this.renderer.renderBuffers(titleBuffer, buttonsBuffer,
 					    collisioBoxBuffer);
 	}
@@ -232,14 +243,14 @@ public class MenuNew extends World
 				this.buttonHitBoxROBuffer.get(i),
 				collisioBoxBuffer, Color.BLUE);
 		}
-		// show collision box for debugging
 	}
 
 	public void runGame()
 	{
-		// Timer.sleepNMilliseconds(10);
+		// sleeps the thread for 10 ms so we dont get continuous mouse
+		// clicks
+		Timer.sleepNMilliseconds(10);
 		processInputs();
-		// render();
 	}
 
 	public void pCollisionBodyDebugRenderer(final PCollisionBody pc,

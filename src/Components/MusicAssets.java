@@ -8,19 +8,18 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Resources.GameResources;
 /**
- * Sound asset component for music and sounds that NEED TO BE STOPPED AND
- *REPLAYED.
- Used to store sound for a entity set
+ * DEPRICATED! Sound asset component for music and sounds that NEED TO BE
+ STOPPED AND *REPLAYED. Used to store sound for a entity set
  *
  * Date: March 24, 2019
  * @author Haiyang
  * @version 1.0
  */
 import poj.Component.Component;
-public class SoundAssets implements Component
+public class MusicAssets implements Component
 {
 	private final ArrayList<Sound> soundAsset = new ArrayList<Sound>();
-	public SoundAssets(final ArrayList<Sound> soundBuffer)
+	public MusicAssets(final ArrayList<Sound> soundBuffer)
 	{
 		for (int i = 0; i < soundBuffer.size(); ++i) {
 			try { // deep copy
