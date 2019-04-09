@@ -286,7 +286,7 @@ public class Renderer
 	private void renderRect(RenderRect n, Graphics2D g2d)
 	{
 		g2d.setColor(n.getColor());
-		g2d.drawRect(n.getX(), n.getY(), n.getWidth(), n.getHeight());
+		g2d.fillRect(n.getX(), n.getY(), n.getWidth(), n.getHeight());
 	}
 
 	/**
