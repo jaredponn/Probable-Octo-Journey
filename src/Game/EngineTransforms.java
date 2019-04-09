@@ -473,10 +473,10 @@ public class EngineTransforms
 					map.getEcsIndexFromWorldVector2f(
 						engineState
 							.unsafeGetComponentAt(
-								WorldAttributes
+								PhysicsPCollisionBody
 									.class,
 								i)
-							.getCenteredBottomQuarter()))
+							.pureGetCenter()))
 				.setDiffusionValue(
 					GameConfig.TOWER_DIFFUSION_VALUE);
 		}
@@ -505,8 +505,7 @@ public class EngineTransforms
 		if (!mapLayer.unsafeGetComponentAt(
 				     PathFindCord.class,
 				     map.getEcsIndexFromWorldVector2f(
-					     playerPosition))
-			     .getIsWall()) {
+					     playerPosition)) .getIsWall()) {
 				 */
 
 			mapLayer.unsafeGetComponentAt(

@@ -154,6 +154,7 @@ public class PlayGameRender
 			ArrayList<RenderObject> tmp =
 				hp.getRenderObjectGraphics();
 
+			// putting the render oject at the right location
 			int maxWidth = tmp.get(0).getWidth();
 			for (RenderObject j : tmp) {
 				Vector2f npos =
