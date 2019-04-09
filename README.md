@@ -93,9 +93,11 @@ See `textbased/README.md` for more information about the text based version.
 - [ ] Refactor to reduce code duplication
 - [ ] Comments / Javadoc
 - [ ] Optimization
+- [ ] Line up the hitboxes of the Collectibles(powerups, money, hp) with it's hit box
+
 
 Maybe list (if we have time)
-- [ ] hp bars
+- [x] hp bars
 - [ ] Boss zombies (may need more graphics from Ramiro for this)
 - [ ] Prettier HUD
 - [ ] pause game
