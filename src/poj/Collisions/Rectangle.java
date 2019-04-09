@@ -143,7 +143,12 @@ public class Rectangle
 
 	public static float maxAreaOfBoundingRects(Rectangle a, Rectangle b)
 	{
-		float A1 = new Rectangle(a.getMin(), b.getMax()).getArea();
+		float minx = Math.min(a.getMinX(), b.getMinX());
+		float miny = Math.min(a.getMinY(), b.getMinY());
+
+
+		float maxx = Math.max(a.getMaxX(), b.getMaxX());
+		float maxy = Math.max(a.getMaxY(), b.getMaxY());
 
 		return 0f;
 	}
