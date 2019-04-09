@@ -103,29 +103,6 @@ public class PlayGame extends World
 	protected double timeOfLastPowerUpSpawn =
 		0.0 - GameConfig.PICKUP_POWERUP_SPAWN_TIME;
 
-	protected StringRenderObject gameTimer =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 1,
-				       Color.WHITE, GameConfig.HUD_FONT);
-	protected StringRenderObject cashDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 2,
-				       Color.WHITE, GameConfig.HUD_FONT);
-	protected StringRenderObject healthDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 3,
-				       Color.WHITE, GameConfig.HUD_FONT);
-	protected StringRenderObject ammoDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 4,
-				       Color.WHITE, GameConfig.HUD_FONT);
-	protected StringRenderObject damageBonusDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 5,
-				       Color.WHITE, GameConfig.HUD_FONT);
-	protected StringRenderObject killDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 6,
-				       Color.WHITE, GameConfig.HUD_FONT);
-	protected StringRenderObject mobCountDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 7,
-				       Color.WHITE, GameConfig.HUD_FONT);
-
-
 	// Collision detection and resolution
 	protected GJK gjk;
 	protected QuadTree tileMapQuadTree;
@@ -345,13 +322,6 @@ public class PlayGame extends World
 		this.collectHealthPack();
 		this.collectAmmoPack();
 
-		this.updateGameTimer();
-		this.updateCashDisplay();
-		this.updateHealthDisplay();
-		this.updateAmmoDisplay();
-		this.updateKillDisplay();
-		this.updateMobCountDisplay();
-		this.updateDamageBonusDisplay();
 
 		// updating positions
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
@@ -512,55 +482,6 @@ public class PlayGame extends World
 		return playTime;
 	}
 
-	/** updates the gameTimer string with the current play time */
-	protected void updateGameTimer()
-	{
-		this.gameTimer.setStr("" + getPlayTime());
-	}
-
-	/**  updates the cashDisplay string with the players current cash */
-	protected void updateCashDisplay()
-	{
-		this.cashDisplay.setStr("Your Cash: $" + playerMoney.get());
-	}
-
-	/** update healthDisplay */
-	protected void updateHealthDisplay()
-	{
-		this.healthDisplay.setStr(
-			"Your HP: "
-			+ engineState
-				  .unsafeGetComponentAt(HitPoints.class,
-							this.player)
-				  .getHP());
-	}
-
-	/** update ammoDisplay */
-	protected void updateAmmoDisplay()
-	{
-		this.ammoDisplay.setStr("Your Ammo: " + this.playerAmmo.get());
-	}
-
-	/** update killDisplay */
-	protected void updateKillDisplay()
-	{
-		this.killDisplay.setStr("Your kills: " + this.killCount);
-	}
-
-	/** update mobCountDisplay */
-	protected void updateMobCountDisplay()
-	{
-		this.mobCountDisplay.setStr("Total Zombies spawned: "
-					    + this.mobsSpawned);
-	}
-
-	/** update damageBonusDisplay */
-	protected void updateDamageBonusDisplay()
-	{
-		this.damageBonusDisplay.setStr(
-			"Current bullet damage: "
-			+ (GameConfig.BULLET_DAMAGE + playerDamageBonus.get()));
-	}
 
 	/**
 	 * spawns a new mob entity if it has been at least

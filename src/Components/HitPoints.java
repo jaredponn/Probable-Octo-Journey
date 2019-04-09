@@ -7,7 +7,7 @@ import poj.Component.Component;
  * @author Alex
  * @version 2.0 - 03/31/19
  */
-public class HitPoints implements Component
+public class HitPoints implements Component, GUIStringDisplayable
 {
 
 	private int hp;
@@ -18,7 +18,7 @@ public class HitPoints implements Component
 	 * @param amount: current hit points
 	 * @param max: maximum amount of hit points
 	 */
-	public HitPoints(int amount , int max)
+	public HitPoints(int amount, int max)
 	{
 		this.hp = amount;
 		this.maxHP = max;
@@ -32,19 +32,21 @@ public class HitPoints implements Component
 	{
 		return this.hp;
 	}
-	
+
 	/**
 	 * gets the maximum amount of hit points
 	 * @return maximum hit points
 	 */
-	public int getMax() {
+	public int getMax()
+	{
 		return this.maxHP;
 	}
 
 	/**
 	 * sets the current hit points
 	 * @param amount: the total number of hit points
-	 * 				  this entity will have (cannot exceed maxHP)
+	 * 				  this entity will have (cannot exceed
+	 * maxHP)
 	 */
 	public void setHP(int amount)
 	{
@@ -73,6 +75,12 @@ public class HitPoints implements Component
 	{
 		this.heal(-amount);
 	}
+
+	public String getFormattedString()
+	{
+		return hp + "/" + maxHP;
+	}
+
 
 	/**
 	 * prints this entity's current hit points

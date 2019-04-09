@@ -15,7 +15,7 @@ public class PlayGameRenderBuffers
 	protected static final int debugBuf = 4;
 	protected static final int guiBuf = 5;
 
-	protected static final int DEFAULT_BUF_SIZE = 10000;
+	protected static final int DEFAULT_BUF_SIZE = 1000; // overkill
 	protected static final int DEFAULT_NUM_BUFFERS = guiBuf + 1;
 
 	protected PlayGameRenderBuffers()
