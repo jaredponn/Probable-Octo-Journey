@@ -59,64 +59,9 @@ public class PlayGameRender
 							g.windowHeight);
 		}
 
-		int player =
-			g.getEngineState().getInitialSetIndex(PlayerSet.class);
+		addGameGUIBuffers(g);
 
-		// game timer
-		g.guiBuffer.add(new StringRenderObject(
-			"" + g.getPlayTime(), 5,
-			GameConfig.HUD_LINE_SPACING * 1, Color.WHITE,
-			GameConfig.HUD_FONT));
-
-		// money
-		g.guiBuffer.add(new StringRenderObject(
-			"Money: "
-				+ getGUIStringDisplayableComponent(
-					  g.getEngineState(), player,
-					  Money.class),
-			5, GameConfig.HUD_LINE_SPACING * 2, Color.WHITE,
-			GameConfig.HUD_FONT));
-
-		// health
-		g.guiBuffer.add(new StringRenderObject(
-			"Health: "
-				+ getGUIStringDisplayableComponent(
-					  g.getEngineState(), player,
-					  HitPoints.class),
-			5, GameConfig.HUD_LINE_SPACING * 3, Color.WHITE,
-			GameConfig.HUD_FONT));
-
-		// ammo
-		g.guiBuffer.add(new StringRenderObject(
-			"Ammo: "
-				+ getGUIStringDisplayableComponent(
-					  g.getEngineState(), player,
-					  Ammo.class),
-			5, GameConfig.HUD_LINE_SPACING * 4, Color.WHITE,
-			GameConfig.HUD_FONT));
-
-		// damage bonus
-		g.guiBuffer.add(new StringRenderObject(
-			"Damage bonus: "
-				+ getGUIStringDisplayableComponent(
-					  g.getEngineState(), player,
-					  DamageBonus.class),
-			5, GameConfig.HUD_LINE_SPACING * 5, Color.WHITE,
-			GameConfig.HUD_FONT));
-
-		// zombies slain
-		g.guiBuffer.add(new StringRenderObject(
-			"Zombies slain: "
-				+ getGUIStringDisplayableComponent(
-					  g.getEngineState(), player,
-					  KillCount.class),
-			5, GameConfig.HUD_LINE_SPACING * 6, Color.WHITE,
-			GameConfig.HUD_FONT));
-
-		g.guiBuffer.add(new StringRenderObject(
-			"" + g.getMobsSpawned(), 5,
-			GameConfig.HUD_LINE_SPACING * 7, Color.WHITE,
-			GameConfig.HUD_FONT));
+		addHPBarsToBuffer(g, g.entityBuffer);
 
 		Collections.sort(g.entityBuffer, renderObjComp);
 
@@ -128,6 +73,107 @@ public class PlayGameRender
 		g.renderThread.startRendering();
 
 		g.updateRenderWriteToBufferToUnfocusedBuffer();
+	}
+
+	private static void addGameGUIBuffers(PlayGame g)
+	{
+		int player =
+			g.getEngineState().getInitialSetIndex(PlayerSet.class);
+
+		// game timer
+		g.guiBuffer.add(new StringRenderObject(
+			"" + g.getPlayTime(), 5,
+			GameConfig.HUD_LINE_SPACING * 1, Color.WHITE,
+			GameConfig.HUD_FONT));
+		// money
+		g.guiBuffer.add(new StringRenderObject(
+			"Money: "
+				+ getGUIStringDisplayableComponent(
+					  g.getEngineState(), player,
+					  Money.class),
+			5, GameConfig.HUD_LINE_SPACING * 2, Color.WHITE,
+			GameConfig.HUD_FONT));
+		// health
+		g.guiBuffer.add(new StringRenderObject(
+			"Health: "
+				+ getGUIStringDisplayableComponent(
+					  g.getEngineState(), player,
+					  HitPoints.class),
+			5, GameConfig.HUD_LINE_SPACING * 3, Color.WHITE,
+			GameConfig.HUD_FONT));
+		// ammo
+		g.guiBuffer.add(new StringRenderObject(
+			"Ammo: "
+				+ getGUIStringDisplayableComponent(
+					  g.getEngineState(), player,
+					  Ammo.class),
+			5, GameConfig.HUD_LINE_SPACING * 4, Color.WHITE,
+			GameConfig.HUD_FONT));
+		// damage bonus
+		g.guiBuffer.add(new StringRenderObject(
+			"Damage bonus: "
+				+ getGUIStringDisplayableComponent(
+					  g.getEngineState(), player,
+					  DamageBonus.class),
+			5, GameConfig.HUD_LINE_SPACING * 5, Color.WHITE,
+			GameConfig.HUD_FONT));
+		// zombies slain
+		g.guiBuffer.add(new StringRenderObject(
+			"Zombies slain: "
+				+ getGUIStringDisplayableComponent(
+					  g.getEngineState(), player,
+					  KillCount.class),
+			5, GameConfig.HUD_LINE_SPACING * 6, Color.WHITE,
+			GameConfig.HUD_FONT));
+		g.guiBuffer.add(new StringRenderObject(
+			"" + g.getMobsSpawned(), 5,
+			GameConfig.HUD_LINE_SPACING * 7, Color.WHITE,
+			GameConfig.HUD_FONT));
+	}
+	private static void addHPBarsToBuffer(PlayGame g,
+					      ArrayList<RenderObject> arr)
+	{
+		EngineState engineState = g.getEngineState();
+
+		for (int i = engineState.getInitialSetIndex(HitPoints.class);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(HitPoints.class, i)) {
+
+			Optional<PHitBox> wcOpt =
+				engineState.getComponentAt(PHitBox.class, i);
+
+			if (!wcOpt.isPresent())
+				continue;
+
+			PHitBox wc = wcOpt.get();
+
+			HitPoints hp = engineState.unsafeGetComponentAt(
+				HitPoints.class, i);
+
+			ArrayList<RenderObject> tmp =
+				hp.getRenderObjectGraphics();
+
+			int maxWidth = tmp.get(0).getWidth();
+			for (RenderObject j : tmp) {
+				Vector2f npos =
+					wc.getCenter().pureMatrixMultiply(
+						g.getCam());
+				npos.x -= maxWidth / 2;
+				npos.y -= 20
+					  * wc.getPolygon()
+						    .getHeight(); // slightly
+								  // magical
+								  // constant to
+								  // get it to
+								  // just render
+								  // at the
+								  // right spot
+				npos.y -= j.getHeight();
+				j.setPosition(npos);
+			}
+
+			arr.addAll(tmp);
+		}
 	}
 
 	private static <T extends Component & GUIStringDisplayable>

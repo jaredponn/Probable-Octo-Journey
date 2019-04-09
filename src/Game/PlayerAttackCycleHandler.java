@@ -172,6 +172,18 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 							unitVecToMouse.pureMul(
 								bulletSpeed));
 
+					engineState
+						.unsafeGetComponentAt(
+							Damage.class, e)
+						.setDamage(
+							engineState
+								.unsafeGetComponentAt(
+									Damage.class
+									,
+									player)
+								.getDamage());
+
+
 					super.getPlayGame()
 						.playerAmmo.decreaseAmmo(1);
 					;
