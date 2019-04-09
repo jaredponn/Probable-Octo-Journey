@@ -143,13 +143,53 @@ public class Rectangle
 
 	public static float maxAreaOfBoundingRects(Rectangle a, Rectangle b)
 	{
+		return calculateArea(getBoundingRectOfRects(a, b));
+	}
+
+	public static Rectangle getBoundingRectangle(CollisionShape cs)
+	{
+		if (cs == null)
+			return null;
+		else
+			return cs.getBoundingRectangle();
+	}
+
+	public static Rectangle getBoundingRectOfRects(Rectangle a, Rectangle b)
+	{
+
+		if (a == null && b == null) {
+			return null;
+		}
+
+
+		if (b == null)
+			return new Rectangle(a);
+
+		if (a == null)
+			return new Rectangle(b);
+
+		if (b == null)
+			return new Rectangle(a);
+
 		float minx = Math.min(a.getMinX(), b.getMinX());
 		float miny = Math.min(a.getMinY(), b.getMinY());
-
 
 		float maxx = Math.max(a.getMaxX(), b.getMaxX());
 		float maxy = Math.max(a.getMaxY(), b.getMaxY());
 
-		return 0f;
+		return new Rectangle(minx, miny, maxx, maxy);
+	}
+
+	public static float calculateArea(Rectangle n)
+	{
+		if (n == null)
+			return 0f;
+		return n.getArea();
+	}
+
+	public String toString()
+	{
+		return "Rectangle(" + super.toString() + "): min = "
+			+ min.toString() + ", max = " + max.toString();
 	}
 }
