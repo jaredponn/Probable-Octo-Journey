@@ -234,16 +234,24 @@ public class GameResources
 					zombieSoundAsset =
 						new ArrayList<String>();
 
+	// used for playing background music
+	// public static ArrayList<Sound> musicSoundAsset = new
+	// ArrayList<Sound>();
+
 	static
 	{
 		try {
 			// game sounds
 			menuSound = new Sound(GameResources.menuSoundPath);
 			gameBgSound = new Sound(GameResources.gameBgSoundPath);
-			/*
 			menuSelectButtonSound =
 				new Sound(menuSelectButtonSoundPath);
-			healthPickupSound = new Sound(healthPickupSoundPath);
+
+			// musicSoundAsset.add(menuSound);
+			// musicSoundAsset.add(gameBgSound);
+			/*
+			healthPickupSound = new
+			Sound(healthPickupSoundPath);
 			*/
 			// adding the sounds into player assets
 			playerSoundAsset.add(gunSoundPath);
@@ -397,8 +405,8 @@ public class GameResources
 	// power-up resources
 	public static final int POWERUP_SPRITE_WIDTH = 16;
 	public static final int POWERUP_SPRITE_HEIGHT = 16;
-	public static BufferedImage powerupImage =
-		ImageLoader.load("resources/RamiroGraphics/spritePack/ArrowPowerup.png");
+	public static BufferedImage powerupImage = ImageLoader.load(
+		"resources/RamiroGraphics/spritePack/ArrowPowerup.png");
 
 
 	// player resources

@@ -13,8 +13,9 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * Sound component.
- *	Used to create sound effects, ONLY support .wav files because Java sound
- *API
+ *	Used to create sound effects, ONLY support .wav files because Java API.
+ *The static method playSoundEffect is used to play sound effects, while
+ *other methods are used to play
  *
  * Date: March 24, 2019
  * @author Haiyang

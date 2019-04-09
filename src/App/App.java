@@ -61,10 +61,6 @@ public class App
 		System.out.println("width = " + width);
 		System.out.println("height = " + height);
 
-		// this.width = 1024;
-		// this.height = 768;
-		// this.gcanvas = new GameCanvas(width, height, inputPoller);
-
 		this.gwindow.defaultAddGameCanvasAndSetBufferStrat(gcanvas);
 
 		this.renderer = new Renderer(gcanvas);

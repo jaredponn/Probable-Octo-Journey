@@ -580,7 +580,21 @@ public class Map
 
 		// medium chairs
 		wallState.set(683, true);
+		wallHitBox.set(683, new PhysicsPCollisionBody(
+					    new Vector2f(0f, 0f),
+					    cbwc.pureAdd(0.25f,
+							 0.25f), // center
+					    cbwc, cbwc.pureAdd(0.5f, 0f),
+					    cbwc.pureAdd(0f, 1f),
+					    cbwc.pureAdd(0.5f, 1f)));
 		wallState.set(684, true);
+		wallHitBox.set(684, new PhysicsPCollisionBody(
+					    new Vector2f(0f, 0f),
+					    cbwc.pureAdd(0.25f,
+							 0.25f), // center
+					    cbwc, cbwc.pureAdd(0.9f, 0f),
+					    cbwc.pureAdd(0f, 0.5f),
+					    cbwc.pureAdd(0.9f, 0.5f)));
 
 		// fence1
 		wallState.set(137, true);
