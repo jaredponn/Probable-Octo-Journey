@@ -1,13 +1,17 @@
 package Components;
 
 import poj.Component.Component;
+import poj.Render.*;
+import java.util.ArrayList;
+import java.awt.Color;
 
 /**
  * A component for entities that have hit points
  * @author Alex
  * @version 2.0 - 03/31/19
  */
-public class HitPoints implements Component, GUIStringDisplayable
+public class HitPoints
+	implements Component, GUIStringDisplayable, GUIGraphicDisplayable
 {
 
 	private int hp;
@@ -79,6 +83,23 @@ public class HitPoints implements Component, GUIStringDisplayable
 	public String getFormattedString()
 	{
 		return hp + "/" + maxHP;
+	}
+
+
+	private static int HP_BAR_MAX_WIDTH = 30;
+	private static int HP_BAR_HEIGHT = 5;
+	private static Color HP_BAR_BG_COLOR = new Color(244, 170, 66);
+	private static Color HP_BAR_HP_COLOR = new Color(244, 74, 65);
+	public ArrayList<RenderObject> getRenderObjectGraphics()
+	{
+		ArrayList<RenderObject> tmp = new ArrayList<RenderObject>();
+		tmp.add(new RenderRect(0, 0, HP_BAR_MAX_WIDTH, HP_BAR_HEIGHT,
+				       HP_BAR_BG_COLOR));
+		tmp.add(new RenderRect(0, 0,
+				       (int)((float)HP_BAR_MAX_WIDTH * (float)hp
+					     / (float)maxHP),
+				       HP_BAR_HEIGHT, HP_BAR_HP_COLOR));
+		return tmp;
 	}
 
 
