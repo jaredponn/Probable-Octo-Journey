@@ -15,9 +15,9 @@ import poj.linear.Vector2f;
 public class GameConfig
 {
 
-	////////////////////////
-	////// HUD config //////
-	////////////////////////
+	////////////////////////////
+	////// HUD/GUI config //////
+	////////////////////////////
 	public static final int HUD_FONT_SIZE = 20;
 	public static final int HUD_LINE_SPACING = HUD_FONT_SIZE;
 	public static final Font HUD_FONT =
@@ -182,7 +182,12 @@ public class GameConfig
 	public static final int SHELL_DAMAGE = 75;
 	public static final int TURRET_STARTING_AMMO = 40;
 	public static final PCollisionBody TURRET_HITBOX_BODY =
-		TURRET_COLLISION_BODY;
+		new PCollisionBody(
+			new Vector2f(-0.22f, 0.86f), // displacement
+			new Vector2f(1.5f, 0.75f),   // center
+						     // collision body:
+			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
+			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
 	public static final PCollisionBody TURRET_AGGRO_BODY =
 		// clang-format off
