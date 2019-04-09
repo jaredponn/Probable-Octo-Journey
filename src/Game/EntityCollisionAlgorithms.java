@@ -53,7 +53,7 @@ public class EntityCollisionAlgorithms
 				PCollisionBody bp = (PCollisionBody)bpopt.get();
 
 				if (ap.isCollidingWith(bp) && i != j) {
-					event.setFocus(i);
+					event.setFocus1(i);
 					event.f();
 				}
 			}

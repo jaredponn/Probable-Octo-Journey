@@ -878,7 +878,7 @@ at Main.main(Main.java:25)
 				continue;
 
 			if (hOpt.get().getHP() <= 0) {
-				event.setFocus(i);
+				event.setFocus1(i);
 				g.pushEventToEventHandler(event);
 			}
 		}

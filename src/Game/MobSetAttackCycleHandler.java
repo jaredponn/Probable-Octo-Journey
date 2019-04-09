@@ -40,10 +40,10 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 
 			Optional<MovementDirection> dopt =
 				engineState.getComponentAt(
-					MovementDirection.class, focus);
+					MovementDirection.class, focus1);
 
 			Optional<Movement> mopt = engineState.getComponentAt(
-				Movement.class, focus);
+				Movement.class, focus1);
 
 			if (!dopt.isPresent()) {
 				return;
@@ -56,7 +56,7 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 			MovementDirection d = dopt.get();
 
 			AttackCycleHandlers.meleeAttackPrimerHandler(
-				engineState, focus, 10, d.getDirection());
+				engineState, focus1, 10, d.getDirection());
 		}
 	}
 
@@ -77,7 +77,7 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 			// just witch upon them
 			final MovementDirection n =
 				engineState.unsafeGetComponentAt(
-					MovementDirection.class, focus);
+					MovementDirection.class, focus1);
 
 			// Spawn the hitbox in the correct location and check
 			// against all enemies
@@ -85,7 +85,7 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 				queryMeleeAttackBody(n.getDirection()));
 			Systems.updatePCollisionBodyPositionFromWorldAttr(
 				pmob, engineState.unsafeGetComponentAt(
-					      WorldAttributes.class, focus));
+					      WorldAttributes.class, focus1));
 
 			// debug rendering
 			Systems.pCollisionBodyDebugRenderer(
@@ -152,10 +152,10 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 
 			Optional<MovementDirection> dmobopt =
 				engineState.getComponentAt(
-					MovementDirection.class, focus);
+					MovementDirection.class, focus1);
 
 			Optional<AggroRange> agopt = engineState.getComponentAt(
-				AggroRange.class, focus);
+				AggroRange.class, focus1);
 
 			if (!agopt.isPresent())
 				return;

@@ -51,7 +51,7 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 					.pureGetCenter();
 
 			Optional<Movement> mopt = engineState.getComponentAt(
-				Movement.class, focus);
+				Movement.class, focus1);
 
 			if (!mopt.isPresent())
 				return;
@@ -69,7 +69,7 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 								player));
 
 				AttackCycleHandlers.meleeAttackPrimerHandler(
-					engineState, focus, 10, d);
+					engineState, focus1, 10, d);
 
 				break;
 			}
@@ -191,12 +191,12 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 				Systems.updatePCollisionBodyPositionFromWorldAttr(
 					patk,
 					engineState.unsafeGetComponentAt(
-						WorldAttributes.class, focus));
+						WorldAttributes.class, focus1));
 
 				// play melee sound
 				engineState
 					.unsafeGetComponentAt(
-						SoundEffectAssets.class, focus)
+						SoundEffectAssets.class, focus1)
 					.playSoundEffectAt(
 						ThreadLocalRandom.current()
 							.nextInt(0, 3)

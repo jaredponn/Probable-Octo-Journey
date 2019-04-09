@@ -19,18 +19,18 @@ public class StartAttackCycleEvent extends FocusedPlayGameEvent
 	public StartAttackCycleEvent(PlayGame g, int e)
 	{
 		super(g);
-		super.focus = e;
+		super.focus1 = e;
 	}
 
 	public void f()
 	{
-		if (focus == -1)
+		if (focus1 == -1)
 			return;
 
 		EngineState engineState = super.getPlayGame().getEngineState();
 
 		Optional<AttackCycle> atkcycleOpt = engineState.getComponentAt(
-			AttackCycle.class, super.focus);
+			AttackCycle.class, super.focus1);
 
 		if (!atkcycleOpt.isPresent())
 			return;

@@ -203,7 +203,7 @@ public class TileMapCollisionAlgorithms
 				gjk.clearVerticies();
 				if (a.isCollidingWith(cs)) {
 
-					event.setFocus(i);
+					event.setFocus1(i);
 					event.f();
 				}
 			}

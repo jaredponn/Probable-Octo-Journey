@@ -28,7 +28,7 @@ public class SetSpeedToZeroEvent extends FocusedPlayGameEvent
 		EngineState engineState = super.getPlayGame().getEngineState();
 
 		Optional<Movement> mopt =
-			engineState.getComponentAt(Movement.class, focus);
+			engineState.getComponentAt(Movement.class, focus1);
 
 		if (!mopt.isPresent())
 			return;

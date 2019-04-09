@@ -9,6 +9,6 @@ public class TurretOutOfHPEvent extends FocusedPlayGameEvent
 
 	public void f()
 	{
-		getPlayGame().getEngineState().deleteAllComponentsAt(focus);
+		getPlayGame().getEngineState().deleteAllComponentsAt(focus1);
 	}
 }

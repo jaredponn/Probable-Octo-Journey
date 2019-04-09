@@ -39,7 +39,7 @@ public class TurretAttackCyclerHandler implements EntityAttackSetHandler
 			EngineState engineState =
 				super.getPlayGame().getEngineState();
 
-			CombatFunctions.turretTargeting(engineState, focus);
+			CombatFunctions.turretTargeting(engineState, focus1);
 		}
 	}
 

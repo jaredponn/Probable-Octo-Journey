@@ -34,19 +34,19 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 		// for some reason sometimes zombies that do not have the
 		// MovementDirection Component and this crashes everything. This
 		// is needed to prevent the crashing
-		if (!engineState.hasComponent(MovementDirection.class, focus)) {
+		if (!engineState.hasComponent(MovementDirection.class, focus1)) {
 			Logger.logMessage(
 				"Error in ZombieOutOfHPEvent -- trying to delete an entity that was already deleted. This entity has the following components:");
-			engineState.printAllComponentsAt(focus);
+			engineState.printAllComponentsAt(focus1);
 			return;
 		}
 
 		MovementDirection mv = engineState.unsafeGetComponentAt(
-			MovementDirection.class, focus);
+			MovementDirection.class, focus1);
 
 
 		final Optional<PHitBox> mobBodyOptional =
-			engineState.getComponentAt(PHitBox.class, focus);
+			engineState.getComponentAt(PHitBox.class, focus1);
 
 		if (!mobBodyOptional.isPresent())
 			return;
@@ -54,13 +54,13 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 		final PHitBox mobBody = mobBodyOptional.get();
 
 		// play death sound
-		engineState.unsafeGetComponentAt(SoundEffectAssets.class, focus)
+		engineState.unsafeGetComponentAt(SoundEffectAssets.class, focus1)
 			.playSoundEffectAt(
 				ThreadLocalRandom.current().nextInt(0, 4) + 3);
 
 		Optional<AnimationWindowAssets> animWindowAssetsOpt =
 			engineState.getComponentAt(AnimationWindowAssets.class,
-						   focus);
+						   focus1);
 
 		if (!animWindowAssetsOpt.isPresent())
 			return;
@@ -69,38 +69,38 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 			animWindowAssetsOpt.get();
 
 		// play death sound
-		engineState.unsafeGetComponentAt(SoundEffectAssets.class, focus)
+		engineState.unsafeGetComponentAt(SoundEffectAssets.class, focus1)
 			.playSoundEffectAt(
 				ThreadLocalRandom.current().nextInt(0, 4) + 3);
 
 		// deletes everything but the  render, animation, and
 		// worldattributes components so we can show the death animation
 		// for a bit
-		engineState.deleteAllComponentsAtExcept(focus, Render.class,
+		engineState.deleteAllComponentsAtExcept(focus1, Render.class,
 							HasAnimation.class,
 							WorldAttributes.class);
 
 
-		if (engineState.hasComponent(MovementDirection.class, focus)) {
+		if (engineState.hasComponent(MovementDirection.class, focus1)) {
 			Logger.logMessage(
 				"Error in ZombieOutOfHPEvent -- trying to delete an entity that was already deleted. This entity has the following components:");
-			engineState.printAllComponentsAt(focus);
+			engineState.printAllComponentsAt(focus1);
 			return;
 		}
 
 
 		engineState.addComponentAt(
 			DespawnTimer.class,
-			new DespawnTimer(GameConfig.MOB_DESPAWN_TIMER), focus);
+			new DespawnTimer(GameConfig.MOB_DESPAWN_TIMER), focus1);
 
 
-		if (!engineState.hasComponent(HasAnimation.class, focus)) {
+		if (!engineState.hasComponent(HasAnimation.class, focus1)) {
 			Logger.logMessage(
 				"Error in ZombieOutOfHPEvent -- trying to delete an entity that was already deleted. This entity has the following components:");
-			engineState.printAllComponentsAt(focus);
+			engineState.printAllComponentsAt(focus1);
 			return;
 		}
-		engineState.unsafeGetComponentAt(HasAnimation.class, focus)
+		engineState.unsafeGetComponentAt(HasAnimation.class, focus1)
 			.setAnimation(animWindowAssets.getAnimation(
 				mv.getDirection(), 30));
 

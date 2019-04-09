@@ -27,33 +27,33 @@ public class NudgeAOutOfBPCollisionBodyEvent<T extends PCollisionBody>
 	public NudgeAOutOfBPCollisionBodyEvent(Class<T> collisionBodyType)
 	{
 		super();
-		this.focus = -1;
+		this.focus1 = -1;
 		this.collisionBodyType = collisionBodyType;
 	}
 	public NudgeAOutOfBPCollisionBodyEvent(PlayGame g,
 					       Class<T> collisionBodyType)
 	{
 		super(g);
-		this.focus = -1;
+		this.focus1 = -1;
 		this.collisionBodyType = collisionBodyType;
 	}
 
 	public void f()
 	{
 
-		if (super.focus == -1)
+		if (super.focus1 == -1)
 			return;
 
 		EngineState engineState = super.getPlayGame().getEngineState();
 
 		Optional<? extends Component> pbodyOpt =
-			engineState.getComponentAt(collisionBodyType, focus);
+			engineState.getComponentAt(collisionBodyType, focus1);
 
 		if (!pbodyOpt.isPresent())
 			return;
 
 		Optional<WorldAttributes> waOpt = engineState.getComponentAt(
-			WorldAttributes.class, focus);
+			WorldAttributes.class, focus1);
 
 		if (!waOpt.isPresent())
 			return;

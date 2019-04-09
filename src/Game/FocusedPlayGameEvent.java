@@ -3,7 +3,7 @@ package Game;
 public abstract class FocusedPlayGameEvent extends PlayGameEvent
 {
 
-	protected int focus;
+	protected int focus1;
 
 	/**
 	 * Constructor
@@ -22,12 +22,12 @@ public abstract class FocusedPlayGameEvent extends PlayGameEvent
 	public FocusedPlayGameEvent(PlayGame g, int e)
 	{
 		super(g);
-		this.focus = e;
+		this.focus1 = e;
 	}
 
 
-	public void setFocus(int f)
+	public void setFocus1(int f)
 	{
-		focus = f;
+		focus1 = f;
 	}
 }
