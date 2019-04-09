@@ -173,4 +173,14 @@ public class Polygon implements CollisionShape
 		} else
 			return bounds;
 	}
+
+	public float getHeight()
+	{
+		return bounds.getHeight();
+	}
+
+	public float getWidth()
+	{
+		return bounds.getWidth();
+	}
 }

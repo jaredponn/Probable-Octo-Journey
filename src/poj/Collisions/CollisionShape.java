@@ -19,6 +19,17 @@ public interface CollisionShape {
 				     new Vector2f(ymax.y(), xmax.x()));
 	}
 
+	public default float getHeight()
+	{
+		return calculateBoundingRectangle().getHeight();
+	}
+
+	public default float getWidth()
+	{
+		return calculateBoundingRectangle().getWidth();
+	}
+
+
 	public default Rectangle getBoundingRectangle()
 	{
 		return calculateBoundingRectangle();
@@ -28,7 +39,7 @@ public interface CollisionShape {
 	calculateBoundingAreaOfCollisionShapes(CollisionShape a,
 					       CollisionShape b)
 	{
-		float abA = new Rectangle(a.getMin(), b.getMin());
+		// float abA = new Rectangle(a.getMin(), b.getMin());
 
 		return 1;
 	}
