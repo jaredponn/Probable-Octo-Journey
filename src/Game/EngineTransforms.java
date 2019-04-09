@@ -279,25 +279,39 @@ public class EngineTransforms
 				maxPosition = neib.getCord();
 			}
 		}
+
+		boolean tileHaveTurret = false;
+		Vector2f turretPos = new Vector2f();
+		// loop through all of the turrets and check if the turret is on
+		// the maximum
+		for (int j = engineState.getInitialSetIndex(TurretSet.class);
+		     poj.EngineState.isValidEntity(j);
+		     j = engineState.getNextSetIndex(TurretSet.class, j)) {
+			turretPos =
+				engineState
+					.unsafeGetComponentAt(
+						PhysicsPCollisionBody.class, j)
+					.pureGetCenter();
+			// if the turret is on the maxposition tile
+			if ((int)turretPos.x == (int)maxPosition.x
+			    && (int)turretPos.y == (int)maxPosition.y) {
+				tileHaveTurret = true;
+				break;
+			}
+		}
+
+
 		// if mob and player are at the same tile
 
 		final PCollisionBody a = engineState.unsafeGetComponentAt(
 			AggroRange.class, mob1);
 
 
-		for (int j = engineState.getInitialSetIndex(TurretSet.class);
-		     poj.EngineState.isValidEntity(j);
-		     j = engineState.getNextSetIndex(TurretSet.class, j)) {
-			if (checkTurretCollisionWithMob(engineState, j, mob1,
-							gjk)) {
-				return;
-			}
-		}
-
 		final PhysicsPCollisionBody b =
 			engineState.unsafeGetComponentAt(
 				PhysicsPCollisionBody.class, player);
 
+		// if the zombie is in aggro range with the player
 		if (Systems.arePCollisionBodiesColliding(gjk, a, b)
 		    || engineState.unsafeGetComponentAt(AttackCycle.class, mob1)
 			       .isAttacking()) { // TODO refactor this -- move
@@ -318,8 +332,9 @@ public class EngineTransforms
 			// tempDir, 0));
 			return;
 		}
-
 		// in the same world cord
+		// check if the tile have player or turret on it (if have both,
+		// will focus on the player first)
 		if ((int)mobPosition.x == (int)playerPosition.x
 		    && (int)mobPosition.y == (int)playerPosition.y) {
 			// TODO: NEED TO INTEGRATE THIS WITH COLLISION!!
@@ -354,6 +369,45 @@ public class EngineTransforms
 					.setSpeed(GameConfig.MOB_SPEED);
 			}
 			// mob have the same position as the player
+			else {
+				engineState
+					.unsafeGetComponentAt(Movement.class,
+							      mob1)
+					.setSpeed(0);
+			}
+		}
+		// if the tile have a turret
+		else if (tileHaveTurret) {
+			engineState
+				.unsafeGetComponentAt(MovementDirection.class,
+						      mob1)
+				.setDirection(
+					CardinalDirections.getClosestDirectionFromDirectionVector(
+						playerPosition
+							.subtractAndReturnVector(
+								mobPosition)));
+
+			engineState.unsafeGetComponentAt(Movement.class, mob1)
+				.setSpeed(GameConfig.MOB_SPEED);
+			// if the mob does not have the same position as the
+			// turret
+			if (Math.abs(mobPosition.x - turretPos.x)
+				    >= PlayGame.EPSILON
+			    && Math.abs(mobPosition.y - turretPos.y)
+				       >= PlayGame.EPSILON) {
+				engineState
+					.unsafeGetComponentAt(
+						MovementDirection.class, mob1)
+					.setDirection(CardinalDirections.getClosestDirectionFromDirectionVector(
+						turretPos
+							.subtractAndReturnVector(
+								mobPosition)));
+				engineState
+					.unsafeGetComponentAt(Movement.class,
+							      mob1)
+					.setSpeed(GameConfig.MOB_SPEED);
+			}
+			// mob have the same position as the turret
 			else {
 				engineState
 					.unsafeGetComponentAt(Movement.class,
@@ -428,22 +482,6 @@ public class EngineTransforms
 		}
 	}
 
-	public static boolean
-	checkTurretCollisionWithMob(EngineState engineState,
-				    // Map map, int layerNumber,
-				    int turretPosition, int mob1, GJK gjk)
-	{
-
-		final PhysicsPCollisionBody a =
-			engineState.unsafeGetComponentAt(
-				PhysicsPCollisionBody.class, turretPosition);
-
-		final PhysicsPCollisionBody b =
-			engineState.unsafeGetComponentAt(
-				PhysicsPCollisionBody.class, mob1);
-
-		return Systems.arePCollisionBodiesColliding(gjk, a, b);
-	}
 
 	public static void
 	addPlayerDiffusionValAtPlayerPos(EngineState engineState, Map map,
