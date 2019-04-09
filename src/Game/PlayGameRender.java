@@ -53,7 +53,8 @@ public class PlayGameRender
 
 
 		for (Render r :
-		     g.getRawComponentArrayListPackedData(Render.class)) {
+		     g.getEngineState().getRawComponentArrayListPackedData(
+			     Render.class)) {
 			Systems.cullPushRenderComponent(r, g.entityBuffer,
 							g.windowWidth,
 							g.windowHeight);
