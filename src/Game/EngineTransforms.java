@@ -275,40 +275,8 @@ public class EngineTransforms
 				maxPosition = neib.getCord();
 			}
 		}
-
-		/*
-		CardinalDirections.print(
-			CardinalDirections
-				.getClosestDirectionFromDirectionVector(
-					playerPosition.subtractAndReturnVector(
-						mobPosition)));*/
-		/*
-		System.out.println(
-			" the diffusion value at mob is ="
-			+ map.getLayerEngineState(0)
-				  .getComponentAt(
-					  PathFindCord.class,
-					  map.getEcsIndexFromWorldVector2f(
-						  engineState
-							  .getComponentAt(
-								  WorldAttributes
-									  .class
-								  ,
-								  mob1)
-							  .getCenteredBottomQuarter()))
-				  .getDiffusionValue());
-		System.out.println("player x position  floor ="
-				   + playerPosition.x);
-		System.out.println("player y position  floor ="
-				   + playerPosition.y);
-		System.out.println("mob x position before floor ="
-				   + mobPosition.x);
-		System.out.println("mob y position before floor ="
-				   + mobPosition.y);*/
-
 		// if mob and player are at the same tile
 
-		// LINE 309 HAIYANG HE PATH FINDING WORKING WITH ATTACK CYCLE
 		final PCollisionBody a = engineState.unsafeGetComponentAt(
 			AggroRange.class, mob1);
 
@@ -454,24 +422,6 @@ public class EngineTransforms
 			engineState.unsafeGetComponentAt(Movement.class, mob1)
 				.setSpeed(GameConfig.MOB_SPEED);
 		}
-
-		/*
-		 weired error:
-Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: -1
-at java.util.ArrayList.elementData(ArrayList.java:422)
-at java.util.ArrayList.get(ArrayList.java:435)
-at poj.Component.Components.hasComponent(Components.java:187)
-at poj.Component.Components.getComponentAt(Components.java:121)
-at poj.Component.Components.unsafeGetComponentAt(Components.java:138)
-at Game.EngineTransforms.getEightNeighbourVector(EngineTransforms.java:189)
-at
-Game.EngineTransforms.updateEnemyPositionFromPlayer(EngineTransforms.java:226)
-at Game.PlayGame.runGame(PlayGame.java:386)
-at Game.World.runGameLoop(World.java:155)
-at App.App.runAppLoop(App.java:120)
-at Main.main(Main.java:25)
-
-		 */
 	}
 
 	public static boolean

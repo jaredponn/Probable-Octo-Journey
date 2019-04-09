@@ -2,9 +2,12 @@ package PathFinding;
 import java.util.ArrayList;
 
 import Components.PathFindCord;
+import Components.PhysicsPCollisionBody;
+import EntitySets.PlayerSet;
 import TileMap.Map;
 import TileMap.MapLayer;
 
+import poj.EngineState;
 import poj.Component.Components;
 import poj.linear.Vector2f;
 
@@ -14,6 +17,7 @@ public class MapGeneration extends Thread
 {
 	private Map map;
 	private MapLayer mapLayer;
+	private EngineState engineState;
 	private int layerNumber;
 	private float difCoefficient;
 	public volatile boolean startGeneration = false;
@@ -30,10 +34,12 @@ public class MapGeneration extends Thread
 	 * @param  difCoefficient	float which sets the diffusion
 	 *         coefficient of the algorithm
 	 */
-	public MapGeneration(Map map, int layerNumber, float difCoefficient)
+	public MapGeneration(Map map, EngineState engineState, int layerNumber,
+			     float difCoefficient)
 	{
 		this.map = map;
 		this.mapLayer = map.getLayerEngineState(layerNumber);
+		this.engineState = engineState;
 		this.layerNumber = layerNumber;
 		this.difCoefficient = difCoefficient;
 		System.out.println("map generation thread generated!");
@@ -102,6 +108,22 @@ public class MapGeneration extends Thread
 				ArrayList<Float> tempDiffusionBuffer =
 					new ArrayList<Float>(map.mapWidth
 							     * map.mapHeight);
+				Vector2f playerPosition =
+					this.engineState
+						.unsafeGetComponentAt(
+							PhysicsPCollisionBody
+								.class,
+							this.engineState.getInitialSetIndex(
+								PlayerSet
+									.class))
+						.pureGetCenter();
+				// make the player position integers
+				playerPosition.x = (int)playerPosition.x;
+				playerPosition.y = (int)playerPosition.y;
+				System.out.println("playePos x in pathfind = "
+						   + playerPosition.x);
+				System.out.println("playePos y in pathfind = "
+						   + playerPosition.y);
 				// will not loop to the empty tiles inside the
 				// map
 				for (int i = mapLayer.getInitialComponentIndex(
@@ -113,7 +135,14 @@ public class MapGeneration extends Thread
 						mapLayer.unsafeGetComponentAt(
 							PathFindCord.class, i);
 
-					if (!center.getIsWall()) {
+
+					// if the center is not a wall OR if the
+					// player is standing on it (so if
+					// player standing on a wall it will
+					// still diffuse)
+					if (!center.getIsWall()
+					    || center.getCord().equals(
+						       playerPosition)) {
 						ArrayList<
 							PathFindCord> tempNeighbours =
 							Game.EngineTransforms
@@ -124,7 +153,9 @@ public class MapGeneration extends Thread
 						for (PathFindCord a :
 						     tempNeighbours) {
 							// if not a wall
-							if (!a.getIsWall()) {
+							if (!a.getIsWall()
+							    || a.getCord().equals(
+								       playerPosition)) {
 								sum += a.getDiffusionValue()
 								       - center.getDiffusionValue();
 							}

@@ -163,7 +163,7 @@ public abstract class World
 			this.render();
 
 			Timer.END_BENCH();
-			Timer.LOG_BENCH_DELTA();
+			// Timer.LOG_BENCH_DELTA();
 		}
 	}
 

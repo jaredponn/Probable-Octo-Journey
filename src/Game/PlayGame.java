@@ -107,26 +107,26 @@ public class PlayGame extends World
 		0.0 - GameConfig.PICKUP_POWERUP_SPAWN_TIME;
 
 	protected StringRenderObject gameTimer =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 1, 
-				Color.WHITE, GameConfig.HUD_FONT);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 1,
+				       Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject cashDisplay = new StringRenderObject(
-		"Your Cash: " + this.cash, 5, GameConfig.HUD_LINE_SPACING * 2, 
-				Color.WHITE, GameConfig.HUD_FONT);
+		"Your Cash: " + this.cash, 5, GameConfig.HUD_LINE_SPACING * 2,
+		Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject healthDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 3, 
-				Color.WHITE, GameConfig.HUD_FONT);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 3,
+				       Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject ammoDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 4, 
-				Color.WHITE, GameConfig.HUD_FONT);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 4,
+				       Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject damageBonusDisplay =
-			new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 5, 
-					Color.WHITE, GameConfig.HUD_FONT);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 5,
+				       Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject killDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 6, 
-				Color.WHITE, GameConfig.HUD_FONT);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 6,
+				       Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject mobCountDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 7, 
-				Color.WHITE, GameConfig.HUD_FONT);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 7,
+				       Color.WHITE, GameConfig.HUD_FONT);
 
 
 	// Collision detection and resolution
@@ -195,8 +195,8 @@ public class PlayGame extends World
 		this.updateInverseCamera();
 
 		// initialize the path finding thread
-		this.generateDiffusionMap =
-			new MapGeneration(this.map, 0, 1f / 8f);
+		this.generateDiffusionMap = new MapGeneration(
+			this.map, this.engineState, 0, 1f / 8f);
 
 
 		// loading the quad tree
@@ -225,7 +225,6 @@ public class PlayGame extends World
 		super.engineState.registerComponent(Damage.class);
 		super.engineState.registerComponent(AggroRange.class);
 		super.engineState.registerComponent(Ammo.class);
-		super.engineState.registerComponent(SoundAssets.class);
 		super.engineState.registerComponent(SoundEffectAssets.class);
 	}
 	public void registerEntitySets()
@@ -555,12 +554,13 @@ public class PlayGame extends World
 		this.mobCountDisplay.setStr("Total Zombies spawned: "
 					    + this.mobsSpawned);
 	}
-	
+
 	/** update damageBonusDisplay */
 	protected void updateDamageBonusDisplay()
 	{
-		this.damageBonusDisplay.setStr("Current bullet damage: "
-					    + (GameConfig.BULLET_DAMAGE+playerDamageBonus));
+		this.damageBonusDisplay.setStr(
+			"Current bullet damage: "
+			+ (GameConfig.BULLET_DAMAGE + playerDamageBonus));
 	}
 
 	/**
