@@ -1,4 +1,6 @@
-package Game;
+package Game.GameEvents;
+
+import Game.PlayGame;
 
 public class TurretOutOfHPEvent extends FocusedPlayGameEvent
 {

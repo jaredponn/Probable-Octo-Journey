@@ -1,10 +1,12 @@
-package Game;
+package Game.GameEvents;
 
 import Components.*;
+import Game.PlayGame;
+
 import java.util.Optional;
 import poj.EngineState;
 
-public class StartAttackCycleEvent extends FocusedPlayGameEvent
+public class StartAttackCycleEvent extends BiFocusedPlayGameEvent
 {
 
 	public StartAttackCycleEvent()

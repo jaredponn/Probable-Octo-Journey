@@ -1,4 +1,6 @@
-package Game;
+package Game.GameEvents;
+
+import Game.PlayGame;
 
 public abstract class BiFocusedPlayGameEvent extends FocusedPlayGameEvent
 {

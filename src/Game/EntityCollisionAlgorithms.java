@@ -12,6 +12,9 @@ package Game;
 import java.util.Optional;
 
 import Components.*;
+import Game.GameEvents.BiFocusedPlayGameEvent;
+import Game.GameEvents.NudgeAOutOfBPCollisionBodyEvent;
+import Game.GameEvents.StartAttackCycleEvent;
 import poj.Component.*;
 import poj.EngineState;
 
@@ -22,7 +25,7 @@ public class EntityCollisionAlgorithms
 	ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
 		PlayGame g, Class<? extends Component> a,
 		Class<? extends Component> b, Class<T> collisionBodyTypeA,
-		Class<U> collisionBodyTypeB, FocusedPlayGameEvent event)
+		Class<U> collisionBodyTypeB, BiFocusedPlayGameEvent event)
 	{
 		EngineState engineState = g.getEngineState();
 
@@ -54,6 +57,7 @@ public class EntityCollisionAlgorithms
 
 				if (ap.isCollidingWith(bp) && i != j) {
 					event.setFocus1(i);
+					event.setFocus2(j);
 					event.f();
 				}
 			}
@@ -65,7 +69,7 @@ public class EntityCollisionAlgorithms
 	ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
 		PlayGame g, Class<? extends Component> a,
 		Class<? extends Component> b, Class<T> collisionBodyType,
-		FocusedPlayGameEvent event)
+		BiFocusedPlayGameEvent event)
 	{
 
 		ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(

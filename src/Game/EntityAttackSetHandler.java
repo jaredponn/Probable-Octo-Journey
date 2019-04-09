@@ -1,5 +1,8 @@
 package Game;
 
+import Game.GameEvents.PlayGameEvent;
+import Game.GameEvents.SetSpeedToZeroEvent;
+
 public interface EntityAttackSetHandler {
 	public PlayGameEvent startingHandler(PlayGame g, int focus);
 	public default PlayGameEvent primerHandler(PlayGame g, int focus)

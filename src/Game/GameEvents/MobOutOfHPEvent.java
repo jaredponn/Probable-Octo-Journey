@@ -1,8 +1,10 @@
-package Game;
+package Game.GameEvents;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 import Components.*;
+import EntitySets.*;
+import Game.PlayGame;
 import Resources.GameConfig;
 import Resources.GameResources;
 
@@ -34,7 +36,8 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 		// for some reason sometimes zombies that do not have the
 		// MovementDirection Component and this crashes everything. This
 		// is needed to prevent the crashing
-		if (!engineState.hasComponent(MovementDirection.class, focus1)) {
+		if (!engineState.hasComponent(MovementDirection.class,
+					      focus1)) {
 			Logger.logMessage(
 				"Error in ZombieOutOfHPEvent -- trying to delete an entity that was already deleted. This entity has the following components:");
 			engineState.printAllComponentsAt(focus1);
@@ -54,7 +57,8 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 		final PHitBox mobBody = mobBodyOptional.get();
 
 		// play death sound
-		engineState.unsafeGetComponentAt(SoundEffectAssets.class, focus1)
+		engineState
+			.unsafeGetComponentAt(SoundEffectAssets.class, focus1)
 			.playSoundEffectAt(
 				ThreadLocalRandom.current().nextInt(0, 4) + 3);
 
@@ -69,7 +73,8 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 			animWindowAssetsOpt.get();
 
 		// play death sound
-		engineState.unsafeGetComponentAt(SoundEffectAssets.class, focus1)
+		engineState
+			.unsafeGetComponentAt(SoundEffectAssets.class, focus1)
 			.playSoundEffectAt(
 				ThreadLocalRandom.current().nextInt(0, 4) + 3);
 
@@ -104,10 +109,20 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 			.setAnimation(animWindowAssets.getAnimation(
 				mv.getDirection(), 30));
 
-		gameState.killCount.increase();
-		if (gameState.killCount.get() >= gameState.mobsSpawned)
-			gameState.lastWaveDefeatedAt = gameState.getPlayTime();
+		Optional<KillCount> kcOpt = engineState.getComponentAt(
+			KillCount.class,
+			engineState.getInitialSetIndex(PlayerSet.class));
+
+		if (!kcOpt.isPresent())
+			return;
+
+		kcOpt.get().increase();
+		if (kcOpt.get().get() >= gameState.getMobsSpawned())
+			gameState.setLastWaveDefeatedAt(
+				gameState.getPlayTime());
+
 		int dropRoll = ThreadLocalRandom.current().nextInt(0, 99) + 1;
+
 		if (dropRoll >= (100 - GameConfig.MOB_DROP_RATE)) {
 			int dropType =
 				ThreadLocalRandom.current().nextInt(0, 4);

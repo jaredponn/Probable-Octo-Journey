@@ -1,4 +1,7 @@
-package Game;
+package Game.GameEvents;
+
+import Game.PlayGame;
+
 /**
  * PlayGameEvent. Sum type of the game events.
  * @author Jared Pon. March 14, 2019

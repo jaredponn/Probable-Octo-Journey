@@ -1,10 +1,11 @@
-package Game;
+package Game.GameEvents;
 
 import Components.*;
 import java.util.Optional;
 
 import Components.*;
 import EntitySets.*;
+import Game.PlayGame;
 import Resources.GameConfig;
 import Resources.GameResources;
 import TileMap.Map;
@@ -20,7 +21,7 @@ import poj.linear.Vector2f;
 import poj.EngineState;
 
 public class NudgeAOutOfBPCollisionBodyEvent<T extends PCollisionBody>
-	extends FocusedPlayGameEvent
+	extends BiFocusedPlayGameEvent
 {
 	private Class<T> collisionBodyType;
 

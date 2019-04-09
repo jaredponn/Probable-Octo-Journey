@@ -1,7 +1,8 @@
-package Game;
+package Game.GameEvents;
 
 import Components.*;
 import EntitySets.*;
+import Game.PlayGame;
 import Resources.GameConfig;
 import Resources.GameResources;
 
@@ -18,7 +19,7 @@ import poj.Collisions.*;
 public class SetSpeedToZeroEvent extends FocusedPlayGameEvent
 {
 
-	SetSpeedToZeroEvent(PlayGame g, int e)
+	public SetSpeedToZeroEvent(PlayGame g, int e)
 	{
 		super(g, e);
 	}

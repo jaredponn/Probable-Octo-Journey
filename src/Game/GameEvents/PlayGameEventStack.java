@@ -1,4 +1,4 @@
-package Game;
+package Game.GameEvents;
 
 import java.util.Stack;
 

@@ -1,9 +1,10 @@
-package Game;
+package Game.GameEvents;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 import Components.*;
 import EntitySets.PlayerSet;
+import Game.PlayGame;
 
 public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
 {

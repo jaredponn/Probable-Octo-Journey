@@ -31,6 +31,8 @@ import EntitySets.HealthPack;
 import EntitySets.MobSet;
 import EntitySets.PlayerSet;
 import EntitySets.TurretSet;
+import Game.GameEvents.PlayGameEvent;
+import Game.GameEvents.PlayGameEventStack;
 import PathFinding.MapGeneration;
 import Resources.GameConfig;
 import Resources.GameResources;
@@ -283,7 +285,7 @@ public class PlayGame extends World
 			this.renderThread.join();
 		} catch (Exception e) {
 			System.out.println(
-				"thread exception happened in clear world, and we are screwd");
+				"what the heck was that error message -- error in clear world with threads. Probably will still be okay ");
 			this.renderThread.endThread();
 			this.generateDiffusionMap.setEnd();
 		}
@@ -601,7 +603,7 @@ public class PlayGame extends World
 	 * @param x: x-coordinate to spawn the drop at
 	 * @param y: y-coordinate to spawn the drop at
 	 *   */
-	protected void cashSpawner(boolean timed, float x, float y)
+	public void cashSpawner(boolean timed, float x, float y)
 	{
 		double currentPlayTime = this.getPlayTime();
 		if (timed
@@ -619,7 +621,7 @@ public class PlayGame extends World
 	}
 
 	// TODO: powerup spawn times
-	protected void powerUpSpawner(boolean timed, float x, float y)
+	public void powerUpSpawner(boolean timed, float x, float y)
 	{
 		double currentPlayTime = this.getPlayTime();
 		if (timed
@@ -636,14 +638,14 @@ public class PlayGame extends World
 		}
 	}
 
-	protected void ammoPackSpawner(boolean timed, float x, float y)
+	public void ammoPackSpawner(boolean timed, float x, float y)
 	{
 		double currentPlayTime = this.getPlayTime();
 		super.engineState.spawnEntitySet(
 			new AmmoPack(x, y, currentPlayTime));
 	}
 
-	protected void healthPackSpawner(boolean timed, float x, float y)
+	public void healthPackSpawner(boolean timed, float x, float y)
 	{
 		double currentPlayTime = this.getPlayTime();
 		super.engineState.spawnEntitySet(
@@ -907,6 +909,17 @@ public class PlayGame extends World
 	{
 		return killCount.get();
 	}
+
+	public int getMobsSpawned()
+	{
+		return mobsSpawned;
+	}
+
+	public void setLastWaveDefeatedAt(double t)
+	{
+		lastWaveDefeatedAt = t;
+	}
+
 
 	public QuadTree getTileMapCollisionQuadTree()
 	{
