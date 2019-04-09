@@ -21,7 +21,7 @@ public class Bullet extends EntitySet
 {
 	public Bullet()
 	{
-		this( new Vector2f() );
+		this(new Vector2f());
 	}
 
 	public Bullet(Vector2f posVector)
@@ -32,10 +32,10 @@ public class Bullet extends EntitySet
 						 GameConfig.BULLET_WIDTH,
 						 GameConfig.BULLET_HEIGHT));
 		addComponent(new Movement(GameConfig.BULLET_SPEED));
-		//addComponent(
+		// addComponent(
 		//	new Lifespan(GameConfig.BULLET_LIFE_SPAN, spawnTime));
 		addComponent(new PhysicsPCollisionBody(
 			GameConfig.BULLET_COLLISION_BODY));
-		addComponent(new Damage(GameConfig.BULLET_DAMAGE));
+		addComponent(new Damage());
 	}
 }
