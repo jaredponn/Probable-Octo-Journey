@@ -12,15 +12,69 @@ package Game;
 import java.util.Optional;
 
 import Components.*;
+import java.util.ArrayList;
 import Game.GameEvents.*;
 import poj.Component.*;
+import poj.Collisions.*;
 import poj.EngineState;
 
 
 public class EntityCollisionAlgorithms
 {
+
+	private static ArrayList<CollisionShape> COLLISION_QUERY_MEMO =
+		new ArrayList<CollisionShape>(1000000);
 	public static <T extends PCollisionBody, U extends PCollisionBody> void
 	ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
+		PlayGame g, Class<? extends Component> a,
+		Class<? extends Component> b, Class<T> collisionBodyTypeA,
+		Class<U> collisionBodyTypeB, BiFocusedPlayGameEvent event)
+	{
+		EngineState engineState = g.getEngineState();
+		Node DBVT_NODE = new Node();
+
+		for (int i = engineState.getInitialSetIndex(a);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(a, i)) {
+
+			Optional<? extends Component> apopt =
+				engineState.getComponentAt(collisionBodyTypeA,
+							   i);
+
+			if (!apopt.isPresent())
+				continue;
+
+			PCollisionBody ap = (PCollisionBody)apopt.get();
+
+			DBVT_NODE.insert(ap.getPolygon());
+
+			for (int j = engineState.getInitialSetIndex(b);
+			     engineState.isValidEntity(j);
+			     j = engineState.getNextSetIndex(b, j)) {
+
+
+				Optional<? extends Component> bpopt =
+					engineState.getComponentAt(
+						collisionBodyTypeB, j);
+
+				if (!bpopt.isPresent())
+					continue;
+
+				PCollisionBody bp = (PCollisionBody)bpopt.get();
+
+				DBVT_NODE.insert(bp.getPolygon());
+
+				if (ap.isCollidingWith(bp) && i != j) {
+					event.setFocus1(i);
+					event.setFocus2(j);
+					event.f();
+				}
+			}
+		}
+	}
+
+	public static <T extends PCollisionBody, U extends PCollisionBody> void
+	ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEventBruteForce(
 		PlayGame g, Class<? extends Component> a,
 		Class<? extends Component> b, Class<T> collisionBodyTypeA,
 		Class<U> collisionBodyTypeB, BiFocusedPlayGameEvent event)

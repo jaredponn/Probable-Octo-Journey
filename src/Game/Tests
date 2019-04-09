@@ -12,3 +12,8 @@ total samples: 247
 // fill rect time
 average time in nanosecs: 1791734.2285714287
 average time in mlli: 1.7917342285714286
+
+// O(n^2) collision algrothims running or 60s in the game without  killing zombies total frame time
+average time in nanosecs: 26485854.387430046
+average time in mlli: 26.485854387430045
+total samples: 2323

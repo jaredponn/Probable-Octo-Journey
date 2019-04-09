@@ -109,7 +109,7 @@ public abstract class World
 			ti = tf;
 
 			Timer.END_BENCH();
-			// Timer.LOG_BENCH_DELTA();
+			Timer.LOG_BENCH_DELTA();
 		}
 	}
 
