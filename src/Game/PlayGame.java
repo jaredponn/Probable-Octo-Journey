@@ -86,14 +86,12 @@ public class PlayGame extends World
 	protected static double EPSILON = 0.0001d;
 	protected WeaponState curWeaponState = WeaponState.Gun;
 
-	protected Ammo playerAmmo = 
-			engineState.unsafeGetComponentAt(Ammo.class, player);
-	protected Money playerMoney = 
-			engineState.unsafeGetComponentAt(Money.class, player);
-	protected DamageBonus playerDamageBonus = 
-			engineState.unsafeGetComponentAt(DamageBonus.class, player);
-	protected KillCount killCount = 
-			engineState.unsafeGetComponentAt(KillCount.class, player);
+	// references that are now deprecated
+	protected Ammo playerAmmo;
+	protected Money playerMoney;
+	protected DamageBonus playerDamageBonus;
+	protected KillCount killCount;
+
 	protected int mobsSpawned = 0;
 	protected double lastWaveDefeatedAt = 0.0;
 
@@ -104,26 +102,26 @@ public class PlayGame extends World
 		0.0 - GameConfig.PICKUP_POWERUP_SPAWN_TIME;
 
 	protected StringRenderObject gameTimer =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 1, 
-				Color.WHITE, GameConfig.HUD_FONT);
-	protected StringRenderObject cashDisplay = new StringRenderObject(
-		"Your Cash: " + playerMoney.get(), 5, GameConfig.HUD_LINE_SPACING * 2, 
-				Color.WHITE, GameConfig.HUD_FONT);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 1,
+				       Color.WHITE, GameConfig.HUD_FONT);
+	protected StringRenderObject cashDisplay =
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 2,
+				       Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject healthDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 3, 
-				Color.WHITE, GameConfig.HUD_FONT);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 3,
+				       Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject ammoDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 4, 
-				Color.WHITE, GameConfig.HUD_FONT);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 4,
+				       Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject damageBonusDisplay =
-			new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 5, 
-					Color.WHITE, GameConfig.HUD_FONT);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 5,
+				       Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject killDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 6, 
-				Color.WHITE, GameConfig.HUD_FONT);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 6,
+				       Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject mobCountDisplay =
-		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 7, 
-				Color.WHITE, GameConfig.HUD_FONT);
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 7,
+				       Color.WHITE, GameConfig.HUD_FONT);
 
 
 	// Collision detection and resolution
@@ -138,6 +136,7 @@ public class PlayGame extends World
 		throws UnsupportedAudioFileException, IOException,
 		       LineUnavailableException
 	{
+
 		super(width, height, renderer, inputPoller);
 
 
@@ -264,8 +263,14 @@ public class PlayGame extends World
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 
-		// for (int i = 0; i < 100; ++i) {
-		// engineState.spawnEntitySet(new MobSet(30, 30)); }
+		this.playerAmmo =
+			engineState.unsafeGetComponentAt(Ammo.class, player);
+		this.playerMoney =
+			engineState.unsafeGetComponentAt(Money.class, player);
+		this.playerDamageBonus = engineState.unsafeGetComponentAt(
+			DamageBonus.class, player);
+		this.killCount = engineState.unsafeGetComponentAt(
+			KillCount.class, player);
 	}
 
 	public void clearWorld()
@@ -289,16 +294,7 @@ public class PlayGame extends World
 	public void runGame()
 	{
 		this.mobSpawner();
-		/*
-		try {
-			generateDiffusionMap.setStart();
-		} catch (Exception ex) {
-			Logger.logMessage(
-				"an exception has occured in path finding
-		generation thread "
-				+ ex);
-		}
-		*/
+
 
 		this.processInputs();
 
@@ -555,12 +551,13 @@ public class PlayGame extends World
 		this.mobCountDisplay.setStr("Total Zombies spawned: "
 					    + this.mobsSpawned);
 	}
-	
+
 	/** update damageBonusDisplay */
 	protected void updateDamageBonusDisplay()
 	{
-		this.damageBonusDisplay.setStr("Current bullet damage: "
-					    + (GameConfig.BULLET_DAMAGE+playerDamageBonus.get()));
+		this.damageBonusDisplay.setStr(
+			"Current bullet damage: "
+			+ (GameConfig.BULLET_DAMAGE + playerDamageBonus.get()));
 	}
 
 	/**
