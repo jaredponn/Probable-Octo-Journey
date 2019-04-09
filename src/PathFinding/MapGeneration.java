@@ -120,10 +120,7 @@ public class MapGeneration extends Thread
 				// make the player position integers
 				playerPosition.x = (int)playerPosition.x;
 				playerPosition.y = (int)playerPosition.y;
-				System.out.println("playePos x in pathfind = "
-						   + playerPosition.x);
-				System.out.println("playePos y in pathfind = "
-						   + playerPosition.y);
+
 				// will not loop to the empty tiles inside the
 				// map
 				for (int i = mapLayer.getInitialComponentIndex(
