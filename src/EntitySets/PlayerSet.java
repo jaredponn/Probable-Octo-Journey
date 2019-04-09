@@ -44,12 +44,13 @@ public class PlayerSet extends EntitySet
 			GameConfig.PLAYER_ANIMATION_WINDOW_ASSETS));
 		// resources
 		addComponent(new Ammo(GameConfig.PLAYER_STARTING_AMMO,
-			      GameConfig.PLAYER_MAX_AMMO));
+				      GameConfig.PLAYER_MAX_AMMO));
 		addComponent(new HitPoints(GameConfig.PLAYER_HP,
-				   GameConfig.PLAYER_MAX_HP));
+					   GameConfig.PLAYER_MAX_HP));
 		addComponent(new Money(GameConfig.PLAYER_STARTING_CASH));
+		addComponent(
+			new Damage(GameConfig.PLAYER_STARTING_DAMAGE));
 		addComponent(new DamageBonus());
 		addComponent(new KillCount());
-		
 	}
 }
