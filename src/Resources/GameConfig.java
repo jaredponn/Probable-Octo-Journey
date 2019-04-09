@@ -21,6 +21,8 @@ public class GameConfig
 	public static final int HUD_FONT_SIZE = 20;
 	public static final int HUD_LINE_SPACING = HUD_FONT_SIZE;
 	public static final Font HUD_FONT = new Font ("TimesRoman", Font.PLAIN, HUD_FONT_SIZE);
+	public static final int A_INTEGER = 65;
+	public static final int Z_INTEGER = 90;
 	
 	/////////////////////////////////////
 	////// animation assets config //////
@@ -395,6 +397,11 @@ public class GameConfig
 	public static final int BUILD_TRAP = KeyEvent.VK_E;
 	public static final int BUY_AMMO = KeyEvent.VK_B;
 	public static final int QUIT_KEY = KeyEvent.VK_ESCAPE;
+	
+	public static final int ARROW_UP = KeyEvent.VK_UP;
+	public static final int ARROW_DOWN = KeyEvent.VK_DOWN;
+	public static final int ARROW_LEFT = KeyEvent.VK_LEFT;
+	public static final int ARROW_RIGHT = KeyEvent.VK_RIGHT;
 
 	// key, cooldown (ms)
 	public static final ArrayList<Pair<Integer, Double>> COOL_DOWN_KEYS =
@@ -407,6 +414,11 @@ public class GameConfig
 							      1d));
 				add(new Pair<Integer, Double>(BUILD_TRAP, 1d));
 				add(new Pair<Integer, Double>(BUY_AMMO, 1d));
+				
+				add(new Pair<Integer, Double>(ARROW_UP  ,  0.2d));
+				add(new Pair<Integer, Double>(ARROW_DOWN,  0.2d));
+				add(new Pair<Integer, Double>(ARROW_LEFT,  0.2d));
+				add(new Pair<Integer, Double>(ARROW_RIGHT, 0.2d));
 			}
 		};
 

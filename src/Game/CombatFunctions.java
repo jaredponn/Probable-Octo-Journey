@@ -109,7 +109,7 @@ public class CombatFunctions
 								Damage.class,
 								bullet)
 							.getDamage()
-						+ g.playerDamageBonus)));
+						+ g.playerDamageBonus.get())));
 				removeBullet(mainState, bullet);
 
 

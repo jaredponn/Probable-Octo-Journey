@@ -12,13 +12,15 @@ import poj.Component.*;
 import poj.Render.Renderer;
 import poj.GameWindow.InputPoller;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public abstract class World
 {
 
 	// 124 fps  --> to go from fps to ms: 1/x fps = 1 / (x/1000)
-	private static double DEFAULT_DELTA_TIME = 1 / (24d / 1000d);
-	private static double MAX_ACC_TIME = 50d;
+	private static double DEFAULT_DELTA_TIME = 1 / (124d / 1000d);
+	// max time in ms for the frame
+	private static double MAX_ACC_TIME = 33d;
 
 	// pure game stuff
 	protected EngineState engineState;
@@ -36,6 +38,11 @@ public abstract class World
 	// unpure references to objects
 	protected Renderer renderer;
 	protected InputPoller inputPoller;
+	
+	protected static ArrayList<Double> coolDownMax = new ArrayList<Double>(
+			Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
+		protected ArrayList<Double> lastCoolDown = new ArrayList<Double>(
+			Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
 
 	public World(int width, int height, Renderer renderer,
 		     InputPoller inputPoller)
@@ -140,27 +147,27 @@ public abstract class World
 	{
 		this.clearTime();
 
-		double ct = Timer.getTimeInMilliSeconds();
-		double acc = 0.0d;
+		double ti = Timer.getTimeInMilliSeconds();
 
 		while (!this.quit) {
-
 			Timer.START_BENCH();
 
-			double nt = Timer.getTimeInMilliSeconds();
-			double ft = nt - ct;
-			ct = nt;
-			acc += ft;
+			double tf = Timer.getTimeInMilliSeconds();
 
-			// acc = Math.min(MAX_ACC_TIME, acc);
+			double dft = tf - ti;
+			dft = Math.min(MAX_ACC_TIME, dft);
 
-			while (acc >= this.dt) {
+			this.acct += dft;
+			do {
 				runGame();
 
-				acc -= this.dt;
-				this.acct += this.dt;
-			}
+				dft -= this.dt;
+
+			} while (dft >= this.dt);
+
 			this.render();
+
+			ti = tf;
 
 			Timer.END_BENCH();
 			// Timer.LOG_BENCH_DELTA();

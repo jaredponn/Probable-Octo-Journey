@@ -212,8 +212,8 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 					engineState, patk, MobSet.class,
 					(int)(GameConfig
 						      .PLAYER_STARTING_MELEE_DAMAGE
-					      * super.getPlayGame()
-							.playerDamageBonus));
+					      + super.getPlayGame()
+							.playerDamageBonus.get()));
 				break;
 			}
 		}

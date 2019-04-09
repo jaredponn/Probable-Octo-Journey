@@ -7,15 +7,22 @@ import java.util.ArrayList;
 public class Rectangle
 {
 	/*
-	 *             max
-	 *  -----------
-	 *  |         |
-	 *  |         |
-	 *  |________ |
-	 *min
+	 *   y
+	 *   ^
+	 *   |                   max
+	 *   |        0---------1
+	 *   |        |         |
+	 *   |        |         |
+	 *   |        2________ 3
+	 *   |      min
+	 *   |
+	 * --+------------------------> x
+	 *   |
 	 */
 	Vector2f min;
 	Vector2f max;
+
+	private static int MAX_RECT_PTS = 4;
 
 	public Rectangle(Vector2f min, Vector2f max)
 	{
@@ -56,6 +63,28 @@ public class Rectangle
 		max.add(n);
 	}
 
+	public Vector2f getPoint(int i)
+	{
+		switch (i) {
+		case 0:
+			return new Vector2f(getMinX(), getMaxY());
+
+		case 1:
+			return new Vector2f(getMaxX(), getMaxY());
+
+		case 2:
+			return new Vector2f(getMinX(), getMinY());
+
+		case 3:
+			return new Vector2f(getMaxX(), getMinY());
+
+		default:
+			Logger.logMessage(
+				"Error in Rectangle - get point can only be applied with numbers 0-3 inclusive");
+			return null;
+		}
+	}
+
 	public float getWidth()
 	{
 		return max.x - min.x;
@@ -82,6 +111,26 @@ public class Rectangle
 	}
 
 
+	public Vector2f getMin()
+	{
+		return min;
+	}
+
+	public Vector2f getMax()
+	{
+		return max;
+	}
+
+	public Vector2f pureGetMin()
+	{
+		return new Vector2f(min);
+	}
+
+	public Vector2f pureGetMax()
+	{
+		return new Vector2f(max);
+	}
+
 	public float getMaxX()
 	{
 		return max.x;
@@ -90,5 +139,12 @@ public class Rectangle
 	public float getMaxY()
 	{
 		return max.y;
+	}
+
+	public static float maxAreaOfBoundingRects(Rectangle a, Rectangle b)
+	{
+		float A1 = new Rectangle(a.getMin(), b.getMax()).getArea();
+
+		return 0f;
 	}
 }

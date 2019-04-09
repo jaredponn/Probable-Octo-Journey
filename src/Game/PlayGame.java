@@ -81,22 +81,17 @@ public class PlayGame extends World
 	// game event stack
 	PlayGameEventStack gameEventStack;
 
-	// Cooldown for keys
-	protected static ArrayList<Double> coolDownMax = new ArrayList<Double>(
-		Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
-	protected ArrayList<Double> lastCoolDown = new ArrayList<Double>(
-		Collections.nCopies(poj.GameWindow.InputPoller.MAX_KEY, 0d));
-
 	// Higher level game logic
 	protected int player;
 	protected static double EPSILON = 0.0001d;
 	protected WeaponState curWeaponState = WeaponState.Gun;
 
-	protected int playerDamageBonus = 0;
-	protected Ammo playerAmmo = new Ammo(GameConfig.PLAYER_STARTING_AMMO,
-					     GameConfig.PLAYER_MAX_AMMO);
-	protected int cash = GameConfig.PLAYER_STARTING_CASH;
-	protected int killCount = 0;
+	// references that are now deprecated
+	protected Ammo playerAmmo;
+	protected Money playerMoney;
+	protected DamageBonus playerDamageBonus;
+	protected KillCount killCount;
+
 	protected int mobsSpawned = 0;
 	protected double lastWaveDefeatedAt = 0.0;
 
@@ -109,9 +104,9 @@ public class PlayGame extends World
 	protected StringRenderObject gameTimer =
 		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 1,
 				       Color.WHITE, GameConfig.HUD_FONT);
-	protected StringRenderObject cashDisplay = new StringRenderObject(
-		"Your Cash: " + this.cash, 5, GameConfig.HUD_LINE_SPACING * 2,
-		Color.WHITE, GameConfig.HUD_FONT);
+	protected StringRenderObject cashDisplay =
+		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 2,
+				       Color.WHITE, GameConfig.HUD_FONT);
 	protected StringRenderObject healthDisplay =
 		new StringRenderObject("", 5, GameConfig.HUD_LINE_SPACING * 3,
 				       Color.WHITE, GameConfig.HUD_FONT);
@@ -141,6 +136,7 @@ public class PlayGame extends World
 		throws UnsupportedAudioFileException, IOException,
 		       LineUnavailableException
 	{
+
 		super(width, height, renderer, inputPoller);
 
 
@@ -226,6 +222,9 @@ public class PlayGame extends World
 		super.engineState.registerComponent(AggroRange.class);
 		super.engineState.registerComponent(Ammo.class);
 		super.engineState.registerComponent(SoundEffectAssets.class);
+		super.engineState.registerComponent(Money.class);
+		super.engineState.registerComponent(DamageBonus.class);
+		super.engineState.registerComponent(KillCount.class);
 	}
 	public void registerEntitySets()
 	{
@@ -263,8 +262,14 @@ public class PlayGame extends World
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 
-		// for (int i = 0; i < 100; ++i) {
-		// engineState.spawnEntitySet(new MobSet(30, 30)); }
+		this.playerAmmo =
+			engineState.unsafeGetComponentAt(Ammo.class, player);
+		this.playerMoney =
+			engineState.unsafeGetComponentAt(Money.class, player);
+		this.playerDamageBonus = engineState.unsafeGetComponentAt(
+			DamageBonus.class, player);
+		this.killCount = engineState.unsafeGetComponentAt(
+			KillCount.class, player);
 	}
 
 	public void clearWorld()
@@ -288,16 +293,7 @@ public class PlayGame extends World
 	public void runGame()
 	{
 		this.mobSpawner();
-		/*
-		try {
-			generateDiffusionMap.setStart();
-		} catch (Exception ex) {
-			Logger.logMessage(
-				"an exception has occured in path finding
-		generation thread "
-				+ ex);
-		}
-		*/
+
 
 		this.processInputs();
 
@@ -328,7 +324,7 @@ public class PlayGame extends World
 			this.findBulletHits(i);
 		}
 
-		// attak cycles
+		// attack cycles
 		EntityCollisionAlgorithms
 			.startAttackCycleIfAggroRadiusCollidesPhysicsPCollisionBody(
 				this, TurretSet.class, MobSet.class);
@@ -522,7 +518,7 @@ public class PlayGame extends World
 	/**  updates the cashDisplay string with the players current cash */
 	protected void updateCashDisplay()
 	{
-		this.cashDisplay.setStr("Your Cash: $" + this.cash);
+		this.cashDisplay.setStr("Your Cash: $" + playerMoney.get());
 	}
 
 	/** update healthDisplay */
@@ -560,7 +556,7 @@ public class PlayGame extends World
 	{
 		this.damageBonusDisplay.setStr(
 			"Current bullet damage: "
-			+ (GameConfig.BULLET_DAMAGE + playerDamageBonus));
+			+ (GameConfig.BULLET_DAMAGE + playerDamageBonus.get()));
 	}
 
 	/**
@@ -572,7 +568,7 @@ public class PlayGame extends World
 		double currentPlayTime = this.getPlayTime();
 		if (currentPlayTime - this.timeOfLastMobSpawn
 			    >= GameConfig.MOB_SPAWN_TIMER
-		    || killCount >= mobsSpawned) {
+		    || killCount.get() >= mobsSpawned) {
 			this.timeOfLastMobSpawn = currentPlayTime;
 			System.out.println("New zombies arrived at T+"
 					   + currentPlayTime + " seconds!");
@@ -727,10 +723,10 @@ public class PlayGame extends World
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, playerPosition,
 				    collectiblePosition.get())) {
-				this.cash += amount;
+				playerMoney.increase(amount);
 				System.out.println("Picked up $" + amount
 						   + ". You now have $"
-						   + this.cash);
+						   + playerMoney.get());
 				CombatFunctions.removePickUp(engineState, i);
 			}
 		}
@@ -759,11 +755,11 @@ public class PlayGame extends World
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, playerPosition,
 				    collectiblePosition.get())) {
-				this.playerDamageBonus +=
-					GameConfig.PICKUP_POWERUP_AMOUNT;
+				playerDamageBonus.increase(
+					GameConfig.PICKUP_POWERUP_AMOUNT);
 				System.out.println(
 					"The player now has an attack bonus of "
-					+ this.playerDamageBonus);
+					+ this.playerDamageBonus.get());
 				CombatFunctions.removePickUp(engineState, i);
 			}
 		}
@@ -908,7 +904,7 @@ public class PlayGame extends World
 
 	public int getKillCount()
 	{
-		return this.killCount;
+		return killCount.get();
 	}
 
 	public QuadTree getTileMapCollisionQuadTree()

@@ -36,17 +36,20 @@ public class PlayerSet extends EntitySet
 		addComponent(new PhysicsPCollisionBody(
 			GameConfig.PLAYER_COLLISION_BODY));
 		addComponent(new PHitBox(GameConfig.PLAYER_HITBOX_BODY));
-
-		addComponent(new HitPoints(GameConfig.PLAYER_HP,
-					   GameConfig.PLAYER_MAX_HP));
 		addComponent(new AttackCycle(GameConfig.PLAYER_ATTACK_CYCLE));
-
-		addComponent(new Ammo(GameConfig.PLAYER_STARTING_AMMO,
-				      GameConfig.PLAYER_MAX_AMMO));
 		// player sound effects:
 		addComponent(
 			new SoundEffectAssets(GameResources.playerSoundAsset));
 		addComponent(new AnimationWindowAssets(
 			GameConfig.PLAYER_ANIMATION_WINDOW_ASSETS));
+		// resources
+		addComponent(new Ammo(GameConfig.PLAYER_STARTING_AMMO,
+			      GameConfig.PLAYER_MAX_AMMO));
+		addComponent(new HitPoints(GameConfig.PLAYER_HP,
+				   GameConfig.PLAYER_MAX_HP));
+		addComponent(new Money(GameConfig.PLAYER_STARTING_CASH));
+		addComponent(new DamageBonus());
+		addComponent(new KillCount());
+		
 	}
 }
