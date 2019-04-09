@@ -190,14 +190,7 @@ Player drop HP sound: https://opengameart.org/content/15-vocal-male-strainhurtpa
 
 Player death sound: https://opengameart.org/content/grunts-male-death-and-pain
 # Credits
-Tileset: https://opengameart.org/content/cave-tileset
-
-
-Turret: https://opengameart.org/content/orange-defense-gun-isometric
-
-
-Coin: https://opengameart.org/content/spinning-pixel-coin-0
-
+Creeper font credit: https://www.1001fonts.com/creepster-font.html
 
 # Useful readings
 Path-finding: http://www.cs.colorado.edu/~ralex/papers/PDF/OOPSLA06antiobjects.pdf
