@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 
 import poj.EngineState;
 import poj.GameWindow.InputPoller;
+import poj.Logger.Logger;
 import poj.linear.*;
 
 import Components.*;
@@ -24,8 +25,7 @@ public class PlayGameProcessInputs
 				g.dt / 1000);
 		}
 	}
-	protected static void updateDtForKey(World g, int keyIndex,
-					     double val)
+	protected static void updateDtForKey(World g, int keyIndex, double val)
 	{
 		// if the key cooldown is not 0 is necessary here
 		// because we don't want to subtract it to neg infinity..
@@ -230,15 +230,15 @@ public class PlayGameProcessInputs
 			////// Build Commands //////
 			if (inputPoller.isKeyDown(GameConfig.BUILD_TOWER)) {
 
-				System.out.println("will build turret!!!!");
-				System.out.println(
+				Logger.logMessage(
 					" last cooldown = "
 					+ g.lastCoolDown.get(
 						  GameConfig.BUILD_TOWER));
 				if (Math.abs(g.lastCoolDown.get(
 					    GameConfig.BUILD_TOWER))
 					    == 0d
-				    && g.playerMoney.get() >= GameConfig.TOWER_BUILD_COST) {
+				    && g.playerMoney.get()
+					       >= GameConfig.TOWER_BUILD_COST) {
 					// player position is also the top left
 					// of the polygon !
 					Vector2f playerPosition =
@@ -298,7 +298,8 @@ public class PlayGameProcessInputs
 					// lastCoolDown.set(GameConfig.BUILD_TOWER,
 					//-coolDownMax.get(
 					// GameConfig.BUILD_TOWER));
-				} else if (g.playerMoney.get() < GameConfig.TOWER_BUILD_COST)
+				} else if (g.playerMoney.get()
+					   < GameConfig.TOWER_BUILD_COST)
 					System.out.print(
 						"Not enough cash to build a turret\nYou need at least $"
 						+ GameConfig.TOWER_BUILD_COST
@@ -318,13 +319,15 @@ public class PlayGameProcessInputs
 				if (Math.abs(g.lastCoolDown.get(
 					    GameConfig.BUY_AMMO))
 					    == 0d
-				    && g.playerMoney.get() >= GameConfig.PURCHASE_AMMOPACK_AMOUNT
-							 * GameConfig
-								   .BULLET_COST) {
+				    && g.playerMoney.get()
+					       >= GameConfig.PURCHASE_AMMOPACK_AMOUNT
+							  * GameConfig
+								    .BULLET_COST) {
 					g.playerAmmo.increaseAmmo(
 						GameConfig
 							.PURCHASE_AMMOPACK_AMOUNT);
-					g.playerMoney.decrease(GameConfig
+					g.playerMoney.decrease(
+						GameConfig
 							.PURCHASE_AMMOPACK_AMOUNT
 						* GameConfig.BULLET_COST);
 					updateDtForKey(
