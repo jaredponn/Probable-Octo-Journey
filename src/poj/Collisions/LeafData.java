@@ -1,12 +1,12 @@
 package poj.Collisions;
 
 // leaf data
-public class LeafData
+public class LeafData<T extends CollisionShape>
 {
-	public CollisionShape leftLeaf;
-	public CollisionShape rightLeaf;
+	public T leftLeaf;
+	public T rightLeaf;
 
-	public Rectangle insertInLeaf(CollisionShape cs)
+	public Rectangle insertInLeaf(T cs)
 	{
 		// Compleetley empty -- so fill the right side up
 		if (this.leftLeaf == null && this.rightLeaf == null) {
@@ -35,6 +35,7 @@ public class LeafData
 			this.getRightBoundingRect());
 	}
 
+
 	public Rectangle getLeftBoundingRect()
 	{
 		if (leftLeaf == null)
@@ -59,7 +60,7 @@ public class LeafData
 
 	public void swapLeftAndRight()
 	{
-		CollisionShape tmp = leftLeaf;
+		T tmp = leftLeaf;
 		leftLeaf = rightLeaf;
 		rightLeaf = tmp;
 	}

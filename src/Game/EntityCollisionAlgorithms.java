@@ -15,6 +15,7 @@ import Components.*;
 import java.util.ArrayList;
 import Game.GameEvents.*;
 import poj.Component.*;
+import poj.Time.Timer;
 import poj.Collisions.*;
 import poj.EngineState;
 
@@ -22,16 +23,19 @@ import poj.EngineState;
 public class EntityCollisionAlgorithms
 {
 
-	private static ArrayList<CollisionShape> COLLISION_QUERY_MEMO =
-		new ArrayList<CollisionShape>(1000000);
+	private static ArrayList<TaggedCollisionShape> COLLISION_QUERY_MEMO =
+		new ArrayList<TaggedCollisionShape>(1000000);
 	public static <T extends PCollisionBody, U extends PCollisionBody> void
 	ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
 		PlayGame g, Class<? extends Component> a,
 		Class<? extends Component> b, Class<T> collisionBodyTypeA,
 		Class<U> collisionBodyTypeB, BiFocusedPlayGameEvent event)
 	{
+		// Timer.START_BENCH();
 		EngineState engineState = g.getEngineState();
-		Node DBVT_NODE = new Node();
+
+		Node<TaggedCollisionShape> DBVT_NODE =
+			new Node<TaggedCollisionShape>();
 
 		for (int i = engineState.getInitialSetIndex(a);
 		     engineState.isValidEntity(i);
@@ -46,31 +50,55 @@ public class EntityCollisionAlgorithms
 
 			PCollisionBody ap = (PCollisionBody)apopt.get();
 
-			DBVT_NODE.insert(ap.getPolygon());
+			DBVT_NODE.insert(
+				new TaggedCollisionShape(ap.getPolygon(), i));
+		}
 
-			for (int j = engineState.getInitialSetIndex(b);
-			     engineState.isValidEntity(j);
-			     j = engineState.getNextSetIndex(b, j)) {
+		for (int j = engineState.getInitialSetIndex(b);
+		     engineState.isValidEntity(j);
+		     j = engineState.getNextSetIndex(b, j)) {
 
 
-				Optional<? extends Component> bpopt =
-					engineState.getComponentAt(
-						collisionBodyTypeB, j);
+			Optional<? extends Component> bpopt =
+				engineState.getComponentAt(collisionBodyTypeB,
+							   j);
 
-				if (!bpopt.isPresent())
-					continue;
+			if (!bpopt.isPresent())
+				continue;
 
-				PCollisionBody bp = (PCollisionBody)bpopt.get();
+			PCollisionBody bp = (PCollisionBody)bpopt.get();
 
-				DBVT_NODE.insert(bp.getPolygon());
+			TaggedCollisionShape bpt =
+				new TaggedCollisionShape(bp.getPolygon(), j);
 
-				if (ap.isCollidingWith(bp) && i != j) {
-					event.setFocus1(i);
-					event.setFocus2(j);
+			COLLISION_QUERY_MEMO.clear();
+			DBVT_NODE.queryCollisions(bpt, COLLISION_QUERY_MEMO);
+
+			for (TaggedCollisionShape apt : COLLISION_QUERY_MEMO) {
+				if (((PCollisionBody)
+					     engineState.unsafeGetComponentAt(
+						     collisionBodyTypeA,
+						     apt.getEntity()))
+					    .isCollidingWith(bp)
+				    && apt.getEntity() != bpt.getEntity()) {
+
+					event.setFocus1(apt.getEntity());
+					event.setFocus2(bpt.getEntity());
 					event.f();
 				}
 			}
 		}
+		// Timer.END_BENCH(); Timer.LOG_BENCH_DELTA();
+	}
+
+
+	public static <T extends PCollisionBody> void
+	ifCollisionBodyIsCollidingWithSetARunGameEventOnFirst(
+		PlayGame g, PCollisionBody pbody, Class<? extends Component> a,
+		Class<T> collisionBodyType, FocusedPlayGameEvent event)
+	{
+		ifCollisionBodyIsCollidingWithSetARunGameEventOnFirstBruteForce(
+			g, pbody, a, collisionBodyType, event);
 	}
 
 	public static <T extends PCollisionBody, U extends PCollisionBody> void
@@ -79,6 +107,7 @@ public class EntityCollisionAlgorithms
 		Class<? extends Component> b, Class<T> collisionBodyTypeA,
 		Class<U> collisionBodyTypeB, BiFocusedPlayGameEvent event)
 	{
+		// Timer.START_BENCH();
 		EngineState engineState = g.getEngineState();
 
 		for (int i = engineState.getInitialSetIndex(a);
@@ -114,10 +143,12 @@ public class EntityCollisionAlgorithms
 				}
 			}
 		}
+		// Timer.END_BENCH();
+		// Timer.LOG_BENCH_DELTA();
 	}
 
 	public static <T extends PCollisionBody> void
-	ifCollisionBodyIsCollidingWithSetARunGameEventOnFirst(
+	ifCollisionBodyIsCollidingWithSetARunGameEventOnFirstBruteForce(
 		PlayGame g, PCollisionBody pbody, Class<? extends Component> a,
 		Class<T> collisionBodyType, FocusedPlayGameEvent event)
 	{

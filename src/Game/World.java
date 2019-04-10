@@ -89,7 +89,7 @@ public abstract class World
 		double ti = Timer.getTimeInMilliSeconds();
 
 		while (!this.quit) {
-			Timer.START_BENCH();
+			// Timer.START_BENCH();
 
 			double tf = Timer.getTimeInMilliSeconds();
 
@@ -108,8 +108,8 @@ public abstract class World
 
 			ti = tf;
 
-			Timer.END_BENCH();
-			Timer.LOG_BENCH_DELTA();
+			// Timer.END_BENCH();
+			// Timer.LOG_BENCH_DELTA();
 		}
 	}
 

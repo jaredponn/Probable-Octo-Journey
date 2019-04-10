@@ -57,6 +57,12 @@ public class Rectangle
 		return xcontained && ycontained;
 	}
 
+	public boolean isCollidingWith(Rectangle b)
+	{
+		return this.isPointContained(b.getMin())
+			|| this.isPointContained(b.getMax());
+	}
+
 	public void shiftRectangleBy(Vector2f n)
 	{
 		min.add(n);

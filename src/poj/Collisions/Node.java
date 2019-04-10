@@ -7,14 +7,14 @@ package poj.Collisions;
  */
 import java.util.ArrayList;
 
-public class Node
+public class Node<T extends CollisionShape>
 {
 	// LEFT is equal to or less than
 	// RIGHT is STRICTLY greater than
 
 	// branch
-	public Node left;
-	public Node right;
+	public Node<T> left;
+	public Node<T> right;
 	public Rectangle bounds;
 
 	// leaf
@@ -27,7 +27,7 @@ public class Node
 	public Node()
 	{
 		height = LEAF_HEIGHT;
-		leaf = new LeafData();
+		leaf = new LeafData<T>();
 	}
 
 	public int height()
@@ -35,16 +35,16 @@ public class Node
 		return height;
 	}
 
-	public static boolean isLeaf(Node node)
+	public static <T extends CollisionShape> boolean isLeaf(Node<T> node)
 	{
 		return node == null;
 	}
 
 	// rotates right and returns the new root
-	public static Node rightRotate(Node a)
+	public static <T extends CollisionShape> Node<T> rightRotate(Node<T> a)
 	{
-		Node b = a.left;
-		Node c = b.right;
+		Node<T> b = a.left;
+		Node<T> c = b.right;
 
 		b.right = a;
 		a.left = c;
@@ -56,10 +56,10 @@ public class Node
 	}
 
 	// rotates left and returns the new root
-	public static Node leftRotate(Node b)
+	public static <T extends CollisionShape> Node<T> leftRotate(Node<T> b)
 	{
-		Node a = b.right;
-		Node c = a.left;
+		Node<T> a = b.right;
+		Node<T> c = a.left;
 
 		a.left = b;
 		b.right = c;
@@ -77,7 +77,7 @@ public class Node
 
 	private void swapLeftAndRight()
 	{
-		Node tmp = this.right;
+		Node<T> tmp = this.right;
 		this.right = left;
 		this.left = tmp;
 
@@ -86,12 +86,13 @@ public class Node
 
 
 	// returns the new root
-	public static Node insertRecursive(Node node, CollisionShape cs)
+	public static <T extends CollisionShape> Node<T>
+	insertRecursive(Node<T> node, T cs)
 	{
 		// base case -- it is null so create it and add the leaf data in
 		if (Node.isLeaf(node)) { // if it is a leaf
 			// System.out.println("is empty leaf:");
-			Node newNode = new Node();
+			Node<T> newNode = new Node<T>();
 			newNode.bounds = newNode.leaf.insertInLeaf(cs);
 			return newNode;
 		}
@@ -124,20 +125,20 @@ public class Node
 			if (rightArea >= leftArea) {
 
 				node.left = insertRecursive(node.left, cs);
-				node.left = insertRecursive(node.left,
-							    node.leaf.leftLeaf);
+				node.left = insertRecursive(
+					node.left, (T)node.leaf.leftLeaf);
 
 				node.right = insertRecursive(
-					node.right, node.leaf.rightLeaf);
+					node.right, (T)node.leaf.rightLeaf);
 			} else {
 
 				node.right = insertRecursive(node.right, cs);
 
 				node.right = insertRecursive(
-					node.right, node.leaf.rightLeaf);
+					node.right, (T)node.leaf.rightLeaf);
 
-				node.left = insertRecursive(node.left,
-							    node.leaf.leftLeaf);
+				node.left = insertRecursive(
+					node.left, (T)node.leaf.leftLeaf);
 			}
 
 
@@ -183,16 +184,37 @@ public class Node
 		}
 	}
 
-	public void insert(CollisionShape cs)
+	public void insert(T cs)
 	{
 		insertRecursive(this, cs);
 	}
 
 
-	public void queryCollisions(CollisionShape cs,
-				    ArrayList<CollisionShape> arr)
+	public static <T extends CollisionShape> void
+	queryCollisionsRecursive(Node n, T cs, ArrayList<T> arr)
 	{
-		insertRecursive(this, cs);
+		Rectangle tmp = cs.getBoundingRectangle();
+
+		if (n.left == null || n.right == null || n.bounds == null) {
+			if (n.leaf.leftLeaf != null)
+				arr.add((T)n.leaf.leftLeaf);
+			if (n.leaf.rightLeaf != null)
+				arr.add((T)n.leaf.rightLeaf);
+
+			return;
+		}
+
+		if (n.bounds.isCollidingWith(tmp)) {
+			if (n.left != null)
+				queryCollisionsRecursive(n.left, cs, arr);
+			if (n.right != null)
+				queryCollisionsRecursive(n.right, cs, arr);
+		}
+	}
+
+	public void queryCollisions(T cs, ArrayList<T> arr)
+	{
+		queryCollisionsRecursive(this, cs, arr);
 	}
 
 	public void print()
