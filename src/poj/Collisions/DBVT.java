@@ -1,108 +1,126 @@
 package poj.Collisions;
-/**
- * DBVT -- dynamic bounding volume tree. A binary AVL tree that sorts the inputs
- * by SA of the bounding boxes that contain the  shapes Date: March 10, 2019
- * @author  Jared Pon
- * @version  1.00
- */
 
-import java.util.ArrayList;
-
-public class DBVT
+public class DBVT extends MinBinaryHeap<Node>
 {
-	// branch
-	public DBVT left;
-	public DBVT right;
-	public Rectangle bounds;
-
-	// leaf
-	public CollisionShape a;
-	public CollisionShape b;
-
-	int height;
-
-	private static final int LEAF_HEIGHT = 1;
 
 	public DBVT()
 	{
-		this(new Rectangle(0, 0, 0, 0), LEAF_HEIGHT);
+		// initalizes root
+		setAt(0, new Node());
 	}
 
-	public DBVT(Rectangle b, int h)
+	// returns the new root
+	/* not worth the effort honestly
+	public int insertRecursive(int focus, CollisionShape cs)
 	{
-		height = h;
-		bounds = b;
-	}
+		Node node = super.deref(focus);
 
-	public DBVT(Rectangle b)
-	{
-		this(b, LEAF_HEIGHT); // leafs have a default height of 1
-	}
-
-
-	public int height()
-	{
-		return height;
-	}
-
-	public boolean isLeaf()
-	{
-		return this.height() == LEAF_HEIGHT;
-	}
-
-
-	// rotates right and returns the new root
-	public static DBVT rightRotate(DBVT a)
-	{
-		DBVT b = a.left;
-		DBVT c = b.right;
-
-		b.right = a;
-		a.left = c;
-
-		a.height = Math.max(a.right.height, a.left.height) + 1;
-		b.height = Math.max(b.right.height, b.left.height) + 1;
-
-		return b;
-	}
-
-	// rotates left and returns the new root
-	public static DBVT leftRotate(DBVT b)
-	{
-		DBVT a = b.right;
-		DBVT c = a.left;
-
-		a.left = b;
-		b.right = c;
-
-		a.height = Math.max(a.right.height, a.left.height) + 1;
-		b.height = Math.max(b.right.height, b.left.height) + 1;
-
-		return a;
-	}
-
-	public int getBalance()
-	{
-		return this.left.height - this.right.height;
-	}
-
-	private static void insertInLeafAndUpdateBounds(CollisionShape cs)
-	{
-		cs.getBoundingRectangle();
-	}
-
-	// retrusn new root of th esub tree
-	public DBVT insert(CollisionShape cs)
-	{
-
-		Rectangle r = cs.getBoundingRectangle();
-
-		// base case just add it to the leaf
-		if (this.isLeaf()) {
-			insertInLeafAndUpdateBounds(cs);
-			return this;
+		// base case -- it is null so create it and add the leaf data in
+		if (Node.isLeaf(node)) { // if it is a leaf
+			// System.out.println("is empty leaf:");
+			Node newNode = new Node();
+			newNode.bounds = newNode.leaf.insertInLeaf(cs);
+			super.setAt(focus, node);
+			return focus;
 		}
+		// base case -- the leaf is either completely empty or half
+		// empty
+		else if ((node.left == -1 && node.right == -1)
+			 && (node.leaf.leftLeaf == null
+			     || node.leaf.rightLeaf == null)) {
+			// System.out.println("is half empty leaf:");
+			node.bounds = node.leaf.insertInLeaf(cs);
+			return focus;
+		}
+		// inductive step 1 -- leaf is filled and push downwards
+		else if (node.leaf.leftLeaf != null
+			 && node.leaf.rightLeaf != null) {
+			// System.out.println("filled leaf inductive step ");
 
-		return new DBVT(r);
+			Rectangle leftRect = Rectangle.getBoundingRectOfRects(
+				node.leaf.getLeftBoundingRect(),
+				Rectangle.getBoundingRectangle(cs));
+			float leftArea = Rectangle.calculateArea(leftRect);
+
+			Rectangle rightRect = Rectangle.getBoundingRectOfRects(
+				node.leaf.getRightBoundingRect(),
+				Rectangle.getBoundingRectangle(cs));
+			float rightArea = Rectangle.calculateArea(rightRect);
+
+			// left side of the tree will always have LESS THAN or
+			// EQUAL TO the surface area of the right side
+			if (rightArea >= leftArea) {
+
+				node.left = insertRecursive(
+					super.getLeft(focus), cs);
+				node.left =
+					insertRecursive(super.getLeft(focus),
+							node.leaf.leftLeaf);
+
+				node.right =
+					insertRecursive(super.getRight(focus),
+							node.leaf.rightLeaf);
+			} else {
+				node.right = insertRecursive(
+					super.getRight(focus), cs);
+
+				node.right =
+					insertRecursive(super.getRight(focus),
+							node.leaf.rightLeaf);
+
+				node.left =
+					insertRecursive(super.getLeft(focus),
+							node.leaf.leftLeaf);
+			}
+
+			// updating bounds
+			node.bounds = Rectangle.getBoundingRectOfRects(
+				super.deref(node.left).bounds,
+				super.deref(node.right).bounds);
+			// clearing the leaf
+			node.leaf.clearLeaf();
+			return focus;
+
+		}
+		// inductive step 2 --just on a branch
+		else {
+			// System.out.println("inductive step");
+
+			Rectangle leftRect = Rectangle.getBoundingRectOfRects(
+				super.deref(node.left).bounds,
+				Rectangle.getBoundingRectangle(cs));
+			float leftArea = Rectangle.calculateArea(leftRect);
+
+			Rectangle rightRect = Rectangle.getBoundingRectOfRects(
+				super.deref(node.right).bounds,
+				Rectangle.getBoundingRectangle(cs));
+
+			float rightArea = Rectangle.calculateArea(rightRect);
+
+			// left side of the tree will always have LESS THAN or
+			// EQUAL TO the surface area of the right side
+			if (rightArea >= leftArea) {
+
+				node.left = insertRecursive(
+					super.getLeft(focus), cs);
+			} else {
+
+				node.right = insertRecursive(
+					super.getRight(focus), cs);
+			}
+
+
+			// updating bounds
+			node.bounds = Rectangle.getBoundingRectOfRects(
+				super.deref(node.left).bounds,
+				super.deref(node.right).bounds);
+
+			return focus;
+		}
 	}
+
+	public void insert(CollisionShape cs)
+	{
+		insertRecursive(0, cs);
+	}*/
 }

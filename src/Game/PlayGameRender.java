@@ -60,9 +60,9 @@ public class PlayGameRender
 							g.windowHeight);
 		}
 
+		addHPBarsToBuffer(g, g.guiBuffer);
 		addGameGUIBuffers(g);
 
-		addHPBarsToBuffer(g, g.entityBuffer);
 
 		Collections.sort(g.entityBuffer, renderObjComp);
 

@@ -45,7 +45,7 @@ public class GameWindow extends JFrame
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		//  for some reason this makes the game canvas not render
 		//  sometimes
-		this.setUndecorated(true);
+		// this.setUndecorated(true);
 	}
 
 	/**

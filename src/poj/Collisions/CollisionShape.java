@@ -35,6 +35,11 @@ public interface CollisionShape {
 		return calculateBoundingRectangle();
 	}
 
+	public default Rectangle pureGetBoundingRectangle()
+	{
+		return new Rectangle(getBoundingRectangle());
+	}
+
 	public static float
 	calculateBoundingAreaOfCollisionShapes(CollisionShape a,
 					       CollisionShape b)

@@ -64,6 +64,8 @@ public class RenderThread extends Thread
 	public void run()
 	{
 		while (threadRunning) {
+			// focus.getBuf(PlayGameRenderBuffers.debugBuf).clear();
+
 			if (isRendering) {
 				renderer.renderBufferLists(
 					focus.getBuf(PlayGameRenderBuffers

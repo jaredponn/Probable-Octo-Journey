@@ -157,7 +157,8 @@ public class Polygon implements CollisionShape
 	public String toString()
 	{
 
-		String str = "Polygon: size = " + size + ", pts: ";
+		String str = "Polygon(" + super.toString() + "): size = " + size
+			     + ", pts: ";
 
 		for (Vector2f i : pts) {
 			str += i.toString() + ", ";
@@ -172,6 +173,11 @@ public class Polygon implements CollisionShape
 			return calculateBoundingRectangle();
 		} else
 			return bounds;
+	}
+
+	public Rectangle pureGetBoundingRectangle()
+	{
+		return new Rectangle(getBoundingRectangle());
 	}
 
 	public float getHeight()

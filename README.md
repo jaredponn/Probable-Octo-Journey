@@ -1,5 +1,9 @@
 # Probable Octo Journey: CPSC 233 Project
+A top down isometric zombie shooter with a custom game engine (entity component system), path-finding engine, and collision engine.
 
+
+# Gameplay
+![Gameplay](./gameplay.gif)
 
 # Running the demo
 Execute the following commands in the command line

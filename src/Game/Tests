@@ -12,3 +12,49 @@ total samples: 247
 // fill rect time
 average time in nanosecs: 1791734.2285714287
 average time in mlli: 1.7917342285714286
+
+// ----------------- Entity Collision algrothims
+// O(n^2) collision algrothims running or 60s in the game without  killing zombies total frame time
+average time in nanosecs: 26485854.387430046
+average time in mlli: 26.485854387430045
+total samples: 2323
+
+// DBVT tree with mobs spawning once every second with mobs spawning every second up to 145 mobs
+average time in nanosecs: 55679381.667025864
+average time in mlli: 55.679381667025865
+total samples: 928
+
+// O(n^2) algrothims with mobs spawning every second up to 145 mobs
+average time in nanosecs: 92540411.91969196
+average time in mlli: 92.54041191969196
+total samples: 909
+
+// With DBVT mobs spanwing evrey second until it reaches 200 mobs
+verage time in nanosecs: 60234238.200316705
+average time in mlli: 60.2342382003167
+total samples: 1263
+
+// O(n^2) with mobs spawnin every second until it reached 150 mobs
+average time in nanosecs: 92497556.31890179
+average time in mlli: 92.49755631890179
+total samples: 947
+
+// real game scenario of DBVT up to 100 mobs
+average time in nanosecs: 40059628.89195621
+average time in mlli: 40.05962889195621
+total samples: 6303
+
+// real game scenario of Brute force up to 100 mobs
+average time in nanosecs: 52780912.8255508
+average time in mlli: 52.7809128255508
+total samples: 6082
+
+// TREE mobs spawning every second JUST benchmarking collision function up to 150 mobs
+average time in nanosecs: 489150.2809880155
+average time in mlli: 0.48915028098801555
+total samples: 17773
+
+// BRUTE FORCE mobs spawning every second JUST benchmarking collision function up to 150 mobs
+average time in nanosecs: 2877846.8824219406
+average time in mlli: 2.8778468824219408
+total samples: 17903
