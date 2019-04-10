@@ -1,7 +1,8 @@
 package poj.Collisions;
 /**
- * DBVT -- dynamic bounding volume tree. A binary AVL tree that sorts the inputs
- * by SA of the bounding boxes that contain the  shapes Date: March 10, 2019
+ * Node for a dynamic bounding volume tree. A binary AVL tree that sorts the
+ * inputs by SA of the bounding boxes that contain the  shapes Date: March 10,
+ * 2019
  * @author  Jared Pon
  * @version  1.00
  */
