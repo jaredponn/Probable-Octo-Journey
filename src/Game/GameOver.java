@@ -100,6 +100,8 @@ public class GameOver extends World
 			is.close();
 		} catch (IOException ioe) {
 			Logger.lassert("Cannot load high score info");
+		} catch (Exception e) {
+			Logger.lassert("Cannot load high score info");
 		}
 
 		this.isHighScore = true;
@@ -122,7 +124,7 @@ public class GameOver extends World
 
 	public void runGame()
 	{
-		poj.Time.Timer.sleepNMilliseconds(10);
+		poj.Time.Timer.sleepNMilliseconds(1);
 	}
 
 	public void processInputs()
