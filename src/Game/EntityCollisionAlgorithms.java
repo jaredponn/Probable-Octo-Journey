@@ -92,12 +92,13 @@ public class EntityCollisionAlgorithms
 	}
 
 
-	public static <T extends PCollisionBody> void
-	ifCollisionBodyIsCollidingWithSetARunGameEventOnFirst(
-		PlayGame g, PCollisionBody pbody, Class<? extends Component> a,
-		Class<T> collisionBodyType, FocusedPlayGameEvent event)
+	public static <T extends PCollisionBody>
+		boolean ifCollisionBodyIsCollidingWithSetARunGameEventOnFirst(
+			PlayGame g, PCollisionBody pbody,
+			Class<? extends Component> a,
+			Class<T> collisionBodyType, FocusedPlayGameEvent event)
 	{
-		ifCollisionBodyIsCollidingWithSetARunGameEventOnFirstBruteForce(
+		return ifCollisionBodyIsCollidingWithSetARunGameEventOnFirstBruteForce(
 			g, pbody, a, collisionBodyType, event);
 	}
 
@@ -147,7 +148,7 @@ public class EntityCollisionAlgorithms
 		// Timer.LOG_BENCH_DELTA();
 	}
 
-	public static <T extends PCollisionBody> void
+	public static <T extends PCollisionBody> boolean
 	ifCollisionBodyIsCollidingWithSetARunGameEventOnFirstBruteForce(
 		PlayGame g, PCollisionBody pbody, Class<? extends Component> a,
 		Class<T> collisionBodyType, FocusedPlayGameEvent event)
@@ -169,9 +170,10 @@ public class EntityCollisionAlgorithms
 			if (bp.isCollidingWith(pbody)) {
 				event.setFocus1(i);
 				event.f();
-				return;
+				return true;
 			}
 		}
+		return false;
 	}
 
 

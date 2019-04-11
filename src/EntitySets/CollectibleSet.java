@@ -22,35 +22,34 @@ import Components.*;
 public class CollectibleSet extends EntitySet
 {
 
-	/**
-	 * Constructor that places pick-up at a default location
-	 * @param spawnTime: game time that the pick-up was spawned at
-	 */
+
 	public CollectibleSet(double spawnTime)
 	{
-		this( 1 , 1 , spawnTime );
+
+		this(1f, 1f, spawnTime);
 	}
 
-	/**
-	 * Constructor that places pick-up at specified x,y coordinates
-	 * @param x: x location of the pick-up
-	 * @param y: y location of the pick-up
-	 * @param spawnTime: game time that the pick-up was spawned at
-	 */
 	public CollectibleSet(float x, float y, double spawnTime)
 	{
+
 		super();
 
-		addComponent(new Render(
-			new ImageRenderObject(0, 0, GameResources.cashImage)));
+		addComponent(new Render(new ImageRenderObject(
+			0, 0, GameResources.healthImage)));
 
 		addComponent(new WorldAttributes(new Vector2f(x, y),
 						 GameConfig.PICKUP_WIDTH,
 						 GameConfig.PICKUP_HEIGHT));
 
-		addComponent(new Lifespan(GameConfig.PICKUP_CASH_SPAWN_TIME,
-					  spawnTime));
+		addComponent(new Lifespan(
+			GameConfig.PICKUP_HEALTHPACK_SPAWN_TIME, spawnTime));
 		addComponent(new PhysicsPCollisionBody(
 			GameConfig.PICKUP_COLLISION_BODY));
+	}
+
+	public CollectibleSet(Vector2f posVector, double spawnTime)
+	{
+
+		this(posVector.x, posVector.y, spawnTime);
 	}
 }

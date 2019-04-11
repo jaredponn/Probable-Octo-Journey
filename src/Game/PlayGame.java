@@ -250,6 +250,8 @@ public class PlayGame extends World
 			DamageBonus.class, player);
 		this.killCount = engineState.unsafeGetComponentAt(
 			KillCount.class, player);
+
+		runGame();
 	}
 
 	public void clearWorld()
@@ -407,7 +409,7 @@ public class PlayGame extends World
 			this.engineState, PlayerSet.class);
 		EngineTransforms
 			.steerMovementVelocityFromMovementDirectionForSet(
-				this.engineState, MobSet.class, 1 / 2f);
+				this.engineState, MobSet.class, 1 / 1f);
 		gameEventStack.runGameEventStack();
 		// rendering is run after this is run
 	}
@@ -585,7 +587,6 @@ public class PlayGame extends World
 		     this.engineState.isValidEntity(i);
 		     i = this.engineState.getNextSetIndex(CollectibleSet.class,
 							  i)) {
-
 			engineState.unsafeGetComponentAt(Lifespan.class, i)
 				.checkLifeSpan(this, i);
 		}
@@ -799,8 +800,7 @@ public class PlayGame extends World
 		this.guiBuffer = this.writeToRenderBuffer.getBuf(
 			PlayGameRenderBuffers.guiBuf);
 	}
-	// /ASE
-	//
+
 	protected Map getMap()
 	{
 		return this.map;
@@ -840,7 +840,6 @@ public class PlayGame extends World
 	{
 		lastWaveDefeatedAt = t;
 	}
-
 
 	public QuadTree getTileMapCollisionQuadTree()
 	{

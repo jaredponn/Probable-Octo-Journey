@@ -60,6 +60,40 @@ public class MobSet extends EntitySet
 	}
 
 	/**
+	 * Spawn Mob at coordinates x , y
+	 * @param x-coord
+	 * @param y-coord
+	 */
+	public MobSet(float x, float y, float speed_bonus, int hp_bonus)
+	{
+		super();
+
+		addComponent(new Render(new ImageRenderObject(
+			0, 0, GameResources.enemySpriteSheet)));
+		addComponent(new WorldAttributes(new Vector2f(x, y),
+						 GameConfig.MOB_WIDTH,
+						 GameConfig.MOB_HEIGHT));
+
+		addComponent(
+			new HasAnimation(GameResources.enemyNMoveAnimation));
+		addComponent(new Movement(GameConfig.MOB_SPEED + speed_bonus));
+		addComponent(new MovementDirection(CardinalDirections.N));
+		addComponent(new FacingDirection(CardinalDirections.N));
+		addComponent(new PhysicsPCollisionBody(
+			GameConfig.MOB_COLLISION_BODY));
+		addComponent(new HitPoints(GameConfig.MOB_HP + hp_bonus,
+					   GameConfig.MOB_MAX_HP + hp_bonus));
+		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
+		addComponent(new AttackCycle(GameConfig.MOB_ATTACK_CYCLE));
+		addComponent(new AggroRange(GameConfig.MOB_AGGRO_RANGE));
+		addComponent(new AnimationWindowAssets(
+			GameConfig.MOB_ANIMATION_WINDOW_ASSETS));
+		// zombie sound effects:
+		addComponent(
+			new SoundEffectAssets(GameResources.zombieSoundAsset));
+	}
+
+	/**
 	 * Spawn mob at coordinates defined by a vector
 	 * @param posVector to spawn mob at
 	 */
