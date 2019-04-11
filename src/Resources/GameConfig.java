@@ -23,6 +23,9 @@ public class GameConfig
 	// public static final Font HUD_FONT = new Font("TimesRoman",
 	// Font.PLAIN, HUD_FONT_SIZE);
 	public static final Font HUD_FONT = GameResources.CREEPER_FONT;
+	public static final Font HUD_FONT_SMALL =
+		GameResources.CREEPER_FONT_SMALL;
+
 	public static final Color HUD_FONT_COLOR = Color.WHITE;
 	public static final int A_INTEGER = 65;
 	public static final int Z_INTEGER = 90;

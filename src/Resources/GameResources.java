@@ -178,6 +178,7 @@ public class GameResources
 		"resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf";
 
 	public static Font CREEPER_FONT;
+	public static Font CREEPER_FONT_SMALL;
 
 	static
 	{
@@ -188,6 +189,12 @@ public class GameResources
 					    new File(
 						    "resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf"))
 					.deriveFont(32f);
+			CREEPER_FONT_SMALL =
+				Font.createFont(
+					    Font.TRUETYPE_FONT,
+					    new File(
+						    "resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf"))
+					.deriveFont(24f);
 		} catch (IOException e) {
 			System.out.println(
 				"IOException occured when creating the creeper font in gameOver!");
