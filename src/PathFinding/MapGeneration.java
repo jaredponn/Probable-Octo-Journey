@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import Components.PathFindCord;
 import Components.PhysicsPCollisionBody;
 import EntitySets.PlayerSet;
+import Resources.GameConfig;
 import TileMap.Map;
 import TileMap.MapLayer;
 
@@ -132,14 +133,38 @@ public class MapGeneration extends Thread
 						mapLayer.unsafeGetComponentAt(
 							PathFindCord.class, i);
 
+					if (center.getCord().equals(
+						    playerPosition)) {
+						System.out.println(
+							"player x = "
+							+ playerPosition.x);
+						System.out.println(
+							"player y = "
+							+ playerPosition.y);
+						System.out.println(
+							"center cord x = "
+							+ center.getCord().x);
+						System.out.println(
+							"center cord y = "
+							+ center.getCord().y);
+						System.out.println(
+							"center is wall = "
+							+ center.getIsWall());
+						System.out.println(
+							"center diffusion value = "
+							+ center.getDiffusionValue());
+						tempDiffusionBuffer.add(
+							(float)GameConfig
+								.PLAYER_DIFFUSION_VALUE);
+						continue;
+					}
 
 					// if the center is not a wall OR if the
 					// player is standing on it (so if
 					// player standing on a wall it will
 					// still diffuse)
-					if (!center.getIsWall()
-					    || center.getCord().equals(
-						       playerPosition)) {
+					if (!center.getIsWall()) {
+
 						ArrayList<
 							PathFindCord> tempNeighbours =
 							Game.EngineTransforms
@@ -150,9 +175,7 @@ public class MapGeneration extends Thread
 						for (PathFindCord a :
 						     tempNeighbours) {
 							// if not a wall
-							if (!a.getIsWall()
-							    || a.getCord().equals(
-								       playerPosition)) {
+							if (!a.getIsWall()) {
 								sum += a.getDiffusionValue()
 								       - center.getDiffusionValue();
 							}

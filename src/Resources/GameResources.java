@@ -341,6 +341,8 @@ public class GameResources
 		ImageLoader.load("resources/RamiroGraphics/officialMap/mapAlignedSprite1.png");
 	public static BufferedImage officialTileSetTest =
 		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSpritiesWithLines.png");
+	public static BufferedImage officialTileSetGoodFountain =
+		ImageLoader.load("resources/RamiroGraphics/officialMap/with fountain/withfountain.png");
 
 	public static String officialMapGround1="resources/RamiroGraphics/officialMap/MapFinal_ground.csv",
 		   		officialMapMisc2="resources/RamiroGraphics/officialMap/MapFinal_misc1.csv",
