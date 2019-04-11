@@ -8,7 +8,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import Components.AnimationWindowAssets;
 import Components.CardinalDirections;
 import Components.Damage;
-import Components.DamageBonus;
 import Components.HasAnimation;
 import Components.Movement;
 import Components.PCollisionBody;
@@ -228,12 +227,7 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 					engineState
 						.unsafeGetComponentAt(
 							Damage.class, player)
-						.getDamage()
-					+ engineState
-						  .unsafeGetComponentAt(
-							  DamageBonus.class,
-							  player)
-						  .get();
+						.getDamage();
 
 				EntityCollisionAlgorithms
 					.ifCollisionBodyIsCollidingWithSetARunGameEventOnFirst(

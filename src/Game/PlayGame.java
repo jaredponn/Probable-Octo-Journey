@@ -83,7 +83,6 @@ public class PlayGame extends World
 	// references that are now deprecated
 	protected Ammo playerAmmo;
 	protected Money playerMoney;
-	protected DamageBonus playerDamageBonus;
 	protected KillCount killCount;
 
 	protected int mobsSpawned = 0;
@@ -194,7 +193,6 @@ public class PlayGame extends World
 		super.engineState.registerComponent(Ammo.class);
 		super.engineState.registerComponent(SoundEffectAssets.class);
 		super.engineState.registerComponent(Money.class);
-		super.engineState.registerComponent(DamageBonus.class);
 		super.engineState.registerComponent(KillCount.class);
 	}
 	public void registerEntitySets()
@@ -237,8 +235,7 @@ public class PlayGame extends World
 			engineState.unsafeGetComponentAt(Ammo.class, player);
 		this.playerMoney =
 			engineState.unsafeGetComponentAt(Money.class, player);
-		this.playerDamageBonus = engineState.unsafeGetComponentAt(
-			DamageBonus.class, player);
+
 		this.killCount = engineState.unsafeGetComponentAt(
 			KillCount.class, player);
 

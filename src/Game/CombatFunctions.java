@@ -105,8 +105,7 @@ public class CombatFunctions
 							.unsafeGetComponentAt(
 								Damage.class,
 								bullet)
-							.getDamage()
-						+ g.playerDamageBonus.get())));
+							.getDamage())));
 				removeBullet(mainState, bullet);
 
 

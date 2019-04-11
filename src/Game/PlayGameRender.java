@@ -112,10 +112,10 @@ public class PlayGameRender
 			GameConfig.HUD_FONT));
 		// damage bonus
 		g.guiBuffer.add(new StringRenderObject(
-			"Damage bonus: "
+			"Damage : "
 				+ getGUIStringDisplayableComponent(
 					  g.getEngineState(), player,
-					  DamageBonus.class),
+					  Damage.class),
 			5, GameConfig.HUD_LINE_SPACING * 5, Color.WHITE,
 			GameConfig.HUD_FONT));
 		// zombies slain

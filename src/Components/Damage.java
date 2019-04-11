@@ -7,7 +7,9 @@ import poj.Component.Component;
  * @author Alex
  * @version 1.0
  */
-public class Damage extends SingleIntComponent implements Component
+
+public class Damage
+	extends SingleIntComponent implements Component, GUIStringDisplayable
 {
 
 	/**
@@ -60,5 +62,10 @@ public class Damage extends SingleIntComponent implements Component
 	public void print()
 	{
 		System.out.println("This entity deals " + focus1 + " damage.");
+	}
+
+	public String getFormattedString()
+	{
+		return "" + focus1;
 	}
 }
