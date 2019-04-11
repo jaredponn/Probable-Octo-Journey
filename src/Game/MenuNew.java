@@ -247,9 +247,9 @@ public class MenuNew extends World
 
 	public void runGame()
 	{
-		// sleeps the thread for 10 ms so we dont get continuous mouse
+		// sleeps the thread for 18 ms so we dont get continuous mouse
 		// clicks
-		Timer.sleepNMilliseconds(10);
+		Timer.sleepNMilliseconds(18);
 		processInputs();
 	}
 

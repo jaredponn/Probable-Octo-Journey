@@ -182,6 +182,7 @@ public class GameResources
 				//initials selection ratios
 				goInitialSelectionWidthRatio=2.486548223350254f,
 				goInitialSelectionHeightRatio=1.3754098360655739f,
+				goInitialSelectGapWidthRatio=10.378378378378379f,
 				// font size for 1920x1080 resolutions
 				goInitialFontSize90=95f,
 				goInitialFontSize38=67f,

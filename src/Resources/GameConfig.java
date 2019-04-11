@@ -440,9 +440,9 @@ public class GameConfig
 				add(new Pair<Integer, Double>(ARROW_DOWN,
 							      0.1d));
 				add(new Pair<Integer, Double>(ARROW_LEFT,
-							      0.5d));
+							      0.1d));
 				add(new Pair<Integer, Double>(ARROW_RIGHT,
-							      0.5d));
+							      0.1d));
 			}
 		};
 

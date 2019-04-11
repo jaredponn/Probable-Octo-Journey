@@ -2,7 +2,6 @@ package Game;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -24,6 +23,7 @@ import EntitySets.MenuButton;
 import Resources.GameConfig;
 import Resources.GameResources;
 
+import poj.Collisions.GJK;
 import poj.Collisions.Polygon;
 import poj.GameWindow.InputPoller;
 import poj.Logger.Logger;
@@ -44,6 +44,8 @@ public class GameOver extends World
 	protected int newScore;
 	protected ArrayList<ScoreTuple> scores = new ArrayList<ScoreTuple>();
 	protected boolean isHighScore;
+
+	protected GJK gjk = new GJK();
 
 	protected Queue<RenderObject> renderBuffer;
 	protected Queue<RenderObject> backgroundBuffer =
@@ -74,9 +76,10 @@ public class GameOver extends World
 			add(65);
 		}
 	};
+	protected ArrayList<StringRenderObject> initialLetters =
+		new ArrayList<StringRenderObject>();
 
 	protected int currentInitial = 0;
-	protected StringRenderObject initialRender;
 
 	protected Scanner is = null;
 	// TODO: DO OTHER FONT SIZES!!!
@@ -205,6 +208,7 @@ public class GameOver extends World
 							     // font size 40f
 		}
 
+		/*
 		initialRender = new StringRenderObject(
 			initialsToStringSelection(),
 			(int)(this.windowWidth
@@ -213,15 +217,47 @@ public class GameOver extends World
 			      / GameResources.goInitialSelectionHeightRatio),
 			Color.BLACK,
 			GameResources.CREEPER_FONT.deriveFont(initialFontSize));
+			*/
 
 		GraphicsEnvironment ge =
 			GraphicsEnvironment.getLocalGraphicsEnvironment();
 		ge.registerFont(FONT);
 
+		// add the initial letters for the player initial
+		addInitialLetters();
+
 		// add the menu buttons
 		addMenuButtons();
 	}
 
+	public void addInitialLetters()
+	{
+		for (int i = 0; i < 3; ++i) {
+			initialLetters.add(new StringRenderObject(
+				"A",
+				(int)(super.windowWidth
+				      / GameResources
+						.goInitialSelectionWidthRatio)
+					+ (int)(super.windowWidth
+						/ GameResources
+							  .goInitialSelectGapWidthRatio)
+						  * i,
+				(int)(super.windowHeight
+				      / GameResources
+						.goInitialSelectionHeightRatio),
+				Color.BLACK,
+				GameResources.CREEPER_FONT.deriveFont(
+					this.initialFontSize)));
+		}
+	}
+
+	// reset the initial character string render object each frame
+	public void clearInitialColors()
+	{
+		for (int i = 0; i < initialLetters.size(); ++i) {
+			initialLetters.get(i).setColor(Color.BLACK);
+		}
+	}
 
 	public void addMenuButtons()
 	{
@@ -265,38 +301,26 @@ public class GameOver extends World
 		if (inputPoller.isKeyDown(KeyEvent.VK_ENTER))
 			super.quit();
 
-		// Choose letter
-		if (inputPoller.isKeyDown(GameConfig.ARROW_DOWN)
-		    && Math.abs(lastCoolDown.get(GameConfig.ARROW_DOWN)) == 0) {
-			if (initials.get(currentInitial)
-			    < GameConfig.Z_INTEGER) {
-				Integer initial = initials.get(currentInitial);
-				initials.set(currentInitial, initial + 1);
-			} else {
-				initials.set(currentInitial,
-					     GameConfig.A_INTEGER);
+		// clear the colors of the initials
+		clearInitialColors();
+
+
+		// check if the user clicked back button
+		if (inputPoller.isLeftMouseButtonDown()) {
+			// get the mouse position
+			Vector2f mousePosition = inputPoller.getMousePosition();
+			PCollisionBody mouseHitBox = new PCollisionBody(
+				new Vector2f(0f, 0f), new Vector2f(0f, 0f),
+				mousePosition);
+
+			// if use clicks back button
+			if (Systems.arePCollisionBodiesColliding(
+				    gjk, mouseHitBox,
+				    this.buttonHitBoxROBuffer.get(0))) {
+				super.quit();
 			}
-			initialRender.setStr(initialsToStringSelection());
-			PlayGameProcessInputs.updateDtForKey(
-				this, GameConfig.ARROW_DOWN,
-				-PlayGame.coolDownMax.get(
-					GameConfig.ARROW_DOWN));
 		}
-		if (inputPoller.isKeyDown(GameConfig.ARROW_UP)
-		    && Math.abs(lastCoolDown.get(GameConfig.ARROW_UP)) == 0) {
-			if (initials.get(currentInitial)
-			    > GameConfig.A_INTEGER) {
-				Integer initial = initials.get(currentInitial);
-				initials.set(currentInitial, initial - 1);
-			} else {
-				initials.set(currentInitial,
-					     GameConfig.Z_INTEGER);
-			}
-			initialRender.setStr(initialsToStringSelection());
-			PlayGameProcessInputs.updateDtForKey(
-				this, GameConfig.ARROW_UP,
-				-PlayGame.coolDownMax.get(GameConfig.ARROW_UP));
-		}
+
 		// Choose slot
 		if (inputPoller.isKeyDown(GameConfig.ARROW_LEFT)
 		    && Math.abs(lastCoolDown.get(GameConfig.ARROW_LEFT)) == 0) {
@@ -317,6 +341,45 @@ public class GameOver extends World
 				-PlayGame.coolDownMax.get(
 					GameConfig.ARROW_RIGHT));
 		}
+
+		/// set the color of the current initial to orange
+		initialLetters.get(currentInitial)
+			.setStr(initialsToStringSelection(currentInitial));
+		initialLetters.get(currentInitial).setColor(Color.ORANGE);
+
+		// Choose letter
+		if (inputPoller.isKeyDown(GameConfig.ARROW_DOWN)
+		    && Math.abs(lastCoolDown.get(GameConfig.ARROW_DOWN)) == 0) {
+			if (initials.get(currentInitial)
+			    < GameConfig.Z_INTEGER) {
+				Integer initial = initials.get(currentInitial);
+				initials.set(currentInitial, initial + 1);
+
+			} else {
+				initials.set(currentInitial,
+					     GameConfig.A_INTEGER);
+			}
+			// initialRender.setStr(
+			// initialsToStringSelection(currentInitial));
+			PlayGameProcessInputs.updateDtForKey(
+				this, GameConfig.ARROW_DOWN,
+				-PlayGame.coolDownMax.get(
+					GameConfig.ARROW_DOWN));
+		}
+		if (inputPoller.isKeyDown(GameConfig.ARROW_UP)
+		    && Math.abs(lastCoolDown.get(GameConfig.ARROW_UP)) == 0) {
+			if (initials.get(currentInitial)
+			    > GameConfig.A_INTEGER) {
+				Integer initial = initials.get(currentInitial);
+				initials.set(currentInitial, initial - 1);
+			} else {
+				initials.set(currentInitial,
+					     GameConfig.Z_INTEGER);
+			}
+			PlayGameProcessInputs.updateDtForKey(
+				this, GameConfig.ARROW_UP,
+				-PlayGame.coolDownMax.get(GameConfig.ARROW_UP));
+		}
 	}
 
 	public void addGameOverPictureRenderBuffer()
@@ -336,16 +399,6 @@ public class GameOver extends World
 		addGameOverPictureRenderBuffer();
 
 		// adding the text
-		/*
-		renderBuffer.add(new StringRenderObject(
-			"HIGH SCORES", super.windowWidth / 2 - 100,
-			4 * FONT_SIZE, Color.BLACK, FONT));
-
-		renderBuffer.add(new StringRenderObject(
-			"YOUR SCORE", super.windowWidth / 2 - 90, 5 * FONT_SIZE,
-			Color.BLACK, FONT));
-			*/
-
 		renderBuffer.add(new StringRenderObject(
 			"" + newScore,
 			(int)(super.windowWidth
@@ -355,15 +408,6 @@ public class GameOver extends World
 			Color.RED,
 			GameResources.CREEPER_FONT.deriveFont(
 				this.yourScoreFontSize)));
-
-
-		/*
-		if (isHighScore)
-			renderBuffer.add(new StringRenderObject(
-				"CONGRATS NEW HIGH SCORE",
-				super.windowWidth / 2 - 200, 8 * FONT_SIZE,
-				Color.BLACK, FONT));
-				*/
 
 		for (int i = 0; i < 5 && i < scores.size(); ++i) {
 			renderBuffer.add(new StringRenderObject(
@@ -382,10 +426,14 @@ public class GameOver extends World
 				Color.BLACK, FONT));
 		}
 
-		renderBuffer.add(initialRender);
+		for (int i = 0; i < initialLetters.size(); ++i) {
+			backgroundBuffer.add(initialLetters.get(i));
+		}
+
 
 		renderer.renderBuffers(backgroundBuffer, buttonsBuffer,
 				       renderBuffer, collisioBoxBuffer);
+
 
 		// if the loop will quit
 		if (super.quit) {
@@ -431,14 +479,12 @@ public class GameOver extends World
 	}
 
 
-	protected String initialsToStringSelection()
+	protected String initialsToStringSelection(int index)
 	{
 		String stringOfInitials = "";
-		for (int i : initials) {
-			String thisInitial = Character.toString((char)i);
-			stringOfInitials =
-				stringOfInitials + thisInitial + "      ";
-		}
+		String thisInitial = Character.toString(
+			(char)((initials.get(index).intValue())));
+		stringOfInitials = stringOfInitials + thisInitial;
 		return stringOfInitials;
 	}
 
