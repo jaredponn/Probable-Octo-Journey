@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,13 +18,21 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
+import Components.PCollisionBody;
+import Components.Render;
+import EntitySets.MenuButton;
 import Resources.GameConfig;
+import Resources.GameResources;
 
+import poj.Collisions.Polygon;
 import poj.GameWindow.InputPoller;
 import poj.Logger.Logger;
+import poj.Render.ImageRenderObject;
 import poj.Render.RenderObject;
+import poj.Render.RenderRect;
 import poj.Render.Renderer;
 import poj.Render.StringRenderObject;
+import poj.linear.Vector2f;
 
 /**
  * GameOver game state.
@@ -37,31 +46,27 @@ public class GameOver extends World
 	protected boolean isHighScore;
 
 	protected Queue<RenderObject> renderBuffer;
+	protected Queue<RenderObject> backgroundBuffer =
+		new LinkedList<RenderObject>();
+	protected Queue<RenderObject> buttonsBuffer =
+		new LinkedList<RenderObject>();
+	protected Queue<RenderObject> collisioBoxBuffer =
+		new LinkedList<RenderObject>();
+	protected Queue<PCollisionBody> buttonHitBoxBuffer =
+		new LinkedList<PCollisionBody>();
 
 	protected static final String SCORES_FILE_NAME = "scores.txt";
 	protected static final int FONT_SIZE = 32;
 
 	protected static Font FONT;
 
-	static
-	{
-		try {
-			FONT = Font.createFont(
-					   Font.TRUETYPE_FONT,
-					   new File(
-						   "resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf"))
-				       .deriveFont((float)FONT_SIZE);
+	protected ArrayList<RenderObject> menuImageROBuffer =
+		new ArrayList<RenderObject>();
+	protected ArrayList<PCollisionBody> buttonHitBoxROBuffer =
+		new ArrayList<PCollisionBody>();
+	protected BufferedImage backButton;
+	protected ArrayList<Render> buttonRenderLayer;
 
-		} catch (IOException e) {
-			System.out.println(
-				"IOException occured when creating the creeper font in gameOver!");
-			e.printStackTrace();
-		} catch (FontFormatException e) {
-			System.out.println(
-				"FontFormatException occured when creating the creeper font in gameOver!");
-			e.printStackTrace();
-		}
-	}
 
 	protected ArrayList<Integer> initials = new ArrayList<Integer>() {
 		{
@@ -84,7 +89,8 @@ public class GameOver extends World
 		this.newScore = newScore;
 		this.renderBuffer = new LinkedList<RenderObject>();
 
-		// create manual font\
+		FONT = GameResources.CREEPER_FONT; // copies the pointer for the
+						   // manual font "creeper"
 		GraphicsEnvironment ge =
 			GraphicsEnvironment.getLocalGraphicsEnvironment();
 		ge.registerFont(FONT);
@@ -143,6 +149,80 @@ public class GameOver extends World
 			coolDownMax.set(GameConfig.COOL_DOWN_KEYS.get(i).fst,
 					GameConfig.COOL_DOWN_KEYS.get(i).snd);
 		}
+
+
+		/*
+		 * No need ratio:
+		 * 	-background
+		 *	-enter initials
+		 *	-middle thing
+		 *	-scores
+		 *	-your scores
+		 */
+
+		registerComponents();
+		registerEntitySets();
+		/*
+		 * Note: the order of index for the menuImageROBuffer is inside
+		 * gameresources
+		 */
+		// if the resolution is 1920x1080
+		if (this.windowWidth == 1920 && this.windowHeight == 1080) {
+			// create the imageRenderObject from the bufferedImages
+			for (int i = 0; i < GameResources.menuImage90.size();
+			     ++i) {
+				menuImageROBuffer.add(new ImageRenderObject(
+					0, 0, GameResources.goImage90.get(i)));
+			}
+			// make the menuButton pointer point to the 1920x1080
+			// res vector
+			backButton = GameResources.goBackButton90;
+
+		}
+		// any other resolution will be using the default resolution
+		// images: 1366x768 (an OK assumption since modern computers
+		// have common resolution ratio of  1366x768)
+		else {
+			// create the imageRenderObject from the bufferedImages
+			for (int i = 0; i < GameResources.menuImage38.size();
+			     ++i) {
+				menuImageROBuffer.add(new ImageRenderObject(
+					0, 0, GameResources.goImage38.get(i)));
+			}
+			// make the menuButton pointer point to the 1920x1080
+			// res vector
+			backButton = GameResources.goBackButton38;
+		}
+		// add the menu buttons
+		addMenuButtons();
+	}
+
+
+	public void addMenuButtons()
+	{
+		// clang-format off
+		//registers all of the button entity sets with its render and collision box 
+			super.engineState.spawnEntitySet(new MenuButton(this.windowWidth, this.windowHeight, GameResources.gameOverButtonValue[0], GameResources.gameOverButtonValue[1], GameResources.gameOverButtonValue[2], GameResources.gameOverButtonValue[3],this.backButton));
+		// clang-format on
+		// store the render components for the buttons
+		buttonRenderLayer = super.engineState.getComponents()
+					    .getRawComponentArrayListPackedData(
+						    Render.class);
+		buttonHitBoxROBuffer =
+			super.engineState.getComponents()
+				.getRawComponentArrayListPackedData(
+					PCollisionBody.class);
+	}
+
+	public void registerComponents()
+	{
+		super.engineState.registerComponent(PCollisionBody.class);
+		super.engineState.registerComponent(Render.class);
+	}
+
+	public void registerEntitySets()
+	{
+		super.engineState.registerSet(MenuButton.class);
 	}
 
 	public void runGame()
@@ -214,10 +294,23 @@ public class GameOver extends World
 		}
 	}
 
+	public void addGameOverPictureRenderBuffer()
+	{
+		for (int i = 0; i < menuImageROBuffer.size(); ++i) {
+			backgroundBuffer.add(menuImageROBuffer.get(i));
+		}
+		// only have 1 button
+		buttonsBuffer.add(buttonRenderLayer.get(0).getGraphic());
+		buttonHitBoxBuffer.add(this.buttonHitBoxROBuffer.get(0));
+		pCollisionBodyDebugRenderer(this.buttonHitBoxROBuffer.get(0),
+					    collisioBoxBuffer, Color.BLUE);
+	}
 
 	public void render()
 	{
+		addGameOverPictureRenderBuffer();
 
+		// adding the text
 		renderBuffer.add(new StringRenderObject(
 			"HIGH SCORES", super.windowWidth / 2 - 100,
 			4 * FONT_SIZE, Color.darkGray, FONT));
@@ -260,7 +353,8 @@ public class GameOver extends World
 
 		renderBuffer.add(initialRender);
 
-		renderer.renderBuffers(renderBuffer);
+		renderer.renderBuffers(backgroundBuffer, buttonsBuffer,
+				       renderBuffer, collisioBoxBuffer);
 
 		// if the loop will quit
 		if (super.quit) {
@@ -316,6 +410,19 @@ public class GameOver extends World
 			scores.remove(10);
 		}
 		super.quit();
+	}
+
+
+	public void pCollisionBodyDebugRenderer(final PCollisionBody pc,
+						Queue<RenderObject> q, Color r)
+	{
+		Polygon p = pc.getPolygon();
+		Vector2f[] pts = p.pts();
+
+		for (int i = 0; i < p.getSize(); ++i) {
+			q.add(new RenderRect((int)pts[i].x, (int)pts[i].y, 5, 5,
+					     r));
+		}
 	}
 
 	private class ScoreTuple implements Comparable<ScoreTuple>

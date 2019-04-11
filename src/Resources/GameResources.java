@@ -1,13 +1,16 @@
 package Resources;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import Components.Sound;
 import Components.OctoAnimationBuffer;
+import Components.Sound;
 
 import poj.Animation;
 import poj.Render.ImageLoader;
@@ -53,10 +56,10 @@ public class GameResources
 				howToHowToButtonHeightRatio= 9.436392914653783f,
 			    howToHowToButtonSizeWidthRatio = 2.4742268041237114f,
 			    howToHowToButtonSizeHeightRatio = 7.859973186354834f;
-				//gameover stuff
 
 
 	// clang-format on
+	// Menu pictures:
 	// 1920x1080 res menu pics:
 	public static BufferedImage octoTitle90 = ImageLoader.load(
 		"resources/RamiroGraphics/menu/1920_1080/game_name_main90.png");
@@ -154,6 +157,107 @@ public class GameResources
 				add(exitButton38);
 				add(howToHowToPlayButton38);
 				add(backButton38);
+			}
+		};
+
+
+	// position constants for the buttons for Game over screen:
+	// they are calculated based on the position of the buttons relative to
+	// the image size
+	// clang-format off
+	public static float 
+				//back button
+				gbBackButtonWidthRatio=2.4334600760456273f,
+				gbBackButtonHeightRatio= 1.25f,
+			    gbBackButtonSizeWidthRatio = 5.614035087719298f,
+			    gbBackButtonSizeHeightRatio = 8.307692307692308f;
+	// clang-format on
+
+	// font for gameover and displays inside the game
+	public static final String creeperFont =
+		"resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf";
+
+	public static Font CREEPER_FONT;
+	static
+	{
+		try {
+			CREEPER_FONT =
+				Font.createFont(
+					    Font.TRUETYPE_FONT,
+					    new File(
+						    "resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf"))
+					.deriveFont(32f);
+		} catch (IOException e) {
+			System.out.println(
+				"IOException occured when creating the creeper font in gameOver!");
+			e.printStackTrace();
+		} catch (FontFormatException e) {
+			System.out.println(
+				"FontFormatException occured when creating the creeper font in gameOver!");
+			e.printStackTrace();
+		}
+	}
+	// images for Game over screen:
+	// 1920x1080 resolution:
+	public static BufferedImage goBg90 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1920_1080/background90.png");
+	public static BufferedImage goEnterInitials90 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1920_1080/enter_initials90 .png");
+	public static BufferedImage goMiddleThing90 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1920_1080/middle_thing90.png");
+	public static BufferedImage goScoreBoard90 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1920_1080/scores90.png");
+	public static BufferedImage goYourScore90 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1920_1080/your_score90.png");
+	public static BufferedImage goHighScoresLabel90 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1920_1080/highScores90.png");
+	// buttons:
+	public static BufferedImage goBackButton90 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1920_1080/backButton90.png");
+	// clang-format off
+	public static float[] gameOverButtonValue = new float[]{
+		gbBackButtonWidthRatio, gbBackButtonHeightRatio, gbBackButtonSizeWidthRatio, gbBackButtonSizeHeightRatio
+	};
+	// clang-format on
+
+	public static ArrayList<BufferedImage> goImage90 =
+		new ArrayList<BufferedImage>() {
+			{
+				add(goBg90);
+				add(goEnterInitials90);
+				add(goMiddleThing90);
+				add(goScoreBoard90);
+				add(goYourScore90);
+				add(goHighScoresLabel90);
+			}
+		};
+
+	// images for Game over screen:
+	// 1366x768 resolution:
+	public static BufferedImage goBg38 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1366_768/background38.png");
+	public static BufferedImage goEnterInitials38 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1366_768/enter_initials38 .png");
+	public static BufferedImage goMiddleThing38 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1366_768/middle_thing38.png");
+	public static BufferedImage goScoreBoard38 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1366_768/scores38.png");
+	public static BufferedImage goYourScore38 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1366_768/your_score38.png");
+	public static BufferedImage goHighScoresLabel38 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1366_768/highScores38.png");
+	// buttons:
+	public static BufferedImage goBackButton38 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1366_768/backButton38.png");
+	public static ArrayList<BufferedImage> goImage38 =
+		new ArrayList<BufferedImage>() {
+			{
+				add(goBg38);
+				add(goEnterInitials38);
+				add(goMiddleThing38);
+				add(goScoreBoard38);
+				add(goYourScore38);
+				add(goHighScoresLabel38);
 			}
 		};
 

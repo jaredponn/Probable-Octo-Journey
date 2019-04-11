@@ -24,27 +24,27 @@ import poj.linear.Vector2f;
 public class MenuNew extends World
 {
 
-	private Queue<RenderObject> titleBuffer =
+	protected Queue<RenderObject> titleBuffer =
 		new LinkedList<RenderObject>();
-	private Queue<RenderObject> buttonsBuffer =
+	protected Queue<RenderObject> buttonsBuffer =
 		new LinkedList<RenderObject>();
-	private Queue<RenderObject> collisioBoxBuffer =
+	protected Queue<RenderObject> collisioBoxBuffer =
 		new LinkedList<RenderObject>();
-	private Queue<PCollisionBody> buttonHitBoxBuffer =
+	protected Queue<PCollisionBody> buttonHitBoxBuffer =
 		new LinkedList<PCollisionBody>();
 
-	private GJK gjk = new GJK();
-	private ArrayList<RenderObject> menuImageROBuffer =
+	protected GJK gjk = new GJK();
+	protected ArrayList<RenderObject> menuImageROBuffer =
 		new ArrayList<RenderObject>();
-	private ArrayList<PCollisionBody> buttonHitBoxROBuffer =
+	protected ArrayList<PCollisionBody> buttonHitBoxROBuffer =
 		new ArrayList<PCollisionBody>();
 
-	private MenuState curMenuState = MenuState.mainMenu;
+	protected MenuState curMenuState = MenuState.mainMenu;
 
-	private ArrayList<BufferedImage> menuButton =
+	protected ArrayList<BufferedImage> menuButton =
 		new ArrayList<BufferedImage>();
 
-	private ArrayList<Render> buttonRenderLayer;
+	protected ArrayList<Render> buttonRenderLayer;
 
 	public MenuNew(int width, int height, Renderer renderer,
 		       InputPoller inputPoller)
