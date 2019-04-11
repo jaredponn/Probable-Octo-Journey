@@ -81,9 +81,13 @@ public class PlayGameRender
 		int player =
 			g.getEngineState().getInitialSetIndex(PlayerSet.class);
 
+		// magic int for how far to place the strings on the left
+		int leftAlignVal = 20;
+		int rightAlignVal = g.getWindowWidth() - 500;
+
 		// game timer
 		g.guiBuffer.add(new StringRenderObject(
-			"" + g.getPlayTime(), 5,
+			"" + g.getPlayTime(), leftAlignVal,
 			GameConfig.HUD_LINE_SPACING * 1, Color.WHITE,
 			GameConfig.HUD_FONT));
 		// money
@@ -92,44 +96,45 @@ public class PlayGameRender
 				+ getGUIStringDisplayableComponent(
 					  g.getEngineState(), player,
 					  Money.class),
-			5, GameConfig.HUD_LINE_SPACING * 2, Color.WHITE,
-			GameConfig.HUD_FONT));
+			rightAlignVal, GameConfig.HUD_LINE_SPACING * 20,
+			GameConfig.HUD_FONT_COLOR, GameConfig.HUD_FONT));
 		// health
 		g.guiBuffer.add(new StringRenderObject(
 			"Health: "
 				+ getGUIStringDisplayableComponent(
 					  g.getEngineState(), player,
 					  HitPoints.class),
-			5, GameConfig.HUD_LINE_SPACING * 3, Color.WHITE,
-			GameConfig.HUD_FONT));
+			rightAlignVal, GameConfig.HUD_LINE_SPACING * 3,
+			GameConfig.HUD_FONT_COLOR, GameConfig.HUD_FONT));
 		// ammo
 		g.guiBuffer.add(new StringRenderObject(
 			"Ammo: "
 				+ getGUIStringDisplayableComponent(
 					  g.getEngineState(), player,
 					  Ammo.class),
-			5, GameConfig.HUD_LINE_SPACING * 4, Color.WHITE,
-			GameConfig.HUD_FONT));
+			rightAlignVal, GameConfig.HUD_LINE_SPACING * 4,
+			GameConfig.HUD_FONT_COLOR, GameConfig.HUD_FONT));
 		// damage bonus
 		g.guiBuffer.add(new StringRenderObject(
 			"Damage : "
 				+ getGUIStringDisplayableComponent(
 					  g.getEngineState(), player,
 					  Damage.class),
-			5, GameConfig.HUD_LINE_SPACING * 5, Color.WHITE,
-			GameConfig.HUD_FONT));
+			rightAlignVal, GameConfig.HUD_LINE_SPACING * 5,
+			GameConfig.HUD_FONT_COLOR, GameConfig.HUD_FONT));
 		// zombies slain
 		g.guiBuffer.add(new StringRenderObject(
 			"Zombies slain: "
 				+ getGUIStringDisplayableComponent(
 					  g.getEngineState(), player,
 					  KillCount.class),
-			5, GameConfig.HUD_LINE_SPACING * 6, Color.WHITE,
-			GameConfig.HUD_FONT));
+			rightAlignVal, GameConfig.HUD_LINE_SPACING * 6,
+			GameConfig.HUD_FONT_COLOR, GameConfig.HUD_FONT));
+
 		g.guiBuffer.add(new StringRenderObject(
-			"" + g.getMobsSpawned(), 5,
-			GameConfig.HUD_LINE_SPACING * 7, Color.WHITE,
-			GameConfig.HUD_FONT));
+			"Zombies chasing" + g.getMobsSpawned(), 5,
+			GameConfig.HUD_LINE_SPACING * 7,
+			GameConfig.HUD_FONT_COLOR, GameConfig.HUD_FONT));
 	}
 	private static void addHPBarsToBuffer(PlayGame g,
 					      ArrayList<RenderObject> arr)

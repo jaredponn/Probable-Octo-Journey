@@ -74,6 +74,16 @@ public abstract class World
 		windowHeight = h;
 	}
 
+	public int getWindowWidth()
+	{
+		return windowWidth;
+	}
+
+	public int getWindowHeight()
+	{
+		return windowHeight;
+	}
+
 	protected void clearTime()
 	{
 		this.dt = DEFAULT_DELTA_TIME;
