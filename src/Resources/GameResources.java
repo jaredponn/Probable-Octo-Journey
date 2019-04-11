@@ -53,6 +53,7 @@ public class GameResources
 				howToHowToButtonHeightRatio= 9.436392914653783f,
 			    howToHowToButtonSizeWidthRatio = 2.4742268041237114f,
 			    howToHowToButtonSizeHeightRatio = 7.859973186354834f;
+				//gameover stuff
 
 
 	// clang-format on

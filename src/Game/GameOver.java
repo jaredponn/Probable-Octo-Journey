@@ -76,11 +76,9 @@ public class GameOver extends World
 				new File(
 					"resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf"));
 
-			FONT = FONT.deriveFont(32f);
-
+			FONT = FONT.deriveFont(40f);
 
 			ge.registerFont(FONT);
-
 
 			System.out.println("font name = " + FONT.getFamily());
 
@@ -152,6 +150,7 @@ public class GameOver extends World
 
 	public void runGame()
 	{
+		// write file before exit render..
 		poj.Time.Timer.sleepNMilliseconds(1);
 	}
 
@@ -159,6 +158,7 @@ public class GameOver extends World
 	{
 		if (inputPoller.isKeyDown(KeyEvent.VK_ENTER))
 			quit();
+		this.processInputs();
 
 		// Choose letter
 		if (inputPoller.isKeyDown(GameConfig.ARROW_DOWN)
@@ -220,7 +220,6 @@ public class GameOver extends World
 
 		PlayGameProcessInputs.updateCoolDownKeys(this);
 
-		this.processInputs();
 
 		renderer.renderBuffers(renderBuffer);
 

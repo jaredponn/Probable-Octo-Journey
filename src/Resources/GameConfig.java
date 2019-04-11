@@ -185,7 +185,7 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(-0.22f, 0.86f), // displacement
 			new Vector2f(1.5f, 0.75f),   // center
-						     // collision body:
+						   // collision body:
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
 			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
@@ -421,13 +421,13 @@ public class GameConfig
 				add(new Pair<Integer, Double>(BUILD_TRAP, 1d));
 				add(new Pair<Integer, Double>(BUY_AMMO, 1d));
 
-				add(new Pair<Integer, Double>(ARROW_UP, 0.2d));
+				add(new Pair<Integer, Double>(ARROW_UP, 0.1d));
 				add(new Pair<Integer, Double>(ARROW_DOWN,
-							      0.2d));
+							      0.1d));
 				add(new Pair<Integer, Double>(ARROW_LEFT,
-							      0.2d));
+							      0.5d));
 				add(new Pair<Integer, Double>(ARROW_RIGHT,
-							      0.2d));
+							      0.5d));
 			}
 		};
 
