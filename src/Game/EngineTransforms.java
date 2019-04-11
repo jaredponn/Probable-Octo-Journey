@@ -4,7 +4,7 @@ import java.awt.Color;
 /**
  * Engine Transforms. Mutations to the PlayGame engineState.
  * Date: February 10, 2019
- * @author Jared, Haiyang He, Romiro Piquer, Alex Stark
+ * @author Jared, Haiyang He, Ramiro Piquer, Alex Stark
  * @version 1.0
  */
 
@@ -27,6 +27,7 @@ import Components.WorldAttributes;
 import EntitySets.PlayerSet;
 import EntitySets.MobSet;
 import EntitySets.TurretSet;
+import EntitySets.*;
 import Game.GameEvents.FocusedPlayGameEvent;
 import Game.GameEvents.MobOutOfHPEvent;
 import Game.GameEvents.PlayerOutOfHPEvent;
@@ -660,95 +661,6 @@ public class EngineTransforms
 
 
 	public static void
-	arePhysicsPCollisionBodiesColliding(EngineState engineState, GJK g,
-					    Class<? extends Component> set0,
-					    Class<? extends Component> set1)
-	{
-		for (int i = engineState.getInitialSetIndex(set0);
-		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(set0, i)) {
-
-			final Optional<PhysicsPCollisionBody> a =
-				engineState.getComponentAt(
-					PhysicsPCollisionBody.class, i);
-
-			if (!a.isPresent())
-				continue;
-
-			for (int j = engineState.getInitialSetIndex(set1);
-			     Components.isValidEntity(j);
-			     j = engineState.getNextSetIndex(set1, j)) {
-
-				final Optional<PhysicsPCollisionBody> b =
-					engineState.getComponentAt(
-						PhysicsPCollisionBody.class, j);
-
-				if (!b.isPresent())
-					continue;
-
-				if (Systems.arePCollisionBodiesColliding(
-					    g, a.get(), b.get())) {
-					System.out.println(
-						"PCOllision detected");
-					break;
-				}
-			}
-		}
-	}
-
-
-	public static void nudgePhysicsPCollisionBodiesOfSetAOutsideOfSetB(
-		EngineState engineState, GJK g,
-		final Class<? extends Component> a,
-		final Class<? extends Component> b)
-	{
-		for (int i = engineState.getInitialSetIndex(a);
-		     Components.isValidEntity(i);
-		     i = engineState.getNextSetIndex(a, i)) {
-
-			final Optional<PhysicsPCollisionBody> apopt =
-				engineState.getComponentAt(
-					PhysicsPCollisionBody.class, i);
-
-			Optional<WorldAttributes> awopt =
-				engineState.getComponentAt(
-					WorldAttributes.class, i);
-
-			if (!apopt.isPresent())
-				continue;
-
-			if (!awopt.isPresent())
-				continue;
-
-			PhysicsPCollisionBody ap = apopt.get();
-			WorldAttributes aw = awopt.get();
-
-			for (int j = engineState.getInitialSetIndex(b);
-			     Components.isValidEntity(j);
-			     j = engineState.getNextSetIndex(b, j)) {
-
-				final Optional<PhysicsPCollisionBody> bpopt =
-					engineState.getComponentAt(
-						PhysicsPCollisionBody.class, j);
-				if (!bpopt.isPresent())
-					continue;
-
-				PhysicsPCollisionBody bp = bpopt.get();
-
-				if (Systems.arePCollisionBodiesColliding(g, bp,
-									 ap)
-				    && i != j) {
-
-					Systems.nudgeCollisionBodyBOutOfA(
-						bp, ap, aw, g);
-
-					break;
-				}
-			}
-		}
-	}
-
-	public static void
 	updatePCollisionBodiesFromWorldAttr(final EngineState e)
 	{
 
@@ -875,43 +787,22 @@ public class EngineTransforms
 		}
 	}
 
-	public static boolean
-	doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
-		EngineState engineState, PCollisionBody pbody,
-		Class<? extends Component> c, int damage)
+	public static void playerPickUpCollectibles(PlayGame g)
 	{
-		GJK gjk = new GJK();
+		EntityCollisionAlgorithms.pickUpEventForPlayer(
+			g, GameConfig.PICKUP_CASH_AMOUNT, CashPack.class,
+			Money.class);
 
-		for (int i = engineState.getInitialSetIndex(c);
-		     engineState.isValidEntity(i);
-		     i = engineState.getNextSetIndex(c, i)) {
+		EntityCollisionAlgorithms.pickUpEventForPlayer(
+			g, GameConfig.PICKUP_AMMOPACK_AMOUNT, AmmoPack.class,
+			Ammo.class);
 
-			Optional<PHitBox> phbodyOpt =
-				engineState.getComponentAt(PHitBox.class, i);
+		EntityCollisionAlgorithms.pickUpEventForPlayer(
+			g, GameConfig.PICKUP_HEALTHPACK_AMOUNT,
+			HealthPack.class, HitPoints.class);
 
-			if (!phbodyOpt.isPresent())
-				continue;
-
-			PHitBox phbody = phbodyOpt.get();
-
-			if (Systems.arePCollisionBodiesColliding(gjk, pbody,
-								 phbody)) {
-
-				Optional<HitPoints> hpOpt =
-					engineState.getComponentAt(
-						HitPoints.class, i);
-
-				if (!hpOpt.isPresent())
-					continue;
-
-				HitPoints hp = hpOpt.get();
-
-				hp.hurt(damage);
-
-				// only do damage to one thing at a time
-				return true;
-			}
-		}
-		return false;
+		EntityCollisionAlgorithms.pickUpEventForPlayer(
+			g, GameConfig.PICKUP_AMMOPACK_AMOUNT, PowerUp.class,
+			Damage.class);
 	}
 }

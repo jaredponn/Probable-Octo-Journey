@@ -385,7 +385,7 @@ public class CombatFunctions
 
 		// destroy turret if out of ammo
 		if (engineState.unsafeGetComponentAt(Ammo.class, turret)
-			    .hasAmmo(1))
+			    .hasAmmo())
 			return;
 		else {
 			System.out.println("A turret ran out of ammo");

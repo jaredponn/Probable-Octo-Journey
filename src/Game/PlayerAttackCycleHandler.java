@@ -135,7 +135,7 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 								closestDirToMouse,
 								0));
 
-				if (super.getPlayGame().playerAmmo.hasAmmo(1)) {
+				if (super.getPlayGame().playerAmmo.hasAmmo()) {
 					// play gun shooting sound
 					engineState
 						.unsafeGetComponentAt(

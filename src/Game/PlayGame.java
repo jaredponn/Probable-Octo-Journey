@@ -21,16 +21,7 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import Components.*;
-import EntitySets.AmmoPack;
-import EntitySets.Bullet;
-import EntitySets.CannonShell;
-import EntitySets.CollectibleSet;
-import EntitySets.PowerUp;
-import EntitySets.ConstructSet;
-import EntitySets.HealthPack;
-import EntitySets.MobSet;
-import EntitySets.PlayerSet;
-import EntitySets.TurretSet;
+import EntitySets.*;
 import Game.GameEvents.PlayGameEvent;
 import Game.GameEvents.PlayGameEventStack;
 import PathFinding.MapGeneration;
@@ -210,11 +201,11 @@ public class PlayGame extends World
 	{
 		super.engineState.registerSet(PlayerSet.class);
 		super.engineState.registerSet(MobSet.class);
+		super.engineState.registerSet(CashPack.class);
 		super.engineState.registerSet(ConstructSet.class);
 		super.engineState.registerSet(Bullet.class);
 		super.engineState.registerSet(CannonShell.class);
 		super.engineState.registerSet(TurretSet.class);
-		super.engineState.registerSet(CollectibleSet.class);
 		super.engineState.registerSet(PowerUp.class);
 		super.engineState.registerSet(HealthPack.class);
 		super.engineState.registerSet(AmmoPack.class);
@@ -285,9 +276,6 @@ public class PlayGame extends World
 			this.engineState);
 		// this.handleTurrets();
 
-		// de-spawn entities with lifespans
-		this.timedDespawner();
-
 		// Handle bullets hitting things
 		// player bullets:
 		for (int i = this.engineState.getInitialSetIndex(Bullet.class);
@@ -319,10 +307,7 @@ public class PlayGame extends World
 
 		EngineTransforms.pushOutOfHPEventsIfHPIsZeroOrLess(this);
 
-		this.collectCash(GameConfig.PICKUP_CASH_AMOUNT);
-		this.collectPowerUp();
-		this.collectHealthPack();
-		this.collectAmmoPack();
+		EngineTransforms.playerPickUpCollectibles(this);
 
 
 		// updating positions
@@ -517,243 +502,6 @@ public class PlayGame extends World
 									    3));
 		}
 		// TODO: make more mobs spawn over time
-	}
-
-	/**
-	 * spawns a new cash pick-up at a location
-	 * @param timed: only spawn if PICKUP_CASH_SPAWN_TIME seconds have
-	 *         passed since last spawn
-	 * @param x: x-coordinate to spawn the drop at
-	 * @param y: y-coordinate to spawn the drop at
-	 *   */
-	public void cashSpawner(boolean timed, float x, float y)
-	{
-		double currentPlayTime = this.getPlayTime();
-		if (timed
-		    && currentPlayTime - this.timeOfLastCashSpawn
-			       > GameConfig.PICKUP_CASH_SPAWN_TIME) {
-			super.engineState.spawnEntitySet(
-				new CollectibleSet(x, y, currentPlayTime));
-			this.timeOfLastCashSpawn = currentPlayTime;
-			System.out.println("Spawning new timed cash drop.");
-		} else if (timed == false) {
-			super.engineState.spawnEntitySet(
-				new CollectibleSet(x, y, currentPlayTime));
-			System.out.println("Spawning new cash drop.");
-		}
-	}
-
-	// TODO: powerup spawn times
-	public void powerUpSpawner(boolean timed, float x, float y)
-	{
-		double currentPlayTime = this.getPlayTime();
-		if (timed
-		    && currentPlayTime - this.timeOfLastPowerUpSpawn
-			       > GameConfig.PICKUP_POWERUP_SPAWN_TIME) {
-			super.engineState.spawnEntitySet(
-				new PowerUp(x, y, currentPlayTime));
-			this.timeOfLastPowerUpSpawn = currentPlayTime;
-			System.out.println("Spawning new timed power-up drop.");
-		} else if (timed == false) {
-			super.engineState.spawnEntitySet(
-				new PowerUp(x, y, currentPlayTime));
-			System.out.println("Spawning new power-up drop.");
-		}
-	}
-
-	public void ammoPackSpawner(boolean timed, float x, float y)
-	{
-		double currentPlayTime = this.getPlayTime();
-		super.engineState.spawnEntitySet(
-			new AmmoPack(x, y, currentPlayTime));
-	}
-
-	public void healthPackSpawner(boolean timed, float x, float y)
-	{
-		double currentPlayTime = this.getPlayTime();
-		super.engineState.spawnEntitySet(
-			new HealthPack(x, y, currentPlayTime));
-	}
-
-	/**
-	 * deletes drops older than their lifespan
-	 * prevents drops that have not been collected from piling up
-	 */
-	protected void timedDespawner()
-	{
-		// money
-		for (int i = this.engineState.getInitialSetIndex(
-			     CollectibleSet.class);
-		     this.engineState.isValidEntity(i);
-		     i = this.engineState.getNextSetIndex(CollectibleSet.class,
-							  i)) {
-			engineState.unsafeGetComponentAt(Lifespan.class, i)
-				.checkLifeSpan(this, i);
-		}
-
-		// power-ups
-		for (int i = this.engineState.getInitialSetIndex(PowerUp.class);
-		     this.engineState.isValidEntity(i);
-		     i = this.engineState.getNextSetIndex(PowerUp.class, i)) {
-
-			engineState.unsafeGetComponentAt(Lifespan.class, i)
-				.checkLifeSpan(this, i);
-		}
-
-		// health packs
-		for (int i = this.engineState.getInitialSetIndex(
-			     HealthPack.class);
-		     this.engineState.isValidEntity(i);
-		     i = this.engineState.getNextSetIndex(HealthPack.class,
-							  i)) {
-
-			engineState.unsafeGetComponentAt(Lifespan.class, i)
-				.checkLifeSpan(this, i);
-		}
-
-		// ammo packs
-		for (int i = this.engineState.getInitialSetIndex(
-			     AmmoPack.class);
-		     this.engineState.isValidEntity(i);
-		     i = this.engineState.getNextSetIndex(AmmoPack.class, i)) {
-
-			engineState.unsafeGetComponentAt(Lifespan.class, i)
-				.checkLifeSpan(this, i);
-		}
-	}
-
-	/**
-	 * Add the money in a cash pick-up to the player
-	 * @param amount of money in the pick-up
-	 */
-	protected void collectCash(int amount)
-	{
-		PhysicsPCollisionBody playerPosition =
-			engineState.unsafeGetComponentAt(
-				PhysicsPCollisionBody.class, this.player);
-
-		for (int i = this.engineState.getInitialSetIndex(
-			     CollectibleSet.class);
-		     this.engineState.isValidEntity(i);
-		     i = this.engineState.getNextSetIndex(CollectibleSet.class,
-							  i)) {
-
-			Optional<PhysicsPCollisionBody> collectiblePosition =
-				engineState.getComponentAt(
-					PhysicsPCollisionBody.class, i);
-
-			if (!collectiblePosition.isPresent())
-				continue;
-
-			if (Systems.arePCollisionBodiesColliding(
-				    gjk, playerPosition,
-				    collectiblePosition.get())) {
-				playerMoney.increase(amount);
-				System.out.println("Picked up $" + amount
-						   + ". You now have $"
-						   + playerMoney.get());
-				CombatFunctions.removePickUp(engineState, i);
-			}
-		}
-	}
-
-	/**
-	 * Increase player bullet damage
-	 */
-	protected void collectPowerUp()
-	{
-		PhysicsPCollisionBody playerPosition =
-			engineState.unsafeGetComponentAt(
-				PhysicsPCollisionBody.class, this.player);
-
-		for (int i = this.engineState.getInitialSetIndex(PowerUp.class);
-		     this.engineState.isValidEntity(i);
-		     i = this.engineState.getNextSetIndex(PowerUp.class, i)) {
-
-			Optional<PhysicsPCollisionBody> collectiblePosition =
-				engineState.getComponentAt(
-					PhysicsPCollisionBody.class, i);
-			if (!collectiblePosition.isPresent()) {
-				continue;
-			}
-
-			if (Systems.arePCollisionBodiesColliding(
-				    gjk, playerPosition,
-				    collectiblePosition.get())) {
-				playerDamageBonus.increase(
-					GameConfig.PICKUP_POWERUP_AMOUNT);
-				System.out.println(
-					"The player now has an attack bonus of "
-					+ this.playerDamageBonus.get());
-				CombatFunctions.removePickUp(engineState, i);
-			}
-		}
-	}
-
-	/**
-	 * Increase player hit points
-	 */
-	protected void collectHealthPack()
-	{
-		PhysicsPCollisionBody playerPosition =
-			engineState.unsafeGetComponentAt(
-				PhysicsPCollisionBody.class, this.player);
-
-		for (int i = this.engineState.getInitialSetIndex(
-			     HealthPack.class);
-		     this.engineState.isValidEntity(i);
-		     i = this.engineState.getNextSetIndex(HealthPack.class,
-							  i)) {
-
-			Optional<PhysicsPCollisionBody> collectiblePosition =
-				engineState.getComponentAt(
-					PhysicsPCollisionBody.class, i);
-			if (!collectiblePosition.isPresent()) {
-				continue;
-			}
-
-			if (Systems.arePCollisionBodiesColliding(
-				    gjk, playerPosition,
-				    collectiblePosition.get())) {
-				engineState
-					.unsafeGetComponentAt(HitPoints.class,
-							      player)
-					.heal(GameConfig
-						      .PICKUP_HEALTHPACK_AMOUNT);
-				CombatFunctions.removePickUp(engineState, i);
-			}
-		}
-	}
-
-	/**
-	 * Increase player ammo
-	 */
-	protected void collectAmmoPack()
-	{
-		PhysicsPCollisionBody playerPosition =
-			engineState.unsafeGetComponentAt(
-				PhysicsPCollisionBody.class, this.player);
-
-		for (int i = this.engineState.getInitialSetIndex(
-			     AmmoPack.class);
-		     this.engineState.isValidEntity(i);
-		     i = this.engineState.getNextSetIndex(AmmoPack.class, i)) {
-
-			Optional<PhysicsPCollisionBody> collectiblePosition =
-				engineState.getComponentAt(
-					PhysicsPCollisionBody.class, i);
-
-			if (!collectiblePosition.isPresent())
-				continue;
-
-			if (Systems.arePCollisionBodiesColliding(
-				    gjk, playerPosition,
-				    collectiblePosition.get())) {
-				this.playerAmmo.increaseAmmo(
-					GameConfig.PICKUP_AMMOPACK_AMOUNT);
-				CombatFunctions.removePickUp(engineState, i);
-			}
-		}
 	}
 
 	/**

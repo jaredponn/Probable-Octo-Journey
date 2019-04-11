@@ -12,8 +12,12 @@ package Game;
 import java.util.Optional;
 
 import Components.*;
+import EntitySets.*;
+
 import java.util.ArrayList;
+
 import Game.GameEvents.*;
+
 import poj.Component.*;
 import poj.Time.Timer;
 import poj.Collisions.*;
@@ -217,5 +221,36 @@ public class EntityCollisionAlgorithms
 		ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
 			g, a, b, AggroRange.class, PhysicsPCollisionBody.class,
 			START_ATTACK_CYCLE_EVENT_MEMO);
+	}
+
+	private static DamageFocusedEntityEvent DAMAGED_FOCUSED_ENTITY_MEMO =
+		new DamageFocusedEntityEvent();
+	public static boolean
+	damageSetAIfCollisionBodiesAreTouching(PlayGame g, PCollisionBody pbody,
+					       Class<? extends Component> a,
+					       int dmg)
+	{
+		DAMAGED_FOCUSED_ENTITY_MEMO.setPlayGame(g);
+		DAMAGED_FOCUSED_ENTITY_MEMO.setDamage(dmg);
+
+		return ifCollisionBodyIsCollidingWithSetARunGameEventOnFirst(
+			g, pbody, a, PHitBox.class,
+			DAMAGED_FOCUSED_ENTITY_MEMO);
+	}
+
+	public static <T extends CollectibleSet, U
+			       extends SingleIntComponent> void
+	pickUpEventForPlayer(PlayGame g, int amount, Class<T> set, Class<U> t)
+	{
+		SingleIntComponentModifierEvent<U> event =
+			new SingleIntComponentModifierEvent<U>();
+
+		event.setPlayGame(g);
+		event.setAmount(amount);
+		event.setType(t);
+
+		ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
+			g, PlayerSet.class, set, PhysicsPCollisionBody.class,
+			PhysicsPCollisionBody.class, event);
 	}
 }
