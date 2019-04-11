@@ -250,6 +250,8 @@ public class PlayGame extends World
 			DamageBonus.class, player);
 		this.killCount = engineState.unsafeGetComponentAt(
 			KillCount.class, player);
+
+		runGame();
 	}
 
 	public void clearWorld()
@@ -407,7 +409,7 @@ public class PlayGame extends World
 			this.engineState, PlayerSet.class);
 		EngineTransforms
 			.steerMovementVelocityFromMovementDirectionForSet(
-				this.engineState, MobSet.class, 1 / 12f);
+				this.engineState, MobSet.class, 1 / 1f);
 		gameEventStack.runGameEventStack();
 		// rendering is run after this is run
 	}
