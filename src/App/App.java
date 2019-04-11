@@ -53,14 +53,24 @@ public class App
 		GraphicsDevice gd =
 			GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getDefaultScreenDevice();
-		this.gcanvas = new GameCanvas(gd.getDisplayMode().getWidth(),
-					      gd.getDisplayMode().getHeight(),
-					      inputPoller);
 		this.width = gd.getDisplayMode().getWidth();
 		this.height = gd.getDisplayMode().getHeight();
+
+		// this.width = 1;
+		// this.height = 1;
+
+		// made sure if the computer's display is not 1920x1080, will go
+		// to 1366x768 resolution
+		if (this.width != 1920 || this.height != 1080) {
+			this.width = GameResources.lowResolutionWidth;
+			this.height = GameResources.lowResolutionHeight;
+		}
+
 		System.out.println("width = " + width);
 		System.out.println("height = " + height);
 
+		this.gcanvas =
+			new GameCanvas(this.width, this.height, inputPoller);
 		this.gwindow.defaultAddGameCanvasAndSetBufferStrat(gcanvas);
 
 		this.renderer = new Renderer(gcanvas);
@@ -85,8 +95,15 @@ public class App
 
 
 		while (isRunning) {
+
+			///*
 			MenuNew menu = new MenuNew(width, height, this.renderer,
 						   this.inputPoller);
+			//*/
+			/*
+		MenuNew menu = new MenuNew(1, 1, this.renderer,
+					   this.inputPoller);
+					   */
 			// start playing menu music
 			GameResources.menuSound.playContinuously();
 
@@ -107,10 +124,17 @@ public class App
 			playGame.runGameLoop();
 
 			GameResources.gameBgSound.end();
-
+			///*
 			GameOver gameOver = new GameOver(
 				width, height, this.renderer, this.inputPoller,
 				playGame.getKillCount());
+			//*/
+
+			/*
+				GameOver gameOver = new GameOver(
+					1, 1, this.renderer, this.inputPoller,
+					playGame.getKillCount());
+					*/
 
 			gameOver.runGameLoop();
 		}

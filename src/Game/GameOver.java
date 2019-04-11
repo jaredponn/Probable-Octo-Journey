@@ -56,7 +56,6 @@ public class GameOver extends World
 		new LinkedList<PCollisionBody>();
 
 	protected static final String SCORES_FILE_NAME = "scores.txt";
-	protected static final int FONT_SIZE = 32;
 
 	protected static Font FONT;
 
@@ -75,11 +74,13 @@ public class GameOver extends World
 			add(65);
 		}
 	};
+
 	protected int currentInitial = 0;
-	protected StringRenderObject initialRender = new StringRenderObject(
-		initialsToString(), 30, 30, Color.DARK_GRAY, FONT);
+	protected StringRenderObject initialRender;
 
 	protected Scanner is = null;
+	// TODO: DO OTHER FONT SIZES!!!
+	protected float initialFontSize = 0, yourScoreFontSize = 0;
 
 
 	public GameOver(int width, int height, Renderer renderer,
@@ -89,11 +90,6 @@ public class GameOver extends World
 		this.newScore = newScore;
 		this.renderBuffer = new LinkedList<RenderObject>();
 
-		FONT = GameResources.CREEPER_FONT; // copies the pointer for the
-						   // manual font "creeper"
-		GraphicsEnvironment ge =
-			GraphicsEnvironment.getLocalGraphicsEnvironment();
-		ge.registerFont(FONT);
 
 		try {
 			Scanner findFile =
@@ -150,16 +146,6 @@ public class GameOver extends World
 					GameConfig.COOL_DOWN_KEYS.get(i).snd);
 		}
 
-
-		/*
-		 * No need ratio:
-		 * 	-background
-		 *	-enter initials
-		 *	-middle thing
-		 *	-scores
-		 *	-your scores
-		 */
-
 		registerComponents();
 		registerEntitySets();
 		/*
@@ -169,7 +155,7 @@ public class GameOver extends World
 		// if the resolution is 1920x1080
 		if (this.windowWidth == 1920 && this.windowHeight == 1080) {
 			// create the imageRenderObject from the bufferedImages
-			for (int i = 0; i < GameResources.menuImage90.size();
+			for (int i = 0; i < GameResources.goImage90.size();
 			     ++i) {
 				menuImageROBuffer.add(new ImageRenderObject(
 					0, 0, GameResources.goImage90.get(i)));
@@ -177,6 +163,18 @@ public class GameOver extends World
 			// make the menuButton pointer point to the 1920x1080
 			// res vector
 			backButton = GameResources.goBackButton90;
+			this.initialFontSize =
+				GameResources.goInitialFontSize90;
+			this.yourScoreFontSize =
+				GameResources.goYourScoreFontSize90;
+
+			FONT = GameResources.CREEPER_FONT.deriveFont(
+				GameResources
+					.goOtherFontSize90); // copies the
+							     // pointer for the
+							     // manual font
+							     // "creeper" with
+							     // font size 40f
 
 		}
 		// any other resolution will be using the default resolution
@@ -184,7 +182,7 @@ public class GameOver extends World
 		// have common resolution ratio of  1366x768)
 		else {
 			// create the imageRenderObject from the bufferedImages
-			for (int i = 0; i < GameResources.menuImage38.size();
+			for (int i = 0; i < GameResources.goImage38.size();
 			     ++i) {
 				menuImageROBuffer.add(new ImageRenderObject(
 					0, 0, GameResources.goImage38.get(i)));
@@ -192,7 +190,34 @@ public class GameOver extends World
 			// make the menuButton pointer point to the 1920x1080
 			// res vector
 			backButton = GameResources.goBackButton38;
+			this.initialFontSize =
+				GameResources.goInitialFontSize38;
+
+			this.yourScoreFontSize =
+				GameResources.goYourScoreFontSize38;
+
+			FONT = GameResources.CREEPER_FONT.deriveFont(
+				GameResources
+					.goOtherFontSize38); // copies the
+							     // pointer for the
+							     // manual font
+							     // "creeper" with
+							     // font size 40f
 		}
+
+		initialRender = new StringRenderObject(
+			initialsToStringSelection(),
+			(int)(this.windowWidth
+			      / GameResources.goInitialSelectionWidthRatio),
+			(int)(this.windowHeight
+			      / GameResources.goInitialSelectionHeightRatio),
+			Color.BLACK,
+			GameResources.CREEPER_FONT.deriveFont(initialFontSize));
+
+		GraphicsEnvironment ge =
+			GraphicsEnvironment.getLocalGraphicsEnvironment();
+		ge.registerFont(FONT);
+
 		// add the menu buttons
 		addMenuButtons();
 	}
@@ -238,7 +263,7 @@ public class GameOver extends World
 	public void processInputs()
 	{
 		if (inputPoller.isKeyDown(KeyEvent.VK_ENTER))
-			quit();
+			super.quit();
 
 		// Choose letter
 		if (inputPoller.isKeyDown(GameConfig.ARROW_DOWN)
@@ -251,7 +276,7 @@ public class GameOver extends World
 				initials.set(currentInitial,
 					     GameConfig.A_INTEGER);
 			}
-			initialRender.setStr(initialsToString());
+			initialRender.setStr(initialsToStringSelection());
 			PlayGameProcessInputs.updateDtForKey(
 				this, GameConfig.ARROW_DOWN,
 				-PlayGame.coolDownMax.get(
@@ -267,7 +292,7 @@ public class GameOver extends World
 				initials.set(currentInitial,
 					     GameConfig.Z_INTEGER);
 			}
-			initialRender.setStr(initialsToString());
+			initialRender.setStr(initialsToStringSelection());
 			PlayGameProcessInputs.updateDtForKey(
 				this, GameConfig.ARROW_UP,
 				-PlayGame.coolDownMax.get(GameConfig.ARROW_UP));
@@ -311,45 +336,51 @@ public class GameOver extends World
 		addGameOverPictureRenderBuffer();
 
 		// adding the text
+		/*
 		renderBuffer.add(new StringRenderObject(
 			"HIGH SCORES", super.windowWidth / 2 - 100,
-			4 * FONT_SIZE, Color.darkGray, FONT));
+			4 * FONT_SIZE, Color.BLACK, FONT));
 
 		renderBuffer.add(new StringRenderObject(
 			"YOUR SCORE", super.windowWidth / 2 - 90, 5 * FONT_SIZE,
-			Color.darkGray, FONT));
+			Color.BLACK, FONT));
+			*/
 
 		renderBuffer.add(new StringRenderObject(
-			"" + newScore, super.windowWidth / 2, 6 * FONT_SIZE,
-			Color.darkGray, FONT));
+			"" + newScore,
+			(int)(super.windowWidth
+			      / GameResources.goYourScoreWidthRatio),
+			(int)(super.windowHeight
+			      / GameResources.goYourScoreHeightRatio),
+			Color.RED,
+			GameResources.CREEPER_FONT.deriveFont(
+				this.yourScoreFontSize)));
 
-		renderBuffer.add(new StringRenderObject(
-			"ZOMBIES SLAIN", super.windowWidth / 2 - 100,
-			7 * FONT_SIZE, Color.darkGray, FONT));
 
+		/*
 		if (isHighScore)
 			renderBuffer.add(new StringRenderObject(
 				"CONGRATS NEW HIGH SCORE",
 				super.windowWidth / 2 - 200, 8 * FONT_SIZE,
-				Color.darkGray, FONT));
-
-		renderBuffer.add(new StringRenderObject(
-			"OTHER SCORES", super.windowWidth / 2 - 100,
-			9 * FONT_SIZE, Color.darkGray, FONT));
+				Color.BLACK, FONT));
+				*/
 
 		for (int i = 0; i < 5 && i < scores.size(); ++i) {
 			renderBuffer.add(new StringRenderObject(
-				scores.get(i).getName() + ": "
+				scores.get(i).getName() + ":    "
 					+ scores.get(i).getScore(),
-				super.windowWidth / 2 - 20,
-				(i + 10) * FONT_SIZE, Color.darkGray, FONT));
+				(int)(super.windowWidth
+				      / GameResources
+						.goScoreBoardWidthRatioInitially),
+				(int)(super.windowHeight
+				      / GameResources
+						.goScoreBoardHeightRatioInitially)
+					+ (int)(super.windowHeight
+						/ GameResources
+							  .goScoreBoardGapHeightRatio)
+						  * i,
+				Color.BLACK, FONT));
 		}
-
-		renderBuffer.add(new StringRenderObject(
-			"PRESS ENTER TO GO BACK TO THE MENU",
-			super.windowWidth / 2 - 350,
-			super.windowHeight - FONT_SIZE - 20, Color.darkGray,
-			FONT));
 
 		renderBuffer.add(initialRender);
 
@@ -358,6 +389,7 @@ public class GameOver extends World
 
 		// if the loop will quit
 		if (super.quit) {
+			quit();
 			overWriteScoresTextFile();
 		}
 	}
@@ -398,6 +430,18 @@ public class GameOver extends World
 		return stringOfInitials;
 	}
 
+
+	protected String initialsToStringSelection()
+	{
+		String stringOfInitials = "";
+		for (int i : initials) {
+			String thisInitial = Character.toString((char)i);
+			stringOfInitials =
+				stringOfInitials + thisInitial + "      ";
+		}
+		return stringOfInitials;
+	}
+
 	public void quit()
 	{
 
@@ -409,7 +453,6 @@ public class GameOver extends World
 		while (scores.size() > 10) {
 			scores.remove(10);
 		}
-		super.quit();
 	}
 
 
