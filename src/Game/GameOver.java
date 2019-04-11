@@ -41,8 +41,27 @@ public class GameOver extends World
 	protected static final String SCORES_FILE_NAME = "scores.txt";
 	protected static final int FONT_SIZE = 32;
 
-	protected Font FONT; //= new Font("TimesRoman", Font.BOLD, FONT_SIZE);
-	// protected Font FONT;
+	protected static Font FONT;
+
+	static
+	{
+		try {
+			FONT = Font.createFont(
+					   Font.TRUETYPE_FONT,
+					   new File(
+						   "resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf"))
+				       .deriveFont((float)FONT_SIZE);
+
+		} catch (IOException e) {
+			System.out.println(
+				"IOException occured when creating the creeper font in gameOver!");
+			e.printStackTrace();
+		} catch (FontFormatException e) {
+			System.out.println(
+				"FontFormatException occured when creating the creeper font in gameOver!");
+			e.printStackTrace();
+		}
+	}
 
 	protected ArrayList<Integer> initials = new ArrayList<Integer>() {
 		{
@@ -66,36 +85,14 @@ public class GameOver extends World
 		this.renderBuffer = new LinkedList<RenderObject>();
 
 		// create manual font\
-		try {
-			GraphicsEnvironment ge =
-				GraphicsEnvironment
-					.getLocalGraphicsEnvironment();
-
-			FONT = Font.createFont(
-				Font.TRUETYPE_FONT,
-				new File(
-					"resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf"));
-
-			FONT = FONT.deriveFont(40f);
-
-			ge.registerFont(FONT);
-
-			System.out.println("font name = " + FONT.getFamily());
-
-
-		} catch (IOException e) {
-			System.out.println(
-				"IOException occured when creating the creeper font in gameOver!");
-			e.printStackTrace();
-		} catch (FontFormatException e) {
-			System.out.println(
-				"FontFormatException occured when creating the creeper font in gameOver!");
-			e.printStackTrace();
-		}
+		GraphicsEnvironment ge =
+			GraphicsEnvironment.getLocalGraphicsEnvironment();
+		ge.registerFont(FONT);
 
 		try {
-			is = new Scanner(new File(SCORES_FILE_NAME));
-			is.close();
+			Scanner findFile =
+				new Scanner(new File(SCORES_FILE_NAME));
+			findFile.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot find file: "
 					   + SCORES_FILE_NAME);
@@ -150,15 +147,18 @@ public class GameOver extends World
 
 	public void runGame()
 	{
-		// write file before exit render..
-		poj.Time.Timer.sleepNMilliseconds(1);
+		poj.Time.Timer.sleepNMilliseconds(20);
+
+		PlayGameProcessInputs.updateCoolDownKeys(this);
+
+
+		this.processInputs();
 	}
 
 	public void processInputs()
 	{
 		if (inputPoller.isKeyDown(KeyEvent.VK_ENTER))
 			quit();
-		this.processInputs();
 
 		// Choose letter
 		if (inputPoller.isKeyDown(GameConfig.ARROW_DOWN)
@@ -212,16 +212,16 @@ public class GameOver extends World
 				-PlayGame.coolDownMax.get(
 					GameConfig.ARROW_RIGHT));
 		}
+
+		// if the loop will quit
+		if (super.quit) {
+			overWriteScoresTextFile();
+		}
 	}
 
 
 	public void render()
 	{
-
-		PlayGameProcessInputs.updateCoolDownKeys(this);
-
-
-		renderer.renderBuffers(renderBuffer);
 
 		renderBuffer.add(new StringRenderObject(
 			"HIGH SCORES", super.windowWidth / 2 - 100,
@@ -264,6 +264,8 @@ public class GameOver extends World
 			FONT));
 
 		renderBuffer.add(initialRender);
+
+		renderer.renderBuffers(renderBuffer);
 	}
 
 	public void overWriteScoresTextFile()
@@ -312,7 +314,6 @@ public class GameOver extends World
 			scores.remove(10);
 		}
 
-		overWriteScoresTextFile();
 		super.quit();
 	}
 
