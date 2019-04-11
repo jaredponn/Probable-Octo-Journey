@@ -45,7 +45,7 @@ public class PlayGameRender
 		pushTileMapLayerToArrayList(
 			g, g.getMap().getLayerEngineState(1), g.groundBuffer);
 		pushTileMapLayerToArrayList(
-			g, g.getMap().getLayerEngineState(2), g.buildingBuffer);
+			g, g.getMap().getLayerEngineState(2), g.entityBuffer);
 		pushTileMapLayerToArrayList(
 			g, g.getMap().getLayerEngineState(3), g.entityBuffer);
 		pushTileMapLayerToArrayList(
