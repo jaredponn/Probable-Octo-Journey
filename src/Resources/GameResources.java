@@ -178,6 +178,7 @@ public class GameResources
 		"resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf";
 
 	public static Font CREEPER_FONT;
+
 	static
 	{
 		try {

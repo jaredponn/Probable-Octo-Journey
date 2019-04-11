@@ -19,9 +19,11 @@ public class GameConfig
 	////// HUD/GUI config //////
 	////////////////////////////
 	public static final int HUD_FONT_SIZE = 20;
-	public static final int HUD_LINE_SPACING = HUD_FONT_SIZE;
-	public static final Font HUD_FONT =
-		new Font("TimesRoman", Font.PLAIN, HUD_FONT_SIZE);
+	public static final int HUD_LINE_SPACING = HUD_FONT_SIZE * 2;
+	// public static final Font HUD_FONT = new Font("TimesRoman",
+	// Font.PLAIN, HUD_FONT_SIZE);
+	public static final Font HUD_FONT = GameResources.CREEPER_FONT;
+	public static final Color HUD_FONT_COLOR = Color.WHITE;
 	public static final int A_INTEGER = 65;
 	public static final int Z_INTEGER = 90;
 
@@ -195,7 +197,7 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(-0.22f, 0.86f), // displacement
 			new Vector2f(1.5f, 0.75f),   // center
-						   // collision body:
+						     // collision body:
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
 			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
