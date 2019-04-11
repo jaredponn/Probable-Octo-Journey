@@ -34,7 +34,8 @@ public class GameConfig
 	///////////////////////////
 	////// player config //////
 	///////////////////////////
-	public static final float PLAYER_SPEED = 0.0015f;
+	// public static final float PLAYER_SPEED = 0.0015f;
+	public static final float PLAYER_SPEED = 0.005f;
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
@@ -377,6 +378,9 @@ public class GameConfig
 	public static final float PICKUP_HEIGHT =
 		GameResources.CASH_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
+
+	public static final double PICKUP_MAX_TIME = 10 * 1000d;
+
 	public static final PCollisionBody PICKUP_COLLISION_BODY =
 		new PCollisionBody(
 			new Vector2f(0.0f,

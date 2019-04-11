@@ -574,8 +574,8 @@ public class GameResources
 
 	public static Animation playerNEGunIdleAnimation = new Animation(
 		PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT, animationDurationms,
-		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 8,
-		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 8,
+		0, PLAYER_SPRITE_HEIGHT, PLAYER_SPRITE_WIDTH * 16,
+		PLAYER_SPRITE_HEIGHT * 4, PLAYER_SPRITE_WIDTH * 16,
 		PLAYER_SPRITE_HEIGHT * 7);
 
 	public static Animation playerNEMeleeIdleAnimation = new Animation(
