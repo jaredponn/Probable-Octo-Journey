@@ -135,24 +135,6 @@ public class MapGeneration extends Thread
 
 					if (center.getCord().equals(
 						    playerPosition)) {
-						System.out.println(
-							"player x = "
-							+ playerPosition.x);
-						System.out.println(
-							"player y = "
-							+ playerPosition.y);
-						System.out.println(
-							"center cord x = "
-							+ center.getCord().x);
-						System.out.println(
-							"center cord y = "
-							+ center.getCord().y);
-						System.out.println(
-							"center is wall = "
-							+ center.getIsWall());
-						System.out.println(
-							"center diffusion value = "
-							+ center.getDiffusionValue());
 						tempDiffusionBuffer.add(
 							(float)GameConfig
 								.PLAYER_DIFFUSION_VALUE);
@@ -163,7 +145,7 @@ public class MapGeneration extends Thread
 					// player is standing on it (so if
 					// player standing on a wall it will
 					// still diffuse)
-					if (!center.getIsWall()) {
+					else if (!center.getIsWall()) {
 
 						ArrayList<
 							PathFindCord> tempNeighbours =
@@ -174,8 +156,12 @@ public class MapGeneration extends Thread
 						float sum = 0f;
 						for (PathFindCord a :
 						     tempNeighbours) {
-							// if not a wall
-							if (!a.getIsWall()) {
+							// if not a wall or if a
+							// player is standing on
+							// that wall
+							if (!a.getIsWall()
+							    || a.getCord().equals(
+								       playerPosition)) {
 								sum += a.getDiffusionValue()
 								       - center.getDiffusionValue();
 							}

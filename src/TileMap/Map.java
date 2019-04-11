@@ -576,14 +576,6 @@ public class Map
 
 		// small chairs
 		wallState.set(80, true);
-		wallHitBox.set(80, new PhysicsPCollisionBody(
-					   new Vector2f(0f, 0f),
-					   cbwc.pureAdd(0.25f,
-							0.25f), // center
-					   cbwc.pureAdd(0f, 0.3f),
-					   cbwc.pureAdd(1f, 0.3f),
-					   cbwc.pureAdd(0f, 0.9f),
-					   cbwc.pureAdd(1f, 0.9f)));
 		wallState.set(81, true);
 
 		// medium chairs

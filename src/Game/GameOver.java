@@ -212,11 +212,6 @@ public class GameOver extends World
 				-PlayGame.coolDownMax.get(
 					GameConfig.ARROW_RIGHT));
 		}
-
-		// if the loop will quit
-		if (super.quit) {
-			overWriteScoresTextFile();
-		}
 	}
 
 
@@ -266,6 +261,11 @@ public class GameOver extends World
 		renderBuffer.add(initialRender);
 
 		renderer.renderBuffers(renderBuffer);
+
+		// if the loop will quit
+		if (super.quit) {
+			overWriteScoresTextFile();
+		}
 	}
 
 	public void overWriteScoresTextFile()
@@ -282,6 +282,8 @@ public class GameOver extends World
 					tmp += scores.get(i).getScore() + "\n"
 					       + scores.get(i).getName();
 			}
+
+			System.out.println("file io sht" + tmp);
 			fw.write(tmp);
 			fw.close();
 
@@ -313,7 +315,6 @@ public class GameOver extends World
 		while (scores.size() > 10) {
 			scores.remove(10);
 		}
-
 		super.quit();
 	}
 
