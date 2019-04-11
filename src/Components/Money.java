@@ -7,17 +7,16 @@ import poj.Component.Component;
  * @author Alex
  * @version 1.0 - 04/08/19
  */
-public class Money implements Component, GUIStringDisplayable
+public class Money
+	extends SingleIntComponent implements Component, GUIStringDisplayable
 {
-
-	private int cash;
 
 	/**
 	 * Basic constructor. Money starts at 0
 	 */
 	public Money()
 	{
-		cash = 0;
+		focus1 = 0;
 	}
 
 	/**
@@ -26,9 +25,7 @@ public class Money implements Component, GUIStringDisplayable
 	 */
 	public Money(int amount)
 	{
-		cash = amount;
-		if (cash < 0)
-			cash = 0;
+		set(amount);
 	}
 
 	/**
@@ -37,7 +34,7 @@ public class Money implements Component, GUIStringDisplayable
 	 */
 	public int get()
 	{
-		return cash;
+		return getFocus1();
 	}
 
 	/**
@@ -46,9 +43,9 @@ public class Money implements Component, GUIStringDisplayable
 	 */
 	public void set(int amount)
 	{
-		cash = amount;
-		if (cash < 0)
-			cash = 0;
+		focus1 = amount;
+		if (focus1 < 0)
+			focus1 = 0;
 	}
 
 	/**
@@ -57,9 +54,8 @@ public class Money implements Component, GUIStringDisplayable
 	 */
 	public void increase(int amount)
 	{
-		cash += amount;
-		if (cash < 0)
-			cash = 0;
+
+		set(focus1 + amount);
 	}
 
 	/**
@@ -73,7 +69,7 @@ public class Money implements Component, GUIStringDisplayable
 
 	public String getFormattedString()
 	{
-		return "$" + cash;
+		return "$" + focus1;
 	}
 
 
@@ -82,6 +78,6 @@ public class Money implements Component, GUIStringDisplayable
 	 */
 	public void print()
 	{
-		System.out.println("This entity has $" + cash);
+		System.out.println("This entity has $" + focus1);
 	}
 }

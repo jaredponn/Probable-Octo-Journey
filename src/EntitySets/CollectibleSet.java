@@ -14,6 +14,7 @@ import poj.linear.*;
 import poj.Render.ImageRenderObject;
 import Components.*;
 
+import java.awt.image.BufferedImage;
 /**
  * Health pick-up entity
  * @author Alex
@@ -21,35 +22,19 @@ import Components.*;
  */
 public class CollectibleSet extends EntitySet
 {
-
-
-	public CollectibleSet(double spawnTime)
-	{
-
-		this(1f, 1f, spawnTime);
-	}
-
-	public CollectibleSet(float x, float y, double spawnTime)
+	public CollectibleSet(float x, float y, PCollisionBody pBody,
+			      BufferedImage image)
 	{
 
 		super();
 
-		addComponent(new Render(new ImageRenderObject(
-			0, 0, GameResources.healthImage)));
+		addComponent(new Render(new ImageRenderObject(0, 0, image)));
 
 		addComponent(new WorldAttributes(new Vector2f(x, y),
 						 GameConfig.PICKUP_WIDTH,
 						 GameConfig.PICKUP_HEIGHT));
 
-		addComponent(new Lifespan(
-			GameConfig.PICKUP_HEALTHPACK_SPAWN_TIME, spawnTime));
-		addComponent(new PhysicsPCollisionBody(
-			GameConfig.PICKUP_COLLISION_BODY));
-	}
-
-	public CollectibleSet(Vector2f posVector, double spawnTime)
-	{
-
-		this(posVector.x, posVector.y, spawnTime);
+		addComponent(new DespawnTimer(GameConfig.PICKUP_MAX_TIME));
+		addComponent(new PhysicsPCollisionBody(pBody));
 	}
 }

@@ -95,9 +95,9 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 				playGame.cam, Color.orange);
 
 			boolean playerHitByMob =
-				EngineTransforms
-					.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
-						engineState, pmob,
+				EntityCollisionAlgorithms
+					.damageSetAIfCollisionBodiesAreTouching(
+						super.getPlayGame(), pmob,
 						PlayerSet.class,
 						GameConfig.MOB_ATTACK_DAMAGE);
 
@@ -125,9 +125,10 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 				}
 			}
 
-			EngineTransforms
-				.doDamageInSetifPCollisionBodyAndSetPHitBoxAreColliding(
-					engineState, pmob, TurretSet.class,
+			EntityCollisionAlgorithms
+				.damageSetAIfCollisionBodiesAreTouching(
+					super.getPlayGame(), pmob,
+					TurretSet.class,
 					GameConfig.MOB_ATTACK_DAMAGE);
 		}
 	}

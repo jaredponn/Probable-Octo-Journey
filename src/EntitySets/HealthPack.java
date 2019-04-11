@@ -12,33 +12,19 @@ import Components.*;
  * @author Alex
  * @version 1.0 - 03/20/19
  */
-public class HealthPack extends EntitySet {
+public class HealthPack extends CollectibleSet
+{
 
-	public HealthPack( double spawnTime ) {
-		
-		this( 1f , 1f , spawnTime );
-	}
-	
-	public HealthPack( float x , float y , double spawnTime ) {
-		
-		super();
-		
-		addComponent(new Render(
-			new ImageRenderObject(0, 0, GameResources.healthImage)));
+	public HealthPack(float x, float y)
+	{
 
-		addComponent(new WorldAttributes(new Vector2f(x, y),
-						 GameConfig.PICKUP_WIDTH,
-						 GameConfig.PICKUP_HEIGHT));
+		super(x, y, GameConfig.PICKUP_COLLISION_BODY,
+		      GameResources.healthImage);
+	}
 
-		addComponent(new Lifespan(GameConfig.PICKUP_HEALTHPACK_SPAWN_TIME,
-					  spawnTime));
-		addComponent(new PhysicsPCollisionBody(
-			GameConfig.PICKUP_COLLISION_BODY));
+	public HealthPack(Vector2f posVector)
+	{
+
+		this(posVector.x, posVector.y);
 	}
-	
-	public HealthPack(Vector2f posVector , double spawnTime ) {
-		
-		this( posVector.x , posVector.y , spawnTime );
-	}
-	
 }

@@ -10,12 +10,9 @@ import java.awt.Color;
  * @author Alex
  * @version 2.0 - 03/31/19
  */
-public class HitPoints
+public class HitPoints extends DoubleIntComponent
 	implements Component, GUIStringDisplayable, GUIGraphicDisplayable
 {
-
-	private int hp;
-	private int maxHP;
 
 	/**
 	 * initialize current and max hit points
@@ -24,8 +21,8 @@ public class HitPoints
 	 */
 	public HitPoints(int amount, int max)
 	{
-		this.hp = amount;
-		this.maxHP = max;
+		this.focus1 = amount;
+		this.focus2 = max;
 	}
 
 	/**
@@ -34,7 +31,7 @@ public class HitPoints
 	 */
 	public int getHP()
 	{
-		return this.hp;
+		return getFocus1();
 	}
 
 	/**
@@ -43,7 +40,7 @@ public class HitPoints
 	 */
 	public int getMax()
 	{
-		return this.maxHP;
+		return getFocus2();
 	}
 
 	/**
@@ -54,9 +51,14 @@ public class HitPoints
 	 */
 	public void setHP(int amount)
 	{
-		this.hp = amount;
-		if (this.hp > this.maxHP)
-			this.hp = this.maxHP;
+		this.focus1 = amount;
+		if (getHP() > getMax())
+			focus1 = focus2;
+	}
+
+	public void addFocus1(int n)
+	{
+		heal(n);
 	}
 
 	/**
@@ -65,9 +67,7 @@ public class HitPoints
 	 */
 	public void heal(int amount)
 	{
-		this.hp += amount;
-		if (this.hp > this.maxHP)
-			this.hp = this.maxHP;
+		setHP(this.focus1 + amount);
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class HitPoints
 
 	public String getFormattedString()
 	{
-		return hp + "/" + maxHP;
+		return focus1 + "/" + focus2;
 	}
 
 
@@ -99,8 +99,8 @@ public class HitPoints
 		tmp.add(new RenderRect(0, 0, HP_BAR_MAX_WIDTH, HP_BAR_HEIGHT,
 				       HP_BAR_BG_COLOR));
 		tmp.add(new RenderRect(0, 0,
-				       (int)((float)HP_BAR_MAX_WIDTH * (float)hp
-					     / (float)maxHP),
+				       (int)((float)HP_BAR_MAX_WIDTH
+					     * (float)focus1 / (float)focus2),
 				       HP_BAR_HEIGHT, HP_BAR_HP_COLOR));
 		return tmp;
 	}
@@ -111,6 +111,6 @@ public class HitPoints
 	 */
 	public void print()
 	{
-		System.out.println("HP: " + this.hp);
+		System.out.println("HP: " + focus1);
 	}
 }

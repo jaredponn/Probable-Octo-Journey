@@ -127,21 +127,17 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 			int dropType =
 				ThreadLocalRandom.current().nextInt(0, 4);
 			if (dropType == 0)
-				gameState.cashSpawner(false,
-						      mobBody.getCenter().x,
-						      mobBody.getCenter().y);
+				engineState.spawnEntitySet(
+					new CashPack(mobBody.getCenter()));
 			else if (dropType == 1)
-				gameState.powerUpSpawner(false,
-							 mobBody.getCenter().x,
-							 mobBody.getCenter().y);
+				engineState.spawnEntitySet(
+					new PowerUp(mobBody.getCenter()));
 			else if (dropType == 2)
-				gameState.ammoPackSpawner(
-					false, mobBody.getCenter().x,
-					mobBody.getCenter().y);
+				engineState.spawnEntitySet(
+					new AmmoPack(mobBody.getCenter()));
 			else
-				gameState.healthPackSpawner(
-					false, mobBody.getCenter().x,
-					mobBody.getCenter().y);
+				engineState.spawnEntitySet(
+					new HealthPack(mobBody.getCenter()));
 		}
 	}
 }

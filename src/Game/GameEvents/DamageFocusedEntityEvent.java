@@ -10,6 +10,11 @@ public class DamageFocusedEntityEvent extends FocusedPlayGameEvent
 
 	private int damage;
 
+	public DamageFocusedEntityEvent()
+	{
+		this(null, 0);
+	}
+
 	public DamageFocusedEntityEvent(PlayGame g, int d)
 	{
 		super(g);

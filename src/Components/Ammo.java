@@ -7,11 +7,9 @@ import poj.Component.Component;
  * @author Alex
  * @version 2.0 - 03/31/19
  */
-public class Ammo implements Component, GUIStringDisplayable
+public class Ammo
+	extends DoubleIntComponent implements Component, GUIStringDisplayable
 {
-
-	private int ammo;
-	private int max;
 
 	/**
 	 * initialize current and max ammo amounts
@@ -20,8 +18,7 @@ public class Ammo implements Component, GUIStringDisplayable
 	 */
 	public Ammo(int amount, int defMax)
 	{
-		this.ammo = amount;
-		this.max = defMax;
+		super(amount, defMax);
 	}
 
 	/**
@@ -30,7 +27,7 @@ public class Ammo implements Component, GUIStringDisplayable
 	 */
 	public int get()
 	{
-		return this.ammo;
+		return getFocus1();
 	}
 
 	/**
@@ -39,7 +36,7 @@ public class Ammo implements Component, GUIStringDisplayable
 	 */
 	public int getMax()
 	{
-		return this.max;
+		return getFocus2();
 	}
 
 	/**
@@ -47,12 +44,9 @@ public class Ammo implements Component, GUIStringDisplayable
 	 * @param amount: check if there is at least this much ammo
 	 * @return true if there is enough ammo
 	 */
-	public boolean hasAmmo(int amount)
+	public boolean hasAmmo()
 	{
-		if (this.ammo >= amount)
-			return true;
-		else
-			return false;
+		return focus1 > 0;
 	}
 
 	/**
@@ -61,7 +55,10 @@ public class Ammo implements Component, GUIStringDisplayable
 	 */
 	public void setAmmo(int amount)
 	{
-		this.ammo = amount;
+		setFocus1(amount);
+
+		if (focus1 > focus2)
+			setFocus1(focus2);
 	}
 
 	/**
@@ -70,9 +67,12 @@ public class Ammo implements Component, GUIStringDisplayable
 	 */
 	public void increaseAmmo(int amount)
 	{
-		this.ammo += amount;
-		if (this.ammo > this.max)
-			this.ammo = this.max;
+		setAmmo(focus1 + amount);
+	}
+
+	public void addFocus1(int n)
+	{
+		increaseAmmo(n);
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class Ammo implements Component, GUIStringDisplayable
 
 	public String getFormattedString()
 	{
-		return ammo + "/" + max;
+		return focus1 + "/" + focus2;
 	}
 
 	/**
@@ -95,7 +95,6 @@ public class Ammo implements Component, GUIStringDisplayable
 	 */
 	public void print()
 	{
-		System.out.println("This entity has " + this.ammo
-				   + " bullets.");
+		System.out.println("This entity has " + focus1 + " bullets.");
 	}
 }
