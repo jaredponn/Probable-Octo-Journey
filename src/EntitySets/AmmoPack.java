@@ -12,33 +12,20 @@ import Components.*;
  * @author Alex
  * @version 1.0 - 03/18/19
  */
-public class AmmoPack extends EntitySet {
+public class AmmoPack extends CollectibleSet
+{
 
-	public AmmoPack( double spawnTime ) {
-		
-		this( 1f , 1f , spawnTime );
-	}
-	
-	public AmmoPack( float x , float y , double spawnTime ) {
-		
-		super();
-		
-		addComponent(new Render(
-			new ImageRenderObject(0, 0, GameResources.ammoImage)));
+	public AmmoPack(float x, float y)
+	{
 
-		addComponent(new WorldAttributes(new Vector2f(x, y),
-						 GameConfig.PICKUP_WIDTH,
-						 GameConfig.PICKUP_HEIGHT));
+		super(x, y, GameConfig.PICKUP_COLLISION_BODY,
+		      GameResources.ammoImage);
+	}
 
-		addComponent(new Lifespan(GameConfig.PICKUP_AMMOPACK_SPAWN_TIME,
-					  spawnTime));
-		addComponent(new PhysicsPCollisionBody(
-			GameConfig.PICKUP_COLLISION_BODY));
+
+	public AmmoPack(Vector2f n)
+	{
+
+		this(n.x, n.y);
 	}
-	
-	public AmmoPack(Vector2f posVector , double spawnTime ) {
-		
-		this( posVector.x , posVector.y , spawnTime );
-	}
-	
 }

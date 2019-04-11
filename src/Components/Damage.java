@@ -7,10 +7,8 @@ import poj.Component.Component;
  * @author Alex
  * @version 1.0
  */
-public class Damage implements Component
+public class Damage extends SingleIntComponent implements Component
 {
-
-	private int damage;
 
 	/**
 	 * initialize the amount of damage this entity deals
@@ -25,7 +23,7 @@ public class Damage implements Component
 	 */
 	public Damage(int dmg)
 	{
-		this.damage = dmg;
+		super(dmg);
 	}
 
 
@@ -35,7 +33,7 @@ public class Damage implements Component
 	 */
 	public int getDamage()
 	{
-		return this.damage;
+		return getFocus1();
 	}
 
 	/**
@@ -44,16 +42,16 @@ public class Damage implements Component
 	 */
 	public void setDamage(int dmg)
 	{
-		this.damage = dmg;
+		setFocus1(dmg);
 	}
 
 	/**
 	 * increase/decrease the amount of damage this entity deals
 	 * @param mod: the amount to increase/decrease damage by
 	 */
-	public void changeDamage(int mod)
+	public void addDamage(int mod)
 	{
-		this.damage += mod;
+		setDamage(getFocus1() + mod);
 	}
 
 	/**
@@ -61,7 +59,6 @@ public class Damage implements Component
 	 */
 	public void print()
 	{
-		System.out.println("This entity deals " + this.damage
-				   + " damage.");
+		System.out.println("This entity deals " + focus1 + " damage.");
 	}
 }
