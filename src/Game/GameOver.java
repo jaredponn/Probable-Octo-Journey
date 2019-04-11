@@ -41,7 +41,7 @@ public class GameOver extends World
 	protected static final String SCORES_FILE_NAME = "scores.txt";
 	protected static final int FONT_SIZE = 32;
 
-	protected Font FONT = new Font("TimesRoman", Font.BOLD, FONT_SIZE);
+	protected Font FONT; //= new Font("TimesRoman", Font.BOLD, FONT_SIZE);
 	// protected Font FONT;
 
 	protected ArrayList<Integer> initials = new ArrayList<Integer>() {
@@ -67,22 +67,20 @@ public class GameOver extends World
 
 		// create manual font\
 		try {
-			Font tempFont = Font.createFont(
-				Font.TRUETYPE_FONT,
-				new File(
-					"resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf"));
-			tempFont.deriveFont(FONT_SIZE);
-			tempFont.deriveFont(Font.BOLD);
-
-			FONT = tempFont;
-
-			System.out.println("font name = " + FONT.getFamily());
-
 			GraphicsEnvironment ge =
 				GraphicsEnvironment
 					.getLocalGraphicsEnvironment();
+			Font FONT = Font.createFont(
+				Font.TRUETYPE_FONT,
+				new File(
+					"resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf"));
+
 
 			ge.registerFont(FONT);
+
+
+			System.out.println("font name = " + FONT.getFamily());
+
 
 		} catch (IOException e) {
 			System.out.println(
