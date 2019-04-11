@@ -185,7 +185,7 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(-0.22f, 0.86f), // displacement
 			new Vector2f(1.5f, 0.75f),   // center
-						     // collision body:
+						   // collision body:
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
 			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
@@ -259,7 +259,7 @@ public class GameConfig
 		// clang-format off
 			new PCollisionBody(
 				new Vector2f(0.2f , 0.55f), // displacement
-				new Vector2f(0.25f ,0.25f), // center
+				new Vector2f(0.5f/4f ,0.5f/4f), // center
 							  // collision body:
 				new Vector2f(0.25f/4f,   1    /4f), new Vector2f(0.75f /4f, 1    /4f),
 				new Vector2f(0    /4f,   0.75f/4f), new Vector2f(1     /4f, 0.75f/4f),

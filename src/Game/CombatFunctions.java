@@ -71,11 +71,7 @@ public class CombatFunctions
 		EngineState mainState = g.getEngineState();
 		EngineState mapState0 = g.getMap().getLayerEngineState(
 			g.getMap().COLLISION_LAYER);
-		// map layer 0: ???
-		//			 1: map edge and small rocks
-		//			 2: cars and buildings
-		//			 3: trees
-		//			 4: lights and signs
+
 		GJK gjk = g.getGJK();
 
 		final PhysicsPCollisionBody bulletBody =
@@ -99,7 +95,8 @@ public class CombatFunctions
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, bulletBody, mobBody)) {
 
-				// TODO: make it so turrets don't get bonus damage
+				// TODO: make it so turrets don't get bonus
+				// damage
 				mainState
 					.unsafeGetComponentAt(HitPoints.class,
 							      i)
