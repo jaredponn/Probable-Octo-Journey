@@ -152,7 +152,12 @@ public class GameOver extends World
 
 	public void runGame()
 	{
-		poj.Time.Timer.sleepNMilliseconds(1);
+		poj.Time.Timer.sleepNMilliseconds(20);
+
+		PlayGameProcessInputs.updateCoolDownKeys(this);
+
+
+		this.processInputs();
 	}
 
 	public void processInputs()
@@ -218,12 +223,6 @@ public class GameOver extends World
 	public void render()
 	{
 
-		PlayGameProcessInputs.updateCoolDownKeys(this);
-
-		this.processInputs();
-
-		renderer.renderBuffers(renderBuffer);
-
 		renderBuffer.add(new StringRenderObject(
 			"HIGH SCORES", super.windowWidth / 2 - 100,
 			4 * FONT_SIZE, Color.darkGray, FONT));
@@ -265,6 +264,8 @@ public class GameOver extends World
 			FONT));
 
 		renderBuffer.add(initialRender);
+
+		renderer.renderBuffers(renderBuffer);
 	}
 
 	public void overWriteScoresTextFile()
