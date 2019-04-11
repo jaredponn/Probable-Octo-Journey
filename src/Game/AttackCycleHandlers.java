@@ -118,7 +118,7 @@ public class AttackCycleHandlers
 		animation.setAnimation(
 			animAssetsOpt.get().getAnimation(d, animationFlag));
 
-		mOpt.get().setSpeed(0);
+		mOpt.get().setVelocity(0f, 0f);
 	}
 
 

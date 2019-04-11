@@ -107,6 +107,7 @@ public abstract class World
 			dft = Math.min(MAX_ACC_TIME, dft);
 
 			this.acct += dft;
+			startOfFrame();
 			do {
 				runGame();
 
@@ -136,6 +137,10 @@ public abstract class World
 	{
 	}
 	public void clearWorld()
+	{
+	}
+
+	protected void startOfFrame()
 	{
 	}
 

@@ -117,9 +117,6 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 			return;
 
 		kcOpt.get().increase();
-		if (kcOpt.get().get() >= gameState.getMobsSpawned())
-			gameState.setLastWaveDefeatedAt(
-				gameState.getPlayTime());
 
 		int dropRoll = ThreadLocalRandom.current().nextInt(0, 99) + 1;
 

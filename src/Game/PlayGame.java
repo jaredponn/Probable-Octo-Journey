@@ -34,10 +34,7 @@ import poj.Render.*;
 import poj.GameWindow.*;
 import poj.Collisions.GJK;
 import poj.Collisions.QuadTree;
-import poj.Collisions.Rectangle;
 import poj.Logger.Logger;
-import poj.Render.MinYFirstSortedRenderObjectBuffer;
-import poj.Time.*;
 import poj.Render.RenderObject;
 import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
@@ -78,21 +75,18 @@ public class PlayGame extends World
 	// Higher level game logic
 	protected int player;
 	protected static double EPSILON = 0.0001d;
-	protected WeaponState curWeaponState = WeaponState.Gun;
+	protected WeaponState curWeaponState =
+		WeaponState.Gun; // should be a component
 
 	// references that are now deprecated
 	protected Ammo playerAmmo;
 	protected Money playerMoney;
 	protected KillCount killCount;
 
-	protected int mobsSpawned = 0;
-	protected double lastWaveDefeatedAt = 0.0;
 
-	protected double timeOfLastMobSpawn = 0.0;
-	protected double timeOfLastCashSpawn =
-		0.0 - GameConfig.PICKUP_CASH_SPAWN_TIME;
-	protected double timeOfLastPowerUpSpawn =
-		0.0 - GameConfig.PICKUP_POWERUP_SPAWN_TIME;
+	// wave number / mob spawning
+	protected int waveNumber = 0;
+	protected double waveSpawnTimer = GameConfig.MOB_SPAWN_TIMER;
 
 	// Collision detection and resolution
 	protected GJK gjk;
@@ -100,6 +94,7 @@ public class PlayGame extends World
 
 	// path finding thread
 	protected MapGeneration generateDiffusionMap;
+
 
 	public PlayGame(int width, int height, Renderer renderer,
 			InputPoller inputPoller)
@@ -258,17 +253,18 @@ public class PlayGame extends World
 		}
 	}
 
+	public void startOfFrame()
+	{
+		EngineTransforms.mobSpawner(this);
+	}
+
 	// use super.acct for the accumulated time, use this.dt for the time
 	// step. Time is all in milliseconds
 	public void runGame()
 	{
-		this.mobSpawner();
-
-
 		this.processInputs();
 
 		// ASE
-
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
 		// this.handleTurrets();
@@ -468,40 +464,6 @@ public class PlayGame extends World
 
 
 	/**
-	 * spawns a new mob entity if it has been at least
-	 * MOB_SPAWN_TIMER seconds since the last spawn
-	 */
-	protected void mobSpawner()
-	{
-		double currentPlayTime = this.getPlayTime();
-		if (currentPlayTime - this.timeOfLastMobSpawn
-			    >= GameConfig.MOB_SPAWN_TIMER
-		    || killCount.get() >= mobsSpawned) {
-			this.timeOfLastMobSpawn = currentPlayTime;
-			System.out.println("New zombies arrived at T+"
-					   + currentPlayTime + " seconds!");
-			for (int i = 0; i < GameConfig.MOB_SPAWN_POINTS.size();
-			     i++) {
-				engineState.spawnEntitySet(new MobSet(
-					GameConfig.MOB_SPAWN_POINTS.get(i)));
-				mobsSpawned++;
-			}
-			// play zombie spawn sound with first set index of the
-			// mob (UNLESS WE WANT MULTIPLE SPAWN SOUNDS TO BE
-			// PLAYED AT THE SAME TIME, we change this..)
-			engineState
-				.unsafeGetComponentAt(
-					SoundEffectAssets.class,
-					engineState.getInitialSetIndex(
-						MobSet.class))
-				.playSoundEffectAt(
-					ThreadLocalRandom.current().nextInt(0,
-									    3));
-		}
-		// TODO: make more mobs spawn over time
-	}
-
-	/**
 	 * checks a bullet to see if it has collided with
 	 * a mob, applies damage to hit mob, despawns the
 	 * mob if its health is at or below 0, and despawns
@@ -576,18 +538,24 @@ public class PlayGame extends World
 		return killCount.get();
 	}
 
-	public int getMobsSpawned()
-	{
-		return mobsSpawned;
-	}
-
-	public void setLastWaveDefeatedAt(double t)
-	{
-		lastWaveDefeatedAt = t;
-	}
 
 	public QuadTree getTileMapCollisionQuadTree()
 	{
 		return this.tileMapQuadTree;
+	}
+
+	public void incrementWaveNumber()
+	{
+		++this.waveNumber;
+	}
+
+	public double getWaveSpawnTimer()
+	{
+		return this.waveSpawnTimer;
+	}
+
+	public int getWaveNumber()
+	{
+		return this.waveNumber;
 	}
 }
