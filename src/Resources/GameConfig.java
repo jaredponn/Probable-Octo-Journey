@@ -77,71 +77,80 @@ public class GameConfig
 	public static final int PLAYER_STARTING_AMMO = 20;
 	public static final int PLAYER_MAX_AMMO = 100;
 	public static final int PLAYER_STARTING_DAMAGE = 30;
-
+	public static final float MELEE_HEIGHT = 0.3555f;
+	public static final float MELEE_WIDTH = 0.2f;
 	public static final PCollisionBody PLAYER_MELEE_N_ATK_BODY =
 		new PCollisionBody(new Vector2f(0, 0.25f),   // displacement
 				   new Vector2f(0.3f, 0.3f), // center
 							     // collision body:
-				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
-				   new Vector2f(0.4f, 0),
-				   new Vector2f(0.4f, 0.6f));
+				   new Vector2f(0, 0),
+				   new Vector2f(0, MELEE_HEIGHT),
+				   new Vector2f(MELEE_WIDTH, 0),
+				   new Vector2f(MELEE_WIDTH, MELEE_HEIGHT));
 
 	public static final PCollisionBody PLAYER_MELEE_NE_ATK_BODY =
 		new PCollisionBody(new Vector2f(0f, 0.25f),  // displacement
 				   new Vector2f(0.3f, 0.3f), // center
 							     // collision body:
-				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
-				   new Vector2f(0.6f, 0),
-				   new Vector2f(0.6f, 0.6f));
+				   new Vector2f(0, 0),
+				   new Vector2f(0, MELEE_HEIGHT),
+				   new Vector2f(MELEE_HEIGHT, 0),
+				   new Vector2f(MELEE_HEIGHT, MELEE_HEIGHT));
 
 
 	public static final PCollisionBody PLAYER_MELEE_E_ATK_BODY =
 		new PCollisionBody(new Vector2f(0.25f, 0.25f), // displacement
 				   new Vector2f(0.3f, 0.3f),   // center
 							     // collision body:
-				   new Vector2f(0, 0), new Vector2f(0.6f, 0),
-				   new Vector2f(0, 0.4f),
-				   new Vector2f(0.6f, 0.4f));
+				   new Vector2f(0, 0),
+				   new Vector2f(MELEE_HEIGHT, 0),
+				   new Vector2f(0, MELEE_WIDTH),
+				   new Vector2f(MELEE_HEIGHT, MELEE_WIDTH));
 
 	public static final PCollisionBody PLAYER_MELEE_SE_ATK_BODY =
 		new PCollisionBody(new Vector2f(0.1f, 0f),   // displacement
 				   new Vector2f(0.3f, 0.3f), // center
 							     // collision body:
-				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
-				   new Vector2f(0.6f, 0),
-				   new Vector2f(0.6f, 0.6f));
+				   new Vector2f(0, 0),
+				   new Vector2f(0, MELEE_HEIGHT),
+				   new Vector2f(MELEE_HEIGHT, 0),
+				   new Vector2f(MELEE_HEIGHT, MELEE_HEIGHT));
 
 	public static final PCollisionBody PLAYER_MELEE_S_ATK_BODY =
 		new PCollisionBody(new Vector2f(0, 0.25f),    // displacement
 				   new Vector2f(0.3f, -0.3f), // center
 							      // collision body:
-				   new Vector2f(0, 0), new Vector2f(0, -0.6f),
-				   new Vector2f(0.4f, 0),
-				   new Vector2f(0.4f, -0.6f));
+				   new Vector2f(0, 0),
+				   new Vector2f(0, -MELEE_HEIGHT),
+				   new Vector2f(MELEE_WIDTH, 0),
+				   new Vector2f(MELEE_WIDTH, -MELEE_HEIGHT));
 
 	public static final PCollisionBody PLAYER_MELEE_SW_ATK_BODY =
 		new PCollisionBody(new Vector2f(-0.25f, -0.1f), // displacement
 				   new Vector2f(0.3f, 0.3f),    // center
 							     // collision body:
-				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
-				   new Vector2f(0.6f, 0),
-				   new Vector2f(0.6f, 0.6f));
+				   new Vector2f(0, 0),
+				   new Vector2f(0, MELEE_HEIGHT),
+				   new Vector2f(MELEE_HEIGHT, 0),
+				   new Vector2f(MELEE_HEIGHT, MELEE_HEIGHT));
 
 	public static final PCollisionBody PLAYER_MELEE_W_ATK_BODY =
 		new PCollisionBody(new Vector2f(0.25f, 0.25f), // displacement
 				   new Vector2f(-0.3f, 0.2f),  // center
 							      // collision body:
-				   new Vector2f(0, 0), new Vector2f(-0.6f, 0),
-				   new Vector2f(0, 0.4f),
-				   new Vector2f(-0.6f, 0.4f));
+				   new Vector2f(0, 0),
+				   new Vector2f(-MELEE_HEIGHT, 0),
+				   new Vector2f(0, MELEE_WIDTH),
+				   new Vector2f(-MELEE_HEIGHT, MELEE_WIDTH));
 
 	public static final PCollisionBody PLAYER_MELEE_NW_ATK_BODY =
 		new PCollisionBody(new Vector2f(-0.25f, 0.25f), // displacement
 				   new Vector2f(0.3f, 0.3f),    // center
 							     // collision body:
-				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
-				   new Vector2f(0.6f, 0),
-				   new Vector2f(0.6f, 0.6f));
+				   new Vector2f(0, 0),
+				   new Vector2f(0, MELEE_HEIGHT),
+				   new Vector2f(MELEE_HEIGHT, 0),
+				   new Vector2f(MELEE_HEIGHT, MELEE_HEIGHT));
 
 	public static final AnimationWindowAssets
 		PLAYER_ANIMATION_WINDOW_ASSETS = new AnimationWindowAssets(
