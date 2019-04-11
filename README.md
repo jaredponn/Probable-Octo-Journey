@@ -91,9 +91,9 @@ See `textbased/README.md` for more information about the text based version.
 - [ ] Boss fight
 - [ ] Make the zombies stronger as time/wave goes on, and give them random speeds (some fast some slow)
 - [ ] Make the player stronger as time/wave goes on, maybe done by powerups..
-- [ ] REDO SPRITE (DONT FORGET THE WATER FOUNTAIN AND GAS STATION)for the tilemap so buildings fit the tiles perfectly (either delete or add new blocks)
+- [ ] Haiyang - Replace buildings with solid images ... for the tilemap so buildings fit the tiles perfectly (either delete or add new blocks)
 - [ ] Make the hitboxes for the tilemap - Buildings are done 03/29/19 haiyang
-- [ ] Game over screen (make it pretty)
+- [ ] Haiyang - Game over screen (make it pretty)
 - [ ] Automated tests
 - [ ] Wave style of zombie spawning (e.g. Max number of zombies on map is 80, will spawn wave in N seconds, have a timer for the next wave incoming)
 - [ ] Refactor to reduce code duplication
