@@ -70,10 +70,13 @@ public class GameOver extends World
 			GraphicsEnvironment ge =
 				GraphicsEnvironment
 					.getLocalGraphicsEnvironment();
-			Font FONT = Font.createFont(
+
+			FONT = Font.createFont(
 				Font.TRUETYPE_FONT,
 				new File(
 					"resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf"));
+
+			FONT = FONT.deriveFont(32f);
 
 
 			ge.registerFont(FONT);
