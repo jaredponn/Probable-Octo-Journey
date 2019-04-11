@@ -324,7 +324,7 @@ public class Map
 											 - 1) * tileHeight
 												/ 4,
 											GameResources
-												.officialTileSetAllignedBuildings,
+												.officialTileSetGoodFountain,
 											tilesRenderPart
 												.get(Integer.parseInt(
 													tempList[i]))),
@@ -576,6 +576,14 @@ public class Map
 
 		// small chairs
 		wallState.set(80, true);
+		wallHitBox.set(80, new PhysicsPCollisionBody(
+					   new Vector2f(0f, 0f),
+					   cbwc.pureAdd(0.25f,
+							0.25f), // center
+					   cbwc.pureAdd(0f, 0.3f),
+					   cbwc.pureAdd(1f, 0.3f),
+					   cbwc.pureAdd(0f, 0.9f),
+					   cbwc.pureAdd(1f, 0.9f)));
 		wallState.set(81, true);
 
 		// medium chairs
@@ -642,12 +650,12 @@ public class Map
 		wallState.set(518, true);
 		wallState.set(520, true);
 		// water fountain
-		wallState.set(316, true);
-		wallState.set(317, true);
-		wallState.set(332, true);
-		wallState.set(333, true);
-		wallState.set(300, true);
-		wallState.set(301, true);
+		wallState.set(599, true);
+		wallState.set(614, true);
+		wallState.set(615, true);
+		wallState.set(616, true);
+		wallState.set(631, true);
+
 		// gas station
 		wallState.set(218, true);
 		wallState.set(219, true);
