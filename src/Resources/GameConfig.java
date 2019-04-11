@@ -39,8 +39,8 @@ public class GameConfig
 	///////////////////////////
 	////// player config //////
 	///////////////////////////
-	// public static final float PLAYER_SPEED = 0.0015f;
-	public static final float PLAYER_SPEED = 0.005f;
+	public static final float PLAYER_SPEED = 0.0015f;
+	// public static final float PLAYER_SPEED = 0.005f;
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
@@ -259,6 +259,7 @@ public class GameConfig
 	////// mob config /////
 	///////////////////////
 	public static final float MOB_SPEED = 0.6f * PLAYER_SPEED;
+	public static final float MAX_DAMAGE = PLAYER_MAX_HP / 2;
 	public static final float BOSS_SPEED = 0.95f * MOB_SPEED;
 	public static final float MOB_HEIGHT =
 		GameResources.ENEMY_SPRITE_HEIGHT
@@ -338,8 +339,11 @@ public class GameConfig
 	// clang-format on
 
 	// spawn configs
-	public static final float MOB_SPAWN_TIMER = 10.0f;
+	public static final double MOB_SPAWN_TIMER = 5000.0d; // in ms
 	public static final double MOB_DESPAWN_TIMER = 5000d; // in ms
+	public static final float MAX_SPEED_BONUS = 0.0015f;
+
+	public static final int MAX_MOBS = 50; // max number of mobs
 
 	// spawn points:
 	public static final ArrayList<Vector2f> MOB_SPAWN_POINTS =
