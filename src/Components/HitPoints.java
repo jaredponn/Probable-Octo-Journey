@@ -86,6 +86,9 @@ public class HitPoints
 	}
 
 
+	/**
+	 * Static render generator -- please remove this, very bad idea.
+	 */
 	private static int HP_BAR_MAX_WIDTH = 30;
 	private static int HP_BAR_HEIGHT = 5;
 	private static Color HP_BAR_BG_COLOR = new Color(244, 170, 66);
