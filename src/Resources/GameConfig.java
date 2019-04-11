@@ -421,13 +421,13 @@ public class GameConfig
 				add(new Pair<Integer, Double>(BUILD_TRAP, 1d));
 				add(new Pair<Integer, Double>(BUY_AMMO, 1d));
 
-				add(new Pair<Integer, Double>(ARROW_UP, 0.2d));
+				add(new Pair<Integer, Double>(ARROW_UP, 0.1d));
 				add(new Pair<Integer, Double>(ARROW_DOWN,
-							      0.2d));
+							      0.1d));
 				add(new Pair<Integer, Double>(ARROW_LEFT,
-							      0.2d));
+							      0.5d));
 				add(new Pair<Integer, Double>(ARROW_RIGHT,
-							      0.2d));
+							      0.5d));
 			}
 		};
 
