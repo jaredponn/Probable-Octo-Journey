@@ -2,31 +2,28 @@ package Game;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Scanner;
 
-import Components.PCollisionBody;
-import Components.PhysicsPCollisionBody;
-import Resources.*;
-import App.*;
+import Resources.GameConfig;
 
-import poj.Collisions.GJK;
-import poj.Collisions.Polygon;
 import poj.GameWindow.InputPoller;
-import poj.Render.ImageRenderObject;
-import poj.Render.StringRenderObject;
+import poj.Logger.Logger;
 import poj.Render.RenderObject;
-import poj.Logger.*;
-import poj.Render.RenderRect;
 import poj.Render.Renderer;
-import poj.linear.Vector2f;
-import poj.Time.*;
-
-import java.io.*;
-import java.util.*;
-import java.util.ArrayList;
+import poj.Render.StringRenderObject;
 
 /**
  * GameOver game state.
@@ -43,8 +40,9 @@ public class GameOver extends World
 
 	protected static final String SCORES_FILE_NAME = "scores.txt";
 	protected static final int FONT_SIZE = 32;
-	protected static final Font FONT =
-		new Font("TimesRoman", Font.BOLD, FONT_SIZE);
+
+	protected Font FONT = new Font("TimesRoman", Font.BOLD, FONT_SIZE);
+	// protected Font FONT;
 
 	protected ArrayList<Integer> initials = new ArrayList<Integer>() {
 		{
@@ -66,6 +64,35 @@ public class GameOver extends World
 		super(width, height, renderer, inputPoller);
 		this.newScore = newScore;
 		this.renderBuffer = new LinkedList<RenderObject>();
+
+		// create manual font\
+		try {
+			Font tempFont = Font.createFont(
+				Font.TRUETYPE_FONT,
+				new File(
+					"resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf"));
+			tempFont.deriveFont(FONT_SIZE);
+			tempFont.deriveFont(Font.BOLD);
+
+			FONT = tempFont;
+
+			System.out.println("font name = " + FONT.getFamily());
+
+			GraphicsEnvironment ge =
+				GraphicsEnvironment
+					.getLocalGraphicsEnvironment();
+
+			ge.registerFont(FONT);
+
+		} catch (IOException e) {
+			System.out.println(
+				"IOException occured when creating the creeper font in gameOver!");
+			e.printStackTrace();
+		} catch (FontFormatException e) {
+			System.out.println(
+				"FontFormatException occured when creating the creeper font in gameOver!");
+			e.printStackTrace();
+		}
 
 		try {
 			is = new Scanner(new File(SCORES_FILE_NAME));
