@@ -32,6 +32,8 @@ public class GameResources
 	// they are calculated based on the position of the buttons relative to
 	// the image size
 	// clang-format off
+	public static int lowResolutionWidth=1366,lowResolutionHeight=768;
+
 	public static float playButtonWidthRatio = 2.6519337016574585f,
 			    playButtonHeightRatio = 2.9508196721311477f,
 			    playButtonSizeWidthRatio = 4.076433121019108f,
@@ -167,10 +169,28 @@ public class GameResources
 	// clang-format off
 	public static float 
 				//back button
-				gbBackButtonWidthRatio=2.4334600760456273f,
-				gbBackButtonHeightRatio= 1.25f,
-			    gbBackButtonSizeWidthRatio = 5.614035087719298f,
-			    gbBackButtonSizeHeightRatio = 8.307692307692308f;
+				goBackButtonWidthRatio=2.4334600760456273f,
+				goBackButtonHeightRatio= 1.25f,
+			    goBackButtonSizeWidthRatio = 5.614035087719298f,
+			    goBackButtonSizeHeightRatio = 8.307692307692308f,
+				//your score display starting position ratio
+				goYourScoreWidthRatio=5.217391304347826f,
+				goYourScoreHeightRatio=2.082857142857143f,
+				goScoreBoardWidthRatioInitially=2.577181208053691f,
+				goScoreBoardHeightRatioInitially=3.430983606557377f,
+				goScoreBoardGapHeightRatio=15.7f,
+				//initials selection ratios
+				goInitialSelectionWidthRatio=2.486548223350254f,
+				goInitialSelectionHeightRatio=1.3754098360655739f,
+				// font size for 1920x1080 resolutions
+				goInitialFontSize90=95f,
+				goInitialFontSize38=67f,
+				goOtherFontSize90=40f,
+ 				goOtherFontSize38=30f,
+				goYourScoreFontSize90=55f,
+				goYourScoreFontSize38=45f;
+
+
 	// clang-format on
 
 	// font for gameover and displays inside the game
@@ -224,7 +244,7 @@ public class GameResources
 		"resources/RamiroGraphics/gameOver/1920_1080/backButton90.png");
 	// clang-format off
 	public static float[] gameOverButtonValue = new float[]{
-		gbBackButtonWidthRatio, gbBackButtonHeightRatio, gbBackButtonSizeWidthRatio, gbBackButtonSizeHeightRatio
+		goBackButtonWidthRatio, goBackButtonHeightRatio, goBackButtonSizeWidthRatio, goBackButtonSizeHeightRatio
 	};
 	// clang-format on
 
@@ -232,11 +252,11 @@ public class GameResources
 		new ArrayList<BufferedImage>() {
 			{
 				add(goBg90);
-				add(goEnterInitials90);
 				add(goMiddleThing90);
 				add(goScoreBoard90);
 				add(goYourScore90);
 				add(goHighScoresLabel90);
+				add(goEnterInitials90);
 			}
 		};
 
@@ -261,11 +281,11 @@ public class GameResources
 		new ArrayList<BufferedImage>() {
 			{
 				add(goBg38);
-				add(goEnterInitials38);
 				add(goMiddleThing38);
 				add(goScoreBoard38);
 				add(goYourScore38);
 				add(goHighScoresLabel38);
+				add(goEnterInitials38);
 			}
 		};
 
