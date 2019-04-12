@@ -2,8 +2,8 @@ package Game;
 
 /**
  * PlayGame -- main class that plays the game (input, render, engine transforms,
- * etc) - giant conglomeration of all the state and the seat and tears and blood
- * of our team put togtether to put together this project.
+ * etc) - giant conglomeration of all the state and the sweat and tears and blood
+ * of our team put together to put together this project.
  *
  * Date: March 12, 2019
  * 2019
@@ -287,10 +287,8 @@ public class PlayGame extends World
 	{
 		this.processInputs();
 
-		// ASE
 		EngineTransforms.updatePCollisionBodiesFromWorldAttr(
 			this.engineState);
-		// this.handleTurrets();
 
 		// Handle bullets hitting things
 		// player bullets:
@@ -531,8 +529,8 @@ public class PlayGame extends World
 	}
 
 	/**
-	 * center camera to player position
-	 *@return: current time the game has been running in seconds
+	 * get the current run time in seconds
+	 * @return: current time the game has been running in seconds
 	 */
 	public double getPlayTime()
 	{
