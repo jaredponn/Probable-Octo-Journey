@@ -113,12 +113,13 @@ public class PlayGameRender
 		int leftMargin = (int)(1f / 100f * g.getWindowWidth());
 		int rightMargin = (int)(95f / 100f * g.getWindowWidth());
 
-		int verticalSpacing = (int)(2f / 100f * g.getWindowHeight());
+		int verticalSpacing =
+			(int)(2f / 100f * g.getWindowHeight()) + 10;
 
 		// game timer
 		g.guiBuffer.add(new StringRenderObject(
 			"Time:" + (int)g.getPlayTime(), rightMargin, topMargin,
-			Color.WHITE, GameConfig.HUD_FONT));
+			Color.WHITE, GameConfig.HUD_FONT_SMALL));
 
 		// money
 		g.guiBuffer.add(new StringRenderObject(
