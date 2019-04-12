@@ -263,10 +263,7 @@ public class Map
 						 * rendered to acheive this
 						 * effect.
 						 */
-						Optional<Pair<
-							BufferedImage,
-							Pair<Float,
-							     Float>>> specialTile =
+						Optional<Render> specialTile =
 							getSpecialTile(Integer.parseInt(
 								tempList[i]));
 
@@ -284,23 +281,10 @@ public class Map
 								.addComponentAt(
 									Render.class
 									,
-									new Render(
-										new ImageRenderObject(
-											0,
-											0,
-											specialTile
-												.get()
-												.fst()),
-										new Vector2f(
-											specialTile
-												.get()
-												.snd()
-												.fst(),
-											specialTile
-												.get()
-												.snd()
-												.snd())),
+									specialTile
+										.get(),
 									nextFreeIndex);
+
 						}
 						// if it is NOT a special tile
 						else {
@@ -388,141 +372,100 @@ public class Map
 					nextFreeIndex);
 	}
 
-	public Optional<Pair<BufferedImage, Pair<Float, Float>>>
-	getSpecialTile(int tileCord)
+	public Optional<Render> getSpecialTile(int tileCord)
 	{
 		float specialWidth = 1f, specialHeight = 0f;
+		Render tmp = null;
 		switch (tileCord) {
 		case 0:
 			// fountain
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.fountainBuilding,
-					new Pair<Float, Float>(
-						specialWidth - 2f,
-						specialHeight - 2f)));
+			tmp = new Render(GameResources.fountainBuilding,
+					 specialWidth - 2f, specialHeight - 2f);
+			tmp.getGraphic().setRenderSortModifier(-80);
+			return Optional.of(tmp);
 		case 1:
 			// pink building
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.pinkBuilding,
-					new Pair<Float, Float>(
-						specialWidth - 2f,
-						specialHeight - 2f)));
+			tmp = new Render(GameResources.pinkBuilding,
+					 specialWidth - 2f, specialHeight - 2f);
+			tmp.getGraphic().setRenderSortModifier(-80);
+			return Optional.of(tmp);
 		case 2:
 			// brown building
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.brownBuilding,
-					new Pair<Float, Float>(
-						specialWidth - 3f + 0.1f,
-						specialHeight - 3f + 0.1f)));
+			tmp = new Render(GameResources.brownBuilding,
+					 specialWidth - 3f + 0.1f,
+					 specialHeight - 3f + 0.1f);
+			tmp.getGraphic().setRenderSortModifier(-60);
+			return Optional.of(tmp);
 		case 3:
 			// blue building
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.blueBuilding,
-					new Pair<Float, Float>(
-						specialWidth - 2f,
-						specialHeight - 2f)));
+			tmp = new Render(GameResources.blueBuilding,
+					 specialWidth - 2f, specialHeight - 2f);
+			tmp.getGraphic().setRenderSortModifier(-50);
+			return Optional.of(tmp);
 		case 4:
-			// school building
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.schoolBuilding,
-					new Pair<Float, Float>(
-						specialWidth - 2f,
-						specialHeight - 3f)));
+			// school building / red
+			tmp = new Render(GameResources.schoolBuilding,
+					 specialWidth - 2f, specialHeight - 3f);
+			tmp.getGraphic().setRenderSortModifier(-40);
+			return Optional.of(tmp);
 		case 5:
 			// gas station building
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.gasStationBuilding,
-					new Pair<Float, Float>(
-						specialWidth - 3f,
-						specialHeight - 3f)));
+			tmp = new Render(GameResources.gasStationBuilding,
+					 specialWidth - 3f, specialHeight - 3f);
+			tmp.getGraphic().setRenderSortModifier(-80);
+			return Optional.of(tmp);
 		case 576:
 			// first tree
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.tree1,
-					new Pair<Float, Float>(
-						specialWidth - 1f,
-						specialHeight - 1f)));
+			return Optional.of(new Render(GameResources.tree1,
+						      specialWidth - 1f,
+						      specialHeight - 1f));
 		case 577:
 			// second tree
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.tree2,
-					new Pair<Float, Float>(
-						specialWidth - 2f,
-						specialHeight - 2f)));
+			return Optional.of(new Render(GameResources.tree2,
+						      specialWidth - 2f,
+						      specialHeight - 2f));
 		case 578:
 			// third tree
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.tree3,
-					new Pair<Float, Float>(
-						specialWidth - 1f,
-						specialHeight - 1f)));
+			return Optional.of(new Render(GameResources.tree3,
+						      specialWidth - 1f,
+						      specialHeight - 1f));
 		case 579:
 			// fourth tree
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.tree4,
-					new Pair<Float, Float>(
-						specialWidth - 2f,
-						specialHeight - 2f)));
+			return Optional.of(new Render(GameResources.tree4,
+						      specialWidth - 2f,
+						      specialHeight - 2f));
 
 		case 580:
 			// fifth tree
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.tree5,
-					new Pair<Float, Float>(
-						specialWidth - 2f,
-						specialHeight - 2f)));
+			return Optional.of(new Render(GameResources.tree5,
+						      specialWidth - 2f,
+						      specialHeight - 2f));
 		case 674:
 			// first pole
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.pole1,
-					new Pair<Float, Float>(
-						specialWidth - 3f,
-						specialHeight - 3f)));
+			return Optional.of(new Render(GameResources.pole1,
+						      specialWidth - 3f,
+						      specialHeight - 3f));
 
 		case 675:
 			// second pole
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.pole2,
-					new Pair<Float, Float>(
-						specialWidth - 3f,
-						specialHeight - 3f)));
+			return Optional.of(new Render(GameResources.pole2,
+						      specialWidth - 3f,
+						      specialHeight - 3f));
 		case 676:
 			// third pole
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.pole3,
-					new Pair<Float, Float>(
-						specialWidth - 3f,
-						specialHeight - 3f)));
+			return Optional.of(new Render(GameResources.pole3,
+						      specialWidth - 3f,
+						      specialHeight - 3f));
 		case 677:
 			// fourth pole
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.pole4,
-					new Pair<Float, Float>(
-						specialWidth - 3f,
-						specialHeight - 3f)));
+			return Optional.of(new Render(GameResources.pole4,
+						      specialWidth - 3f,
+						      specialHeight - 3f));
 		case 686:
 			// stop sign
-			return Optional.of(
-				new Pair<BufferedImage, Pair<Float, Float>>(
-					GameResources.stopSign,
-					new Pair<Float, Float>(
-						specialWidth - 1f,
-						specialHeight - 1f)));
+			return Optional.of(new Render(GameResources.stopSign,
+						      specialWidth - 1f,
+						      specialHeight - 1f));
 		}
 
 		// if is not one of the special tiles, return empty

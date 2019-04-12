@@ -13,7 +13,7 @@ public class CashPack extends CollectibleSet
 {
 	public CashPack(float x, float y)
 	{
-		super(x, y, GameConfig.PICKUP_COLLISION_BODY,
+		super(x, y, GameConfig.CASH_COLLISION_BODY,
 		      GameResources.cashImage);
 	}
 

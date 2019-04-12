@@ -13,6 +13,7 @@ public class RenderObject
 {
 	protected int x;
 	protected int y;
+	protected int renderSortModifier;
 
 	/**
 	 *  set the x position
@@ -101,5 +102,15 @@ public class RenderObject
 	final public Class<?> getRenderObjectType()
 	{
 		return this.getClass();
+	}
+
+	public int getRenderSortModifier()
+	{
+		return this.renderSortModifier;
+	}
+
+	public void setRenderSortModifier(int n)
+	{
+		this.renderSortModifier = n;
 	}
 }

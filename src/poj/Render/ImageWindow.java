@@ -72,6 +72,15 @@ public class ImageWindow
 		this.height = n;
 	}
 
+	public void addWidth(int n)
+	{
+		setWidth(this.width + n);
+	}
+	public void addHeight(int n)
+	{
+		setHeight(this.height + n);
+	}
+
 	public int getWidth()
 	{
 		return this.width;
