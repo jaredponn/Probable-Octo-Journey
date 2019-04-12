@@ -39,8 +39,8 @@ public class GameConfig
 	///////////////////////////
 	////// player config //////
 	///////////////////////////
-	// public static final float PLAYER_SPEED = 0.0015f;
-	public static final float PLAYER_SPEED = 0.005f;
+	public static final float PLAYER_SPEED = 0.0015f;
+	// public static final float PLAYER_SPEED = 0.005f;
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
