@@ -308,11 +308,12 @@ public class PlayGameProcessInputs
 			}
 
 			if (inputPoller.isKeyDown(GameConfig.BUILD_TRAP)) {
+				System.out.println();
 				if (Math.abs(g.lastCoolDown.get(
 					    GameConfig.BUILD_TRAP))
 					    == 0d
 				    && g.playerMoney.get()
-					       >= GameConfig.TOWER_BUILD_COST) {
+					       >= GameConfig.TRAP_COST) {
 					System.out.print(
 						"e key is down. Should spawn trap at player location\n");
 
