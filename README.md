@@ -194,6 +194,10 @@ Alert sound: https://opengameart.org/content/tx-alert
 Player drop HP sound: https://opengameart.org/content/15-vocal-male-strainhurtpainjump-sounds
 
 Player death sound: https://opengameart.org/content/grunts-male-death-and-pain
+
+Player lost music: https://opengameart.org/content/skin-cells-touch
+
+Player win music: https://opengameart.org/content/death-is-just-another-path
 # Credits
 Creeper font credit: https://www.1001fonts.com/creepster-font.html
 
