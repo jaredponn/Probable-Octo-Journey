@@ -232,6 +232,8 @@ public class MenuNew extends World
 		titleBuffer.add(menuImageROBuffer.get(3)); // add help bg
 		titleBuffer.add(
 			menuImageROBuffer.get(4)); // add help instructiosn
+		titleBuffer.add(menuImageROBuffer.get(5));
+		titleBuffer.add(menuImageROBuffer.get(6));
 
 		// only render the how to play and back button
 		for (int i = 3; i <= 4; ++i) {
@@ -247,9 +249,9 @@ public class MenuNew extends World
 
 	public void runGame()
 	{
-		// sleeps the thread for 40 ms so we dont get continuous mouse
+		// sleeps the thread for 80 ms so we dont get continuous mouse
 		// clicks
-		Timer.sleepNMilliseconds(40);
+		Timer.sleepNMilliseconds(80);
 		processInputs();
 	}
 

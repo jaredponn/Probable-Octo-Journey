@@ -82,6 +82,10 @@ public class GameResources
 		"resources/RamiroGraphics/menu/1920_1080/background_help90.png");
 	public static BufferedImage helpButton90 = ImageLoader.load(
 		"resources/RamiroGraphics/menu/1920_1080/buttons_help90.png");
+	public static BufferedImage helpTopLeft90 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1920_1080/helpTopLeft90.png");
+	public static BufferedImage helpTopRight90 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1920_1080/helpTopRight90.png");
 	public static BufferedImage instructionsForHelp90 = ImageLoader.load(
 		"resources/RamiroGraphics/menu/1920_1080/instruction_boxes_help90.png");
 	public static BufferedImage tombstonesForMain90 = ImageLoader.load(
@@ -94,6 +98,8 @@ public class GameResources
 				add(tombstonesForMain90);
 				add(helpBg90);
 				add(instructionsForHelp90);
+				add(helpTopLeft90);
+				add(helpTopRight90);
 			}
 		};
 
@@ -137,6 +143,10 @@ public class GameResources
 		"resources/RamiroGraphics/menu/1366_768/background_help38.png");
 	public static BufferedImage helpButton38 = ImageLoader.load(
 		"resources/RamiroGraphics/menu/1366_768/buttons_help38.png");
+	public static BufferedImage helpTopLeft38 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1366_768/helpTopLeft38.png");
+	public static BufferedImage helpTopRight38 = ImageLoader.load(
+		"resources/RamiroGraphics/menu/1366_768/helpTopRight38.png");
 	public static BufferedImage instructionsForHelp38 = ImageLoader.load(
 		"resources/RamiroGraphics/menu/1366_768/instruction_boxes_help38.png");
 	public static BufferedImage tombstonesForMain38 = ImageLoader.load(
@@ -149,6 +159,8 @@ public class GameResources
 				add(tombstonesForMain38);
 				add(helpBg38);
 				add(instructionsForHelp38);
+				add(helpTopLeft38);
+				add(helpTopRight38);
 			}
 		};
 	public static ArrayList<BufferedImage> menuButtonImage38 =
@@ -232,6 +244,8 @@ public class GameResources
 		"resources/RamiroGraphics/gameOver/1920_1080/background90.png");
 	public static BufferedImage goEnterInitials90 = ImageLoader.load(
 		"resources/RamiroGraphics/gameOver/1920_1080/enter_initials90 .png");
+	public static BufferedImage goArrowKeys90 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1920_1080/arrowKeys90.png");
 	public static BufferedImage goMiddleThing90 = ImageLoader.load(
 		"resources/RamiroGraphics/gameOver/1920_1080/middle_thing90.png");
 	public static BufferedImage goScoreBoard90 = ImageLoader.load(
@@ -257,6 +271,7 @@ public class GameResources
 				add(goScoreBoard90);
 				add(goYourScore90);
 				add(goHighScoresLabel90);
+				add(goArrowKeys90);
 				add(goEnterInitials90);
 			}
 		};
@@ -267,6 +282,8 @@ public class GameResources
 		"resources/RamiroGraphics/gameOver/1366_768/background38.png");
 	public static BufferedImage goEnterInitials38 = ImageLoader.load(
 		"resources/RamiroGraphics/gameOver/1366_768/enter_initials38 .png");
+	public static BufferedImage goArrowKeys38 = ImageLoader.load(
+		"resources/RamiroGraphics/gameOver/1366_768/arrowKeys38.png");
 	public static BufferedImage goMiddleThing38 = ImageLoader.load(
 		"resources/RamiroGraphics/gameOver/1366_768/middle_thing38.png");
 	public static BufferedImage goScoreBoard38 = ImageLoader.load(
@@ -286,6 +303,7 @@ public class GameResources
 				add(goScoreBoard38);
 				add(goYourScore38);
 				add(goHighScoresLabel38);
+				add(goArrowKeys38);
 				add(goEnterInitials38);
 			}
 		};
