@@ -39,8 +39,8 @@ public class GameConfig
 	///////////////////////////
 	////// player config //////
 	///////////////////////////
-	public static final float PLAYER_SPEED = 0.0015f;
-	// public static final float PLAYER_SPEED = 0.005f;
+	// public static final float PLAYER_SPEED = 0.0015f;
+	public static final float PLAYER_SPEED = 0.005f;
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
@@ -448,6 +448,17 @@ public class GameConfig
 	// money:
 	public static final int PICKUP_CASH_AMOUNT = 100;
 	public static final float PICKUP_CASH_SPAWN_TIME = 20.0f;
+	public static final PCollisionBody CASH_COLLISION_BODY =
+		new PCollisionBody(
+			new Vector2f(0.0f,
+				     0.4f), // displacement
+			new Vector2f(PICKUP_WIDTH / 2,
+				     PICKUP_HEIGHT / 4), // center
+							 // collision
+							 // body:
+			new Vector2f(0, 0), new Vector2f(0, PICKUP_HEIGHT / 2),
+			new Vector2f(PICKUP_WIDTH, 0),
+			new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT / 2));
 	// power-up:
 	public static final int PICKUP_POWERUP_AMOUNT = 5;
 	public static final float PICKUP_POWERUP_SPAWN_TIME = 20.0f;

@@ -53,6 +53,12 @@ public class Render implements Component
 		this.position_translation = t;
 	}
 
+	public Render(BufferedImage a, float x, float y)
+	{
+		this.graphic = new ImageRenderObject(0, 0, a);
+		this.position_translation = new Vector2f(x, y);
+	}
+
 	public ImageRenderObject getGraphic()
 	{
 		return this.graphic;
@@ -92,6 +98,12 @@ public class Render implements Component
 	public void setTopLeftCornerPosition(int x, int y)
 	{
 		this.graphic.setTopLeftCornerPosition(x, y);
+	}
+
+	public void setTranslation(int x, int y)
+	{
+		position_translation.x = x;
+		position_translation.y = y;
 	}
 
 	public void print()

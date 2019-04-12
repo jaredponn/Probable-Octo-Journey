@@ -38,6 +38,7 @@ public class ImageRenderObject extends RenderObject
 	public ImageRenderObject(ImageRenderObject a)
 	{
 		this(a.x, a.y, a.img, new ImageWindow(a.getImageWindow()));
+		super.renderSortModifier = a.renderSortModifier;
 	}
 
 	/**
