@@ -2,10 +2,6 @@ package App;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.io.IOException;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Game.GameOver;
 import Game.MenuNew;
@@ -89,8 +85,7 @@ public class App
 	 * TODO in the future add different game states like menu, and start
 	 */
 
-	public void runAppLoop() throws UnsupportedAudioFileException,
-					IOException, LineUnavailableException
+	public void runAppLoop()
 	{
 
 
