@@ -158,6 +158,13 @@ public class GameConfig
 				   new Vector2f(MELEE_HEIGHT, 0),
 				   new Vector2f(MELEE_HEIGHT, MELEE_HEIGHT));
 
+	public static final OctoMeleeAttackBuffer PLAYER_MELEE_ATTACK_BUFFER =
+		new OctoMeleeAttackBuffer(
+			PLAYER_MELEE_N_ATK_BODY, PLAYER_MELEE_NE_ATK_BODY,
+			PLAYER_MELEE_NW_ATK_BODY, PLAYER_MELEE_S_ATK_BODY,
+			PLAYER_MELEE_SE_ATK_BODY, PLAYER_MELEE_SW_ATK_BODY,
+			PLAYER_MELEE_W_ATK_BODY, PLAYER_MELEE_E_ATK_BODY);
+
 	public static final AnimationWindowAssets
 		PLAYER_ANIMATION_WINDOW_ASSETS = new AnimationWindowAssets(
 			new Pair<OctoAnimationBuffer, Integer>(
@@ -200,7 +207,7 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(-0.22f, 0.86f), // displacement
 			new Vector2f(1.5f, 0.75f),   // center
-						     // collision body:
+						   // collision body:
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
 			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
@@ -260,12 +267,15 @@ public class GameConfig
 	///////////////////////
 	public static final float MOB_SPEED = 0.6f * PLAYER_SPEED;
 	public static final float MAX_DAMAGE = PLAYER_MAX_HP / 2;
-	public static final float BOSS_SPEED = 0.95f * MOB_SPEED;
 	public static final float MOB_HEIGHT =
 		GameResources.ENEMY_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
 	public static final float MOB_WIDTH = GameResources.ENEMY_SPRITE_WIDTH
 					      / GameResources.TILE_SCREEN_WIDTH;
+
+	public static final OctoMeleeAttackBuffer MOB_MELEE_ATTACK_BUFFER =
+		new OctoMeleeAttackBuffer(PLAYER_MELEE_ATTACK_BUFFER);
+
 
 	// percent chance for a mob to drop cash on death
 	public static final int MOB_DROP_RATE = 33;
@@ -282,43 +292,18 @@ public class GameConfig
 				new Vector2f(0    /4f,   0.75f/4f), new Vector2f(1     /4f, 0.75f/4f),
 				new Vector2f(0    /4f, 0.25f  /4f), new Vector2f(0.25f /4f, 0    /4f),
 				new Vector2f(0.75f/4f, 0      /4f), new Vector2f(1     /4f, 0.25f/4f));
-	// clang-format on
-	//*/
-
-	/*
-	public static final PCollisionBody MOB_COLLISION_BODY =
-		// clang-format off
-			new PCollisionBody(
-				new Vector2f(0.2f , 0.55f), // displacement
-				new Vector2f(0.5f,0.5f), // center
-							  // collision body:
-				new Vector2f(0.5f, 0.5f),new Vector2f(0.51f,
-	0.51f));
-				*/
-	// clang-format on
 
 	// combat configs
 	public static final int MOB_ATTACK_DAMAGE = 10;
 	public static final int MOB_HP = 100;
 	public static final int MOB_MAX_HP = MOB_HP;
 
-	public static final int BOSS_ATTACK_DAMAGE = MOB_ATTACK_DAMAGE * 2;
-	public static final int BOSS_HP = MOB_HP * 2;
-	public static final int BOSS_MAX_HP = BOSS_HP;
 
 	public static final AttackCycle MOB_ATTACK_CYCLE =
-		new AttackCycle(GameResources.animationDurationms * 8,
-				GameResources.animationDurationms * 6);
+		new AttackCycle(GameResources.animationDurationms * 7,
+				GameResources.animationDurationms * 7);
 	public static final PCollisionBody ENEMY_HITBOX_BODY =
 		PLAYER_HITBOX_BODY;
-
-	public static final PCollisionBody MOB_MELEE_ATTACK_BODY =
-		new PCollisionBody(new Vector2f(-0.5f, 0), // displacement
-				   new Vector2f(0.5f,
-						0.5f), // center
-						       // collision body:
-				   new Vector2f(0, 0), new Vector2f(2, 0),
-				   new Vector2f(0, 2), new Vector2f(2, 2));
 
 	public static final PCollisionBody MOB_MELEE_N_ATK_BODY =
 		PLAYER_MELEE_N_ATK_BODY;
@@ -342,15 +327,144 @@ public class GameConfig
 		new Vector2f(0.2f, 0.55f),  // displacement
 		new Vector2f(0.25f, 0.25f), // center
 					    // collision body:
-		new Vector2f(0.25f / 3f, 1 / 3f),
-		new Vector2f(0.75f / 3f, 1 / 3f),
-		new Vector2f(0 / 3f    , 0.75f / 3f),
-		new Vector2f(1 / 3f    , 0.75f / 3f),
-		new Vector2f(0 / 3f    , 0.25f / 3f),
-		new Vector2f(0.25f / 3f, 0 / 3f),
-		new Vector2f(0.75f / 3f, 0 / 3f),
-		new Vector2f(1 / 3f    , 0.25f / 3f));
+		new Vector2f(0.25f / 3f, 1     / 3f),
+		new Vector2f(0.75f / 3f, 1     / 3f),
+		new Vector2f(0     / 3f, 0.75f / 3f),
+		new Vector2f(1     / 3f, 0.75f / 3f),
+		new Vector2f(0     / 3f, 0.25f / 3f),
+		new Vector2f(0.25f / 3f, 0     / 3f),
+		new Vector2f(0.75f / 3f, 0     / 3f),
+		new Vector2f(1     / 3f, 0.25f / 3f));
 	// clang-format on
+
+	///////////////////////
+	////// BOSS config /////
+	///////////////////////
+	public static final int BOSS_ATTACK_DAMAGE = MOB_ATTACK_DAMAGE * 2;
+	public static final int BOSS_HP = MOB_HP * 20;
+	public static final float BOSS_SPEED = MOB_SPEED;
+	public static final int BOSS_MAX_HP = BOSS_HP;
+
+	public static final AttackCycle BOSS_ATTACK_CYCLE = MOB_ATTACK_CYCLE;
+
+
+	public static final PCollisionBody BOSS_PHYSICS_BODY =
+		new PCollisionBody(
+			// clang-format off
+		new Vector2f(1.8f, 4.3f),  // displacement
+		new Vector2f(0.75f, 0.75f), // center
+					    // collision body:
+		new Vector2f(0.25f / 1.2f, 1     / 1.2f),
+		new Vector2f(0.75f / 1.2f, 1     / 1.2f),
+		new Vector2f(0     / 1.2f, 0.75f / 1.2f),
+		new Vector2f(1     / 1.2f, 0.75f / 1.2f),
+		new Vector2f(0     / 1.2f, 0.25f / 1.2f),
+		new Vector2f(0.25f / 1.2f, 0     / 1.2f),
+		new Vector2f(0.75f / 1.2f, 0     / 1.2f),
+		new Vector2f(1     / 1.2f, 0.25f / 1.2f));
+
+	// clang-format on
+
+
+	public static final PCollisionBody BOSS_AGGRO_RANGE = BOSS_PHYSICS_BODY;
+
+	public static final PCollisionBody BOSS_HIT_BOX_BODY =
+		new PCollisionBody(
+			// clang-format off
+			new Vector2f(-0.15f / 0.2f, 1.75f),   // displacement
+			new Vector2f(5,2.5f), // center
+						   // collision body:
+			new Vector2f(1f    /0.3f , 0.5f   /0.3f  ), new Vector2f(1.25f/0.3f, 0.2f / 0.3f),
+			new Vector2f(1.7f  /0.3f , 1.25f  /0.3f  ), new Vector2f(1.95f/0.3f, 1f   / 0.3f));
+	// clang-format on
+
+	public static final PCollisionBody BOSS_MELEE_N_ATK_BODY =
+		new PCollisionBody(
+			new Vector2f(0.5f, 3f),   // displacement
+			new Vector2f(0.3f, 0.3f), // center
+						  // collision body:
+			new Vector2f(0, 0),
+			new Vector2f(0, MELEE_HEIGHT / 0.2f),
+			new Vector2f(MELEE_WIDTH / 0.2f, 0),
+			new Vector2f(MELEE_WIDTH / 0.2f, MELEE_HEIGHT / 0.2f));
+
+	public static final PCollisionBody BOSS_MELEE_NE_ATK_BODY =
+		new PCollisionBody(
+			new Vector2f(0f + 1.5f, 0.25f + 3f), // displacement
+			new Vector2f(0.3f, 0.3f),	    // center
+							     // collision body:
+			new Vector2f(0, 0),
+			new Vector2f(0, MELEE_HEIGHT / 0.2f),
+			new Vector2f(MELEE_HEIGHT / 0.2f, 0),
+			new Vector2f(MELEE_HEIGHT / 0.2f, MELEE_HEIGHT / 0.2f));
+
+
+	public static final PCollisionBody BOSS_MELEE_E_ATK_BODY =
+		new PCollisionBody(
+			new Vector2f(0.25f + 1.5f, 0.25f + 3f), // displacement
+			new Vector2f(0.3f, 0.3f),		// center
+						  // collision body:
+			new Vector2f(0, 0),
+			new Vector2f(MELEE_HEIGHT / 0.2f, 0),
+			new Vector2f(0, MELEE_WIDTH / 0.2f),
+			new Vector2f(MELEE_HEIGHT / 0.2f, MELEE_WIDTH / 0.2f));
+
+	public static final PCollisionBody BOSS_MELEE_SE_ATK_BODY =
+		new PCollisionBody(
+			new Vector2f(0.1f + 1.5f, 0f + 3f), // displacement
+			new Vector2f(0.3f, 0.3f),	   // center
+						  // collision body:
+			new Vector2f(0, 0),
+			new Vector2f(0, MELEE_HEIGHT / 0.2f),
+			new Vector2f(MELEE_HEIGHT / 0.2f, 0),
+			new Vector2f(MELEE_HEIGHT / 0.2f, MELEE_HEIGHT / 0.2f));
+
+	public static final PCollisionBody BOSS_MELEE_S_ATK_BODY =
+		new PCollisionBody(
+			new Vector2f(0 + 1.5f, 0.25f + 3), // displacement
+			new Vector2f(0.3f, -0.3f),	 // center
+							   // collision body:
+			new Vector2f(0, 0),
+			new Vector2f(0, -MELEE_HEIGHT / 0.2f),
+			new Vector2f(MELEE_WIDTH / 0.2f, 0),
+			new Vector2f(MELEE_WIDTH / 0.2f, -MELEE_HEIGHT / 0.2f));
+
+	public static final PCollisionBody BOSS_MELEE_SW_ATK_BODY =
+		new PCollisionBody(
+			new Vector2f(-0.25f + 1.5f, -0.1f + 3), // displacement
+			new Vector2f(0.3f, 0.3f),		// center
+						  // collision body:
+			new Vector2f(0, 0),
+			new Vector2f(0, MELEE_HEIGHT / 0.2f),
+			new Vector2f(MELEE_HEIGHT, 0),
+			new Vector2f(MELEE_HEIGHT / 0.2f, MELEE_HEIGHT / 0.2f));
+
+	public static final PCollisionBody BOSS_MELEE_W_ATK_BODY =
+		new PCollisionBody(
+			new Vector2f(0.25f + 1.5f, 0.25f + 3f), // displacement
+			new Vector2f(-0.3f, 0.2f),		// center
+						   // collision body:
+			new Vector2f(0, 0),
+			new Vector2f(-MELEE_HEIGHT / 0.2f, 0),
+			new Vector2f(0, MELEE_WIDTH / 0.2f),
+			new Vector2f(-MELEE_HEIGHT / 0.2f, MELEE_WIDTH / 0.2f));
+
+	public static final PCollisionBody BOSS_MELEE_NW_ATK_BODY =
+		new PCollisionBody(
+			new Vector2f(-0.25f + 1.5f, 0.25f + 3f), // displacement
+			new Vector2f(0.3f, 0.3f),		 // center
+						  // collision body:
+			new Vector2f(0, 0),
+			new Vector2f(0, MELEE_HEIGHT / 0.2f),
+			new Vector2f(MELEE_HEIGHT / 0.2f, 0),
+			new Vector2f(MELEE_HEIGHT / 0.2f, MELEE_HEIGHT / 0.2f));
+
+	public static final OctoMeleeAttackBuffer BOSS_MELEE_ATTACK_BUFFER =
+		new OctoMeleeAttackBuffer(
+			BOSS_MELEE_N_ATK_BODY, BOSS_MELEE_NE_ATK_BODY,
+			BOSS_MELEE_NW_ATK_BODY, BOSS_MELEE_S_ATK_BODY,
+			BOSS_MELEE_SE_ATK_BODY, BOSS_MELEE_SW_ATK_BODY,
+			BOSS_MELEE_W_ATK_BODY, BOSS_MELEE_E_ATK_BODY);
 
 	// spawn configs
 	public static final double MOB_SPAWN_TIMER = 5000.0d; // in ms
@@ -363,16 +477,16 @@ public class GameConfig
 	public static final ArrayList<Vector2f> MOB_SPAWN_POINTS =
 		new ArrayList<Vector2f>() {
 			{
-				add(new Vector2f(9.5f,
-						 19.5f)); // western Blockbuster
+				add(new Vector2f(12,
+						 21f)); // western Blockbuster
 				add(new Vector2f(30f,
 						 14f)); // parking lot
-				add(new Vector2f(40f,
-						 30f)); // near fountain
-				add(new Vector2f(60f,
-						 24f)); // park past parking lot
 				add(new Vector2f(42f,
-						 50f)); // gas station
+						 33f)); // near fountain
+				add(new Vector2f(62f,
+						 26f)); // park past parking lot
+				add(new Vector2f(44f,
+						 53f)); // gas station
 			}
 		};
 
