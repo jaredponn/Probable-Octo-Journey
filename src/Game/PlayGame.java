@@ -195,6 +195,7 @@ public class PlayGame extends World
 		super.engineState.registerSet(PlayerSet.class);
 		super.engineState.registerSet(MobSet.class);
 		super.engineState.registerSet(CashPack.class);
+		super.engineState.registerSet(TrapSet.class);
 		super.engineState.registerSet(ConstructSet.class);
 		super.engineState.registerSet(Bullet.class);
 		super.engineState.registerSet(CannonShell.class);
@@ -328,6 +329,9 @@ public class PlayGame extends World
 		EntityCollisionAlgorithms
 			.nudgeSetAAndBIfPCollisionBodiesAreTouching(
 				this, PlayerSet.class, MobSet.class);
+
+		EntityCollisionAlgorithms.reduceSpeedOfMobIfTouchingTrap(
+			this, GameConfig.TRAP_SPEED_REDUCE);
 
 		// Resolving  collisions against tilemap
 		TileMapCollisionAlgorithms

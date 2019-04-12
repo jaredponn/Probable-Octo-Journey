@@ -378,6 +378,13 @@ public class GameConfig
 	public static final float CONSTRUCT_HEIGHT = 64;
 	public static final float CONSTRUCT_WIDTH = 48;
 
+
+	////////////////////////////
+	///// trap  config /////
+	////////////////////////////
+	public static final int TRAP_COST = 10;
+	public static final float TRAP_SPEED_REDUCE = 0.1f;
+
 	/////////////////////////
 	///// pickup config /////
 	/////////////////////////
@@ -440,7 +447,8 @@ public class GameConfig
 				add(new Pair<Integer, Double>(BUILD_TOWER, 1d));
 				add(new Pair<Integer, Double>(SWITCH_WEAPONS,
 							      1d));
-				add(new Pair<Integer, Double>(BUILD_TRAP, 1d));
+				add(new Pair<Integer, Double>(BUILD_TRAP,
+							      0.3d));
 				add(new Pair<Integer, Double>(BUY_AMMO, 1d));
 
 				add(new Pair<Integer, Double>(ARROW_UP, 0.1d));
