@@ -1,4 +1,13 @@
 package poj.test;
+
+/**
+ * Matrix test
+ *
+ * date March 10, 2019
+ * @author Haiyang He
+ * @version 1.0
+ */
+
 import poj.linear.Matrix;
 import poj.linear.MatrixCord;
 import org.junit.Test;
@@ -7,6 +16,9 @@ import java.util.ArrayList;
 public class MatrixTest
 {
 
+	/**
+	 *  equality tests
+	 */
 	@Test public void trivialTest()
 	{
 		ArrayList<Integer> a = new ArrayList<Integer>();
@@ -23,6 +35,9 @@ public class MatrixTest
 		assertEquals(matrixB.cols, 3);
 	}
 
+	/**
+	 *  get index from matrix coord test
+	 */
 	@Test public void getIndexFromMatrixCord()
 	{
 
@@ -40,6 +55,10 @@ public class MatrixTest
 				     matrixA.getIndexFromMatrixCord(testCord)),
 			     Integer.valueOf(4));
 	}
+
+	/**
+	 *  get matrix coord from index
+	 */
 	@Test public void getMatrixCordFromIndex()
 	{
 
@@ -57,6 +76,9 @@ public class MatrixTest
 		assertEquals(Integer.valueOf(testCord.col), Integer.valueOf(2));
 	}
 
+	/**
+	 *  test setter
+	 */
 	@Test public void setStuff()
 	{
 
@@ -78,6 +100,10 @@ public class MatrixTest
 		testCord.col = 1;
 		// matrixA.setWithMatrixCord(testCord, 1);
 	}
+
+	/**
+	 *  get tester
+	 */
 	@Test public void getStuff()
 	{
 

@@ -1,4 +1,11 @@
 package poj.test;
+/**
+ * Matrix equality test
+ *
+ * date March 10, 2019
+ * @author Haiyang
+ * @version 1.0
+ */
 
 import poj.linear.MatrixTransformations;
 import java.util.ArrayList;
@@ -10,6 +17,9 @@ import poj.linear.Vector2f;
 import poj.linear.Vector3f;
 public class MatrixEquality
 {
+	/*
+	 * tests
+	 */
 	@Test public void trivialTest()
 	{
 		ArrayList<Float> tempMatrixA = new ArrayList<Float>();

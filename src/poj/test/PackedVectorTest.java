@@ -1,9 +1,23 @@
 package poj.test;
+
+/**
+ * Packed Vector tests
+ *
+ * date March 10, 2019
+ * @author Haiyang He
+ * @version 1.0
+ */
+
 import poj.PackedVector;
 import org.junit.Test;
 import static org.junit.Assert.*;
 public class PackedVectorTest
 {
+
+
+	/**
+	 * Constructor tests
+	 */
 	@Test public void trivialTest()
 	{
 		PackedVector<Integer> a = new PackedVector<Integer>(10);
@@ -13,6 +27,9 @@ public class PackedVectorTest
 		assertEquals(a.get_packed_indicies().size(), 0);
 	}
 
+	/**
+	 * adding tests
+	 */
 	@Test public void addingInPackedVector()
 	{
 		PackedVector<Integer> a = new PackedVector<Integer>(10);
@@ -56,6 +73,9 @@ public class PackedVectorTest
 			     Integer.valueOf(9));
 	}
 
+	/**
+	 *  get data from sparse vector
+	 */
 	@Test public void getDataFromSparseVector()
 	{
 
@@ -72,6 +92,9 @@ public class PackedVectorTest
 			     Integer.valueOf(30));
 	}
 
+	/**
+	 *  deleting from sparse vector
+	 */
 	@Test public void DeletingInPackedVector()
 	{
 
@@ -106,6 +129,10 @@ public class PackedVectorTest
 			     Integer.valueOf(30));
 	}
 
+
+	/**
+	 *  adding and deleting
+	 */
 	@Test public void AddAndDeletingInPackedVector()
 	{
 

@@ -1,4 +1,12 @@
 package poj.test;
+/**
+ * Vector2f tests
+ *
+ * date March 10, 2019
+ * @author Haiyang He
+ * @version 1.0
+ */
+
 
 import poj.linear.Vector2f;
 import org.junit.Test;
@@ -8,17 +16,26 @@ public class Vector2fTest
 {
 
 	private static float EPS = 0.00001f;
+	/**
+	 *  are vectors equal
+	 */
 	public static void assertVectorsAreEqual(Vector2f a, Vector2f b)
 	{
 		assertEquals(a.x, b.x, EPS);
 		assertEquals(a.y, b.y, EPS);
 	}
 
+	/**
+	 *  are vectors equal
+	 */
 	public static void assertVectorsAreEqual(Vector2f a, float x, float y)
 	{
 		assertVectorsAreEqual(a, new Vector2f(x, y));
 	}
 
+	/**
+	 *  comparison test
+	 */
 	@Test public void compTest()
 	{
 		{
@@ -44,6 +61,10 @@ public class Vector2fTest
 		}
 	}
 
+
+	/**
+	 *  projection test
+	 */
 	@Test public void projTest()
 	{
 		{

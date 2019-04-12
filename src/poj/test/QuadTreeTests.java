@@ -1,4 +1,11 @@
 package poj.test;
+/**
+ * QuadTree tests
+ *
+ * date March 10, 2019
+ * @author Jared Pon
+ * @version 1.0
+ */
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -7,7 +14,9 @@ import poj.linear.*;
 
 public class QuadTreeTests
 {
-
+	/**
+	 * printing the objects
+	 */
 	public static void printQObjects(QuadTree qt)
 	{
 		System.out.println("printing qt obj");
@@ -19,6 +28,9 @@ public class QuadTreeTests
 	}
 
 
+	/**
+	 * simple tests
+	 */
 	@Test public void simpleTest()
 	{
 		Polygon p = new Polygon(new Vector2f(0, 0), new Vector2f(1, 1),

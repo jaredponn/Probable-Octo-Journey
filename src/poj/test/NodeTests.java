@@ -1,4 +1,11 @@
 package poj.test;
+/**
+ * NodeTests
+ *
+ * date March 10, 2019
+ * @author Jared Pon
+ * @version 1.0
+ */
 
 import poj.linear.Vector2f;
 import poj.Collisions.*;
@@ -9,7 +16,10 @@ import static org.junit.Assert.*;
 public class NodeTests
 {
 
-	@Test public void trueRectTests()
+	/**
+	 *  insertion test of nodes
+	 */
+	@Test public void insertionTest()
 	{
 		Node n = new Node();
 
@@ -35,9 +45,6 @@ public class NodeTests
 
 		assertTrue(n.leaf.leftLeaf == r2);
 		assertTrue(n.leaf.rightLeaf == r1);
-
-		// System.out.println("PREINSERTION:");
-		// n.print();
 
 		n.insert(r3);
 		n.insert(r4);

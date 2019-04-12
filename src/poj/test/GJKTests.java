@@ -1,5 +1,13 @@
 package poj.test;
 
+/**
+ * GJK tests
+ *
+ * date March 10, 2019
+ * @author Jared Pon
+ * @version 1.0
+ */
+
 import poj.linear.Vector2f;
 import poj.Collisions.*;
 import org.junit.Test;
@@ -9,6 +17,9 @@ import static org.junit.Assert.*;
 public class GJKTests
 {
 
+	/**
+	 *  rectangle tests that should evaluate to true
+	 */
 	@Test public void trueRectTests()
 	{
 		{
@@ -133,6 +144,9 @@ public class GJKTests
 		}
 	}
 
+	/**
+	 *  rectangle tests that should evaluate to false
+	 */
 	@Test public void falseRectTests()
 	{
 		{
@@ -169,6 +183,9 @@ public class GJKTests
 	}
 
 
+	/**
+	 *  extra rect tests with "random"" numbers
+	 */
 	@Test public void extraRectTests()
 	{
 		{
@@ -191,6 +208,10 @@ public class GJKTests
 		}
 	}
 
+
+	/**
+	 *  slightly more complicated shapes
+	 */
 	@Test public void pointsWithinTest()
 	{
 		{
@@ -231,6 +252,10 @@ public class GJKTests
 			assertFalse(gjk.areColliding(r2, r1));
 		}
 	}
+
+	/**
+	 *  fancy shapes
+	 */
 	@Test public void fancyShape()
 	{
 
@@ -286,6 +311,9 @@ public class GJKTests
 		}
 	}
 
+	/**
+	 *  circle against polygon test
+	 */
 	@Test public void circleAgainstPolygon()
 	{
 
@@ -319,6 +347,9 @@ public class GJKTests
 	}
 
 
+	/**
+	 *  tests from actual points from the game
+	 */
 	@Test public void moreRealWorldTests()
 	{
 
@@ -338,6 +369,9 @@ public class GJKTests
 	}
 
 
+	/**
+	 *  epa tests
+	 */
 	@Test public void rectEpaTests()
 	{
 
@@ -391,6 +425,10 @@ public class GJKTests
 		}
 	}
 
+
+	/**
+	 *  epa tests with multiplepoints
+	 */
 	@Test public void multiplePointsRectEpaTests()
 	{
 

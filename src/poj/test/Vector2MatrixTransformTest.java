@@ -1,4 +1,11 @@
 package poj.test;
+/**
+ * Vector matrix transform tests
+ *
+ * date March 10, 2019
+ * @author Haiyang He
+ * @version 1.0
+ */
 
 import poj.linear.Vector2MatrixTransform;
 import org.junit.Test;
@@ -6,6 +13,9 @@ import static org.junit.Assert.*;
 
 public class Vector2MatrixTransformTest
 {
+	/**
+	 *  det ID tests
+	 */
 	@Test public void detIDTest()
 	{
 		Vector2MatrixTransform d = new Vector2MatrixTransform();
@@ -14,6 +24,9 @@ public class Vector2MatrixTransformTest
 		Vector2MatrixTransformTest.areMatricesEqual(d, test);
 	}
 
+	/**
+	 *  inverse tests
+	 */
 	@Test public void inverseTest0()
 	{
 		Vector2MatrixTransform d = new Vector2MatrixTransform();
@@ -46,6 +59,9 @@ public class Vector2MatrixTransformTest
 			d, test.unsafePureInverse());
 	}
 
+	/**
+	 * are matricies equal tests
+	 */
 	public static void areMatricesEqual(Vector2MatrixTransform a,
 					    Vector2MatrixTransform b)
 	{

@@ -1,5 +1,13 @@
 package poj.test;
 
+/**
+ * Polygon tests
+ *
+ * date March 10, 2019
+ * @author Jared Pon
+ * @version 1.0
+ */
+
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -10,6 +18,9 @@ import poj.linear.Vector2f;
 
 public class PolyonTest
 {
+	/**
+	 *  set all points test
+	 */
 	@Test public void setAllPoints()
 	{
 
@@ -44,6 +55,9 @@ public class PolyonTest
 		}
 	}
 
+	/**
+	 *  get boundingbox tests
+	 */
 	@Test public void getBounndingBoxTests()
 	{
 		{
