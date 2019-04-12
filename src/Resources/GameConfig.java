@@ -44,8 +44,8 @@ public class GameConfig
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
-	public static final int PLAYER_HP = 100000;     // 50;
-	public static final int PLAYER_MAX_HP = 100000; // 75;
+	public static final int PLAYER_HP = 75;     // 50;
+	public static final int PLAYER_MAX_HP = 75; // 75;
 	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
 	public static final int TOWER_DIFFUSION_VALUE = (int)Math.pow(2, 5);
 	public static final float PLAYER_HEIGHT =
@@ -79,7 +79,7 @@ public class GameConfig
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(100, 100);
 
-	public static final int PLAYER_STARTING_CASH = 100000;
+	public static final int PLAYER_STARTING_CASH = 100;
 	public static final int PLAYER_STARTING_AMMO = 20;
 	public static final int PLAYER_MAX_AMMO = 100;
 	public static final int PLAYER_STARTING_DAMAGE = 30;
@@ -207,7 +207,7 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(-0.22f, 0.86f), // displacement
 			new Vector2f(1.5f, 0.75f),   // center
-						   // collision body:
+						     // collision body:
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
 			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
@@ -413,7 +413,7 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(0.1f + 1.5f, 0f + 3f), // displacement
 			new Vector2f(0.3f, 0.3f),	   // center
-						  // collision body:
+							    // collision body:
 			new Vector2f(0, 0),
 			new Vector2f(0, MELEE_HEIGHT / 0.2f),
 			new Vector2f(MELEE_HEIGHT / 0.2f, 0),
