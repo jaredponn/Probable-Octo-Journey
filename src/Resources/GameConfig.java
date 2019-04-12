@@ -200,7 +200,7 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(-0.22f, 0.86f), // displacement
 			new Vector2f(1.5f, 0.75f),   // center
-						   // collision body:
+						     // collision body:
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
 			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
@@ -385,6 +385,16 @@ public class GameConfig
 				GameResources.enemyAttackAnimation, 10),
 			new Pair<OctoAnimationBuffer, Integer>(
 				GameResources.enemyDeathAnimation, 30));
+
+
+	public static final AnimationWindowAssets BOSS_ANIMATION_WINDOW_ASSETS =
+		new AnimationWindowAssets(
+			new Pair<OctoAnimationBuffer, Integer>(
+				GameResources.bossMoveAnimation, 1),
+			new Pair<OctoAnimationBuffer, Integer>(
+				GameResources.bossAttackAnimation, 10),
+			new Pair<OctoAnimationBuffer, Integer>(
+				GameResources.bossDeathAnimation, 30));
 
 	////////////////////////////
 	///// construct config /////

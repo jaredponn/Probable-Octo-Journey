@@ -1,18 +1,36 @@
 package EntitySets;
 
+import java.awt.image.BufferedImage;
+
+import Components.AggroRange;
+import Components.AnimationWindowAssets;
+import Components.AttackCycle;
+import Components.CardinalDirections;
+import Components.Damage;
+import Components.FacingDirection;
+import Components.HasAnimation;
+import Components.HitPoints;
+import Components.Movement;
+import Components.MovementDirection;
+import Components.PCollisionBody;
+import Components.PHitBox;
+import Components.PhysicsPCollisionBody;
+import Components.Render;
+import Components.SoundEffectAssets;
+import Components.WorldAttributes;
+import Resources.GameConfig;
+import Resources.GameResources;
+
+import poj.Animation;
 /**
  * MobSet. Enemies and zombies.
  * Date: February 10, 2019
  * @author Alex Stark
  * @version 1.0
  */
-
-import poj.EntitySet.*;
-import Resources.GameResources;
-import Resources.GameConfig;
-import poj.linear.*;
+import poj.EntitySet.EntitySet;
 import poj.Render.ImageRenderObject;
-import Components.*;
+import poj.linear.Vector2f;
 
 public class MobSet extends EntitySet
 {
@@ -32,7 +50,29 @@ public class MobSet extends EntitySet
 	 */
 	public MobSet(float x, float y)
 	{
-		this(x, y, 0, 0, 0);
+		this(x, y, 0, 0, 0, GameResources.enemySpriteSheet,
+		     GameConfig.MOB_WIDTH, GameConfig.MOB_HEIGHT,
+		     GameConfig.MOB_SPEED, GameConfig.MOB_COLLISION_BODY,
+		     GameConfig.MOB_HP, GameConfig.MOB_ATTACK_CYCLE,
+		     GameConfig.MOB_AGGRO_RANGE, GameConfig.MOB_ATTACK_DAMAGE,
+		     GameConfig.MOB_ANIMATION_WINDOW_ASSETS,
+		     GameResources.enemyNMoveAnimation, GameConfig.MOB_MAX_HP,
+		     GameConfig.ENEMY_HITBOX_BODY);
+
+		/*
+				int damage_bonus, float MOB_WIDTH =
+		   GameConfig.MOB_WIDTH, float MOB_HEIGHT =
+		   GameConfig.MOB_HEIGHT, float MOB_SPEED =
+		   GameConfig.MOB_SPEED, PCollisionBody MOB_COLLISION_BODY =
+					GameConfig.MOB_COLLISION_BODY,
+				int MOB_HP = GameConfig.MOB_HP,
+				AttackCycle MOB_ATTACK_CYCLE =
+		   GameConfig.MOB_ATTACK_CYCLE, PCollisionBody MOB_AGGRO_RANGE =
+		   GameConfig.MOB_AGGRO_RANGE, int MOB_ATTACK_DAMAGE =
+		   GameConfig.MOB_ATTACK_DAMAGE, AnimationWindowAssets
+		   MOB_ANIMATION_WINDOW_ASSETS =
+					GameConfig.MOB_ANIMATION_WINDOW_ASSETS)
+		 */
 	}
 
 	/**
@@ -43,32 +83,35 @@ public class MobSet extends EntitySet
 	 * @param hp_bonus bonus hp
 	 */
 	public MobSet(float x, float y, float speed_bonus, int hp_bonus,
-		      int damage_bonus)
+		      int damage_bonus, BufferedImage enemySpriteSheet,
+		      float MOB_WIDTH, float MOB_HEIGHT, float MOB_SPEED,
+		      PCollisionBody MOB_COLLISION_BODY, int MOB_HP,
+		      AttackCycle MOB_ATTACK_CYCLE,
+		      PCollisionBody MOB_AGGRO_RANGE, int MOB_ATTACK_DAMAGE,
+		      AnimationWindowAssets MOB_ANIMATION_WINDOW_ASSETS,
+		      Animation enemyNMoveAnimation, int MOB_MAX_HP,
+		      PCollisionBody ENEMY_HITBOX_BODY)
 	{
 		super();
 
-		addComponent(new Render(new ImageRenderObject(
-			0, 0, GameResources.enemySpriteSheet)));
-		addComponent(new WorldAttributes(new Vector2f(x, y),
-						 GameConfig.MOB_WIDTH,
-						 GameConfig.MOB_HEIGHT));
+		addComponent(new Render(
+			new ImageRenderObject(0, 0, enemySpriteSheet)));
+		addComponent(new WorldAttributes(new Vector2f(x, y), MOB_WIDTH,
+						 MOB_HEIGHT));
 
-		addComponent(
-			new HasAnimation(GameResources.enemyNMoveAnimation));
-		addComponent(new Movement(GameConfig.MOB_SPEED + speed_bonus));
+		addComponent(new HasAnimation(enemyNMoveAnimation));
+		addComponent(new Movement(MOB_SPEED + speed_bonus));
 		addComponent(new MovementDirection(CardinalDirections.N));
 		addComponent(new FacingDirection(CardinalDirections.N));
-		addComponent(new PhysicsPCollisionBody(
-			GameConfig.MOB_COLLISION_BODY));
-		addComponent(new HitPoints(GameConfig.MOB_HP + hp_bonus,
-					   GameConfig.MOB_MAX_HP + hp_bonus));
-		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
-		addComponent(new AttackCycle(GameConfig.MOB_ATTACK_CYCLE));
-		addComponent(new AggroRange(GameConfig.MOB_AGGRO_RANGE));
-		addComponent(new Damage(GameConfig.MOB_ATTACK_DAMAGE
-					+ damage_bonus));
-		addComponent(new AnimationWindowAssets(
-			GameConfig.MOB_ANIMATION_WINDOW_ASSETS));
+		addComponent(new PhysicsPCollisionBody(MOB_COLLISION_BODY));
+		addComponent(new HitPoints(MOB_HP + hp_bonus,
+					   MOB_MAX_HP + hp_bonus));
+		addComponent(new PHitBox(ENEMY_HITBOX_BODY));
+		addComponent(new AttackCycle(MOB_ATTACK_CYCLE));
+		addComponent(new AggroRange(MOB_AGGRO_RANGE));
+		addComponent(new Damage(MOB_ATTACK_DAMAGE + damage_bonus));
+		addComponent(
+			new AnimationWindowAssets(MOB_ANIMATION_WINDOW_ASSETS));
 		// zombie sound effects:
 		addComponent(
 			new SoundEffectAssets(GameResources.zombieSoundAsset));
@@ -83,3 +126,16 @@ public class MobSet extends EntitySet
 		this(n.x, n.y);
 	}
 }
+/*
+		int damage_bonus, float MOB_WIDTH = GameConfig.MOB_WIDTH,
+		float MOB_HEIGHT = GameConfig.MOB_HEIGHT,
+		float MOB_SPEED = GameConfig.MOB_SPEED,
+		PCollisionBody MOB_COLLISION_BODY =
+			GameConfig.MOB_COLLISION_BODY,
+		int MOB_HP = GameConfig.MOB_HP,
+		AttackCycle MOB_ATTACK_CYCLE = GameConfig.MOB_ATTACK_CYCLE,
+		PCollisionBody MOB_AGGRO_RANGE = GameConfig.MOB_AGGRO_RANGE,
+		int MOB_ATTACK_DAMAGE = GameConfig.MOB_ATTACK_DAMAGE,
+		AnimationWindowAssets MOB_ANIMATION_WINDOW_ASSETS =
+			GameConfig.MOB_ANIMATION_WINDOW_ASSETS)
+ */
