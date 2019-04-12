@@ -314,6 +314,20 @@ public class GameResources
 	public static BufferedImage stopSign = ImageLoader.load(
 		"resources/RamiroGraphics/officialMap/stopSign.png");
 
+	public static BufferedImage fountainBuilding = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/fountain.png");
+	public static BufferedImage gasStationBuilding = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/gasStationBuilding.png");
+	public static BufferedImage schoolBuilding = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/schoolBuilding.png");
+	public static BufferedImage blueBuilding = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/blueBuilding.png");
+	public static BufferedImage brownBuilding = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/brownBuilding.png");
+	public static BufferedImage pinkBuilding = ImageLoader.load(
+		"resources/RamiroGraphics/officialMap/pinkBuilding.png");
+
+
 	// sounds
 	public static String
 		gunSoundPath = "resources/sounds/gunSound.wav",
@@ -492,6 +506,7 @@ public class GameResources
 				NoTreeofficialMapTreesAndRocks4="resources/RamiroGraphics/officialMap/MapFinalNoTrees_trees and rocks.csv",
 				NoTreeofficialMapLightsAndSigns5="resources/RamiroGraphics/officialMap/MapFinalNoTrees_lights and signs.csv",
 				NoTreeofficialMapEmptyBlockForBuildings="resources/RamiroGraphics/officialMap/MapFinalNoTrees_emptyBlocksFOrBuildings.csv",
+				NoTreeofficialMapimageMarkForBuildings="resources/RamiroGraphics/officialMap/MapFinalNoTrees_imageMarkForBuildings.csv",
 				NoTreeofficialTileSetConfig="resources/RamiroGraphics/officialMap/mapSpritesfinal.json",
 				NoTreeofficialMapConfig="resources/RamiroGraphics/officialMap/MapFinal.json";
 

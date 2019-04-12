@@ -112,6 +112,10 @@ public class PlayGame extends World
 			GameResources.NoTreeofficialMapLightsAndSigns5);
 		this.map.addMapLayer(
 			GameResources.NoTreeofficialMapEmptyBlockForBuildings);
+		this.map.addMapLayer(
+			GameResources.NoTreeofficialMapimageMarkForBuildings);
+
+
 		/*
 		this.map.addTileSet(GameResources.officialTileSetConfig);
 		this.map.addMapConfig(GameResources.officialMapConfig);

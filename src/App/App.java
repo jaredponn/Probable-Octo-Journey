@@ -100,14 +100,13 @@ public class App
 					   this.inputPoller);
 					   */
 			// start playing menu music
-			GameResources.menuSound.playContinuously();
+			// GameResources.menuSound.playContinuously();
 
 			menu.runGameLoop();
 			// stop playing menu music
 			GameResources.menuSound.end();
 
 			// playgame
-			GameResources.gameBgSound.playContinuously();
 			PlayGame playGame = new PlayGame(
 				width, height, this.renderer, this.inputPoller);
 
@@ -115,7 +114,7 @@ public class App
 			playGame.registerEntitySets();
 			playGame.spawnWorld();
 			// start playing game background music
-			GameResources.gameBgSound.playContinuously();
+			// GameResources.gameBgSound.playContinuously();
 			playGame.runGameLoop();
 
 			GameResources.gameBgSound.end();
