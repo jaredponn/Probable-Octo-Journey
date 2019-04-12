@@ -567,6 +567,9 @@ public class GameResources
 	public static BufferedImage enemySpriteSheet = ImageLoader.load(
 		"resources/RamiroGraphics/spritePack/ZombieSheet.png");
 
+	public static BufferedImage trapImage = ImageLoader.load(
+		"resources/RamiroGraphics/spritePack/Trap.png");
+
 	/*
 	 * animation is in columns
 	 * last 3 rows are idle animation (breath and not breath)

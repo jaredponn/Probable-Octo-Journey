@@ -13,10 +13,10 @@ public class TrapSet extends EntitySet
 	public TrapSet(Vector2f position)
 	{
 		super();
-		addComponent(new Render(
-			new ImageRenderObject(0, 0, GameResources.turret)));
+		addComponent(new Render0(
+			new ImageRenderObject(0, 0, GameResources.trapImage)));
 		addComponent(new WorldAttributes(new Vector2f(position)));
 		addComponent(new PhysicsPCollisionBody(
-			GameConfig.TURRET_COLLISION_BODY));
+			GameConfig.TRAP_PHYSICS_HITBOX));
 	}
 }

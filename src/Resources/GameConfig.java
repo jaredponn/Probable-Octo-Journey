@@ -200,7 +200,7 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(-0.22f, 0.86f), // displacement
 			new Vector2f(1.5f, 0.75f),   // center
-						     // collision body:
+						   // collision body:
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
 			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
@@ -394,10 +394,22 @@ public class GameConfig
 
 
 	////////////////////////////
-	///// trap  config /////
+	///// trap  config /////////
 	////////////////////////////
 	public static final int TRAP_COST = 10;
 	public static final float TRAP_SPEED_REDUCE = 0.1f;
+	public static final Vector2f TRAP_SPAWN_DISPLACEMENT =
+		new Vector2f(-0.25f, -0.5f);
+	public static final PCollisionBody TRAP_PHYSICS_HITBOX =
+		new PCollisionBody(new Vector2f(-0.1f,
+						0.5f),       // displacement
+				   new Vector2f(0.5f, 0.5f), // center
+							     // collision
+							     // body:
+				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
+				   new Vector2f(0.6f, 0),
+				   new Vector2f(0.6f, 0.6f));
+
 
 	/////////////////////////
 	///// pickup config /////
