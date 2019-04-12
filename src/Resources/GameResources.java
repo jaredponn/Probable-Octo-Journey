@@ -227,7 +227,7 @@ public class GameResources
 					    Font.TRUETYPE_FONT,
 					    new File(
 						    "resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf"))
-					.deriveFont(24f);
+					.deriveFont(20f);
 		} catch (IOException e) {
 			System.out.println(
 				"IOException occured when creating the creeper font in gameOver!");

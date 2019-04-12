@@ -436,11 +436,11 @@ public class PlayGame extends World
 			this.engineState, PlayerSet.class);
 		EngineTransforms
 			.steerMovementVelocityFromMovementDirectionForSet(
-				this.engineState, MobSet.class, 1 / 1);
+				this.engineState, MobSet.class, 1 / 2f);
 
 		EngineTransforms
 			.steerMovementVelocityFromMovementDirectionForSet(
-				this.engineState, BossSet.class, 1 / 1);
+				this.engineState, BossSet.class, 1 / 2f);
 
 		gameEventStack.runGameEventStack();
 		// rendering is run after this is run
