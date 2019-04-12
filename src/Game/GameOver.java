@@ -71,16 +71,20 @@ public class GameOver extends World
 	protected ArrayList<Render> buttonRenderLayer;
 
 
+	// array of integers that are cast to a string depicting 
+	// the set of initials the player has chosen to
+	// save with their score
 	protected ArrayList<Integer> initials = new ArrayList<Integer>() {
 		{
-			add(65);
-			add(65);
-			add(65);
+			add(GameConfig.A_INTEGER);
+			add(GameConfig.A_INTEGER);
+			add(GameConfig.A_INTEGER);
 		}
 	};
 	protected ArrayList<StringRenderObject> initialLetters =
 		new ArrayList<StringRenderObject>();
 
+	// the currently selected slot in the set of initials
 	protected int currentInitial = 0;
 
 	protected Scanner is = null;
@@ -104,6 +108,7 @@ public class GameOver extends World
 		this.renderBuffer = new LinkedList<RenderObject>();
 
 
+		// try to find high score file
 		try {
 			Scanner findFile =
 				new Scanner(new File(SCORES_FILE_NAME));
@@ -111,6 +116,7 @@ public class GameOver extends World
 		} catch (FileNotFoundException e) {
 			System.out.println("Cannot find file: "
 					   + SCORES_FILE_NAME);
+			// create the file if one does not exist
 			try {
 				PrintWriter writer = new PrintWriter(
 					new BufferedWriter(new FileWriter(
@@ -126,6 +132,8 @@ public class GameOver extends World
 			}
 		}
 
+		// save info from high score file to an array
+		// of ScoreTuple objects
 		try {
 			is = new Scanner(new File(SCORES_FILE_NAME));
 			String thisName = "";
@@ -142,6 +150,7 @@ public class GameOver extends World
 			Logger.lassert("Cannot load high score info");
 		}
 
+		// congratulate the player if they achieved a new high score
 		this.isHighScore = true;
 		for (ScoreTuple t : scores) {
 			if (this.newScore <= t.getScore()) {
@@ -150,6 +159,7 @@ public class GameOver extends World
 			}
 		}
 
+		// sort the high scores into descending order
 		Collections.sort(scores);
 		Collections.reverse(scores);
 
@@ -450,6 +460,7 @@ public class GameOver extends World
 			GameResources.CREEPER_FONT.deriveFont(
 				this.yourScoreFontSize)));
 
+		// list of previous high scores
 		for (int i = 0; i < 5 && i < scores.size(); ++i) {
 			renderBuffer.add(new StringRenderObject(
 				scores.get(i).getName() + ":    "
@@ -501,7 +512,6 @@ public class GameOver extends World
 					       + scores.get(i).getName();
 			}
 
-			System.out.println("file io sht" + tmp);
 			fw.write(tmp);
 			fw.close();
 
@@ -513,8 +523,8 @@ public class GameOver extends World
 	}
 
 	/**
-	 *  intials to string
-	 *  @return String
+	 *  initials to string
+	 *  @return String of initials
 	 */
 	protected String initialsToString()
 	{
@@ -529,8 +539,8 @@ public class GameOver extends World
 
 	/**
 	 *  intials to string selection
-	 *  @param index : index of tring
-	 *  @return String
+	 *  @param index : index of string
+	 *  @return String of initials
 	 */
 	protected String initialsToStringSelection(int index)
 	{
@@ -548,11 +558,14 @@ public class GameOver extends World
 	public void quit()
 	{
 
+		// add new score to the list of high scores
 		scores.add(new ScoreTuple(newScore, initialsToString()));
 
+		// re-sort scores into descending order
 		Collections.sort(scores);
 		Collections.reverse(scores);
 
+		// truncate list of high score back to 10
 		while (scores.size() > 10) {
 			scores.remove(10);
 		}
@@ -577,6 +590,11 @@ public class GameOver extends World
 		}
 	}
 
+	/**
+	 * data type used to store high scores and their
+	 * associated player initials
+	 * @author Alex
+	 */
 	private class ScoreTuple implements Comparable<ScoreTuple>
 	{
 		private String name;

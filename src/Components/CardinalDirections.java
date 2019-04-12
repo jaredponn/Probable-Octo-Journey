@@ -23,6 +23,9 @@ public enum CardinalDirections {
 
 	public static final float UNIT_DIAGONAL = 0.70710678118f;
 
+	/**
+	 * Prints a direction to the Logger
+	 */
 	public static void print(CardinalDirections n)
 	{
 		switch (n) {
@@ -61,6 +64,9 @@ public enum CardinalDirections {
 		}
 	}
 
+	/**
+	 * gets the unit vector associated with a direction
+	 */
 	public static Vector2f getUnitVector(CardinalDirections n)
 	{
 		switch (n) {
@@ -93,6 +99,9 @@ public enum CardinalDirections {
 		}
 	}
 
+	/**
+	 * gets the closest cardinal direction to a direction vector
+	 */
 	public static CardinalDirections
 	getClosestDirectionFromDirectionVector(Vector2f n)
 	{
@@ -133,6 +142,9 @@ public enum CardinalDirections {
 	}
 
 	private static Vector2f RNG_CARDINAL_DIR_VEC_BUF = new Vector2f();
+	/**
+	 * gets a randomized cardinal direction
+	 */
 	public static CardinalDirections getRandomCardinalDirection()
 	{
 		// random int between 0 to 10 inclusive for x dir

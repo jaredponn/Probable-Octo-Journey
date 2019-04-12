@@ -64,6 +64,9 @@ public class Damage
 		System.out.println("This entity deals " + focus1 + " damage.");
 	}
 
+	/**
+	 * Returns a string formatted to be displayed on screen
+	 */
 	public String getFormattedString()
 	{
 		return "" + focus1;

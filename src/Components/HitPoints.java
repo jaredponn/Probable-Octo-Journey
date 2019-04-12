@@ -56,6 +56,9 @@ public class HitPoints extends DoubleIntComponent
 			focus1 = focus2;
 	}
 
+	/**
+	 * alias of heal()
+	 */
 	public void addFocus1(int n)
 	{
 		heal(n);
@@ -80,6 +83,10 @@ public class HitPoints extends DoubleIntComponent
 		this.heal(-amount);
 	}
 
+	/**
+	 * Returns a string formatted to be displayer on screen
+	 * "<currentHP> / <maxHP>"
+	 */
 	public String getFormattedString()
 	{
 		return focus1 + "/" + focus2;

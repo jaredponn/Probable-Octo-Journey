@@ -70,6 +70,9 @@ public class Ammo
 		setAmmo(focus1 + amount);
 	}
 
+	/**
+	 * Alias of increaseAmmo()
+	 */
 	public void addFocus1(int n)
 	{
 		increaseAmmo(n);
@@ -85,6 +88,10 @@ public class Ammo
 		this.increaseAmmo(-amount);
 	}
 
+	/**
+	 * Returns a string formatted to be displayed on screen
+	 * "<currentAmmo> / <maxAmmo>"
+	 */
 	public String getFormattedString()
 	{
 		return focus1 + "/" + focus2;
