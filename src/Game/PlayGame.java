@@ -160,6 +160,7 @@ public class PlayGame extends World
 	public void registerComponents()
 	{
 		super.engineState.registerComponent(HasAnimation.class);
+		super.engineState.registerComponent(Render0.class);
 		super.engineState.registerComponent(Render.class);
 		super.engineState.registerComponent(WorldAttributes.class);
 		super.engineState.registerComponent(MovementDirection.class);
@@ -186,6 +187,7 @@ public class PlayGame extends World
 		super.engineState.registerSet(PlayerSet.class);
 		super.engineState.registerSet(MobSet.class);
 		super.engineState.registerSet(CashPack.class);
+		super.engineState.registerSet(TrapSet.class);
 		super.engineState.registerSet(ConstructSet.class);
 		super.engineState.registerSet(Bullet.class);
 		super.engineState.registerSet(CannonShell.class);
@@ -320,6 +322,9 @@ public class PlayGame extends World
 			.nudgeSetAAndBIfPCollisionBodiesAreTouching(
 				this, PlayerSet.class, MobSet.class);
 
+		EntityCollisionAlgorithms.reduceSpeedOfMobIfTouchingTrap(
+			this, GameConfig.TRAP_SPEED_REDUCE);
+
 		// Resolving  collisions against tilemap
 		TileMapCollisionAlgorithms
 			.nudgePhysicsPCollisionBodiesOutsideTileMapPhysicsPCollisionBody(
@@ -363,7 +368,7 @@ public class PlayGame extends World
 		EngineTransforms.updateTriggeredAttackCycles(this.engineState,
 							     this.dt);
 		EngineTransforms.cropSpriteSheetsFromAnimationWindows(
-			this.engineState);
+			this.engineState, Render.class);
 
 		EngineTransforms
 			.deleteAllComponentsAtIfDespawnTimerIsFinishedAndUpdateDespawnTimerTime(
@@ -371,7 +376,11 @@ public class PlayGame extends World
 
 		EngineTransforms
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
-				this.engineState, this.cam);
+				this.engineState, Render.class, this.cam);
+
+		EngineTransforms
+			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
+				this.engineState, Render0.class, this.cam);
 
 
 		EngineTransforms.setMovementVelocityFromMovementDirectionForSet(

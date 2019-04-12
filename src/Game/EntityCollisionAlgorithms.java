@@ -253,4 +253,20 @@ public class EntityCollisionAlgorithms
 			g, PlayerSet.class, set, PhysicsPCollisionBody.class,
 			PhysicsPCollisionBody.class, event);
 	}
+
+
+	private static TrapTouchingEntityEvent TRAP_TOUCHING_ENTITY_EVENT_MEMO =
+		new TrapTouchingEntityEvent();
+	public static void reduceSpeedOfMobIfTouchingTrap(PlayGame g,
+							  float speedReduce)
+	{
+		TRAP_TOUCHING_ENTITY_EVENT_MEMO.setPlayGame(g);
+		TRAP_TOUCHING_ENTITY_EVENT_MEMO.setSpeedReduce(speedReduce);
+
+		ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
+			g, MobSet.class, TrapSet.class,
+			PhysicsPCollisionBody.class,
+			PhysicsPCollisionBody.class,
+			TRAP_TOUCHING_ENTITY_EVENT_MEMO);
+	}
 }

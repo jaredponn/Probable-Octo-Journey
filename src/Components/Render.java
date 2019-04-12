@@ -19,11 +19,11 @@ import poj.Render.ImageRenderObject;
 
 public class Render implements Component
 {
-	private ImageRenderObject graphic;
+	protected ImageRenderObject graphic;
 	// not really used currently -- intetion was to move the object if the
 	// objet has an animation and it still needs to move to have the
 	// position line up with it
-	private Vector2f position_translation;
+	protected Vector2f position_translation;
 
 	public Render(ImageRenderObject a)
 	{

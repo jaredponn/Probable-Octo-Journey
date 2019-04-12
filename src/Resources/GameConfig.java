@@ -392,6 +392,25 @@ public class GameConfig
 	public static final float CONSTRUCT_HEIGHT = 64;
 	public static final float CONSTRUCT_WIDTH = 48;
 
+
+	////////////////////////////
+	///// trap  config /////////
+	////////////////////////////
+	public static final int TRAP_COST = 10;
+	public static final float TRAP_SPEED_REDUCE = 0.1f;
+	public static final Vector2f TRAP_SPAWN_DISPLACEMENT =
+		new Vector2f(-0.25f, -0.5f);
+	public static final PCollisionBody TRAP_PHYSICS_HITBOX =
+		new PCollisionBody(new Vector2f(-0.1f,
+						0.5f),       // displacement
+				   new Vector2f(0.5f, 0.5f), // center
+							     // collision
+							     // body:
+				   new Vector2f(0, 0), new Vector2f(0, 0.6f),
+				   new Vector2f(0.6f, 0),
+				   new Vector2f(0.6f, 0.6f));
+
+
 	/////////////////////////
 	///// pickup config /////
 	/////////////////////////
@@ -454,7 +473,8 @@ public class GameConfig
 				add(new Pair<Integer, Double>(BUILD_TOWER, 1d));
 				add(new Pair<Integer, Double>(SWITCH_WEAPONS,
 							      1d));
-				add(new Pair<Integer, Double>(BUILD_TRAP, 1d));
+				add(new Pair<Integer, Double>(BUILD_TRAP,
+							      0.3d));
 				add(new Pair<Integer, Double>(BUY_AMMO, 1d));
 
 				add(new Pair<Integer, Double>(ARROW_UP, 0.1d));

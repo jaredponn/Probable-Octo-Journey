@@ -11,6 +11,7 @@ import poj.linear.*;
 
 import Components.*;
 import EntitySets.*;
+import Game.GameEvents.*;
 
 public class PlayGameProcessInputs
 {
@@ -305,9 +306,37 @@ public class PlayGameProcessInputs
 						+ GameConfig.TOWER_BUILD_COST
 						+ "\n");
 			}
+
 			if (inputPoller.isKeyDown(GameConfig.BUILD_TRAP)) {
-				System.out.print(
-					"e key is down. Should spawn trap at player location\n");
+				if (Math.abs(g.lastCoolDown.get(
+					    GameConfig.BUILD_TRAP))
+					    == 0d
+				    && g.playerMoney.get()
+					       >= GameConfig.TOWER_BUILD_COST) {
+					System.out.print(
+						"e key is down. Should spawn trap at player location\n");
+
+					engineState
+						.unsafeGetComponentAt(
+							Money.class, g.player)
+						.decrease(GameConfig.TRAP_COST);
+
+					new SpawnTrapEvent(
+						g,
+						engineState
+							.unsafeGetComponentAt(
+								WorldAttributes
+									.class,
+								g.player)
+							.getOriginCoord())
+						.f();
+
+
+					updateDtForKey(
+						g, GameConfig.BUILD_TRAP,
+						-PlayGame.coolDownMax.get(
+							GameConfig.BUILD_TRAP));
+				}
 				// TODO: get tile player is stood on
 				// TODO: highlight that tile?
 				// TODO: spawn new trap entity on tile

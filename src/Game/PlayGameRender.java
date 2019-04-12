@@ -62,6 +62,14 @@ public class PlayGameRender
 							g.windowHeight);
 		}
 
+		for (Render0 r :
+		     g.getEngineState().getRawComponentArrayListPackedData(
+			     Render0.class)) {
+			Systems.cullPushRenderComponent(r, g.groundBuffer,
+							g.windowWidth,
+							g.windowHeight);
+		}
+
 		addHPBarsToBuffer(g, g.guiBuffer);
 		addGameGUIBuffers(g);
 
