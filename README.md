@@ -194,6 +194,8 @@ Player death sound: https://opengameart.org/content/grunts-male-death-and-pain
 Player lost music: https://opengameart.org/content/skin-cells-touch
 
 Player win music: https://opengameart.org/content/death-is-just-another-path
+
+Boss fight music: https://opengameart.org/content/heroism
 # Credits
 Creeper font credit: https://www.1001fonts.com/creepster-font.html
 
