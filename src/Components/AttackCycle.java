@@ -52,6 +52,11 @@ public class AttackCycle implements Component
 		this.endAttackCycle();
 	}
 
+	/**
+	 * copy constructor
+	 *
+	 * @param n --to copy
+	 */
 	public AttackCycle(AttackCycle n)
 	{
 		primingTimems = n.primingTimems;
@@ -61,6 +66,9 @@ public class AttackCycle implements Component
 		this.endAttackCycle();
 	}
 
+	/**
+	 * reset cylce
+	 */
 	public void resetCycle()
 	{
 		accTimems = -Double.MAX_VALUE;
@@ -68,26 +76,44 @@ public class AttackCycle implements Component
 	}
 
 
+	/**
+	 * start attack cycle
+	 */
 	public void startAttackCycle()
 	{
 		isAttacking = true;
 	}
 
+	/**
+	 * update acc tome
+	 * @param dt
+	 */
 	public void updateAccTime(double dt)
 	{
 		accTimems += dt;
 	}
 
+	/**
+	 * end attack cycle
+	 */
 	public void endAttackCycle()
 	{
 		isAttacking = false;
 	}
 
+	/**
+	 * set facing direction
+	 * @param n -- new facing direction
+	 */
 	public void setFacingAttackDirection(CardinalDirections n)
 	{
 		this.facingAttackDirection = n;
 	}
 
+	/**
+	 * get facing direction
+	 * @return facing direction
+	 */
 	public CardinalDirections getFacingAttackDirection()
 	{
 		return this.facingAttackDirection;
@@ -133,11 +159,19 @@ public class AttackCycle implements Component
 		return -1;
 	}
 
+
+	/**
+	 * is attacking?
+	 * @return boolean
+	 */
 	public boolean isAttacking()
 	{
 		return this.isAttacking;
 	}
 
+	/**
+	 * print
+	 */
 	public void print()
 	{
 		System.out.println("AttackCycle component");

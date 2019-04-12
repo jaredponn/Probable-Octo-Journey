@@ -38,6 +38,10 @@ public class OctoAnimationBuffer
 		}
 	}
 
+	/**
+	 * copy constructor
+	 * @param o to copy
+	 */
 	public OctoAnimationBuffer(OctoAnimationBuffer o)
 	{
 
@@ -47,6 +51,11 @@ public class OctoAnimationBuffer
 		}
 	}
 
+	/**
+	 * get aniatmion
+	 * @param d directoin
+	 * @param Animation animation
+	 */
 	public Animation getAnimation(CardinalDirections d)
 	{
 
