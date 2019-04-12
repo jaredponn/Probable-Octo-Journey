@@ -40,6 +40,11 @@ public class QuadTree
 	public QuadTree[] nodes; // subnodes
 
 
+	/**
+	 *  constrcutor
+	 *  @param lvl ---height or level of this node
+	 *  @param bouns -- rectangle bounds of the node
+	 */
 	public QuadTree(int lvl, Rectangle bounds)
 	{
 		this.height = lvl;
@@ -49,6 +54,9 @@ public class QuadTree
 	}
 
 
+	/**
+	 *  clears the quad tree
+	 */
 	public void clear()
 	{
 		objects.clear();
@@ -58,6 +66,9 @@ public class QuadTree
 		}
 	}
 
+	/**
+	 *  splits the quad tree according to the ascii diagram above
+	 */
 	private void split()
 	{
 		float w = bounds.getWidth();
@@ -85,8 +96,15 @@ public class QuadTree
 			new Rectangle(x + subW, y + subH, x + w, y + h));
 	}
 
-	// returns the index quadrant (0,1,2,3) **see the ascii diagram for a
-	// description of what those mean, or -1 for an error
+
+	/**
+	 * getIndexQuadrant
+	 *  gets the index of the quadrant for a collision shape
+	 * returns the index quadrant (0,1,2,3) **see the ascii diagram for a
+	 * description of what those mean, or -1 for an error
+	 * @param c : collisionshape
+	 * @return index of the quadrant
+	 */
 	private int getIndexQuadrant(CollisionShape c)
 	{
 		float xmin = bounds.getMinX();
@@ -138,12 +156,20 @@ public class QuadTree
 		return -1;
 	}
 
+	/**
+	 *  has children. Checks to see if it has children
+	 *  @return true if it has children
+	 */
 	private boolean hasChildren()
 	{
 		// either all should have children or none should have children
 		return nodes[0] != null;
 	}
 
+	/**
+	 *  insert a collisoin shape in the tree
+	 *  @param c collision shape
+	 */
 	public void insert(CollisionShape c)
 	{
 		// has children, so just insert it down
@@ -181,6 +207,12 @@ public class QuadTree
 		}
 	}
 
+
+	/**
+	 *  queries the possible collisions
+	 *  @param c collison shape to query against
+	 *  @param destBuffer buffer to hold the possible collisions
+	 */
 	public void queryCollisions(CollisionShape c,
 				    ArrayList<CollisionShape> destBuffer)
 	{

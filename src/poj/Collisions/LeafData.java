@@ -1,11 +1,25 @@
 package poj.Collisions;
 
+/**
+ * LeafData. Leaf data type for node tree
+ *
+ * date March 10, 2019
+ * @author Jared Pon
+ * @version 1.0
+ */
+
 // leaf data
 public class LeafData<T extends CollisionShape>
 {
 	public T leftLeaf;
 	public T rightLeaf;
 
+
+	/**
+	 * Inserts in leaf.  returns the new bounding rectangle of the leafs
+	 *
+	 * @param cs : collision shape
+	 */
 	public Rectangle insertInLeaf(T cs)
 	{
 		// Compleetley empty -- so fill the right side up
@@ -36,6 +50,11 @@ public class LeafData<T extends CollisionShape>
 	}
 
 
+	/**
+	 * Gets the left bounding rectangle
+	 *
+	 * @return bounding rect
+	 */
 	public Rectangle getLeftBoundingRect()
 	{
 		if (leftLeaf == null)
@@ -44,6 +63,11 @@ public class LeafData<T extends CollisionShape>
 			return leftLeaf.getBoundingRectangle();
 	}
 
+	/**
+	 * Gets the right bounding rectangle
+	 *
+	 * @return bounding rect
+	 */
 	public Rectangle getRightBoundingRect()
 	{
 		if (rightLeaf == null)
@@ -52,12 +76,19 @@ public class LeafData<T extends CollisionShape>
 			return rightLeaf.getBoundingRectangle();
 	}
 
+	/**
+	 * Clears the leaf node
+	 */
 	public void clearLeaf()
 	{
 		leftLeaf = null;
 		rightLeaf = null;
 	}
 
+
+	/**
+	 * swaps the left and right leafs
+	 */
 	public void swapLeftAndRight()
 	{
 		T tmp = leftLeaf;
@@ -65,6 +96,10 @@ public class LeafData<T extends CollisionShape>
 		rightLeaf = tmp;
 	}
 
+	/**
+	 * checks if the leaf is full
+	 * @return boolean if the leaf is full
+	 */
 	public boolean leafIsFull()
 	{
 		return rightLeaf != null && leftLeaf != null;

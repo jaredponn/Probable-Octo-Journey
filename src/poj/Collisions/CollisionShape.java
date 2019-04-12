@@ -1,10 +1,19 @@
 package poj.Collisions;
-
+/**
+ * CollisionShape -- genralized collision shape
+ *
+ * date March 10, 2019
+ * @author Jared Pon
+ * @version 1.0
+ */
 import poj.linear.Vector2f;
 
 public interface CollisionShape {
 
-	// furthest point in direction vector.
+	/**
+	 * Furthest point in a dicretion on a collision shape.
+	 * @param d direction vector
+	 */
 	public Vector2f furthestPointInDirection(Vector2f d);
 
 	public default Rectangle calculateBoundingRectangle()
@@ -38,14 +47,5 @@ public interface CollisionShape {
 	public default Rectangle pureGetBoundingRectangle()
 	{
 		return new Rectangle(getBoundingRectangle());
-	}
-
-	public static float
-	calculateBoundingAreaOfCollisionShapes(CollisionShape a,
-					       CollisionShape b)
-	{
-		// float abA = new Rectangle(a.getMin(), b.getMin());
-
-		return 1;
 	}
 }

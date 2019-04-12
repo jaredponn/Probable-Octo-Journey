@@ -25,23 +25,39 @@ public class Node<T extends CollisionShape>
 
 	private static final int LEAF_HEIGHT = 1;
 
+	/**
+	 *  constructor
+	 */
 	public Node()
 	{
 		height = LEAF_HEIGHT;
 		leaf = new LeafData<T>();
 	}
 
+
+	/**
+	 *  gets the height
+	 *  @return height
+	 */
 	public int height()
 	{
 		return height;
 	}
 
+	/**
+	 *  checks if the node is a candidate to be a leaf node
+	 *  @return boolean - is candidate to be a leaf node
+	 */
 	public static <T extends CollisionShape> boolean isLeaf(Node<T> node)
 	{
 		return node == null;
 	}
 
-	// rotates right and returns the new root
+	/**
+	 *  right rotation of a tree -- deprecated
+	 *  @param a node
+	 *  @return new root node
+	 */
 	public static <T extends CollisionShape> Node<T> rightRotate(Node<T> a)
 	{
 		Node<T> b = a.left;
@@ -56,7 +72,11 @@ public class Node<T extends CollisionShape>
 		return b;
 	}
 
-	// rotates left and returns the new root
+	/**
+	 *  left rotation of a tree -- deprecated
+	 *  @param a node
+	 *  @return new root node
+	 */
 	public static <T extends CollisionShape> Node<T> leftRotate(Node<T> b)
 	{
 		Node<T> a = b.right;
@@ -71,22 +91,22 @@ public class Node<T extends CollisionShape>
 		return a;
 	}
 
+
+	/**
+	 *  gets the balance -- deprecated
+	 *  @return balance
+	 */
 	public int getBalance()
 	{
 		return this.left.height - this.right.height;
 	}
 
-	private void swapLeftAndRight()
-	{
-		Node<T> tmp = this.right;
-		this.right = left;
-		this.left = tmp;
-
-		leaf.swapLeftAndRight();
-	}
-
-
-	// returns the new root
+	/**
+	 *  recrusive insertion method
+	 *  @param node tree to insert in
+	 *  @param cs collision shap to insert
+	 *  @return root node
+	 */
 	public static <T extends CollisionShape> Node<T>
 	insertRecursive(Node<T> node, T cs)
 	{
@@ -109,7 +129,6 @@ public class Node<T extends CollisionShape>
 		// inductive step 1 -- leaf is filled and push downwards
 		else if (node.leaf.leftLeaf != null
 			 && node.leaf.rightLeaf != null) {
-			// System.out.println("filled leaf inductive step ");
 
 			Rectangle leftRect = Rectangle.getBoundingRectOfRects(
 				node.leaf.getLeftBoundingRect(),
@@ -121,8 +140,6 @@ public class Node<T extends CollisionShape>
 				Rectangle.getBoundingRectangle(cs));
 			float rightArea = Rectangle.calculateArea(rightRect);
 
-			// left side of the tree will always have LESS THAN or
-			// EQUAL TO the surface area of the right side
 			if (rightArea >= leftArea) {
 
 				node.left = insertRecursive(node.left, cs);
@@ -153,8 +170,6 @@ public class Node<T extends CollisionShape>
 		}
 		// inductive step 2 --just on a branch
 		else {
-			// System.out.println("inductive step");
-
 			Rectangle leftRect = Rectangle.getBoundingRectOfRects(
 				node.left.bounds,
 				Rectangle.getBoundingRectangle(cs));
@@ -166,8 +181,6 @@ public class Node<T extends CollisionShape>
 
 			float rightArea = Rectangle.calculateArea(rightRect);
 
-			// left side of the tree will always have LESS THAN or
-			// EQUAL TO the surface area of the right side
 			if (rightArea >= leftArea) {
 
 				node.left = insertRecursive(node.left, cs);
@@ -185,12 +198,23 @@ public class Node<T extends CollisionShape>
 		}
 	}
 
+	/**
+	 *  insert
+	 *  @param cs collisions shape
+	 *  @return root node
+	 */
 	public void insert(T cs)
 	{
 		insertRecursive(this, cs);
 	}
 
 
+	/**
+	 *  query the collisions recursively
+	 *  @param n tree to query collisions
+	 *  @param cs collision shape
+	 *  @param arr buffer for the queried collisions
+	 */
 	public static <T extends CollisionShape> void
 	queryCollisionsRecursive(Node n, T cs, ArrayList<T> arr)
 	{
@@ -213,11 +237,19 @@ public class Node<T extends CollisionShape>
 		}
 	}
 
+	/**
+	 *  query the collisions
+	 *  @param cs collision shape
+	 *  @param arr buffer for the queried collisions
+	 */
 	public void queryCollisions(T cs, ArrayList<T> arr)
 	{
 		queryCollisionsRecursive(this, cs, arr);
 	}
 
+	/**
+	 *  print
+	 */
 	public void print()
 	{
 		System.out.println("NODE -- start print");

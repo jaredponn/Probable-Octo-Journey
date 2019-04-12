@@ -1,4 +1,13 @@
 package poj.Collisions;
+
+/**
+ * Costants for the collision system.
+ *
+ * date March 10, 2019
+ * @author Jared Pon
+ * @version 1.0
+ */
+
 import poj.linear.Vector2f;
 
 public class Constants

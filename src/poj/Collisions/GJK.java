@@ -47,11 +47,17 @@ public class GJK
 	public CollisionShape collisionShapeA;
 	public CollisionShape collisionShapeB;
 
+	/**
+	 *  constructor
+	 */
 	public GJK()
 	{
 		this.clearVerticies();
 	}
 
+	/**
+	 *  clears the verticies
+	 */
 	public void clearVerticies()
 	{
 		verticies.clear();
@@ -60,8 +66,8 @@ public class GJK
 	/**
 	 * Tests if things are colliding. Ensure "clearVerticies" is run before
 	 * using this function
-	 k
-	 k @param  cola first static (stationary)collision box
+	 *
+	 * @param  cola first static (stationary)collision box
 	 * @param  colb second collision box that is moving with the delta
 	 *         specified with db
 	 * @return      boolean to see if they are colliding
@@ -157,6 +163,10 @@ public class GJK
 		return penVector;
 	}
 
+	/**
+	 *  calculate penetration vector of focused collision shapes
+	 *  @return penetration vector
+	 */
 	public Vector2f calculatePenetrationVector()
 	{
 		return calculatePenetrationVector(collisionShapeA,
@@ -164,6 +174,10 @@ public class GJK
 	}
 
 
+	/**
+	 *  finds the closest edge to the origin on the simplex
+	 *  @return winding -- polygon winding -- optimization for 2D
+	 */
 	private Edge findClosestEdgeToOriginOnSimplex(PolygonWinding winding)
 	{
 
@@ -220,6 +234,13 @@ public class GJK
 		return edge;
 	}
 
+	/**
+	 * Generates the stretched polygon from a vector (used for collision
+	 * detection without tunneling)
+	 * @param p : polygon to stretch
+	 * @param d : vector to stretch by
+	 * @return stretched polygon
+	 */
 	private Polygon
 	generateStretchedPolygonWithDirectionVector(final Polygon p,
 						    final Vector2f d)
@@ -240,11 +261,25 @@ public class GJK
 	}
 
 
+	/**
+	 * support function
+	 * @param a : collision shape a
+	 * @param b : collision shape b
+	 * @param d : direction to calcalute support in
+	 * @return support vector
+	 */
 	private Vector2f support(final CollisionShape a, final CollisionShape b)
 	{
 		return GJK.calculateSupport(a, b, direction);
 	}
 
+	/**
+	 * calculates the support
+	 * @param a : collision shape a
+	 * @param b : collision shape b
+	 * @param d : direction to calcalute support in
+	 * @return support vector
+	 */
 	public static Vector2f calculateSupport(final CollisionShape a,
 						final CollisionShape b,
 						Vector2f d)
@@ -255,7 +290,10 @@ public class GJK
 		return tmp;
 	}
 
-	// Evolves the simplex to enclose the origin
+
+	/**
+	 * evolves the simplex
+	 */
 	private EvolveResult evolveSimplex()
 	{
 		switch (verticies.size()) {
@@ -336,35 +374,36 @@ public class GJK
 		return EvolveResult.STILL_EVOLVING;
 	}
 
-	// returns all points in the minkowski difference
-	public static ArrayList<Vector2f> minkowskiDiff(Polygon a, Polygon b)
-	{
-		ArrayList<Vector2f> arr = new ArrayList<Vector2f>();
-
-		Vector2f[] apts = a.pts();
-		Vector2f[] bpts = b.pts();
-
-		for (int i = 0; i < a.size(); ++i) {
-			for (int j = i; j < b.size(); ++j) {
-				arr.add(apts[i].pureSubtract(bpts[j]));
-			}
-		}
-		return arr;
-	}
-
 	private static final float EPSILON = 0.000001f;
 }
 
+
+/**
+ * Edge data type for EPA
+ */
 class Edge
 {
+
 	public float distance;
 	public Vector2f normal;
 	public int index;
 
+	/**
+	 * Constructor
+	 */
 	public Edge()
 	{
 	}
 
+
+	/**
+	 * Constructor
+	 *
+	 * @param  dist distance from origin
+	 * @param  n normal vector
+	 * @param  ind index on simplex
+	 *         specified with db
+	 */
 	public Edge(final float dist, final Vector2f n, final int ind)
 	{
 
@@ -374,4 +413,8 @@ class Edge
 	}
 }
 
+
+/**
+ * Polygon windinw -- clockwise or counter clockwise
+ */
 enum PolygonWinding { CW, CCW }

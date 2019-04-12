@@ -1,4 +1,11 @@
 package poj.Collisions;
+/**
+ *  Circle -- circle collision shape.
+ *
+ *  date March 10, 2019
+ *  @author Jared Pon
+ *  @version 1.0
+ */
 
 import poj.linear.*;
 
