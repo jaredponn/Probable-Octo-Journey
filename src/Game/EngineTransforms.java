@@ -804,8 +804,34 @@ public class EngineTransforms
 			engineState.spawnEntitySet(new MobSet(
 				GameConfig.MOB_SPAWN_POINTS.get(i).x,
 				GameConfig.MOB_SPAWN_POINTS.get(i).y,
-				speed_bonus, hp_bonus, damage_bonus));
+				speed_bonus, hp_bonus, damage_bonus,
+				GameResources.enemySpriteSheet,
+				GameConfig.MOB_WIDTH, GameConfig.MOB_HEIGHT,
+				GameConfig.MOB_SPEED,
+				GameConfig.MOB_COLLISION_BODY,
+				GameConfig.MOB_HP, GameConfig.MOB_ATTACK_CYCLE,
+				GameConfig.MOB_AGGRO_RANGE,
+				GameConfig.MOB_ATTACK_DAMAGE,
+				GameConfig.MOB_ANIMATION_WINDOW_ASSETS,
+				GameResources.enemyNMoveAnimation,
+				GameConfig.MOB_MAX_HP,
+				GameConfig.ENEMY_HITBOX_BODY));
 		}
+
+		/*
+		engineState.spawnEntitySet(new MobSet(
+			GameConfig.MOB_SPAWN_POINTS.get(0).x,
+			GameConfig.MOB_SPAWN_POINTS.get(0).y, speed_bonus,
+			hp_bonus, damage_bonus, GameResources.bossSpriteSheet,
+			GameConfig.MOB_WIDTH, GameConfig.MOB_HEIGHT,
+			GameConfig.MOB_SPEED, GameConfig.MOB_COLLISION_BODY,
+			GameConfig.MOB_HP, GameConfig.MOB_ATTACK_CYCLE,
+			GameConfig.MOB_AGGRO_RANGE,
+			GameConfig.MOB_ATTACK_DAMAGE,
+			GameConfig.MOB_ANIMATION_WINDOW_ASSETS,
+			GameResources.enemyNMoveAnimation,
+			GameConfig.MOB_MAX_HP, GameConfig.ENEMY_HITBOX_BODY));
+		*/
 
 		g.incrementWaveNumber();
 

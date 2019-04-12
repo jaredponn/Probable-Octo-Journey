@@ -83,7 +83,7 @@ public class GameResources
 	public static BufferedImage helpButton90 = ImageLoader.load(
 		"resources/RamiroGraphics/menu/1920_1080/buttons_help90.png");
 	public static BufferedImage helpTopLeft90 = ImageLoader.load(
-		"resources/RamiroGraphics/menu/1920_1080/helpTopLeft90.png");
+		"resources/RamiroGraphics/menu/1920_1080/trapHelp90.png");
 	public static BufferedImage helpTopRight90 = ImageLoader.load(
 		"resources/RamiroGraphics/menu/1920_1080/helpTopRight90.png");
 	public static BufferedImage instructionsForHelp90 = ImageLoader.load(
@@ -144,7 +144,7 @@ public class GameResources
 	public static BufferedImage helpButton38 = ImageLoader.load(
 		"resources/RamiroGraphics/menu/1366_768/buttons_help38.png");
 	public static BufferedImage helpTopLeft38 = ImageLoader.load(
-		"resources/RamiroGraphics/menu/1366_768/helpTopLeft38.png");
+		"resources/RamiroGraphics/menu/1366_768/trapHelp38.png");
 	public static BufferedImage helpTopRight38 = ImageLoader.load(
 		"resources/RamiroGraphics/menu/1366_768/helpTopRight38.png");
 	public static BufferedImage instructionsForHelp38 = ImageLoader.load(
@@ -585,6 +585,9 @@ public class GameResources
 	public static BufferedImage enemySpriteSheet = ImageLoader.load(
 		"resources/RamiroGraphics/spritePack/ZombieSheet.png");
 
+	public static BufferedImage bossSpriteSheet = ImageLoader.load(
+		"resources/RamiroGraphics/spritePack/Boss.png");
+
 	public static BufferedImage trapImage = ImageLoader.load(
 		"resources/RamiroGraphics/spritePack/Trap.png");
 
@@ -984,6 +987,139 @@ public class GameResources
 			enemyWDeathAnimation, enemySDeathAnimation,
 			enemyEDeathAnimation, enemySDeathAnimation,
 			enemyWDeathAnimation, enemyEDeathAnimation);
+
+	// boss resources
+
+	public static final int BOSS_SPRITE_WIDTH = PLAYER_SPRITE_WIDTH * 5;
+	public static final int BOSS_SPRITE_HEIGHT = PLAYER_SPRITE_HEIGHT * 5;
+
+	// public static final int ENEMY_SPRITE_WIDTH = (int)(125 * 0.8);
+	// public static final int ENEMY_SPRITE_HEIGHT = (int)(155 * 0.8);
+
+	// move direction
+	public static Animation bossNMoveAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 0, 0,
+		BOSS_SPRITE_WIDTH * 0, BOSS_SPRITE_HEIGHT * 4);
+
+	public static Animation bossEMoveAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 1, 0,
+		BOSS_SPRITE_WIDTH * 1, BOSS_SPRITE_HEIGHT * 4);
+
+
+	public static Animation bossSMoveAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 2, 0,
+		BOSS_SPRITE_WIDTH * 2, BOSS_SPRITE_HEIGHT * 4);
+
+	public static Animation bossWMoveAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 3, 0,
+		BOSS_SPRITE_WIDTH * 3, BOSS_SPRITE_HEIGHT * 4);
+
+	public static Animation bossNEMoveAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 4, 0,
+		BOSS_SPRITE_WIDTH * 4, BOSS_SPRITE_HEIGHT * 4);
+
+	public static Animation bossSEMoveAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 5, 0,
+		BOSS_SPRITE_WIDTH * 5, BOSS_SPRITE_HEIGHT * 4);
+
+	public static Animation bossSWMoveAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 6, 0,
+		BOSS_SPRITE_WIDTH * 6, BOSS_SPRITE_HEIGHT * 4);
+
+	public static Animation bossNWMoveAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 7, 0,
+		BOSS_SPRITE_WIDTH * 7, BOSS_SPRITE_HEIGHT * 4);
+
+	public static OctoAnimationBuffer bossMoveAnimation =
+		new OctoAnimationBuffer(bossNMoveAnimation, bossNEMoveAnimation,
+					bossNWMoveAnimation, bossSMoveAnimation,
+					bossSEMoveAnimation,
+					bossSWMoveAnimation, bossWMoveAnimation,
+					bossEMoveAnimation);
+
+	// attack animation
+	public static Animation bossNAttackAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 8, 0,
+		BOSS_SPRITE_WIDTH * 8, BOSS_SPRITE_HEIGHT * 13);
+
+	public static Animation bossEAttackAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 9, 0,
+		BOSS_SPRITE_WIDTH * 9, BOSS_SPRITE_HEIGHT * 13);
+
+	public static Animation bossSAttackAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 10, 0,
+		BOSS_SPRITE_WIDTH * 10, BOSS_SPRITE_HEIGHT * 13);
+
+	public static Animation bossWAttackAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 11, 0,
+		BOSS_SPRITE_WIDTH * 11, BOSS_SPRITE_HEIGHT * 13);
+
+	public static Animation bossNEAttackAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 12, 0,
+		BOSS_SPRITE_WIDTH * 12, BOSS_SPRITE_HEIGHT * 13);
+
+	public static Animation bossSEAttackAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 13, 0,
+		BOSS_SPRITE_WIDTH * 13, BOSS_SPRITE_HEIGHT * 13);
+
+	public static Animation bossSWAttackAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 14, 0,
+		BOSS_SPRITE_WIDTH * 14, BOSS_SPRITE_HEIGHT * 13);
+
+	public static Animation bossNWAttackAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		BOSS_SPRITE_HEIGHT, BOSS_SPRITE_WIDTH * 15, 0,
+		BOSS_SPRITE_WIDTH * 15, BOSS_SPRITE_HEIGHT * 13);
+
+
+	public static OctoAnimationBuffer bossAttackAnimation =
+		new OctoAnimationBuffer(
+			bossNAttackAnimation, bossNEAttackAnimation,
+			bossNWAttackAnimation, bossSAttackAnimation,
+			bossSEAttackAnimation, bossSWAttackAnimation,
+			bossWAttackAnimation, bossEAttackAnimation);
+	// death animatoin
+	public static Animation bossNDeathAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		0, 0, BOSS_SPRITE_HEIGHT * 4, 0, BOSS_SPRITE_HEIGHT * 4);
+
+	public static Animation bossEDeathAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		0, BOSS_SPRITE_WIDTH * 1, BOSS_SPRITE_HEIGHT * 4,
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT * 4);
+
+	public static Animation bossSDeathAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		0, BOSS_SPRITE_WIDTH * 2, BOSS_SPRITE_HEIGHT * 4,
+		BOSS_SPRITE_WIDTH * 2, BOSS_SPRITE_HEIGHT * 4);
+
+	public static Animation bossWDeathAnimation = new Animation(
+		BOSS_SPRITE_WIDTH, BOSS_SPRITE_HEIGHT, animationDurationms, 0,
+		0, BOSS_SPRITE_WIDTH * 3, BOSS_SPRITE_HEIGHT * 4,
+		BOSS_SPRITE_WIDTH * 3, BOSS_SPRITE_HEIGHT * 4);
+
+	public static OctoAnimationBuffer bossDeathAnimation =
+		new OctoAnimationBuffer(
+			bossNDeathAnimation, bossNDeathAnimation,
+			bossWDeathAnimation, bossSDeathAnimation,
+			bossEDeathAnimation, bossSDeathAnimation,
+			bossWDeathAnimation, bossEDeathAnimation);
+
 
 	/// turret resources
 	public static final int TURRET_SPRITE_WIDTH = 250 / 4;
