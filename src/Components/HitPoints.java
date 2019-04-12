@@ -99,8 +99,7 @@ public class HitPoints extends DoubleIntComponent
 		tmp.add(new RenderRect(0, 0, HP_BAR_MAX_WIDTH, HP_BAR_HEIGHT,
 				       HP_BAR_BG_COLOR));
 		tmp.add(new RenderRect(0, 0,
-				       (int)((float)HP_BAR_MAX_WIDTH
-					     * (float)focus1 / (float)focus2),
+				       (int)HP_BAR_MAX_WIDTH * focus1 / focus2,
 				       HP_BAR_HEIGHT, HP_BAR_HP_COLOR));
 		return tmp;
 	}
