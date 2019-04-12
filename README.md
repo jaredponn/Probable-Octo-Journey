@@ -89,27 +89,23 @@ See `textbased/README.md` for more information about the text based version.
 
 ## TODO List
 - [ ] Boss fight
-- [ ] Make the zombies stronger as time/wave goes on, and give them random speeds (some fast some slow)
 - [ ] Make the player stronger as time/wave goes on, maybe done by powerups..
-- [ ] Haiyang - Replace buildings with solid images ... for the tilemap so buildings fit the tiles perfectly (either delete or add new blocks)
-- [ ] Make the hitboxes for the tilemap - Buildings are done 03/29/19 haiyang
-- [ ] Haiyang - Game over screen (make it pretty)
 - [ ] Automated tests
 - [ ] Wave style of zombie spawning (e.g. Max number of zombies on map is 80, will spawn wave in N seconds, have a timer for the next wave incoming)
 - [ ] Refactor to reduce code duplication
 - [ ] Comments / Javadoc
-- [ ] Optimization
 - [ ] Line up the hitboxes of the Collectibles(powerups, money, hp) with it's hit box
+- [x] Make the hitboxes for the tilemap - Buildings are done 03/29/19 haiyang
+- [x] Haiyang - Replace buildings with solid images ... for the tilemap so buildings fit the tiles perfectly (either delete or add new blocks)
+- [x] Haiyang - Game over screen (make it pretty)
+- [x] Optimization
+- [x] Make the zombies stronger as time/wave goes on, and give them random speeds (some fast some slow)
 
 
 Maybe list (if we have time)
 - [x] hp bars
-- [ ] Boss zombies (may need more graphics from Ramiro for this)
 - [ ] Prettier HUD
 - [ ] move pathfinding to its component and iterate through that to decide which entities to path find. Makes it easier for the attack cycler as well
-
-
-
 - [x] Damage numbers ? at least tell the user how much damage does the weapons do
 - [x] Aligning collision boxes for the players&zombie 
 - [x] Audio
@@ -198,6 +194,8 @@ Player death sound: https://opengameart.org/content/grunts-male-death-and-pain
 Player lost music: https://opengameart.org/content/skin-cells-touch
 
 Player win music: https://opengameart.org/content/death-is-just-another-path
+
+Boss fight music: https://opengameart.org/content/heroism
 # Credits
 Creeper font credit: https://www.1001fonts.com/creepster-font.html
 

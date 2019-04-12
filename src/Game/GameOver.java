@@ -348,6 +348,8 @@ public class GameOver extends World
 			if (Systems.arePCollisionBodiesColliding(
 				    gjk, mouseHitBox,
 				    this.buttonHitBoxROBuffer.get(0))) {
+				// plays the sound
+				GameResources.menuSelectButtonSound.play();
 				super.quit();
 			}
 		}
