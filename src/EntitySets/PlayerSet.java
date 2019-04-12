@@ -50,5 +50,8 @@ public class PlayerSet extends EntitySet
 		addComponent(new Money(GameConfig.PLAYER_STARTING_CASH));
 		addComponent(new Damage(GameConfig.PLAYER_STARTING_DAMAGE));
 		addComponent(new KillCount());
+
+		addComponent(new OctoMeleeAttackBuffer(
+			GameConfig.PLAYER_MELEE_ATTACK_BUFFER));
 	}
 }
