@@ -160,6 +160,7 @@ public class PlayGame extends World
 	public void registerComponents()
 	{
 		super.engineState.registerComponent(HasAnimation.class);
+		super.engineState.registerComponent(Render0.class);
 		super.engineState.registerComponent(Render.class);
 		super.engineState.registerComponent(WorldAttributes.class);
 		super.engineState.registerComponent(MovementDirection.class);
@@ -367,7 +368,7 @@ public class PlayGame extends World
 		EngineTransforms.updateTriggeredAttackCycles(this.engineState,
 							     this.dt);
 		EngineTransforms.cropSpriteSheetsFromAnimationWindows(
-			this.engineState);
+			this.engineState, Render.class);
 
 		EngineTransforms
 			.deleteAllComponentsAtIfDespawnTimerIsFinishedAndUpdateDespawnTimerTime(
@@ -375,7 +376,11 @@ public class PlayGame extends World
 
 		EngineTransforms
 			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
-				this.engineState, this.cam);
+				this.engineState, Render.class, this.cam);
+
+		EngineTransforms
+			.updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
+				this.engineState, Render0.class, this.cam);
 
 
 		EngineTransforms.setMovementVelocityFromMovementDirectionForSet(

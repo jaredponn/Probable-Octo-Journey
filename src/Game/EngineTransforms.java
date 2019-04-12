@@ -64,8 +64,9 @@ public class EngineTransforms
 		}
 	}
 
-	public static void
-	cropSpriteSheetsFromAnimationWindows(EngineState engineState)
+	public static <T extends Render> void
+	cropSpriteSheetsFromAnimationWindows(EngineState engineState,
+					     Class<T> type)
 	{
 
 		for (int i = engineState.getInitialComponentIndex(
@@ -74,41 +75,36 @@ public class EngineTransforms
 		     i = engineState.getNextComponentIndex(HasAnimation.class,
 							   i)) {
 
-			Optional<Render> rc =
-				engineState.getComponentAt(Render.class, i);
+			Optional<T> rc = engineState.getComponentAt(type, i);
 
 			if (!rc.isPresent())
 				continue;
 
 			Systems.updateRenderComponentWindowFromHasAnimation(
-				engineState.getComponentAt(Render.class, i)
-					.get(),
-				engineState.unsafeGetComponentAt(
-					HasAnimation.class, i));
+				rc.get(), engineState.unsafeGetComponentAt(
+						  HasAnimation.class, i));
 		}
 	}
 
 
-	public static void
+	public static <T extends Render> void
 	updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
-		EngineState engineState, final Camera cam)
+		EngineState engineState, Class<T> type, final Camera cam)
 	{
-		for (int i = engineState.getInitialComponentIndex(
-			     WorldAttributes.class);
+		for (int i = engineState.getInitialComponentIndex(type);
 		     Components.isValidEntity(i);
-		     i = engineState.getNextComponentIndex(
-			     WorldAttributes.class, i)) {
+		     i = engineState.getNextComponentIndex(type, i)) {
 
-			Optional<Render> rc =
-				engineState.getComponentAt(Render.class, i);
+			Optional<WorldAttributes> rc =
+				engineState.getComponentAt(
+					WorldAttributes.class, i);
 			if (!rc.isPresent())
 				continue;
 
 
 			Systems.updateRenderScreenCoordinatesFromWorldCoordinates(
-				engineState.unsafeGetComponentAt(
-					WorldAttributes.class, i),
-				rc.get(), cam);
+				rc.get(),
+				engineState.unsafeGetComponentAt(type, i), cam);
 		}
 	}
 

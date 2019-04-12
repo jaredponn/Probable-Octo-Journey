@@ -5,6 +5,7 @@ import poj.linear.*;
 
 import Game.PlayGame;
 import EntitySets.*;
+import Resources.GameConfig;
 
 public class SpawnTrapEvent extends PlayGameEvent
 {
@@ -13,7 +14,8 @@ public class SpawnTrapEvent extends PlayGameEvent
 	public SpawnTrapEvent(PlayGame g, Vector2f position)
 	{
 		super(g);
-		this.position = position;
+		this.position =
+			position.pureAdd(GameConfig.TRAP_SPAWN_DISPLACEMENT);
 	}
 
 	public void f()
