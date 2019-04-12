@@ -386,7 +386,10 @@ public class GameResources
 		playerMeleeSound2Path =
 			"resources/sounds/playerMeleeSound2.wav",
 		playerMeleeSound3Path =
-			"resources/sounds/playerMeleeSound3.wav";
+			"resources/sounds/playerMeleeSound3.wav",
+		winSoundPath = "resources/sounds/winMusic.wav",
+		loseSoundPath = "resources/sounds/loseMusic.wav";
+
 
 	public static Sound gunSound, zombieDeathSound1, zombieDeathSound2,
 		zombieDeathSound3, zombieDeathSound4, zombieSpawnSound1,
@@ -394,7 +397,7 @@ public class GameResources
 		gameBgSound, menuSelectButtonSound, healthPickupSound,
 		playerHpDropSound1, playerHpDropSound2, playerHpDropSound3,
 		playerHpDropSound4, playerDeathSound1, playerDeathSound2,
-		playerDeathSound3, playerDeathSound4;
+		playerDeathSound3, playerDeathSound4, winSound, loseSound;
 	public static ArrayList<String> playerSoundAsset =
 						new ArrayList<String>(),
 					zombieSoundAsset =
@@ -412,6 +415,8 @@ public class GameResources
 			gameBgSound = new Sound(GameResources.gameBgSoundPath);
 			menuSelectButtonSound =
 				new Sound(menuSelectButtonSoundPath);
+			winSound = new Sound(GameResources.winSoundPath);
+			loseSound = new Sound(GameResources.loseSoundPath);
 
 			// musicSoundAsset.add(menuSound);
 			// musicSoundAsset.add(gameBgSound);

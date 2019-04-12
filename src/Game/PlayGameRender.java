@@ -103,8 +103,9 @@ public class PlayGameRender
 
 		// game timer
 		g.guiBuffer.add(new StringRenderObject(
-			"" + (int)g.getPlayTime(), rightMargin, topMargin,
+			"Time:" + (int)g.getPlayTime(), rightMargin, topMargin,
 			Color.WHITE, GameConfig.HUD_FONT));
+
 		// money
 		g.guiBuffer.add(new StringRenderObject(
 			"Money: "
