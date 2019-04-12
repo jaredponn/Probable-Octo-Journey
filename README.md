@@ -80,7 +80,7 @@ The game engine design came from various posts and contributions from: https://j
 
 The UML diagram can be found at:
 ```bash
-./demo3umldiagram.png   
+./finaluml.png
 ```
 # Textbased Version:
 See `textbased/README.md` for more information about the text based version.
@@ -88,13 +88,14 @@ See `textbased/README.md` for more information about the text based version.
 # Announcements -- for Contributors:
 
 ## TODO List
-- [ ] Boss fight
-- [ ] Make the player stronger as time/wave goes on, maybe done by powerups..
-- [ ] Automated tests
+- [ ] Boss fight -- boss exists, but doesnt' have an exciting victory screen -- imo it should drop something you pick up, then you win. If you wanna modify this chekcout out Game/GameEvents/DefeatedBossEvent.java
+- [ ] Make a simplified uml diagram - for some reason our UML diagram is too complicated??
+- [ ] Make the player stronger as time/wave goes on, maybe done by powerups.. 
+- [ ] Automated tests UNIT TESTING
 - [ ] Wave style of zombie spawning (e.g. Max number of zombies on map is 80, will spawn wave in N seconds, have a timer for the next wave incoming)
-- [ ] Refactor to reduce code duplication
 - [ ] Comments / Javadoc
 - [ ] Line up the hitboxes of the Collectibles(powerups, money, hp) with it's hit box
+- [x] Refactor to reduce code duplication -- kinda got worse when we added the boss tho
 - [x] Make the hitboxes for the tilemap - Buildings are done 03/29/19 haiyang
 - [x] Haiyang - Replace buildings with solid images ... for the tilemap so buildings fit the tiles perfectly (either delete or add new blocks)
 - [x] Haiyang - Game over screen (make it pretty)
