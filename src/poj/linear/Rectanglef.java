@@ -1,4 +1,12 @@
 package poj.linear;
+/**
+ * Rectangle
+ *
+ * date March 10, 2019
+ * @author Haiyang He
+ * @version 1.0
+ */
+
 
 public class Rectanglef
 {

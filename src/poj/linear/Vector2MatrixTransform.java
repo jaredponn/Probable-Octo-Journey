@@ -1,4 +1,11 @@
 package poj.linear;
+/**
+ * Vector2 matrix transform
+ *
+ * date March 10, 2019
+ * @author Haiyang He
+ * @version 1.0
+ */
 
 public class Vector2MatrixTransform extends MatrixTransformations
 {

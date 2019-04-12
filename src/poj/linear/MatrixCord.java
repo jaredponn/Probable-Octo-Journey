@@ -1,4 +1,11 @@
 package poj.linear;
+/**
+ * MatrixCord -- matrix coordinate
+ *
+ * date March 10, 2019
+ * @author Haiyang He
+ * @version 1.0
+ */
 
 public class MatrixCord
 {

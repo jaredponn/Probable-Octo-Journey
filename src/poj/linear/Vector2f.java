@@ -1,4 +1,11 @@
 package poj.linear;
+/**
+ * Vector2f
+ *
+ * date March 10, 2019
+ * @author Jared Pon, Haiyang He
+ * @version 1.0
+ */
 
 import java.lang.Math;
 import poj.Logger.*;

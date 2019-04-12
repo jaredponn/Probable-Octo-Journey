@@ -1,4 +1,11 @@
 package poj.linear;
+/**
+ * Matrix transformation.
+ *
+ * date March 10, 2019
+ * @author Haiyang He
+ * @version 1.0
+ */
 
 import java.util.ArrayList;
 import java.lang.Math;
