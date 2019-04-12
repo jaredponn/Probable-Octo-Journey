@@ -7,6 +7,7 @@ package Game.GameEvents;
  */
 
 import Game.PlayGame;
+import Resources.GameResources;
 
 public class BossDefeatedEvent extends MobOutOfHPEvent
 {
@@ -24,6 +25,10 @@ public class BossDefeatedEvent extends MobOutOfHPEvent
 	 */
 	public void f()
 	{
+		// stop the boss sound
+		GameResources.bossSound.end();
+		// play the win sound
+		GameResources.winSound.play();
 		super.f();
 	}
 }

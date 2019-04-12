@@ -7,9 +7,10 @@ package Game.GameEvents;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import Components.*;
+import Components.SoundEffectAssets;
 import EntitySets.PlayerSet;
 import Game.PlayGame;
+import Resources.GameResources;
 
 public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
 {
@@ -49,6 +50,8 @@ public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
 				gameState.getEngineState().getInitialSetIndex(
 					PlayerSet.class))
 			.playSoundEffectAt(dead + 6);
+
+		GameResources.loseSound.play();
 		gameState.clearWorld();
 		getPlayGame().quit();
 	}

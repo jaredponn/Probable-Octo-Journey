@@ -10,28 +10,40 @@ import java.awt.Color;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Queue;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import Components.AggroRange;
+import Components.Ammo;
+import Components.AnimationWindowAssets;
 import Components.AttackCycle;
-import Components.*;
 import Components.CardinalDirections;
+import Components.Damage;
 import Components.DespawnTimer;
 import Components.HasAnimation;
+import Components.HitPoints;
+import Components.Money;
 import Components.Movement;
 import Components.MovementDirection;
+import Components.PCollisionBody;
 import Components.PHitBox;
 import Components.PathFindCord;
+import Components.PathfindSeek;
 import Components.PhysicsPCollisionBody;
 import Components.Render;
+import Components.SoundEffectAssets;
 import Components.WorldAttributes;
-import EntitySets.PlayerSet;
+import EntitySets.AmmoPack;
+import EntitySets.BossSet;
+import EntitySets.CashPack;
+import EntitySets.HealthPack;
 import EntitySets.MobSet;
+import EntitySets.PlayerSet;
+import EntitySets.PowerUp;
 import EntitySets.TurretSet;
-import EntitySets.*;
+import Game.GameEvents.BossDefeatedEvent;
 import Game.GameEvents.FocusedPlayGameEvent;
 import Game.GameEvents.MobOutOfHPEvent;
-import Game.GameEvents.*;
 import Game.GameEvents.PlayerOutOfHPEvent;
 import Game.GameEvents.TurretOutOfHPEvent;
 import Resources.GameConfig;
@@ -39,19 +51,12 @@ import Resources.GameResources;
 import TileMap.Map;
 import TileMap.MapLayer;
 
-import poj.Animation;
 import poj.EngineState;
 import poj.Collisions.GJK;
-import poj.Collisions.CollisionShape;
-import poj.Collisions.QuadTree;
 import poj.Component.Component;
 import poj.Component.Components;
-import poj.GameWindow.InputPoller;
 import poj.Render.RenderObject;
-import poj.Time.Timer;
 import poj.linear.Vector2f;
-
-import java.util.Optional;
 
 public class EngineTransforms
 {
@@ -952,6 +957,12 @@ public class EngineTransforms
 	public static void spawnBoss(PlayGame g, float speed_bonus,
 				     int hp_bonus, int damage_bonus)
 	{
+		GameResources.bossAlertSound.play();
+		GameResources.bossAlertSound.resetClip();
+		// play boss sound effect
+		GameResources.bossSpawnSound.play();
+
+		GameResources.bossSound.playContinuously();
 
 		g.getEngineState().spawnEntitySet(new BossSet(
 			30f, 30f, speed_bonus, hp_bonus, damage_bonus));

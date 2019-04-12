@@ -349,7 +349,9 @@ public class GameOver extends World
 				    gjk, mouseHitBox,
 				    this.buttonHitBoxROBuffer.get(0))) {
 				// plays the sound
-				GameResources.menuSelectButtonSound.play();
+				Components.Sound.playSoundEffect(
+					GameResources
+						.menuSelectButtonSoundPath);
 				super.quit();
 			}
 		}
