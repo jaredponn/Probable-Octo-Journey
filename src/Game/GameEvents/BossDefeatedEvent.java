@@ -30,5 +30,7 @@ public class BossDefeatedEvent extends MobOutOfHPEvent
 		// play the win sound
 		GameResources.winSound.play();
 		super.f();
+
+		super.getPlayGame().quit();
 	}
 }

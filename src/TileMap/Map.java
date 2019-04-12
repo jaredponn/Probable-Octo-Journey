@@ -1,5 +1,4 @@
 package TileMap;
-
 import java.awt.image.*;
 import java.awt.Color;
 import java.io.File;

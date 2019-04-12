@@ -1,4 +1,11 @@
 package Resources;
+
+/**
+ * Game resouces. Static final resources of the game
+ * Date: March 10, 2019
+ *@author Jared Pon, Haiyang He, Ramiro Piquer, Alex Stark
+ */
+
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.image.BufferedImage;

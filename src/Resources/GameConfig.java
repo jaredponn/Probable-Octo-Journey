@@ -1,5 +1,12 @@
 package Resources;
 
+/**
+ * GameConfig. Configuratoin of the game
+ * Date: February 10, 2019
+ * @author Jared Pon, Haiyang He, Alex Stark
+ * @version 1.0
+ */
+
 import java.awt.event.KeyEvent;
 import java.awt.*;
 import java.util.ArrayList;
@@ -79,7 +86,7 @@ public class GameConfig
 	public static final AttackCycle PLAYER_ATTACK_CYCLE =
 		new AttackCycle(100, 100);
 
-	public static final int PLAYER_STARTING_CASH = 100;
+	public static final int PLAYER_STARTING_CASH = 300;
 	public static final int PLAYER_STARTING_AMMO = 20;
 	public static final int PLAYER_MAX_AMMO = 100;
 	public static final int PLAYER_STARTING_DAMAGE = 30;
@@ -207,7 +214,7 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(-0.22f, 0.86f), // displacement
 			new Vector2f(1.5f, 0.75f),   // center
-						   // collision body:
+						     // collision body:
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
 			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
@@ -413,7 +420,7 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(0.1f + 1.5f, 0f + 3f), // displacement
 			new Vector2f(0.3f, 0.3f),	   // center
-						  // collision body:
+							    // collision body:
 			new Vector2f(0, 0),
 			new Vector2f(0, MELEE_HEIGHT / 0.2f),
 			new Vector2f(MELEE_HEIGHT / 0.2f, 0),

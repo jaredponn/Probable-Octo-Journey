@@ -1,4 +1,10 @@
 package App;
+/**
+ * App. Application running loop
+ * Date: February 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -8,12 +14,6 @@ import Game.MenuNew;
 import Game.PlayGame;
 import Resources.GameConfig;
 import Resources.GameResources;
-/**
- * App. Application running loop
- * Date: February 10, 2019
- * @author Jared
- * @version 1.0
- */
 import poj.GameWindow.GameCanvas;
 import poj.GameWindow.GameWindow;
 import poj.GameWindow.InputPoller;
