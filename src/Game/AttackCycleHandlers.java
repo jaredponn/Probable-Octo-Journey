@@ -19,6 +19,7 @@ import Components.PCollisionBody;
 import Components.PHitBox;
 import Components.PhysicsPCollisionBody;
 import Components.WorldAttributes;
+import EntitySets.BossSet;
 import EntitySets.Bullet;
 import EntitySets.MobSet;
 import EntitySets.PlayerSet;
@@ -37,16 +38,21 @@ import poj.linear.Vector2f;
 
 public class AttackCycleHandlers
 {
+
+	/**
+	 * Runs the attack cycles
+	 * @param playGame: playgame
+	 */
 	public static void runAttackCyclers(PlayGame playGame)
 	{
-		EngineState engineState = playGame.getEngineState();
 
-		double gameElapsedTime = playGame.getPlayTime();
 
 		AttackCycleHandlers.runAttackCyclerHandler(playGame,
 							   PlayerSet.class);
 		AttackCycleHandlers.runAttackCyclerHandler(playGame,
 							   MobSet.class);
+		AttackCycleHandlers.runAttackCyclerHandler(playGame,
+							   BossSet.class);
 		AttackCycleHandlers.runAttackCyclerHandler(playGame,
 							   TurretSet.class);
 	}
@@ -122,12 +128,10 @@ public class AttackCycleHandlers
 	}
 
 
-	public static void turretAttackHandler(EngineState engineState,
-					       int turret, double gameTime)
-	{
-		CombatFunctions.turretTargeting(engineState, turret);
-	}
-
+	/**
+	 * queries entity attack set handler from class
+	 * @param c: type
+	 */
 	// reduces the allocations during the main game loop
 	private static EntityAttackSetHandler PLAYER_ATTACK_CYCLE_HANDLER_MEMO =
 		new PlayerAttackCycleHandler();
@@ -136,12 +140,13 @@ public class AttackCycleHandlers
 	private static EntityAttackSetHandler
 		TURRETSET_ATTACK_CYCLE_HANDLER_MEMO =
 			new TurretAttackCyclerHandler();
+
 	public static EntityAttackSetHandler
 	queryEntityAttackSetHandler(Class<? extends Component> c)
 	{
 		if (c == PlayerSet.class)
 			return PLAYER_ATTACK_CYCLE_HANDLER_MEMO;
-		else if (c == MobSet.class)
+		else if (c == MobSet.class || c == BossSet.class)
 			return MOBSET_ATTACK_CYCLE_HANDLER_MEMO;
 		else if (c == TurretSet.class) {
 			return TURRETSET_ATTACK_CYCLE_HANDLER_MEMO;
@@ -151,6 +156,12 @@ public class AttackCycleHandlers
 		}
 	}
 
+
+	/**
+	 * generalized way to run attack cycle handlers
+	 * @param playGame: play game state
+	 * @param c: type
+	 */
 	public static void runAttackCyclerHandler(PlayGame playGame,
 						  Class<? extends Component> c)
 	{
@@ -215,6 +226,12 @@ public class AttackCycleHandlers
 			}
 		}
 	}
+
+	/**
+	 * pushes the events to attack handler
+	 * @param g: play game state
+	 * @param e: event
+	 */
 	private static void pushAttackEventToAttackHandler(PlayGame g,
 							   PlayGameEvent e)
 	{

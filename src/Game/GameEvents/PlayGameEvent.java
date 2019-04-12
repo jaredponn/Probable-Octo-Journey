@@ -12,10 +12,17 @@ public abstract class PlayGameEvent
 {
 	protected PlayGame gameState;
 
+	/**
+	 * constructor
+	 */
 	public PlayGameEvent()
 	{
 	}
 
+	/**
+	 * constructor
+	 * @param g : play game
+	 */
 	public PlayGameEvent(PlayGame g)
 	{
 		gameState = g;
@@ -26,11 +33,20 @@ public abstract class PlayGameEvent
 	 */
 	public abstract void f();
 
+
+	/**
+	 * gets playgame
+	 * @return playgame
+	 */
 	public PlayGame getPlayGame()
 	{
 		return gameState;
 	}
 
+	/**
+	 * sets play game
+	 * @param g: play game
+	 */
 	public void setPlayGame(PlayGame g)
 	{
 		this.gameState = g;

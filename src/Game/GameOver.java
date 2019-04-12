@@ -1,5 +1,12 @@
 package Game;
 
+/**
+ * GameOver
+ * Date: February 10, 2019
+ * @author Haiyang He, Jared Pon, Alex Stark
+ * @version 1.0
+ */
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
@@ -34,11 +41,6 @@ import poj.Render.Renderer;
 import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
 
-/**
- * GameOver game state.
- * @author Jared and Alex
- * @version 2.0 - 04/03/19
- */
 public class GameOver extends World
 {
 	protected int newScore;
@@ -86,6 +88,14 @@ public class GameOver extends World
 	protected float initialFontSize = 0, yourScoreFontSize = 0;
 
 
+	/**
+	 *  constructor
+	 * @param width :width
+	 * @param height :height
+	 * @param renderer :renderer  --should be a reference
+	 * @param inputPoller :inputPoller  --should be a reference
+	 * @param newscore :new score
+	 */
 	public GameOver(int width, int height, Renderer renderer,
 			InputPoller inputPoller, int newScore)
 	{
@@ -230,6 +240,9 @@ public class GameOver extends World
 		addMenuButtons();
 	}
 
+	/**
+	 *  add intial letters
+	 */
 	public void addInitialLetters()
 	{
 		for (int i = 0; i < 3; ++i) {
@@ -252,6 +265,9 @@ public class GameOver extends World
 	}
 
 	// reset the initial character string render object each frame
+	/**
+	 *  clear the intial colors
+	 */
 	public void clearInitialColors()
 	{
 		for (int i = 0; i < initialLetters.size(); ++i) {
@@ -259,6 +275,9 @@ public class GameOver extends World
 		}
 	}
 
+	/**
+	 *  add menu buttons
+	 */
 	public void addMenuButtons()
 	{
 		// clang-format off
@@ -275,17 +294,26 @@ public class GameOver extends World
 					PCollisionBody.class);
 	}
 
+	/**
+	 *  register components
+	 */
 	public void registerComponents()
 	{
 		super.engineState.registerComponent(PCollisionBody.class);
 		super.engineState.registerComponent(Render.class);
 	}
 
+	/**
+	 *  register entity sets
+	 */
 	public void registerEntitySets()
 	{
 		super.engineState.registerSet(MenuButton.class);
 	}
 
+	/**
+	 *  run game
+	 */
 	public void runGame()
 	{
 		poj.Time.Timer.sleepNMilliseconds(20);
@@ -296,6 +324,9 @@ public class GameOver extends World
 		this.processInputs();
 	}
 
+	/**
+	 *  process inputs
+	 */
 	public void processInputs()
 	{
 		if (inputPoller.isKeyDown(KeyEvent.VK_ENTER))
@@ -382,6 +413,9 @@ public class GameOver extends World
 		}
 	}
 
+	/**
+	 *  add game over picture
+	 */
 	public void addGameOverPictureRenderBuffer()
 	{
 		for (int i = 0; i < menuImageROBuffer.size(); ++i) {
@@ -394,6 +428,9 @@ public class GameOver extends World
 					    collisioBoxBuffer, Color.BLUE);
 	}
 
+	/**
+	 *  render
+	 */
 	public void render()
 	{
 		addGameOverPictureRenderBuffer();
@@ -442,6 +479,9 @@ public class GameOver extends World
 		}
 	}
 
+	/**
+	 *  over write scores to file
+	 */
 	public void overWriteScoresTextFile()
 	{
 		try {
@@ -468,6 +508,10 @@ public class GameOver extends World
 		}
 	}
 
+	/**
+	 *  intials to string
+	 *  @return String
+	 */
 	protected String initialsToString()
 	{
 		String stringOfInitials = "";
@@ -479,6 +523,11 @@ public class GameOver extends World
 	}
 
 
+	/**
+	 *  intials to string selection
+	 *  @param index : index of tring
+	 *  @return String
+	 */
 	protected String initialsToStringSelection(int index)
 	{
 		String stringOfInitials = "";
@@ -488,6 +537,10 @@ public class GameOver extends World
 		return stringOfInitials;
 	}
 
+
+	/**
+	 *  quit
+	 */
 	public void quit()
 	{
 
@@ -502,6 +555,12 @@ public class GameOver extends World
 	}
 
 
+	/**
+	 *  debug renderer
+	 *  @param pc : collision body
+	 *  @param q : render buf
+	 *  @param r : color
+	 */
 	public void pCollisionBodyDebugRenderer(final PCollisionBody pc,
 						Queue<RenderObject> q, Color r)
 	{
@@ -519,28 +578,50 @@ public class GameOver extends World
 		private String name;
 		private int score;
 
+		/**
+		 *  Score tuple
+		 *  @param defScore : score
+		 *  @param string : name
+		 */
 		public ScoreTuple(int defScore, String defName)
 		{
 			name = defName;
 			score = defScore;
 		}
 
+		/**
+		 *  get name
+		 *  @return string
+		 */
 		public String getName()
 		{
 			return name;
 		}
 
+
+		/**
+		 *  get score
+		 *  @return int
+		 */
 		public int getScore()
 		{
 			return score;
 		}
 
+		/**
+		 *  print
+		 */
 		public void print()
 		{
 			System.out.println("Name: " + name
 					   + " | Score: " + score);
 		}
 
+		/**
+		 *  compare to
+		 *  @param ScoreTuple : score tuple
+		 *  @return - int
+		 */
 		@Override public int compareTo(ScoreTuple o)
 		{
 			if (this.getScore() > o.getScore())

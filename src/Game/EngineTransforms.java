@@ -31,6 +31,7 @@ import EntitySets.TurretSet;
 import EntitySets.*;
 import Game.GameEvents.FocusedPlayGameEvent;
 import Game.GameEvents.MobOutOfHPEvent;
+import Game.GameEvents.*;
 import Game.GameEvents.PlayerOutOfHPEvent;
 import Game.GameEvents.TurretOutOfHPEvent;
 import Resources.GameConfig;
@@ -54,6 +55,13 @@ import java.util.Optional;
 
 public class EngineTransforms
 {
+
+
+	/**
+	 * Updates the animation windows
+	 * @param engineState: engine state
+	 * @param dt: delta time
+	 */
 	public static void updateAnimationWindows(EngineState engineState,
 						  double dt)
 	{
@@ -64,6 +72,11 @@ public class EngineTransforms
 		}
 	}
 
+	/**
+	 * Updates the animation windows
+	 * @param engineState: engine state
+	 * @param type: type
+	 */
 	public static <T extends Render> void
 	cropSpriteSheetsFromAnimationWindows(EngineState engineState,
 					     Class<T> type)
@@ -87,6 +100,12 @@ public class EngineTransforms
 	}
 
 
+	/**
+	 * Updates the render coorsd from world coords
+	 * @param engineState: engine state
+	 * @param type: type
+	 * @param cam: camera
+	 */
 	public static <T extends Render> void
 	updateRenderScreenCoordinatesFromWorldCoordinatesWithCamera(
 		EngineState engineState, Class<T> type, final Camera cam)
@@ -108,6 +127,11 @@ public class EngineTransforms
 		}
 	}
 
+	/**
+	 * Updates world attr from movement
+	 * @param engineState: engine state
+	 * @param dt: time
+	 */
 	public static void
 	updateWorldAttribPositionFromMovement(EngineState engineState,
 					      double dt)
@@ -133,6 +157,11 @@ public class EngineTransforms
 	}
 
 
+	/**
+	 * sets movement velociy from movement direction for a set
+	 * @param engineState: engine state
+	 * @param c: type
+	 */
 	public static void setMovementVelocityFromMovementDirectionForSet(
 		EngineState engineState, Class<? extends Component> c)
 	{
@@ -157,6 +186,12 @@ public class EngineTransforms
 		}
 	}
 
+	/**
+	 * steers movement velociy from movement direction for a set
+	 * @param engineState: engine state
+	 * @param c: type
+	 * @param steerRatio: steering ratio
+	 */
 	public static void steerMovementVelocityFromMovementDirectionForSet(
 		EngineState engineState, Class<? extends Component> c,
 		float steerRatio)
@@ -183,7 +218,12 @@ public class EngineTransforms
 		}
 	}
 
-	// path finding
+	/**
+	 * path finding -- gets the eight neightbors
+	 * @param map: tile map
+	 * @param indexOfEcs : index in ECS
+	 * @param mapLayer: maplayer
+	 */
 	public static ArrayList<PathFindCord>
 	getEightNeighbourVector(Map map, int indexOfEcs, MapLayer mapLayer)
 	{
@@ -220,6 +260,15 @@ public class EngineTransforms
 		return tmp;
 	}
 
+	/**
+	 * updates position from the player
+	 * @param engineState: engine state
+	 * @param map: tile map
+	 * @param layerNumber : layernumber
+	 * @param player : player entity
+	 * @param mob1 : mob entity
+	 * @param gjk: GJK
+	 */
 	public static void
 	updateEnemyPositionFromPlayer(EngineState engineState, Map map,
 				      int layerNumber, int player, int mob1,
@@ -310,10 +359,11 @@ public class EngineTransforms
 				PhysicsPCollisionBody.class, player);
 
 		// if the zombie is in aggro range with the player
-		if (Systems.arePCollisionBodiesColliding(gjk, a, b)
-		    || engineState.unsafeGetComponentAt(AttackCycle.class, mob1)
-			       .isAttacking()) { // TODO refactor this -- move
-						 // to a component
+		if (engineState.unsafeGetComponentAt(PathfindSeek.class, mob1)
+			    .isNotPathfinding()
+		    || Systems.arePCollisionBodiesColliding(
+			       gjk, a, b)) { // TODO refactor this --
+					     // move to a component
 			// engineState.unsafeGetComponentAt(Movement.class,
 			// mob1) .setSpeed(0);
 
@@ -469,6 +519,13 @@ public class EngineTransforms
 	}
 
 
+	/**
+	 * adds diffusion val at player pos
+	 * @param engineState: engine state
+	 * @param map: tile map
+	 * @param layerNumber : layernumber
+	 * @param player : player entity
+	 */
 	public static void
 	addPlayerDiffusionValAtPlayerPos(EngineState engineState, Map map,
 					 int layerNumber, int player)
@@ -550,6 +607,18 @@ public class EngineTransforms
 		}
 	}
 
+	/**
+	 * pushes tile map layer to queue with culling
+	 * @param map: tile map
+	 * @param tileLayer: map layer
+	 * @param windowWidth: window width
+	 * @param windowHeight: window height
+	 * @param tileScreenWidth: tile screen wdith
+	 * @param tileScreenHeight: tile screen height
+	 * @param cam: camera
+	 * @param invCam: inverse camera
+	 * @param q : render objs
+	 */
 	private static int TILE_MAP_RENDER_HELPER_SET_CAPACITY = 10000;
 	private static HashSet<Integer> tileMapRenderHelperSet =
 		new HashSet<Integer>(
@@ -589,7 +658,7 @@ public class EngineTransforms
 					tileLayer.unsafeGetComponentAt(
 						Render.class, e),
 					cam);
-				Systems.pushRenderComponentToQueue(
+				Systems.pushRenderComponentToList(
 					tileLayer.unsafeGetComponentAt(
 						Render.class, e),
 					q);
@@ -599,6 +668,13 @@ public class EngineTransforms
 	}
 
 
+	/**
+	 * debug render physics collisions
+	 * @param e: engine State
+	 * @param q : render objs
+	 * @param cam :camera
+	 * @param c :Color
+	 */
 	public static void
 	debugRenderPhysicsPCollisionBodies(final EngineState e,
 					   ArrayList<RenderObject> q,
@@ -616,6 +692,13 @@ public class EngineTransforms
 	}
 
 
+	/**
+	 * debug render PHitBox collisions
+	 * @param e: engine State
+	 * @param q : render objs
+	 * @param cam :camera
+	 * @param c :Color
+	 */
 	public static void debugRenderPHitBox(final EngineState e,
 					      ArrayList<RenderObject> q,
 					      final Camera cam)
@@ -630,6 +713,13 @@ public class EngineTransforms
 		}
 	}
 
+	/**
+	 * debug render aggro collisions
+	 * @param e: engine State
+	 * @param q : render objs
+	 * @param cam :camera
+	 * @param c :Color
+	 */
 	public static void debugRenderAggro(final EngineState e,
 					    ArrayList<RenderObject> q,
 					    final Camera cam)
@@ -645,6 +735,10 @@ public class EngineTransforms
 	}
 
 
+	/**
+	 * updates collision body from world attr
+	 * @param e: engine State
+	 */
 	public static void
 	updatePCollisionBodiesFromWorldAttr(final EngineState e)
 	{
@@ -701,6 +795,11 @@ public class EngineTransforms
 	}
 
 
+	/**
+	 * update the triggered attack cycles
+	 * @param e: engine State
+	 * @param dt: delta time
+	 */
 	public static void updateTriggeredAttackCycles(final EngineState e,
 						       double dt)
 	{
@@ -716,6 +815,11 @@ public class EngineTransforms
 		}
 	}
 
+	/**
+	 *  deletes the component if the despawn timer is finished
+	 * @param e: engine State
+	 * @param dt: delta time
+	 */
 	public static void
 	deleteAllComponentsAtIfDespawnTimerIsFinishedAndUpdateDespawnTimerTime(
 		EngineState engineState, double dt)
@@ -736,6 +840,10 @@ public class EngineTransforms
 		}
 	}
 
+	/**
+	 *  pushes the out of hp events if they are out of hp
+	 * @param g: play game
+	 */
 	public static void pushOutOfHPEventsIfHPIsZeroOrLess(PlayGame g)
 	{
 		ifSetIsOutOfHPPushEventToEventStack(g, MobSet.class,
@@ -746,8 +854,18 @@ public class EngineTransforms
 
 		ifSetIsOutOfHPPushEventToEventStack(g, TurretSet.class,
 						    new TurretOutOfHPEvent(g));
+
+		ifSetIsOutOfHPPushEventToEventStack(g, BossSet.class,
+						    new BossDefeatedEvent(g));
 	}
 
+
+	/**
+	 *  generalized push to game stack event
+	 * @param g: play game
+	 * @param c: type
+	 * @param event: event
+	 */
 	private static void
 	ifSetIsOutOfHPPushEventToEventStack(PlayGame g,
 					    Class<? extends Component> c,
@@ -772,6 +890,11 @@ public class EngineTransforms
 		}
 	}
 
+
+	/**
+	 *  player pick up collectibles
+	 * @param g: play game
+	 */
 	public static void playerPickUpCollectibles(PlayGame g)
 	{
 		EntityCollisionAlgorithms.pickUpEventForPlayer(
@@ -791,50 +914,26 @@ public class EngineTransforms
 			Damage.class);
 	}
 
+
+	/**
+	 *  spawns the wave
+	 * @param g: play game
+	 * @param speed_bonus: speed bonus
+	 * @param hp_bonus: hp bonus
+	 * @param damage_bonus: damage bonus
+	 */
 	public static void spawnWave(PlayGame g, float speed_bonus,
 				     int hp_bonus, int damage_bonus)
 	{
 		EngineState engineState = g.getEngineState();
 
 		for (int i = 0; i < GameConfig.MOB_SPAWN_POINTS.size(); i++) {
-			// engineState.spawnEntitySet(new MobSet(
-			// GameConfig.MOB_SPAWN_POINTS.get(i).x,
-			// GameConfig.MOB_SPAWN_POINTS.get(i).y, speed_bonus,
-			// hp_bonus, damage_bonus));
 			engineState.spawnEntitySet(new MobSet(
 				GameConfig.MOB_SPAWN_POINTS.get(i).x,
 				GameConfig.MOB_SPAWN_POINTS.get(i).y,
-				speed_bonus, hp_bonus, damage_bonus,
-				GameResources.enemySpriteSheet,
-				GameConfig.MOB_WIDTH, GameConfig.MOB_HEIGHT,
-				GameConfig.MOB_SPEED,
-				GameConfig.MOB_COLLISION_BODY,
-				GameConfig.MOB_HP, GameConfig.MOB_ATTACK_CYCLE,
-				GameConfig.MOB_AGGRO_RANGE,
-				GameConfig.MOB_ATTACK_DAMAGE,
-				GameConfig.MOB_ANIMATION_WINDOW_ASSETS,
-				GameResources.enemyNMoveAnimation,
-				GameConfig.MOB_MAX_HP,
-				GameConfig.ENEMY_HITBOX_BODY));
+				speed_bonus, hp_bonus, damage_bonus));
 		}
-
-		/*
-		engineState.spawnEntitySet(new MobSet(
-			GameConfig.MOB_SPAWN_POINTS.get(0).x,
-			GameConfig.MOB_SPAWN_POINTS.get(0).y, speed_bonus,
-			hp_bonus, damage_bonus, GameResources.bossSpriteSheet,
-			GameConfig.MOB_WIDTH, GameConfig.MOB_HEIGHT,
-			GameConfig.MOB_SPEED, GameConfig.MOB_COLLISION_BODY,
-			GameConfig.MOB_HP, GameConfig.MOB_ATTACK_CYCLE,
-			GameConfig.MOB_AGGRO_RANGE,
-			GameConfig.MOB_ATTACK_DAMAGE,
-			GameConfig.MOB_ANIMATION_WINDOW_ASSETS,
-			GameResources.enemyNMoveAnimation,
-			GameConfig.MOB_MAX_HP, GameConfig.ENEMY_HITBOX_BODY));
-		*/
-
 		g.incrementWaveNumber();
-
 		engineState
 			.unsafeGetComponentAt(
 				SoundEffectAssets.class,
@@ -843,11 +942,27 @@ public class EngineTransforms
 				ThreadLocalRandom.current().nextInt(0, 3));
 	}
 
+	/**
+	 *  spawns the boss
+	 * @param g: play game
+	 * @param speed_bonus: speed bonus
+	 * @param hp_bonus: hp bonus
+	 * @param damage_bonus: damage bonus
+	 */
+	public static void spawnBoss(PlayGame g, float speed_bonus,
+				     int hp_bonus, int damage_bonus)
+	{
+
+		g.getEngineState().spawnEntitySet(new BossSet(
+			30f, 30f, speed_bonus, hp_bonus, damage_bonus));
+	}
+
 	public static void mobSpawner(PlayGame g)
 	{
 		EngineState engineState = g.getEngineState();
 
 		// spawning zombies
+		//
 		if (engineState.getRawComponentArrayListPackedData(MobSet.class)
 			    .size()
 		    < GameConfig.MAX_MOBS) {
@@ -856,7 +971,7 @@ public class EngineTransforms
 			    < 25) {
 
 				int n = ThreadLocalRandom.current().nextInt(0,
-									    4);
+									    5);
 
 				// magic constatns to make the game feel right
 				float speedBonus =
@@ -865,6 +980,7 @@ public class EngineTransforms
 
 				int damageBonus = (int)Math.min(
 					GameConfig.MAX_DAMAGE, n * 2);
+
 
 				switch (n) {
 				case 0:
@@ -878,6 +994,13 @@ public class EngineTransforms
 						g, 0f, n * 15, damageBonus);
 
 					break;
+
+				case 2:
+					// the tanky one
+					EngineTransforms.spawnWave(
+						g, 0f, n * 15, damageBonus);
+
+					break;
 				default:
 
 					EngineTransforms.spawnWave(g, 0, n * 5,
@@ -885,6 +1008,16 @@ public class EngineTransforms
 					break;
 				}
 			}
+		}
+
+		if (g.getWaveNumber() % 30 == 0
+		    && g.getEngineState()
+				       .getRawComponentArrayListPackedData(
+					       BossSet.class)
+				       .size()
+			       == 0) {
+
+			spawnBoss(g, 0, 0, 0);
 		}
 	}
 }

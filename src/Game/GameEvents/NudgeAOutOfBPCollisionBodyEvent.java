@@ -1,4 +1,9 @@
 package Game.GameEvents;
+/**
+ * NudgeAOutOfBPCollisionBodyEvent.
+ * @author Jared Pon
+ * @version 03/09/19 v1.0
+ */
 
 import Components.*;
 import java.util.Optional;
@@ -25,12 +30,22 @@ public class NudgeAOutOfBPCollisionBodyEvent<T extends PCollisionBody>
 {
 	private Class<T> collisionBodyType;
 
+	/**
+	 * constructor
+	 * @param collisionBodyType : type
+	 */
 	public NudgeAOutOfBPCollisionBodyEvent(Class<T> collisionBodyType)
 	{
 		super();
 		this.focus1 = -1;
 		this.collisionBodyType = collisionBodyType;
 	}
+
+	/**
+	 * constructor
+	 * @param g :playgame
+	 * @param collisionBodyType : type
+	 */
 	public NudgeAOutOfBPCollisionBodyEvent(PlayGame g,
 					       Class<T> collisionBodyType)
 	{
@@ -39,6 +54,9 @@ public class NudgeAOutOfBPCollisionBodyEvent<T extends PCollisionBody>
 		this.collisionBodyType = collisionBodyType;
 	}
 
+	/**
+	 * event
+	 */
 	public void f()
 	{
 

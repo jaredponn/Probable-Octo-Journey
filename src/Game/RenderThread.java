@@ -1,4 +1,10 @@
 package Game;
+/**
+ * Renderthread
+ * Date: February 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
 
 import poj.Render.*;
 import poj.Time.Timer;
@@ -14,6 +20,10 @@ public class RenderThread extends Thread
 	protected volatile boolean threadRunning = false;
 	protected volatile boolean isRendering = false;
 
+	/**
+	 *  constructor
+	 *  @param r : renderer
+	 */
 	public RenderThread(Renderer r)
 	{
 		unfocus = new PlayGameRenderBuffers();
@@ -21,6 +31,9 @@ public class RenderThread extends Thread
 		this.renderer = r;
 	}
 
+	/**
+	 *  starts thread
+	 */
 	public void startThread()
 	{
 		System.out.println("Render thread created");
@@ -28,22 +41,34 @@ public class RenderThread extends Thread
 		super.start();
 	}
 
+	/**
+	 *  end thread
+	 */
 	public void endThread()
 	{
 		this.threadRunning = false;
 	}
 
 
+	/**
+	 *  start rendering
+	 */
 	public void startRendering()
 	{
 		isRendering = true;
 	}
 
+	/**
+	 *  stop rendering
+	 */
 	public void stopRendering()
 	{
 		isRendering = false;
 	}
 
+	/**
+	 *  swap buffers
+	 */
 	public void swapBuffers()
 	{
 		PlayGameRenderBuffers tmp = focus;
@@ -51,20 +76,31 @@ public class RenderThread extends Thread
 		unfocus = tmp;
 	}
 
+	/**
+	 *  get unfocused ubfer
+	 *  @return unfocused buffesr
+	 */
 	public PlayGameRenderBuffers getUnfocusedBuffer()
 	{
 		return unfocus;
 	}
 
+	/**
+	 *  is rendering?
+	 *  @return boolean
+	 */
 	public boolean isRendering()
 	{
 		return isRendering;
 	}
 
+	/**
+	 *  run
+	 */
 	public void run()
 	{
 		while (threadRunning) {
-			// focus.getBuf(PlayGameRenderBuffers.debugBuf).clear();
+			focus.getBuf(PlayGameRenderBuffers.debugBuf).clear();
 
 			if (isRendering) {
 				renderer.renderBufferLists(
@@ -76,8 +112,8 @@ public class RenderThread extends Thread
 							     .buildingBuf),
 					focus.getBuf(
 						PlayGameRenderBuffers.poleBuf),
-					focus.getBuf(
-						PlayGameRenderBuffers.debugBuf),
+					// focus.getBuf(
+					// PlayGameRenderBuffers.debugBuf),
 					focus.getBuf(
 						PlayGameRenderBuffers.guiBuf));
 
@@ -87,11 +123,19 @@ public class RenderThread extends Thread
 	}
 
 
+	/**
+	 *  get focused buffer
+	 *  @return focusedbuffer
+	 */
 	protected PlayGameRenderBuffers getFocusedBuffer()
 	{
 		return focus;
 	}
 
+	/**
+	 *  get focused buffer size
+	 *  @return int -- size
+	 */
 	protected int getFocusedBufferSize()
 	{
 		return focus.size();

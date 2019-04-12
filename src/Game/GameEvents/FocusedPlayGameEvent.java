@@ -1,4 +1,9 @@
 package Game.GameEvents;
+/**
+ * FocusedPlayGameEvent. focused play game event
+ * @author Jared Pon
+ * @version 03/09/19 v1.0
+ */
 
 import Game.PlayGame;
 
@@ -17,10 +22,20 @@ public abstract class FocusedPlayGameEvent extends PlayGameEvent
 		super();
 	}
 
+	/**
+	 * constructor
+	 * @param g: playgame
+	 */
 	public FocusedPlayGameEvent(PlayGame g)
 	{
 		super(g);
 	}
+
+	/**
+	 * constructor
+	 * @param g: playgame
+	 * @param e: focus1
+	 */
 	public FocusedPlayGameEvent(PlayGame g, int e)
 	{
 		super(g);
@@ -28,6 +43,10 @@ public abstract class FocusedPlayGameEvent extends PlayGameEvent
 	}
 
 
+	/**
+	 * sets the focus 1
+	 * @param f: focus1
+	 */
 	public void setFocus1(int f)
 	{
 		focus1 = f;

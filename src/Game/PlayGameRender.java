@@ -1,5 +1,11 @@
 package Game;
 
+/**
+ * PlayGameRender
+ * @author Jared Pon
+ * @version 03/09/19 v1.0
+ */
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
@@ -28,6 +34,10 @@ public class PlayGameRender
 	private static RenderObjectComparator renderObjComp =
 		new RenderObjectComparator();
 
+
+	/**
+	 * renders play game
+	 */
 	public static void renderPlayGame(PlayGame g)
 	{
 
@@ -86,6 +96,10 @@ public class PlayGameRender
 		g.updateRenderWriteToBufferToUnfocusedBuffer();
 	}
 
+	/**
+	 * add game gui buffers
+	 * @param g: play game
+	 */
 	private static void addGameGUIBuffers(PlayGame g)
 	{
 		int player =
@@ -150,6 +164,12 @@ public class PlayGameRender
 		// g.getMobsSpawned(), 5, GameConfig.HUD_LINE_SPACING * 7,
 		// GameConfig.HUD_FONT_COLOR, GameConfig.HUD_FONT));
 	}
+
+	/**
+	 * add game gui buffers
+	 * @param g: play game
+	 * @param arr : buffer to add to
+	 */
 	private static void addHPBarsToBuffer(PlayGame g,
 					      ArrayList<RenderObject> arr)
 	{
@@ -197,6 +217,12 @@ public class PlayGameRender
 		}
 	}
 
+	/**
+	 * gets gui string displayable
+	 * @param e: engine state
+	 * @param focus: focused entity
+	 * @param type : type
+	 */
 	private static <T extends Component & GUIStringDisplayable>
 		String getGUIStringDisplayableComponent(EngineState engineState,
 							int focus,
@@ -211,6 +237,12 @@ public class PlayGameRender
 	}
 
 
+	/**
+	 * pushes tile map layer to array list
+	 * @param g: play game
+	 * @param n: map layer
+	 * @param q : render buffer
+	 */
 	protected static void
 	pushTileMapLayerToArrayList(PlayGame g, MapLayer n,
 				    ArrayList<RenderObject> q)

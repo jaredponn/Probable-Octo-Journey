@@ -1,5 +1,12 @@
 package Game;
 
+/**
+ * MobSetAttackCycleHandler
+ * Date: February 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
+
 import java.awt.Color;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -14,6 +21,7 @@ import Components.PCollisionBody;
 import Components.PhysicsPCollisionBody;
 import Components.SoundEffectAssets;
 import Components.WorldAttributes;
+import Components.*;
 import EntitySets.MobSet;
 import EntitySets.PlayerSet;
 import EntitySets.TurretSet;
@@ -31,11 +39,21 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 	class MobStartingEvent extends FocusedPlayGameEvent
 	{
 
+
+		/**
+		 * constructor
+		 * @param g: playgame
+		 * @param focus: focused entity
+		 */
 		public MobStartingEvent(PlayGame g, int focus)
 		{
 			super(g, focus);
 		}
 
+
+		/**
+		 * event
+		 */
 		public void f()
 		{
 			EngineState engineState =
@@ -48,6 +66,10 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 			Optional<Movement> mopt = engineState.getComponentAt(
 				Movement.class, focus1);
 
+			Optional<PathfindSeek> popt =
+				engineState.getComponentAt(PathfindSeek.class,
+							   focus1);
+
 			if (!dopt.isPresent()) {
 				return;
 			}
@@ -55,6 +77,11 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 			if (!mopt.isPresent()) {
 				return;
 			}
+
+			if (!popt.isPresent()) {
+				return;
+			}
+			popt.get().stopPathfinding();
 
 			MovementDirection d = dopt.get();
 
@@ -65,11 +92,20 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 
 	class MobAttackEvent extends FocusedPlayGameEvent
 	{
+		/**
+		 * constructor
+		 * @param g: playgame
+		 * @param focus: focused entity
+		 */
 		public MobAttackEvent(PlayGame g, int f)
 		{
 			super(g, f);
 		}
 
+
+		/**
+		 * event
+		 */
 		public void f()
 		{
 			PlayGame playGame = super.getPlayGame();
@@ -85,7 +121,12 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 			// Spawn the hitbox in the correct location and check
 			// against all enemies
 			PCollisionBody pmob = new PCollisionBody(
-				queryMeleeAttackBody(n.getDirection()));
+				engineState
+					.unsafeGetComponentAt(
+						OctoMeleeAttackBuffer.class,
+						focus1)
+					.getPCollisionBody(n.getDirection()));
+
 			Systems.updatePCollisionBodyPositionFromWorldAttr(
 				pmob, engineState.unsafeGetComponentAt(
 					      WorldAttributes.class, focus1));
@@ -142,11 +183,19 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 	class MobAttackEnd extends FocusedPlayGameEvent
 	{
 
+		/**
+		 * constructor
+		 * @param g: playgame
+		 * @param focus: focused entity
+		 */
 		public MobAttackEnd(PlayGame g, int focus)
 		{
 			super(g, focus);
 		}
 
+		/**
+		 * event
+		 */
 		public void f()
 		{
 			EngineState engineState =
@@ -165,6 +214,14 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 			Optional<AggroRange> agopt = engineState.getComponentAt(
 				AggroRange.class, focus1);
 
+			Optional<PathfindSeek> popt =
+				engineState.getComponentAt(PathfindSeek.class,
+							   focus1);
+
+
+			if (!popt.isPresent()) {
+				return;
+			}
 			if (!agopt.isPresent())
 				return;
 
@@ -173,6 +230,8 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 
 			if (!dmobopt.isPresent())
 				return;
+
+			popt.get().startPathfinding();
 
 			CardinalDirections d =
 				CardinalDirections.getClosestDirectionFromDirectionVector(
@@ -185,39 +244,31 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 		}
 	}
 
-	private PCollisionBody queryMeleeAttackBody(CardinalDirections d)
-	{
 
-		switch (d) {
-		case N:
-			return GameConfig.MOB_MELEE_N_ATK_BODY;
-		case NE:
-			return GameConfig.MOB_MELEE_NE_ATK_BODY;
-		case NW:
-			return GameConfig.MOB_MELEE_NW_ATK_BODY;
-		case S:
-			return GameConfig.MOB_MELEE_S_ATK_BODY;
-		case SE:
-			return GameConfig.MOB_MELEE_SE_ATK_BODY;
-		case SW:
-			return GameConfig.MOB_MELEE_SW_ATK_BODY;
-		case W:
-			return GameConfig.MOB_MELEE_W_ATK_BODY;
-		case E:
-			return GameConfig.MOB_MELEE_E_ATK_BODY;
-		default:
-			return GameConfig.MOB_MELEE_E_ATK_BODY;
-		}
-	}
-
+	/**
+	 * starting handler
+	 * @param g: playgame
+	 * @param focus: focused entity
+	 */
 	public PlayGameEvent startingHandler(PlayGame g, int focus)
 	{
 		return new MobStartingEvent(g, focus);
 	}
+	/**
+	 * attack handler
+	 * @param g: playgame
+	 * @param focus: focused entity
+	 */
 	public PlayGameEvent attackHandler(PlayGame g, int focus)
 	{
 		return new MobAttackEvent(g, focus);
 	}
+
+	/**
+	 * end handler
+	 * @param g: playgame
+	 * @param focus: focused entity
+	 */
 	public PlayGameEvent endAttackHandler(PlayGame g, int focus)
 	{
 		return new MobAttackEnd(g, focus);

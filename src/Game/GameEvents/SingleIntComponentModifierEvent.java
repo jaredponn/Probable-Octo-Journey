@@ -1,5 +1,11 @@
 package Game.GameEvents;
 
+/**
+ * SingleIntComponentModifierEvent.
+ * @author Jared Pon
+ * @version 03/09/19 v1.0
+ */
+
 import Resources.GameConfig;
 import poj.EngineState;
 import Components.*;
@@ -13,11 +19,21 @@ public class SingleIntComponentModifierEvent<T extends SingleIntComponent>
 	private int amount;
 	private Class<T> type;
 
+
+	/**
+	 * constructor
+	 */
 	public SingleIntComponentModifierEvent()
 	{
 		this(0, null);
 	}
 
+
+	/**
+	 * constructor
+	 * @param a : amount
+	 * @param t : type
+	 */
 	public SingleIntComponentModifierEvent(int a, Class<T> t)
 	{
 		super();
@@ -25,16 +41,27 @@ public class SingleIntComponentModifierEvent<T extends SingleIntComponent>
 		type = t;
 	}
 
+	/**
+	 * constructor
+	 * @param n : amount
+	 */
 	public void setAmount(int n)
 	{
 		amount = n;
 	}
 
+	/**
+	 * constructor
+	 * @param n : type
+	 */
 	public void setType(Class<T> n)
 	{
 		type = n;
 	}
 
+	/**
+	 * event
+	 */
 	public void f()
 	{
 		EngineState engineState = super.getPlayGame().getEngineState();

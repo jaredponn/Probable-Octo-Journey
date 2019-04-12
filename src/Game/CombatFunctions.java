@@ -116,6 +116,44 @@ public class CombatFunctions
 			}
 		}
 
+		// check for bullet collision with any mob
+		for (int i = mainState.getInitialSetIndex(BossSet.class);
+		     poj.EngineState.isValidEntity(i);
+		     i = mainState.getNextSetIndex(BossSet.class, i)) {
+
+			final Optional<PHitBox> mobBodyOptional =
+				mainState.getComponentAt(PHitBox.class, i);
+
+			if (!mobBodyOptional.isPresent())
+				continue;
+
+			final PHitBox mobBody = mobBodyOptional.get();
+
+			// if collision detected
+			if (Systems.arePCollisionBodiesColliding(
+				    gjk, bulletBody, mobBody)) {
+
+				// TODO: make it so turrets don't get bonus
+				// damage
+				mainState
+					.unsafeGetComponentAt(HitPoints.class,
+							      i)
+					.hurt((int)(Math.floor(
+						mainState
+							.unsafeGetComponentAt(
+								Damage.class,
+								bullet)
+							.getDamage())));
+				removeBullet(mainState, bullet);
+
+
+				return; // If it does hit something, it should
+					// just delete the bullet (as seen here)
+					// and just exit and not check if is
+					// colliding with other things.
+			}
+		}
+
 		// check for bullet collision with wall
 		for (PhysicsPCollisionBody wall :
 		     mapState0.getRawComponentArrayListPackedData(

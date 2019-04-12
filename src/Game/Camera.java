@@ -10,11 +10,18 @@ import poj.linear.Vector2MatrixTransform;
 
 public class Camera extends Vector2MatrixTransform
 {
+
+	/**
+	 * construct camera
+	 */
 	public Camera()
 	{
 		super();
 	}
 
+	/**
+	 * pointer copy constructor
+	 */
 	public Camera(Vector2MatrixTransform n)
 	{
 		super();

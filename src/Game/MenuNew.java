@@ -1,5 +1,12 @@
 package Game;
 
+/**
+ *  MenuNew.
+ * Date: February 10, 2019
+ * @author Haiyang
+ * @version 1.0
+ */
+
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -46,6 +53,13 @@ public class MenuNew extends World
 
 	protected ArrayList<Render> buttonRenderLayer;
 
+	/**
+	 *  constructor
+	 * @param width :width
+	 * @param height :height
+	 * @param renderer :renderer  --should be a reference
+	 * @param inputPoller :inputPoller  --should be a reference
+	 */
 	public MenuNew(int width, int height, Renderer renderer,
 		       InputPoller inputPoller)
 	{
@@ -89,17 +103,26 @@ public class MenuNew extends World
 		addMenuButtons();
 	}
 
+	/**
+	 *  register Components
+	 */
 	public void registerComponents()
 	{
 		super.engineState.registerComponent(PCollisionBody.class);
 		super.engineState.registerComponent(Render.class);
 	}
 
+	/**
+	 *  register EntitySets
+	 */
 	public void registerEntitySets()
 	{
 		super.engineState.registerSet(MenuButton.class);
 	}
 
+	/**
+	 *  adds menu buttons
+	 */
 	public void addMenuButtons()
 	{
 		// clang-format off
@@ -118,6 +141,9 @@ public class MenuNew extends World
 					PCollisionBody.class);
 	}
 
+	/**
+	 *  process Inputs
+	 */
 	public void processInputs()
 	{
 		// press P to play
@@ -192,6 +218,11 @@ public class MenuNew extends World
 			}
 		}
 	}
+
+
+	/**
+	 *  adds buffers
+	 */
 	public void addBuffers()
 	{
 		if (curMenuState == MenuState.mainMenu) {
@@ -201,6 +232,9 @@ public class MenuNew extends World
 		}
 	}
 
+	/**
+	 *  render
+	 */
 	public void render()
 	{
 		addBuffers();
@@ -208,6 +242,9 @@ public class MenuNew extends World
 					    collisioBoxBuffer);
 	}
 
+	/**
+	 *  adds main menu render buffer
+	 */
 	// add the buttons render objects and collision boxes for the main menu
 	public void addMainMenuRenderBuffer()
 	{
@@ -226,6 +263,9 @@ public class MenuNew extends World
 		}
 	}
 
+	/**
+	 *  add instructions render buffer
+	 */
 	// add the buttons render objects and collision boxes for the main menu
 	public void addInstructionsRenderBuffer()
 	{
@@ -247,6 +287,9 @@ public class MenuNew extends World
 		}
 	}
 
+	/**
+	 *  run game
+	 */
 	public void runGame()
 	{
 		// sleeps the thread for 80 ms so we dont get continuous mouse
@@ -255,6 +298,9 @@ public class MenuNew extends World
 		processInputs();
 	}
 
+	/**
+	 *  P collision body debug
+	 */
 	public void pCollisionBodyDebugRenderer(final PCollisionBody pc,
 						Queue<RenderObject> q, Color r)
 	{

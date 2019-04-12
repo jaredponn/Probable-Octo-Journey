@@ -27,6 +27,16 @@ import poj.EngineState;
 public class EntityCollisionAlgorithms
 {
 
+	/**
+	 * If set a and set b collision bodeis are collding and are unique run
+	 * game event
+	 * @param g: play game
+	 * @param a: set a
+	 * @param b: set b
+	 * @param collisionBodyTypeA: set a's collision body
+	 * @param collisionBodyTypeB: set b's collision body
+	 * @param event: event
+	 */
 	private static ArrayList<TaggedCollisionShape> COLLISION_QUERY_MEMO =
 		new ArrayList<TaggedCollisionShape>(1000000);
 	public static <T extends PCollisionBody, U extends PCollisionBody> void
@@ -96,6 +106,14 @@ public class EntityCollisionAlgorithms
 	}
 
 
+	/**
+	 * If set a and set b collision bodeis are collding and are unique run
+	 * game event
+	 * @param g: play game
+	 * @param a: set a
+	 * @param collisionBodyTypeA: set a's collision body
+	 * @param event: event
+	 */
 	public static <T extends PCollisionBody>
 		boolean ifCollisionBodyIsCollidingWithSetARunGameEventOnFirst(
 			PlayGame g, PCollisionBody pbody,
@@ -106,6 +124,16 @@ public class EntityCollisionAlgorithms
 			g, pbody, a, collisionBodyType, event);
 	}
 
+	/**
+	 * If set a and set b collision bodeis are collding and are unique run
+	 * game event
+	 * @param g: play game
+	 * @param a: set a
+	 * @param b: set b
+	 * @param collisionBodyTypeA: set a's collision body
+	 * @param collisionBodyTypeB: set b's collision body
+	 * @param event: event
+	 */
 	public static <T extends PCollisionBody, U extends PCollisionBody> void
 	ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEventBruteForce(
 		PlayGame g, Class<? extends Component> a,
@@ -152,6 +180,14 @@ public class EntityCollisionAlgorithms
 		// Timer.LOG_BENCH_DELTA();
 	}
 
+	/**
+	 * If set a and set b collision bodeis are collding and are unique run
+	 * game event
+	 * @param g: play game
+	 * @param a: set a
+	 * @param collisionBodyType: set a's collision body
+	 * @param event: event
+	 */
 	public static <T extends PCollisionBody> boolean
 	ifCollisionBodyIsCollidingWithSetARunGameEventOnFirstBruteForce(
 		PlayGame g, PCollisionBody pbody, Class<? extends Component> a,
@@ -181,6 +217,15 @@ public class EntityCollisionAlgorithms
 	}
 
 
+	/**
+	 * If set a and set b collision bodeis are collding and are unique run
+	 * game event
+	 * @param g: play game
+	 * @param a: set a
+	 * @param b: set b
+	 * @param collisionBodyType: set a's and b's collision body
+	 * @param event: event
+	 */
 	public static <T extends PCollisionBody> void
 	ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
 		PlayGame g, Class<? extends Component> a,
@@ -193,6 +238,12 @@ public class EntityCollisionAlgorithms
 	}
 
 
+	/**
+	 * nudges set a and b if they are colliding
+	 * @param g: play game
+	 * @param a: set a
+	 * @param b: set b
+	 */
 	private static NudgeAOutOfBPCollisionBodyEvent<
 		PhysicsPCollisionBody> NUDGE_A_OUT_OF_B_P_COLLISION_BODY_MEMO =
 		new NudgeAOutOfBPCollisionBodyEvent<PhysicsPCollisionBody>(
@@ -209,6 +260,12 @@ public class EntityCollisionAlgorithms
 	}
 
 
+	/**
+	 * start attack cycle of a if they are colliding
+	 * @param g: play game
+	 * @param a: set a
+	 * @param b: set b
+	 */
 	private static StartAttackCycleEvent START_ATTACK_CYCLE_EVENT_MEMO =
 		new StartAttackCycleEvent();
 	public static void
@@ -223,6 +280,12 @@ public class EntityCollisionAlgorithms
 			START_ATTACK_CYCLE_EVENT_MEMO);
 	}
 
+	/**
+	 * damage the entity if they are colliding
+	 * @param g: play game
+	 * @param a: set a
+	 * @param dmg: damage
+	 */
 	private static DamageFocusedEntityEvent DAMAGED_FOCUSED_ENTITY_MEMO =
 		new DamageFocusedEntityEvent();
 	public static boolean
@@ -238,6 +301,13 @@ public class EntityCollisionAlgorithms
 			DAMAGED_FOCUSED_ENTITY_MEMO);
 	}
 
+	/**
+	 * generalized player pick up events
+	 * @param g: play game
+	 * @param amount: amount
+	 * @param set: set
+	 * @param t: pickup type
+	 */
 	public static <T extends CollectibleSet, U
 			       extends SingleIntComponent> void
 	pickUpEventForPlayer(PlayGame g, int amount, Class<T> set, Class<U> t)
@@ -255,6 +325,11 @@ public class EntityCollisionAlgorithms
 	}
 
 
+	/**
+	 * Runs the trap event if touching
+	 * @param g: play game
+	 * @param speedReduce: val between 0-1 to reduce speed
+	 */
 	private static TrapTouchingEntityEvent TRAP_TOUCHING_ENTITY_EVENT_MEMO =
 		new TrapTouchingEntityEvent();
 	public static void reduceSpeedOfMobIfTouchingTrap(PlayGame g,
@@ -265,6 +340,12 @@ public class EntityCollisionAlgorithms
 
 		ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
 			g, MobSet.class, TrapSet.class,
+			PhysicsPCollisionBody.class,
+			PhysicsPCollisionBody.class,
+			TRAP_TOUCHING_ENTITY_EVENT_MEMO);
+
+		ifSetAAndBPCollisionBodyAreCollidingAndAreUniqueRunGameEvent(
+			g, BossSet.class, TrapSet.class,
 			PhysicsPCollisionBody.class,
 			PhysicsPCollisionBody.class,
 			TRAP_TOUCHING_ENTITY_EVENT_MEMO);

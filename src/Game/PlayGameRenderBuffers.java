@@ -1,5 +1,10 @@
 package Game;
-
+/**
+ * PlayGameRenderBuffers
+ * Date: February 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
 import java.util.ArrayList;
 import poj.Render.*;
 
@@ -18,6 +23,10 @@ public class PlayGameRenderBuffers
 	protected static final int DEFAULT_BUF_SIZE = 1000; // overkill
 	protected static final int DEFAULT_NUM_BUFFERS = guiBuf + 1;
 
+
+	/**
+	 * constructor
+	 */
 	protected PlayGameRenderBuffers()
 	{
 		buffers = new ArrayList<ArrayList<RenderObject>>(
@@ -29,11 +38,20 @@ public class PlayGameRenderBuffers
 		}
 	}
 
+	/**
+	 * gets buffer
+	 * @param i : buf number
+	 * @return buffj
+	 */
 	protected ArrayList<RenderObject> getBuf(int i)
 	{
 		return buffers.get(i);
 	}
 
+	/**
+	 * gets size of all
+	 * @return size
+	 */
 	protected int size()
 	{
 		int acc = 0;

@@ -1,4 +1,9 @@
 package Game.GameEvents;
+/**
+ * BiFocusedPlayGameEvent. bifocused play game event
+ * @author Jared Pon
+ * @version 03/09/19 v1.0
+ */
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -9,16 +14,28 @@ import Game.PlayGame;
 public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
 {
 
+	/**
+	 * constructor
+	 * @param g: playgame
+	 */
 	public PlayerOutOfHPEvent(PlayGame g)
 	{
 		super(g);
 	}
 
+	/**
+	 * constructor
+	 * @param g: playgame
+	 * @param focus: focused entity
+	 */
 	public PlayerOutOfHPEvent(PlayGame g, int focus)
 	{
 		super(g, focus);
 	}
 
+	/**
+	 * event
+	 */
 	public void f()
 	{
 		// play death sound

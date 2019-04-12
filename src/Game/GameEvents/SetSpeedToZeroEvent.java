@@ -1,5 +1,11 @@
 package Game.GameEvents;
 
+/**
+ * set speed to 0 event.
+ * @author Jared Pon
+ * @version 03/09/19 v1.0
+ */
+
 import Components.*;
 import EntitySets.*;
 import Game.PlayGame;
@@ -19,11 +25,19 @@ import poj.Collisions.*;
 public class SetSpeedToZeroEvent extends FocusedPlayGameEvent
 {
 
+	/**
+	 * constructor
+	 * @param g: playgame
+	 * @param e: entity
+	 */
 	public SetSpeedToZeroEvent(PlayGame g, int e)
 	{
 		super(g, e);
 	}
 
+	/**
+	 * event
+	 */
 	public void f()
 	{
 		EngineState engineState = super.getPlayGame().getEngineState();

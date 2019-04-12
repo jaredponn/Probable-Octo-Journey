@@ -1,4 +1,9 @@
 package Game.GameEvents;
+/**
+ * MobOutOfHPEvent.
+ * @author Jared Pon
+ * @version 03/09/19 v1.0
+ */
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -29,6 +34,9 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 		super(g);
 	}
 
+	/**
+	 * event
+	 */
 	public void f()
 	{
 		EngineState engineState = gameState.getEngineState();

@@ -1,6 +1,14 @@
 package Game;
 
 
+/**
+ * PlayerAttackEvent
+ * Date: March 12, 2019
+ * @author Jared Pon
+ * @version 1.0
+ */
+
+
 import java.awt.Color;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -10,6 +18,7 @@ import Components.CardinalDirections;
 import Components.Damage;
 import Components.HasAnimation;
 import Components.Movement;
+import Components.OctoMeleeAttackBuffer;
 import Components.PCollisionBody;
 import Components.PHitBox;
 import Components.PhysicsPCollisionBody;
@@ -18,6 +27,7 @@ import Components.WorldAttributes;
 import EntitySets.Bullet;
 import EntitySets.MobSet;
 import EntitySets.PlayerSet;
+import EntitySets.BossSet;
 import Game.GameEvents.*;
 import Resources.GameConfig;
 
@@ -30,11 +40,20 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 
 	class PlayerStartingAttackEvent extends FocusedPlayGameEvent
 	{
+
+		/**
+		 *  constructor
+		 *  @param g : play game
+		 *  @param e : entity
+		 */
 		PlayerStartingAttackEvent(PlayGame g, int e)
 		{
 			super(g, e);
 		}
 
+		/**
+		 *  event
+		 */
 		public void f()
 		{
 			EngineState engineState =
@@ -82,11 +101,20 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 
 	public class PlayerAttackEvent extends FocusedPlayGameEvent
 	{
+
+		/**
+		 *  constructor
+		 *  @param g : play game
+		 *  @param e : entity
+		 */
 		PlayerAttackEvent(PlayGame g, int e)
 		{
 			super(g, e);
 		}
 
+		/**
+		 *  event
+		 */
 		public void f()
 		{
 
@@ -199,9 +227,14 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 			case Melee:
 				// Spawn the hitbox in the correct location and
 				// check against all enemies
-				PCollisionBody patk =
-					new PCollisionBody(queryMeleeAttackBody(
-						closestDirToMouse));
+				PCollisionBody patk = new PCollisionBody(
+					engineState
+						.unsafeGetComponentAt(
+							OctoMeleeAttackBuffer
+								.class,
+							player)
+						.getPCollisionBody(
+							closestDirToMouse));
 
 				Systems.updatePCollisionBodyPositionFromWorldAttr(
 					patk,
@@ -237,46 +270,44 @@ public class PlayerAttackCycleHandler implements EntityAttackSetHandler
 							super.getPlayGame(),
 							playerDamage));
 
+				EntityCollisionAlgorithms
+					.ifCollisionBodyIsCollidingWithSetARunGameEventOnFirst(
+						super.getPlayGame(), patk,
+						BossSet.class, PHitBox.class,
+						new DamageFocusedEntityEvent(
+							super.getPlayGame(),
+							playerDamage));
+
+
 				break;
 			}
 		}
 	}
 
 
-	private PCollisionBody queryMeleeAttackBody(CardinalDirections d)
-	{
-
-		switch (d) {
-		case N:
-			return GameConfig.PLAYER_MELEE_N_ATK_BODY;
-		case NE:
-			return GameConfig.PLAYER_MELEE_NE_ATK_BODY;
-		case NW:
-			return GameConfig.PLAYER_MELEE_NW_ATK_BODY;
-		case S:
-			return GameConfig.PLAYER_MELEE_S_ATK_BODY;
-		case SE:
-			return GameConfig.PLAYER_MELEE_SE_ATK_BODY;
-		case SW:
-			return GameConfig.PLAYER_MELEE_SW_ATK_BODY;
-		case W:
-			return GameConfig.PLAYER_MELEE_W_ATK_BODY;
-		case E:
-			return GameConfig.PLAYER_MELEE_E_ATK_BODY;
-		default:
-			return GameConfig.PLAYER_MELEE_E_ATK_BODY;
-		}
-	}
-
-
+	/**
+	 *  starting handler
+	 *  @param g : play game
+	 *  @param e : focus
+	 */
 	public PlayGameEvent startingHandler(PlayGame g, int focus)
 	{
 		return new PlayerStartingAttackEvent(g, focus);
 	}
+	/**
+	 *  attack handler
+	 *  @param g : play game
+	 *  @param e : focus
+	 */
 	public PlayGameEvent attackHandler(PlayGame g, int focus)
 	{
 		return new PlayerAttackEvent(g, focus);
 	}
+	/**
+	 *  end handler
+	 *  @param g : play game
+	 *  @param e : focus
+	 */
 	public PlayGameEvent endAttackHandler(PlayGame g, int focus)
 	{
 		return null;

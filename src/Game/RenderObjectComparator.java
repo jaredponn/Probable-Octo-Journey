@@ -1,5 +1,12 @@
 package Game;
 
+/**
+ * Attack cycler handlers. Game handlers for the attack cycle
+ * Date: February 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
+
 import poj.Render.*;
 import java.util.Comparator;
 

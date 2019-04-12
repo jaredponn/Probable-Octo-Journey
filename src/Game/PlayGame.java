@@ -85,6 +85,13 @@ public class PlayGame extends World
 	protected MapGeneration generateDiffusionMap;
 
 
+	/**
+	 * constructor
+	 * @param width :width
+	 * @param height :height
+	 * @param renderer :refernce to renderer
+	 * @param inputpoller :refernce to inputpoller
+	 */
 	public PlayGame(int width, int height, Renderer renderer,
 			InputPoller inputPoller)
 	{
@@ -157,6 +164,10 @@ public class PlayGame extends World
 				this.map);
 	}
 
+
+	/**
+	 * registering components
+	 */
 	public void registerComponents()
 	{
 		super.engineState.registerComponent(HasAnimation.class);
@@ -174,14 +185,20 @@ public class PlayGame extends World
 			PhysicsPCollisionBody.class);
 		super.engineState.registerComponent(PHitBox.class);
 		super.engineState.registerComponent(Lifespan.class);
+		super.engineState.registerComponent(PathfindSeek.class);
 		super.engineState.registerComponent(HitPoints.class);
 		super.engineState.registerComponent(Damage.class);
 		super.engineState.registerComponent(AggroRange.class);
 		super.engineState.registerComponent(Ammo.class);
 		super.engineState.registerComponent(SoundEffectAssets.class);
 		super.engineState.registerComponent(Money.class);
+		super.engineState.registerComponent(
+			OctoMeleeAttackBuffer.class);
 		super.engineState.registerComponent(KillCount.class);
 	}
+	/**
+	 * registering entity sets
+	 */
 	public void registerEntitySets()
 	{
 		super.engineState.registerSet(PlayerSet.class);
@@ -194,10 +211,13 @@ public class PlayGame extends World
 		super.engineState.registerSet(TurretSet.class);
 		super.engineState.registerSet(PowerUp.class);
 		super.engineState.registerSet(HealthPack.class);
+		super.engineState.registerSet(BossSet.class);
 		super.engineState.registerSet(AmmoPack.class);
 	}
 
-	// higher game logic functions
+	/**
+	 * spawn world
+	 */
 	public void spawnWorld()
 
 	{
@@ -233,6 +253,9 @@ public class PlayGame extends World
 		runGame();
 	}
 
+	/**
+	 * clears world
+	 */
 	public void clearWorld()
 	{
 
@@ -249,13 +272,17 @@ public class PlayGame extends World
 		}
 	}
 
+	/**
+	 * start of frame
+	 */
 	public void startOfFrame()
 	{
 		EngineTransforms.mobSpawner(this);
 	}
 
-	// use super.acct for the accumulated time, use this.dt for the time
-	// step. Time is all in milliseconds
+	/**
+	 * run game
+	 */
 	public void runGame()
 	{
 		this.processInputs();
@@ -293,6 +320,12 @@ public class PlayGame extends World
 		EntityCollisionAlgorithms
 			.startAttackCycleIfAggroRadiusCollidesPhysicsPCollisionBody(
 				this, MobSet.class, TurretSet.class);
+		EntityCollisionAlgorithms
+			.startAttackCycleIfAggroRadiusCollidesPhysicsPCollisionBody(
+				this, BossSet.class, PlayerSet.class);
+		EntityCollisionAlgorithms
+			.startAttackCycleIfAggroRadiusCollidesPhysicsPCollisionBody(
+				this, BossSet.class, TurretSet.class);
 
 		EngineTransforms.pushOutOfHPEventsIfHPIsZeroOrLess(this);
 
@@ -325,6 +358,14 @@ public class PlayGame extends World
 			.nudgeSetAAndBIfPCollisionBodiesAreTouching(
 				this, PlayerSet.class, MobSet.class);
 
+		EntityCollisionAlgorithms
+			.nudgeSetAAndBIfPCollisionBodiesAreTouching(
+				this, PlayerSet.class, BossSet.class);
+
+		EntityCollisionAlgorithms
+			.nudgeSetAAndBIfPCollisionBodiesAreTouching(
+				this, MobSet.class, BossSet.class);
+
 		EntityCollisionAlgorithms.reduceSpeedOfMobIfTouchingTrap(
 			this, GameConfig.TRAP_SPEED_REDUCE);
 
@@ -335,6 +376,9 @@ public class PlayGame extends World
 		TileMapCollisionAlgorithms
 			.nudgePhysicsPCollisionBodiesOutsideTileMapPhysicsPCollisionBody(
 				this, PlayerSet.class);
+		TileMapCollisionAlgorithms
+			.nudgePhysicsPCollisionBodiesOutsideTileMapPhysicsPCollisionBody(
+				this, BossSet.class);
 
 		for (int i = 0; i < this.map.getNumberOfLayers(); ++i) {
 			EngineTransforms.debugRenderPhysicsPCollisionBodies(
@@ -352,9 +396,11 @@ public class PlayGame extends World
 			this.engineState, this.dt);
 
 		// EngineTransforms.generateDiffusionMap(this.map, 0, 1f / 8f);
-		for (int i = this.engineState.getInitialSetIndex(MobSet.class);
+		for (int i = this.engineState.getInitialSetIndex(
+			     PathfindSeek.class);
 		     poj.EngineState.isValidEntity(i);
-		     i = this.engineState.getNextSetIndex(MobSet.class, i)) {
+		     i = this.engineState.getNextSetIndex(PathfindSeek.class,
+							  i)) {
 
 			EngineTransforms.updateEnemyPositionFromPlayer(
 				this.engineState, this.map, 0, this.player, i,
@@ -390,11 +436,20 @@ public class PlayGame extends World
 			this.engineState, PlayerSet.class);
 		EngineTransforms
 			.steerMovementVelocityFromMovementDirectionForSet(
-				this.engineState, MobSet.class, 1 / 1f);
+				this.engineState, MobSet.class, 1 / 1);
+
+		EngineTransforms
+			.steerMovementVelocityFromMovementDirectionForSet(
+				this.engineState, BossSet.class, 1 / 1);
+
 		gameEventStack.runGameEventStack();
 		// rendering is run after this is run
 	}
 
+	/**
+	 * get position to mouse delta
+	 * @param v : position
+	 */
 	protected Vector2f getPositionToMouseDelta(Vector2f v)
 	{
 		Vector2f mousePosition = super.inputPoller.getMousePosition();
@@ -406,19 +461,27 @@ public class PlayGame extends World
 		return tmp;
 	}
 
+	/**
+	 * process inputs
+	 */
 	protected void processInputs()
 	{
 		PlayGameProcessInputs.playGameProcessInputs(this);
 	}
 
 
-	// Render function
+	/**
+	 * render
+	 */
 	protected void render()
 	{
 		PlayGameRender.renderPlayGame(this);
 	}
 
 
+	/**
+	 * updates inverse camera
+	 */
 	protected void updateInverseCamera()
 	{
 		if (this.cam.isInvertible()) {
@@ -427,6 +490,9 @@ public class PlayGame extends World
 		}
 	}
 
+	/**
+	 * resets camera
+	 */
 	protected void resetCamera()
 	{
 		this.cam.clearBackToIdentity();
@@ -439,6 +505,10 @@ public class PlayGame extends World
 			GameResources.TILE_SCREEN_ROTATION);
 	}
 
+	/**
+	 * center camera to world attributes
+	 * @param n :world attributes to center to
+	 */
 	protected void centerCamerasPositionsToWorldAttribute(WorldAttributes n)
 	{
 		this.resetCamera();
@@ -450,6 +520,9 @@ public class PlayGame extends World
 			-tmp.y + super.windowHeight / 2f);
 	}
 
+	/**
+	 * center camera to player position
+	 */
 	protected void centerCamerasPositionToPlayer()
 	{
 		this.centerCamerasPositionsToWorldAttribute(
@@ -457,8 +530,10 @@ public class PlayGame extends World
 							 this.player));
 	}
 
-	// ASE
-	/** @return: current time the game has been running in seconds */
+	/**
+	 * center camera to player position
+	 *@return: current time the game has been running in seconds
+	 */
 	public double getPlayTime()
 	{
 		double playTime = Math.floor((super.acct / 1000) * 100) / 100;
@@ -492,6 +567,9 @@ public class PlayGame extends World
 		}
 	}
 
+	/**
+	 * updates the render buffers
+	 */
 	protected void updateRenderWriteToBufferToUnfocusedBuffer()
 	{
 		this.writeToRenderBuffer =
@@ -511,52 +589,91 @@ public class PlayGame extends World
 			PlayGameRenderBuffers.guiBuf);
 	}
 
+	/**
+	 * gets the tile map
+	 * @return map
+	 */
 	protected Map getMap()
 	{
 		return this.map;
 	}
 
+	/**
+	 * gets gjk
+	 * @return gjk
+	 */
 	protected GJK getGJK()
 	{
 		return this.gjk;
 	}
 
+	/**
+	 * gets inverse camera
+	 * @return inverse camera
+	 */
 	protected Camera getInvCam()
 	{
 		return this.invCam;
 	}
 
+	/**
+	 * gets camera
+	 * @return camera
+	 */
 	protected Camera getCam()
 	{
 		return this.cam;
 	}
 
+	/**
+	 * push event to event handler
+	 * @param event : event
+	 */
 	protected void pushEventToEventHandler(PlayGameEvent event)
 	{
 		this.gameEventStack.push(event);
 	}
 
+	/**
+	 * get kill count
+	 * @return kill count
+	 */
 	public int getKillCount()
 	{
 		return killCount.get();
 	}
 
 
+	/**
+	 * get quad tree for collisions
+	 * @return quad tree
+	 */
 	public QuadTree getTileMapCollisionQuadTree()
 	{
 		return this.tileMapQuadTree;
 	}
 
+	/**
+	 * increment wave number
+	 */
 	public void incrementWaveNumber()
 	{
 		++this.waveNumber;
 	}
 
+	/**
+	 * get wave spawn timer
+	 * @return double -- how long to spawn a wave
+	 */
 	public double getWaveSpawnTimer()
 	{
 		return this.waveSpawnTimer;
 	}
 
+	/**
+	 * get wave number
+	 * @return int -- get the wave
+	 */
 	public int getWaveNumber()
 	{
 		return this.waveNumber;

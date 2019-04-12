@@ -1,5 +1,12 @@
 package Game;
 
+/**
+ * TileMapCollisionAlgorithms
+ * Date: February 10, 2019
+ * @author Jared
+ * @version 1.0
+ */
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Queue;
@@ -44,6 +51,10 @@ import java.util.Optional;
 public class TileMapCollisionAlgorithms
 {
 
+	/**
+	 * generates quad tree
+	 * @param map : map
+	 */
 	private static ArrayList<CollisionShape>
 		SURROUNDING_TILES_COLLISION_BUF =
 			new ArrayList<CollisionShape>(9);
@@ -66,6 +77,11 @@ public class TileMapCollisionAlgorithms
 		return q;
 	}
 
+	/**
+	 * nudges set out of tilemap
+	 * @param g :playgame
+	 * @param set :set
+	 */
 	public static void nudgePhysicsPCollisionBodiesOutsideTileMapON(
 		PlayGame g, Class<? extends Component> set)
 	{
@@ -143,6 +159,13 @@ public class TileMapCollisionAlgorithms
 		}
 	}
 
+
+	/**
+	 * get surrounding collision bodies in tile map
+	 * @param v position
+	 * @param map :map
+	 * @param destBuf : buffer for query
+	 */
 	private static void querySurroundingCollisionBodiesFromTileMap(
 		Vector2f v, Map map, ArrayList<CollisionShape> destBuf)
 	{
@@ -161,9 +184,16 @@ public class TileMapCollisionAlgorithms
 		// destBuf.add();
 	}
 
+	/**
+	 * if set p is colliding with tile map, run game event
+	 * @param g :playgame
+	 * @param set :set
+	 * @param setCollisionType :set collision type
+	 * @param tileMapCollisionType :map collision type
+	 * @param event :event
+	 */
 	private static ArrayList<CollisionShape> QUERIED_Q_TREE_COLLISION_BUF =
 		new ArrayList<CollisionShape>(100);
-
 	public static <T extends PCollisionBody, U extends PCollisionBody> void
 	ifSetPCollisionBodyIsCollidingWithTileMapCollisionBodyRunGameEventUsingQuadTree(
 		PlayGame g, Class<? extends Component> set,
@@ -213,11 +243,15 @@ public class TileMapCollisionAlgorithms
 	}
 
 
+	/**
+	 * if set p is colliding with tile map, nudge outside
+	 * @param g :playgame
+	 * @param set :set
+	 */
 	private static NudgeAOutOfBPCollisionBodyEvent<
 		PhysicsPCollisionBody> NUDGE_A_OUT_OF_B_P_COLLISION_BODY_MEMO =
 		new NudgeAOutOfBPCollisionBodyEvent<PhysicsPCollisionBody>(
 			PhysicsPCollisionBody.class);
-
 	public static void
 	nudgePhysicsPCollisionBodiesOutsideTileMapPhysicsPCollisionBody(
 		PlayGame g, Class<? extends Component> set)

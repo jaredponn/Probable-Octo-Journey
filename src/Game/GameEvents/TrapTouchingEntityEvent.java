@@ -1,4 +1,9 @@
 package Game.GameEvents;
+/**
+ * TrapTouchingEntityEvent.
+ * @author Jared Pon
+ * @version 03/09/19 v1.0
+ */
 
 import poj.EngineState;
 import Components.*;
@@ -10,15 +15,26 @@ public class TrapTouchingEntityEvent extends BiFocusedPlayGameEvent
 
 	float speedReduce = 0f;
 
+	/**
+	 * Constructor
+	 */
+
 	public TrapTouchingEntityEvent()
 	{
 	}
 
+	/**
+	 * set speed reduce
+	 * @param n: speed reduce -- should be between 0-1
+	 */
 	public void setSpeedReduce(float n)
 	{
 		speedReduce = n;
 	}
 
+	/**
+	 * event
+	 */
 	public void f()
 	{
 		EngineState engineState = super.getPlayGame().getEngineState();
