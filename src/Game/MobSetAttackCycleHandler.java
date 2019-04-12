@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import Components.AggroRange;
 import Components.CardinalDirections;
+import Components.Damage;
 import Components.HitPoints;
 import Components.Movement;
 import Components.MovementDirection;
@@ -99,7 +100,11 @@ public class MobSetAttackCycleHandler implements EntityAttackSetHandler
 					.damageSetAIfCollisionBodiesAreTouching(
 						super.getPlayGame(), pmob,
 						PlayerSet.class,
-						GameConfig.MOB_ATTACK_DAMAGE);
+						engineState
+							.unsafeGetComponentAt(
+								Damage.class,
+								focus1)
+							.getDamage());
 
 			// get the player health
 			Optional<HitPoints> hpOpt = engineState.getComponentAt(

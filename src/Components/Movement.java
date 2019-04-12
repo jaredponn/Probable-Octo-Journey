@@ -45,7 +45,13 @@ public class Movement implements Component
 
 	public void setVelocity(Vector2f n)
 	{
-		this.vel = n;
+		setVelocity(n.x, n.y);
+	}
+
+	public void setVelocity(float x, float y)
+	{
+		this.vel.x = x;
+		this.vel.y = y;
 	}
 
 	public void print()

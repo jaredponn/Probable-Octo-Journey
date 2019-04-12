@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Queue;
+import java.util.concurrent.ThreadLocalRandom;
 
 import Components.AttackCycle;
 import Components.*;
@@ -350,7 +351,7 @@ public class EngineTransforms
 								mobPosition)));
 
 			engineState.unsafeGetComponentAt(Movement.class, mob1)
-				.setSpeed(GameConfig.MOB_SPEED);
+				.setVelocity(0f, 0f);
 			// if the mob does not have the same position as the
 			// player
 			if (Math.abs(mobPosition.x - playerPosition.x)
@@ -364,10 +365,6 @@ public class EngineTransforms
 						playerPosition
 							.subtractAndReturnVector(
 								mobPosition)));
-				engineState
-					.unsafeGetComponentAt(Movement.class,
-							      mob1)
-					.setSpeed(GameConfig.MOB_SPEED);
 			}
 			// mob have the same position as the player
 			else {
@@ -388,8 +385,6 @@ public class EngineTransforms
 							.subtractAndReturnVector(
 								mobPosition)));
 
-			engineState.unsafeGetComponentAt(Movement.class, mob1)
-				.setSpeed(GameConfig.MOB_SPEED);
 			// if the mob does not have the same position as the
 			// turret
 			if (Math.abs(mobPosition.x - turretPos.x)
@@ -403,10 +398,6 @@ public class EngineTransforms
 						turretPos
 							.subtractAndReturnVector(
 								mobPosition)));
-				engineState
-					.unsafeGetComponentAt(Movement.class,
-							      mob1)
-					.setSpeed(GameConfig.MOB_SPEED);
 			}
 			// mob have the same position as the turret
 			else {
@@ -478,8 +469,6 @@ public class EngineTransforms
 								.class,
 							mob1)
 						.getAnimation(tempDir, 1));
-			engineState.unsafeGetComponentAt(Movement.class, mob1)
-				.setSpeed(GameConfig.MOB_SPEED);
 		}
 	}
 
@@ -804,5 +793,76 @@ public class EngineTransforms
 		EntityCollisionAlgorithms.pickUpEventForPlayer(
 			g, GameConfig.PICKUP_AMMOPACK_AMOUNT, PowerUp.class,
 			Damage.class);
+	}
+
+	public static void spawnWave(PlayGame g, float speed_bonus,
+				     int hp_bonus, int damage_bonus)
+	{
+		EngineState engineState = g.getEngineState();
+
+		for (int i = 0; i < GameConfig.MOB_SPAWN_POINTS.size(); i++) {
+			// engineState.spawnEntitySet(new MobSet(
+			// GameConfig.MOB_SPAWN_POINTS.get(i).x,
+			// GameConfig.MOB_SPAWN_POINTS.get(i).y, speed_bonus,
+			// hp_bonus, damage_bonus));
+			engineState.spawnEntitySet(new MobSet(
+				GameConfig.MOB_SPAWN_POINTS.get(i).x,
+				GameConfig.MOB_SPAWN_POINTS.get(i).y,
+				speed_bonus, hp_bonus, damage_bonus));
+		}
+
+		g.incrementWaveNumber();
+
+		engineState
+			.unsafeGetComponentAt(
+				SoundEffectAssets.class,
+				engineState.getInitialSetIndex(MobSet.class))
+			.playSoundEffectAt(
+				ThreadLocalRandom.current().nextInt(0, 3));
+	}
+
+	public static void mobSpawner(PlayGame g)
+	{
+		EngineState engineState = g.getEngineState();
+
+		// spawning zombies
+		if (engineState.getRawComponentArrayListPackedData(MobSet.class)
+			    .size()
+		    < GameConfig.MAX_MOBS) {
+
+			if ((int)g.getAcct() % (int)g.getWaveSpawnTimer()
+			    < 25) {
+
+				int n = ThreadLocalRandom.current().nextInt(0,
+									    4);
+
+				// magic constatns to make the game feel right
+				float speedBonus =
+					Math.min(GameConfig.MAX_SPEED_BONUS,
+						 (float)g.waveNumber / 20000f);
+
+				int damageBonus = (int)Math.min(
+					GameConfig.MAX_DAMAGE, n * 2);
+
+				switch (n) {
+				case 0:
+					// the fast one
+					EngineTransforms.spawnWave(
+						g, speedBonus, -20 + n * 2, 0);
+					break;
+				case 1:
+					// the tanky one
+					EngineTransforms.spawnWave(
+						g, 0f, n * 15, damageBonus);
+
+					break;
+				default:
+
+					EngineTransforms.spawnWave(g, 0, n * 5,
+								   0);
+					break;
+				}
+			}
+		}
 	}
 }

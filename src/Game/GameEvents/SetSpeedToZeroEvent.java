@@ -34,6 +34,6 @@ public class SetSpeedToZeroEvent extends FocusedPlayGameEvent
 		if (!mopt.isPresent())
 			return;
 
-		mopt.get().setSpeed(0);
+		mopt.get().setVelocity(0f, 0f);
 	}
 }

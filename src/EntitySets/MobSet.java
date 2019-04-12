@@ -32,39 +32,18 @@ public class MobSet extends EntitySet
 	 */
 	public MobSet(float x, float y)
 	{
-		super();
-
-		addComponent(new Render(new ImageRenderObject(
-			0, 0, GameResources.enemySpriteSheet)));
-		addComponent(new WorldAttributes(new Vector2f(x, y),
-						 GameConfig.MOB_WIDTH,
-						 GameConfig.MOB_HEIGHT));
-
-		addComponent(
-			new HasAnimation(GameResources.enemyNMoveAnimation));
-		addComponent(new Movement(GameConfig.MOB_SPEED));
-		addComponent(new MovementDirection(CardinalDirections.N));
-		addComponent(new FacingDirection(CardinalDirections.N));
-		addComponent(new PhysicsPCollisionBody(
-			GameConfig.MOB_COLLISION_BODY));
-		addComponent(new HitPoints(GameConfig.MOB_HP,
-					   GameConfig.MOB_MAX_HP));
-		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
-		addComponent(new AttackCycle(GameConfig.MOB_ATTACK_CYCLE));
-		addComponent(new AggroRange(GameConfig.MOB_AGGRO_RANGE));
-		addComponent(new AnimationWindowAssets(
-			GameConfig.MOB_ANIMATION_WINDOW_ASSETS));
-		// zombie sound effects:
-		addComponent(
-			new SoundEffectAssets(GameResources.zombieSoundAsset));
+		this(x, y, 0, 0, 0);
 	}
 
 	/**
 	 * Spawn Mob at coordinates x , y
-	 * @param x-coord
-	 * @param y-coord
+	 * @param x-coord x coordinate
+	 * @param y-coord y coordinate
+	 * @param speed_bonus  bonus speed
+	 * @param hp_bonus bonus hp
 	 */
-	public MobSet(float x, float y, float speed_bonus, int hp_bonus)
+	public MobSet(float x, float y, float speed_bonus, int hp_bonus,
+		      int damage_bonus)
 	{
 		super();
 
@@ -86,6 +65,8 @@ public class MobSet extends EntitySet
 		addComponent(new PHitBox(GameConfig.ENEMY_HITBOX_BODY));
 		addComponent(new AttackCycle(GameConfig.MOB_ATTACK_CYCLE));
 		addComponent(new AggroRange(GameConfig.MOB_AGGRO_RANGE));
+		addComponent(new Damage(GameConfig.MOB_ATTACK_DAMAGE
+					+ damage_bonus));
 		addComponent(new AnimationWindowAssets(
 			GameConfig.MOB_ANIMATION_WINDOW_ASSETS));
 		// zombie sound effects:

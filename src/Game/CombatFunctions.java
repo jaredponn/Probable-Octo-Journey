@@ -215,49 +215,6 @@ public class CombatFunctions
 		}
 	}
 
-	/**
-	 * Handler for mobs hitting a turret
-	 * @param engineState: the main game state
-	 * @param gjk: GJK needed to handle collisions
-	 * @param mob: the mob that is attacking the turret
-	 * @param player: reference to the turret
-	 */
-	public static void handleMobDamageTurret(EngineState engineState,
-						 int turret)
-	{
-		HitPoints turretHP = engineState.unsafeGetComponentAt(
-			HitPoints.class, turret);
-		System.out.println("A mob is hitting a turret! Turret HP: "
-				   + turretHP.getHP());
-
-
-		turretHP.hurt(GameConfig.MOB_ATTACK_DAMAGE);
-
-		if (turretHP.getHP() <= 0)
-			removeTurret(engineState, turret);
-	}
-
-	/**
-	 * Applies damage to player, and handles player death
-	 * @param engineState: the main game state
-	 * @param player: reference to the player
-	 * @param amount: amount of damage applied to the player
-	 */
-	public static void handlePlayerDamage(EngineState engineState,
-					      int player, int amount)
-	{
-		HitPoints playerHP = engineState.unsafeGetComponentAt(
-			HitPoints.class, player);
-		playerHP.hurt(amount);
-		if (playerHP.getHP() > 0) {
-		} else {
-			// play death sound
-			System.out.println(
-				"---------------\n"
-				+ "The player has been killed!!!\n---GAME OVER---");
-			// System.exit(0);
-		}
-	}
 
 	/**
 	 * Handler for selecting targets for turrets
