@@ -389,7 +389,9 @@ public class GameResources
 			"resources/sounds/playerMeleeSound3.wav",
 		winSoundPath = "resources/sounds/winMusic.wav",
 		loseSoundPath = "resources/sounds/loseMusic.wav",
-		bossSoundPath = "resources/sounds/bossMusic.wav";
+		bossSoundPath = "resources/sounds/bossMusic.wav",
+		bossAlertSoundPath = "resources/sounds/bossAlert.wav",
+		bossSpawnSoundPath = "resources/sounds/bossSpawn.wav";
 
 
 	public static Sound gunSound, zombieDeathSound1, zombieDeathSound2,
@@ -399,7 +401,7 @@ public class GameResources
 		playerHpDropSound1, playerHpDropSound2, playerHpDropSound3,
 		playerHpDropSound4, playerDeathSound1, playerDeathSound2,
 		playerDeathSound3, playerDeathSound4, winSound, loseSound,
-		bossSound;
+		bossSound, bossAlertSound, bossSpawnSound;
 	public static ArrayList<String> playerSoundAsset =
 						new ArrayList<String>(),
 					zombieSoundAsset =
@@ -415,11 +417,13 @@ public class GameResources
 			// game sounds
 			menuSound = new Sound(GameResources.menuSoundPath);
 			gameBgSound = new Sound(GameResources.gameBgSoundPath);
-			menuSelectButtonSound =
-				new Sound(menuSelectButtonSoundPath);
 			winSound = new Sound(GameResources.winSoundPath);
 			loseSound = new Sound(GameResources.loseSoundPath);
 			bossSound = new Sound(GameResources.bossSoundPath);
+			bossAlertSound =
+				new Sound(GameResources.bossAlertSoundPath);
+			bossSpawnSound =
+				new Sound(GameResources.bossSpawnSoundPath);
 
 			// musicSoundAsset.add(menuSound);
 			// musicSoundAsset.add(gameBgSound);

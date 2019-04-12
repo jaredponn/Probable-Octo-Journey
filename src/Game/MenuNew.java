@@ -181,8 +181,9 @@ public class MenuNew extends World
 				// if a collision occurs
 				if (colliding != -1) {
 					// plays the menu sound
-					GameResources.menuSelectButtonSound
-						.play();
+					Components.Sound.playSoundEffect(
+						GameResources
+							.menuSelectButtonSoundPath);
 					// clicks the play button
 					if (colliding == 0) {
 						super.quit();
@@ -208,8 +209,9 @@ public class MenuNew extends World
 					    gjk, mouseHitBox,
 					    this.buttonHitBoxROBuffer.get(4))) {
 					// plays the menu sound
-					GameResources.menuSelectButtonSound
-						.play();
+					Components.Sound.playSoundEffect(
+						GameResources
+							.menuSelectButtonSoundPath);
 					// switch the enum state to main menu
 					curMenuState = MenuState.mainMenu;
 				}

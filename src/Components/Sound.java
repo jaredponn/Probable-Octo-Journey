@@ -224,7 +224,7 @@ public class Sound implements Component
 
 	public boolean getIsPlaying()
 	{
-		return this.isPlaying;
+		return this.clip.isRunning();
 	}
 
 	public void print()
