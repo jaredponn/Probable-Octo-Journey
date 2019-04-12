@@ -412,7 +412,7 @@ public class Map
 			// gas station building
 			tmp = new Render(GameResources.gasStationBuilding,
 					 specialWidth - 3f, specialHeight - 3f);
-			tmp.getGraphic().setRenderSortModifier(-80);
+			tmp.getGraphic().setRenderSortModifier(-40);
 			return Optional.of(tmp);
 		case 576:
 			// first tree
