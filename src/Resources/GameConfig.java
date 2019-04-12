@@ -594,11 +594,11 @@ public class GameConfig
 	////////////////////////
 	///// input config /////
 	////////////////////////
-	public static final int SWITCH_WEAPONS = KeyEvent.VK_X;
+	public static final int SWITCH_WEAPONS = KeyEvent.VK_F;
 	public static final int ATTACK_KEY = KeyEvent.VK_SPACE;
 	public static final int BUILD_TOWER = KeyEvent.VK_Q;
 	public static final int BUILD_TRAP = KeyEvent.VK_E;
-	public static final int BUY_AMMO = KeyEvent.VK_B;
+	public static final int BUY_AMMO = KeyEvent.VK_R;
 	public static final int QUIT_KEY = KeyEvent.VK_ESCAPE;
 
 	public static final int ARROW_UP = KeyEvent.VK_UP;
