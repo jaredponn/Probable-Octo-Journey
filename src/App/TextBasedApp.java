@@ -7,7 +7,6 @@ import javax.sound.sampled.*;
 
 
 import Game.GameOver;
-import Game.Menu;
 import Game.PlayGame;
 import Resources.GameConfig;
 import Resources.GameResources;
