@@ -18,6 +18,7 @@ public class AggroRange extends PCollisionBody
 	 *
 	 * @param  d the displacement added to the object just
 	 *         before setting its position
+	 * @param  c the centre point of the CollisionBody
 	 * @param  pts ... the collision body
 	 */
 	public AggroRange(Vector2f d, Vector2f c, Vector2f... pts)
