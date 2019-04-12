@@ -12,12 +12,7 @@ package Game;
  */
 
 import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.util.Queue;
-import java.util.LinkedList;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import Components.*;
@@ -28,7 +23,6 @@ import PathFinding.MapGeneration;
 import Resources.GameConfig;
 import Resources.GameResources;
 import TileMap.Map;
-import TileMap.MapLayer;
 
 import poj.Render.*;
 import poj.GameWindow.*;
@@ -39,11 +33,6 @@ import poj.Render.RenderObject;
 import poj.Render.StringRenderObject;
 import poj.linear.Vector2f;
 import poj.EngineState;
-
-import java.io.IOException;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.sound.sampled.Clip;
 
 public class PlayGame extends World
 {
@@ -98,8 +87,6 @@ public class PlayGame extends World
 
 	public PlayGame(int width, int height, Renderer renderer,
 			InputPoller inputPoller)
-		throws UnsupportedAudioFileException, IOException,
-		       LineUnavailableException
 	{
 
 		super(width, height, renderer, inputPoller);
@@ -125,6 +112,10 @@ public class PlayGame extends World
 			GameResources.NoTreeofficialMapLightsAndSigns5);
 		this.map.addMapLayer(
 			GameResources.NoTreeofficialMapEmptyBlockForBuildings);
+		this.map.addMapLayer(
+			GameResources.NoTreeofficialMapimageMarkForBuildings);
+
+
 		/*
 		this.map.addTileSet(GameResources.officialTileSetConfig);
 		this.map.addMapConfig(GameResources.officialMapConfig);

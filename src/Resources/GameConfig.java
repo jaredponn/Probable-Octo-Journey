@@ -271,16 +271,30 @@ public class GameConfig
 	public static final int MOB_DROP_RATE = 33;
 
 	// pathfinding/collision detection
+	///*
 	public static final PCollisionBody MOB_COLLISION_BODY =
 		// clang-format off
 			new PCollisionBody(
 				new Vector2f(0.2f , 0.55f), // displacement
-				new Vector2f(0.5f/4f ,0.5f/4f), // center
+				new Vector2f(0.45f/4f ,0.45f/4f), // center
 							  // collision body:
 				new Vector2f(0.25f/4f,   1    /4f), new Vector2f(0.75f /4f, 1    /4f),
 				new Vector2f(0    /4f,   0.75f/4f), new Vector2f(1     /4f, 0.75f/4f),
 				new Vector2f(0    /4f, 0.25f  /4f), new Vector2f(0.25f /4f, 0    /4f),
 				new Vector2f(0.75f/4f, 0      /4f), new Vector2f(1     /4f, 0.25f/4f));
+	// clang-format on
+	//*/
+
+	/*
+	public static final PCollisionBody MOB_COLLISION_BODY =
+		// clang-format off
+			new PCollisionBody(
+				new Vector2f(0.2f , 0.55f), // displacement
+				new Vector2f(0.5f,0.5f), // center
+							  // collision body:
+				new Vector2f(0.5f, 0.5f),new Vector2f(0.51f,
+	0.51f));
+				*/
 	// clang-format on
 
 	// combat configs

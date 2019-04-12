@@ -133,6 +133,7 @@ public class MapGeneration extends Thread
 						mapLayer.unsafeGetComponentAt(
 							PathFindCord.class, i);
 
+					/*
 					if (center.getCord().equals(
 						    playerPosition)) {
 						tempDiffusionBuffer.add(
@@ -140,13 +141,13 @@ public class MapGeneration extends Thread
 								.PLAYER_DIFFUSION_VALUE);
 						continue;
 					}
+					*/
 
 					// if the center is not a wall OR if the
 					// player is standing on it (so if
 					// player standing on a wall it will
 					// still diffuse)
-					else if (!center.getIsWall()) {
-
+					if (!center.getIsWall()) {
 						ArrayList<
 							PathFindCord> tempNeighbours =
 							Game.EngineTransforms
@@ -159,11 +160,9 @@ public class MapGeneration extends Thread
 							// if not a wall or if a
 							// player is standing on
 							// that wall
-							if (!a.getIsWall()
-							    || a.getCord().equals(
-								       playerPosition)) {
-								sum += a.getDiffusionValue()
-								       - center.getDiffusionValue();
+							if (!a.getIsWall()) {
+								sum += (a.getDiffusionValue()
+									- center.getDiffusionValue());
 							}
 						}
 						sum = center.getDiffusionValue()

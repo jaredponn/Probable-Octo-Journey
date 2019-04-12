@@ -393,6 +393,54 @@ public class Map
 	{
 		float specialWidth = 1f, specialHeight = 0f;
 		switch (tileCord) {
+		case 0:
+			// fountain
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.fountainBuilding,
+					new Pair<Float, Float>(
+						specialWidth - 2f,
+						specialHeight - 2f)));
+		case 1:
+			// pink building
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.pinkBuilding,
+					new Pair<Float, Float>(
+						specialWidth - 2f,
+						specialHeight - 2f)));
+		case 2:
+			// brown building
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.brownBuilding,
+					new Pair<Float, Float>(
+						specialWidth - 3f + 0.1f,
+						specialHeight - 3f + 0.1f)));
+		case 3:
+			// blue building
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.blueBuilding,
+					new Pair<Float, Float>(
+						specialWidth - 2f,
+						specialHeight - 2f)));
+		case 4:
+			// school building
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.schoolBuilding,
+					new Pair<Float, Float>(
+						specialWidth - 2f,
+						specialHeight - 3f)));
+		case 5:
+			// gas station building
+			return Optional.of(
+				new Pair<BufferedImage, Pair<Float, Float>>(
+					GameResources.gasStationBuilding,
+					new Pair<Float, Float>(
+						specialWidth - 3f,
+						specialHeight - 3f)));
 		case 576:
 			// first tree
 			return Optional.of(
@@ -580,21 +628,7 @@ public class Map
 
 		// medium chairs
 		wallState.set(683, true);
-		wallHitBox.set(683, new PhysicsPCollisionBody(
-					    new Vector2f(0f, 0f),
-					    cbwc.pureAdd(0.25f,
-							 0.25f), // center
-					    cbwc, cbwc.pureAdd(0.5f, 0f),
-					    cbwc.pureAdd(0f, 1f),
-					    cbwc.pureAdd(0.5f, 1f)));
 		wallState.set(684, true);
-		wallHitBox.set(684, new PhysicsPCollisionBody(
-					    new Vector2f(0f, 0f),
-					    cbwc.pureAdd(0.25f,
-							 0.25f), // center
-					    cbwc, cbwc.pureAdd(0.9f, 0f),
-					    cbwc.pureAdd(0f, 0.5f),
-					    cbwc.pureAdd(0.9f, 0.5f)));
 
 		// fence1
 		wallState.set(137, true);
