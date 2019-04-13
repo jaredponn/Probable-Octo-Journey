@@ -24,15 +24,15 @@ Note: this script only works with bash.
 # Playing the game
 - WASD to move
 - SPACE to attack (shoot or attack with a bat)
-- F to swap weapons
+- X to swap weapons
 - Q to place a turret (if you have enough money)
 - E to place a trap (if you have enough money)
-- R to buy more ammo (if you have enough money)
+- B to buy more ammo (if you have enough money)
 - P to pause the game (only in the main game state)
 
 Aim with the mouse. Go kill some zombies! See if you can get on the score board.
 
-Rumour has it that there's an epic boss zombie fight if you can make it that far. Killing him might make you win the game and you can hear some nice victory vibes :)
+Rumour has it that there's an epic boss zombie fight if you can make it that far. Killing him might make you win the game and you can hear some nice victory vibes.
 
 
 # Running the unit tests
@@ -138,7 +138,16 @@ Maybe list (if we have time)
 - [x] Aligning the aggro hit box properly - DONE (alex 03/20/19) 
 - [x] Actually using the aggro hit box - DONE (alex 03/22/19)
 - [x] Shrinking the PPhysicsHitBox of zombies and players - DONE (alex 03/22/19)
-
+- [ ] Change to the better buttons
+       ``` 
+- WASD to move
+- SPACE to attack (shoot or attack with a bat)
+- F to swap weapons
+- Q to place a turret (if you have enough money)
+- E to place a trap (if you have enough money)
+- R to buy more ammo (if you have enough money)
+- P to pause the game (only in the main game state)
+       ```
 
 ## Coordinate System
 The coordinate system is a little strange. The following diagram will illustrate:
