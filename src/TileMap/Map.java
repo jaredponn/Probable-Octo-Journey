@@ -778,4 +778,9 @@ public class Map
 	{
 		return this.mapLayers.size();
 	}
+
+	public ArrayList<Boolean> getWallState()
+	{
+		return this.wallState;
+	}
 }
