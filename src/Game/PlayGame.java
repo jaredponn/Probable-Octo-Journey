@@ -2,8 +2,8 @@ package Game;
 
 /**
  * PlayGame -- main class that plays the game (input, render, engine transforms,
- * etc) - giant conglomeration of all the state and the sweat and tears and blood
- * of our team put together to put together this project.
+ * etc) - giant conglomeration of all the state and the sweat and tears and
+ * blood of our team put together to put together this project.
  *
  * Date: March 12, 2019
  * 2019
@@ -674,5 +674,14 @@ public class PlayGame extends World
 	public int getWaveNumber()
 	{
 		return this.waveNumber;
+	}
+
+	/**
+	 * get render thread
+	 * @return render thread -- get the wave
+	 */
+	public RenderThread getRenderThread()
+	{
+		return this.renderThread;
 	}
 }

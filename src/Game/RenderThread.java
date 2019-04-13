@@ -100,7 +100,8 @@ public class RenderThread extends Thread
 	public void run()
 	{
 		while (threadRunning) {
-			// focus.getBuf(PlayGameRenderBuffers.debugBuf).clear();
+			// comment this out if you want to render
+			focus.getBuf(PlayGameRenderBuffers.debugBuf).clear();
 
 			if (isRendering) {
 				renderer.renderBufferLists(
@@ -112,8 +113,9 @@ public class RenderThread extends Thread
 							     .buildingBuf),
 					focus.getBuf(
 						PlayGameRenderBuffers.poleBuf),
-					focus.getBuf(
-						PlayGameRenderBuffers.debugBuf),
+					// uncomment to render debug buffers
+					// focus.getBuf(
+					// PlayGameRenderBuffers.debugBuf),
 					focus.getBuf(
 						PlayGameRenderBuffers.guiBuf));
 

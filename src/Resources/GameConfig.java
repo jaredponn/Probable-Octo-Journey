@@ -29,6 +29,8 @@ public class GameConfig
 	public static final int HUD_LINE_SPACING = HUD_FONT_SIZE * 2;
 	// public static final Font HUD_FONT = new Font("TimesRoman",
 	// Font.PLAIN, HUD_FONT_SIZE);
+	public static final Font HUD_FONT_HUGE =
+		GameResources.CREEPER_FONT_HUGE;
 	public static final Font HUD_FONT = GameResources.CREEPER_FONT;
 	public static final Font HUD_FONT_SMALL =
 		GameResources.CREEPER_FONT_SMALL;
@@ -214,7 +216,7 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(-0.22f, 0.86f), // displacement
 			new Vector2f(1.5f, 0.75f),   // center
-						   // collision body:
+						     // collision body:
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
 			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
@@ -420,7 +422,7 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(0.1f + 1.5f, 0f + 3f), // displacement
 			new Vector2f(0.3f, 0.3f),	   // center
-						  // collision body:
+							    // collision body:
 			new Vector2f(0, 0),
 			new Vector2f(0, MELEE_HEIGHT / 0.2f),
 			new Vector2f(MELEE_HEIGHT / 0.2f, 0),
@@ -609,6 +611,7 @@ public class GameConfig
 	// simulation of cooldown key for mouse
 	public static final int MOUSE_CLICK =
 		poj.GameWindow.InputPoller.MAX_KEY - 1;
+	public static final int PAUSE_GAME = KeyEvent.VK_P;
 
 	// key, cooldown (ms)
 	public static final ArrayList<Pair<Integer, Double>> COOL_DOWN_KEYS =
@@ -616,6 +619,8 @@ public class GameConfig
 			{
 				add(new Pair<Integer, Double>(ATTACK_KEY,
 							      0.3d));
+				add(new Pair<Integer, Double>(PAUSE_GAME,
+							      0.5d));
 				add(new Pair<Integer, Double>(BUILD_TOWER, 1d));
 				add(new Pair<Integer, Double>(SWITCH_WEAPONS,
 							      1d));

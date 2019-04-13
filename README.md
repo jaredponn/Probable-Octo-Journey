@@ -1,5 +1,5 @@
 # Probable Octo Journey: CPSC 233 Project
-A top down isometric zombie shooter with a custom game engine (entity component system), path-finding engine, and collision engine.
+A top down isometric zombie shooter with a custom game engine (entity component system), custom path-finding engine, and custom collision engine.
 
 
 # Gameplay
@@ -24,14 +24,15 @@ Note: this script only works with bash.
 # Playing the game
 - WASD to move
 - SPACE to attack (shoot or attack with a bat)
-- X to swap weapons
+- F to swap weapons
 - Q to place a turret (if you have enough money)
-- B to buy more ammo (if you have enough money)
+- E to place a trap (if you have enough money)
+- R to buy more ammo (if you have enough money)
+- P to pause the game (only in the main game state)
 
-Aim with the mouse.Go kill some zombies! See if you can get on the score board.
+Aim with the mouse. Go kill some zombies! See if you can get on the score board.
 
-
-NOTES: unstable release still. Many collision boxes have not been implemented yet.
+Rumour has it that there's an epic boss zombie fight if you can make it that far. Killing him might make you win the game and you can hear some nice victory vibes :)
 
 
 # Running the unit tests
@@ -80,21 +81,30 @@ The game engine design came from various posts and contributions from: https://j
 
 The UML diagram can be found at:
 ```bash
-./finaluml.png
+./finaluml.png      # actual UML diagram
+./simplifieduml.png # simplifed UML diagram
 ```
+
+## Technical accomplishments
+- The game engine features O(1) creation and deletion of new game entities.
+- The collision system queries collisions in O(nlog(n)) time with an AABB binary tree to query likely collisions
+- The collision system works with arbitrary convex polygons
+- The path finding system does path finding in O(n) time, where n is the number of agents.
+
+
 # Textbased Version:
 See `textbased/README.md` for more information about the text based version.
 
 # Announcements -- for Contributors:
 
 ## TODO List
-- [ ] Boss fight -- boss exists, but doesnt' have an exciting victory screen -- imo it should drop something you pick up, then you win. If you wanna modify this chekcout out Game/GameEvents/DefeatedBossEvent.java
-- [ ] Make a simplified uml diagram - for some reason our UML diagram is too complicated??
+- [x] Boss fight -- boss exists, but doesnt' have an exciting victory screen -- imo it should drop something you pick up, then you win. If you wanna modify this chekcout out Game/GameEvents/DefeatedBossEvent.java
+- [x] Make a simplified uml diagram - for some reason our UML diagram is too complicated??
 - [ ] Make the player stronger as time/wave goes on, maybe done by powerups.. 
-- [ ] Automated tests UNIT TESTING
+- [x] Automated tests UNIT TESTING
 - [ ] Wave style of zombie spawning (e.g. Max number of zombies on map is 80, will spawn wave in N seconds, have a timer for the next wave incoming)
-- [ ] Comments / Javadoc
-- [ ] Line up the hitboxes of the Collectibles(powerups, money, hp) with it's hit box
+- [x] Comments / Javadoc
+- [x] Line up the hitboxes of the Collectibles(powerups, money, hp) with it's hit box
 - [x] Refactor to reduce code duplication -- kinda got worse when we added the boss tho
 - [x] Make the hitboxes for the tilemap - Buildings are done 03/29/19 haiyang
 - [x] Haiyang - Replace buildings with solid images ... for the tilemap so buildings fit the tiles perfectly (either delete or add new blocks)
@@ -106,7 +116,7 @@ See `textbased/README.md` for more information about the text based version.
 Maybe list (if we have time)
 - [x] hp bars
 - [ ] Prettier HUD
-- [ ] move pathfinding to its component and iterate through that to decide which entities to path find. Makes it easier for the attack cycler as well
+- [x] move pathfinding to its component and iterate through that to decide which entities to path find. Makes it easier for the attack cycler as well
 - [x] Damage numbers ? at least tell the user how much damage does the weapons do
 - [x] Aligning collision boxes for the players&zombie 
 - [x] Audio
@@ -205,6 +215,4 @@ Path-finding: http://www.cs.colorado.edu/~ralex/papers/PDF/OOPSLA06antiobjects.p
 
 
 Collision detection and resolution: http://www.cs.colorado.edu/~ralex/papers/PDF/OOPSLA06antiobjects.pdf
-
-
 

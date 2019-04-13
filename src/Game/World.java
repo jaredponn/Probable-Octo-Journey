@@ -258,4 +258,22 @@ public abstract class World
 	{
 		return this.acct;
 	}
+
+	/**
+	 * gets last cooldown
+	 * @return lasCoolDown
+	 */
+	public ArrayList<Double> getLastCoolDown()
+	{
+		return this.lastCoolDown;
+	}
+
+	/**
+	 * gets renderer
+	 * @return renderer
+	 */
+	public Renderer getRenderer()
+	{
+		return this.renderer;
+	}
 }
