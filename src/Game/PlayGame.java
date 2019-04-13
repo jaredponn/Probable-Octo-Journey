@@ -247,9 +247,6 @@ public class PlayGame extends World
 		this.killCount = engineState.unsafeGetComponentAt(
 			KillCount.class, player);
 
-		engineState.spawnEntitySet(new CashPack(
-			GameConfig.PLAYER_SPAWNNING_POS.pureAdd(2, 2)));
-
 		runGame();
 	}
 
