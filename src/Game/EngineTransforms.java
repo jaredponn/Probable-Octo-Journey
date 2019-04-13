@@ -950,7 +950,7 @@ public class EngineTransforms
 			}
 		}
 
-		if (g.getWaveNumber() % 2 == 0
+		if (g.getWaveNumber() % 30 == 0
 		    && g.getEngineState()
 				       .getRawComponentArrayListPackedData(
 					       BossSet.class)
