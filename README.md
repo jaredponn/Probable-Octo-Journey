@@ -1,6 +1,7 @@
 # Probable Octo Journey: CPSC 233 Project
 A top down isometric zombie shooter with a custom game engine (entity component system), custom path-finding engine, and custom collision engine.
 
+This game supports 2 resolutions! If the player's computer resolution is greater or equal to 1920x1080, then the game will be displayed at resolution of 1920x1080. Else if will be displayed at resolution of 1366x768. 
 
 # Gameplay
 ![Gameplay](./gameplay.gif)
@@ -65,6 +66,7 @@ Note: this script only works with bash.
 
 - 2019 March 25, Version 1.1 Pre-Alpha half-unstable release. 
 
+- 2019 April 13, Version 1.2 Final version. 
 
 # Understanding the Code Base 
 The book *Design Patterns: Elements of Reusable Object-Oriented Software* famously wrote that we should write code to "Favor 'object composition' over 'class inheritance'." (Gang of Four 1995:20). This code base does exactly that -- it utilizes an entity component system that favors object composition of different Component classes in EntitySets instead of inheritance. This method  results in highly generalized reusable code when used properly. 
@@ -100,9 +102,9 @@ See `textbased/README.md` for more information about the text based version.
 ## TODO List
 - [x] Boss fight -- boss exists, but doesnt' have an exciting victory screen -- imo it should drop something you pick up, then you win. If you wanna modify this chekcout out Game/GameEvents/DefeatedBossEvent.java
 - [x] Make a simplified uml diagram - for some reason our UML diagram is too complicated??
-- [ ] Make the player stronger as time/wave goes on, maybe done by powerups.. 
+- [x] Make the player stronger as time/wave goes on, maybe done by powerups.. 
 - [x] Automated tests UNIT TESTING
-- [ ] Wave style of zombie spawning (e.g. Max number of zombies on map is 80, will spawn wave in N seconds, have a timer for the next wave incoming)
+- [x] Wave style of zombie spawning (e.g. Max number of zombies on map is 80, will spawn wave in N seconds, have a timer for the next wave incoming)
 - [x] Comments / Javadoc
 - [x] Line up the hitboxes of the Collectibles(powerups, money, hp) with it's hit box
 - [x] Refactor to reduce code duplication -- kinda got worse when we added the boss tho
@@ -115,7 +117,7 @@ See `textbased/README.md` for more information about the text based version.
 
 Maybe list (if we have time)
 - [x] hp bars
-- [ ] Prettier HUD
+- [x] Prettier HUD
 - [x] move pathfinding to its component and iterate through that to decide which entities to path find. Makes it easier for the attack cycler as well
 - [x] Damage numbers ? at least tell the user how much damage does the weapons do
 - [x] Aligning collision boxes for the players&zombie 
@@ -138,7 +140,7 @@ Maybe list (if we have time)
 - [x] Aligning the aggro hit box properly - DONE (alex 03/20/19) 
 - [x] Actually using the aggro hit box - DONE (alex 03/22/19)
 - [x] Shrinking the PPhysicsHitBox of zombies and players - DONE (alex 03/22/19)
-- [ ] Change to the better buttons
+- [x] Change to the better buttons
        ``` 
 - WASD to move
 - SPACE to attack (shoot or attack with a bat)
