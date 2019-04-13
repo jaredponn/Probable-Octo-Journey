@@ -1,4 +1,11 @@
 package Components;
+/**
+ * PCollisionBody .
+ * Date: March 10, 2019
+ * @author Jared Pon
+ * Version: 1.0
+ */
+
 
 import poj.Component.*;
 import poj.linear.*;
@@ -12,7 +19,7 @@ public class PCollisionBody implements Component
 	private GJK gjk;
 
 	/**
-	 * Constructs a PhysicsCollisionBody object that is used for collision
+	 * Constructs a PCollisionBody object that is used for collision
 	 * resolution
 	 *
 	 * @param  d the displacemnt added to the object just
@@ -30,6 +37,12 @@ public class PCollisionBody implements Component
 		gjk = new GJK();
 	}
 
+
+	/**
+	 * Copy constructor
+	 *
+	 * @param  pb to copy
+	 */
 	public PCollisionBody(PCollisionBody pb)
 	{
 		displacement = pb.pureGetDisplacement();
@@ -38,43 +51,84 @@ public class PCollisionBody implements Component
 		gjk = new GJK();
 	}
 
+
+	/**
+	 * pure get displacement
+	 *
+	 * @return  displacement
+	 */
 	public Vector2f pureGetDisplacement()
 	{
 		return new Vector2f(displacement);
 	}
 
+	/**
+	 * get displacement
+	 *
+	 * @return  displacement
+	 */
 	public Vector2f getDisplacement()
 	{
 		return displacement;
 	}
 
+	/**
+	 * pure get center
+	 *
+	 * @return  center
+	 */
 	public Vector2f pureGetCenter()
 	{
 		return new Vector2f(center);
 	}
 
+	/**
+	 * get center
+	 *
+	 * @return  center
+	 */
 	public Vector2f getCenter()
 	{
 		return center;
 	}
 
+	/**
+	 * get gjk
+	 *
+	 * @return  gjk
+	 */
 	public GJK getGJK()
 	{
 		return gjk;
 	}
 
+	/**
+	 * is colliding with
+	 * @param p -- other collision body
+	 * @return  boolean if colliding with
+	 */
 	public boolean isCollidingWith(PCollisionBody p)
 	{
 		return isCollidingWith(p.getPolygon());
 	}
 
+	/**
+	 * is colliding with
+	 * @param p -- other collision body
+	 * @return  boolean if colliding with
+	 */
 	public boolean isCollidingWith(CollisionShape p)
 	{
 		this.gjk.clearVerticies();
 		return this.gjk.areColliding(p, this.getPolygon());
 	}
 
-	// d is this delta movement
+	/**
+	 * is colliding with
+	 * @param p -- other collision body
+	 * @param d -- delta vector
+	 * @return  boolean if colliding with
+	 */
 	public boolean isCollidingWith(Vector2f d, PCollisionBody p)
 	{
 		this.gjk.clearVerticies();
@@ -82,6 +136,10 @@ public class PCollisionBody implements Component
 					     d);
 	}
 
+	/**
+	 * Calculating penetration vector
+	 * @return  Vector2f of the normal
+	 */
 	public Vector2f calculateThisPenetrationVector()
 	{
 		return this.gjk.calculatePenetrationVector();
@@ -103,17 +161,29 @@ public class PCollisionBody implements Component
 		center.add(tmp);
 	}
 
+
+	/**
+	 * gets polygon
+	 * @return  Polygon
+	 */
 	public Polygon getPolygon()
 	{
 		return p;
 	}
 
+	/**
+	 * pure gets polygon
+	 * @return  Polygon
+	 */
 	public Polygon pureGetPolygon()
 	{
 		return new Polygon(p);
 	}
 
 
+	/**
+	 * print
+	 */
 	public void print()
 	{
 		System.out.println("PCollisionBody: displacement: "

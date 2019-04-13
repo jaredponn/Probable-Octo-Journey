@@ -20,11 +20,20 @@ import poj.Component.Component;
 public class SoundEffectAssets implements Component
 {
 	private final ArrayList<String> soundEffectAsset;
+
+	/**
+	 * Constructor
+	 * @param soundEffectBuffer -- sound effect buffer
+	 */
 	public SoundEffectAssets(ArrayList<String> soundEffectBuffer)
 	{
 		soundEffectAsset = soundEffectBuffer;
 	}
 
+	/**
+	 * plays sound effect at
+	 * @param i -- index
+	 */
 	public void playSoundEffectAt(int i)
 	{
 		try {
@@ -49,7 +58,11 @@ public class SoundEffectAssets implements Component
 		}
 	}
 
+	/**
+	 * print
+	 */
 	public void print()
 	{
+		System.out.println("sound component");
 	}
 }

@@ -12,6 +12,10 @@ import poj.linear.*;
 
 public class PAggroRegion extends PhysicsPCollisionBody
 {
+
+	/**
+	 * Constructor
+	 */
 	public PAggroRegion(Vector2f d, Vector2f c, Vector2f... pts)
 	{
 		super(d, c, pts);

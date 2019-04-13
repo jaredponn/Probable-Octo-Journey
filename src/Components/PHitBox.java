@@ -27,6 +27,11 @@ public class PHitBox extends PCollisionBody
 		super(d, c, pts);
 	}
 
+
+	/**
+	 * copy constructor
+	 * @param pb -- to copy
+	 */
 	public PHitBox(PCollisionBody pb)
 	{
 		super(pb);

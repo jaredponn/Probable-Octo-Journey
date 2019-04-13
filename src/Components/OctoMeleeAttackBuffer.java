@@ -1,4 +1,11 @@
 package Components;
+/**
+ * Octo melee buffer.
+ *
+ * Date: March 10, 2019
+ * @author Jared Pon
+ * @version 1.0
+ */
 
 import poj.Logger.*;
 import poj.Component.Component;
@@ -11,12 +18,8 @@ public class OctoMeleeAttackBuffer implements Component
 	private final static int OCTO_BUF_LENGTH = 8;
 
 	/**
-	 * Octo animation buffer.
-	 * Expects an argument of 8 in the ordering: N, NE, NW, S, SE, SW, W, E
-	 *
-	 * Date: March 10, 2019
-	 * @author Jared Pon
-	 * @version 1.0
+	 * Constructor
+	 * @param args -- p collision bodies
 	 */
 	public OctoMeleeAttackBuffer(PCollisionBody... args)
 	{
@@ -30,6 +33,11 @@ public class OctoMeleeAttackBuffer implements Component
 		}
 	}
 
+
+	/**
+	 * copy constructor
+	 * @param o -- toCopy OctoMeleeAttackBuffer
+	 */
 	public OctoMeleeAttackBuffer(OctoMeleeAttackBuffer o)
 	{
 
@@ -39,6 +47,11 @@ public class OctoMeleeAttackBuffer implements Component
 		}
 	}
 
+
+	/**
+	 * get the p collision body from the direction
+	 * @param d direction
+	 */
 	public PCollisionBody getPCollisionBody(CardinalDirections d)
 	{
 
@@ -66,6 +79,10 @@ public class OctoMeleeAttackBuffer implements Component
 		}
 	}
 
+
+	/**
+	 * print
+	 */
 	public void print()
 	{
 	}

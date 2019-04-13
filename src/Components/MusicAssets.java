@@ -19,6 +19,12 @@ import poj.Component.Component;
 public class MusicAssets implements Component
 {
 	private final ArrayList<Sound> soundAsset = new ArrayList<Sound>();
+
+
+	/**
+	 * Constructor
+	 * @param soundBuffer -- sound buffer
+	 */
 	public MusicAssets(final ArrayList<Sound> soundBuffer)
 	{
 		for (int i = 0; i < soundBuffer.size(); ++i) {
@@ -63,6 +69,11 @@ public class MusicAssets implements Component
 			}
 		}
 	}
+
+	/**
+	 * plays sound at index
+	 * @param i -- index
+	 */
 	public void playSoundAt(int i)
 	{
 		try {
@@ -78,6 +89,11 @@ public class MusicAssets implements Component
 		}
 	}
 
+
+	/**
+	 * plays sound continuously
+	 * @param i -- index
+	 */
 	public void playContinuouslyAt(int i)
 	{
 		try {
@@ -92,6 +108,11 @@ public class MusicAssets implements Component
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * ends sound playing at
+	 * @param i -- index
+	 */
 	public void endPlayingAt(int i)
 	{
 		try {
@@ -106,6 +127,11 @@ public class MusicAssets implements Component
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * restart playing at
+	 * @param i -- index
+	 */
 	public void restartPlayingAt(int i)
 	{
 		try {
@@ -120,6 +146,11 @@ public class MusicAssets implements Component
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * get is playing at
+	 * @param i -- index
+	 */
 	public boolean getIsPlayingAt(int i)
 	{
 		try {
@@ -138,6 +169,10 @@ public class MusicAssets implements Component
 		}
 	}
 
+
+	/**
+	 * print
+	 */
 	public void print()
 	{
 	}
