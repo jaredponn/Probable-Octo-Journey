@@ -368,21 +368,6 @@ public class EngineTransforms
 			    .isNotPathfinding()
 		    || Systems.arePCollisionBodiesColliding(
 			       gjk, a, b)) { // TODO refactor this --
-					     // move to a component
-			// engineState.unsafeGetComponentAt(Movement.class,
-			// mob1) .setSpeed(0);
-
-			// CardinalDirections tempDir =
-			// engineState
-			//.unsafeGetComponentAt(
-			// MovementDirection.class, mob1)
-			//.getDirection();
-
-			// set animation as idle position
-			// engineState
-			//.unsafeGetComponentAt(HasAnimation.class, mob1)
-			//.setAnimation(AnimationGetter.queryEnemySprite(
-			// tempDir, 0));
 			return;
 		}
 		// in the same world cord
@@ -467,18 +452,6 @@ public class EngineTransforms
 					    map.getEcsIndexFromWorldVector2f(
 						    mobPosition))
 				    .getDiffusionValue()) {
-			/*
-			System.out.println(
-				" went inside this cord is bigger than all
-			neightbours!!"); System.out.println( "set the mob speed
-			equal to 0!!!!!!!");
-				*/
-
-			/*
-			engineState.getComponentAt(Movement.class, mob1)
-				.setSpeed(0f);
-				*/
-			// zombie will be in idle
 
 			CardinalDirections tempDir =
 				engineState
@@ -486,13 +459,6 @@ public class EngineTransforms
 						MovementDirection.class, mob1)
 					.getDirection();
 
-			// when the current tile the enemy/mob is standing on
-			// is HIGHER than all other values, it will display the
-			// previous walking animation!!
-
-			// engineState.getComponentAt(HasAnimation.class, mob1)
-			//.setAnimation(AnimationGetter.queryEnemySprite(
-			// tempDir, 0));
 		}
 		// the max neighbour value is bigger than the value of the tile
 		// that the mob is standing on
@@ -537,12 +503,6 @@ public class EngineTransforms
 	{
 
 		MapLayer mapLayer = map.getLayerEngineState(layerNumber);
-		/*
-		Vector2f playerPosition =
-			engineState
-				.getComponentAt(WorldAttributes.class, player)
-				.getCenteredBottomQuarter();
-				*/
 		Vector2f playerPosition =
 			engineState
 				.unsafeGetComponentAt(
@@ -567,32 +527,7 @@ public class EngineTransforms
 					GameConfig.TOWER_DIFFUSION_VALUE);
 		}
 
-
-		/*
-		System.out.println("player X=" + playerPosition.x);
-		System.out.println("player Y=" + playerPosition.y);
-		System.out.println(
-			"this.map.getEcsIndexFromWorldVector2f(playerPosition)"
-			+ this.map.getEcsIndexFromWorldVector2f(
-				  playerPosition));
-		System.out.println(
-			"player x position inside
-		addPlayerDiffusionValAtPlayerPos ="
-			+ playerPosition.x);
-		System.out.println(
-			"player y position inside
-		addPlayerDiffusionValAtPlayerPos ="
-			+ playerPosition.y);
-		*/
 		if (map.getEcsIndexFromWorldVector2f(playerPosition) != -1) {
-			// map.printPathfindCord(0);
-
-			/*
-		if (!mapLayer.unsafeGetComponentAt(
-				     PathFindCord.class,
-				     map.getEcsIndexFromWorldVector2f(
-					     playerPosition)) .getIsWall()) {
-				 */
 
 			mapLayer.unsafeGetComponentAt(
 					PathFindCord.class,
@@ -600,15 +535,6 @@ public class EngineTransforms
 						playerPosition))
 				.setDiffusionValue(
 					GameConfig.PLAYER_DIFFUSION_VALUE);
-			/*
-		} else {
-			mapLayer.unsafeGetComponentAt(
-					PathFindCord.class,
-					map.getEcsIndexFromWorldVector2f(
-						playerPosition))
-				.setDiffusionValue(0f);
-			}
-		*/
 		}
 	}
 
