@@ -617,6 +617,9 @@ public class GameConfig
 	public static final int ARROW_LEFT = KeyEvent.VK_LEFT;
 	public static final int ARROW_RIGHT = KeyEvent.VK_RIGHT;
 
+	// simulation of cooldown key for mouse
+	public static final int MOUSE_CLICK =
+		poj.GameWindow.InputPoller.MAX_KEY - 1;
 	public static final int PAUSE_GAME = KeyEvent.VK_P;
 
 	// key, cooldown (ms)
@@ -641,6 +644,8 @@ public class GameConfig
 							      0.1d));
 				add(new Pair<Integer, Double>(ARROW_RIGHT,
 							      0.1d));
+				add(new Pair<Integer, Double>(MOUSE_CLICK,
+							      0.7d));
 			}
 		};
 
