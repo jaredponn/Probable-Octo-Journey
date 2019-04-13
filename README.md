@@ -23,18 +23,30 @@ cd probable-octo-journey
 Note: this script only works with bash.
 
 # Playing the game
+Current version controls:
 - WASD to move
-- SPACE to attack (shoot or attack with a bat)
-- X to swap weapons
+- SPACE or Left Mouse Click to attack (shoot or attack with a bat)
+- F to swap weapons
 - Q to place a turret (if you have enough money)
 - E to place a trap (if you have enough money)
-- B to buy more ammo (if you have enough money)
+- R to buy more ammo (if you have enough money)
 - P to pause the game (only in the main game state)
+- ECS (escape key) to quit the game (only in the main game state, and it will bring you to the end game screen)
 
 Aim with the mouse. Go kill some zombies! See if you can get on the score board.
 
 Rumour has it that there's an epic boss zombie fight if you can make it that far. Killing him might make you win the game and you can hear some nice victory vibes.
 
+------------------------------
+The final submission for this project used these controls, but they are not used anymore beacuse we think that these controls are too hard for the players to use.
+- WASD to move
+- SPACE or Left mouse click to attack (shoot or attack with a bat)
+- X to swap weapons
+- Q to place a turret (if you have enough money)
+- E to place a trap (if you have enough money)
+- B to buy more ammo (if you have enough money)
+- P to pause the game (only in the main game state)
+- ECS (escape key) to quit the game (only in the main game state, and it will bring you to the end game screen)
 
 # Running the unit tests
 Execute the following commands in the command line
