@@ -113,7 +113,7 @@ public class HitPoints extends DoubleIntComponent
 
 
 	/**
-	 * prints this entity's current hit points
+	 * prints this entity's current hit points to console
 	 */
 	public void print()
 	{
