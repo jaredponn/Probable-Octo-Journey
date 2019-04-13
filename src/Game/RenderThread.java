@@ -112,6 +112,7 @@ public class RenderThread extends Thread
 							     .buildingBuf),
 					focus.getBuf(
 						PlayGameRenderBuffers.poleBuf),
+					// uncomment to render debug buffers
 					// focus.getBuf(
 					// PlayGameRenderBuffers.debugBuf),
 					focus.getBuf(

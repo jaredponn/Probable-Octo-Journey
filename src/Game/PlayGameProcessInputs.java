@@ -26,7 +26,7 @@ public class PlayGameProcessInputs
 				g.dt / 1000);
 		}
 	}
-	protected static void updateDtForKey(World g, int keyIndex, double val)
+	public static void updateDtForKey(World g, int keyIndex, double val)
 	{
 		// if the key cooldown is not 0 is necessary here
 		// because we don't want to subtract it to neg infinity..
@@ -368,6 +368,30 @@ public class PlayGameProcessInputs
 				} else
 					System.out.println(
 						"Either is on cooldown or not enough money to buy more ammo");
+			}
+
+			// buy ammo
+			if (inputPoller.isKeyDown(GameConfig.PAUSE_GAME)) {
+				// TODO: cooldown for key press
+				if (Math.abs(g.lastCoolDown.get(
+					    GameConfig.PAUSE_GAME))
+				    == 0d) {
+
+					PlayGameEvent pauseEvent =
+						new PauseGameEvent(g);
+
+					updateDtForKey(
+						g, GameConfig.PAUSE_GAME,
+						-PlayGame.coolDownMax.get(
+							GameConfig.PAUSE_GAME));
+
+					pauseEvent.f();
+
+					updateDtForKey(
+						g, GameConfig.PAUSE_GAME,
+						-PlayGame.coolDownMax.get(
+							GameConfig.PAUSE_GAME));
+				}
 			}
 
 			///// Quit Game /////
