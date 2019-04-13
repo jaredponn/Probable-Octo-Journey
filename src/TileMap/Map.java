@@ -779,7 +779,7 @@ public class Map
 		return this.mapLayers.size();
 	}
 
-	public ArrayList<Boolean> getWallState()
+	public ArrayList<Boolean> unsafeGetWallState()
 	{
 		return this.wallState;
 	}
