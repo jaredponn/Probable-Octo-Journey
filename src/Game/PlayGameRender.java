@@ -63,19 +63,18 @@ public class PlayGameRender
 		pushTileMapLayerToArrayList(
 			g, g.getMap().getLayerEngineState(6), g.entityBuffer);
 
+		for (Render0 r :
+		     g.getEngineState().getRawComponentArrayListPackedData(
+			     Render0.class)) {
+			Systems.cullPushRenderComponent(r, g.groundBuffer,
+							g.windowWidth,
+							g.windowHeight);
+		}
 
 		for (Render r :
 		     g.getEngineState().getRawComponentArrayListPackedData(
 			     Render.class)) {
 			Systems.cullPushRenderComponent(r, g.entityBuffer,
-							g.windowWidth,
-							g.windowHeight);
-		}
-
-		for (Render0 r :
-		     g.getEngineState().getRawComponentArrayListPackedData(
-			     Render0.class)) {
-			Systems.cullPushRenderComponent(r, g.groundBuffer,
 							g.windowWidth,
 							g.windowHeight);
 		}
