@@ -446,7 +446,7 @@ public class Map
 		case 5:
 			// gas station building
 			tmp = new Render(GameResources.gasStationBuilding,
-					 specialWidth - 3f, specialHeight - 3f);
+					 specialWidth - 2f, specialHeight - 2f);
 			tmp.getGraphic().setRenderSortModifier(-40);
 			return Optional.of(tmp);
 		case 576:

@@ -537,13 +537,13 @@ public class GameResources
 				officialTileSetConfig="resources/RamiroGraphics/officialMap/mapSpritesfinal.json",
 				officialMapConfig="resources/RamiroGraphics/officialMap/MapFinal.json";
 
-	public static String NoTreeofficialMapGround1="resources/RamiroGraphics/officialMap/MapFinalNoTrees_ground.csv",
-		   		NoTreeofficialMapMisc2="resources/RamiroGraphics/officialMap/MapFinalNoTrees_misc1.csv",
-				NoTreeofficialMapCarsAndBuildings3="resources/RamiroGraphics/officialMap/MapFinalNoTrees_cars and buildings.csv",
-				NoTreeofficialMapTreesAndRocks4="resources/RamiroGraphics/officialMap/MapFinalNoTrees_trees and rocks.csv",
-				NoTreeofficialMapLightsAndSigns5="resources/RamiroGraphics/officialMap/MapFinalNoTrees_lights and signs.csv",
-				NoTreeofficialMapEmptyBlockForBuildings="resources/RamiroGraphics/officialMap/MapFinalNoTrees_emptyBlocksFOrBuildings.csv",
-				NoTreeofficialMapimageMarkForBuildings="resources/RamiroGraphics/officialMap/MapFinalNoTrees_imageMarkForBuildings.csv",
+	public static String NoTreeofficialMapGround1="resources/RamiroGraphics/officialMap/MapFinalNoTreesWithFountainOnTiles_ground.csv",
+		   		NoTreeofficialMapMisc2="resources/RamiroGraphics/officialMap/MapFinalNoTreesWithFountainOnTiles_misc1.csv",
+				NoTreeofficialMapCarsAndBuildings3="resources/RamiroGraphics/officialMap/MapFinalNoTreesWithFountainOnTiles_cars and buildings.csv",
+				NoTreeofficialMapTreesAndRocks4="resources/RamiroGraphics/officialMap/MapFinalNoTreesWithFountainOnTiles_trees and rocks.csv",
+				NoTreeofficialMapLightsAndSigns5="resources/RamiroGraphics/officialMap/MapFinalNoTreesWithFountainOnTiles_lights and signs.csv",
+				NoTreeofficialMapEmptyBlockForBuildings="resources/RamiroGraphics/officialMap/MapFinalNoTreesWithFountainOnTiles_emptyBlocksFOrBuildings.csv",
+				NoTreeofficialMapimageMarkForBuildings="resources/RamiroGraphics/officialMap/MapFinalNoTreesWithFountainOnTiles_imageMarkForBuildings.csv",
 				NoTreeofficialTileSetConfig="resources/RamiroGraphics/officialMap/mapSpritesfinal.json",
 				NoTreeofficialMapConfig="resources/RamiroGraphics/officialMap/MapFinal.json";
 
