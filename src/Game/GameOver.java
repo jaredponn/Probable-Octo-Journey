@@ -71,7 +71,7 @@ public class GameOver extends World
 	protected ArrayList<Render> buttonRenderLayer;
 
 
-	// array of integers that are cast to a string depicting 
+	// array of integers that are cast to a string depicting
 	// the set of initials the player has chosen to
 	// save with their score
 	protected ArrayList<Integer> initials = new ArrayList<Integer>() {
@@ -484,7 +484,8 @@ public class GameOver extends World
 
 
 		renderer.renderBuffers(backgroundBuffer, buttonsBuffer,
-				       renderBuffer, collisioBoxBuffer);
+				       renderBuffer);
+		// collisioBoxBuffer);
 
 
 		// if the loop will quit

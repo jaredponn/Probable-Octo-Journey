@@ -263,8 +263,8 @@ public class MenuNew extends World
 	public void render()
 	{
 		addBuffers();
-		this.renderer.renderBuffers(titleBuffer, buttonsBuffer,
-					    collisioBoxBuffer);
+		this.renderer.renderBuffers(titleBuffer, buttonsBuffer);
+		// collisioBoxBuffer);
 	}
 
 	/**
