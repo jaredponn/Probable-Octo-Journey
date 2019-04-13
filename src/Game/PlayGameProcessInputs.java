@@ -105,7 +105,7 @@ public class PlayGameProcessInputs
 				engineState
 					.unsafeGetComponentAt(
 						MovementDirection.class, player)
-					.setDirection(CardinalDirections.NW);
+					.setDirection(CardinalDirections.W);
 				engineState
 					.unsafeGetComponentAt(Movement.class,
 							      player)
@@ -115,7 +115,7 @@ public class PlayGameProcessInputs
 				engineState
 					.unsafeGetComponentAt(
 						MovementDirection.class, player)
-					.setDirection(CardinalDirections.SW);
+					.setDirection(CardinalDirections.S);
 				engineState
 					.unsafeGetComponentAt(Movement.class,
 							      player)
@@ -125,7 +125,7 @@ public class PlayGameProcessInputs
 				engineState
 					.unsafeGetComponentAt(
 						MovementDirection.class, player)
-					.setDirection(CardinalDirections.SE);
+					.setDirection(CardinalDirections.E);
 				engineState
 					.unsafeGetComponentAt(Movement.class,
 							      player)
@@ -135,7 +135,7 @@ public class PlayGameProcessInputs
 				engineState
 					.unsafeGetComponentAt(
 						MovementDirection.class, player)
-					.setDirection(CardinalDirections.NE);
+					.setDirection(CardinalDirections.N);
 				engineState
 					.unsafeGetComponentAt(Movement.class,
 							      player)
@@ -147,7 +147,7 @@ public class PlayGameProcessInputs
 				engineState
 					.unsafeGetComponentAt(
 						MovementDirection.class, player)
-					.setDirection(CardinalDirections.W);
+					.setDirection(CardinalDirections.SW);
 				engineState
 					.unsafeGetComponentAt(Movement.class,
 							      player)
@@ -156,7 +156,7 @@ public class PlayGameProcessInputs
 				engineState
 					.unsafeGetComponentAt(
 						MovementDirection.class, player)
-					.setDirection(CardinalDirections.N);
+					.setDirection(CardinalDirections.NW);
 				engineState
 					.unsafeGetComponentAt(Movement.class,
 							      player)
@@ -165,7 +165,7 @@ public class PlayGameProcessInputs
 				engineState
 					.unsafeGetComponentAt(
 						MovementDirection.class, player)
-					.setDirection(CardinalDirections.S);
+					.setDirection(CardinalDirections.SE);
 				engineState
 					.unsafeGetComponentAt(Movement.class,
 							      player)
@@ -174,7 +174,7 @@ public class PlayGameProcessInputs
 				engineState
 					.unsafeGetComponentAt(
 						MovementDirection.class, player)
-					.setDirection(CardinalDirections.E);
+					.setDirection(CardinalDirections.NE);
 				engineState
 					.unsafeGetComponentAt(Movement.class,
 							      player)
