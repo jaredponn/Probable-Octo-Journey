@@ -56,6 +56,7 @@ import poj.Collisions.GJK;
 import poj.Component.Component;
 import poj.Component.Components;
 import poj.Render.RenderObject;
+import poj.Time.Timer;
 import poj.linear.Vector2f;
 
 public class EngineTransforms
@@ -885,6 +886,8 @@ public class EngineTransforms
 	{
 		GameResources.bossAlertSound.play();
 		GameResources.bossAlertSound.resetClip();
+		// stop the game background sound
+		GameResources.gameBgSound.end();
 		// play boss sound effect
 		GameResources.bossSpawnSound.play();
 
@@ -947,7 +950,7 @@ public class EngineTransforms
 			}
 		}
 
-		if (g.getWaveNumber() % 30 == 0
+		if (g.getWaveNumber() % 2 == 0
 		    && g.getEngineState()
 				       .getRawComponentArrayListPackedData(
 					       BossSet.class)
