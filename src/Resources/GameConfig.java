@@ -214,7 +214,7 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(-0.22f, 0.86f), // displacement
 			new Vector2f(1.5f, 0.75f),   // center
-						     // collision body:
+						   // collision body:
 			new Vector2f(1, 0.5f), new Vector2f(1.25f, 0.2f),
 			new Vector2f(1.7f, 1.25f), new Vector2f(1.95f, 1f));
 
@@ -420,7 +420,7 @@ public class GameConfig
 		new PCollisionBody(
 			new Vector2f(0.1f + 1.5f, 0f + 3f), // displacement
 			new Vector2f(0.3f, 0.3f),	   // center
-							    // collision body:
+						  // collision body:
 			new Vector2f(0, 0),
 			new Vector2f(0, MELEE_HEIGHT / 0.2f),
 			new Vector2f(MELEE_HEIGHT / 0.2f, 0),
@@ -606,6 +606,10 @@ public class GameConfig
 	public static final int ARROW_LEFT = KeyEvent.VK_LEFT;
 	public static final int ARROW_RIGHT = KeyEvent.VK_RIGHT;
 
+	// simulation of cooldown key for mouse
+	public static final int MOUSE_CLICK =
+		poj.GameWindow.InputPoller.MAX_KEY - 1;
+
 	// key, cooldown (ms)
 	public static final ArrayList<Pair<Integer, Double>> COOL_DOWN_KEYS =
 		new ArrayList<Pair<Integer, Double>>() {
@@ -626,6 +630,8 @@ public class GameConfig
 							      0.1d));
 				add(new Pair<Integer, Double>(ARROW_RIGHT,
 							      0.1d));
+				add(new Pair<Integer, Double>(MOUSE_CLICK,
+							      0.7d));
 			}
 		};
 

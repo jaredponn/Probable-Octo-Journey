@@ -17,6 +17,7 @@ import java.util.Queue;
 import Components.PCollisionBody;
 import Components.Render;
 import EntitySets.MenuButton;
+import Resources.GameConfig;
 import Resources.GameResources;
 
 import poj.Collisions.GJK;
@@ -66,6 +67,13 @@ public class MenuNew extends World
 		super(width, height, renderer, inputPoller);
 		registerComponents();
 		registerEntitySets();
+
+		// deep copies the coolDown keys
+		for (int i = 0; i < GameConfig.COOL_DOWN_KEYS.size(); ++i) {
+			coolDownMax.set(GameConfig.COOL_DOWN_KEYS.get(i).fst,
+					GameConfig.COOL_DOWN_KEYS.get(i).snd);
+		}
+
 		/*
 		 * Note: the order of index for the menuImageROBuffer is inside
 		 * gameresources
@@ -101,6 +109,12 @@ public class MenuNew extends World
 		}
 		// add the menu buttons
 		addMenuButtons();
+
+		// set the coldown key for the menu at the start so we get less
+		// multiple clicks
+		Game.PlayGameProcessInputs.updateDtForKey(
+			this, GameConfig.MOUSE_CLICK,
+			-PlayGame.coolDownMax.get(GameConfig.MOUSE_CLICK));
 	}
 
 	/**
@@ -151,8 +165,15 @@ public class MenuNew extends World
 			super.quit();
 		}
 
-		// if the mouse is clicked
-		if (inputPoller.isLeftMouseButtonDown()) {
+		// if the mouse is clicked and it is not in cooldown
+		if (inputPoller.isLeftMouseButtonDown()
+		    && Math.abs(this.lastCoolDown.get(GameConfig.MOUSE_CLICK))
+			       == 0d) {
+
+			Game.PlayGameProcessInputs.updateDtForKey(
+				this, GameConfig.MOUSE_CLICK,
+				-PlayGame.coolDownMax.get(
+					GameConfig.MOUSE_CLICK));
 
 			Vector2f mousePosition = inputPoller.getMousePosition();
 			PCollisionBody mouseHitBox = new PCollisionBody(
@@ -161,18 +182,19 @@ public class MenuNew extends World
 			switch (curMenuState) {
 				// if the menu is at the main menu page
 			case mainMenu:
-				// store te array index of which elements are
-				// colliding
+				// store te array index of which
+				// elements are colliding
 				int colliding = -1;
 				for (int i = 0; i < 3; ++i) {
-					// if this button hitbosx is colliding
-					// with the mouse
+					// if this button hitbosx is
+					// colliding with the mouse
 					if (Systems.arePCollisionBodiesColliding(
 						    gjk, mouseHitBox,
 						    this.buttonHitBoxROBuffer
 							    .get(i))) {
-						// set the colliding int as
-						// index, and then break
+						// set the colliding int
+						// as index, and then
+						// break
 						colliding = i;
 						break;
 					}
@@ -190,8 +212,8 @@ public class MenuNew extends World
 					}
 					// clicks how to play button
 					else if (colliding == 1) {
-						// switch the enum state to
-						// instructions
+						// switch the enum state
+						// to instructions
 						curMenuState =
 							MenuState.instructions;
 					}
@@ -212,7 +234,8 @@ public class MenuNew extends World
 					Components.Sound.playSoundEffect(
 						GameResources
 							.menuSelectButtonSoundPath);
-					// switch the enum state to main menu
+					// switch the enum state to main
+					// menu
 					curMenuState = MenuState.mainMenu;
 				}
 				// break from the switch statement
@@ -247,7 +270,8 @@ public class MenuNew extends World
 	/**
 	 *  adds main menu render buffer
 	 */
-	// add the buttons render objects and collision boxes for the main menu
+	// add the buttons render objects and collision boxes for the
+	// main menu
 	public void addMainMenuRenderBuffer()
 	{
 		titleBuffer.add(menuImageROBuffer.get(1)); // add main bg
@@ -268,7 +292,8 @@ public class MenuNew extends World
 	/**
 	 *  add instructions render buffer
 	 */
-	// add the buttons render objects and collision boxes for the main menu
+	// add the buttons render objects and collision boxes for the
+	// main menu
 	public void addInstructionsRenderBuffer()
 	{
 		titleBuffer.add(menuImageROBuffer.get(3)); // add help bg
@@ -294,9 +319,8 @@ public class MenuNew extends World
 	 */
 	public void runGame()
 	{
-		// sleeps the thread for 80 ms so we dont get continuous mouse
-		// clicks
-		Timer.sleepNMilliseconds(80);
+		// mouse clicks
+		PlayGameProcessInputs.updateCoolDownKeys(this);
 		processInputs();
 	}
 
