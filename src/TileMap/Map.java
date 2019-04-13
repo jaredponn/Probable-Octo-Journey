@@ -779,8 +779,14 @@ public class Map
 		return this.mapLayers.size();
 	}
 
-	public ArrayList<Boolean> unsafeGetWallState()
+	public boolean getIsWallFromLayerAndCord(int layer, int cord)
 	{
-		return this.wallState;
+
+		ArrayList<PathFindCord> pathfindLayerData =
+			mapLayers.get(layer)
+				.getComponents()
+				.getRawComponentArrayListPackedData(
+					PathFindCord.class);
+		return pathfindLayerData.get(cord).getIsWall();
 	}
 }
