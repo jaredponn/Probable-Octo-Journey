@@ -99,16 +99,31 @@ public class RenderObject
 		this.y = Math.round(v.y);
 	}
 
+	/**
+	 *  gets the render object type
+	 *
+	 * @return  render object type
+	 */
 	final public Class<?> getRenderObjectType()
 	{
 		return this.getClass();
 	}
 
+	/**
+	 *  get render sort modifier
+	 *
+	 * @return  sort modifier
+	 */
 	public int getRenderSortModifier()
 	{
 		return this.renderSortModifier;
 	}
 
+	/**
+	 *  set render sort modifier
+	 *
+	 * @param  n new sort modifier
+	 */
 	public void setRenderSortModifier(int n)
 	{
 		this.renderSortModifier = n;
