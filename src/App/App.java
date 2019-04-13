@@ -57,9 +57,12 @@ public class App
 
 		// made sure if the computer's display is not 1920x1080, will go
 		// to 1366x768 resolution
-		if (this.width != 1920 || this.height != 1080) {
+		if (this.width < 1920 || this.height < 1080) {
 			this.width = GameResources.lowResolutionWidth;
 			this.height = GameResources.lowResolutionHeight;
+		} else {
+			this.width = GameResources.highResolutionWidth;
+			this.height = GameResources.highResolutionHeight;
 		}
 
 		System.out.println("width = " + width);

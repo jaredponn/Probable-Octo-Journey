@@ -37,7 +37,7 @@ public class GameResources
 	// they are calculated based on the position of the buttons relative to
 	// the image size
 	// clang-format off
-	public static int lowResolutionWidth=1366,lowResolutionHeight=768;
+	public static int lowResolutionWidth=1366,lowResolutionHeight=768, highResolutionWidth=1920, highResolutionHeight=1080;
 
 	public static float playButtonWidthRatio = 2.6519337016574585f,
 			    playButtonHeightRatio = 2.9508196721311477f,
