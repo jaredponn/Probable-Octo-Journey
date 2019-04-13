@@ -555,7 +555,7 @@ public class GameConfig
 		GameResources.CASH_SPRITE_HEIGHT
 		/ GameResources.TILE_SCREEN_HEIGHT;
 
-	public static final double PICKUP_MAX_TIME = 10 * 1000d;
+	public static final double PICKUP_MAX_TIME = 100 * 1000d;
 
 	public static final PCollisionBody PICKUP_COLLISION_BODY =
 		new PCollisionBody(
@@ -571,7 +571,7 @@ public class GameConfig
 
 	// money:
 	public static final int PICKUP_CASH_AMOUNT = 100;
-	public static final float PICKUP_CASH_SPAWN_TIME = 100.0f;
+	public static final float PICKUP_CASH_SPAWN_TIME = 1000.0f;
 	public static final PCollisionBody CASH_COLLISION_BODY =
 		new PCollisionBody(
 			new Vector2f(0.0f,
