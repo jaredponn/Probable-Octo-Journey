@@ -960,4 +960,51 @@ public class EngineTransforms
 			spawnBoss(g, 0, 0, 0);
 		}
 	}
+	public static void spawnRandomCollectibles(PlayGame g)
+	{
+		int frameNumber = g.getFrameNumber();
+		Map map = g.getMap();
+		EngineState engineState = g.getEngineState();
+
+		// every 20 frames spawn 5 pickups
+		if (frameNumber % 20 == 0) {
+
+			int n = ThreadLocalRandom.current().nextInt(
+				0, map.getMapSize() - 1);
+
+			for (int i = 0; i < 5; ++i) {
+				// if it is not a wall
+				if (!map.unsafeGetWallState().get(n)) {
+					switch (ThreadLocalRandom.current()
+							.nextInt(0, 4)) {
+					case 0:
+						engineState.spawnEntitySet(new CashPack(
+							map.getVector2fFromEcsIndex(
+								n)));
+						break;
+
+					case 1:
+						engineState.spawnEntitySet(new AmmoPack(
+							map.getVector2fFromEcsIndex(
+								n)));
+						break;
+
+					case 2:
+						engineState.spawnEntitySet(
+							new HealthPack(
+								map.getVector2fFromEcsIndex(
+									n)));
+						break;
+
+					case 3:
+						engineState.spawnEntitySet(new PowerUp(
+							map.getVector2fFromEcsIndex(
+								n)));
+						break;
+					}
+				} else
+					--i;
+			}
+		}
+	}
 }

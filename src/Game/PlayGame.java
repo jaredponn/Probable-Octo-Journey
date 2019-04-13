@@ -74,6 +74,8 @@ public class PlayGame extends World
 
 
 	// wave number / mob spawning
+	protected int frameNumber;
+
 	protected int waveNumber = 0;
 	protected double waveSpawnTimer = GameConfig.MOB_SPAWN_TIMER;
 
@@ -274,6 +276,9 @@ public class PlayGame extends World
 	 */
 	public void startOfFrame()
 	{
+		++frameNumber;
+
+		EngineTransforms.spawnRandomCollectibles(this);
 		EngineTransforms.mobSpawner(this);
 	}
 
@@ -680,5 +685,14 @@ public class PlayGame extends World
 	public RenderThread getRenderThread()
 	{
 		return this.renderThread;
+	}
+
+	/**
+	 * get framenumber
+	 * @return render thread -- get the wave
+	 */
+	public int getFrameNumber()
+	{
+		return this.frameNumber;
 	}
 }
