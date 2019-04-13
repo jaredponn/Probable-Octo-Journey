@@ -29,6 +29,8 @@ public class GameConfig
 	public static final int HUD_LINE_SPACING = HUD_FONT_SIZE * 2;
 	// public static final Font HUD_FONT = new Font("TimesRoman",
 	// Font.PLAIN, HUD_FONT_SIZE);
+	public static final Font HUD_FONT_HUGE =
+		GameResources.CREEPER_FONT_HUGE;
 	public static final Font HUD_FONT = GameResources.CREEPER_FONT;
 	public static final Font HUD_FONT_SMALL =
 		GameResources.CREEPER_FONT_SMALL;
@@ -606,12 +608,16 @@ public class GameConfig
 	public static final int ARROW_LEFT = KeyEvent.VK_LEFT;
 	public static final int ARROW_RIGHT = KeyEvent.VK_RIGHT;
 
+	public static final int PAUSE_GAME = KeyEvent.VK_P;
+
 	// key, cooldown (ms)
 	public static final ArrayList<Pair<Integer, Double>> COOL_DOWN_KEYS =
 		new ArrayList<Pair<Integer, Double>>() {
 			{
 				add(new Pair<Integer, Double>(ATTACK_KEY,
 							      0.3d));
+				add(new Pair<Integer, Double>(PAUSE_GAME,
+							      0.5d));
 				add(new Pair<Integer, Double>(BUILD_TOWER, 1d));
 				add(new Pair<Integer, Double>(SWITCH_WEAPONS,
 							      1d));

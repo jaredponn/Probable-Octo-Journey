@@ -217,12 +217,20 @@ public class GameResources
 	public static final String creeperFont =
 		"resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf";
 
+	public static Font CREEPER_FONT_HUGE;
 	public static Font CREEPER_FONT;
 	public static Font CREEPER_FONT_SMALL;
 
 	static
 	{
 		try {
+
+			CREEPER_FONT_HUGE =
+				Font.createFont(
+					    Font.TRUETYPE_FONT,
+					    new File(
+						    "resources/RamiroGraphics/gameOver/creepster/Creepster-Regular.ttf"))
+					.deriveFont(64f);
 			CREEPER_FONT =
 				Font.createFont(
 					    Font.TRUETYPE_FONT,
