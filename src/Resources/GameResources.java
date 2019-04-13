@@ -25,11 +25,9 @@ import poj.Render.ImageWindow;
 
 public class GameResources
 {
-	public static BufferedImage testImage =
-		ImageLoader.load("resources/playerspritesheet.png");
 
 	public static BufferedImage TILE_MAP_SINGLE_IMAGE = ImageLoader.load(
-		"resources/RamiroGraphics/officialMap/MapFinalNoTrees.png");
+		"resources/RamiroGraphics/officialMap/finalmap/MapFinalNoTrees.png");
 
 	public static BufferedImage turret = ImageLoader.load(
 		"resources/RamiroGraphics/spritePack/Turrets.png");
@@ -493,65 +491,18 @@ public class GameResources
 	}
 
 
-	public static BufferedImage testTile =
-		ImageLoader.load("resources/newmap/tiled_cave_1.png");
-
-
-	public static String
-		mapConfig = "resources/newmap2/map.json",
-		tileSet = "resources/newmap2/caveTileSet128.json",
-		mapLayer0 = "resources/newmap2/map.csv",
-		pathFindTest1Layer = "resources/newmap2/pathFindTest1.csv",
-
-		pathFindTest1Config = "resources/newmap2/pathFindTest1.json",
-		pathFindTest1LayerGround =
-			"resources/newmap2/pathFindTest1_ground.csv",
-		pathFindTest1LayerWall =
-			"resources/newmap2/pathFindTest1_wall.csv",
-
-		// demo 1  resources
-		demo1Config = "resources/demo1map/demo1.json",
-		demo1LayerGround = "resources/demo1map/demo1_ground.csv",
-		demo1LayerWall = "resources/demo1map/demo1_wall.csv",
-
-		pathFindTest2Config = "resources/newmap2/pathFindTest2.json",
-		pathFindTest2Layer = "resources/newmap2/pathFindTest2.csv",
-		pathFindTest3Config = "resources/newmap2/pathFindTest3.json",
-		pathFindTest3Layer = "resources/newmap2/pathFindTest3.csv",
-		pathFindTest4Config = "resources/newmap2/pathFindTest4.json",
-		pathFindTest4Layer = "resources/newmap2/pathFindTest4.csv",
-		// 1000,1000 map to test the performance of rendering
-		renderPerformanceConf =
-			"resources/renderperformancemap/massivemap.json",
-		renderPerformanceLayer =
-			"resources/renderperformancemap/massivemap.csv";
-
 	// clang-format off
 
-	public static BufferedImage officialTileSet =
-		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSprities.png");
-	public static BufferedImage officialTileSetAllignedBuildings =
-		ImageLoader.load("resources/RamiroGraphics/officialMap/mapAlignedSprite1.png");
-	public static BufferedImage officialTileSetTest =
-		ImageLoader.load("resources/RamiroGraphics/officialMap/mapSpritiesWithLines.png");
 	public static BufferedImage officialTileSetGoodFountain =
-		ImageLoader.load("resources/RamiroGraphics/officialMap/with fountain/withfountain.png");
+		ImageLoader.load("resources/RamiroGraphics/officialMap/finalmap/withfountain.png");
 
-	public static String officialMapGround1="resources/RamiroGraphics/officialMap/MapFinal_ground.csv",
-		   		officialMapMisc2="resources/RamiroGraphics/officialMap/MapFinal_misc1.csv",
-				officialMapCarsAndBuildings3="resources/RamiroGraphics/officialMap/MapFinal_cars and buildings.csv",
-				officialMapTreesAndRocks4="resources/RamiroGraphics/officialMap/MapFinal_trees and rocks.csv",
-				officialMapLightsAndSigns5="resources/RamiroGraphics/officialMap/MapFinal_lights and signs.csv",
-				officialTileSetConfig="resources/RamiroGraphics/officialMap/mapSpritesfinal.json",
-				officialMapConfig="resources/RamiroGraphics/officialMap/MapFinal.json";
-
-	public static String NoTreeofficialMapGround1="resources/RamiroGraphics/officialMap/MapFinalNoTreesWithFountainOnTiles_ground.csv",
-		   		NoTreeofficialMapMisc2="resources/RamiroGraphics/officialMap/MapFinalNoTreesWithFountainOnTiles_misc1.csv",
-				NoTreeofficialMapCarsAndBuildings3="resources/RamiroGraphics/officialMap/MapFinalNoTreesWithFountainOnTiles_cars and buildings.csv",
-				NoTreeofficialMapTreesAndRocks4="resources/RamiroGraphics/officialMap/MapFinalNoTreesWithFountainOnTiles_trees and rocks.csv",
-				NoTreeofficialMapLightsAndSigns5="resources/RamiroGraphics/officialMap/MapFinalNoTreesWithFountainOnTiles_lights and signs.csv",
-				NoTreeofficialMapEmptyBlockForBuildings="resources/RamiroGraphics/officialMap/MapFinalNoTreesWithFountainOnTiles_emptyBlocksFOrBuildings.csv",
-				NoTreeofficialMapimageMarkForBuildings="resources/RamiroGraphics/officialMap/MapFinalNoTreesWithFountainOnTiles_imageMarkForBuildings.csv",
+	public static String NoTreeofficialMapGround1="resources/RamiroGraphics/officialMap/finalmap/MapFinalNoTreesWithFountainOnTiles_ground.csv",
+		   		NoTreeofficialMapMisc2="resources/RamiroGraphics/officialMap/finalmap/MapFinalNoTreesWithFountainOnTiles_misc1.csv",
+				NoTreeofficialMapCarsAndBuildings3="resources/RamiroGraphics/officialMap/finalmap/MapFinalNoTreesWithFountainOnTiles_cars and buildings.csv",
+				NoTreeofficialMapTreesAndRocks4="resources/RamiroGraphics/officialMap/finalmap/MapFinalNoTreesWithFountainOnTiles_trees and rocks.csv",
+				NoTreeofficialMapLightsAndSigns5="resources/RamiroGraphics/officialMap/finalmap/MapFinalNoTreesWithFountainOnTiles_lights and signs.csv",
+				NoTreeofficialMapEmptyBlockForBuildings="resources/RamiroGraphics/officialMap/finalmap/MapFinalNoTreesWithFountainOnTiles_emptyBlocksFOrBuildings.csv",
+				NoTreeofficialMapimageMarkForBuildings="resources/RamiroGraphics/officialMap/finalmap/MapFinalNoTreesWithFountainOnTiles_imageMarkForBuildings.csv",
 				NoTreeofficialTileSetConfig="resources/RamiroGraphics/officialMap/mapSpritesfinal.json",
 				NoTreeofficialMapConfig="resources/RamiroGraphics/officialMap/MapFinal.json";
 
