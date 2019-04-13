@@ -960,21 +960,23 @@ public class EngineTransforms
 			spawnBoss(g, 0, 0, 0);
 		}
 	}
-	public static void spawnRandomCollectibles(PlayGame g)
+	public static void spawnRandomCollectibles(PlayGame g, int everyNFrames,
+						   int nCollectiblesToSpawn)
 	{
 		int frameNumber = g.getFrameNumber();
 		Map map = g.getMap();
 		EngineState engineState = g.getEngineState();
 
-		// every 20 frames spawn 5 pickups
-		if (frameNumber % 20 == 0) {
+		if (frameNumber % everyNFrames == 0) {
 
-			int n = ThreadLocalRandom.current().nextInt(
-				0, map.getMapSize() - 1);
 
-			for (int i = 0; i < 5; ++i) {
+			for (int i = 0; i < nCollectiblesToSpawn; ++i) {
+
+				int n = ThreadLocalRandom.current().nextInt(
+					0, map.getMapSize() - 1);
 				// if it is not a wall
-				if (!map.unsafeGetWallState().get(n)) {
+				if (!map.getIsWallFromLayerAndCord(
+					    TileMap.Map.COLLISION_LAYER, n)) {
 					switch (ThreadLocalRandom.current()
 							.nextInt(0, 4)) {
 					case 0:

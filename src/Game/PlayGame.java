@@ -278,7 +278,7 @@ public class PlayGame extends World
 	{
 		++frameNumber;
 
-		EngineTransforms.spawnRandomCollectibles(this);
+		EngineTransforms.spawnRandomCollectibles(this, 500, 3);
 		EngineTransforms.mobSpawner(this);
 	}
 
