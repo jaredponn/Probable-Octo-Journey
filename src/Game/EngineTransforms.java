@@ -926,19 +926,19 @@ public class EngineTransforms
 				case 0:
 					// the fast one
 					EngineTransforms.spawnWave(
-						g, speedBonus, -20 + n * 2, 0);
+						g, speedBonus, -10 + n * 2, 0);
 					break;
 				case 1:
 					// the tanky one
 					EngineTransforms.spawnWave(
-						g, 0f, n * 15, damageBonus);
+						g, 0f, n * 30, damageBonus);
 
 					break;
 
 				case 2:
 					// the tanky one
 					EngineTransforms.spawnWave(
-						g, 0f, n * 15, damageBonus);
+						g, 0f, n * 30, damageBonus);
 
 					break;
 				default:

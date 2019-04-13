@@ -354,7 +354,8 @@ public class GameConfig
 	public static final float BOSS_SPEED = MOB_SPEED;
 	public static final int BOSS_MAX_HP = BOSS_HP;
 
-	public static final AttackCycle BOSS_ATTACK_CYCLE = MOB_ATTACK_CYCLE;
+	public static final AttackCycle BOSS_ATTACK_CYCLE =
+		new AttackCycle(MOB_ATTACK_CYCLE);
 
 
 	public static final PCollisionBody BOSS_PHYSICS_BODY =
@@ -570,7 +571,7 @@ public class GameConfig
 
 	// money:
 	public static final int PICKUP_CASH_AMOUNT = 100;
-	public static final float PICKUP_CASH_SPAWN_TIME = 20.0f;
+	public static final float PICKUP_CASH_SPAWN_TIME = 100.0f;
 	public static final PCollisionBody CASH_COLLISION_BODY =
 		new PCollisionBody(
 			new Vector2f(0.0f,
@@ -584,13 +585,16 @@ public class GameConfig
 			new Vector2f(PICKUP_WIDTH, PICKUP_HEIGHT / 2));
 	// power-up:
 	public static final int PICKUP_POWERUP_AMOUNT = 5;
-	public static final float PICKUP_POWERUP_SPAWN_TIME = 20.0f;
+	public static final float PICKUP_POWERUP_SPAWN_TIME =
+		PICKUP_CASH_SPAWN_TIME;
 	// health:
 	public static final int PICKUP_HEALTHPACK_AMOUNT = 50;
-	public static final float PICKUP_HEALTHPACK_SPAWN_TIME = 20.0f;
+	public static final float PICKUP_HEALTHPACK_SPAWN_TIME =
+		PICKUP_CASH_SPAWN_TIME;
 	// ammo:
 	public static final int PICKUP_AMMOPACK_AMOUNT = 20;
-	public static final float PICKUP_AMMOPACK_SPAWN_TIME = 20.0f;
+	public static final float PICKUP_AMMOPACK_SPAWN_TIME =
+		PICKUP_CASH_SPAWN_TIME;
 	public static final int PURCHASE_AMMOPACK_AMOUNT = 20;
 
 	////////////////////////
