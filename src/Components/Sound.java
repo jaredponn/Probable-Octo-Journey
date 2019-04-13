@@ -93,6 +93,9 @@ public class Sound implements Component
 	public static void playSoundEffect(String fileName)
 	{
 		try {
+			Sound tempsound = new Sound(fileName);
+			tempsound.play();
+			/*
 			AudioInputStream audioInputStream =
 				AudioSystem.getAudioInputStream(
 					new File(fileName));
@@ -107,6 +110,8 @@ public class Sound implements Component
 			Clip clip = (Clip)AudioSystem.getLine(info);
 			clip.open(audioFormat, audio, 0, size);
 			clip.start();
+			*/
+
 		} catch (UnsupportedAudioFileException e) {
 			poj.Logger.Logger.logMessage(
 				"UnsupportedAudioFileException has occured when playing the sound EFFECT with file path "
