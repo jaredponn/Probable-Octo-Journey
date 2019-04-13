@@ -183,7 +183,26 @@ public class Renderer
 		} while (bufferStrat.contentsLost());
 	}
 
+	/**
+	 * render buffer lists
+	 * @param renderBuffers -- renderBuffers
+	 */
 	public void renderBufferLists(ArrayList<RenderObject>... renderBuffers)
+	{
+		renderBufferListsNoClear(renderBuffers);
+
+		for (ArrayList<RenderObject> rb : renderBuffers) {
+			rb.clear();
+		}
+	}
+
+
+	/**
+	 * render buffer lists without clearing lists
+	 * @param renderBuffers -- renderBuffers
+	 */
+	public void
+	renderBufferListsNoClear(ArrayList<RenderObject>... renderBuffers)
 	{
 		Graphics g = null;
 		Graphics2D g2d = null;
@@ -235,8 +254,6 @@ public class Renderer
 									.MINOR_CRITICAL);
 						}
 					}
-
-					rb.clear();
 				}
 
 				g = bufferStrat.getDrawGraphics();

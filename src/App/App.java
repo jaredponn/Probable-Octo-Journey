@@ -118,19 +118,16 @@ public class App
 			playGame.runGameLoop();
 
 			GameResources.gameBgSound.end();
-			///*
 			GameOver gameOver = new GameOver(
 				width, height, this.renderer, this.inputPoller,
 				playGame.getKillCount());
-			//*/
 
-			/*
-				GameOver gameOver = new GameOver(
-					1, 1, this.renderer, this.inputPoller,
-					playGame.getKillCount());
-					*/
 
 			gameOver.runGameLoop();
+
+			GameResources.winSound.end();
+			GameResources.loseSound.end();
+			GameResources.bossSound.end();
 		}
 	}
 

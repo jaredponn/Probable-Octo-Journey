@@ -347,8 +347,8 @@ public class GameConfig
 	///////////////////////
 	////// BOSS config /////
 	///////////////////////
-	public static final int BOSS_ATTACK_DAMAGE = MOB_ATTACK_DAMAGE * 2;
-	public static final int BOSS_HP = 1; // MOB_HP * 20;
+	public static final int BOSS_ATTACK_DAMAGE = MOB_ATTACK_DAMAGE * 3;
+	public static final int BOSS_HP = MOB_HP * 40;
 	public static final float BOSS_SPEED = MOB_SPEED;
 	public static final int BOSS_MAX_HP = BOSS_HP;
 

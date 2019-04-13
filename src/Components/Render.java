@@ -86,6 +86,15 @@ public class Render implements Component
 	}
 
 	/**
+	 * Copy Constructor
+	 * @param r -- to copy
+	 */
+	public Render(Render r)
+	{
+		this(r.getGraphic(), r.pureGetTranslation());
+	}
+
+	/**
 	 * gets the graphic (image render object)
 	 * @return ImageRenderObject of the render
 	 */
