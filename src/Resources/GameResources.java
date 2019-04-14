@@ -206,7 +206,11 @@ public class GameResources
 				goOtherFontSize90=40f,
  				goOtherFontSize38=30f,
 				goYourScoreFontSize90=55f,
-				goYourScoreFontSize38=45f;
+				goYourScoreFontSize38=45f,
+				goLWidthRatio=13.5f,
+				goLHeightRatio=5.538461538461538f,
+				goWWidthRatio=7.254071661237785f,
+				goWHeightRatio=4.538461538461538f;
 
 
 	// clang-format on

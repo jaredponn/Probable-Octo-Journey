@@ -636,7 +636,7 @@ public class GameConfig
 				add(new Pair<Integer, Double>(ATTACK_KEY,
 							      0.3d));
 				add(new Pair<Integer, Double>(PAUSE_GAME,
-							      0.5d));
+							      0.1d));
 				add(new Pair<Integer, Double>(BUILD_TOWER, 1d));
 				add(new Pair<Integer, Double>(SWITCH_WEAPONS,
 							      1d));

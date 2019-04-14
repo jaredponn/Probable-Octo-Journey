@@ -52,8 +52,8 @@ public class App
 		this.width = gd.getDisplayMode().getWidth();
 		this.height = gd.getDisplayMode().getHeight();
 
-		// this.width = 1;
-		// this.height = 1;
+		// this.width = 1920;
+		// this.height = 1000;
 
 		// made sure if the computer's display is not 1920x1080, will go
 		// to 1366x768 resolution
