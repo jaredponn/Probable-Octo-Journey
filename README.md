@@ -1,5 +1,5 @@
 # Probable Octo Journey: CPSC 233 Project
-A top down isometric zombie shooter with a custom game engine (entity component system), custom path-finding engine, and custom collision engine.
+A top down isometric zombie shooter with a custom game engine (entity component system), custom path-finding engine, and custom collision engine with 3D spritesheets made with blender.
 
 This game supports 2 resolutions! If the player's computer resolution is greater or equal to 1920x1080, then the game will be displayed at resolution of 1920x1080. Else if will be displayed at resolution of 1366x768. 
 
