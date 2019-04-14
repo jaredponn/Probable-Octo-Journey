@@ -235,7 +235,3 @@ Creeper font credit: https://www.1001fonts.com/creepster-font.html
 
 # Useful readings
 Path-finding: http://www.cs.colorado.edu/~ralex/papers/PDF/OOPSLA06antiobjects.pdf
-
-
-Collision detection and resolution: http://www.cs.colorado.edu/~ralex/papers/PDF/OOPSLA06antiobjects.pdf
-
