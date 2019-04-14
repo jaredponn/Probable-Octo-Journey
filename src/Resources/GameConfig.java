@@ -53,8 +53,8 @@ public class GameConfig
 	public static final float PLAYER_WIDTH =
 		GameResources.PLAYER_SPRITE_WIDTH
 		/ GameResources.TILE_SCREEN_WIDTH;
-	public static final int PLAYER_HP = 75;     // 50;
-	public static final int PLAYER_MAX_HP = 75; // 75;
+	public static final int PLAYER_HP = 75;		   // 50;
+	public static final int PLAYER_MAX_HP = PLAYER_HP; // 75;
 	public static final int PLAYER_DIFFUSION_VALUE = (int)Math.pow(2, 12);
 	public static final int TOWER_DIFFUSION_VALUE = (int)Math.pow(2, 5);
 	public static final float PLAYER_HEIGHT =
@@ -333,17 +333,17 @@ public class GameConfig
 
 	public static final PCollisionBody MOB_AGGRO_RANGE = new PCollisionBody(
 		// clang-format off
-		new Vector2f(0.2f, 0.55f),  // displacement
+		new Vector2f(0.2f/0.9f, 0.55f/0.9f),  // displacement
 		new Vector2f(0.25f, 0.25f), // center
 					    // collision body:
-		new Vector2f(0.25f / 3f, 1     / 3f),
-		new Vector2f(0.75f / 3f, 1     / 3f),
-		new Vector2f(0     / 3f, 0.75f / 3f),
-		new Vector2f(1     / 3f, 0.75f / 3f),
-		new Vector2f(0     / 3f, 0.25f / 3f),
-		new Vector2f(0.25f / 3f, 0     / 3f),
-		new Vector2f(0.75f / 3f, 0     / 3f),
-		new Vector2f(1     / 3f, 0.25f / 3f));
+		new Vector2f(0.25f / 2.6f, 1     / 2.6f),
+		new Vector2f(0.75f / 2.6f, 1     / 2.6f),
+		new Vector2f(0     / 2.6f, 0.75f / 2.6f),
+		new Vector2f(1     / 2.6f, 0.75f / 2.6f),
+		new Vector2f(0     / 2.6f, 0.25f / 2.6f),
+		new Vector2f(0.25f / 2.6f, 0     / 2.6f),
+		new Vector2f(0.75f / 2.6f, 0     / 2.6f),
+		new Vector2f(1     / 2.6f, 0.25f / 2.6f));
 	// clang-format on
 
 	///////////////////////
