@@ -431,6 +431,7 @@ public class Map
 					 specialHeight - 3f + 0.1f);
 			tmp.getGraphic().setRenderSortModifier(-60);
 			return Optional.of(tmp);
+			/*
 		case 3:
 			// blue building
 			tmp = new Render(GameResources.blueBuilding,
@@ -443,6 +444,7 @@ public class Map
 					 specialWidth - 2f, specialHeight - 3f);
 			tmp.getGraphic().setRenderSortModifier(-40);
 			return Optional.of(tmp);
+			*/
 		case 5:
 			// gas station building
 			tmp = new Render(GameResources.gasStationBuilding,
