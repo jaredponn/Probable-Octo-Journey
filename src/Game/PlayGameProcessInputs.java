@@ -397,6 +397,8 @@ public class PlayGameProcessInputs
 			///// Quit Game /////
 			if (inputPoller.isKeyDown(GameConfig.QUIT_KEY)) {
 				g.clearWorld();
+				// play the lose sound
+				GameResources.loseSound.play();
 				g.quit();
 			}
 		}

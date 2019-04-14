@@ -70,6 +70,9 @@ public class GameOver extends World
 	protected BufferedImage backButton;
 	protected ArrayList<Render> buttonRenderLayer;
 
+	// static boolean that stores if the player beat the boss or not
+	public static boolean playerWin = false;
+
 
 	// array of integers that are cast to a string depicting
 	// the set of initials the player has chosen to
@@ -460,6 +463,29 @@ public class GameOver extends World
 			GameResources.CREEPER_FONT.deriveFont(
 				this.yourScoreFontSize)));
 
+		// if player beat the boss
+		if (playerWin) {
+			renderBuffer.add(new StringRenderObject(
+				"You win!",
+				(int)(super.windowWidth
+				      / GameResources.goWWidthRatio),
+				(int)(super.windowHeight
+				      / GameResources.goWHeightRatio),
+				Color.RED,
+				GameResources.CREEPER_FONT.deriveFont(
+					this.yourScoreFontSize)));
+		} else {
+			renderBuffer.add(new StringRenderObject(
+				"You did't survive!",
+				(int)(super.windowWidth
+				      / GameResources.goLWidthRatio),
+				(int)(super.windowHeight
+				      / GameResources.goLHeightRatio),
+				Color.RED,
+				GameResources.CREEPER_FONT.deriveFont(
+					this.yourScoreFontSize)));
+		}
+
 		// list of previous high scores
 		for (int i = 0; i < 5 && i < scores.size(); ++i) {
 			renderBuffer.add(new StringRenderObject(
@@ -570,6 +596,9 @@ public class GameOver extends World
 		while (scores.size() > 10) {
 			scores.remove(10);
 		}
+
+		// reset the bolean
+		playerWin = false;
 	}
 
 

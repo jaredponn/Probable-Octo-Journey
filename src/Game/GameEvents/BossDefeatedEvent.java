@@ -29,6 +29,8 @@ public class BossDefeatedEvent extends MobOutOfHPEvent
 		GameResources.bossSound.end();
 		// play the win sound
 		GameResources.winSound.play();
+		// set the boolean in gameover to be true
+		Game.GameOver.playerWin = true;
 		super.f();
 
 		super.getPlayGame().quit();

@@ -51,6 +51,7 @@ public class PlayerOutOfHPEvent extends FocusedPlayGameEvent
 					PlayerSet.class))
 			.playSoundEffectAt(dead + 6);
 
+		// play the lose sound
 		GameResources.loseSound.play();
 		gameState.clearWorld();
 		getPlayGame().quit();
