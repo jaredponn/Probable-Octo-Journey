@@ -387,6 +387,21 @@ public class PlayGame extends World
 		}
 
 
+		for (int i = engineState.getInitialSetIndex(PathfindSeek.class);
+		     engineState.isValidEntity(i);
+		     i = engineState.getNextSetIndex(PathfindSeek.class, i)) {
+
+			if (engineState
+				    .unsafeGetComponentAt(PathfindSeek.class, i)
+				    .isNotPathfinding()) {
+				engineState.printAllComponentsAt(i);
+				engineState
+					.unsafeGetComponentAt(Movement.class, i)
+					.print();
+			}
+		}
+
+
 		//  attack cycles
 		AttackCycleHandlers.runAttackCyclers(this);
 

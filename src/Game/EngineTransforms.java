@@ -408,7 +408,7 @@ public class EngineTransforms
 				engineState
 					.unsafeGetComponentAt(Movement.class,
 							      mob1)
-					.setSpeed(0);
+					.setVelocity(0f, 0f);
 			}
 		}
 		// if the tile have a turret
@@ -441,7 +441,7 @@ public class EngineTransforms
 				engineState
 					.unsafeGetComponentAt(Movement.class,
 							      mob1)
-					.setSpeed(0);
+					.setVelocity(0f, 0f);
 			}
 		}
 		// test if the current tile the mob is at is bigger than the max

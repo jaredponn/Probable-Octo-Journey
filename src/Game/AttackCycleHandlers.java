@@ -187,35 +187,27 @@ public class AttackCycleHandlers
 			if (a.isAttacking()) {
 				switch (a.getAttackState()) {
 				case 0: // starting
-					pushAttackEventToAttackHandler(
-						playGame,
+					runAttackEvent(
 						atkHandler.startingHandler(
 							playGame, i));
 					break;
 
 				case 1: // priming
-					pushAttackEventToAttackHandler(
-						playGame,
-						atkHandler.primerHandler(
-							playGame, i));
+					runAttackEvent(atkHandler.primerHandler(
+						playGame, i));
 					break;
 
 				case 2: // attack
-					pushAttackEventToAttackHandler(
-						playGame,
-						atkHandler.attackHandler(
-							playGame, i));
+					runAttackEvent(atkHandler.attackHandler(
+						playGame, i));
 					break;
 				case 3: // recoil
-					pushAttackEventToAttackHandler(
-						playGame,
-						atkHandler.recoilHandler(
-							playGame, i));
+					runAttackEvent(atkHandler.recoilHandler(
+						playGame, i));
 					break;
 
 				case 4: // end attack cycle
-					pushAttackEventToAttackHandler(
-						playGame,
+					runAttackEvent(
 						atkHandler.endAttackHandler(
 							playGame, i));
 
@@ -237,5 +229,11 @@ public class AttackCycleHandlers
 	{
 		if (e != null)
 			g.pushEventToEventHandler(e);
+	}
+
+	private static void runAttackEvent(PlayGameEvent e)
+	{
+		if (e != null)
+			e.f();
 	}
 }
