@@ -36,7 +36,8 @@ Aim with the mouse. Go kill some zombies! See if you can get on the score board.
 
 Rumour has it that there's an epic boss zombie fight if you can make it that far. Killing him might make you win the game and you can hear some nice victory vibes.
 
-------------------------------
+---
+
 The final submission for this project used these controls, but they are not used anymore because demo players found them too confusing.
 - WASD to move
 - SPACE or Left mouse click to attack (shoot or attack with a bat)
