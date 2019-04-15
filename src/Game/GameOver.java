@@ -476,7 +476,7 @@ public class GameOver extends World
 					this.yourScoreFontSize)));
 		} else {
 			renderBuffer.add(new StringRenderObject(
-				"You did't survive!",
+				"You didn't survive!",
 				(int)(super.windowWidth
 				      / GameResources.goLWidthRatio),
 				(int)(super.windowHeight
