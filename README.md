@@ -1,7 +1,6 @@
 # Probable Octo Journey: CPSC 233 Project
 A top down isometric zombie shooter with a custom game engine (entity component system), custom path-finding engine, and custom collision engine with 3D spritesheets made with blender.
 
-This game supports 2 resolutions! If the player's computer resolution is greater or equal to 1920x1080, then the game will be displayed at resolution of 1920x1080. Else if will be displayed at resolution of 1366x768. 
 
 # Gameplay
 ![Gameplay](./gameplay.gif)
@@ -38,7 +37,7 @@ Aim with the mouse. Go kill some zombies! See if you can get on the score board.
 Rumour has it that there's an epic boss zombie fight if you can make it that far. Killing him might make you win the game and you can hear some nice victory vibes.
 
 ------------------------------
-The final submission for this project used these controls, but they are not used anymore beacuse we think that these controls are too hard for the players to use.
+The final submission for this project used these controls, but they are not used anymore because demo players found them too confusing.
 - WASD to move
 - SPACE or Left mouse click to attack (shoot or attack with a bat)
 - X to swap weapons
@@ -104,6 +103,7 @@ The UML diagram can be found at:
 - The collision system queries collisions in O(nlog(n)) time with an AABB binary tree to query likely collisions
 - The collision system works with arbitrary convex polygons
 - The path finding system does path finding in O(n) time, where n is the number of agents.
+- This game supports 2 resolutions -- if the player's computer resolution is greater or equal to 1920x1080, then the game will be displayed at resolution of 1920x1080. Otherwise, it will be displayed at resolution of 1366x768. 
 
 
 # Textbased Version:
