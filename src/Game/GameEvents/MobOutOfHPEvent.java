@@ -86,10 +86,19 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 			.playSoundEffectAt(
 				ThreadLocalRandom.current().nextInt(0, 4) + 3);
 
+		Render0 tmp = new Render0(
+			engineState.unsafeGetComponentAt(Render.class, focus1)
+				.getGraphic());
+		tmp.setImageWindow(engineState
+					   .unsafeGetComponentAt(
+						   HasAnimation.class, focus1)
+					   .getImageWindow());
+		engineState.addComponentAt(Render0.class, tmp, focus1);
+
 		// deletes everything but the  render, animation, and
 		// worldattributes components so we can show the death animation
 		// for a bit
-		engineState.deleteAllComponentsAtExcept(focus1, Render.class,
+		engineState.deleteAllComponentsAtExcept(focus1, Render0.class,
 							HasAnimation.class,
 							WorldAttributes.class);
 
@@ -116,6 +125,13 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 		engineState.unsafeGetComponentAt(HasAnimation.class, focus1)
 			.setAnimation(animWindowAssets.getAnimation(
 				mv.getDirection(), 30));
+
+		engineState.unsafeGetComponentAt(Render0.class, focus1)
+			.setImageWindow(
+				engineState
+					.unsafeGetComponentAt(
+						HasAnimation.class, focus1)
+					.getImageWindow());
 
 		Optional<KillCount> kcOpt = engineState.getComponentAt(
 			KillCount.class,
