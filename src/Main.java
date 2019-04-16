@@ -1,6 +1,6 @@
 /**
  * Main -- main class of the game.
- v* Date: February 10, 2019
+ * Date: February 10, 2019
  * @author Jared
  * @version 1.0
  */
