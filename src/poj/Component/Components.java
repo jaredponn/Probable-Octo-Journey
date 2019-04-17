@@ -123,6 +123,8 @@ public class Components extends ComponentsArray
 				(T)getComponentPackedVector(c)
 					.get_data_from_sparse_vector(i));
 		} else {
+			Logger.logMessage("Error trying to get component of "
+					  + c);
 			printAllComponentsAt(i);
 			return Optional.empty();
 		}

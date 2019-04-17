@@ -82,18 +82,8 @@ public class PlayGameProcessInputs
 						-PlayGame.coolDownMax.get(
 							GameConfig
 								.SWITCH_WEAPONS));
-					System.out.print(
-						"x key is down. Player character should be changing weapons\n");
-					System.out.println(
-						"old weapon state = "
-						+ g.curWeaponState
-							  .currentWeaponState());
 					g.curWeaponState =
 						g.curWeaponState.next();
-					System.out.println(
-						"new weapon state = "
-						+ g.curWeaponState
-							  .currentWeaponState());
 				}
 			}
 
@@ -286,9 +276,6 @@ public class PlayGameProcessInputs
 										.ATTACK_ANIMATION));
 
 
-					System.out.println(
-						"Built a tower. It cost $"
-						+ GameConfig.TOWER_BUILD_COST);
 					// reset the lastCooldown key to the max
 					// cooldown of that key
 					updateDtForKey(
@@ -299,23 +286,15 @@ public class PlayGameProcessInputs
 					// lastCoolDown.set(GameConfig.BUILD_TOWER,
 					//-coolDownMax.get(
 					// GameConfig.BUILD_TOWER));
-				} else if (g.playerMoney.get()
-					   < GameConfig.TOWER_BUILD_COST)
-					System.out.print(
-						"Not enough cash to build a turret\nYou need at least $"
-						+ GameConfig.TOWER_BUILD_COST
-						+ "\n");
+				}
 			}
 
 			if (inputPoller.isKeyDown(GameConfig.BUILD_TRAP)) {
-				System.out.println();
 				if (Math.abs(g.lastCoolDown.get(
 					    GameConfig.BUILD_TRAP))
 					    == 0d
 				    && g.playerMoney.get()
 					       >= GameConfig.TRAP_COST) {
-					System.out.print(
-						"e key is down. Should spawn trap at player location\n");
 
 					engineState
 						.unsafeGetComponentAt(
@@ -364,10 +343,7 @@ public class PlayGameProcessInputs
 						g, GameConfig.BUY_AMMO,
 						-PlayGame.coolDownMax.get(
 							GameConfig.BUY_AMMO));
-					System.out.println("Bought some ammo");
-				} else
-					System.out.println(
-						"Either is on cooldown or not enough money to buy more ammo");
+				}
 			}
 
 			// buy ammo

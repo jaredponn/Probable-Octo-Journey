@@ -142,10 +142,10 @@ public class Sound implements Component
 			clip.start();
 			this.isPlaying = true;
 			// this.isPlaying = clip.isActive();
-		} catch (NullPointerException e) {
+		} catch (Exception e) {
 			// if the sound is null
 			poj.Logger.Logger.logMessage(
-				"NullPointerException has occured when playing the sound with sound path "
+				"exception has occured when playing the sound with sound path "
 					+ this.audioPath,
 				poj.Logger.LogLevels.VERBOSE);
 			e.printStackTrace();

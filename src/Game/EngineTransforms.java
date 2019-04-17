@@ -913,37 +913,39 @@ public class EngineTransforms
 				int n = ThreadLocalRandom.current().nextInt(0,
 									    5);
 
+				int w = g.getWaveNumber();
+
 				// magic constatns to make the game feel right
 				float speedBonus =
 					Math.min(GameConfig.MAX_SPEED_BONUS,
 						 (float)g.waveNumber / 20000f);
 
 				int damageBonus = (int)Math.min(
-					GameConfig.MAX_DAMAGE, n * 2);
+					GameConfig.MAX_DAMAGE, w * 2);
 
 
 				switch (n) {
 				case 0:
 					// the fast one
 					EngineTransforms.spawnWave(
-						g, speedBonus, -10 + n * 2, 0);
+						g, speedBonus, -10 + w * 10, 0);
 					break;
 				case 1:
 					// the tanky one
 					EngineTransforms.spawnWave(
-						g, 0f, n * 30, damageBonus);
+						g, 0f, w * 30, damageBonus);
 
 					break;
 
 				case 2:
 					// the tanky one
 					EngineTransforms.spawnWave(
-						g, 0f, n * 30, damageBonus);
+						g, 0f, w * 30, damageBonus);
 
 					break;
 				default:
 
-					EngineTransforms.spawnWave(g, 0, n * 5,
+					EngineTransforms.spawnWave(g, 0, w * 5,
 								   0);
 					break;
 				}

@@ -95,33 +95,13 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 					   .getImageWindow());
 		engineState.addComponentAt(Render0.class, tmp, focus1);
 
-		// deletes everything but the  render, animation, and
-		// worldattributes components so we can show the death animation
-		// for a bit
-		engineState.deleteAllComponentsAtExcept(focus1, Render0.class,
-							HasAnimation.class,
-							WorldAttributes.class);
-
-
-		if (engineState.hasComponent(MovementDirection.class, focus1)) {
-			Logger.logMessage(
-				"Error in ZombieOutOfHPEvent -- trying to delete an entity that was already deleted. This entity has the following components:");
-			engineState.printAllComponentsAt(focus1);
-			return;
-		}
-
-
-		engineState.addComponentAt(
-			DespawnTimer.class,
-			new DespawnTimer(GameConfig.MOB_DESPAWN_TIMER), focus1);
-
-
 		if (!engineState.hasComponent(HasAnimation.class, focus1)) {
 			Logger.logMessage(
 				"Error in ZombieOutOfHPEvent -- trying to delete an entity that was already deleted. This entity has the following components:");
 			engineState.printAllComponentsAt(focus1);
 			return;
 		}
+
 		engineState.unsafeGetComponentAt(HasAnimation.class, focus1)
 			.setAnimation(animWindowAssets.getAnimation(
 				mv.getDirection(), 30));
@@ -141,6 +121,19 @@ public class MobOutOfHPEvent extends FocusedPlayGameEvent
 			return;
 
 		kcOpt.get().increase();
+
+		// deletes everything but the  render, animation, and
+		// worldattributes components so we can show the death animation
+		// for a bit
+		engineState.deleteAllComponentsAtExcept(focus1, Render0.class,
+							WorldAttributes.class,
+							DespawnTimer.class);
+
+
+		engineState.addComponentAt(
+			DespawnTimer.class,
+			new DespawnTimer(GameConfig.MOB_DESPAWN_TIMER), focus1);
+
 
 		int dropRoll = ThreadLocalRandom.current().nextInt(0, 99) + 1;
 
