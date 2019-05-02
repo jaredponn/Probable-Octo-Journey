@@ -10,10 +10,10 @@ Execute the following commands in the command line
 
 ```bash
 # clone the repo
-git clone https://github.com/jaredponn/probable-octo-journey
+git clone https://github.com/jaredponn/Probable-Octo-Journey
 
 # change directory 
-cd probable-octo-journey
+cd Probable-Octo-Journey
 
 # compile and run the project
 ./run.sh 
@@ -53,13 +53,13 @@ Execute the following commands in the command line
 
 ```bash
 # clone the repo
-git clone https://github.com/jaredponn/probable-octo-journey
+git clone https://github.com/jaredponn/Probable-Octo-Journey
 
 # change directory
-cd probable-octo-journey
+cd Probable-Octo-Journey
 
 # copy the "hamcrest-core-1.3.jar" and "junit-4.13.jar" files 
-# into the folder probable-octo-journey/
+# into the folder Probable-Octo-Journey/
 cp <hamcrest-core-1.3.jar> .
 cp <junit-4.13.jar> .
 
